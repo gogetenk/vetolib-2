@@ -1,0 +1,274 @@
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
+import Link from 'next/link'
+import { format } from 'date-fns'
+import {
+  useReactTable,
+  getCoreRowModel,
+  flexRender,
+  type ColumnDef,
+} from '@tanstack/react-table'
+import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { StatusBadge } from './StatusBadge'
+import { getAppointments } from '@/lib/api/appointments'
+import type { AppointmentDto, AppointmentStatus } from '@/lib/api/appointments'
+
+const SPECIES_ICONS: Record<string, string> = {
+  Dog: '🐕',
+  Cat: '🐈',
+  Bird: '🦜',
+  Rabbit: '🐇',
+  Horse: '🐎',
+  Exotic: '🦎',
+}
+
+const STATUS_OPTIONS: { value: AppointmentStatus | 'ALL'; label: string }[] = [
+  { value: 'ALL', label: 'All Statuses' },
+  { value: 'SCHEDULED', label: 'Scheduled' },
+  { value: 'CHECKED_IN', label: 'Checked In' },
+  { value: 'IN_PROGRESS', label: 'In Progress' },
+  { value: 'COMPLETED', label: 'Completed' },
+  { value: 'CANCELLED', label: 'Cancelled' },
+]
+
+const PAGE_SIZE = 10
+
+export function AppointmentsTable() {
+  const [appointments, setAppointments] = useState<AppointmentDto[]>([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [page, setPage] = useState(1)
+  const [statusFilter, setStatusFilter] = useState<AppointmentStatus | 'ALL'>('ALL')
+  const [dateFilter, setDateFilter] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(true)
+
+  const load = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const result = await getAppointments({
+        status: statusFilter !== 'ALL' ? statusFilter : undefined,
+        date: dateFilter || undefined,
+        page,
+        pageSize: PAGE_SIZE,
+      })
+      setAppointments(result.items)
+      setTotalCount(result.totalCount)
+    } catch {
+      // silent
+    } finally {
+      setIsLoading(false)
+    }
+  }, [statusFilter, dateFilter, page])
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  const columns: ColumnDef<AppointmentDto>[] = [
+    {
+      accessorKey: 'scheduledAt',
+      header: 'Date / Time',
+      cell: ({ getValue }) => {
+        const val = getValue<string>()
+        return (
+          <span data-testid="cell-datetime">
+            {format(new Date(val), 'dd MMM yyyy HH:mm')}
+          </span>
+        )
+      },
+    },
+    {
+      id: 'patient',
+      header: 'Patient',
+      cell: ({ row }) => (
+        <span data-testid="cell-patient">
+          {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
+        </span>
+      ),
+    },
+    {
+      accessorKey: 'ownerName',
+      header: 'Owner',
+      cell: ({ getValue }) => (
+        <span data-testid="cell-owner">{getValue<string>()}</span>
+      ),
+    },
+    {
+      accessorKey: 'vetName',
+      header: 'Veterinarian',
+      cell: ({ getValue }) => (
+        <span data-testid="cell-vet">{getValue<string>()}</span>
+      ),
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ getValue }) => (
+        <StatusBadge status={getValue<AppointmentStatus>()} />
+      ),
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <Link href={`/appointments/${row.original.id}`}>
+          <Button
+            variant="outline"
+            size="sm"
+            data-testid={`btn-view-${row.original.id}`}
+          >
+            View
+          </Button>
+        </Link>
+      ),
+    },
+  ]
+
+  const table = useReactTable({
+    data: appointments,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
+    rowCount: totalCount,
+  })
+
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
+
+  return (
+    <div className="space-y-4">
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 items-center">
+        <Select
+          value={statusFilter}
+          onValueChange={(val) => {
+            setStatusFilter(val as AppointmentStatus | 'ALL')
+            setPage(1)
+          }}
+        >
+          <SelectTrigger className="w-48" data-testid="status-filter">
+            <SelectValue placeholder="All Statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            {STATUS_OPTIONS.map((opt) => (
+              <SelectItem
+                key={opt.value}
+                value={opt.value}
+                data-testid={`status-option-${opt.value.toLowerCase()}`}
+              >
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <input
+          type="date"
+          className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm"
+          data-testid="date-filter"
+          value={dateFilter}
+          onChange={(e) => {
+            setDateFilter(e.target.value)
+            setPage(1)
+          }}
+        />
+
+        {dateFilter && (
+          <Button
+            variant="ghost"
+            size="sm"
+            data-testid="btn-clear-date"
+            onClick={() => setDateFilter('')}
+          >
+            Clear date
+          </Button>
+        )}
+      </div>
+
+      {/* Table */}
+      <div className="rounded-md border" data-testid="appointments-table">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="text-center py-8">
+                  <span data-testid="loading-indicator">Loading...</span>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
+                  <span data-testid="empty-state">No appointments found</span>
+                </TableCell>
+              </TableRow>
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id} data-testid={`appointment-row-${row.original.id}`}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between" data-testid="pagination">
+          <p className="text-sm text-muted-foreground">
+            Page {page} of {totalPages} ({totalCount} total)
+          </p>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              data-testid="btn-prev-page"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              data-testid="btn-next-page"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
