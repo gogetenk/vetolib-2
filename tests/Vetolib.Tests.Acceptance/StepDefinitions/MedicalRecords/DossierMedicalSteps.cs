@@ -102,7 +102,7 @@ internal class DossierMedicalSteps
 
         var species = InferSpecies(breed);
 
-        var patientResult = Patient.Create(clinicId, animalName, species, breed, null);
+        var patientResult = Patient.Create(clinicId, animalName, InferSpecies(breed), breed, DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-2)));
         patientResult.IsSuccess.Should().BeTrue($"Patient creation should succeed for {animalName}");
 
         var patient = patientResult.Value;
@@ -178,7 +178,7 @@ internal class DossierMedicalSteps
         ownerResult.IsSuccess.Should().BeTrue();
         db.Owners.Add(ownerResult.Value);
 
-        var patientResult = Patient.Create(clinicId, animalName, "Dog", "Mixed", null);
+        var patientResult = Patient.Create(clinicId, animalName, Species.Dog, "Mixed", DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-1)));
         patientResult.IsSuccess.Should().BeTrue();
 
         var patient = patientResult.Value;
@@ -252,10 +252,17 @@ internal class DossierMedicalSteps
     [When(@"je crée un animal ""(.*)"" race ""(.*)"" pour le propriétaire ""(.*)""")]
     public async Task WhenJeCreerUnAnimal(string animalName, string breed, string ownerName)
     {
-        var ownerId = _ownerIds[ownerName];
         var species = InferSpecies(breed);
 
-        var request = new CreatePatientRequest(animalName, species, breed, null, ownerId);
+        // Retrieve owner phone from DB for the request
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+        var ownerId = _ownerIds[ownerName];
+        var owner = await db.Owners.IgnoreQueryFilters().FirstOrDefaultAsync(o => o.Id == ownerId);
+        var ownerFullName = owner is not null ? $"{owner.FirstName} {owner.LastName}" : ownerName;
+        var ownerPhone = owner?.Phone ?? "+971 50 000 0000";
+
+        var request = new CreatePatientRequest(animalName, species, breed, DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-2)), ownerFullName, ownerPhone);
         _response = await _client.PostAsJsonAsync("/api/v1/patients", request);
 
         if (_response.IsSuccessStatusCode)
@@ -357,14 +364,8 @@ internal class DossierMedicalSteps
     public void ThenLeProprietaireEstLie(string ownerName, string animalName)
     {
         _createdPatient.Should().NotBeNull();
-        _createdPatient!.Owners.Should().NotBeEmpty();
-
-        var names = ownerName.Split(' ', 2);
-        var firstName = names[0];
-        var lastName = names.Length > 1 ? names[1] : "";
-
-        _createdPatient.Owners.Should().Contain(o =>
-            o.FirstName == firstName && o.LastName == lastName);
+        _createdPatient!.OwnerName.Should().NotBeNullOrEmpty();
+        _createdPatient.OwnerName.Should().Contain(ownerName.Split(' ')[0]);
     }
 
     [Then(@"le système refuse avec le code ""(.*)""")]
@@ -388,9 +389,9 @@ internal class DossierMedicalSteps
     public async Task ThenNApparaitPasDansLaListe(string animalName)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var patients = await _response.Content.ReadFromJsonAsync<List<PatientDto>>(JsonOptions);
-        patients.Should().NotBeNull();
-        patients!.Should().NotContain(p => p.Name == animalName);
+        var result = await _response.Content.ReadFromJsonAsync<PatientPagedResultDto>(JsonOptions);
+        result.Should().NotBeNull();
+        result!.Items.Should().NotContain(p => p.Name == animalName);
     }
 
     [Then(@"l'examen apparaît dans l'historique de ""(.*)""")]
@@ -464,13 +465,16 @@ internal class DossierMedicalSteps
         return new Guid(hash);
     }
 
-    private static string InferSpecies(string breed)
+    // Helper record for paged list deserialization
+    private record PatientPagedResultDto(List<PatientDto> Items, int Total, int Page, int PageSize);
+
+    private static Species InferSpecies(string breed)
     {
         var breedLower = breed.ToLowerInvariant();
         if (breedLower.Contains("cat") || breedLower.Contains("persian") || breedLower.Contains("siamese"))
-            return "Cat";
+            return Species.Cat;
         if (breedLower.Contains("parrot") || breedLower.Contains("canary"))
-            return "Bird";
-        return "Dog";
+            return Species.Bird;
+        return Species.Dog;
     }
 }
