@@ -5,9 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "dev:webpack": "next dev",
+    "dev:wire": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:e2e": "playwright test --config playwright.config.ts",
+    "test:e2e:integration": "playwright test --config playwright.integration.config.ts",
+    "test:recette": "playwright test --config playwright.recette.config.ts",
+    "test:recette:report": "playwright test --config playwright.recette.config.ts && playwright show-report playwright-report-recette"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -19,10 +24,12 @@
     "date-fns": "^4.1.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
+    "next-intl": "^4.8.3",
     "next-themes": "^0.4.6",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-hook-form": "^7.71.2",
+    "recharts": "^3.8.0",
     "shadcn": "^4.0.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
@@ -32,11 +39,12 @@
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22.19.15",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "msw": "^2.12.10",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
