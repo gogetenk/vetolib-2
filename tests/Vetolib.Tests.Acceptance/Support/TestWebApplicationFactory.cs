@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Threading.RateLimiting;
 using Vetolib.Agenda.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
@@ -21,13 +24,30 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        // Rate limiting: tests run sequentially inside a TestServer (in-process),
-        // all using loopback IP. The built-in limits (100 req/min "api", 10 req/min "auth",
-        // 3/h "signup") are high enough that sequential BDD scenarios will not be rejected.
-        // No override needed.
-
         builder.ConfigureServices(services =>
         {
+            // Disable rate limiting for tests: the "signup" policy allows only 3 req/h,
+            // which is exceeded by the 5 BDD scenarios that hit POST /clinics/register.
+            // Remove existing rate limiter configure options, then re-register with no-op policies.
+            var rateLimiterDescriptors = services
+                .Where(d =>
+                    d.ServiceType == typeof(IConfigureOptions<RateLimiterOptions>) ||
+                    d.ServiceType == typeof(IOptionsChangeTokenSource<RateLimiterOptions>))
+                .ToList();
+            foreach (var d in rateLimiterDescriptors)
+                services.Remove(d);
+
+            // Re-register rate limiter options with unlimited no-op policies.
+            // Using Configure<RateLimiterOptions> instead of AddRateLimiter() because
+            // the AddRateLimiter extension on IServiceCollection is not accessible
+            // from Microsoft.NET.Sdk test projects in .NET 10 without the web SDK.
+            services.Configure<RateLimiterOptions>(options =>
+            {
+                options.AddPolicy("signup", _ => RateLimitPartition.GetNoLimiter("test"));
+                options.AddPolicy("auth", _ => RateLimitPartition.GetNoLimiter("test"));
+                options.AddPolicy("api", _ => RateLimitPartition.GetNoLimiter("test"));
+            });
+
             // Remove ALL registrations related to DbContexts (Aspire registers many things)
             var knownDbContextTypes = new[]
             {
