@@ -8,16 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="8.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.*" />
     <PackageReference Include="xunit" Version="2.*" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.*" />
-    <PackageReference Include="Reqnroll" Version="2.*" />
-    <PackageReference Include="Reqnroll.xUnit" Version="2.*" />
+    <PackageReference Include="Reqnroll" Version="3.*" />
+    <PackageReference Include="Reqnroll.xUnit" Version="3.*" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.*" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.*" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.*" />
-    <PackageReference Include="FluentAssertions" Version="7.*" />
+    <PackageReference Include="FluentAssertions" Version="8.*" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.*" />
   </ItemGroup>
 
@@ -31,12 +35,14 @@
     <ProjectReference Include="..\..\src\backend\Modules\MedicalRecords\Vetolib.MedicalRecords.Contracts\Vetolib.MedicalRecords.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Billing\Vetolib.Billing\Vetolib.Billing.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Billing\Vetolib.Billing.Contracts\Vetolib.Billing.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Notifications\Vetolib.Notifications\Vetolib.Notifications.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Features/**/*.feature" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
