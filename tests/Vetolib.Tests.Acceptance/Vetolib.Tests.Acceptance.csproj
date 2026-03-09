@@ -18,11 +18,13 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="3.*" />
     <PackageReference Include="Reqnroll" Version="3.*" />
     <PackageReference Include="Reqnroll.xUnit" Version="3.*" />
+    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" Version="3.*" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.*" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.*" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="4.*" />
     <PackageReference Include="FluentAssertions" Version="8.*" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.AI" Version="10.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,12 +38,15 @@
     <ProjectReference Include="..\..\src\backend\Modules\Billing\Vetolib.Billing\Vetolib.Billing.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Billing\Vetolib.Billing.Contracts\Vetolib.Billing.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Notifications\Vetolib.Notifications\Vetolib.Notifications.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Stock\Vetolib.Stock.Contracts\Vetolib.Stock.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Stock\Vetolib.Stock\Vetolib.Stock.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\AI\Vetolib.AI\Vetolib.AI.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\AI\Vetolib.AI.Contracts\Vetolib.AI.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Features/**/*.feature" CopyToOutputDirectory="PreserveNewest" />
     <None Update="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

@@ -135,6 +135,20 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         return true;
     }
 
+    public Result ChangePassword(string currentPassword, string newPassword)
+    {
+        if (!BCrypt.Net.BCrypt.Verify(currentPassword, PasswordHash))
+            return Result.Error("INVALID_CURRENT_PASSWORD");
+
+        var passwordErrors = ValidatePassword(newPassword);
+        if (passwordErrors.Count > 0)
+            return Result.Invalid(passwordErrors);
+
+        PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
+    }
+
     public void ResetFailedAttempts()
     {
         FailedLoginAttempts = 0;

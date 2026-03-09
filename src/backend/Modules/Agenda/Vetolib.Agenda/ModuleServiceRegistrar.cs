@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Agenda.Api;
 using Vetolib.Agenda.Application.Behaviors;
+using Vetolib.Agenda.Application.Services;
+using Vetolib.Agenda.Contracts;
 using Vetolib.Agenda.Infrastructure;
 
 namespace Vetolib.Agenda;
@@ -24,6 +26,13 @@ public static class ModuleServiceRegistrar
 
         // FluentValidation
         services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
+
+        // IAppointmentReader — used by the AI module for no-show prediction feature collection
+        services.AddScoped<IAppointmentReader, AppointmentReader>();
+
+        // SlotScoringService and DurationEstimator — injected directly (not via interface) by SuggestSlotHandler
+        services.AddScoped<SlotScoringService>();
+        services.AddScoped<DurationEstimator>();
 
         return services;
     }

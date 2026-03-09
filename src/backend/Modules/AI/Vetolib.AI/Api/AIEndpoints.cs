@@ -1,0 +1,113 @@
+using System.Security.Claims;
+using Ardalis.Result.AspNetCore;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Vetolib.AI.Application.Commands.AcceptTriage;
+using Vetolib.AI.Application.Commands.OverrideTriage;
+using Vetolib.AI.Application.Commands.PredictNoShow;
+using Vetolib.AI.Application.Commands.PredictNoShowBatch;
+using Vetolib.AI.Application.Commands.TriageSymptoms;
+using Vetolib.AI.Contracts;
+using Vetolib.Shared.Kernel;
+
+namespace Vetolib.AI.Api;
+
+internal static class AIEndpoints
+{
+    internal static IEndpointRouteBuilder MapAIApiEndpoints(this IEndpointRouteBuilder app)
+    {
+        var group = app.MapGroup("/api/ai")
+            .RequireAuthorization("ClinicStaff")
+            .RequireRateLimiting("api")
+            .WithTags("AI");
+
+        group.MapPost("/triage", TriageSymptoms)
+            .WithName("TriageSymptoms");
+
+        group.MapPut("/triage/{id:guid}/accept", AcceptTriage)
+            .WithName("AcceptTriage")
+            .RequireAuthorization("VetOrAdmin");
+
+        group.MapPut("/triage/{id:guid}/override", OverrideTriage)
+            .WithName("OverrideTriage")
+            .RequireAuthorization("VetOrAdmin");
+
+        // No-show prediction — visible only to clinic staff (never to Owner role)
+        // The group already requires "ClinicStaff" which excludes Owner role.
+        group.MapGet("/no-show-prediction/{appointmentId:guid}", PredictNoShow)
+            .WithName("PredictNoShow");
+
+        group.MapPost("/no-show-predictions/batch", PredictNoShowBatch)
+            .WithName("PredictNoShowBatch");
+
+        return app;
+    }
+
+    private static async Task<IResult> TriageSymptoms(
+        TriageRequest request,
+        ClaimsPrincipal user,
+        IClinicContext clinicContext,
+        ISender sender)
+    {
+        var createdBy = user.FindFirst("sub")?.Value
+            ?? user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            ?? "unknown";
+
+        var cmd = new TriageSymptomsCommand(
+            ClinicId: clinicContext.ClinicId,
+            Symptoms: request.Symptoms,
+            Species: request.Species,
+            Breed: request.Breed,
+            AgeMonths: request.AgeMonths,
+            WeightKg: request.WeightKg,
+            CreatedBy: createdBy);
+
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> AcceptTriage(
+        Guid id,
+        ISender sender)
+    {
+        var cmd = new AcceptTriageCommand(id);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> OverrideTriage(
+        Guid id,
+        OverrideRequest request,
+        ISender sender)
+    {
+        var cmd = new OverrideTriageCommand(id, request.NewSeverity);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> PredictNoShow(
+        Guid appointmentId,
+        ISender sender)
+    {
+        var cmd = new PredictNoShowCommand(appointmentId);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> PredictNoShowBatch(
+        NoShowBatchRequest request,
+        ISender sender)
+    {
+        var cmd = new PredictNoShowBatchCommand(request.Date);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+}
+
+internal record TriageRequest(
+    string Symptoms,
+    string Species,
+    string? Breed,
+    int? AgeMonths,
+    decimal? WeightKg);
+
+internal record OverrideRequest(AISeverity NewSeverity);
+
+internal record NoShowBatchRequest(DateOnly Date);

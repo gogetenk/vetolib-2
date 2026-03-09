@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Vetolib.Auth.Api;
 using Vetolib.Auth.Application.Behaviors;
 using Vetolib.Auth.Application.Services;
+using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
 
 namespace Vetolib.Auth;
@@ -59,7 +60,23 @@ public static class AuthModuleServiceRegistrar
             };
         });
 
-        services.AddAuthorization();
+        services.AddAuthorization(options =>
+        {
+            // ClinicStaff: all authenticated clinic staff (Vet, Receptionist, Admin).
+            // Explicitly excludes Assistant role — used for AI endpoints that must not
+            // be visible to the animal owner / external party mapped to Assistant.
+            options.AddPolicy("ClinicStaff", policy =>
+                policy.RequireRole(
+                    nameof(UserRole.Vet),
+                    nameof(UserRole.Receptionist),
+                    nameof(UserRole.Admin)));
+
+            // VetOrAdmin: restricted to clinical decision-makers only.
+            options.AddPolicy("VetOrAdmin", policy =>
+                policy.RequireRole(
+                    nameof(UserRole.Vet),
+                    nameof(UserRole.Admin)));
+        });
 
         return services;
     }

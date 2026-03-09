@@ -4,9 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
 using Testcontainers.PostgreSql;
 using Vetolib.Agenda.Infrastructure;
+using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
+using Vetolib.Notifications.Infrastructure;
+using Vetolib.Shared.Infrastructure;
+using Vetolib.Stock.Infrastructure;
 using Vetolib.Tests.Acceptance.Support;
 
 namespace Vetolib.Tests.Acceptance.Hooks;
@@ -51,6 +55,24 @@ internal class GlobalHooks
         var medicalDb = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
         var medicalCreator = medicalDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
         try { await medicalCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
+        var auditDb = scope.ServiceProvider.GetRequiredService<AuditDbContext>();
+        var auditCreator = auditDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
+        try { await auditCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
+        var notificationsDb = scope.ServiceProvider.GetRequiredService<NotificationsDbContext>();
+        var notificationsCreator = notificationsDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
+        try { await notificationsCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
+        var stockDb = scope.ServiceProvider.GetRequiredService<StockDbContext>();
+        var stockCreator = stockDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
+        try { await stockCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
+        var aiDb = scope.ServiceProvider.GetRequiredService<AIDbContext>();
+        // The AIDbContext uses schema "ai" which must exist before CreateTablesAsync() can work.
+        try { await aiDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS ai"); } catch { }
+        var aiCreator = aiDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
+        try { await aiCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
     }
 
     [AfterTestRun]
@@ -78,6 +100,7 @@ internal class GlobalHooks
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
         await authDb.RefreshTokens.IgnoreQueryFilters().ExecuteDeleteAsync();
         await authDb.Users.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await authDb.Clinics.ExecuteDeleteAsync();
 
         var agendaDb = scope.ServiceProvider.GetRequiredService<AgendaDbContext>();
         await agendaDb.Appointments.IgnoreQueryFilters().ExecuteDeleteAsync();
@@ -92,5 +115,18 @@ internal class GlobalHooks
         await medicalDb.PatientOwners.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.Patients.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.Owners.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        var auditDb = scope.ServiceProvider.GetRequiredService<AuditDbContext>();
+        await auditDb.AuditLog.ExecuteDeleteAsync();
+
+        var stockDb = scope.ServiceProvider.GetRequiredService<StockDbContext>();
+        await stockDb.StockMovements.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await stockDb.StockItems.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        var aiDb = scope.ServiceProvider.GetRequiredService<AIDbContext>();
+        await aiDb.TriageResults.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        // Reset FakeChatClient state
+        _factory.FakeChatClient.SetShouldThrow(false);
     }
 }

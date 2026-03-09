@@ -10,6 +10,7 @@ internal class AuthDbContext : MultiTenantDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<Clinic> Clinics => Set<Clinic>();
 
     public AuthDbContext(
         DbContextOptions<AuthDbContext> options,

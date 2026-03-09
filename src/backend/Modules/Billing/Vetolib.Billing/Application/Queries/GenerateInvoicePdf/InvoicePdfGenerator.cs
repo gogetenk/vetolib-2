@@ -1,0 +1,149 @@
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using Vetolib.Billing.Contracts;
+
+namespace Vetolib.Billing.Application.Queries.GenerateInvoicePdf;
+
+internal static class InvoicePdfGenerator
+{
+    public static byte[] Generate(InvoiceDto invoice, string clinicName, string taxRegistrationNumber)
+    {
+        QuestPDF.Settings.License = LicenseType.Community;
+
+        var document = Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4);
+                page.Margin(40);
+                page.DefaultTextStyle(x => x.FontSize(10));
+
+                page.Header().Element(c => ComposeHeader(c, clinicName, taxRegistrationNumber));
+                page.Content().Element(content => ComposeContent(content, invoice));
+                page.Footer().AlignCenter().Text(x =>
+                {
+                    x.Span("Thank you for trusting us with your pet!").Italic();
+                });
+            });
+        });
+
+        return document.GeneratePdf();
+    }
+
+    private static void ComposeHeader(IContainer container, string clinicName, string taxRegistrationNumber)
+    {
+        container
+            .BorderBottom(1)
+            .BorderColor(Colors.Grey.Medium)
+            .PaddingBottom(10)
+            .Row(row =>
+            {
+                row.RelativeItem().Column(col =>
+                {
+                    col.Item().Text(clinicName.ToUpperInvariant())
+                        .Bold().FontSize(16);
+                    col.Item().Text("Dubai, UAE").FontSize(11);
+                    if (!string.IsNullOrWhiteSpace(taxRegistrationNumber))
+                        col.Item().Text($"TRN: {taxRegistrationNumber}").FontColor(Colors.Grey.Darken1);
+                });
+            });
+    }
+
+    private static void ComposeContent(IContainer container, InvoiceDto invoice)
+    {
+        container.PaddingTop(20).Column(col =>
+        {
+            // Invoice metadata
+            col.Item().Table(table =>
+            {
+                table.ColumnsDefinition(c =>
+                {
+                    c.RelativeColumn();
+                    c.RelativeColumn();
+                });
+
+                table.Cell().Column(1).Text($"INVOICE #{invoice.InvoiceNumber}").Bold().FontSize(13);
+                table.Cell().Column(2).AlignRight().Text($"Date: {invoice.CreatedAt:dd/MM/yyyy}");
+
+                var statusLabel = invoice.Status switch
+                {
+                    InvoiceStatus.Paid => invoice.DueDate.HasValue
+                        ? $"PAID (due {invoice.DueDate.Value:dd/MM/yyyy})"
+                        : "PAID",
+                    InvoiceStatus.Sent => invoice.DueDate.HasValue
+                        ? $"SENT — Due: {invoice.DueDate.Value:dd/MM/yyyy}"
+                        : "SENT",
+                    _ => invoice.Status.ToString().ToUpperInvariant()
+                };
+
+                table.Cell().ColumnSpan(2).PaddingTop(4).Text($"Status: {statusLabel}");
+            });
+
+            col.Item().PaddingTop(16).PaddingBottom(8)
+                .BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                .Height(1);
+
+            // Line items table
+            col.Item().PaddingTop(8).Table(table =>
+            {
+                table.ColumnsDefinition(c =>
+                {
+                    c.ConstantColumn(30);
+                    c.RelativeColumn();
+                    c.ConstantColumn(120);
+                    c.ConstantColumn(120);
+                });
+
+                static IContainer HeaderCell(IContainer c) =>
+                    c.DefaultTextStyle(x => x.Bold())
+                     .Background(Colors.Grey.Lighten3)
+                     .PaddingVertical(5)
+                     .PaddingHorizontal(4);
+
+                table.Header(header =>
+                {
+                    header.Cell().Element(HeaderCell).Text("#");
+                    header.Cell().Element(HeaderCell).Text("Description");
+                    header.Cell().Element(HeaderCell).AlignRight().Text("Unit (AED excl.)");
+                    header.Cell().Element(HeaderCell).AlignRight().Text("Total incl. tax");
+                });
+
+                static IContainer DataCell(IContainer c) =>
+                    c.PaddingVertical(4).PaddingHorizontal(4).BorderBottom(1).BorderColor(Colors.Grey.Lighten3);
+
+                var index = 1;
+                foreach (var item in invoice.Items)
+                {
+                    table.Cell().Element(DataCell).Text(index++.ToString());
+                    table.Cell().Element(DataCell).Text(item.Description);
+                    table.Cell().Element(DataCell).AlignRight().Text(item.UnitPriceExclTax.ToString("F2"));
+                    table.Cell().Element(DataCell).AlignRight().Text(item.TotalInclTax.ToString("F2"));
+                }
+            });
+
+            // Totals
+            col.Item().PaddingTop(12).AlignRight().Column(totals =>
+            {
+                totals.Item().PaddingHorizontal(4).Row(r =>
+                {
+                    r.RelativeItem().AlignRight().Text("Subtotal:");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.SubTotal:F2} AED");
+                });
+                totals.Item().PaddingHorizontal(4).Row(r =>
+                {
+                    r.RelativeItem().AlignRight().Text("Tax:");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.TotalTax:F2} AED");
+                });
+                totals.Item()
+                    .BorderTop(1).BorderColor(Colors.Grey.Medium)
+                    .PaddingTop(4).PaddingHorizontal(4)
+                    .Row(r =>
+                    {
+                        r.RelativeItem().AlignRight().Text("TOTAL:").Bold();
+                        r.ConstantItem(120).AlignRight().Text($"{invoice.Total:F2} AED").Bold();
+                    });
+            });
+        });
+    }
+}

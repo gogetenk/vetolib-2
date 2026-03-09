@@ -10,6 +10,10 @@ using Vetolib.Billing;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords;
 using Vetolib.MedicalRecords.Infrastructure;
+using Vetolib.AI;
+using Vetolib.AI.Infrastructure;
+using Vetolib.Messaging;
+using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications;
 using Vetolib.ServiceDefaults;
 using Vetolib.Shared.Infrastructure;
@@ -74,6 +78,7 @@ builder.AddNpgsqlDbContext<MedicalRecordsDbContext>("vetolibdb");
 builder.AddNpgsqlDbContext<BillingDbContext>("vetolibdb");
 // Audit context — dedicated context for the shared.audit_log table
 builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<MessagingDbContext>("vetolibdb");
 
 // Multi-tenancy
 builder.Services.AddHttpContextAccessor();
@@ -131,6 +136,13 @@ builder.Services.AddBillingModule(builder.Configuration);
 // Notifications module
 builder.Services.AddNotificationsModule();
 
+// AI module (triage + no-show prediction)
+builder.Services.AddAIModule(builder.Configuration);
+builder.AddNpgsqlDbContext<AIDbContext>("vetolibdb");
+
+// Messaging module
+builder.Services.AddMessagingModule(builder.Configuration);
+
 // OpenAPI
 builder.Services.AddOpenApi();
 
@@ -146,6 +158,8 @@ app.MapAgendaEndpoints();
 app.MapMedicalRecordsEndpoints();
 app.MapBillingEndpoints();
 app.MapAuditApiEndpoints();
+app.MapAIEndpoints();
+app.MapMessagingEndpoints();
 
 app.MapOpenApi();
 

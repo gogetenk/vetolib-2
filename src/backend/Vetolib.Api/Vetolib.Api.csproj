@@ -28,6 +28,12 @@
     <ProjectReference Include="..\Modules\Billing\Vetolib.Billing\Vetolib.Billing.csproj" />
     <ProjectReference Include="..\Modules\Notifications\Vetolib.Notifications.Contracts\Vetolib.Notifications.Contracts.csproj" />
     <ProjectReference Include="..\Modules\Notifications\Vetolib.Notifications\Vetolib.Notifications.csproj" />
+    <ProjectReference Include="..\Modules\AI\Vetolib.AI.Contracts\Vetolib.AI.Contracts.csproj" />
+    <ProjectReference Include="..\Modules\AI\Vetolib.AI\Vetolib.AI.csproj" />
+    <ProjectReference Include="..\Modules\Messaging\Vetolib.Messaging.Contracts\Vetolib.Messaging.Contracts.csproj" />
+    <ProjectReference Include="..\Modules\Messaging\Vetolib.Messaging\Vetolib.Messaging.csproj" />
+    <ProjectReference Include="..\Modules\Stock\Vetolib.Stock.Contracts\Vetolib.Stock.Contracts.csproj" />
+    <ProjectReference Include="..\Modules\Stock\Vetolib.Stock\Vetolib.Stock.csproj" />
     <ProjectReference Include="..\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
   </ItemGroup>

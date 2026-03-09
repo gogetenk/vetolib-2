@@ -12,12 +12,14 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public Guid AnimalId { get; private set; }
     public string AnimalName { get; private set; } = string.Empty;
     public string OwnerName { get; private set; } = string.Empty;
+    public string? OwnerEmail { get; private set; }
     public DateOnly Date { get; private set; }
     public TimeOnly StartTime { get; private set; }
     public int DurationMinutes { get; private set; }
     public TimeOnly EndTime { get; private set; }
     public AppointmentStatus Status { get; private set; }
     public string? Reason { get; private set; }
+    public bool ReminderSent { get; private set; }
 
     private Appointment() { } // EF Core constructor
 
@@ -119,6 +121,49 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         if (Status != AppointmentStatus.Scheduled && Status != AppointmentStatus.CheckedIn)
             return Result.Error($"INVALID_TRANSITION:Impossible de passer en NO_SHOW depuis {Status}");
         Status = AppointmentStatus.NoShow;
+        return Result.Success();
+    }
+
+    public Result MarkReminderSent()
+    {
+        ReminderSent = true;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
+    }
+
+    public Result Reschedule(
+        DateOnly? newDate,
+        TimeOnly? newStartTime,
+        int? newDurationMinutes,
+        Guid? newVeterinarianId,
+        string? newVeterinarianName,
+        string? newReason,
+        string? newNotes)
+    {
+        if (Status == AppointmentStatus.Completed || Status == AppointmentStatus.Cancelled)
+            return Result.Error($"INVALID_TRANSITION:Impossible de modifier un rendez-vous {Status}");
+
+        if (newDate.HasValue)
+            Date = newDate.Value;
+
+        if (newStartTime.HasValue)
+            StartTime = newStartTime.Value;
+
+        if (newDurationMinutes.HasValue && newDurationMinutes.Value > 0)
+            DurationMinutes = newDurationMinutes.Value;
+
+        EndTime = StartTime.AddMinutes(DurationMinutes);
+
+        if (newVeterinarianId.HasValue && newVeterinarianId.Value != Guid.Empty)
+            VeterinarianId = newVeterinarianId.Value;
+
+        if (!string.IsNullOrWhiteSpace(newVeterinarianName))
+            VeterinarianName = newVeterinarianName;
+
+        if (newReason is not null)
+            Reason = newReason;
+
+        UpdatedAt = DateTime.UtcNow;
         return Result.Success();
     }
 

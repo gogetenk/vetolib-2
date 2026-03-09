@@ -119,7 +119,7 @@ internal class TeamManagementSteps
 
     // ─── WHEN steps ──────────────────────────────────────────────
 
-    [When(@"I call GET /api/users")]
+    [When(@"I call GET \/api\/users")]
     public async Task WhenGetUsers()
     {
         _response = await _client.GetAsync("/api/users");
@@ -171,7 +171,7 @@ internal class TeamManagementSteps
         _errorBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"I call GET /api/users as a vet")]
+    [When(@"I call GET \/api\/users as a vet")]
     public async Task WhenGetUsersAsVet()
     {
         _response = await _client.GetAsync("/api/users");
@@ -210,7 +210,7 @@ internal class TeamManagementSteps
     {
         _inviteResponse.Should().NotBeNull();
         _inviteResponse!.TemporaryPassword.Should().NotBeNullOrEmpty();
-        _inviteResponse.TemporaryPassword.Length.Should().BeGreaterOrEqualTo(8);
+        _inviteResponse.TemporaryPassword.Length.Should().BeGreaterThanOrEqualTo(8);
     }
 
     [Then(@"the new user appears in the team list")]

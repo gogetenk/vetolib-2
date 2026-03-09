@@ -1,0 +1,40 @@
+using Ardalis.Result;
+using Vetolib.Shared.Kernel;
+
+namespace Vetolib.Auth.Application.Domain;
+
+/// <summary>
+/// Represents a veterinary clinic tenant.
+/// Cross-tenant entity: NOT IMultiTenant — stored without ClinicId filter.
+/// </summary>
+internal class Clinic : BaseEntity, IAggregateRoot
+{
+    public string Name { get; private set; } = string.Empty;
+    public string SubscriptionPlan { get; private set; } = string.Empty;
+    public DateTime TrialEndsAt { get; private set; }
+
+    private Clinic() { } // EF Core constructor
+
+    /// <summary>
+    /// Creates a new clinic with a 14-day Pro trial.
+    /// </summary>
+    public static Result<Clinic> Create(string name)
+    {
+        var errors = new List<ValidationError>();
+
+        if (string.IsNullOrWhiteSpace(name))
+            errors.Add(new ValidationError(nameof(name), "ClinicName is required"));
+
+        if (errors.Count > 0)
+            return Result<Clinic>.Invalid(errors);
+
+        var clinic = new Clinic
+        {
+            Name = name.Trim(),
+            SubscriptionPlan = "Pro",
+            TrialEndsAt = DateTime.UtcNow.AddDays(14)
+        };
+
+        return Result<Clinic>.Success(clinic);
+    }
+}
