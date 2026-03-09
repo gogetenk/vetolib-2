@@ -28,6 +28,8 @@ internal class AddInvoiceItemHandler : IRequestHandler<AddInvoiceItemCommand, Re
         if (!itemResult.IsSuccess)
             return Result<InvoiceDto>.Error(string.Join("; ", itemResult.Errors));
 
+        // Explicitly add the new item to the context to ensure proper tracking
+        _context.InvoiceItems.Add(itemResult.Value);
         await _context.SaveChangesAsync(ct);
 
         return Result<InvoiceDto>.Success(invoice.ToDto());

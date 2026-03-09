@@ -32,6 +32,9 @@ internal class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .HasForeignKey(ii => ii.InvoiceId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Navigation(i => i.Items)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
         builder.HasIndex(i => new { i.ClinicId, i.InvoiceNumber })
             .IsUnique();
 
