@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Vetolib.AI.Application.Commands.AcceptTriage;
 
-internal record AcceptTriageCommand(Guid TriageId) : IRequest<Result>;
+internal record AcceptTriageCommand(Guid TriageId, Guid ClinicId) : IRequest<Result>;

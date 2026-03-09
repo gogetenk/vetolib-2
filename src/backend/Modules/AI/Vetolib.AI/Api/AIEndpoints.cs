@@ -69,18 +69,20 @@ internal static class AIEndpoints
 
     private static async Task<IResult> AcceptTriage(
         Guid id,
+        IClinicContext clinicContext,
         ISender sender)
     {
-        var cmd = new AcceptTriageCommand(id);
+        var cmd = new AcceptTriageCommand(id, clinicContext.ClinicId);
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 
     private static async Task<IResult> OverrideTriage(
         Guid id,
         OverrideRequest request,
+        IClinicContext clinicContext,
         ISender sender)
     {
-        var cmd = new OverrideTriageCommand(id, request.NewSeverity);
+        var cmd = new OverrideTriageCommand(id, request.NewSeverity, clinicContext.ClinicId);
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 

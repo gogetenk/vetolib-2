@@ -17,7 +17,7 @@ internal class AcceptTriageHandler : IRequestHandler<AcceptTriageCommand, Result
     public async Task<Result> Handle(AcceptTriageCommand cmd, CancellationToken ct)
     {
         var triageResult = await _context.TriageResults
-            .FirstOrDefaultAsync(t => t.Id == cmd.TriageId, ct);
+            .FirstOrDefaultAsync(t => t.Id == cmd.TriageId && t.ClinicId == cmd.ClinicId, ct);
 
         if (triageResult is null)
             return Result.NotFound($"Triage result {cmd.TriageId} not found.");

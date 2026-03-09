@@ -12,6 +12,7 @@ using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
+using Vetolib.Tests.Acceptance.StepDefinitions;
 using Vetolib.Tests.Acceptance.Support;
 
 namespace Vetolib.Tests.Acceptance.StepDefinitions.AI;
@@ -143,22 +144,6 @@ internal class TriageSteps
     public async Task WhenTheVeterinarianAcceptsTheTriage()
     {
         var triageId = _ctx.Get<Guid>("CurrentTriageId");
-
-        // Diagnostic: verify the triage result exists in DB before calling Accept
-        using var scope = _factory.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<AIDbContext>();
-        var testClinicCtx = scope.ServiceProvider.GetRequiredService<TestClinicContext>();
-        var clinicId = testClinicCtx.ClinicId;
-
-        var withFilter = await db.TriageResults
-            .FirstOrDefaultAsync(t => t.Id == triageId);
-        var withoutFilter = await db.TriageResults.IgnoreQueryFilters()
-            .FirstOrDefaultAsync(t => t.Id == triageId);
-
-        Console.WriteLine($"[DIAG] triageId={triageId}, clinicId={clinicId}");
-        Console.WriteLine($"[DIAG] WithFilter={withFilter?.Id}, ClinicId={withFilter?.ClinicId}");
-        Console.WriteLine($"[DIAG] WithoutFilter={withoutFilter?.Id}, ClinicId={withoutFilter?.ClinicId}");
-
         _response = await _client.PutAsync($"/api/ai/triage/{triageId}/accept", null);
     }
 
@@ -388,7 +373,8 @@ internal class TriageSteps
             if (ids.Count > 0) return ids.Values.First();
         }
 
-        var clinicId = Guid.NewGuid();
+        // Use deterministic Guid so EF Core compiled query filter is stable across scenarios.
+        var clinicId = SharedSteps.GenerateGuidFromString("ai-test-clinic");
         var dict = new Dictionary<string, Guid> { ["ai-test-clinic"] = clinicId };
         _ctx.Set(dict, "ClinicIds");
 
