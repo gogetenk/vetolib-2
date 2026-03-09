@@ -15,7 +15,38 @@
 
 ---
 
-*Aucune PR pour l'instant.*
+### PR #1 — [DEV_DONE]
+**Tâche** : tasks/done-back-patients-001.md
+**Module** : MedicalRecords
+**Branche** : feat/back-patients-001
+**Lien PR** : local-only (pas de remote configuré)
+**Vidéo démo** : en attente
+**Ouvert le** : 2026-03-09
+**Dernière activité** : 2026-03-09
+
+**Gherkins couverts** :
+- Vet creates a patient with owner inline
+- Camel is a valid species for UAE market
+- Patient list can be filtered by name
+- Vet can update patient phone number
+- Receptionist cannot create patients
+- Tenant isolation on patients
+- Patient detail includes medical records
+
+**Tests unitaires** : 8 tests verts (PatientDomainTests)
+
+---
+
+### PR #2 — [DEV_DONE]
+**Tâche** : tasks/done-wire-patients-001.md
+**Module** : MedicalRecords (Patients)
+**Branche** : master
+**Lien PR** : local-only (pas de remote configuré)
+**Vidéo démo** : N/A — wire annulé (Option B, cf. questions/wire-medical-001-20260309.md)
+**Ouvert le** : 2026-03-09
+**Dernière activité** : 2026-03-09
+
+**Décision** : MSW handlers conservés pour MVP. 43 tests Playwright verts contre MSW.
 
 ---
 

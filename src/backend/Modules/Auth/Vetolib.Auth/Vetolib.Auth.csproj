@@ -9,6 +9,7 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Vetolib.Api" />
     <InternalsVisibleTo Include="Vetolib.Tests.Acceptance" />
+    <InternalsVisibleTo Include="Vetolib.Tests.Unit" />
   </ItemGroup>
 
   <ItemGroup>
