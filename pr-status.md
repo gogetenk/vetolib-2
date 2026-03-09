@@ -50,6 +50,28 @@
 
 ---
 
+### PR #3 — [MERGED]
+**Tâche** : tasks/done-agenda-002.md
+**Module** : Agenda
+**Branche** : master (commit 6da39e4)
+**Lien PR** : local-only (pas de remote configuré)
+**Vidéo démo** : N/A
+**Ouvert le** : 2026-03-09
+**Dernière activité** : 2026-03-09
+
+**Gherkins couverts** :
+- Enregistrer l'arrivée du patient (check-in)
+- Démarrer la consultation
+- Terminer la consultation
+- Annuler un rendez-vous avec motif
+- Transition invalide refusée
+- Consulter les disponibilités d'un vétérinaire
+
+**Fix appliqué** : step definitions AppointmentSteps.cs alignées sur CreateAppointmentRequest v2
+(PatientName/VetId/ScheduledAt) et routes `/api/appointments` — build 0 erreur.
+
+---
+
 ## Template
 ### PR #{num} — [{statut}]
 **Tâche** : tasks/{id}.md  

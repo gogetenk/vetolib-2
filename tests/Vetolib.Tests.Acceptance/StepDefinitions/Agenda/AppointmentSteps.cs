@@ -125,19 +125,20 @@ internal class AppointmentSteps
         _animalOwners[animalName] = ownerName;
 
         var startTime = TimeOnly.Parse(time);
+        var scheduledAt = $"{_defaultDate:yyyy-MM-dd}T{startTime:HH:mm}:00";
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            _defaultDate,
-            startTime,
-            30,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        var response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        var response = await _client.PostAsJsonAsync("/api/appointments", request);
         response.EnsureSuccessStatusCode();
+        _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
     }
 
     [Given(@"un rendez-vous existant pour ""(.*)"" avec ""(.*)"" a ""(.*)"" pour (.*) minutes")]
@@ -148,18 +149,18 @@ internal class AppointmentSteps
         var ownerName = _animalOwners.ContainsKey(animalName) ? _animalOwners[animalName] : "Owner";
 
         var startTime = TimeOnly.Parse(time);
+        var scheduledAt = $"{_defaultDate:yyyy-MM-dd}T{startTime:HH:mm}:00";
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            _defaultDate,
-            startTime,
-            duration,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        var response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        var response = await _client.PostAsJsonAsync("/api/appointments", request);
         response.EnsureSuccessStatusCode();
         _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
     }
@@ -168,26 +169,25 @@ internal class AppointmentSteps
     public async Task GivenUnRendezVousExistantDeAAvec(string startTimeStr, string endTimeStr, string vetName)
     {
         var startTime = TimeOnly.Parse(startTimeStr);
-        var endTime = TimeOnly.Parse(endTimeStr);
-        var duration = (int)(endTime - startTime).TotalMinutes;
 
         var animalName = "Max";
         var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
         var ownerName = _animalOwners.ContainsKey(animalName) ? _animalOwners[animalName] : "John Smith";
 
+        var scheduledAt = $"{_defaultDate:yyyy-MM-dd}T{startTime:HH:mm}:00";
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            _defaultDate,
-            startTime,
-            duration,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        var response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        var response = await _client.PostAsJsonAsync("/api/appointments", request);
         response.EnsureSuccessStatusCode();
+        _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
     }
 
     [Given(@"le statut du dernier rendez-vous a ete mis a jour vers ""(.*)""")]
@@ -208,18 +208,18 @@ internal class AppointmentSteps
         var date = DateOnly.Parse(dateStr);
         var startTime = TimeOnly.Parse(timeStr);
 
+        var scheduledAt = $"{date:yyyy-MM-dd}T{startTime:HH:mm}:00";
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            date,
-            startTime,
-            duration,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        _response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        _response = await _client.PostAsJsonAsync("/api/appointments", request);
 
         if (_response.IsSuccessStatusCode)
         {
@@ -235,7 +235,7 @@ internal class AppointmentSteps
     public async Task WhenJeConsulteLagenda(string dateStr)
     {
         var date = DateOnly.Parse(dateStr);
-        _response = await _client.GetAsync($"/api/v1/appointments?date={date:yyyy-MM-dd}");
+        _response = await _client.GetAsync($"/api/appointments?date={date:yyyy-MM-dd}");
 
         if (!_response.IsSuccessStatusCode)
         {
@@ -252,19 +252,19 @@ internal class AppointmentSteps
         if (!_animalOwners.ContainsKey(animalName)) _animalOwners[animalName] = ownerName;
 
         var startTime = TimeOnly.Parse(timeStr);
+        var scheduledAt = $"{_defaultDate:yyyy-MM-dd}T{startTime:HH:mm}:00";
 
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            _defaultDate,
-            startTime,
-            30,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        _response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
@@ -272,25 +272,22 @@ internal class AppointmentSteps
     public async Task WhenJeTenteDeCreerUnRendezVousDeAAvec(string startTimeStr, string endTimeStr, string vetName)
     {
         var startTime = TimeOnly.Parse(startTimeStr);
-        var endTime = TimeOnly.Parse(endTimeStr);
-        var duration = (int)(endTime - startTime).TotalMinutes;
 
         var animalName = "Luna";
-        var animalId = GenerateGuidFromString(animalName + "-overlap");
         var ownerName = "Jane Doe";
+        var scheduledAt = $"{_defaultDate:yyyy-MM-dd}T{startTime:HH:mm}:00";
 
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            _defaultDate,
-            startTime,
-            duration,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        _response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
@@ -299,21 +296,20 @@ internal class AppointmentSteps
     {
         var startTime = TimeOnly.Parse(timeStr);
         var animalName = "Max";
-        var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
         var ownerName = _animalOwners.ContainsKey(animalName) ? _animalOwners[animalName] : "John Smith";
+        var scheduledAt = $"{_defaultDate:yyyy-MM-dd}T{startTime:HH:mm}:00";
 
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            _defaultDate,
-            startTime,
-            30,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        _response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
@@ -323,21 +319,20 @@ internal class AppointmentSteps
         var date = DateOnly.Parse(dateStr);
         var startTime = TimeOnly.Parse(timeStr);
         var animalName = "Max";
-        var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
         var ownerName = _animalOwners.ContainsKey(animalName) ? _animalOwners[animalName] : "John Smith";
+        var scheduledAt = $"{date:yyyy-MM-dd}T{startTime:HH:mm}:00";
 
         var request = new CreateAppointmentRequest(
-            _vetId,
-            _vetName,
-            animalId,
-            animalName,
-            ownerName,
-            date,
-            startTime,
-            30,
-            null);
+            PatientName: animalName,
+            Species: null,
+            OwnerName: ownerName,
+            OwnerPhone: null,
+            VetId: _vetId,
+            ScheduledAt: scheduledAt,
+            Reason: null,
+            Notes: null);
 
-        _response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
+        _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
@@ -345,10 +340,21 @@ internal class AppointmentSteps
     public async Task WhenJeMetsAJourLeStatutDuDernierRendezVousVers(string statusStr)
     {
         _createdAppointment.Should().NotBeNull("un rendez-vous doit avoir ete cree au prealable");
-        var status = Enum.Parse<AppointmentStatus>(statusStr);
 
-        var request = new UpdateAppointmentStatusRequest(status, null);
-        _response = await _client.PatchAsJsonAsync($"/api/v1/appointments/{_createdAppointment!.Id}/status", request);
+        // Map Reqnroll status names to the action string the endpoint expects
+        var action = statusStr switch
+        {
+            "CheckedIn"  => "CHECK_IN",
+            "InProgress" => "START",
+            "Completed"  => "COMPLETE",
+            "Cancelled"  => "CANCEL",
+            "NoShow"     => "NO_SHOW",
+            _ => statusStr.ToUpperInvariant()
+        };
+
+        var request = new TransitionAppointmentRequest(action, null);
+        _response = await _client.PatchAsJsonAsync(
+            $"/api/appointments/{_createdAppointment!.Id}/transition", request);
 
         if (_response.IsSuccessStatusCode)
         {
@@ -364,8 +370,9 @@ internal class AppointmentSteps
     public async Task WhenJAnnuleLeDernierRendezVousAvecLeMotif(string reason)
     {
         _createdAppointment.Should().NotBeNull();
-        var request = new UpdateAppointmentStatusRequest(AppointmentStatus.Cancelled, reason);
-        _response = await _client.PatchAsJsonAsync($"/api/v1/appointments/{_createdAppointment!.Id}/status", request);
+        var request = new TransitionAppointmentRequest("CANCEL", reason);
+        _response = await _client.PatchAsJsonAsync(
+            $"/api/appointments/{_createdAppointment!.Id}/transition", request);
 
         if (_response.IsSuccessStatusCode)
         {
@@ -382,7 +389,7 @@ internal class AppointmentSteps
     {
         var date = DateOnly.Parse(dateStr);
         _response = await _client.GetAsync(
-            $"/api/v1/appointments/availability?veterinarianId={_vetId}&date={date:yyyy-MM-dd}&durationMinutes={duration}");
+            $"/api/appointments/availability?veterinarianId={_vetId}&date={date:yyyy-MM-dd}&durationMinutes={duration}");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -408,8 +415,11 @@ internal class AppointmentSteps
     [Then(@"le rendez-vous apparait dans l'agenda de ""(.*)"" a ""(.*)""")]
     public async Task ThenLeRendezVousApparaitDansLagenda(string vetName, string timeStr)
     {
-        var date = _createdAppointment!.Date;
-        var response = await _client.GetAsync($"/api/v1/appointments?date={date:yyyy-MM-dd}");
+        // Parse the date from the ScheduledAt string of the created appointment
+        var scheduledDate = DateTime.Parse(_createdAppointment!.ScheduledAt);
+        var dateOnly = DateOnly.FromDateTime(scheduledDate);
+
+        var response = await _client.GetAsync($"/api/appointments?date={dateOnly:yyyy-MM-dd}");
         response.EnsureSuccessStatusCode();
 
         var appointments = await response.Content.ReadFromJsonAsync<List<AppointmentDto>>(JsonOptions);
@@ -417,8 +427,8 @@ internal class AppointmentSteps
 
         var expectedTime = TimeOnly.Parse(timeStr);
         appointments.Should().Contain(a =>
-            a.VeterinarianId == _vetId &&
-            a.StartTime == expectedTime);
+            a.VetId == _vetId &&
+            TimeOnly.FromDateTime(DateTime.Parse(a.ScheduledAt)) == expectedTime);
     }
 
     [Then(@"je vois (.*) rendez-vous dans la liste")]
