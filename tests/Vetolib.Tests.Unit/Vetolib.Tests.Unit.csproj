@@ -9,15 +9,21 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.*" />
+    <PackageReference Include="MassTransit" Version="8.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="xunit" Version="2.*" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.*" />
     <PackageReference Include="FluentAssertions" Version="7.*" />
+    <PackageReference Include="NSubstitute" Version="5.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\backend\Modules\Auth\Vetolib.Auth\Vetolib.Auth.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Auth\Vetolib.Auth.Contracts\Vetolib.Auth.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Notifications\Vetolib.Notifications\Vetolib.Notifications.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Agenda\Vetolib.Agenda\Vetolib.Agenda.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Agenda\Vetolib.Agenda.Contracts\Vetolib.Agenda.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\MedicalRecords\Vetolib.MedicalRecords\Vetolib.MedicalRecords.csproj" />

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Vetolib.Api" />
+    <InternalsVisibleTo Include="Vetolib.Tests.Unit" />
+    <InternalsVisibleTo Include="Vetolib.Tests.Acceptance" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vetolib.Notifications.Contracts\Vetolib.Notifications.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\Auth\Vetolib.Auth.Contracts\Vetolib.Auth.Contracts.csproj" />
+    <ProjectReference Include="..\..\Agenda\Vetolib.Agenda.Contracts\Vetolib.Agenda.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

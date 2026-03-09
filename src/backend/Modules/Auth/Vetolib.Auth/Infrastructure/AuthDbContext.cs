@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Auth.Application.Domain;
 using Vetolib.Shared.Infrastructure;
@@ -12,8 +13,9 @@ internal class AuthDbContext : MultiTenantDbContext
 
     public AuthDbContext(
         DbContextOptions<AuthDbContext> options,
-        IClinicContext clinicContext)
-        : base(options, clinicContext)
+        IClinicContext clinicContext,
+        IPublisher publisher)
+        : base(options, clinicContext, publisher)
     {
     }
 

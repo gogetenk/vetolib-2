@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Agenda.Application.Domain;
 using Vetolib.Shared.Infrastructure;
@@ -11,8 +12,9 @@ internal class AgendaDbContext : MultiTenantDbContext
 
     public AgendaDbContext(
         DbContextOptions<AgendaDbContext> options,
-        IClinicContext clinicContext)
-        : base(options, clinicContext)
+        IClinicContext clinicContext,
+        IPublisher publisher)
+        : base(options, clinicContext, publisher)
     {
     }
 

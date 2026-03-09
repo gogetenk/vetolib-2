@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Billing.Domain;
 using Vetolib.Shared.Infrastructure;
@@ -12,8 +13,9 @@ internal class BillingDbContext : MultiTenantDbContext
 
     public BillingDbContext(
         DbContextOptions<BillingDbContext> options,
-        IClinicContext clinicContext)
-        : base(options, clinicContext)
+        IClinicContext clinicContext,
+        IPublisher publisher)
+        : base(options, clinicContext, publisher)
     {
     }
 

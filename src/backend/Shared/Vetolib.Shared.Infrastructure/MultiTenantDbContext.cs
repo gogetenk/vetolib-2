@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Shared.Kernel;
 
@@ -6,13 +7,18 @@ namespace Vetolib.Shared.Infrastructure;
 
 public abstract class MultiTenantDbContext : DbContext
 {
-    protected readonly IClinicContext ClinicContext;
+    // Exposed as internal so AuditSaveChangesInterceptor (same assembly) can read it.
+    internal readonly IClinicContext ClinicContext;
+
+    private readonly IPublisher? _publisher;
 
     protected MultiTenantDbContext(
         DbContextOptions options,
-        IClinicContext clinicContext) : base(options)
+        IClinicContext clinicContext,
+        IPublisher? publisher = null) : base(options)
     {
         ClinicContext = clinicContext;
+        _publisher = publisher;
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -41,8 +47,9 @@ public abstract class MultiTenantDbContext : DbContext
         builder.Entity(entityType).HasQueryFilter(lambda);
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        // Stamp UpdatedAt on modified entities
         foreach (var entry in ChangeTracker.Entries<BaseEntity>())
         {
             if (entry.State == EntityState.Modified)
@@ -52,6 +59,29 @@ public abstract class MultiTenantDbContext : DbContext
             }
         }
 
-        return base.SaveChangesAsync(cancellationToken);
+        // Collect domain events BEFORE save (clear to avoid infinite loops)
+        var entitiesWithEvents = ChangeTracker.Entries<BaseEntity>()
+            .Where(e => e.Entity.DomainEvents.Count > 0)
+            .ToList();
+
+        var domainEvents = entitiesWithEvents
+            .SelectMany(e => e.Entity.DomainEvents)
+            .ToList();
+
+        entitiesWithEvents.ForEach(e => e.Entity.ClearDomainEvents());
+
+        // Persist (includes MassTransit outbox in the same transaction)
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        // Dispatch domain events AFTER successful save
+        if (_publisher is not null)
+        {
+            foreach (var domainEvent in domainEvents)
+            {
+                await _publisher.Publish(domainEvent, cancellationToken);
+            }
+        }
+
+        return result;
     }
 }

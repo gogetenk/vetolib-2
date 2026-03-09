@@ -1,4 +1,5 @@
 using Ardalis.Result;
+using Vetolib.Auth.Application.Domain.Events;
 using Vetolib.Auth.Contracts;
 using Vetolib.Shared.Kernel;
 
@@ -54,7 +55,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         return Result<User>.Success(user);
     }
 
-    public static Result<User> Invite(Guid clinicId, string email, string fullName, string temporaryPassword, UserRole role)
+    public static Result<User> Invite(Guid clinicId, string email, string fullName, string temporaryPassword, UserRole role, string clinicName = "Vetolib Clinic")
     {
         var errors = new List<ValidationError>();
 
@@ -81,6 +82,8 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
             FailedLoginAttempts = 0,
             IsActive = true
         };
+
+        user.AddDomainEvent(new UserInvitedDomainEvent(user.Id, user.Email, user.FullName, temporaryPassword, clinicName));
 
         return Result<User>.Success(user);
     }

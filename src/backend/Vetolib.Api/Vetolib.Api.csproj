@@ -4,11 +4,16 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>ff1f51f3-edbc-49a6-b0fb-faf7e04ae80c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.*" />
+    <PackageReference Include="MassTransit" Version="8.*" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.*" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.*" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.*" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +26,8 @@
     <ProjectReference Include="..\Modules\MedicalRecords\Vetolib.MedicalRecords\Vetolib.MedicalRecords.csproj" />
     <ProjectReference Include="..\Modules\Billing\Vetolib.Billing.Contracts\Vetolib.Billing.Contracts.csproj" />
     <ProjectReference Include="..\Modules\Billing\Vetolib.Billing\Vetolib.Billing.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\Vetolib.Notifications.Contracts\Vetolib.Notifications.Contracts.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\Vetolib.Notifications\Vetolib.Notifications.csproj" />
     <ProjectReference Include="..\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
   </ItemGroup>

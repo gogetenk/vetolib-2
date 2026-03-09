@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.MedicalRecords.Application.Domain;
 using Vetolib.Shared.Infrastructure;
@@ -15,8 +16,9 @@ internal class MedicalRecordsDbContext : MultiTenantDbContext
 
     public MedicalRecordsDbContext(
         DbContextOptions<MedicalRecordsDbContext> options,
-        IClinicContext clinicContext)
-        : base(options, clinicContext)
+        IClinicContext clinicContext,
+        IPublisher publisher)
+        : base(options, clinicContext, publisher)
     {
     }
 
