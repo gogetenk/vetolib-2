@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Vetolib.Api" />
+    <InternalsVisibleTo Include="Vetolib.Tests.Acceptance" />
+    <InternalsVisibleTo Include="Vetolib.Tests.Unit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Result" Version="10.*" />
+    <PackageReference Include="Ardalis.Result.AspNetCore" Version="10.*" />
+    <PackageReference Include="MediatR" Version="12.*" />
+    <PackageReference Include="FluentValidation" Version="11.*" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.*" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vetolib.Agenda.Contracts\Vetolib.Agenda.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

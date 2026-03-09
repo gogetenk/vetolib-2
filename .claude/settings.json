@@ -1,0 +1,57 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-shared.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/log-cost.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(dotnet:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(mkdir:*)",
+      "Bash(echo:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(touch:*)",
+      "Bash(chmod:*)",
+      "Bash(date:*)",
+      "Bash(wc:*)"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(ssh:*)",
+      "Bash(docker:*)",
+      "Bash(kubectl:*)",
+      "Bash(aws:*)",
+      "Bash(gh:*)"
+    ]
+  },
+  "dangerouslySkipPermissions": true
+}

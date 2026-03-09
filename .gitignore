@@ -1,0 +1,40 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+*.DotSettings.user
+TestResults/
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+*.snupkg
+
+# Node.js
+node_modules/
+.next/
+out/
+.env*.local
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+
+# Claude Code
+.claude/cost-log.csv
