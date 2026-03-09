@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.Agenda.Application.Commands.CreateAppointment;
+using Vetolib.Agenda.Application.Commands.UpdateAppointmentStatus;
+using Vetolib.Agenda.Application.Queries.GetAvailability;
 using Vetolib.Agenda.Application.Queries.ListAppointments;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Shared.Kernel;
@@ -24,10 +26,16 @@ internal static class AppointmentEndpoints
         group.MapGet("/", ListAppointments)
             .WithName("ListAppointments");
 
+        group.MapPatch("/{id:guid}/status", UpdateStatus)
+            .WithName("UpdateAppointmentStatus");
+
+        group.MapGet("/availability", GetAvailability)
+            .WithName("GetAvailability");
+
         return app;
     }
 
-    private static async Task<Microsoft.AspNetCore.Http.IResult> CreateAppointment(
+    private static async Task<IResult> CreateAppointment(
         CreateAppointmentRequest request,
         IClinicContext clinicContext,
         ISender sender)
@@ -47,10 +55,28 @@ internal static class AppointmentEndpoints
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 
-    private static async Task<Microsoft.AspNetCore.Http.IResult> ListAppointments(
+    private static async Task<IResult> ListAppointments(
         DateOnly date,
         ISender sender)
     {
         return (await sender.Send(new ListAppointmentsQuery(date))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> UpdateStatus(
+        Guid id,
+        UpdateAppointmentStatusRequest request,
+        ISender sender)
+    {
+        var cmd = new UpdateAppointmentStatusCommand(id, request.NewStatus, request.Reason);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GetAvailability(
+        Guid veterinarianId,
+        DateOnly date,
+        int durationMinutes,
+        ISender sender)
+    {
+        return (await sender.Send(new GetAvailabilityQuery(veterinarianId, date, durationMinutes))).ToMinimalApiResult();
     }
 }

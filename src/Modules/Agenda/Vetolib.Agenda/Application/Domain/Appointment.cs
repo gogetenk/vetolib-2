@@ -80,15 +80,45 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         return Result<Appointment>.Success(appointment);
     }
 
-    public Result Confirm()
+    public Result CheckIn()
     {
-        Status = AppointmentStatus.Confirmed;
+        if (Status != AppointmentStatus.Scheduled)
+            return Result.Error($"INVALID_TRANSITION:Impossible de passer en CHECKED_IN depuis {Status}");
+        Status = AppointmentStatus.CheckedIn;
         return Result.Success();
     }
 
-    public Result Cancel()
+    public Result StartConsultation()
     {
+        if (Status != AppointmentStatus.CheckedIn)
+            return Result.Error($"INVALID_TRANSITION:Impossible de passer en IN_PROGRESS depuis {Status}");
+        Status = AppointmentStatus.InProgress;
+        return Result.Success();
+    }
+
+    public Result Complete()
+    {
+        if (Status != AppointmentStatus.InProgress)
+            return Result.Error($"INVALID_TRANSITION:Impossible de passer en COMPLETED depuis {Status}");
+        Status = AppointmentStatus.Completed;
+        return Result.Success();
+    }
+
+    public Result Cancel(string? reason = null)
+    {
+        if (Status == AppointmentStatus.Completed || Status == AppointmentStatus.Cancelled)
+            return Result.Error($"INVALID_TRANSITION:Impossible d'annuler un rendez-vous {Status}");
         Status = AppointmentStatus.Cancelled;
+        if (reason is not null)
+            Reason = reason;
+        return Result.Success();
+    }
+
+    public Result MarkNoShow()
+    {
+        if (Status != AppointmentStatus.Scheduled && Status != AppointmentStatus.CheckedIn)
+            return Result.Error($"INVALID_TRANSITION:Impossible de passer en NO_SHOW depuis {Status}");
+        Status = AppointmentStatus.NoShow;
         return Result.Success();
     }
 
