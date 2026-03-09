@@ -250,6 +250,153 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Ajouter un examen au dossier")]
+        [Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
+        [Xunit.TraitAttribute("Description", "Ajouter un examen au dossier")]
+        public async global::System.Threading.Tasks.Task AjouterUnExamenAuDossier()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Ajouter un examen au dossier", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 24
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 2
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 25
+    await testRunner.WhenAsync("j\'ajoute un examen pour \"Max\" avec le diagnostic \"Otite bactérienne\" et le traite" +
+                        "ment \"Nettoyage oreilles + antibiotiques 7 jours\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 26
+    await testRunner.ThenAsync("l\'examen apparaît dans l\'historique de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 27
+    await testRunner.AndAsync("il est horodaté avec la date du jour", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 28
+    await testRunner.AndAsync("il porte le vétérinaire courant comme auteur", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Consulter l\'historique complet")]
+        [Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
+        [Xunit.TraitAttribute("Description", "Consulter l\'historique complet")]
+        public async global::System.Threading.Tasks.Task ConsulterLhistoriqueComplet()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Consulter l\'historique complet", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 30
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 2
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 31
+    await testRunner.GivenAsync("3 examens dans le dossier de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 32
+    await testRunner.WhenAsync("je consulte le dossier de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 33
+    await testRunner.ThenAsync("je vois 3 examens dans l\'ordre chronologique inverse", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Créer une ordonnance")]
+        [Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
+        [Xunit.TraitAttribute("Description", "Créer une ordonnance")]
+        public async global::System.Threading.Tasks.Task CreerUneOrdonnance()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer une ordonnance", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 35
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 2
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 36
+    await testRunner.GivenAsync("un examen existant pour \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 37
+    await testRunner.WhenAsync("je crée une ordonnance avec le médicament \"Amoxicilline 250mg\" posologie \"2x/jour" +
+                        " pendant 7j\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 38
+    await testRunner.ThenAsync("l\'ordonnance est créée avec le numéro de licence \"TEST-VET-001\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 39
+    await testRunner.AndAsync("elle est liée à l\'examen", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Un dossier n\'est jamais supprimé")]
+        [Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
+        [Xunit.TraitAttribute("Description", "Un dossier n\'est jamais supprimé")]
+        public async global::System.Threading.Tasks.Task UnDossierNestJamaisSupprime()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Un dossier n\'est jamais supprimé", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 41
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 2
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 42
+    await testRunner.GivenAsync("un examen dans le dossier de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 43
+    await testRunner.WhenAsync("je tente de supprimer cet examen", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 44
+    await testRunner.ThenAsync("le système refuse avec le code \"MEDICAL_RECORD_IMMUTABLE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 45
+    await testRunner.AndAsync("l\'examen est toujours visible dans l\'historique", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

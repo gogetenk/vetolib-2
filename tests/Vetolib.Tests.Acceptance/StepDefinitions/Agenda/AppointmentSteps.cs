@@ -30,6 +30,7 @@ internal class AppointmentSteps
     private readonly Dictionary<string, Guid> _animalIds = new();
     private readonly Dictionary<string, string> _animalOwners = new();
     private readonly DateOnly _defaultDate = new(2026, 4, 1);
+    private List<AvailabilitySlotDto>? _availabilitySlots;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -160,6 +161,7 @@ internal class AppointmentSteps
 
         var response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
         response.EnsureSuccessStatusCode();
+        _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
     }
 
     [Given(@"un rendez-vous existant de ""(.*)"" a ""(.*)"" avec ""(.*)""")]
@@ -186,6 +188,14 @@ internal class AppointmentSteps
 
         var response = await _client.PostAsJsonAsync("/api/v1/appointments", request);
         response.EnsureSuccessStatusCode();
+    }
+
+    [Given(@"le statut du dernier rendez-vous a ete mis a jour vers ""(.*)""")]
+    public async Task GivenLeStatutDuDernierRendezVousAEteMisAJourVers(string statusStr)
+    {
+        await WhenJeMetsAJourLeStatutDuDernierRendezVousVers(statusStr);
+        _response.IsSuccessStatusCode.Should().BeTrue(
+            $"La mise a jour de statut vers {statusStr} a echoue: {_errorResponseBody}");
     }
 
     // ─── WHEN Steps ──────────────────────────────────────────────
@@ -331,6 +341,59 @@ internal class AppointmentSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
+    [When(@"je mets a jour le statut du dernier rendez-vous vers ""(.*)""")]
+    public async Task WhenJeMetsAJourLeStatutDuDernierRendezVousVers(string statusStr)
+    {
+        _createdAppointment.Should().NotBeNull("un rendez-vous doit avoir ete cree au prealable");
+        var status = Enum.Parse<AppointmentStatus>(statusStr);
+
+        var request = new UpdateAppointmentStatusRequest(status, null);
+        _response = await _client.PatchAsJsonAsync($"/api/v1/appointments/{_createdAppointment!.Id}/status", request);
+
+        if (_response.IsSuccessStatusCode)
+        {
+            _createdAppointment = await _response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        }
+        else
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
+    }
+
+    [When(@"j'annule le dernier rendez-vous avec le motif ""(.*)""")]
+    public async Task WhenJAnnuleLeDernierRendezVousAvecLeMotif(string reason)
+    {
+        _createdAppointment.Should().NotBeNull();
+        var request = new UpdateAppointmentStatusRequest(AppointmentStatus.Cancelled, reason);
+        _response = await _client.PatchAsJsonAsync($"/api/v1/appointments/{_createdAppointment!.Id}/status", request);
+
+        if (_response.IsSuccessStatusCode)
+        {
+            _createdAppointment = await _response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        }
+        else
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
+    }
+
+    [When(@"je consulte les disponibilites de ""(.*)"" le ""(.*)"" pour (.*) minutes")]
+    public async Task WhenJeConsulteLesDisponibilitesDeLePourtMinutes(string vetName, string dateStr, int duration)
+    {
+        var date = DateOnly.Parse(dateStr);
+        _response = await _client.GetAsync(
+            $"/api/v1/appointments/availability?veterinarianId={_vetId}&date={date:yyyy-MM-dd}&durationMinutes={duration}");
+
+        if (_response.IsSuccessStatusCode)
+        {
+            _availabilitySlots = await _response.Content.ReadFromJsonAsync<List<AvailabilitySlotDto>>(JsonOptions);
+        }
+        else
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
+    }
+
     // ─── THEN Steps ──────────────────────────────────────────────
 
     [Then(@"le rendez-vous est cree avec le statut ""(.*)""")]
@@ -393,6 +456,43 @@ internal class AppointmentSteps
         // The format from ClinicSchedule.FormatHours() is "09h00 - 18h00"
         // The feature expects "9h00 - 18h00"
         _errorResponseBody.Should().Contain("horaires d'ouverture");
+    }
+
+    [Then(@"le statut du rendez-vous est ""(.*)""")]
+    public void ThenLeStatutDuRendezVousEst(string expectedStatus)
+    {
+        _response.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected success but got {_response.StatusCode}: {_errorResponseBody}");
+        _createdAppointment.Should().NotBeNull();
+        _createdAppointment!.Status.ToString().Should().Be(expectedStatus);
+    }
+
+    [Then(@"le systeme refuse la transition avec le code ""(.*)""")]
+    public void ThenLeSystemeRefuseLaTransitionAvecLeCode(string errorCode)
+    {
+        _response.IsSuccessStatusCode.Should().BeFalse();
+        _errorResponseBody.Should().Contain(errorCode);
+    }
+
+    [Then(@"je vois des creneaux disponibles et non disponibles")]
+    public void ThenJeVoisDesCraneauxDisponiblesEtNonDisponibles()
+    {
+        _response.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected success but got {_response.StatusCode}: {_errorResponseBody}");
+        _availabilitySlots.Should().NotBeNull();
+        _availabilitySlots.Should().NotBeEmpty();
+        _availabilitySlots.Should().Contain(s => s.IsAvailable);
+        _availabilitySlots.Should().Contain(s => !s.IsAvailable);
+    }
+
+    [Then(@"le creneau ""(.*)"" est marque non disponible")]
+    public void ThenLeCreneauEstMarqueNonDisponible(string timeStr)
+    {
+        var expectedTime = TimeOnly.Parse(timeStr);
+        _availabilitySlots.Should().NotBeNull();
+        var slot = _availabilitySlots!.FirstOrDefault(s => s.StartTime == expectedTime);
+        slot.Should().NotBeNull($"Le creneau {timeStr} devrait exister");
+        slot!.IsAvailable.Should().BeFalse($"Le creneau {timeStr} devrait etre non disponible");
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

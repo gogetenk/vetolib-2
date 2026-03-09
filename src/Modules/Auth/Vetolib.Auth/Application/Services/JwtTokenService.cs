@@ -23,14 +23,20 @@ internal class JwtTokenService : IJwtTokenService
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        var claimsList = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(ClaimTypes.Name, user.Email),
             new Claim("clinic_id", user.ClinicId.ToString()),
             new Claim(ClaimTypes.Role, user.Role.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
+
+        if (!string.IsNullOrWhiteSpace(user.VetLicenseNumber))
+            claimsList.Add(new Claim("vetLicense", user.VetLicenseNumber));
+
+        var claims = claimsList.ToArray();
 
         var now = DateTime.UtcNow;
         var token = new JwtSecurityToken(

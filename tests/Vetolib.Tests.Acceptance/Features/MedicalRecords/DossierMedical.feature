@@ -20,3 +20,26 @@ Feature: Dossier médical animal
     Given un animal "Rocky" dans la clinique "Desert Vets"
     When je consulte la liste des animaux de "Happy Paws"
     Then "Rocky" n'apparaît pas dans la liste
+
+  Scenario: Ajouter un examen au dossier
+    When j'ajoute un examen pour "Max" avec le diagnostic "Otite bactérienne" et le traitement "Nettoyage oreilles + antibiotiques 7 jours"
+    Then l'examen apparaît dans l'historique de "Max"
+    And il est horodaté avec la date du jour
+    And il porte le vétérinaire courant comme auteur
+
+  Scenario: Consulter l'historique complet
+    Given 3 examens dans le dossier de "Max"
+    When je consulte le dossier de "Max"
+    Then je vois 3 examens dans l'ordre chronologique inverse
+
+  Scenario: Créer une ordonnance
+    Given un examen existant pour "Max"
+    When je crée une ordonnance avec le médicament "Amoxicilline 250mg" posologie "2x/jour pendant 7j"
+    Then l'ordonnance est créée avec le numéro de licence "TEST-VET-001"
+    And elle est liée à l'examen
+
+  Scenario: Un dossier n'est jamais supprimé
+    Given un examen dans le dossier de "Max"
+    When je tente de supprimer cet examen
+    Then le système refuse avec le code "MEDICAL_RECORD_IMMUTABLE"
+    And l'examen est toujours visible dans l'historique

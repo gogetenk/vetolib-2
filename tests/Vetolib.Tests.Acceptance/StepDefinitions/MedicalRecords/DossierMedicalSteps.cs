@@ -1,14 +1,11 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Reqnroll;
 using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Contracts;
@@ -34,6 +31,9 @@ internal class DossierMedicalSteps
     private readonly Dictionary<string, Guid> _ownerIds = new();
     private readonly Dictionary<string, Guid> _patientIds = new();
     private PatientDto? _createdPatient;
+    private MedicalRecordDto? _createdRecord;
+    private PrescriptionDto? _createdPrescription;
+    private Guid _lastRecordId;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -100,7 +100,6 @@ internal class DossierMedicalSteps
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
 
-        // Determine species from breed
         var species = InferSpecies(breed);
 
         var patientResult = Patient.Create(clinicId, animalName, species, breed, null);
@@ -125,11 +124,9 @@ internal class DossierMedicalSteps
         var email = $"{role.ToLowerInvariant()}@test-medical.com";
         var password = "SecurePass1";
 
-        // Set clinic context
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicId;
 
-        // Create user in auth DB
         using var scope = _factory.Services.CreateScope();
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
 
@@ -145,7 +142,6 @@ internal class DossierMedicalSteps
         var userResult = User.Create(clinicId, email, password, userRole, vetLicense);
         userResult.IsSuccess.Should().BeTrue($"User creation should succeed for role {role}");
 
-        // Check if user already exists (e.g., if step called multiple times)
         var existing = await authDb.Users.IgnoreQueryFilters()
             .FirstOrDefaultAsync(u => u.Email == email);
         if (existing is null)
@@ -154,7 +150,6 @@ internal class DossierMedicalSteps
             await authDb.SaveChangesAsync();
         }
 
-        // Login to get JWT
         var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
             new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
@@ -171,17 +166,14 @@ internal class DossierMedicalSteps
         var clinicId = GenerateGuidFromString(clinicName);
         _clinicIds[clinicName] = clinicId;
 
-        // Create owner and patient in the other clinic directly in DB
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         var originalClinicId = testClinicContext.ClinicId;
 
-        // Temporarily switch to the other clinic
         testClinicContext.ClinicId = clinicId;
 
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
 
-        // Create a dummy owner for this animal in the other clinic
         var ownerResult = Owner.Create(clinicId, "Other", "Owner", $"owner@{clinicName.ToLowerInvariant().Replace(" ", "")}.com", null);
         ownerResult.IsSuccess.Should().BeTrue();
         db.Owners.Add(ownerResult.Value);
@@ -198,8 +190,61 @@ internal class DossierMedicalSteps
 
         _patientIds[animalName] = patient.Id;
 
-        // Restore original clinic context
         testClinicContext.ClinicId = originalClinicId;
+    }
+
+    [Given(@"(\d+) examens dans le dossier de ""(.*)""")]
+    public async Task GivenNExamensDansLeDossier(int count, string animalName)
+    {
+        var patientId = _patientIds[animalName];
+        var clinicId = _clinicIds.Values.First();
+
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        for (int i = 1; i <= count; i++)
+        {
+            var recordResult = MedicalRecord.Create(
+                clinicId, patientId,
+                $"Diagnostic {i}",
+                $"Traitement {i}",
+                "Dr. Test",
+                DateTime.UtcNow.AddDays(-i));
+
+            recordResult.IsSuccess.Should().BeTrue();
+            db.MedicalRecords.Add(recordResult.Value);
+        }
+
+        await db.SaveChangesAsync();
+    }
+
+    [Given(@"un examen existant pour ""(.*)""")]
+    public async Task GivenUnExamenExistantPour(string animalName)
+    {
+        var patientId = _patientIds[animalName];
+        var clinicId = _clinicIds.Values.First();
+
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        var recordResult = MedicalRecord.Create(
+            clinicId, patientId,
+            "Consultation de routine",
+            "Observation",
+            "Dr. Test",
+            DateTime.UtcNow);
+
+        recordResult.IsSuccess.Should().BeTrue();
+        db.MedicalRecords.Add(recordResult.Value);
+        await db.SaveChangesAsync();
+
+        _lastRecordId = recordResult.Value.Id;
+    }
+
+    [Given(@"un examen dans le dossier de ""(.*)""")]
+    public async Task GivenUnExamenDansLeDossier(string animalName)
+    {
+        await GivenUnExamenExistantPour(animalName);
     }
 
     // ─── WHEN Steps ──────────────────────────────────────────────
@@ -226,23 +271,70 @@ internal class DossierMedicalSteps
     [When(@"je tente d'ajouter un examen pour ""(.*)""")]
     public async Task WhenJeTenteDajouterUnExamen(string animalName)
     {
-        // For now, attempting to create a patient is used to test write permissions
-        // since medical exam creation is not yet implemented
-        var ownerId = _ownerIds.Values.FirstOrDefault();
-        var request = new CreatePatientRequest("TestAnimal", "Dog", "Mixed", null, ownerId);
-        _response = await _client.PostAsJsonAsync("/api/v1/patients", request);
+        var patientId = _patientIds.TryGetValue(animalName, out var id) ? id : Guid.NewGuid();
+        var request = new AddMedicalRecordRequest("Test diagnostic", "Test traitement");
+        _response = await _client.PostAsJsonAsync($"/api/v1/patients/{patientId}/records", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    [When(@"j'ajoute un examen pour ""(.*)"" avec le diagnostic ""(.*)"" et le traitement ""(.*)""")]
+    public async Task WhenJAjouteUnExamen(string animalName, string diagnosis, string treatment)
+    {
+        var patientId = _patientIds[animalName];
+        var request = new AddMedicalRecordRequest(diagnosis, treatment);
+        _response = await _client.PostAsJsonAsync($"/api/v1/patients/{patientId}/records", request);
+
+        if (_response.IsSuccessStatusCode)
+        {
+            _createdRecord = await _response.Content.ReadFromJsonAsync<MedicalRecordDto>(JsonOptions);
+        }
+        else
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
+    }
+
+    [When(@"je consulte le dossier de ""(.*)""")]
+    public async Task WhenJeConsulteLeDossier(string animalName)
+    {
+        var patientId = _patientIds[animalName];
+        _response = await _client.GetAsync($"/api/v1/patients/{patientId}/records");
     }
 
     [When(@"je consulte la liste des animaux de ""(.*)""")]
     public async Task WhenJeConsulteLaListeDesAnimaux(string clinicName)
     {
-        // Ensure clinic context is set to the target clinic
         var clinicId = _clinicIds[clinicName];
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicId;
 
         _response = await _client.GetAsync("/api/v1/patients");
+    }
+
+    [When(@"je crée une ordonnance avec le médicament ""(.*)"" posologie ""(.*)""")]
+    public async Task WhenJeCreerUneOrdonnance(string medication, string dosage)
+    {
+        var request = new AddPrescriptionRequest(medication, dosage);
+        _response = await _client.PostAsJsonAsync(
+            $"/api/v1/patients/{Guid.NewGuid()}/records/{_lastRecordId}/prescriptions",
+            request);
+
+        if (_response.IsSuccessStatusCode)
+        {
+            _createdPrescription = await _response.Content.ReadFromJsonAsync<PrescriptionDto>(JsonOptions);
+        }
+        else
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
+    }
+
+    [When(@"je tente de supprimer cet examen")]
+    public async Task WhenJeTenteDeSupprimer()
+    {
+        _response = await _client.DeleteAsync(
+            $"/api/v1/patients/{Guid.NewGuid()}/records/{_lastRecordId}");
+        _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
     // ─── THEN Steps ──────────────────────────────────────────────
@@ -258,8 +350,6 @@ internal class DossierMedicalSteps
     [Then(@"son dossier médical est vide")]
     public void ThenSonDossierMedicalEstVide()
     {
-        // For now, a newly created patient has no medical history
-        // This will be extended when medical records are implemented
         _createdPatient.Should().NotBeNull();
     }
 
@@ -287,6 +377,10 @@ internal class DossierMedicalSteps
             case "INSUFFICIENT_PERMISSIONS":
                 _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
                 break;
+            case "MEDICAL_RECORD_IMMUTABLE":
+                _response.StatusCode.Should().NotBe(HttpStatusCode.OK);
+                (_errorResponseBody ?? string.Empty).Should().Contain("MEDICAL_RECORD_IMMUTABLE");
+                break;
         }
     }
 
@@ -297,6 +391,68 @@ internal class DossierMedicalSteps
         var patients = await _response.Content.ReadFromJsonAsync<List<PatientDto>>(JsonOptions);
         patients.Should().NotBeNull();
         patients!.Should().NotContain(p => p.Name == animalName);
+    }
+
+    [Then(@"l'examen apparaît dans l'historique de ""(.*)""")]
+    public void ThenLExamenApparaitDansLHistorique(string animalName)
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.OK, $"Expected success response, got: {_errorResponseBody}");
+        _createdRecord.Should().NotBeNull();
+        _createdRecord!.PatientId.Should().Be(_patientIds[animalName]);
+    }
+
+    [Then(@"il est horodaté avec la date du jour")]
+    public void ThenIlEstHorodateAvecLaDateDuJour()
+    {
+        _createdRecord.Should().NotBeNull();
+        _createdRecord!.ExaminedAt.Date.Should().Be(DateTime.UtcNow.Date);
+    }
+
+    [Then(@"il porte le vétérinaire courant comme auteur")]
+    public void ThenIlPorteLeVeterinaireCommeAuteur()
+    {
+        _createdRecord.Should().NotBeNull();
+        _createdRecord!.VetName.Should().NotBeNullOrEmpty();
+    }
+
+    [Then(@"je vois (\d+) examens dans l'ordre chronologique inverse")]
+    public async Task ThenJeVoisNExamens(int expectedCount)
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var records = await _response.Content.ReadFromJsonAsync<List<MedicalRecordDto>>(JsonOptions);
+        records.Should().NotBeNull();
+        records!.Count.Should().Be(expectedCount);
+
+        // Verify descending order
+        for (int i = 0; i < records.Count - 1; i++)
+        {
+            records[i].ExaminedAt.Should().BeOnOrAfter(records[i + 1].ExaminedAt);
+        }
+    }
+
+    [Then(@"l'ordonnance est créée avec le numéro de licence ""(.*)""")]
+    public void ThenLOrdonnanceEstCreee(string licenseNumber)
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.OK, $"Expected success, got: {_errorResponseBody}");
+        _createdPrescription.Should().NotBeNull();
+        _createdPrescription!.VetLicenseNumber.Should().Be(licenseNumber);
+    }
+
+    [Then(@"elle est liée à l'examen")]
+    public void ThenElleEstLieeALExamen()
+    {
+        _createdPrescription.Should().NotBeNull();
+        _createdPrescription!.MedicalRecordId.Should().Be(_lastRecordId);
+    }
+
+    [Then(@"l'examen est toujours visible dans l'historique")]
+    public async Task ThenLExamenEstToujoursVisible()
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+        var record = await db.MedicalRecords.IgnoreQueryFilters()
+            .FirstOrDefaultAsync(r => r.Id == _lastRecordId);
+        record.Should().NotBeNull("L'examen doit toujours être présent après une tentative de suppression");
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

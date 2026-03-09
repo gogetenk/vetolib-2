@@ -87,6 +87,8 @@ internal class GlobalHooks
         await billingDb.Invoices.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         var medicalDb = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+        await medicalDb.Prescriptions.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await medicalDb.MedicalRecords.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.PatientOwners.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.Patients.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.Owners.IgnoreQueryFilters().ExecuteDeleteAsync();

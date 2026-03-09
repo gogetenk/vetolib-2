@@ -357,6 +357,222 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Enregistrer l\'arrivee du patient (check-in)")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [Xunit.TraitAttribute("Description", "Enregistrer l\'arrivee du patient (check-in)")]
+        public async global::System.Threading.Tasks.Task EnregistrerLarriveeDuPatientCheck_In()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enregistrer l\'arrivee du patient (check-in)", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 46
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 8
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 47
+    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 48
+    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 49
+    await testRunner.ThenAsync("le statut du rendez-vous est \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Demarrer la consultation")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [Xunit.TraitAttribute("Description", "Demarrer la consultation")]
+        public async global::System.Threading.Tasks.Task DemarrerLaConsultation()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Demarrer la consultation", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 51
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 8
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 52
+    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 53
+    await testRunner.AndAsync("le statut du dernier rendez-vous a ete mis a jour vers \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 54
+    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 55
+    await testRunner.ThenAsync("le statut du rendez-vous est \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Terminer la consultation")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [Xunit.TraitAttribute("Description", "Terminer la consultation")]
+        public async global::System.Threading.Tasks.Task TerminerLaConsultation()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Terminer la consultation", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 57
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 8
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 58
+    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 59
+    await testRunner.AndAsync("le statut du dernier rendez-vous a ete mis a jour vers \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 60
+    await testRunner.AndAsync("le statut du dernier rendez-vous a ete mis a jour vers \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 61
+    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 62
+    await testRunner.ThenAsync("le statut du rendez-vous est \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Annuler un rendez-vous avec motif")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [Xunit.TraitAttribute("Description", "Annuler un rendez-vous avec motif")]
+        public async global::System.Threading.Tasks.Task AnnulerUnRendez_VousAvecMotif()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Annuler un rendez-vous avec motif", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 64
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 8
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 65
+    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 66
+    await testRunner.WhenAsync("j\'annule le dernier rendez-vous avec le motif \"Owner called to cancel\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 67
+    await testRunner.ThenAsync("le statut du rendez-vous est \"Cancelled\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Transition invalide refuse")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [Xunit.TraitAttribute("Description", "Transition invalide refuse")]
+        public async global::System.Threading.Tasks.Task TransitionInvalideRefuse()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Transition invalide refuse", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 69
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 8
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 70
+    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 71
+    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 72
+    await testRunner.ThenAsync("le systeme refuse la transition avec le code \"INVALID_TRANSITION\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Consulter les disponibilites d\'un veterinaire")]
+        [Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [Xunit.TraitAttribute("Description", "Consulter les disponibilites d\'un veterinaire")]
+        public async global::System.Threading.Tasks.Task ConsulterLesDisponibilitesDunVeterinaire()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Consulter les disponibilites d\'un veterinaire", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 74
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 8
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 75
+    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 76
+    await testRunner.WhenAsync("je consulte les disponibilites de \"Dr. Ahmed\" le \"2026-04-01\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 77
+    await testRunner.ThenAsync("je vois des creneaux disponibles et non disponibles", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 78
+    await testRunner.AndAsync("le creneau \"10:00\" est marque non disponible", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime
