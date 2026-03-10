@@ -56,6 +56,16 @@ internal class DrugInteractionSteps
         testClinicContext.ClinicId = _clinicId;
     }
 
+    [AfterScenario(Order = 1)]
+    public void RestoreClinicContext()
+    {
+        // Ensure clinic context is restored to the test default after each scenario,
+        // in case any step changed it (e.g., multi-tenant isolation check).
+        var testClinicContext = _factory?.Services?.GetRequiredService<TestClinicContext>();
+        if (testClinicContext is not null)
+            testClinicContext.ClinicId = _clinicId;
+    }
+
     // ─── GIVEN steps ─────────────────────────────────────────────
 
     [Given(@"I am logged in as a VET")]
@@ -502,15 +512,20 @@ internal class DrugInteractionSteps
         otherClient.DefaultRequestHeaders.Authorization =
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
 
-        var searchResponse = await otherClient.GetAsync(
-            $"/api/v1/medical-records/drugs?search={Uri.EscapeDataString(innName)}&limit=10");
-
         List<DrugCatalogEntryDto>? drugs = null;
-        if (searchResponse.IsSuccessStatusCode)
-            drugs = await searchResponse.Content.ReadFromJsonAsync<List<DrugCatalogEntryDto>>(JsonOptions);
+        try
+        {
+            var searchResponse = await otherClient.GetAsync(
+                $"/api/v1/medical-records/drugs?search={Uri.EscapeDataString(innName)}&limit=10");
 
-        // Restore original clinic context
-        testClinicContext.ClinicId = originalClinicId;
+            if (searchResponse.IsSuccessStatusCode)
+                drugs = await searchResponse.Content.ReadFromJsonAsync<List<DrugCatalogEntryDto>>(JsonOptions);
+        }
+        finally
+        {
+            // Always restore original clinic context, even if an exception occurs
+            testClinicContext.ClinicId = originalClinicId;
+        }
 
         // The custom drug should NOT appear for the other clinic
         if (drugs is not null)
