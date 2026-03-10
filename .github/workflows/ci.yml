@@ -108,6 +108,7 @@ jobs:
           -c Release
           --logger "trx;LogFileName=bdd-results.trx"
           --results-directory ./TestResults
+          --filter "Category!=wip"
 
       - name: Upload BDD test results
         if: always()

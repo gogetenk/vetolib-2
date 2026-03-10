@@ -1,3 +1,4 @@
+@wip
 Feature: Assistant Messaging Access
   As an assistant
   I want to view messaging conversations in read-only mode

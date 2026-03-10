@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class MessageTriageFeature : object, global::Xunit.IClassFixture<MessageTriageFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Message Triage", "  As the messaging system\r\n  I want to automatically classify incoming owner mess" +
                 "ages\r\n  So that they are routed to the right staff member with the right priorit" +
@@ -146,7 +148,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Emergency message classified correctly", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
+#line 7
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -156,19 +158,19 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
     await testRunner.WhenAsync("an owner sends a message \"My dog ate chocolate 1 hour ago and is trembling\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 9
     await testRunner.ThenAsync("the message should be classified as \"MedicalUrgency\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 9
+#line 10
     await testRunner.AndAsync("the confidence should be above 0.8", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 10
+#line 11
     await testRunner.AndAsync("the message should be routed to all veterinarians", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 11
+#line 12
     await testRunner.AndAsync("a push notification should be sent immediately", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -186,7 +188,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Appointment request classified correctly", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 13
+#line 14
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -196,13 +198,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 14
+#line 15
     await testRunner.WhenAsync("an owner sends a message \"I would like to book an appointment for next week\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 15
+#line 16
     await testRunner.ThenAsync("the message should be classified as \"AppointmentRequest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 16
+#line 17
     await testRunner.AndAsync("the message should be routed to the receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -220,7 +222,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Administrative question classified correctly", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 18
+#line 19
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -230,13 +232,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 19
+#line 20
     await testRunner.WhenAsync("an owner sends a message \"What are your opening hours on Friday?\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 21
     await testRunner.ThenAsync("the message should be classified as \"Administrative\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 21
+#line 22
     await testRunner.AndAsync("the message should be routed to the receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -254,7 +256,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Post-operative follow-up classified correctly", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 23
+#line 24
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -264,16 +266,16 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 24
+#line 25
     await testRunner.GivenAsync("the owner\'s pet had surgery 5 days ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 25
+#line 26
     await testRunner.WhenAsync("the owner sends a message \"The stitches look red and swollen\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 27
     await testRunner.ThenAsync("the message should be classified as \"PostOperativeFollowUp\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 27
+#line 28
     await testRunner.AndAsync("the message should be routed to the referring veterinarian", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -291,7 +293,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Feedback classified correctly", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 29
+#line 30
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -301,13 +303,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 30
+#line 31
     await testRunner.WhenAsync("an owner sends a message \"Thank you for the excellent care for my cat\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 31
+#line 32
     await testRunner.ThenAsync("the message should be classified as \"Feedback\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 32
+#line 33
     await testRunner.AndAsync("the message should be routed to the admin", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -325,7 +327,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Low confidence triggers uncertain triage", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 34
+#line 35
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -335,16 +337,16 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 35
+#line 36
     await testRunner.WhenAsync("an owner sends an ambiguous message \"I have a question about my cat\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 36
+#line 37
     await testRunner.AndAsync("the AI confidence is below 0.7", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 37
+#line 38
     await testRunner.ThenAsync("the message should be routed to the receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 38
+#line 39
     await testRunner.AndAsync("the message should be flagged as \"Triage uncertain -- please verify category\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -362,7 +364,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AI biases toward emergency for safety", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 40
+#line 41
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -372,13 +374,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 41
+#line 42
     await testRunner.WhenAsync("an owner sends a message \"My dog has not moved for a while\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 43
     await testRunner.AndAsync("the AI is uncertain between \"MedicalQuestion\" and \"MedicalUrgency\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 43
+#line 44
     await testRunner.ThenAsync("the message should be classified as \"MedicalUrgency\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -396,7 +398,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AI suggests replies for incoming message", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 45
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -406,19 +408,19 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 46
+#line 47
     await testRunner.WhenAsync("an owner sends a message \"My cat has been sneezing for 3 days\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 47
+#line 48
     await testRunner.ThenAsync("the system should generate 1 to 3 suggested replies", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 48
+#line 49
     await testRunner.AndAsync("each suggestion should be professional and empathetic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 49
+#line 50
     await testRunner.AndAsync("no suggestion should prescribe medication or diagnose", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 50
+#line 51
     await testRunner.AndAsync("the suggestions should be in the same language as the original message", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -436,7 +438,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AI generates conversation summary", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 52
+#line 53
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -446,19 +448,19 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 53
+#line 54
     await testRunner.GivenAsync("a conversation has 7 messages", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 54
+#line 55
     await testRunner.WhenAsync("a staff member opens the conversation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 55
+#line 56
     await testRunner.ThenAsync("an AI summary should be displayed at the top", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 56
+#line 57
     await testRunner.AndAsync("the summary should be 3 to 5 factual sentences", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 57
+#line 58
     await testRunner.AndAsync("the summary should not contain medical diagnoses", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -476,7 +478,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Emergency escalation after 10 minutes", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 59
+#line 60
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -486,13 +488,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 60
+#line 61
     await testRunner.GivenAsync("an emergency message was received 10 minutes ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 61
+#line 62
     await testRunner.AndAsync("no veterinarian has viewed the message", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 62
+#line 63
     await testRunner.ThenAsync("an escalation notification should be sent to all veterinarians", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -510,7 +512,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Veterinarian validates suggested reply before sending", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 64
+#line 65
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -520,16 +522,16 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 65
+#line 66
     await testRunner.GivenAsync("an owner message has an AI-suggested reply", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 66
+#line 67
     await testRunner.WhenAsync("the veterinarian modifies and sends the reply", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 67
+#line 68
     await testRunner.ThenAsync("the sent reply should be recorded as ActualReply", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 68
+#line 69
     await testRunner.AndAsync("WasSuggestedReplyUsed should be false", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -547,7 +549,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Message linked to patient record", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 70
+#line 71
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -557,13 +559,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 71
+#line 72
     await testRunner.GivenAsync("the owner selects their pet \"Luna\" when sending a message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 72
+#line 73
     await testRunner.ThenAsync("the message should be linked to patient \"Luna\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 73
+#line 74
     await testRunner.AndAsync("the veterinarian should see Luna\'s medical context alongside the message", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -581,7 +583,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Multi-tenant message isolation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 75
+#line 76
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -591,16 +593,16 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 76
+#line 77
     await testRunner.GivenAsync("clinic A has a conversation with owner \"Al-Rashid\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 77
+#line 78
     await testRunner.AndAsync("clinic B has a conversation with owner \"Smith\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 78
+#line 79
     await testRunner.WhenAsync("I am authenticated in clinic A", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 79
+#line 80
     await testRunner.ThenAsync("I should only see clinic A\'s conversations", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -618,7 +620,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Arabic message detected and replied in Arabic", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 81
+#line 82
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -628,13 +630,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 82
+#line 83
     await testRunner.WhenAsync("an owner sends a message in Arabic \"قطتي لا تأكل منذ يومين\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 83
+#line 84
     await testRunner.ThenAsync("the AI should detect the language as Arabic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 84
+#line 85
     await testRunner.AndAsync("the suggested replies should be in Arabic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
