@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getRecentActivity, type ActivityDto, type ActivityType } from '@/lib/api/dashboard'
+import { ErrorState } from '@/components/ui/error-state'
 
 const ACTIVITY_ICONS: Record<ActivityType, string> = {
   APPOINTMENT: '📅',
@@ -31,14 +32,20 @@ function formatTime(isoDate: string): string {
 export function RecentActivity() {
   const [activities, setActivities] = useState<ActivityDto[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const load = () => {
+    setLoading(true)
+    setError(null)
     getRecentActivity()
       .then(setActivities)
-      .catch(() => {
-        // silently fail — dashboard is non-critical
-      })
+      .catch(() => setError('Failed to load recent activity'))
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    load()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -48,11 +55,18 @@ export function RecentActivity() {
       </CardHeader>
       <CardContent className="p-0">
         {loading ? (
-          <div className="space-y-3 p-4">
+          <div className="space-y-3 p-4" data-testid="recent-activity-loading">
             {[1, 2, 3, 4, 5].map((i) => (
               <Skeleton key={i} className="h-8 w-full" />
             ))}
           </div>
+        ) : error ? (
+          <ErrorState
+            data-testid="recent-activity-error"
+            title="Failed to load activity"
+            description={error}
+            onRetry={load}
+          />
         ) : activities.length === 0 ? (
           <p
             className="p-4 text-sm text-muted-foreground"

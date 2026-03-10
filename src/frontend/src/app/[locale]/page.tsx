@@ -7,11 +7,10 @@ import {
   ClipboardList,
   FileText,
   Users,
-  LayoutDashboard,
-  Bell,
   UserPlus,
   Building2,
   Quote,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -53,8 +52,6 @@ const FEATURE_ICONS = [
   ClipboardList,
   FileText,
   Users,
-  LayoutDashboard,
-  Bell,
 ] as const;
 
 const FEATURE_KEYS = [
@@ -62,8 +59,6 @@ const FEATURE_KEYS = [
   "medical_records",
   "invoicing",
   "team",
-  "dashboard",
-  "notifications",
 ] as const;
 
 const SOCIAL_PROOF_KEYS = [
@@ -199,6 +194,16 @@ export default async function LandingPage({ params }: Props) {
                     </Button>
                   </a>
                 </div>
+                <p
+                  data-testid="hero-trust-badge"
+                  className="mt-5 flex items-center justify-center gap-1.5 text-sm text-gray-500 lg:justify-start"
+                >
+                  <ShieldCheck
+                    className="h-4 w-4 shrink-0 text-emerald-600"
+                    aria-hidden="true"
+                  />
+                  {t("hero.trust_badge")}
+                </p>
               </div>
 
               {/* Visual side */}
