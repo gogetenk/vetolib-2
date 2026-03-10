@@ -980,5 +980,45 @@
         "cta": "View patients"
       }
     }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "subtitle": "Manage your personal preferences and clinic-wide settings",
+    "source": {
+      "system_default": "System default",
+      "clinic_default": "Clinic default",
+      "user_override": "Your setting"
+    },
+    "admin_only_hint": "Contact your clinic admin",
+    "errors": {
+      "load_failed": "Failed to load preferences",
+      "update_failed": "Failed to update preference",
+      "revoke_failed": "Failed to revoke consent"
+    },
+    "consent": {
+      "title": "Consent Management",
+      "description": "Revoke consent for analytics and data collection. This will disable all analytics tracking for your clinic.",
+      "revoke_analytics": "Revoke Analytics Consent",
+      "revoking": "Revoking...",
+      "revoked": "Analytics consent revoked successfully"
+    },
+    "sections": {
+      "notifications": {
+        "title": "Notifications",
+        "description": "Control how and when you receive notifications"
+      },
+      "ai_features": {
+        "title": "AI Features",
+        "description": "Manage AI-powered features for your clinic"
+      },
+      "privacy": {
+        "title": "Privacy & Analytics",
+        "description": "Control your data and privacy settings"
+      },
+      "communication": {
+        "title": "Communication",
+        "description": "Set your communication preferences"
+      }
+    }
   }
 }
