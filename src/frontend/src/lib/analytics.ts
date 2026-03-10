@@ -1,3 +1,5 @@
+import { posthog, isPostHogAvailable } from '@/lib/posthog'
+
 declare global {
   interface Window {
     gtag?: (command: string, event: string, params?: Record<string, string>) => void;
@@ -8,12 +10,13 @@ export function trackEvent(
   name: string,
   properties?: Record<string, string>
 ): void {
-  if (typeof window !== "undefined" && typeof window.gtag === "function") {
-    window.gtag("event", name, properties);
+  if (isPostHogAvailable()) {
+    posthog.capture(name, properties)
   }
 }
 
 export const AnalyticsEvents = {
+  // Landing page events (also tracked via gtag in landing components)
   CTA_HERO: "cta_click_hero",
   CTA_DEMO: "cta_click_demo",
   CTA_PRICING: "cta_click_pricing",

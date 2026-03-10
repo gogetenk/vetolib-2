@@ -1,4 +1,5 @@
 import { ApiError, apiPost } from './client'
+import { posthog, isPostHogAvailable } from '@/lib/posthog'
 
 export interface AuthTokens {
   accessToken: string
@@ -74,11 +75,36 @@ export function isAuthenticated(): boolean {
   return getStoredAccessToken() !== null
 }
 
+function parseJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const base64 = token.split('.')[1]
+    const json = atob(base64.replace(/-/g, '+').replace(/_/g, '/'))
+    return JSON.parse(json)
+  } catch {
+    return null
+  }
+}
+
+function identifyUserInPostHog(tokens: AuthTokens, user: UserInfo): void {
+  if (!isPostHogAvailable()) return
+  const payload = parseJwtPayload(tokens.accessToken)
+  // Use the JWT subject as opaque user identifier — must NOT be email/PII.
+  // In this backend the sub claim is the user GUID (UUID).
+  const userId = payload?.['sub'] as string | undefined
+  if (!userId) return
+  posthog.identify(userId, {
+    role: (payload?.['role'] as string | undefined) ?? 'unknown',
+    clinic_id: user.clinicId,
+  })
+  posthog.group('clinic', user.clinicId)
+}
+
 // POST /api/auth/login
 export async function login(email: string, password: string): Promise<LoginResponse> {
   try {
     const response = await apiPost<LoginResponse>('/api/auth/login', { email, password })
     storeTokens(response)
+    identifyUserInPostHog(response, response.user)
     return response
   } catch (err) {
     if (err instanceof ApiError) {
@@ -101,6 +127,9 @@ export async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
 
 export function logout(): void {
   clearStoredTokens()
+  if (isPostHogAvailable()) {
+    posthog.reset()
+  }
 }
 
 export type RegisterErrorCode = 'EMAIL_TAKEN' | 'NETWORK_ERROR'
