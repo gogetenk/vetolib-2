@@ -49,7 +49,8 @@ internal class GetOwnerConversationByIdHandler
             conversation.Messages
                 .OrderBy(m => m.SentAt)
                 .Select(m => m.ToDto())
-                .ToList());
+                .ToList(),
+            []);
 
         return Result<ConversationWithMessagesDto>.Success(dto);
     }

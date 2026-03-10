@@ -342,7 +342,11 @@ export default function PatientDetailPage() {
           )}
           {activeTab === 'prescriptions' && (
             <div role="tabpanel" data-testid="tabpanel-prescriptions">
-              <PrescriptionsTab prescriptions={prescriptions} />
+              <PrescriptionsTab
+                prescriptions={prescriptions}
+                patientId={id}
+                canPrescribe={role === 'VET'}
+              />
             </div>
           )}
           {activeTab === 'vaccinations' && (

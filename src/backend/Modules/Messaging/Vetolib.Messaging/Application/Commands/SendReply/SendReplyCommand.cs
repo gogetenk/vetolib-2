@@ -6,5 +6,7 @@ namespace Vetolib.Messaging.Application.Commands.SendReply;
 
 internal record SendReplyCommand(
     Guid ConversationId,
-    string Body
+    string Body,
+    string? AiSuggestedReply = null,
+    bool WasSuggestedReplyUsed = false
 ) : IRequest<Result<MessageDto>>;

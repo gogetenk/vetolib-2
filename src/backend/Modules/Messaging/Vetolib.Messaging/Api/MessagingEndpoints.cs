@@ -66,7 +66,7 @@ internal static class MessagingEndpoints
             ISender sender,
             CancellationToken ct) =>
         {
-            var cmd = new SendReplyCommand(id, request.Body);
+            var cmd = new SendReplyCommand(id, request.Body, request.AiSuggestedReply, request.WasSuggestedReplyUsed);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).WithName("SendReply");
 
