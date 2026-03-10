@@ -1,5 +1,6 @@
 using MediatR;
 using Vetolib.MedicalRecords.Contracts;
+using Vetolib.Stock.Application.Commands.DecrementStockForPrescription;
 using Vetolib.Stock.Contracts;
 
 namespace Vetolib.Stock.Consumers;
@@ -17,15 +18,17 @@ internal class PrescriptionCreatedConsumer : INotificationHandler<PrescriptionCr
 
     public async Task Handle(PrescriptionCreatedEvent notification, CancellationToken ct)
     {
-        if (!notification.StockDecrementConfirmed || notification.DrugCatalogEntryId is null || notification.Quantity is null)
+        if (!notification.StockDecrementConfirmed
+            || notification.DrugCatalogEntryId is null
+            || notification.Quantity is null)
+        {
             return;
+        }
 
-        // Find the stock item linked to this drug catalog entry
-        var availabilityQuery = new CheckStockAvailabilityQuery(
-            notification.DrugCatalogEntryId.Value,
-            notification.ClinicId);
+        // Check availability first
+        var availabilityResult = await _sender.Send(
+            new CheckStockAvailabilityQuery(notification.DrugCatalogEntryId.Value, notification.ClinicId), ct);
 
-        var availabilityResult = await _sender.Send(availabilityQuery, ct);
         if (!availabilityResult.IsSuccess)
             return;
 
@@ -41,18 +44,11 @@ internal class PrescriptionCreatedConsumer : INotificationHandler<PrescriptionCr
             return;
         }
 
-        // Find the specific stock item id to decrement
-        // We need to resolve the actual StockItemId from the availability check
-        // The CheckStockAvailabilityQuery doesn't return the StockItemId directly,
-        // so we send a DecrementStockForPrescriptionCommand via a targeted query approach.
-        // Since CheckStockAvailabilityQuery returns the primary item's data but not its Id,
-        // we use a dedicated internal lookup here.
-        var decrementCommand = new DecrementStockByDrugCatalogEntryCommand(
+        // Decrement stock for the prescription
+        await _sender.Send(new DecrementStockByDrugCatalogEntryCommand(
             notification.DrugCatalogEntryId.Value,
             notification.Quantity.Value,
             notification.Id,
-            notification.ClinicId);
-
-        await _sender.Send(decrementCommand, ct);
+            notification.ClinicId), ct);
     }
 }
