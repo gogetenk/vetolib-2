@@ -13,6 +13,9 @@ export function trackEvent(
   if (isPostHogAvailable()) {
     posthog.capture(name, properties)
   }
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    window.gtag('event', name, properties)
+  }
 }
 
 export const AnalyticsEvents = {

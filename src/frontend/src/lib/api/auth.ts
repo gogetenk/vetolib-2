@@ -1,5 +1,6 @@
 import { ApiError, apiPost } from './client'
 import { posthog, isPostHogAvailable } from '@/lib/posthog'
+import { parseJwt } from '@/lib/jwt'
 
 export interface AuthTokens {
   accessToken: string
@@ -75,25 +76,14 @@ export function isAuthenticated(): boolean {
   return getStoredAccessToken() !== null
 }
 
-function parseJwtPayload(token: string): Record<string, unknown> | null {
-  try {
-    const base64 = token.split('.')[1]
-    const json = atob(base64.replace(/-/g, '+').replace(/_/g, '/'))
-    return JSON.parse(json)
-  } catch {
-    return null
-  }
-}
-
 function identifyUserInPostHog(tokens: AuthTokens, user: UserInfo): void {
   if (!isPostHogAvailable()) return
-  const payload = parseJwtPayload(tokens.accessToken)
+  const payload = parseJwt(tokens.accessToken)
   // Use the JWT subject as opaque user identifier — must NOT be email/PII.
   // In this backend the sub claim is the user GUID (UUID).
-  const userId = payload?.['sub'] as string | undefined
-  if (!userId) return
-  posthog.identify(userId, {
-    role: (payload?.['role'] as string | undefined) ?? 'unknown',
+  if (!payload?.sub) return
+  posthog.identify(payload.sub, {
+    role: payload.role ?? 'unknown',
     clinic_id: user.clinicId,
   })
   posthog.group('clinic', user.clinicId)

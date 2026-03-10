@@ -1,4 +1,4 @@
-# todo-front-posthog-setup-001 — PostHog Provider + configuration
+# done-front-posthog-setup-001 — PostHog Provider + configuration
 
 **Module** : Frontend (Analytics)
 **Dependances** : aucune
