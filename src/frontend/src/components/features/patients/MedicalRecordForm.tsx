@@ -16,11 +16,16 @@ import { InteractionAlertsPanel } from './InteractionAlertsPanel'
 import { OverrideSection } from './OverrideSection'
 import { AlternativeSuggestions } from './AlternativeSuggestions'
 import { DosageRangeIndicator } from './DosageRangeIndicator'
+import { StockAvailabilityPanel } from './StockAvailabilityPanel'
+import { DispenseToggle } from './DispenseToggle'
 import type { DrugSelectorValue } from './DrugSelector'
+import type { DispenseToggleValue } from './DispenseToggle'
 import type {
   InteractionAlert,
   PrescriptionPreflightResult,
   SafeAlternative,
+  StockAvailabilityResult,
+  StockAlternativeDto,
 } from '@/lib/api/types'
 import type { Species } from '@/lib/api/patients'
 
@@ -73,6 +78,13 @@ export function MedicalRecordForm({
   const [justification, setJustification] = useState('')
   const [overrideConfirmed, setOverrideConfirmed] = useState(false)
 
+  // Dispense toggle state
+  const [dispenseValue, setDispenseValue] = useState<DispenseToggleValue>({
+    dispense: false,
+    quantity: null,
+    partialConfirmed: false,
+  })
+
   const {
     register,
     handleSubmit,
@@ -92,6 +104,17 @@ export function MedicalRecordForm({
   const safeAlternatives: SafeAlternative[] = preflightResult?.safeAlternatives ?? []
   const dosageRange = preflightResult?.dosageRange ?? null
 
+  // ── Stock derived state ────────────────────────────────────────────────────
+  // stockAvailability may be a boolean (legacy) or a rich StockAvailabilityResult
+  const stockResult: StockAvailabilityResult | null = (() => {
+    if (!preflightResult) return null
+    const raw = preflightResult.stockAvailability
+    if (typeof raw === 'boolean') return null
+    return raw
+  })()
+
+  const isCatalogMode = drugSelection?.mode === 'catalog'
+
   // Whether submit is blocked: Critical alert present and override not confirmed
   const isSubmitBlocked = hasCritical && !overrideConfirmed
 
@@ -102,6 +125,7 @@ export function MedicalRecordForm({
         setPreflightResult(null)
         setJustification('')
         setOverrideConfirmed(false)
+        setDispenseValue({ dispense: false, quantity: null, partialConfirmed: false })
         return
       }
 
@@ -152,7 +176,7 @@ export function MedicalRecordForm({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [weightFieldValue])
 
-  // ── Alternative selection handler ──────────────────────────────────────────
+  // ── Alternative selection handler (drug catalog alternatives) ─────────────
   const handleAlternativeSelect = useCallback((alt: SafeAlternative) => {
     // Build a minimal DrugCatalogEntryDto-like object from the alternative data
     // and trigger a new drug selection. Since we don't have the full catalog entry,
@@ -161,6 +185,16 @@ export function MedicalRecordForm({
     setPreflightResult(null)
     setJustification('')
     setOverrideConfirmed(false)
+    setDispenseValue({ dispense: false, quantity: null, partialConfirmed: false })
+  }, [])
+
+  // ── Stock alternative selection handler ────────────────────────────────────
+  const handleStockAlternativeSelect = useCallback((alt: StockAlternativeDto) => {
+    setDrugSelection({ mode: 'free-text', text: alt.name })
+    setPreflightResult(null)
+    setJustification('')
+    setOverrideConfirmed(false)
+    setDispenseValue({ dispense: false, quantity: null, partialConfirmed: false })
   }, [])
 
   // ── Submit ─────────────────────────────────────────────────────────────────
@@ -353,6 +387,14 @@ export function MedicalRecordForm({
               defaultValue={drugSelection}
             />
 
+            {/* Stock availability — catalog mode only */}
+            {!preflightLoading && isCatalogMode && stockResult && (
+              <StockAvailabilityPanel
+                stock={stockResult}
+                onSelectAlternative={handleStockAlternativeSelect}
+              />
+            )}
+
             {/* Dosage range indicator (shown when preflight returns a range) */}
             {!preflightLoading && dosageRange && (
               <DosageRangeIndicator
@@ -392,11 +434,22 @@ export function MedicalRecordForm({
               </p>
             )}
 
-            {/* Alternative suggestions */}
+            {/* Alternative suggestions (drug catalog alternatives) */}
             {!preflightLoading && safeAlternatives.length > 0 && (
               <AlternativeSuggestions
                 alternatives={safeAlternatives}
                 onSelect={handleAlternativeSelect}
+              />
+            )}
+
+            {/* Dispense toggle — shown when a drug is selected (catalog mode, stock info available) */}
+            {isCatalogMode && stockResult && (
+              <DispenseToggle
+                prescribedQuantity={undefined}
+                availableQuantity={stockResult.available ? stockResult.quantity : 0}
+                unit={stockResult.unit}
+                stockAvailable={stockResult.available}
+                onChange={setDispenseValue}
               />
             )}
           </div>

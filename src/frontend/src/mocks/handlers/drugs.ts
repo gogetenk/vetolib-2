@@ -3,6 +3,7 @@ import type {
   DrugCatalogEntryDto,
   PrescriptionPreflightResult,
   PreflightRequest,
+  StockAvailabilityResult,
 } from '@/lib/api/types'
 
 // Realistic UAE veterinary drug catalog (INN names)
@@ -268,8 +269,71 @@ export const drugHandlers = [
     // drug-...008 = Ketoconazole (cat contraindication)
 
     const AMOXICILLIN_ID = 'drug-0000-0000-0000-000000000001'
+    const MELOXICAM_ID = 'drug-0000-0000-0000-000000000002'
     const METRONIDAZOLE_ID = 'drug-0000-0000-0000-000000000003'
+    const IVERMECTIN_ID = 'drug-0000-0000-0000-000000000004'
     const IBUPROFEN_ID = 'drug-ibuprofen-0000-0000-000000000099' // fictional for demo
+
+    // ── Stock scenarios ────────────────────────────────────────────────────────
+    // Amoxicillin: normal stock (100 tablets)
+    const STOCK_IN: StockAvailabilityResult = {
+      available: true,
+      quantity: 100,
+      unit: 'tablets',
+      isLowStock: false,
+      isExpiringSoon: false,
+      alternatives: [],
+    }
+    // Meloxicam: low stock (5 tablets, threshold 20)
+    const STOCK_LOW: StockAvailabilityResult = {
+      available: true,
+      quantity: 5,
+      unit: 'tablets',
+      isLowStock: true,
+      isExpiringSoon: false,
+      alternatives: [],
+    }
+    // Ivermectin: out of stock with alternatives
+    const STOCK_OUT: StockAvailabilityResult = {
+      available: false,
+      quantity: 0,
+      unit: 'vials',
+      isLowStock: false,
+      isExpiringSoon: false,
+      alternatives: [
+        {
+          stockItemId: 'stock-alt-0000-0001',
+          name: 'Selamectin 6% spot-on',
+          drugCatalogEntryId: null,
+          quantity: 12,
+          unit: 'pipettes',
+        },
+        {
+          stockItemId: 'stock-alt-0000-0002',
+          name: 'Doramectin 1% injection',
+          drugCatalogEntryId: null,
+          quantity: 4,
+          unit: 'vials',
+        },
+      ],
+    }
+    // Ketoconazole: expiring soon
+    const STOCK_EXPIRING: StockAvailabilityResult = {
+      available: true,
+      quantity: 30,
+      unit: 'tablets',
+      isLowStock: false,
+      isExpiringSoon: true,
+      alternatives: [],
+    }
+
+    function stockFor(id: string): StockAvailabilityResult {
+      if (id === AMOXICILLIN_ID) return STOCK_IN
+      if (id === MELOXICAM_ID) return STOCK_LOW
+      if (id === IVERMECTIN_ID) return STOCK_OUT
+      if (id === 'drug-0000-0000-0000-000000000008') return STOCK_EXPIRING // ketoconazole
+      return STOCK_IN
+    }
 
     // Scenario 1: Ibuprofen + Cat -> Critical (species contraindication)
     if (drugCatalogEntryId === IBUPROFEN_ID && patientSpecies === 'Cat') {
@@ -282,7 +346,7 @@ export const drugHandlers = [
             alternativeDrugIds: [AMOXICILLIN_ID],
           },
         ],
-        stockAvailability: true,
+        stockAvailability: STOCK_IN,
         safeAlternatives: [
           {
             id: AMOXICILLIN_ID,
@@ -306,7 +370,7 @@ export const drugHandlers = [
             alternativeDrugIds: [],
           },
         ],
-        stockAvailability: true,
+        stockAvailability: stockFor(METRONIDAZOLE_ID),
         safeAlternatives: [],
         dosageRange: {
           minDose: 10,
@@ -329,7 +393,7 @@ export const drugHandlers = [
             alternativeDrugIds: [],
           },
         ],
-        stockAvailability: true,
+        stockAvailability: STOCK_IN,
         safeAlternatives: [],
         dosageRange: {
           minDose: 10,
@@ -345,7 +409,7 @@ export const drugHandlers = [
     if (drugCatalogEntryId === AMOXICILLIN_ID) {
       return HttpResponse.json<PrescriptionPreflightResult>({
         interactionAlerts: [],
-        stockAvailability: true,
+        stockAvailability: STOCK_IN,
         safeAlternatives: [],
         dosageRange: body.patientWeightKg ? {
           minDose: 10,
@@ -357,10 +421,10 @@ export const drugHandlers = [
       })
     }
 
-    // Default: no alerts
+    // Default: use stock based on drug id, no alerts
     return HttpResponse.json<PrescriptionPreflightResult>({
       interactionAlerts: [],
-      stockAvailability: true,
+      stockAvailability: stockFor(drugCatalogEntryId),
       safeAlternatives: [],
       dosageRange: null,
     })
