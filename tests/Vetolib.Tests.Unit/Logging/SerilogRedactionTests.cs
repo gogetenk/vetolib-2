@@ -18,7 +18,7 @@ public class SerilogRedactionTests
         var logger = new LoggerConfiguration()
             .Enrich.WithSensitiveDataMasking(options =>
             {
-                options.MaskProperties.Add("Password");
+                options.MaskProperties.Add(new MaskProperty { Name = "Password" });
                 options.MaskingOperators.Add(new EmailAddressMaskingOperator());
             })
             .WriteTo.TextWriter(output)
@@ -40,11 +40,11 @@ public class SerilogRedactionTests
         var logger = new LoggerConfiguration()
             .Enrich.WithSensitiveDataMasking(options =>
             {
-                options.MaskProperties.Add("Token");
-                options.MaskProperties.Add("RefreshToken");
-                options.MaskProperties.Add("AccessToken");
-                options.MaskProperties.Add("Secret");
-                options.MaskProperties.Add("To");
+                options.MaskProperties.Add(new MaskProperty { Name = "Token" });
+                options.MaskProperties.Add(new MaskProperty { Name = "RefreshToken" });
+                options.MaskProperties.Add(new MaskProperty { Name = "AccessToken" });
+                options.MaskProperties.Add(new MaskProperty { Name = "Secret" });
+                options.MaskProperties.Add(new MaskProperty { Name = "To" });
             })
             .WriteTo.TextWriter(output)
             .CreateLogger();
