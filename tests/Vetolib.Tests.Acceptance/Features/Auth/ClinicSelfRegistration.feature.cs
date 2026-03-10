@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class ClinicSelf_ServiceRegistrationFeature : object, global::Xunit.IClassFixture<ClinicSelf_ServiceRegistrationFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "Clinic self-service registration", "  As a new veterinary practice owner\r\n  I want to register my clinic online witho" +
                 "ut manual intervention\r\n  So that I can start using Vetolib immediately with a 1" +
@@ -146,7 +148,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successful clinic registration returns JWT and creates tenant", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 7
+#line 8
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -156,40 +158,40 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table19.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Desert Paws",
                             "owner@desertpaws.ae",
                             "Secure@1234567!",
                             "+971501234567",
                             "AE"});
-#line 8
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table19, "When ");
-#line hidden
-#line 11
-    await testRunner.ThenAsync("the response status is 201", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 9
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table10, "When ");
 #line hidden
 #line 12
-    await testRunner.AndAsync("I receive a JWT access token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("the response status is 201", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 13
-    await testRunner.AndAsync("the JWT contains claim \"clinic_id\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I receive a JWT access token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 14
-    await testRunner.AndAsync("a new clinic \"Desert Paws\" exists in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the JWT contains claim \"clinic_id\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 15
-    await testRunner.AndAsync("the admin user \"owner@desertpaws.ae\" belongs to the new clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("a new clinic \"Desert Paws\" exists in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 16
-    await testRunner.AndAsync("the clinic trial ends in 14 days from now", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the admin user \"owner@desertpaws.ae\" belongs to the new clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 17
+    await testRunner.AndAsync("the clinic trial ends in 14 days from now", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 18
     await testRunner.AndAsync("the clinic subscription plan is \"Pro\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -207,7 +209,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Duplicate email across tenants is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 19
+#line 20
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -217,28 +219,28 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 20
+#line 21
     await testRunner.GivenAsync("a clinic \"Al Barsha Vets\" already registered with email \"owner@albarsha.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table20 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table20.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "Jumeirah Pets",
                             "owner@albarsha.ae",
                             "Secure@1234567!",
                             "+971509876543",
                             "AE"});
-#line 21
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table20, "When ");
-#line hidden
-#line 24
-    await testRunner.ThenAsync("the response status is 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 22
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table11, "When ");
 #line hidden
 #line 25
+    await testRunner.ThenAsync("the response status is 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 26
     await testRunner.AndAsync("the response contains \"EMAIL_EXISTS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -256,7 +258,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Blank clinic name is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 27
+#line 28
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -266,25 +268,25 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table21.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "",
                             "owner2@desertpaws.ae",
                             "Secure@1234567!",
                             "+971501234567",
                             "AE"});
-#line 28
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table21, "When ");
-#line hidden
-#line 31
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 29
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table12, "When ");
 #line hidden
 #line 32
+    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 33
     await testRunner.AndAsync("the response contains validation error for \"ClinicName\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -302,7 +304,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Weak password is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 34
+#line 35
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -312,25 +314,25 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table22.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "Happy Paws",
                             "newowner@happypaws.ae",
                             "short",
                             "+971501234567",
                             "AE"});
-#line 35
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table22, "When ");
-#line hidden
-#line 38
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 36
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table13, "When ");
 #line hidden
 #line 39
+    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 40
     await testRunner.AndAsync("the response contains validation error for \"Password\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -348,7 +350,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Password must have at least 10 characters and a special character", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 41
+#line 42
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -358,25 +360,25 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table23.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "Happy Paws",
                             "newowner2@happypaws.ae",
                             "NoSpecialChar1234",
                             "+971501234567",
                             "AE"});
-#line 42
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table23, "When ");
-#line hidden
-#line 45
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 43
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table14, "When ");
 #line hidden
 #line 46
+    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 47
     await testRunner.AndAsync("the response contains validation error for \"Password\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { formatAED } from '@/lib/utils'
 import { createInvoice } from '@/lib/api/billing'
 import type { CreateInvoiceLineItem } from '@/lib/api/billing'
+import { trackEvent, AnalyticsEvents, bucketAed } from '@/lib/analytics'
 
 interface LineItem {
   description: string
@@ -83,6 +84,10 @@ export function InvoiceForm() {
         ownerPhone: selectedPatient.ownerPhone,
         items: items as CreateInvoiceLineItem[],
         notes: notes || null,
+      })
+      trackEvent(AnalyticsEvents.INVOICE_CREATED, {
+        item_count: String(items.length),
+        total_aed: bucketAed(total),
       })
       router.push(`/billing/${invoice.id}`)
     } catch {

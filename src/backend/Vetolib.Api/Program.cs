@@ -156,6 +156,12 @@ builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb");
 builder.Services.AddPreferencesModule(builder.Configuration);
 builder.AddNpgsqlDbContext<PreferencesDbContext>("vetolibdb");
 
+// JSON: accept string enum values in request bodies (e.g., "MedicalQuestion" instead of 2).
+// Also serializes enum responses as strings for consistency.
+// All step definitions that read enum-containing DTOs must use JsonStringEnumConverter too.
+builder.Services.ConfigureHttpJsonOptions(opts =>
+    opts.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
+
 // OpenAPI
 builder.Services.AddOpenApi();
 

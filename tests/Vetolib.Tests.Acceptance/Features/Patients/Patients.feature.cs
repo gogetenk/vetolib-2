@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class PatientStandaloneCRUDFeature : object, global::Xunit.IClassFixture<PatientStandaloneCRUDFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Patients", "Patient standalone CRUD", "  As a vet or admin\r\n  I want to create and manage patients independently of appo" +
                 "intments\r\n  So that I can maintain a complete patient database with UAE species", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -106,12 +108,12 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
-  #line hidden
 #line 8
+  #line hidden
+#line 9
     await testRunner.GivenAsync("une clinique \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 10
     await testRunner.AndAsync("je suis authentifié en tant que Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -157,7 +159,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet creates a patient with owner inline", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 11
+#line 12
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -167,20 +169,20 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 12
+#line 13
     await testRunner.WhenAsync("I create a patient with name \"Rocky\", species \"Dog\", breed \"Labrador\", birth date" +
                         " \"2021-05-10\", owner name \"Faisal Al-Kuwari\", owner phone \"+971 50 111 2222\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 13
+#line 14
     await testRunner.ThenAsync("the patient is created successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 14
+#line 15
     await testRunner.AndAsync("the patient name is \"Rocky\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 16
     await testRunner.AndAsync("the patient owner name is \"Faisal Al-Kuwari\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -198,7 +200,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Camel is a valid species for UAE market", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 17
+#line 18
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -208,18 +210,18 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 18
+#line 19
     await testRunner.WhenAsync("I create a patient with name \"Layla\", species \"Camel\", breed \"Dromedary\", birth d" +
                         "ate \"2018-03-15\", owner name \"Ahmed Al-Mansouri\", owner phone \"+971 55 222 3333\"" +
                         "", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 19
+#line 20
     await testRunner.ThenAsync("the patient is created successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 20
+#line 21
     await testRunner.AndAsync("the patient species is \"Camel\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -237,7 +239,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Patient list can be filtered by name", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 22
+#line 23
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -247,19 +249,19 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 23
+#line 24
     await testRunner.GivenAsync("3 patients exist including one named \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 24
+#line 25
     await testRunner.WhenAsync("I list patients with name filter \"max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 25
+#line 26
     await testRunner.ThenAsync("I see 1 patient in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 26
+#line 27
     await testRunner.AndAsync("the patient name is \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -277,7 +279,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet can update patient phone number", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 28
+#line 29
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -287,16 +289,16 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 29
+#line 30
     await testRunner.GivenAsync("a patient named \"Rocky\" with owner phone \"+971 50 111 2222\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 30
+#line 31
     await testRunner.WhenAsync("I update the patient owner phone to \"+971 50 999 8888\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 31
+#line 32
     await testRunner.ThenAsync("the patient owner phone is \"+971 50 999 8888\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -314,7 +316,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist cannot create patients", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 33
+#line 34
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -324,17 +326,17 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 34
+#line 35
     await testRunner.GivenAsync("je suis authentifié en tant que Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 35
+#line 36
     await testRunner.WhenAsync("I create a patient with name \"Buddy\", species \"Dog\", breed \"Poodle\", birth date \"" +
                         "2020-01-01\", owner name \"Owner Name\", owner phone \"+971 50 000 0000\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 36
+#line 37
     await testRunner.ThenAsync("the request is rejected with status 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -352,7 +354,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Tenant isolation on patients", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 38
+#line 39
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -362,19 +364,19 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 39
+#line 40
     await testRunner.GivenAsync("une clinique \"Al Barsha Vets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 40
+#line 41
     await testRunner.AndAsync("a patient named \"Buddy\" exists in clinic \"Al Barsha Vets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 41
+#line 42
     await testRunner.WhenAsync("I list patients as vet of clinic \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 43
     await testRunner.ThenAsync("I cannot see \"Buddy\" in the patient list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -392,7 +394,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Patient detail includes medical records", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 44
+#line 45
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -402,19 +404,19 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 45
+#line 46
     await testRunner.GivenAsync("a patient named \"Rocky\" with owner phone \"+971 50 111 2222\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 46
+#line 47
     await testRunner.AndAsync("2 medical records exist for \"Rocky\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 47
+#line 48
     await testRunner.WhenAsync("I get the patient detail", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 49
     await testRunner.ThenAsync("the detail contains 2 medical records", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

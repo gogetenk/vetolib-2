@@ -12,6 +12,7 @@ import {
 import { useTranslations } from 'next-intl'
 import { importPatientsCsv, downloadImportTemplate } from '@/lib/api/patients'
 import type { ImportReportDto } from '@/lib/api/patients'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 interface CsvImportDialogProps {
   open: boolean
@@ -96,6 +97,11 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
     try {
       const result = await importPatientsCsv(selectedFile)
       setReport(result)
+      trackEvent(AnalyticsEvents.PATIENT_CSV_IMPORTED, {
+        row_count: String(result.imported + result.skipped),
+        success_count: String(result.imported),
+        error_count: String(result.errors.length),
+      })
       if (result.imported > 0) {
         onImported?.()
       }

@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class Stock_PrescriptionIntegrationFeature : object, global::Xunit.IClassFixture<Stock_PrescriptionIntegrationFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Prescriptions", "Stock-Prescription Integration", "  As a veterinarian\r\n  I want prescriptions to be linked to clinic stock\r\n  So th" +
                 "at inventory is automatically updated and I know what is available", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -106,18 +108,18 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
-  #line hidden
 #line 8
+  #line hidden
+#line 9
     await testRunner.GivenAsync("I am logged in as a VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 10
     await testRunner.AndAsync("a patient \"Rex\" of species \"Dog\" exists in my clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 10
+#line 11
     await testRunner.AndAsync("the drug catalog contains \"Amoxicillin\" as a Medication", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 11
+#line 12
     await testRunner.AndAsync("the drug catalog contains \"Cephalexin\" as a Medication", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -163,7 +165,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Stock availability shown during prescription creation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 13
+#line 14
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -173,17 +175,17 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 14
+#line 15
     await testRunner.GivenAsync("a stock item \"Amoxicillin 250mg tablets\" linked to catalog entry \"Amoxicillin\" wi" +
                         "th quantity 100 and unit \"tablets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 15
+#line 16
     await testRunner.WhenAsync("I start creating a prescription for patient \"Rex\" with drug \"Amoxicillin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 17
     await testRunner.ThenAsync("I should see stock information showing \"100 tablets available\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -201,7 +203,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Low stock warning during prescription", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 18
+#line 19
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -211,20 +213,20 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 19
+#line 20
     await testRunner.GivenAsync("a stock item \"Amoxicillin 250mg tablets\" linked to catalog entry \"Amoxicillin\" wi" +
                         "th quantity 5 and unit \"tablets\" and threshold 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 20
+#line 21
     await testRunner.WhenAsync("I start creating a prescription for patient \"Rex\" with drug \"Amoxicillin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 22
     await testRunner.ThenAsync("I should see stock information showing \"5 tablets available\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 22
+#line 23
     await testRunner.AndAsync("I should see a \"Low stock\" warning", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -242,7 +244,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Out of stock with alternative suggestion", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 24
+#line 25
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -252,27 +254,27 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 25
+#line 26
     await testRunner.GivenAsync("a stock item \"Amoxicillin 250mg tablets\" linked to catalog entry \"Amoxicillin\" wi" +
                         "th quantity 0", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 26
+#line 27
     await testRunner.AndAsync("a stock item \"Cephalexin 500mg capsules\" linked to catalog entry \"Cephalexin\" wit" +
                         "h quantity 50 and unit \"capsules\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 27
+#line 28
     await testRunner.AndAsync("\"Cephalexin\" has no contraindication for \"Dog\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 28
+#line 29
     await testRunner.WhenAsync("I start creating a prescription for patient \"Rex\" with drug \"Amoxicillin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 29
+#line 30
     await testRunner.ThenAsync("I should see \"Out of stock\" for \"Amoxicillin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 30
+#line 31
     await testRunner.AndAsync("I should see \"Cephalexin\" suggested as an in-stock alternative with \"50 capsules " +
                         "available\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -291,7 +293,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Stock decremented on prescription confirmation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 32
+#line 33
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -301,24 +303,24 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 33
+#line 34
     await testRunner.GivenAsync("a stock item \"Amoxicillin 250mg tablets\" linked to catalog entry \"Amoxicillin\" wi" +
                         "th quantity 100 and unit \"tablets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 34
+#line 35
     await testRunner.WhenAsync("I create a prescription for patient \"Rex\" with drug \"Amoxicillin\" and quantity 14" +
                         "", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 35
+#line 36
     await testRunner.AndAsync("I confirm \"Dispense from clinic stock\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 36
+#line 37
     await testRunner.ThenAsync("the stock quantity for \"Amoxicillin 250mg tablets\" should be 86", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 37
+#line 38
     await testRunner.AndAsync("a stock movement of type \"Out\" with quantity 14 and reason containing \"Prescripti" +
                         "on\" should be recorded", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -337,7 +339,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet skips stock decrement", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 39
+#line 40
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -347,24 +349,24 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 40
+#line 41
     await testRunner.GivenAsync("a stock item \"Amoxicillin 250mg tablets\" linked to catalog entry \"Amoxicillin\" wi" +
                         "th quantity 100 and unit \"tablets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 41
+#line 42
     await testRunner.WhenAsync("I create a prescription for patient \"Rex\" with drug \"Amoxicillin\" and quantity 14" +
                         "", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 43
     await testRunner.AndAsync("I select \"Do not dispense from stock\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 43
+#line 44
     await testRunner.ThenAsync("the prescription should be saved successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 44
+#line 45
     await testRunner.AndAsync("the stock quantity for \"Amoxicillin 250mg tablets\" should remain 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -382,7 +384,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Insufficient stock -- partial dispense", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 46
+#line 47
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -392,27 +394,27 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 47
+#line 48
     await testRunner.GivenAsync("a stock item \"Amoxicillin 250mg tablets\" linked to catalog entry \"Amoxicillin\" wi" +
                         "th quantity 5 and unit \"tablets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 48
+#line 49
     await testRunner.WhenAsync("I create a prescription for patient \"Rex\" with drug \"Amoxicillin\" and quantity 14" +
                         "", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 49
+#line 50
     await testRunner.AndAsync("I confirm \"Dispense from clinic stock\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 50
+#line 51
     await testRunner.ThenAsync("I should see a warning \"Only 5 tablets available, 14 requested\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 51
+#line 52
     await testRunner.AndAsync("I should be able to dispense the available 5 tablets", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 52
+#line 53
     await testRunner.AndAsync("the stock quantity for \"Amoxicillin 250mg tablets\" should be 0", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -430,7 +432,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Free-text prescription -- no automatic stock link", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 54
+#line 55
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -440,20 +442,20 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 55
+#line 56
     await testRunner.WhenAsync("I create a prescription for patient \"Rex\" with free-text medication \"Custom Compo" +
                         "und\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 56
+#line 57
     await testRunner.ThenAsync("I should not see stock information", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 57
+#line 58
     await testRunner.AndAsync("I should be able to manually select a stock item to decrement", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 58
+#line 59
     await testRunner.AndAsync("I should be able to skip stock decrement entirely", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -471,7 +473,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Stock low event triggered after prescription", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 60
+#line 61
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -481,24 +483,24 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 61
+#line 62
     await testRunner.GivenAsync("a stock item \"Amoxicillin 250mg tablets\" linked to catalog entry \"Amoxicillin\" wi" +
                         "th quantity 22 and unit \"tablets\" and threshold 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 62
+#line 63
     await testRunner.WhenAsync("I create a prescription for patient \"Rex\" with drug \"Amoxicillin\" and quantity 14" +
                         "", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 63
+#line 64
     await testRunner.AndAsync("I confirm \"Dispense from clinic stock\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 64
+#line 65
     await testRunner.ThenAsync("the stock quantity should be 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 65
+#line 66
     await testRunner.AndAsync("a stock low alert should be triggered for \"Amoxicillin 250mg tablets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

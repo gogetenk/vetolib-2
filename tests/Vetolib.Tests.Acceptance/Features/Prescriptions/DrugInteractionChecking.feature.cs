@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class DrugInteractionCheckingFeature : object, global::Xunit.IClassFixture<DrugInteractionCheckingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Prescriptions", "Drug Interaction Checking", "  As a veterinarian\r\n  I want the system to check drug interactions when I prescr" +
                 "ibe medication\r\n  So that I avoid harmful drug combinations and species contrain" +
@@ -107,31 +109,31 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
-  #line hidden
 #line 8
+  #line hidden
+#line 9
     await testRunner.GivenAsync("I am logged in as a VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 10
     await testRunner.AndAsync("a patient \"Whiskers\" of species \"Cat\" exists in my clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-            global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
                         "InnName",
                         "Category"});
-            table5.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Amoxicillin",
                         "Medication"});
-            table5.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Metronidazole",
                         "Medication"});
-            table5.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Ibuprofen",
                         "Medication"});
-            table5.AddRow(new string[] {
+            table14.AddRow(new string[] {
                         "Meloxicam",
                         "Medication"});
-#line 10
-    await testRunner.AndAsync("the drug catalog contains the following entries:", ((string)(null)), table5, "And ");
+#line 11
+    await testRunner.AndAsync("the drug catalog contains the following entries:", ((string)(null)), table14, "And ");
 #line hidden
         }
         
@@ -176,7 +178,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Species contraindication detected -- critical alert", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 17
+#line 18
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -186,26 +188,26 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 18
+#line 19
     await testRunner.GivenAsync("\"Ibuprofen\" has a critical species contraindication for \"Cat\" with reason \"Nephro" +
                         "toxic and GI ulceration in cats\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 19
+#line 20
     await testRunner.AndAsync("\"Meloxicam\" is listed as an alternative to \"Ibuprofen\" for \"Cat\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 20
+#line 21
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Ibuprofen\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 22
     await testRunner.ThenAsync("I should see a critical alert with message containing \"Nephrotoxic\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 22
+#line 23
     await testRunner.AndAsync("I should see \"Meloxicam\" suggested as an alternative", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 23
+#line 24
     await testRunner.AndAsync("the prescription should not be saved until I provide an override justification", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -223,7 +225,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet overrides a critical alert with justification", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 25
+#line 26
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -233,23 +235,23 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 26
+#line 27
     await testRunner.GivenAsync("\"Ibuprofen\" has a critical species contraindication for \"Cat\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 27
+#line 28
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Ibuprofen\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 28
+#line 29
     await testRunner.AndAsync("I provide override justification \"Only available NSAID, owner informed of risks, " +
                         "low dose protocol\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 29
+#line 30
     await testRunner.ThenAsync("the prescription should be saved with the override justification recorded", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 30
+#line 31
     await testRunner.AndAsync("an audit entry should be created with severity \"Critical\" and the justification", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -267,7 +269,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Drug-drug interaction detected -- moderate alert", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 32
+#line 33
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -277,23 +279,23 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 33
+#line 34
     await testRunner.GivenAsync("\"Whiskers\" has an active prescription for \"Amoxicillin\" from 5 days ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 34
+#line 35
     await testRunner.AndAsync("\"Amoxicillin\" has a moderate interaction with \"Metronidazole\" with description \"I" +
                         "ncreased risk of GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 35
+#line 36
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Metronidazole\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 36
+#line 37
     await testRunner.ThenAsync("I should see a moderate warning with message containing \"GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 37
+#line 38
     await testRunner.AndAsync("I should be able to proceed without providing justification", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -311,7 +313,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("No interactions detected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 39
+#line 40
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -321,19 +323,19 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 40
+#line 41
     await testRunner.GivenAsync("\"Whiskers\" has no active prescriptions", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 41
+#line 42
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Amoxicillin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 43
     await testRunner.ThenAsync("I should see no interaction alerts", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 43
+#line 44
     await testRunner.AndAsync("the prescription should be saved successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -351,7 +353,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Dosage out of range warning", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 45
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -361,20 +363,20 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 46
+#line 47
     await testRunner.GivenAsync("\"Whiskers\" has a recorded weight of 4.5 kg", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 47
+#line 48
     await testRunner.AndAsync("\"Amoxicillin\" has a dosage guideline for \"Cat\" of 10 to 25 mg/kg", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 48
+#line 49
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Amoxicillin\" and dosage" +
                         " \"200 mg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 49
+#line 50
     await testRunner.ThenAsync("I should see an info alert indicating the dosage exceeds the recommended range of" +
                         " \"45 mg to 112.5 mg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -393,7 +395,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Free-text medication -- no interaction check available", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 51
+#line 52
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -403,18 +405,18 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 52
+#line 53
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with free-text medication \"Custom " +
                         "Compound XY-42\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 53
+#line 54
     await testRunner.ThenAsync("I should see an info message \"No interaction data available for custom medication" +
                         "s\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 54
+#line 55
     await testRunner.AndAsync("the prescription should be saved successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -432,7 +434,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("RECEPTIONIST cannot override critical alerts", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 56
+#line 57
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -442,13 +444,13 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 57
+#line 58
     await testRunner.GivenAsync("I am logged in as a RECEPTIONIST", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 58
+#line 59
     await testRunner.ThenAsync("I should not have access to the prescription creation feature", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -466,7 +468,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("ASSISTANT can view but not create prescriptions", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 60
+#line 61
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -476,19 +478,19 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 61
+#line 62
     await testRunner.GivenAsync("I am logged in as an ASSISTANT", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 62
+#line 63
     await testRunner.WhenAsync("I view the medical record for patient \"Whiskers\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 63
+#line 64
     await testRunner.ThenAsync("I should see existing prescriptions in read-only mode", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 64
+#line 65
     await testRunner.AndAsync("I should not see a \"New Prescription\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -506,7 +508,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Clinic admin adds custom drug to catalog", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 66
+#line 67
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -516,20 +518,20 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 67
+#line 68
     await testRunner.GivenAsync("I am logged in as an ADMIN", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 68
+#line 69
     await testRunner.WhenAsync("I create a custom drug with INN name \"ClinicCompound-AED\" and display name \"Clini" +
                         "c Compound AED\" and category \"Medication\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 69
+#line 70
     await testRunner.ThenAsync("the drug should be visible in my clinic drug search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 70
+#line 71
     await testRunner.AndAsync("the drug should not be visible to a user from a different clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -547,7 +549,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Active prescription within 90-day window triggers interaction warning", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 72
+#line 73
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -557,20 +559,20 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 73
+#line 74
     await testRunner.GivenAsync("\"Whiskers\" has an active prescription for \"Amoxicillin\" from 89 days ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 74
+#line 75
     await testRunner.AndAsync("\"Amoxicillin\" has a moderate interaction with \"Metronidazole\" with description \"I" +
                         "ncreased risk of GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 75
+#line 76
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Metronidazole\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 76
+#line 77
     await testRunner.ThenAsync("I should see a moderate warning with message containing \"GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -588,7 +590,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Prescription older than 90-day window is not considered active", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 78
+#line 79
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -598,23 +600,23 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 79
+#line 80
     await testRunner.GivenAsync("\"Whiskers\" has a prescription for \"Amoxicillin\" from 91 days ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 80
+#line 81
     await testRunner.AndAsync("\"Amoxicillin\" has a moderate interaction with \"Metronidazole\" with description \"I" +
                         "ncreased risk of GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 81
+#line 82
     await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Metronidazole\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 82
+#line 83
     await testRunner.ThenAsync("I should see no interaction alerts", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 83
+#line 84
     await testRunner.AndAsync("the prescription should be saved successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Vetolib.Auth.Contracts;
 using Vetolib.Notifications.Consumers;
+using Vetolib.Preferences.Contracts;
 using Vetolib.Shared.Kernel;
 using Xunit;
 
@@ -17,12 +18,18 @@ namespace Vetolib.Tests.Unit.Auth;
 public class SendInviteEmailHandlerTests
 {
     private readonly IEmailSender _emailSender = Substitute.For<IEmailSender>();
+    private readonly IPreferenceChecker _preferenceChecker = Substitute.For<IPreferenceChecker>();
     private readonly UserInvitedConsumer _consumer;
 
     public SendInviteEmailHandlerTests()
     {
+        // Default: preferences allow sending
+        _preferenceChecker.IsTrueAsync(Arg.Any<Guid>(), Arg.Any<PreferenceKey>(), Arg.Any<CancellationToken>())
+            .Returns(Result<bool>.Success(true));
+
         _consumer = new UserInvitedConsumer(
             _emailSender,
+            _preferenceChecker,
             NullLogger<UserInvitedConsumer>.Instance);
     }
 

@@ -31,6 +31,7 @@
     <ProjectReference Include="..\..\Agenda\Vetolib.Agenda.Contracts\Vetolib.Agenda.Contracts.csproj" />
     <ProjectReference Include="..\..\Billing\Vetolib.Billing.Contracts\Vetolib.Billing.Contracts.csproj" />
     <ProjectReference Include="..\..\Messaging\Vetolib.Messaging.Contracts\Vetolib.Messaging.Contracts.csproj" />
+    <ProjectReference Include="..\..\Preferences\Vetolib.Preferences.Contracts\Vetolib.Preferences.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

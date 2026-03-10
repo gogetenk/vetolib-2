@@ -4,6 +4,7 @@ using Vetolib.Agenda.Contracts;
 using Vetolib.AI.Application.ML;
 using Vetolib.AI.Application.Services;
 using Vetolib.AI.Contracts;
+using Vetolib.Preferences.Contracts;
 
 namespace Vetolib.AI.Application.Commands.PredictNoShow;
 
@@ -13,19 +14,30 @@ internal class PredictNoShowHandler : IRequestHandler<PredictNoShowCommand, Resu
 
     private readonly IAppointmentReader _reader;
     private readonly INoShowPredictionService _predictionService;
+    private readonly IPreferenceChecker _preferenceChecker;
 
     public PredictNoShowHandler(
         IAppointmentReader reader,
-        INoShowPredictionService predictionService)
+        INoShowPredictionService predictionService,
+        IPreferenceChecker preferenceChecker)
     {
         _reader = reader;
         _predictionService = predictionService;
+        _preferenceChecker = preferenceChecker;
     }
 
     public async Task<Result<NoShowPredictionDto>> Handle(
         PredictNoShowCommand command,
         CancellationToken ct)
     {
+        // Check AINoShow preference for this user (defaults to true).
+        if (command.UserId != Guid.Empty)
+        {
+            var prefResult = await _preferenceChecker.IsTrueAsync(command.UserId, PreferenceKey.AINoShow, ct);
+            if (prefResult.IsSuccess && !prefResult.Value)
+                return Result<NoShowPredictionDto>.Error("AI_NOSHOW_DISABLED");
+        }
+
         // Cold start check — not enough historical data to make reliable predictions
         var totalCompleted = await _reader.GetCompletedAppointmentCountAsync(ct);
         if (totalCompleted < MinimumHistoricalAppointments)

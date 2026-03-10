@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Vetolib.Auth.Contracts;
 using Vetolib.Notifications.Templates;
+using Vetolib.Preferences.Contracts;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Notifications.Consumers;
@@ -9,17 +10,26 @@ namespace Vetolib.Notifications.Consumers;
 internal class UserInvitedConsumer : IConsumer<UserInvitedIntegrationEvent>
 {
     private readonly IEmailSender _emailSender;
+    private readonly IPreferenceChecker _preferenceChecker;
     private readonly ILogger<UserInvitedConsumer> _logger;
 
-    public UserInvitedConsumer(IEmailSender emailSender, ILogger<UserInvitedConsumer> logger)
+    public UserInvitedConsumer(
+        IEmailSender emailSender,
+        IPreferenceChecker preferenceChecker,
+        ILogger<UserInvitedConsumer> logger)
     {
         _emailSender = emailSender;
+        _preferenceChecker = preferenceChecker;
         _logger = logger;
     }
 
     public async Task Consume(ConsumeContext<UserInvitedIntegrationEvent> context)
     {
         var evt = context.Message;
+
+        // UserInvitedIntegrationEvent does not carry a UserId — the invited user
+        // has not yet logged in and cannot have set preferences.
+        // Per PO decision: no preference check when no UserId is available. Always send.
 
         var message = new EmailMessage(
             To: evt.Email,

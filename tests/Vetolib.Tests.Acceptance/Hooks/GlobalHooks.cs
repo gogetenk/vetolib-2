@@ -110,6 +110,7 @@ internal class GlobalHooks
         using var scope = _factory.Services.CreateScope();
 
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+        await authDb.OnboardingStates.IgnoreQueryFilters().ExecuteDeleteAsync();
         await authDb.RefreshTokens.IgnoreQueryFilters().ExecuteDeleteAsync();
         await authDb.Users.IgnoreQueryFilters().ExecuteDeleteAsync();
         await authDb.Clinics.ExecuteDeleteAsync();

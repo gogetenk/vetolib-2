@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class SlotSuggestionFeature : object, global::Xunit.IClassFixture<SlotSuggestionFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Agenda", "Slot Suggestion", "  As a receptionist or veterinarian\r\n  I want the system to suggest the best avai" +
                 "lable appointment slots\r\n  So that I can optimize the clinic schedule and reduce" +
@@ -107,9 +109,9 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 6
-  #line hidden
 #line 7
+  #line hidden
+#line 8
     await testRunner.GivenAsync("I am authenticated as a user with role \"Receptionist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
@@ -121,7 +123,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             table1.AddRow(new string[] {
                         "Dr. Fatima",
                         "22222222-2222-2222-2222-222222222222"});
-#line 8
+#line 9
     await testRunner.AndAsync("the clinic has the following veterinarians:", ((string)(null)), table1, "And ");
 #line hidden
         }
@@ -167,7 +169,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Suggest best slot with available gaps", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 13
+#line 14
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -177,7 +179,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
@@ -192,7 +194,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "10:30",
                             "30",
                             "general"});
-#line 14
+#line 15
     await testRunner.GivenAsync("Dr. Ahmad has the following appointments on \"2026-03-15\":", ((string)(null)), table2, "Given ");
 #line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
@@ -203,16 +205,16 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "general",
                             "2026-03-15",
                             "10:00"});
-#line 18
+#line 19
     await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table3, "When ");
 #line hidden
-#line 21
+#line 22
     await testRunner.ThenAsync("I should receive 3 slot suggestions", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 22
+#line 23
     await testRunner.AndAsync("the first suggestion should minimize the gap in Dr. Ahmad\'s schedule", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 23
+#line 24
     await testRunner.AndAsync("each suggestion should include a score between 0 and 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -230,7 +232,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Load balancing across veterinarians", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 25
+#line 26
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -240,13 +242,13 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 26
+#line 27
     await testRunner.GivenAsync("Dr. Ahmad has 6 appointments on \"2026-03-15\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 27
+#line 28
     await testRunner.AndAsync("Dr. Fatima has 2 appointments on \"2026-03-15\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
@@ -257,10 +259,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "general",
                             "2026-03-15",
                             "14:00"});
-#line 28
+#line 29
     await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table4, "When ");
 #line hidden
-#line 31
+#line 32
     await testRunner.ThenAsync("the highest scored suggestion should be for Dr. Fatima", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -278,7 +280,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Grouping by consultation type", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 33
+#line 34
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -288,13 +290,13 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 34
+#line 35
     await testRunner.GivenAsync("Dr. Ahmad has 3 \"surgery\" appointments in the morning on \"2026-03-15\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 35
+#line 36
     await testRunner.AndAsync("Dr. Ahmad has available slots in the morning and afternoon", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
@@ -305,10 +307,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "surgery",
                             "2026-03-15",
                             "09:00"});
-#line 36
+#line 37
     await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table5, "When ");
 #line hidden
-#line 39
+#line 40
     await testRunner.ThenAsync("the highest scored suggestion should be in the morning for Dr. Ahmad", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -326,7 +328,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Fallback to default duration when insufficient history", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 41
+#line 42
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -336,10 +338,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 42
+#line 43
     await testRunner.GivenAsync("Dr. Ahmad has fewer than 5 past \"dermatology\" appointments", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
                 global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
@@ -350,10 +352,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "dermatology",
                             "2026-03-15",
                             "10:00"});
-#line 43
+#line 44
     await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table6, "When ");
 #line hidden
-#line 46
+#line 47
     await testRunner.ThenAsync("the estimated duration should use the default for \"dermatology\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -371,7 +373,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Duration estimation from history", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 48
+#line 49
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -381,10 +383,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 49
+#line 50
     await testRunner.GivenAsync("Dr. Ahmad has completed 20 \"general\" appointments with average duration 25 minute" +
                         "s", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -398,10 +400,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "2026-03-15",
                             "10:00",
                             "11111111-1111-1111-1111-111111111111"});
-#line 50
+#line 51
     await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table7, "When ");
 #line hidden
-#line 53
+#line 54
     await testRunner.ThenAsync("the estimated duration should be approximately 25 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -419,7 +421,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("No available slots on requested date", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 55
+#line 56
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -429,10 +431,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 56
+#line 57
     await testRunner.GivenAsync("all veterinarians are fully booked on \"2026-03-15\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
                 global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
@@ -443,10 +445,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "general",
                             "2026-03-15",
                             "10:00"});
-#line 57
+#line 58
     await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table8, "When ");
 #line hidden
-#line 60
+#line 61
     await testRunner.ThenAsync("I should receive 0 slot suggestions", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -464,7 +466,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Preferred veterinarian specified", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 62
+#line 63
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -474,7 +476,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
                 global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
@@ -487,10 +489,10 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
                             "2026-03-15",
                             "10:00",
                             "11111111-1111-1111-1111-111111111111"});
-#line 63
+#line 64
     await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table9, "When ");
 #line hidden
-#line 66
+#line 67
     await testRunner.ThenAsync("all suggestions should be for Dr. Ahmad", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

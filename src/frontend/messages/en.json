@@ -591,6 +591,18 @@
     "deleting": "Deleting...",
     "common_loading": "Loading..."
   },
+  "analytics": {
+    "consent_banner": {
+      "message": "We use analytics to improve your experience. You can change this in Settings.",
+      "accept": "Accept",
+      "decline": "Decline"
+    },
+    "settings": {
+      "title": "Analytics & Privacy",
+      "description": "We collect anonymous usage data to improve the product. No personal information is tracked.",
+      "toggle_label": "Allow anonymous usage analytics"
+    }
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
@@ -979,45 +991,70 @@
         "greeting": "Welcome! You can view patient records and support the clinical team.",
         "cta": "View patients"
       }
-    }
-  },
-  "preferences": {
-    "title": "Preferences",
-    "subtitle": "Manage your personal preferences and clinic-wide settings",
-    "source": {
-      "system_default": "System default",
-      "clinic_default": "Clinic default",
-      "user_override": "Your setting"
     },
-    "admin_only_hint": "Contact your clinic admin",
-    "errors": {
-      "load_failed": "Failed to load preferences",
-      "update_failed": "Failed to update preference",
-      "revoke_failed": "Failed to revoke consent"
+    "checklist": {
+      "title": "Setup Checklist",
+      "progress": "{completed} of {total} completed",
+      "dismiss": "Dismiss checklist",
+      "completed_title": "You're all set!",
+      "completed_body": "You've completed the setup. Enjoy using Vetolib.",
+      "steps": {
+        "admin": {
+          "invite_team_member": "Invite your first team member",
+          "add_first_patient": "Add your first patient",
+          "book_first_appointment": "Book your first appointment",
+          "create_first_invoice": "Create your first invoice",
+          "explore_dashboard": "Explore the dashboard"
+        },
+        "vet": {
+          "view_appointments": "View your appointments",
+          "open_patient_record": "Open a patient record",
+          "add_medical_record": "Add a medical record",
+          "write_prescription": "Write a prescription"
+        },
+        "receptionist": {
+          "book_appointment": "Book an appointment",
+          "check_in_patient": "Check in a patient",
+          "create_invoice": "Create an invoice",
+          "send_invoice": "Send an invoice"
+        },
+        "assistant": {
+          "browse_patients": "Browse patients",
+          "view_medical_record": "View a medical record",
+          "check_today_schedule": "Check today's schedule"
+        }
+      }
     },
-    "consent": {
-      "title": "Consent Management",
-      "description": "Revoke consent for analytics and data collection. This will disable all analytics tracking for your clinic.",
-      "revoke_analytics": "Revoke Analytics Consent",
-      "revoking": "Revoking...",
-      "revoked": "Analytics consent revoked successfully"
-    },
-    "sections": {
-      "notifications": {
-        "title": "Notifications",
-        "description": "Control how and when you receive notifications"
+    "empty": {
+      "patients": {
+        "title": "Your patient list is empty",
+        "description": "Add your first patient to start building their medical history.",
+        "cta": "Add Patient",
+        "cta_import": "Import from CSV",
+        "tip": "Tip: You can import existing patients in bulk using a CSV file."
       },
-      "ai_features": {
-        "title": "AI Features",
-        "description": "Manage AI-powered features for your clinic"
+      "appointments": {
+        "title": "No appointments yet",
+        "description": "Book your first appointment to get your schedule started.",
+        "cta": "New Appointment",
+        "tip": "Tip: Vetolib detects scheduling conflicts automatically — no more double bookings."
       },
-      "privacy": {
-        "title": "Privacy & Analytics",
-        "description": "Control your data and privacy settings"
+      "billing": {
+        "title": "No invoices yet",
+        "description": "Create your first invoice — VAT 5% is calculated automatically.",
+        "cta": "New Invoice",
+        "tip": "Tip: Invoices include your TRN and are FTA-compliant out of the box."
       },
-      "communication": {
-        "title": "Communication",
-        "description": "Set your communication preferences"
+      "team": {
+        "title": "You're the only team member",
+        "description": "Invite vets, assistants, and receptionists to collaborate.",
+        "cta": "Invite Member",
+        "tip": "Tip: Each role has tailored access — receptionists see billing but not medical records."
+      },
+      "dashboard_today": {
+        "title": "No appointments scheduled for today.",
+        "description": "Your day is clear — or maybe it's time to book the first one?",
+        "cta": "Go to Appointments"
       }
     }
   }

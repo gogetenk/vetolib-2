@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class VeterinarianMessagingInboxFeature : object, global::Xunit.IClassFixture<VeterinarianMessagingInboxFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Veterinarian Messaging Inbox", "  As a veterinarian\r\n  I want to see and respond to medical messages with full pa" +
                 "tient context\r\n  So that I can provide informed responses to pet owners", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -106,9 +108,9 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 6
-  #line hidden
 #line 7
+  #line hidden
+#line 8
     await testRunner.GivenAsync("I am authenticated as a user with role \"Vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
@@ -154,7 +156,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet sees medical messages in priority order", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 9
+#line 10
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -164,23 +166,23 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 10
+#line 11
     await testRunner.GivenAsync("there are messages: one \"MedicalUrgency\", one \"PostOperativeFollowUp\", one \"Medic" +
                         "alQuestion\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 11
+#line 12
     await testRunner.WhenAsync("I open the Messages inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 13
     await testRunner.ThenAsync("\"MedicalUrgency\" should appear first (red background)", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 13
+#line 14
     await testRunner.ThenAsync("\"PostOperativeFollowUp\" should appear second", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 14
+#line 15
     await testRunner.ThenAsync("\"MedicalQuestion\" should appear third", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -198,7 +200,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Emergency messages always appear at the top", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 16
+#line 17
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -208,19 +210,19 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 17
+#line 18
     await testRunner.GivenAsync("there is a \"MedicalQuestion\" from 2 hours ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 18
+#line 19
     await testRunner.AndAsync("there is a \"MedicalUrgency\" from 5 minutes ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 19
+#line 20
     await testRunner.WhenAsync("I open the Messages inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 21
     await testRunner.ThenAsync("the \"MedicalUrgency\" should be first regardless of the older message", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -238,7 +240,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet sees full medical context for a message", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 22
+#line 23
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -248,24 +250,24 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 23
+#line 24
     await testRunner.GivenAsync("I open a message linked to patient \"Luna\" (cat, 3 years old)", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
                             "Context"});
-                table3.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "Last examination date"});
-                table3.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "Current prescriptions"});
-                table3.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "Known allergies"});
-                table3.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "Vaccination history"});
-#line 24
-    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table3, "Then ");
+#line 25
+    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table12, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -282,7 +284,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet sees AI conversation summary for long threads", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 31
+#line 32
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -292,22 +294,22 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 32
+#line 33
     await testRunner.GivenAsync("a conversation has more than 5 messages", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 33
+#line 34
     await testRunner.WhenAsync("I open the conversation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 35
     await testRunner.ThenAsync("I should see an AI-generated summary at the top", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 35
+#line 36
     await testRunner.AndAsync("the summary should be collapsible", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 36
+#line 37
     await testRunner.AndAsync("the summary should be factual (3-5 sentences, no medical interpretation)", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -325,7 +327,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet adds an internal note", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 38
+#line 39
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -335,29 +337,29 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 39
+#line 40
     await testRunner.GivenAsync("I open a conversation with an owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 40
+#line 41
     await testRunner.WhenAsync("I click \"Add internal note\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 41
+#line 42
     await testRunner.AndAsync("I type \"Suspect potential kidney issue based on symptoms described. Schedule bloo" +
                         "d work.\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 42
+#line 43
     await testRunner.AndAsync("I click \"Save note\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 43
+#line 44
     await testRunner.ThenAsync("the note should appear in the conversation thread", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 44
+#line 45
     await testRunner.AndAsync("the note should be visually distinct (marked as \"Internal note\")", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 45
+#line 46
     await testRunner.AndAsync("the owner should NOT see this note", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -375,7 +377,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet replies with a modified AI suggestion", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 47
+#line 48
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -385,28 +387,28 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 48
+#line 49
     await testRunner.GivenAsync("I open a message with 3 AI-suggested replies", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 49
+#line 50
     await testRunner.WhenAsync("I click the second suggestion", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 50
+#line 51
     await testRunner.AndAsync("I modify the text to add specific medical advice", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 51
+#line 52
     await testRunner.AndAsync("I click \"Send\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 52
+#line 53
     await testRunner.ThenAsync("the reply should be sent to the owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 53
+#line 54
     await testRunner.AndAsync("the system should record WasSuggestedReplyUsed as false (modified)", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 54
+#line 55
     await testRunner.AndAsync("the system should record the ActualReply", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -424,7 +426,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet creates an urgent appointment from a message", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 56
+#line 57
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -434,31 +436,31 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 57
+#line 58
     await testRunner.GivenAsync("I open an emergency message about patient \"Buddy\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 58
+#line 59
     await testRunner.WhenAsync("I click \"Create urgent appointment\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Pre-filled value"});
-                table4.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "Patient",
                             "Buddy"});
-                table4.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "Type",
                             "Emergency"});
-                table4.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "Reason",
                             "Extracted from message text"});
-#line 59
-    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table4, "Then ");
+#line 60
+    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table13, "Then ");
 #line hidden
-#line 64
+#line 65
     await testRunner.AndAsync("the appointment should be created in the next available slot", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -476,7 +478,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet attaches message content to medical record", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 66
+#line 67
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -486,20 +488,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 67
+#line 68
     await testRunner.GivenAsync("I open a message where the owner describes symptoms and attached a photo", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 68
+#line 69
     await testRunner.WhenAsync("I click \"Add to medical record\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 69
+#line 70
     await testRunner.ThenAsync("the message text and photos should be added as a note in the patient\'s medical re" +
                         "cord", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 70
+#line 71
     await testRunner.AndAsync("a confirmation should appear \"Added to Luna\'s medical record\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -517,7 +519,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet receives push notification for emergency", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 72
+#line 73
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -527,16 +529,16 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 73
+#line 74
     await testRunner.GivenAsync("an owner sends a message classified as \"MedicalUrgency\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 74
+#line 75
     await testRunner.ThenAsync("I should receive a browser push notification immediately", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 75
+#line 76
     await testRunner.AndAsync("the notification should show the patient name and a preview of the message", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -554,7 +556,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Emergency escalation after 10 minutes without viewing", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 77
+#line 78
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -564,19 +566,19 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 78
+#line 79
     await testRunner.GivenAsync("an emergency message was received 10 minutes ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 79
+#line 80
     await testRunner.AndAsync("no veterinarian has viewed the message", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 80
+#line 81
     await testRunner.ThenAsync("an escalation notification should be sent to all veterinarians of the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 81
+#line 82
     await testRunner.AndAsync("the notification should include \"URGENT -- unread emergency message\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

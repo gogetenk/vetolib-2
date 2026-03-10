@@ -4,4 +4,4 @@ using Vetolib.AI.Contracts;
 
 namespace Vetolib.AI.Application.Commands.PredictNoShow;
 
-internal record PredictNoShowCommand(Guid AppointmentId) : IRequest<Result<NoShowPredictionDto>>;
+internal record PredictNoShowCommand(Guid AppointmentId, Guid UserId) : IRequest<Result<NoShowPredictionDto>>;

@@ -10,6 +10,9 @@ namespace Vetolib.AI.Application.Queries.CheckInteractions;
 /// <summary>
 /// Checks drug interactions for a patient prescription.
 /// Communicates with MedicalRecords via MediatR queries (no runtime cross-reference).
+///
+/// SAFETY: Drug interaction checks are NEVER gated by preferences (AIDrugInteractions preference
+/// is always-on by PO decision for patient safety). Do NOT add an IPreferenceChecker check here.
 /// </summary>
 internal class CheckInteractionsHandler : IRequestHandler<CheckInteractionsQuery, Result<InteractionCheckResult>>
 {

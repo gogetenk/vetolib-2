@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login, type LoginError } from "@/lib/api/auth"
+import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -53,7 +54,30 @@ export function LoginForm() {
     }
   }
 
-  const displayError = errors.email?.message || errors.password?.message || serverError
+  const emailError = errors.email?.message
+  const passwordError = errors.password?.message
+
+  useEffect(() => {
+    if (emailError) {
+      trackEvent(AnalyticsEvents.FORM_VALIDATION_ERROR, {
+        form_name: "login",
+        field_name: "email",
+        error_type: emailError,
+      })
+    }
+  }, [emailError])
+
+  useEffect(() => {
+    if (passwordError) {
+      trackEvent(AnalyticsEvents.FORM_VALIDATION_ERROR, {
+        form_name: "login",
+        field_name: "password",
+        error_type: passwordError,
+      })
+    }
+  }, [passwordError])
+
+  const displayError = emailError || passwordError || serverError
 
   return (
     <Card data-testid="login-card">

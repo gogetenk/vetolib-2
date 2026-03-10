@@ -24,6 +24,7 @@ import {
   downloadInvoicePdf,
 } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus } from '@/lib/api/billing'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 const STATUS_LABEL: Record<InvoiceStatus, string> = {
   DRAFT: 'Draft',
@@ -86,8 +87,13 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
   async function handleSend() {
     if (!invoice) return
     setActionLoading(true)
+    const fromStatus = invoice.status
     try {
       const updated = await sendInvoice(invoice.id)
+      trackEvent(AnalyticsEvents.INVOICE_STATUS_CHANGED, {
+        from_status: fromStatus,
+        to_status: updated.status,
+      })
       setInvoice(updated)
     } catch {
       setError('Failed to send invoice')
@@ -99,8 +105,13 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
   async function handleMarkPaid() {
     if (!invoice) return
     setActionLoading(true)
+    const fromStatus = invoice.status
     try {
       const updated = await markAsPaid(invoice.id)
+      trackEvent(AnalyticsEvents.INVOICE_STATUS_CHANGED, {
+        from_status: fromStatus,
+        to_status: updated.status,
+      })
       setInvoice(updated)
     } catch {
       setError('Failed to mark as paid')
@@ -112,8 +123,13 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
   async function handleCancel() {
     if (!invoice) return
     setActionLoading(true)
+    const fromStatus = invoice.status
     try {
       const updated = await cancelInvoice(invoice.id)
+      trackEvent(AnalyticsEvents.INVOICE_STATUS_CHANGED, {
+        from_status: fromStatus,
+        to_status: updated.status,
+      })
       setInvoice(updated)
     } catch {
       setError('Failed to cancel invoice')
@@ -146,6 +162,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       a.download = `${invoice.invoiceNumber}.pdf`
       a.click()
       URL.revokeObjectURL(url)
+      trackEvent(AnalyticsEvents.INVOICE_PDF_DOWNLOADED)
     } catch {
       setError('Failed to download PDF')
     } finally {

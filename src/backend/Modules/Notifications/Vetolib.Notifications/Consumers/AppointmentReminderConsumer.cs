@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Notifications.Templates;
+using Vetolib.Preferences.Contracts;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Notifications.Consumers;
@@ -9,17 +10,28 @@ namespace Vetolib.Notifications.Consumers;
 internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueIntegrationEvent>
 {
     private readonly IEmailSender _emailSender;
+    private readonly IPreferenceChecker _preferenceChecker;
     private readonly ILogger<AppointmentReminderConsumer> _logger;
 
-    public AppointmentReminderConsumer(IEmailSender emailSender, ILogger<AppointmentReminderConsumer> logger)
+    public AppointmentReminderConsumer(
+        IEmailSender emailSender,
+        IPreferenceChecker preferenceChecker,
+        ILogger<AppointmentReminderConsumer> logger)
     {
         _emailSender = emailSender;
+        _preferenceChecker = preferenceChecker;
         _logger = logger;
     }
 
     public async Task Consume(ConsumeContext<AppointmentReminderDueIntegrationEvent> context)
     {
         var evt = context.Message;
+
+        // Preferences apply to clinic staff (Users) only, not to owners.
+        // AppointmentReminderDueIntegrationEvent carries an OwnerEmail with no UserId —
+        // this is an owner-facing email. Per PO decision, owners always receive reminders.
+        // No preference check needed.
+
         var time = evt.ScheduledAt.ToString("HH:mm");
 
         var message = new EmailMessage(

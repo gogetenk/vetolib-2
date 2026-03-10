@@ -1,3 +1,4 @@
+@wip
 Feature: Receptionist Messaging Inbox
   As a receptionist
   I want to see and respond to appointment requests and administrative questions

@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class ReceptionistMessagingInboxFeature : object, global::Xunit.IClassFixture<ReceptionistMessagingInboxFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Receptionist Messaging Inbox", "  As a receptionist\r\n  I want to see and respond to appointment requests and admi" +
                 "nistrative questions\r\n  So that I can handle owner inquiries efficiently", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -106,9 +108,9 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 6
-  #line hidden
 #line 7
+  #line hidden
+#line 8
     await testRunner.GivenAsync("I am authenticated as a user with role \"Receptionist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
@@ -154,7 +156,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist sees only relevant messages", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 9
+#line 10
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -164,23 +166,23 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 10
+#line 11
     await testRunner.GivenAsync("there are messages categorized as \"AppointmentRequest\", \"Administrative\", and \"Me" +
                         "dicalQuestion\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 11
+#line 12
     await testRunner.WhenAsync("I open the Messages inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 13
     await testRunner.ThenAsync("I should see messages categorized as \"AppointmentRequest\" and \"Administrative\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 13
+#line 14
     await testRunner.AndAsync("I should NOT see messages categorized as \"MedicalQuestion\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 14
+#line 15
     await testRunner.AndAsync("I should NOT see messages categorized as \"MedicalUrgency\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -198,7 +200,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Messages are sorted by priority then by date", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 16
+#line 17
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -208,20 +210,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 17
+#line 18
     await testRunner.GivenAsync("there are 3 messages: one \"Administrative\" from yesterday, one \"AppointmentReques" +
                         "t\" from today, one \"Administrative\" from today", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 18
+#line 19
     await testRunner.WhenAsync("I open the Messages inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 19
+#line 20
     await testRunner.ThenAsync("the \"AppointmentRequest\" message should appear first (higher priority)", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 20
+#line 21
     await testRunner.AndAsync("the two \"Administrative\" messages should be sorted oldest first", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -239,7 +241,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist replies using AI suggestion", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 22
+#line 23
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -249,28 +251,28 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 23
+#line 24
     await testRunner.GivenAsync("I open a message from an owner asking about appointment availability", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 24
+#line 25
     await testRunner.AndAsync("the AI has generated 2 suggested replies", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 25
+#line 26
     await testRunner.WhenAsync("I click on the first suggestion", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 27
     await testRunner.ThenAsync("the reply field should be pre-filled with the suggestion text", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 27
+#line 28
     await testRunner.WhenAsync("I modify the text and click \"Send\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 28
+#line 29
     await testRunner.ThenAsync("the reply should be sent to the owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 29
+#line 30
     await testRunner.AndAsync("the message status should change to \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -288,7 +290,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist uses a quick response template", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 31
+#line 32
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -298,22 +300,22 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 32
+#line 33
     await testRunner.GivenAsync("the clinic has configured a template \"Appointment confirmation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 33
+#line 34
     await testRunner.WhenAsync("I open a message and click \"Templates\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 35
     await testRunner.AndAsync("I select the \"Appointment confirmation\" template", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 35
+#line 36
     await testRunner.ThenAsync("the reply field should be pre-filled with the template text", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 36
+#line 37
     await testRunner.AndAsync("I can modify it before sending", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -331,7 +333,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist transfers a medical message to vet", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 38
+#line 39
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -341,22 +343,22 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 39
+#line 40
     await testRunner.GivenAsync("I receive a message flagged as \"Triage uncertain -- please verify category\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 40
+#line 41
     await testRunner.AndAsync("the message describes medical symptoms", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 41
+#line 42
     await testRunner.WhenAsync("I click \"Transfer to veterinarian\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 43
     await testRunner.ThenAsync("the message should disappear from my inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 43
+#line 44
     await testRunner.AndAsync("it should appear in the vet inbox with a note \"Transferred by [Receptionist Name]" +
                         "\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -375,7 +377,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist converts a message to an appointment", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 45
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -385,25 +387,25 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 46
+#line 47
     await testRunner.GivenAsync("I open a message requesting an appointment for pet \"Buddy\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 47
+#line 48
     await testRunner.WhenAsync("I click \"Convert to appointment\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 49
     await testRunner.ThenAsync("a new appointment form should open", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 49
+#line 50
     await testRunner.AndAsync("the patient field should be pre-filled with \"Buddy\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 50
+#line 51
     await testRunner.AndAsync("the owner field should be pre-filled", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 51
+#line 52
     await testRunner.AndAsync("the reason should contain the message content", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -421,7 +423,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist marks a message as spam", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 53
+#line 54
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -431,19 +433,19 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 54
+#line 55
     await testRunner.GivenAsync("I open a message that is clearly spam", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 55
+#line 56
     await testRunner.WhenAsync("I click \"Mark as spam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 56
+#line 57
     await testRunner.ThenAsync("the message should disappear from my inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 57
+#line 58
     await testRunner.AndAsync("the admin should be able to view it in the spam folder", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -461,7 +463,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist sees patient context alongside message", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 59
+#line 60
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -471,17 +473,17 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 60
+#line 61
     await testRunner.GivenAsync("I open a message linked to patient \"Buddy\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 61
+#line 62
     await testRunner.ThenAsync("I should see alongside the message: pet name, species, last appointment date, and" +
                         " outstanding invoices", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 62
+#line 63
     await testRunner.AndAsync("I should NOT see medical records (consistent with receptionist RBAC)", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

@@ -61,8 +61,11 @@ internal static class AIEndpoints
             ?? user.FindFirst(ClaimTypes.NameIdentifier)?.Value
             ?? "unknown";
 
+        Guid.TryParse(createdBy, out var userId);
+
         var cmd = new TriageSymptomsCommand(
             ClinicId: clinicContext.ClinicId,
+            UserId: userId,
             Symptoms: request.Symptoms,
             Species: request.Species,
             Breed: request.Breed,
@@ -94,9 +97,14 @@ internal static class AIEndpoints
 
     private static async Task<IResult> PredictNoShow(
         Guid appointmentId,
+        ClaimsPrincipal user,
         ISender sender)
     {
-        var cmd = new PredictNoShowCommand(appointmentId);
+        var sub = user.FindFirst("sub")?.Value
+            ?? user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        Guid.TryParse(sub, out var userId);
+
+        var cmd = new PredictNoShowCommand(appointmentId, userId);
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 

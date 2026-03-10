@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { X } from 'lucide-react'
@@ -53,15 +53,11 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
   const t = useTranslations('onboarding.banner')
   const router = useRouter()
   const { state, dismissBanner } = useOnboarding()
-  const [visible, setVisible] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
   const [animatingOut, setAnimatingOut] = useState(false)
 
-  // Sync visibility with server state once loaded
-  useEffect(() => {
-    if (state !== null) {
-      setVisible(state.welcomeBannerVisible)
-    }
-  }, [state])
+  // Derive visibility from server state + local dismissal
+  const visible = !dismissed && state !== null && state.welcomeBannerVisible
 
   if (!visible && !animatingOut) return null
 
@@ -86,7 +82,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
     setAnimatingOut(true)
     // Allow 200ms fade-out before hiding
     setTimeout(async () => {
-      setVisible(false)
+      setDismissed(true)
       setAnimatingOut(false)
       try {
         await dismissBanner()

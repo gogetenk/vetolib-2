@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Vetolib.Billing.Contracts;
 using Vetolib.Notifications.Templates;
+using Vetolib.Preferences.Contracts;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Notifications.Consumers;
@@ -9,17 +10,26 @@ namespace Vetolib.Notifications.Consumers;
 internal class InvoiceSentConsumer : IConsumer<InvoiceSentIntegrationEvent>
 {
     private readonly IEmailSender _emailSender;
+    private readonly IPreferenceChecker _preferenceChecker;
     private readonly ILogger<InvoiceSentConsumer> _logger;
 
-    public InvoiceSentConsumer(IEmailSender emailSender, ILogger<InvoiceSentConsumer> logger)
+    public InvoiceSentConsumer(
+        IEmailSender emailSender,
+        IPreferenceChecker preferenceChecker,
+        ILogger<InvoiceSentConsumer> logger)
     {
         _emailSender = emailSender;
+        _preferenceChecker = preferenceChecker;
         _logger = logger;
     }
 
     public async Task Consume(ConsumeContext<InvoiceSentIntegrationEvent> context)
     {
         var evt = context.Message;
+
+        // InvoiceSentIntegrationEvent carries OwnerEmail but no UserId.
+        // Per PO decision: preferences apply to clinic staff (Users) only, not owners.
+        // Owners always receive invoice emails.
 
         var message = new EmailMessage(
             To: evt.OwnerEmail,

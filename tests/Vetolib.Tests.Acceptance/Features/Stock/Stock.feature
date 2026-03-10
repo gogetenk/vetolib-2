@@ -1,3 +1,4 @@
+@wip
 Feature: Gestion de stock médicaments et vaccins
   Background:
     Given une clinique "Happy Paws"

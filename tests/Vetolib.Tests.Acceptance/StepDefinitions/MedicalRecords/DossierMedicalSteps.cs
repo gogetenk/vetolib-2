@@ -31,7 +31,8 @@ internal class DossierMedicalSteps
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
     };
 
     public DossierMedicalSteps(ScenarioContext ctx)
