@@ -2,9 +2,33 @@
 
 _Mis à jour par l'orchestrator à chaque cycle._
 
+## 2026-03-10 — Forge cycle
+
+- TODO: 2 (post-MVP) | WIP: 0 | DONE: 175 (126 feature + 49 refacto)
+- Agents actifs : aucun
+- PRs en review : 5 (dont 4 DEV_DONE, 1 MERGED)
+- Questions PO : 9 ouvertes
+- Disputes : aucun
+- Prochaine action : les 2 TODO restantes sont post-MVP (api-public, multi-clinic) — factory idle
+
+## 2026-03-10 — Forge cycle (Sentry impl)
+
+- TODO: 2 | WIP: 0 | DONE: 175 | PRs: 1 (Sentry)
+- Sentry implementation completed on `feat/infra-sentry-impl-001` — branch pushed, PR pending user approval
+- Remaining TODOs are post-MVP: `back-api-public-001`, `back-multi-clinic-001`
+- Questions PO : 9 ouvertes
+- Prochaine action : merge Sentry PR, then factory is feature-complete for MVP
+
+## 2026-03-10 — Sentry study completed
+
+- Study `done-infra-sentry-study-001` completed by architect agent
+- Recommendation: SDK Sentry.AspNetCore + OpenTelemetry bridge + Serilog sink (Option B)
+- Implementation task `todo-infra-sentry-impl-001` updated with precise steps
+- Full study published in `docs/sentry-setup-study.md`
+
 ## 2026-03-10 — Cycle forge (vague 4)
 
-- TODO: 17 | WIP: 6 agents | DONE: 113
+- TODO: 17 | WIP: 6 agents | DONE: 114
 - Agents actifs : messaging notifications, messaging integrations (x3), prescriptions override, front agenda+billing+medical, prescriptions stock link (x2)
 - PRs en review : 0
 - Questions PO : 4 ouvertes
@@ -17,7 +41,7 @@ _Mis à jour par l'orchestrator à chaque cycle._
 - **Mineur** : IgnoreQueryFilters (15 occurrences) insuffisamment documenté → tâche refacto 010
 - Conformité globale : ATTENTION (1 critique bloquant le runtime)
 
-## Modules complétés (DONE: 113)
+## Modules complétés (DONE: 114)
 
 ### Core
 - Auth, Agenda, MedicalRecords, Billing, Notifications — matures
@@ -49,10 +73,9 @@ _Mis à jour par l'orchestrator à chaque cycle._
 | CI pipeline (quality gates, security scan) | DONE |
 | CD pipeline (staging + prod mock) | DONE |
 | SemVer release-please | DONE |
+| Sentry study | DONE |
+| Sentry implementation | DONE (PR pending) |
 
-### Tâches restantes (TODO: 17)
-- agenda-002, medical-002
-- back-api-public-001, back-multi-clinic-001
-- front-agenda-001, front-billing-001, front-medical-001
-- front-messaging-playwright-001, front-prescriptions-e2e-001, front-prescriptions-stock-001
-- 3 refacto tâches (messaging DI, portal auth, IgnoreQueryFilters)
+### Tâches restantes (TODO: 2 — post-MVP)
+- back-api-public-001 (API publique + OpenAPI + Webhooks)
+- back-multi-clinic-001 (multi-clinic group view)
