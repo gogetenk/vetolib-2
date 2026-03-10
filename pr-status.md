@@ -72,6 +72,39 @@
 
 ---
 
+### PR #4 — [DEV_DONE]
+**Tâche** : tasks/done-back-messaging-owner-portal-001.md
+**Module** : Messaging
+**Branche** : feat/back-patients-001
+**Lien PR** : local-only (pas de remote configuré)
+**Vidéo démo** : en attente
+**Ouvert le** : 2026-03-10
+**Dernière activité** : 2026-03-10
+
+**Gherkins couverts** :
+- Owner sends first message (with consent pre-accepted)
+- Attachment size limits enforced
+- Consent required before messaging
+- Daily message limit (5/day) enforced
+- Out-of-hours auto-acknowledgment for non-urgent messages
+- Export conversation history (PDPL)
+- Expired magic link token rejected
+- Urgent messages bypass out-of-hours check
+- Subject derived from body when not provided
+- Category-based SLA + routing assigned
+
+**Fixes inclus** :
+- `DrugInteractionSteps.cs` line 185: curly quotes replaced with escaped double quotes (build error)
+- `PatientReader.cs`: `GetPatientContextAsync` implemented (missing IPatientReader method)
+- `CreateOwnerConversationHandler` returns `CreateOwnerConversationResponse` with SLA + routing
+- `PortalEndpoints.cs`: added `/api/v1/portal/test-token` seeding endpoint and `/api/v1/portal/categories`
+- `InvoiceDto` / `InvoiceItemDto`: fields aligned with test expectations
+- `FacturationSteps.cs`: field names updated (`Subtotal`, `VatAmount`)
+
+**Tests unitaires** : N/A (handler logic covered by BDD acceptance tests)
+
+---
+
 ## Template
 ### PR #{num} — [{statut}]
 **Tâche** : tasks/{id}.md  

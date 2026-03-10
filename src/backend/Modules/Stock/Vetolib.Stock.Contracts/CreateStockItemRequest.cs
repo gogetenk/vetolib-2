@@ -6,5 +6,6 @@ public record CreateStockItemRequest(
     int Quantity,
     string Unit,
     int MinThreshold,
-    DateTime? ExpiryDate
+    DateTime? ExpiryDate,
+    Guid? DrugCatalogEntryId = null
 );

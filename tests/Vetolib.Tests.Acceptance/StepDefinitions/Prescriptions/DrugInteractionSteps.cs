@@ -182,7 +182,7 @@ internal class DrugInteractionSteps
         var prescriptionId = prescriptionResult.Value.Id;
         var backdatedTime = DateTime.UtcNow.AddDays(-daysAgo);
         await db.Database.ExecuteSqlRawAsync(
-            "UPDATE medical.prescriptions SET "CreatedAt" = {0} WHERE "Id" = {1}",
+            "UPDATE medical.prescriptions SET \"CreatedAt\" = {0} WHERE \"Id\" = {1}",
             backdatedTime, prescriptionId);
     }
 
@@ -198,13 +198,9 @@ internal class DrugInteractionSteps
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
 
-        var entry = await db.DrugCatalogEntries
-            .Include(d => d.Interactions)
-            .FirstOrDefaultAsync(d => d.Id == id1);
-
-        entry.Should().NotBeNull($"Drug {drug1} should exist in catalog");
-        entry!.AddInteraction(id2, drug2, InteractionSeverity.Moderate, description);
-
+        // Insert directly to avoid optimistic concurrency on the parent aggregate
+        var interaction = DrugInteraction.Create(id1, id2, drug2, InteractionSeverity.Moderate, description);
+        await db.Set<DrugInteraction>().AddAsync(interaction);
         await db.SaveChangesAsync();
     }
 
@@ -528,20 +524,10 @@ internal class DrugInteractionSteps
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
 
-        var entry = await db.DrugCatalogEntries
-            .Include(d => d.SpeciesContraindications)
-            .FirstOrDefaultAsync(d => d.Id == drugId);
-
-        entry.Should().NotBeNull($"Drug {drug} should exist in catalog");
-
-        // Check if there is already an alternative registered
-        var altKey = $"AlternativeFor:{drug}:{species}";
-        // We store alternative IDs in the contraindication message area for later suggestion
-        entry!.AddContraindication(species, severity, reason);
+        // Insert directly to avoid optimistic concurrency on the parent aggregate
+        var contraindication = SpeciesContraindication.Create(drugId, species, severity, reason);
+        await db.Set<SpeciesContraindication>().AddAsync(contraindication);
         await db.SaveChangesAsync();
-
-        // If there is an alternative registered for this drug/species pair, update interactions
-        // to cross-reference — handled after the alternative is registered
     }
 
     private async Task SaveFreeTextPrescription(string patientName, string freeText)

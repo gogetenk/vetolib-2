@@ -13,6 +13,7 @@ internal class StockItem : BaseEntity, IMultiTenant
     public string Unit { get; private set; } = string.Empty;
     public int MinThreshold { get; private set; }
     public DateTime? ExpiryDate { get; private set; }
+    public Guid? DrugCatalogEntryId { get; private set; }
 
     private StockItem() { }
 
@@ -23,7 +24,8 @@ internal class StockItem : BaseEntity, IMultiTenant
         int quantity,
         string unit,
         int minThreshold,
-        DateTime? expiryDate)
+        DateTime? expiryDate,
+        Guid? drugCatalogEntryId = null)
     {
         var errors = new List<ValidationError>();
 
@@ -52,7 +54,8 @@ internal class StockItem : BaseEntity, IMultiTenant
             Quantity = quantity,
             Unit = unit,
             MinThreshold = minThreshold,
-            ExpiryDate = expiryDate
+            ExpiryDate = expiryDate,
+            DrugCatalogEntryId = drugCatalogEntryId
         });
     }
 

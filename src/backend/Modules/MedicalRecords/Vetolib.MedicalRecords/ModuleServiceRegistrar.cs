@@ -29,6 +29,9 @@ public static class ModuleServiceRegistrar
         // Cross-module reader interfaces
         services.AddScoped<IPatientReader, PatientReader>();
 
+        // Cross-module writer interfaces — used by Messaging to attach notes to medical records
+        services.AddScoped<IPatientRecordWriter, PatientRecordWriter>();
+
         return services;
     }
 

@@ -12,6 +12,8 @@ internal class Prescription : BaseEntity, IMultiTenant
     public string Dosage { get; private set; } = string.Empty;
     public string VetLicenseNumber { get; private set; } = string.Empty;
     public Guid? DrugCatalogEntryId { get; private set; }
+    public string? OverrideJustification { get; private set; }
+    public string? OverrideSeverity { get; private set; }
 
     private Prescription() { } // EF Core
 
@@ -56,6 +58,16 @@ internal class Prescription : BaseEntity, IMultiTenant
         return Result<Prescription>.Success(prescription);
     }
 
+    public Result ApplyOverride(string justification, InteractionSeverity severity)
+    {
+        if (string.IsNullOrWhiteSpace(justification) || justification.Trim().Length < 10)
+            return Result.Error("Override justification must be at least 10 characters");
+
+        OverrideJustification = justification.Trim();
+        OverrideSeverity = severity.ToString();
+        return Result.Success();
+    }
+
     public PrescriptionDto ToDto()
     {
         return new PrescriptionDto(
@@ -66,6 +78,8 @@ internal class Prescription : BaseEntity, IMultiTenant
             Dosage,
             VetLicenseNumber,
             CreatedAt,
-            DrugCatalogEntryId);
+            DrugCatalogEntryId,
+            OverrideJustification,
+            OverrideSeverity);
     }
 }

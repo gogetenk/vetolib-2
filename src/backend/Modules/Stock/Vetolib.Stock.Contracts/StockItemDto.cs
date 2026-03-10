@@ -12,5 +12,6 @@ public record StockItemDto(
     bool IsLowStock,
     bool IsExpiringSoon,
     DateTime CreatedAt,
-    DateTime UpdatedAt
+    DateTime UpdatedAt,
+    Guid? DrugCatalogEntryId = null
 );

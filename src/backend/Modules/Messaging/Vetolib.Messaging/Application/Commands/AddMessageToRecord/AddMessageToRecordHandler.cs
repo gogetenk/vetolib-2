@@ -1,27 +1,23 @@
 using Ardalis.Result;
-using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Vetolib.Messaging.Contracts.Events;
+using Vetolib.MedicalRecords.Contracts;
+using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
-using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Messaging.Application.Commands.AddMessageToRecord;
 
 internal class AddMessageToRecordHandler : IRequestHandler<AddMessageToRecordCommand, Result>
 {
     private readonly MessagingDbContext _context;
-    private readonly IClinicContext _clinicContext;
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IPatientRecordWriter _recordWriter;
 
     public AddMessageToRecordHandler(
         MessagingDbContext context,
-        IClinicContext clinicContext,
-        IPublishEndpoint publishEndpoint)
+        IPatientRecordWriter recordWriter)
     {
         _context = context;
-        _clinicContext = clinicContext;
-        _publishEndpoint = publishEndpoint;
+        _recordWriter = recordWriter;
     }
 
     public async Task<Result> Handle(AddMessageToRecordCommand cmd, CancellationToken ct)
@@ -52,14 +48,22 @@ internal class AddMessageToRecordHandler : IRequestHandler<AddMessageToRecordCom
 
         var attachmentPaths = attachments.Select(a => a.StoragePath).ToList();
 
-        await _publishEndpoint.Publish(new MessageAttachedToRecordEvent(
+        var request = new AddMessageToRecordRequest(
             ConversationId: conversation.Id,
             MessageId: message.Id,
             PatientId: conversation.PatientId.Value,
-            ClinicId: _clinicContext.ClinicId,
             MessageBody: message.Body,
-            AttachmentStoragePaths: attachmentPaths,
-            AttachedAt: DateTime.UtcNow), ct);
+            AttachmentUrls: attachmentPaths);
+
+        var result = await _recordWriter.AttachMessageNoteAsync(request, ct);
+
+        if (!result.IsSuccess)
+        {
+            if (result.Status == Ardalis.Result.ResultStatus.NotFound)
+                return Result.NotFound(string.Join("; ", result.Errors));
+
+            return Result.Error(string.Join("; ", result.Errors));
+        }
 
         return Result.Success();
     }

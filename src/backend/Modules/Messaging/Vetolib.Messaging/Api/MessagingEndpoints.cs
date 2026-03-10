@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.Messaging.Application.Commands.AddInternalNote;
+using Vetolib.Messaging.Application.Commands.AddMessageToRecord;
 using Vetolib.Messaging.Application.Commands.ChangeConversationStatus;
+using Vetolib.Messaging.Application.Commands.ConvertToAppointment;
 using Vetolib.Messaging.Application.Commands.CreateOutboundConversation;
 using Vetolib.Messaging.Application.Commands.CreateTemplate;
 using Vetolib.Messaging.Application.Commands.DeleteTemplate;
@@ -118,6 +120,30 @@ internal static class MessagingEndpoints
         group.MapPost("/conversations/{id:guid}/spam", async (Guid id, ISender sender, CancellationToken ct) =>
             (await sender.Send(new MarkAsSpamCommand(id), ct)).ToMinimalApiResult()
         ).WithName("MarkAsSpam");
+
+        // POST /conversations/{id}/convert-to-appointment — convert to appointment (ClinicStaff)
+        group.MapPost("/conversations/{id:guid}/convert-to-appointment", async (
+            Guid id,
+            ConvertToAppointmentRequest? request,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            var cmd = new ConvertToAppointmentCommand(id, request?.PreferredDate, request?.Notes);
+            return (await sender.Send(cmd, ct)).ToMinimalApiResult();
+        }).RequireAuthorization("ClinicStaff")
+          .WithName("ConvertToAppointment");
+
+        // POST /conversations/{conversationId}/messages/{messageId}/add-to-record — attach message to medical record (VetOrAdmin)
+        group.MapPost("/conversations/{conversationId:guid}/messages/{messageId:guid}/add-to-record", async (
+            Guid conversationId,
+            Guid messageId,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            var cmd = new AddMessageToRecordCommand(conversationId, messageId);
+            return (await sender.Send(cmd, ct)).ToMinimalApiResult();
+        }).RequireAuthorization(policy => policy.RequireRole("Vet", AdminRole))
+          .WithName("AddMessageToRecord");
 
         // POST /conversations/outbound — create proactive conversation (AdminOnly)
         group.MapPost("/conversations/outbound", async (
