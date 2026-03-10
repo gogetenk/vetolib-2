@@ -168,6 +168,7 @@ internal class CsvImportSteps
 
     private static readonly System.Text.Json.JsonSerializerOptions JsonOptions = new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
     };
 }

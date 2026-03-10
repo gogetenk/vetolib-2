@@ -35,7 +35,8 @@ internal class TeamManagementSteps
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
     };
 
     public TeamManagementSteps(ScenarioContext ctx) => _ctx = ctx;
