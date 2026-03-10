@@ -7,4 +7,5 @@ public record PrescriptionDto(
     string Medication,
     string Dosage,
     string VetLicenseNumber,
-    DateTime CreatedAt);
+    DateTime CreatedAt,
+    Guid? DrugCatalogEntryId = null);

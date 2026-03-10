@@ -266,7 +266,7 @@ internal class FacturationSteps
     public void ThenLaTvaEstCalculee(decimal expectedTax)
     {
         _currentInvoice.Should().NotBeNull();
-        _currentInvoice!.TotalTax.Should().Be(expectedTax);
+        _currentInvoice!.VatAmount.Should().Be(expectedTax);
     }
 
     [Then(@"le total est ([\d.]+) AED")]
@@ -287,14 +287,14 @@ internal class FacturationSteps
     public void ThenLeSousTotalEst(decimal expectedSubTotal)
     {
         _currentInvoice.Should().NotBeNull();
-        _currentInvoice!.SubTotal.Should().Be(expectedSubTotal);
+        _currentInvoice!.Subtotal.Should().Be(expectedSubTotal);
     }
 
     [Then(@"la TVA totale est ([\d.]+) AED")]
     public void ThenLaTvaTotaleEst(decimal expectedTax)
     {
         _currentInvoice.Should().NotBeNull();
-        _currentInvoice!.TotalTax.Should().Be(expectedTax);
+        _currentInvoice!.VatAmount.Should().Be(expectedTax);
     }
 
     [Then(@"le statut est ""(.*)""")]

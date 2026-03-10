@@ -128,12 +128,12 @@ internal static class InvoicePdfGenerator
                 totals.Item().PaddingHorizontal(4).Row(r =>
                 {
                     r.RelativeItem().AlignRight().Text("Subtotal:");
-                    r.ConstantItem(120).AlignRight().Text($"{invoice.SubTotal:F2} AED");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.Subtotal:F2} AED");
                 });
                 totals.Item().PaddingHorizontal(4).Row(r =>
                 {
                     r.RelativeItem().AlignRight().Text("Tax:");
-                    r.ConstantItem(120).AlignRight().Text($"{invoice.TotalTax:F2} AED");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.VatAmount:F2} AED");
                 });
                 totals.Item()
                     .BorderTop(1).BorderColor(Colors.Grey.Medium)

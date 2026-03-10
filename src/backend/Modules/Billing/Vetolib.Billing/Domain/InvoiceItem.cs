@@ -49,7 +49,7 @@ internal class InvoiceItem : BaseEntity
     public InvoiceItemDto ToDto() => new(
         Id,
         Description,
+        1,
         UnitPriceExclTax,
-        TaxAmount,
         TotalInclTax);
 }

@@ -26,5 +26,8 @@ internal class PrescriptionConfiguration : IEntityTypeConfiguration<Prescription
         builder.Property(p => p.VetLicenseNumber)
             .IsRequired()
             .HasMaxLength(100);
+
+        builder.Property(p => p.DrugCatalogEntryId)
+            .IsRequired(false);
     }
 }

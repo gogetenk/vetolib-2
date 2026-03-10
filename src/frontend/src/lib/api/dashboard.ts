@@ -46,3 +46,23 @@ export async function getTodayAppointments(): Promise<TodayAppointmentDto[]> {
 export async function getRecentActivity(): Promise<ActivityDto[]> {
   return apiGet<ActivityDto[]>('/api/dashboard/recent-activity')
 }
+
+export interface RevenueByMonthDto {
+  month: string // "2026-01"
+  total: number
+}
+
+export interface PatientsBySpeciesDto {
+  species: string
+  count: number
+}
+
+export interface DashboardAnalyticsDto {
+  revenueByMonth: RevenueByMonthDto[]
+  patientsBySpecies: PatientsBySpeciesDto[]
+  noShowRate: number
+}
+
+export async function getDashboardAnalytics(): Promise<DashboardAnalyticsDto> {
+  return apiGet<DashboardAnalyticsDto>('/api/dashboard/analytics')
+}

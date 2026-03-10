@@ -156,20 +156,20 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table56 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table56.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "Desert Paws",
                             "owner@desertpaws.ae",
                             "Secure@1234567!",
                             "+971501234567",
                             "AE"});
 #line 8
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table56, "When ");
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table19, "When ");
 #line hidden
 #line 11
     await testRunner.ThenAsync("the response status is 201", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -220,20 +220,20 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 20
     await testRunner.GivenAsync("a clinic \"Al Barsha Vets\" already registered with email \"owner@albarsha.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table57 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table20 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table57.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "Jumeirah Pets",
                             "owner@albarsha.ae",
                             "Secure@1234567!",
                             "+971509876543",
                             "AE"});
 #line 21
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table57, "When ");
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table20, "When ");
 #line hidden
 #line 24
     await testRunner.ThenAsync("the response status is 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -266,20 +266,20 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table58 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table58.AddRow(new string[] {
+                table21.AddRow(new string[] {
                             "",
                             "owner2@desertpaws.ae",
                             "Secure@1234567!",
                             "+971501234567",
                             "AE"});
 #line 28
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table58, "When ");
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table21, "When ");
 #line hidden
 #line 31
     await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -312,20 +312,20 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table59 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table59.AddRow(new string[] {
+                table22.AddRow(new string[] {
                             "Happy Paws",
                             "newowner@happypaws.ae",
                             "short",
                             "+971501234567",
                             "AE"});
 #line 35
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table59, "When ");
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table22, "When ");
 #line hidden
 #line 38
     await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -358,20 +358,20 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table60 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
                             "ClinicName",
                             "Email",
                             "Password",
                             "Phone",
                             "Country"});
-                table60.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Happy Paws",
                             "newowner2@happypaws.ae",
                             "NoSpecialChar1234",
                             "+971501234567",
                             "AE"});
 #line 42
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table60, "When ");
+    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table23, "When ");
 #line hidden
 #line 45
     await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

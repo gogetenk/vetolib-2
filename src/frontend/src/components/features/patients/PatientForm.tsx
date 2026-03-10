@@ -33,6 +33,10 @@ const patientSchema = z.object({
     { message: 'Date of birth cannot be in the future' }
   ),
   gender: z.enum(['Male', 'Female', 'Unknown'] as ['Male', 'Female', 'Unknown']),
+  weightKg: z.preprocess(
+    (val) => (val === '' || val === null || val === undefined ? null : Number(val)),
+    z.number().positive('Weight must be greater than 0').nullable()
+  ),
   ownerName: z.string().min(1, 'Owner name is required'),
   ownerPhone: z.string().min(1, 'Owner phone is required').regex(
     /^\+971\s\d{2}\s\d{3}\s\d{4}$/,
@@ -71,12 +75,14 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
           breed: patient.breed,
           dateOfBirth: patient.dateOfBirth,
           gender: patient.gender,
+          weightKg: patient.weightKg,
           ownerName: patient.ownerName,
           ownerPhone: patient.ownerPhone,
           ownerEmail: patient.ownerEmail,
         }
       : {
           gender: 'Unknown',
+          weightKg: null,
         },
   })
 
@@ -92,6 +98,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         breed: data.breed || undefined,
         dateOfBirth: data.dateOfBirth,
         gender: data.gender,
+        weightKg: data.weightKg ?? null,
         ownerName: data.ownerName,
         ownerPhone: data.ownerPhone,
         ownerEmail: data.ownerEmail || undefined,
@@ -230,6 +237,29 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                   <SelectItem value="Unknown" data-testid="gender-option-unknown">Unknown</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Weight */}
+            <div className="space-y-1">
+              <Label htmlFor="weightKg">
+                Weight (kg){' '}
+                <span className="text-muted-foreground font-normal">(optional)</span>
+              </Label>
+              <Input
+                id="weightKg"
+                type="number"
+                step="0.1"
+                min="0"
+                data-testid="patient-weight-input"
+                placeholder="e.g. 32.5"
+                {...register('weightKg')}
+              />
+              <p className="text-xs text-muted-foreground">Optional — used for dosage calculations</p>
+              {errors.weightKg && (
+                <p className="text-xs text-destructive" data-testid="error-weight">
+                  {errors.weightKg.message}
+                </p>
+              )}
             </div>
           </div>
 

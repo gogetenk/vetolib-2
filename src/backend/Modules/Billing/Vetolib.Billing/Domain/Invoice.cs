@@ -112,11 +112,19 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         Id,
         InvoiceNumber,
         AnimalId,
+        PatientName: null,
+        OwnerName: null,
+        OwnerPhone: null,
+        AppointmentId: null,
         Status,
-        SubTotal,
-        TotalTax,
+        _items.Select(i => i.ToDto()).ToList().AsReadOnly(),
+        Subtotal: SubTotal,
+        VatRate: 0.05m,
+        VatAmount: TotalTax,
         Total,
+        Notes: null,
+        CreatedAt,
+        PaidAt: null,
         DueDate,
-        _items.Select(i => i.ToDto()).ToList(),
-        CreatedAt);
+        ClinicId);
 }

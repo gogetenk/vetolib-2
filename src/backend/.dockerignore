@@ -1,0 +1,13 @@
+**/.git
+**/.gitignore
+**/bin
+**/obj
+**/TestResults
+**/*.user
+**/*.suo
+**/.vs
+**/node_modules
+**/AppHost
+# Tests are not needed in the production image
+**/Tests
+../../tests

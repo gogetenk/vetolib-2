@@ -168,20 +168,20 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table47 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species",
                             "Breed",
                             "AgeMonths",
                             "WeightKg"});
-                table47.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Vomiting for 2 days and refusing to eat",
                             "cat",
                             "persian",
                             "36",
                             "4.2"});
 #line 10
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table47, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table10, "When ");
 #line hidden
 #line 13
     await testRunner.ThenAsync("I should receive a triage suggestion with status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -312,14 +312,14 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table48 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species"});
-                table48.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "Dog ate chocolate 1 hour ago, trembling and vomiting",
                             "dog"});
 #line 34
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table48, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table11, "When ");
 #line hidden
 #line 37
     await testRunner.ThenAsync("the suggestion severity should be \"Emergency\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -352,14 +352,14 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table49 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species"});
-                table49.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "",
                             "cat"});
 #line 40
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table49, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table12, "When ");
 #line hidden
 #line 43
     await testRunner.ThenAsync("I should receive a validation error for \"Symptoms\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -392,14 +392,14 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table50 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species"});
-                table50.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "Cat is scratching a lot",
                             ""});
 #line 46
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table50, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table13, "When ");
 #line hidden
 #line 49
     await testRunner.ThenAsync("I should receive a validation error for \"Species\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -432,14 +432,14 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table51 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species"});
-                table51.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "Routine annual checkup",
                             "dog"});
 #line 52
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table51, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table14, "When ");
 #line hidden
 #line 55
     await testRunner.ThenAsync("the disclaimer should contain \"AI\" and \"informational purposes only\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -478,14 +478,14 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 59
     await testRunner.GivenAsync("the AI service is unavailable", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table52 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table15 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species"});
-                table52.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "General checkup",
                             "cat"});
 #line 60
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table52, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table15, "When ");
 #line hidden
 #line 63
     await testRunner.ThenAsync("I should receive an error \"AI_SERVICE_UNAVAILABLE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -521,20 +521,20 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table53 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table16 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species",
                             "Breed",
                             "AgeMonths",
                             "WeightKg"});
-                table53.AddRow(new string[] {
+                table16.AddRow(new string[] {
                             "Limping on front left paw",
                             "dog",
                             "labrador",
                             "60",
                             "30.0"});
 #line 67
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table53, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table16, "When ");
 #line hidden
 #line 70
     await testRunner.ThenAsync("a triage result should be persisted in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -579,14 +579,14 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 76
     await testRunner.GivenAsync("I am authenticated as a user with role \"Receptionist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table54 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table17 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species"});
-                table54.AddRow(new string[] {
+                table17.AddRow(new string[] {
                             "Ear infection",
                             "dog"});
 #line 77
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table54, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table17, "When ");
 #line hidden
 #line 80
     await testRunner.ThenAsync("I should receive a triage suggestion with status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -622,14 +622,14 @@ namespace Vetolib.Tests.Acceptance.Features.AI
 #line 83
     await testRunner.GivenAsync("I am authenticated as a user with role \"Owner\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table55 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table18 = new global::Reqnroll.Table(new string[] {
                             "Symptoms",
                             "Species"});
-                table55.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "Ear infection",
                             "dog"});
 #line 84
-    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table55, "When ");
+    await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table18, "When ");
 #line hidden
 #line 87
     await testRunner.ThenAsync("I should receive a 403 Forbidden response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

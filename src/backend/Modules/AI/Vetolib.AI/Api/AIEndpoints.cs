@@ -10,6 +10,7 @@ using Vetolib.AI.Application.Commands.PredictNoShow;
 using Vetolib.AI.Application.Commands.PredictNoShowBatch;
 using Vetolib.AI.Application.Commands.TriageSymptoms;
 using Vetolib.AI.Contracts;
+using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.AI.Api;
@@ -41,6 +42,11 @@ internal static class AIEndpoints
 
         group.MapPost("/no-show-predictions/batch", PredictNoShowBatch)
             .WithName("PredictNoShowBatch");
+
+        // Drug interaction checking — used by prescription form before saving
+        group.MapPost("/check-interactions", CheckInteractions)
+            .WithName("CheckInteractions")
+            .RequireAuthorization("VetOrAdmin");
 
         return app;
     }
@@ -101,6 +107,20 @@ internal static class AIEndpoints
         var cmd = new PredictNoShowBatchCommand(request.Date);
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
+
+    private static async Task<IResult> CheckInteractions(
+        CheckInteractionsRequest request,
+        IClinicContext clinicContext,
+        ISender sender)
+    {
+        var query = new CheckInteractionsQuery(
+            request.PatientId,
+            request.DrugCatalogEntryId,
+            request.DosageAmount,
+            clinicContext.ClinicId);
+
+        return (await sender.Send(query)).ToMinimalApiResult();
+    }
 }
 
 internal record TriageRequest(
@@ -113,3 +133,8 @@ internal record TriageRequest(
 internal record OverrideRequest(AISeverity NewSeverity);
 
 internal record NoShowBatchRequest(DateOnly Date);
+
+internal record CheckInteractionsRequest(
+    Guid PatientId,
+    Guid DrugCatalogEntryId,
+    decimal? DosageAmount);

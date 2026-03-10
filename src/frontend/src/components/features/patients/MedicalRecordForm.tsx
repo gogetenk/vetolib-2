@@ -10,6 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createMedicalRecord } from '@/lib/api/medical-records'
+import { DrugSelector } from './DrugSelector'
+import type { DrugSelectorValue } from './DrugSelector'
 
 const medicalRecordSchema = z.object({
   reason: z.string().min(1, 'Reason is required'),
@@ -33,6 +35,7 @@ interface MedicalRecordFormProps {
 export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormProps) {
   const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
+  const [drugSelection, setDrugSelection] = useState<DrugSelectorValue | null>(null)
 
   const {
     register,
@@ -45,6 +48,19 @@ export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormP
 
   const onSubmit = async (data: MedicalRecordFormValues) => {
     setServerError(null)
+
+    // Build the prescription string from the drug selector value (or the schema field as fallback)
+    let prescriptionText: string | undefined
+    if (drugSelection) {
+      if (drugSelection.mode === 'catalog') {
+        prescriptionText = `${drugSelection.drug.displayName} — ${drugSelection.drug.commonDosage}`
+      } else {
+        prescriptionText = drugSelection.text || undefined
+      }
+    } else {
+      prescriptionText = data.prescription || undefined
+    }
+
     try {
       await createMedicalRecord(patientId, {
         reason: data.reason,
@@ -54,7 +70,7 @@ export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormP
         heartRate: data.heartRate,
         diagnosis: data.diagnosis,
         treatment: data.treatment,
-        prescription: data.prescription || undefined,
+        prescription: prescriptionText,
         nextVisitDate: data.nextVisitDate || undefined,
       })
       router.push(`/patients/${patientId}`)
@@ -206,18 +222,11 @@ export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormP
             )}
           </div>
 
-          {/* Prescription (optional) */}
-          <div className="space-y-2">
-            <Label htmlFor="prescription">
-              Prescription <span className="text-muted-foreground">(optional)</span>
-            </Label>
-            <textarea
-              id="prescription"
-              rows={3}
-              placeholder="Medications, dosage, duration..."
-              data-testid="input-prescription"
-              className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              {...register('prescription')}
+          {/* Prescription (optional) — Drug Selector autocomplete */}
+          <div data-testid="prescription-section">
+            <DrugSelector
+              label="Prescription (optional)"
+              onChange={setDrugSelection}
             />
           </div>
 

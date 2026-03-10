@@ -112,17 +112,17 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 7
     await testRunner.GivenAsync("I am authenticated as a user with role \"Receptionist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-            global::Reqnroll.Table table38 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                         "Name",
                         "Id"});
-            table38.AddRow(new string[] {
+            table1.AddRow(new string[] {
                         "Dr. Ahmad",
                         "11111111-1111-1111-1111-111111111111"});
-            table38.AddRow(new string[] {
+            table1.AddRow(new string[] {
                         "Dr. Fatima",
                         "22222222-2222-2222-2222-222222222222"});
 #line 8
-    await testRunner.AndAsync("the clinic has the following veterinarians:", ((string)(null)), table38, "And ");
+    await testRunner.AndAsync("the clinic has the following veterinarians:", ((string)(null)), table1, "And ");
 #line hidden
         }
         
@@ -180,31 +180,31 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table39 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "StartTime",
                             "Duration",
                             "Type"});
-                table39.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "09:00",
                             "30",
                             "general"});
-                table39.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "10:30",
                             "30",
                             "general"});
 #line 14
-    await testRunner.GivenAsync("Dr. Ahmad has the following appointments on \"2026-03-15\":", ((string)(null)), table39, "Given ");
+    await testRunner.GivenAsync("Dr. Ahmad has the following appointments on \"2026-03-15\":", ((string)(null)), table2, "Given ");
 #line hidden
-                global::Reqnroll.Table table40 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "ConsultationType",
                             "PreferredDate",
                             "PreferredTime"});
-                table40.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "general",
                             "2026-03-15",
                             "10:00"});
 #line 18
-    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table40, "When ");
+    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table3, "When ");
 #line hidden
 #line 21
     await testRunner.ThenAsync("I should receive 3 slot suggestions", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -249,16 +249,16 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 27
     await testRunner.AndAsync("Dr. Fatima has 2 appointments on \"2026-03-15\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table41 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "ConsultationType",
                             "PreferredDate",
                             "PreferredTime"});
-                table41.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "general",
                             "2026-03-15",
                             "14:00"});
 #line 28
-    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table41, "When ");
+    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table4, "When ");
 #line hidden
 #line 31
     await testRunner.ThenAsync("the highest scored suggestion should be for Dr. Fatima", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -297,16 +297,16 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 35
     await testRunner.AndAsync("Dr. Ahmad has available slots in the morning and afternoon", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table42 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "ConsultationType",
                             "PreferredDate",
                             "PreferredTime"});
-                table42.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "surgery",
                             "2026-03-15",
                             "09:00"});
 #line 36
-    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table42, "When ");
+    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table5, "When ");
 #line hidden
 #line 39
     await testRunner.ThenAsync("the highest scored suggestion should be in the morning for Dr. Ahmad", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -342,16 +342,16 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 42
     await testRunner.GivenAsync("Dr. Ahmad has fewer than 5 past \"dermatology\" appointments", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table43 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "ConsultationType",
                             "PreferredDate",
                             "PreferredTime"});
-                table43.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "dermatology",
                             "2026-03-15",
                             "10:00"});
 #line 43
-    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table43, "When ");
+    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table6, "When ");
 #line hidden
 #line 46
     await testRunner.ThenAsync("the estimated duration should use the default for \"dermatology\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -388,18 +388,18 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.GivenAsync("Dr. Ahmad has completed 20 \"general\" appointments with average duration 25 minute" +
                         "s", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table44 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "ConsultationType",
                             "PreferredDate",
                             "PreferredTime",
                             "PreferredVeterinarianId"});
-                table44.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "general",
                             "2026-03-15",
                             "10:00",
                             "11111111-1111-1111-1111-111111111111"});
 #line 50
-    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table44, "When ");
+    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table7, "When ");
 #line hidden
 #line 53
     await testRunner.ThenAsync("the estimated duration should be approximately 25 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -435,16 +435,16 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 56
     await testRunner.GivenAsync("all veterinarians are fully booked on \"2026-03-15\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table45 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
                             "ConsultationType",
                             "PreferredDate",
                             "PreferredTime"});
-                table45.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "general",
                             "2026-03-15",
                             "10:00"});
 #line 57
-    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table45, "When ");
+    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table8, "When ");
 #line hidden
 #line 60
     await testRunner.ThenAsync("I should receive 0 slot suggestions", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -477,18 +477,18 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table46 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
                             "ConsultationType",
                             "PreferredDate",
                             "PreferredTime",
                             "PreferredVeterinarianId"});
-                table46.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "general",
                             "2026-03-15",
                             "10:00",
                             "11111111-1111-1111-1111-111111111111"});
 #line 63
-    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table46, "When ");
+    await testRunner.WhenAsync("I request a slot suggestion for:", ((string)(null)), table9, "When ");
 #line hidden
 #line 66
     await testRunner.ThenAsync("all suggestions should be for Dr. Ahmad", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

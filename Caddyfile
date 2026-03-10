@@ -1,0 +1,7 @@
+api.vetolib.ae {
+    reverse_proxy backend:8080
+}
+
+app.vetolib.ae {
+    reverse_proxy frontend:3000
+}

@@ -1,0 +1,72 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vetolib-postgres
+    environment:
+      POSTGRES_USER: vetolib
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vetolib_dev}
+      POSTGRES_DB: vetolibdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vetolib -d vetolibdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: src/backend
+      dockerfile: Dockerfile
+    container_name: vetolib-backend
+    environment:
+      ConnectionStrings__vetolibdb: "Host=postgres;Database=vetolibdb;Username=vetolib;Password=${POSTGRES_PASSWORD:-vetolib_dev}"
+      Jwt__Key: ${JWT_SECRET:?JWT_SECRET must be set in .env (min 32 chars)}
+      Jwt__Issuer: Vetolib
+      Jwt__Audience: Vetolib
+      ASPNETCORE_URLS: "http://+:8080"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: src/frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8080
+    container_name: vetolib-frontend
+    environment:
+      # BACKEND_URL is server-side (Next.js rewrites) — routes /api/* to the backend container
+      BACKEND_URL: http://backend:8080
+      # NEXT_PUBLIC_API_URL is baked at build time for client-side usage
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: vetolib-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  caddy_data:

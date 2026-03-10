@@ -11,6 +11,7 @@ internal class Prescription : BaseEntity, IMultiTenant
     public string Medication { get; private set; } = string.Empty;
     public string Dosage { get; private set; } = string.Empty;
     public string VetLicenseNumber { get; private set; } = string.Empty;
+    public Guid? DrugCatalogEntryId { get; private set; }
 
     private Prescription() { } // EF Core
 
@@ -19,7 +20,8 @@ internal class Prescription : BaseEntity, IMultiTenant
         Guid medicalRecordId,
         string medication,
         string dosage,
-        string vetLicenseNumber)
+        string vetLicenseNumber,
+        Guid? drugCatalogEntryId = null)
     {
         var errors = new List<ValidationError>();
 
@@ -47,7 +49,8 @@ internal class Prescription : BaseEntity, IMultiTenant
             MedicalRecordId = medicalRecordId,
             Medication = medication.Trim(),
             Dosage = dosage.Trim(),
-            VetLicenseNumber = vetLicenseNumber.Trim()
+            VetLicenseNumber = vetLicenseNumber.Trim(),
+            DrugCatalogEntryId = drugCatalogEntryId
         };
 
         return Result<Prescription>.Success(prescription);
@@ -62,6 +65,7 @@ internal class Prescription : BaseEntity, IMultiTenant
             Medication,
             Dosage,
             VetLicenseNumber,
-            CreatedAt);
+            CreatedAt,
+            DrugCatalogEntryId);
     }
 }

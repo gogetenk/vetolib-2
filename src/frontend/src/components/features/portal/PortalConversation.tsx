@@ -1,0 +1,202 @@
+'use client'
+
+import { useEffect, useState, useRef } from 'react'
+import { useTranslations } from 'next-intl'
+import { useRouter, useParams } from 'next/navigation'
+import { ArrowLeft, Send } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { getPortalConversation, sendPortalMessage } from '@/lib/api/portal'
+import { ApiError } from '@/lib/api/client'
+import type { PortalConversationDto, PortalMessageDto } from '@/lib/api/messaging-types'
+
+interface PortalConversationProps {
+  conversationId: string
+}
+
+export function PortalConversation({ conversationId }: PortalConversationProps) {
+  const t = useTranslations('portal.conversation')
+  const router = useRouter()
+  const params = useParams<{ locale: string; clinicSlug: string }>()
+
+  const [conversation, setConversation] = useState<PortalConversationDto | null>(null)
+  const [messages, setMessages] = useState<PortalMessageDto[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [reply, setReply] = useState('')
+  const [isSending, setIsSending] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    getPortalConversation(conversationId)
+      .then((conv) => {
+        setConversation(conv)
+        setMessages(conv.messages ?? [])
+      })
+      .catch(() => {
+        // Handle 404/401 gracefully
+      })
+      .finally(() => setIsLoading(false))
+  }, [conversationId])
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  const isClosed = conversation?.status === 'Closed'
+
+  async function handleSendReply() {
+    if (!reply.trim()) return
+    setIsSending(true)
+    setSendError(null)
+    try {
+      const newMsg = await sendPortalMessage(conversationId, { body: reply.trim() })
+      setMessages((prev) => [...prev, newMsg])
+      setReply('')
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 429) {
+        setSendError(t('errors.too_many_messages'))
+      } else {
+        setSendError(t('errors.send_failed'))
+      }
+    } finally {
+      setIsSending(false)
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12" data-testid="conversation-loading">
+        <div className="h-8 w-8 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin" />
+      </div>
+    )
+  }
+
+  if (!conversation) {
+    return (
+      <div className="text-center py-12 text-gray-500" data-testid="conversation-not-found">
+        <p>Conversation not found.</p>
+        <Button
+          variant="ghost"
+          onClick={() => router.push(`/${params.locale}/portal/${params.clinicSlug}`)}
+          className="mt-3"
+        >
+          {t('back')}
+        </Button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-4" data-testid="portal-conversation">
+      {/* Back + title */}
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => router.push(`/${params.locale}/portal/${params.clinicSlug}`)}
+          data-testid="back-to-conversations-link"
+          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-800"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t('back')}
+        </button>
+      </div>
+
+      <div>
+        <h1 className="text-lg font-bold text-gray-900" data-testid="conversation-subject">
+          {conversation.subject}
+        </h1>
+        <p className="text-xs text-gray-500 mt-0.5">
+          {new Date(conversation.createdAt).toLocaleDateString('en-AE', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            timeZone: 'Asia/Dubai',
+          })}
+        </p>
+      </div>
+
+      {/* Message thread */}
+      <div className="space-y-3" data-testid="message-thread">
+        {messages.map((msg) => {
+          const isOwner = msg.sender === 'Owner'
+          return (
+            <div
+              key={msg.id}
+              className={`flex ${isOwner ? 'justify-end' : 'justify-start'}`}
+              data-testid={`message-${msg.id}`}
+            >
+              <div
+                className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
+                  isOwner
+                    ? 'bg-emerald-600 text-white rounded-br-sm'
+                    : 'bg-white border border-gray-200 text-gray-900 rounded-bl-sm'
+                }`}
+              >
+                {!isOwner && (
+                  <p className="text-xs font-semibold mb-1 text-emerald-700">
+                    {msg.senderName ?? t('clinic')}
+                  </p>
+                )}
+                <p className="whitespace-pre-wrap">{msg.body}</p>
+                <p className={`text-xs mt-1 ${isOwner ? 'text-emerald-100' : 'text-gray-400'}`}>
+                  {new Date(msg.sentAt).toLocaleTimeString('en-AE', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZone: 'Asia/Dubai',
+                  })}
+                </p>
+              </div>
+            </div>
+          )
+        })}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Closed notice or reply box */}
+      {isClosed ? (
+        <div
+          className="rounded-lg bg-gray-100 border border-gray-200 px-4 py-3 text-sm text-gray-600 text-center"
+          data-testid="conversation-closed-notice"
+        >
+          {t('closed_notice')}
+        </div>
+      ) : (
+        <div className="space-y-2" data-testid="reply-area">
+          {sendError && (
+            <p className="text-sm text-red-600" data-testid="reply-error">
+              {sendError}
+            </p>
+          )}
+          <div className="flex gap-2 items-end">
+            <textarea
+              value={reply}
+              onChange={(e) => setReply(e.target.value)}
+              placeholder={t('reply_placeholder')}
+              rows={3}
+              data-testid="reply-input"
+              className="flex-1 block rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                  handleSendReply()
+                }
+              }}
+            />
+            <Button
+              onClick={handleSendReply}
+              disabled={isSending || !reply.trim()}
+              data-testid="send-reply-btn"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white h-10 px-3"
+            >
+              {isSending ? (
+                <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+              <span className="sr-only">{t('send_reply')}</span>
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

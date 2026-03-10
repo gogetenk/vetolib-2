@@ -4,6 +4,9 @@ import { appointmentHandlers } from './appointments'
 import { patientHandlers } from './patients'
 import { userHandlers } from './users'
 import { dashboardHandlers } from './dashboard'
+import { messagingHandlers } from './messaging'
+import { drugHandlers } from './drugs'
+import { portalHandlers } from './portal'
 
 export const handlers = [
   ...authHandlers,
@@ -12,4 +15,7 @@ export const handlers = [
   ...patientHandlers,
   ...userHandlers,
   ...dashboardHandlers,
+  ...messagingHandlers,
+  ...drugHandlers,
+  ...portalHandlers,
 ]

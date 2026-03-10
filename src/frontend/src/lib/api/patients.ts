@@ -10,6 +10,7 @@ export interface PatientDto {
   dateOfBirth: string
   ageYears: number
   gender: 'Male' | 'Female' | 'Unknown'
+  weightKg: number | null
   ownerName: string
   ownerPhone: string
   ownerEmail: string
@@ -24,6 +25,7 @@ export interface CreatePatientRequest {
   breed?: string
   dateOfBirth: string
   gender: 'Male' | 'Female' | 'Unknown'
+  weightKg?: number | null
   ownerName: string
   ownerPhone: string
   ownerEmail?: string
@@ -89,4 +91,30 @@ export async function createPatient(data: CreatePatientRequest): Promise<Patient
 
 export async function updatePatient(id: string, data: Partial<CreatePatientRequest>): Promise<PatientDto> {
   return apiPatch<PatientDto>(`/api/patients/${id}`, data)
+}
+
+export interface ImportReportDto {
+  imported: number
+  skipped: number
+  errors: string[]
+}
+
+export async function importPatientsCsv(file: File): Promise<ImportReportDto> {
+  const formData = new FormData()
+  formData.append('file', file)
+  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
+  const headers: Record<string, string> = {}
+  if (token) headers['Authorization'] = `Bearer ${token}`
+  const res = await fetch('/api/patients/import', { method: 'POST', headers, body: formData })
+  if (!res.ok) throw new Error('Import failed')
+  return res.json() as Promise<ImportReportDto>
+}
+
+export async function downloadImportTemplate(): Promise<Blob> {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
+  const headers: Record<string, string> = {}
+  if (token) headers['Authorization'] = `Bearer ${token}`
+  const res = await fetch('/api/patients/import/template', { method: 'GET', headers })
+  if (!res.ok) throw new Error('Download failed')
+  return res.blob()
 }

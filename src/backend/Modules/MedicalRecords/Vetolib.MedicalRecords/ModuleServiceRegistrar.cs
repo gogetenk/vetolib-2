@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.MedicalRecords.Api;
 using Vetolib.MedicalRecords.Application.Behaviors;
+using Vetolib.MedicalRecords.Contracts;
 using Vetolib.MedicalRecords.Infrastructure;
 
 namespace Vetolib.MedicalRecords;
@@ -24,6 +25,9 @@ public static class ModuleServiceRegistrar
 
         // FluentValidation
         services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
+
+        // Cross-module reader interfaces
+        services.AddScoped<IPatientReader, PatientReader>();
 
         return services;
     }

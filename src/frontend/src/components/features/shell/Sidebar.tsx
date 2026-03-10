@@ -11,11 +11,14 @@ import {
   Settings,
   User,
   Users,
+  Package,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useRole } from "@/hooks/use-role";
+import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
 
 type UserRole = "VET" | "RECEPTIONIST" | "ASSISTANT" | "ADMIN" | string;
 
@@ -60,10 +63,30 @@ const mainNavItems: NavItem[] = [
     testId: "nav-billing",
   },
   {
+    href: "/messages",
+    label: "Messages",
+    icon: <MessageSquare className="h-5 w-5" />,
+    testId: "nav-messages",
+  },
+  {
+    href: "/stock",
+    label: "Stock",
+    icon: <Package className="h-5 w-5" />,
+    testId: "nav-stock",
+    roles: ["VET", "ADMIN"],
+  },
+  {
     href: "/settings/team",
     label: "Team",
     icon: <Users className="h-5 w-5" />,
     testId: "nav-team",
+    roles: ["ADMIN"],
+  },
+  {
+    href: "/settings/messaging/templates",
+    label: "Messaging Settings",
+    icon: <Settings className="h-5 w-5" />,
+    testId: "nav-messaging-settings",
     roles: ["ADMIN"],
   },
 ];
@@ -88,10 +111,13 @@ interface SidebarNavItemProps {
   isActive: boolean;
   role: UserRole;
   onClick?: () => void;
+  messagingUnreadCount?: number;
 }
 
-function SidebarNavItem({ item, isActive, role, onClick }: SidebarNavItemProps) {
+function SidebarNavItem({ item, isActive, role, onClick, messagingUnreadCount }: SidebarNavItemProps) {
   const showBadge = item.badge && item.badgeForRoles?.includes(role);
+  const isMessagesItem = item.href === "/messages";
+  const showUnreadBadge = isMessagesItem && messagingUnreadCount != null && messagingUnreadCount > 0;
 
   return (
     <Link
@@ -108,7 +134,15 @@ function SidebarNavItem({ item, isActive, role, onClick }: SidebarNavItemProps) 
     >
       {item.icon}
       <span>{item.label}</span>
-      {showBadge && (
+      {showUnreadBadge && (
+        <Badge
+          data-testid="nav-messages-unread-badge"
+          className="ml-auto text-xs bg-destructive text-destructive-foreground animate-pulse"
+        >
+          {messagingUnreadCount}
+        </Badge>
+      )}
+      {!showUnreadBadge && showBadge && (
         <Badge
           data-testid={`${item.testId}-badge`}
           variant="secondary"
@@ -128,6 +162,8 @@ interface SidebarContentProps {
 }
 
 function SidebarContent({ role, pathname, onItemClick }: SidebarContentProps) {
+  const { unreadCount } = useMessagingSseContext();
+
   const visibleMain = mainNavItems.filter(
     (item) => !item.roles || item.roles.includes(role)
   );
@@ -149,6 +185,7 @@ function SidebarContent({ role, pathname, onItemClick }: SidebarContentProps) {
             isActive={pathname.startsWith(item.href)}
             role={role}
             onClick={onItemClick}
+            messagingUnreadCount={unreadCount}
           />
         ))}
       </nav>

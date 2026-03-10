@@ -102,3 +102,29 @@ export async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
 export function logout(): void {
   clearStoredTokens()
 }
+
+export type RegisterErrorCode = 'EMAIL_TAKEN' | 'NETWORK_ERROR'
+
+export interface RegisterError {
+  code: RegisterErrorCode
+  message: string
+}
+
+export interface RegisterClinicRequest {
+  clinicName: string
+  email: string
+  password: string
+  phone: string
+}
+
+// POST /api/auth/register-clinic
+export async function registerClinic(data: RegisterClinicRequest): Promise<void> {
+  try {
+    await apiPost<void>('/api/auth/register-clinic', data)
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 409) {
+      throw { code: 'EMAIL_TAKEN', message: 'Email already in use' } as RegisterError
+    }
+    throw { code: 'NETWORK_ERROR', message: 'Connection error. Please try again.' } as RegisterError
+  }
+}

@@ -12,6 +12,7 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2019-03-15',
     ageYears: 6,
     gender: 'Male',
+    weightKg: 32.5,
     ownerName: 'Ahmed Al-Rashid',
     ownerPhone: '+971 50 123 4567',
     ownerEmail: 'ahmed.alrashid@email.ae',
@@ -27,6 +28,7 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2021-07-22',
     ageYears: 4,
     gender: 'Female',
+    weightKg: 3.8,
     ownerName: 'Fatima Hassan',
     ownerPhone: '+971 55 987 6543',
     ownerEmail: 'fatima.hassan@email.ae',
@@ -42,6 +44,7 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2020-01-05',
     ageYears: 6,
     gender: 'Male',
+    weightKg: null,
     ownerName: 'Mohammed Al-Farsi',
     ownerPhone: '+971 52 345 6789',
     ownerEmail: 'mohammed.alfarsi@email.ae',
@@ -57,6 +60,7 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2022-05-10',
     ageYears: 3,
     gender: 'Female',
+    weightKg: 28.0,
     ownerName: 'Sara Al-Mansoori',
     ownerPhone: '+971 56 789 0123',
     ownerEmail: 'sara.almansoori@email.ae',
@@ -72,6 +76,7 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2018-07-20',
     ageYears: 7,
     gender: 'Male',
+    weightKg: 520.0,
     ownerName: 'Khalid Al-Mazrouei',
     ownerPhone: '+971 55 987 6543',
     ownerEmail: 'khalid.almazrouei@email.ae',
@@ -285,6 +290,7 @@ export const patientHandlers = [
       dateOfBirth: body.dateOfBirth,
       ageYears,
       gender: body.gender,
+      weightKg: body.weightKg ?? null,
       ownerName: body.ownerName,
       ownerPhone: body.ownerPhone,
       ownerEmail: body.ownerEmail ?? '',
@@ -306,6 +312,7 @@ export const patientHandlers = [
     if (body.species !== undefined) patient.species = body.species
     if (body.breed !== undefined) patient.breed = body.breed ?? ''
     if (body.gender !== undefined) patient.gender = body.gender
+    if (body.weightKg !== undefined) patient.weightKg = body.weightKg ?? null
     if (body.ownerName !== undefined) patient.ownerName = body.ownerName
     if (body.ownerPhone !== undefined) patient.ownerPhone = body.ownerPhone
     if (body.ownerEmail !== undefined) patient.ownerEmail = body.ownerEmail ?? ''

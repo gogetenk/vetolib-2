@@ -11,6 +11,7 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
     public Species Species { get; private set; }
     public string Breed { get; private set; } = string.Empty;
     public DateOnly BirthDate { get; private set; }
+    public decimal? WeightKg { get; private set; }
 
     private readonly List<PatientOwner> _patientOwners = [];
     public IReadOnlyList<PatientOwner> PatientOwners => _patientOwners.AsReadOnly();
@@ -78,6 +79,11 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
         }
 
         return Result.Success();
+    }
+
+    public void SetWeight(decimal weightKg)
+    {
+        WeightKg = weightKg;
     }
 
     public void AddOwner(PatientOwner patientOwner)

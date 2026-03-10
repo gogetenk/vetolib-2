@@ -1,0 +1,252 @@
+import { http, HttpResponse } from 'msw'
+import type { DrugCatalogEntryDto } from '@/lib/api/types'
+
+// Realistic UAE veterinary drug catalog (INN names)
+const MOCK_DRUGS: DrugCatalogEntryDto[] = [
+  {
+    id: 'drug-0000-0000-0000-000000000001',
+    innName: 'amoxicillin',
+    displayName: 'Amoxicillin 250mg',
+    category: 'Antibiotic',
+    commonDosage: '10–20 mg/kg twice daily for 5–7 days',
+    contraindicatedSpecies: [
+      { species: 'Rabbit', reason: 'Disrupts cecal flora — potentially fatal' },
+    ],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 15, unit: 'mg', frequency: 'BID', maxDurationDays: 7 },
+      { species: 'Cat', dosePerKg: 10, unit: 'mg', frequency: 'BID', maxDurationDays: 7 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000002',
+    innName: 'meloxicam',
+    displayName: 'Meloxicam 1.5mg/ml',
+    category: 'AntiInflammatory',
+    commonDosage: '0.1 mg/kg once daily — taper after 3 days',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 0.1, unit: 'mg', frequency: 'SID', maxDurationDays: 5 },
+      { species: 'Cat', dosePerKg: 0.05, unit: 'mg', frequency: 'SID', maxDurationDays: 3 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000003',
+    innName: 'metronidazole',
+    displayName: 'Metronidazole 250mg',
+    category: 'Antibiotic',
+    commonDosage: '10–25 mg/kg twice daily for 5 days',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 15, unit: 'mg', frequency: 'BID', maxDurationDays: 5 },
+      { species: 'Cat', dosePerKg: 10, unit: 'mg', frequency: 'BID', maxDurationDays: 5 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000004',
+    innName: 'ivermectin',
+    displayName: 'Ivermectin 1% injection',
+    category: 'Antiparasitic',
+    commonDosage: '0.2 mg/kg SC once, repeat in 2 weeks if needed',
+    contraindicatedSpecies: [
+      { species: 'Dog', reason: 'Collie breeds: MDR1 mutation risk — use cautiously' },
+    ],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 0.2, unit: 'mg', frequency: 'once', maxDurationDays: null },
+      { species: 'Cat', dosePerKg: 0.2, unit: 'mg', frequency: 'once', maxDurationDays: null },
+      { species: 'Camel', dosePerKg: 0.2, unit: 'mg', frequency: 'once', maxDurationDays: null },
+    ],
+    interactionSeverity: 'Moderate',
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000005',
+    innName: 'prednisolone',
+    displayName: 'Prednisolone 5mg',
+    category: 'AntiInflammatory',
+    commonDosage: '1–2 mg/kg once daily, taper over 2 weeks',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 1, unit: 'mg', frequency: 'SID', maxDurationDays: 14 },
+      { species: 'Cat', dosePerKg: 2, unit: 'mg', frequency: 'SID', maxDurationDays: 14 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000006',
+    innName: 'diphenhydramine',
+    displayName: 'Diphenhydramine 25mg',
+    category: 'AntiInflammatory',
+    commonDosage: '1 mg/kg twice daily for 5–10 days',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 1, unit: 'mg', frequency: 'BID', maxDurationDays: 10 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: false,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000007',
+    innName: 'enrofloxacin',
+    displayName: 'Enrofloxacin 50mg',
+    category: 'Antibiotic',
+    commonDosage: '5–10 mg/kg once daily for 7 days',
+    contraindicatedSpecies: [
+      { species: 'Rabbit', reason: 'Use with extreme caution — monitor closely' },
+    ],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 5, unit: 'mg', frequency: 'SID', maxDurationDays: 7 },
+      { species: 'Cat', dosePerKg: 5, unit: 'mg', frequency: 'SID', maxDurationDays: 7 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000008',
+    innName: 'ketoconazole',
+    displayName: 'Ketoconazole 200mg',
+    category: 'Antifungal',
+    commonDosage: '5–10 mg/kg once daily for 30 days',
+    contraindicatedSpecies: [
+      { species: 'Cat', reason: 'Hepatotoxic in cats — prefer itraconazole' },
+    ],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 10, unit: 'mg', frequency: 'SID', maxDurationDays: 30 },
+    ],
+    interactionSeverity: 'Moderate',
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000009',
+    innName: 'atenolol',
+    displayName: 'Atenolol 25mg',
+    category: 'Cardiac',
+    commonDosage: '0.2–1 mg/kg once daily — titrate to effect',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 0.5, unit: 'mg', frequency: 'SID', maxDurationDays: null },
+      { species: 'Cat', dosePerKg: 1, unit: 'mg', frequency: 'SID', maxDurationDays: null },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000010',
+    innName: 'dexamethasone',
+    displayName: 'Dexamethasone 2mg/ml injection',
+    category: 'AntiInflammatory',
+    commonDosage: '0.1–0.2 mg/kg IV/IM for acute inflammation',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 0.15, unit: 'mg', frequency: 'once', maxDurationDays: 1 },
+      { species: 'Cat', dosePerKg: 0.1, unit: 'mg', frequency: 'once', maxDurationDays: 1 },
+      { species: 'Camel', dosePerKg: 0.05, unit: 'mg', frequency: 'once', maxDurationDays: 1 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000011',
+    innName: 'furosemide',
+    displayName: 'Furosemide 40mg',
+    category: 'Cardiac',
+    commonDosage: '1–2 mg/kg once or twice daily',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 1, unit: 'mg', frequency: 'SID-BID', maxDurationDays: null },
+      { species: 'Cat', dosePerKg: 1, unit: 'mg', frequency: 'SID', maxDurationDays: null },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000012',
+    innName: 'tramadol',
+    displayName: 'Tramadol 50mg',
+    category: 'Analgesic',
+    commonDosage: '1–5 mg/kg every 8–12 hours',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 2, unit: 'mg', frequency: 'TID', maxDurationDays: 7 },
+      { species: 'Cat', dosePerKg: 1, unit: 'mg', frequency: 'BID', maxDurationDays: 5 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000013',
+    innName: 'cephalexin',
+    displayName: 'Cephalexin 500mg',
+    category: 'Antibiotic',
+    commonDosage: '10–30 mg/kg twice daily for 7 days',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 20, unit: 'mg', frequency: 'BID', maxDurationDays: 7 },
+      { species: 'Cat', dosePerKg: 15, unit: 'mg', frequency: 'BID', maxDurationDays: 7 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000014',
+    innName: 'chlorhexidine',
+    displayName: 'Chlorhexidine 2% solution',
+    category: 'Dermatological',
+    commonDosage: 'Apply to affected area twice daily for 14 days',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [],
+    interactionSeverity: null,
+    requiresPrescription: false,
+  },
+  {
+    id: 'drug-0000-0000-0000-000000000015',
+    innName: 'maropitant',
+    displayName: 'Maropitant 16mg',
+    category: 'Other',
+    commonDosage: '1 mg/kg once daily for up to 5 days',
+    contraindicatedSpecies: [],
+    dosageGuidelines: [
+      { species: 'Dog', dosePerKg: 1, unit: 'mg', frequency: 'SID', maxDurationDays: 5 },
+      { species: 'Cat', dosePerKg: 1, unit: 'mg', frequency: 'SID', maxDurationDays: 5 },
+    ],
+    interactionSeverity: null,
+    requiresPrescription: true,
+  },
+]
+
+export const drugHandlers = [
+  // GET /api/medical-records/drugs?search={term}
+  http.get('/api/medical-records/drugs', async ({ request }) => {
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    const url = new URL(request.url)
+    const search = url.searchParams.get('search')?.toLowerCase().trim()
+
+    if (!search) {
+      return HttpResponse.json<DrugCatalogEntryDto[]>([])
+    }
+
+    const results = MOCK_DRUGS.filter(
+      d =>
+        d.innName.toLowerCase().includes(search) ||
+        d.displayName.toLowerCase().includes(search)
+    ).slice(0, 10)
+
+    return HttpResponse.json<DrugCatalogEntryDto[]>(results)
+  }),
+
+  // GET /api/medical-records/drugs/:id
+  http.get('/api/medical-records/drugs/:id', async ({ params }) => {
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    const drug = MOCK_DRUGS.find(d => d.id === params.id)
+    if (!drug) return new HttpResponse(null, { status: 404 })
+    return HttpResponse.json<DrugCatalogEntryDto>(drug)
+  }),
+]

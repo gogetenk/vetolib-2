@@ -1,0 +1,964 @@
+{
+  "auth": {
+    "signup": {
+      "title": "Create Your Clinic",
+      "meta_title": "Create Your Clinic — Vetolib",
+      "meta_description": "Start your free 14-day trial. Manage appointments, medical records, and billing for your veterinary clinic in the UAE.",
+      "subtitle": "Start your 14-day free trial. No credit card required.",
+      "clinic_name": "Clinic Name",
+      "clinic_name_placeholder": "e.g. Desert Paws Veterinary Clinic",
+      "email": "Email",
+      "email_placeholder": "admin@yourclinic.ae",
+      "phone": "Phone",
+      "phone_placeholder": "+971 50 123 4567",
+      "password": "Password",
+      "password_placeholder": "Min. 8 chars, 1 uppercase, 1 number",
+      "confirm_password": "Confirm Password",
+      "confirm_password_placeholder": "Repeat your password",
+      "submit": "Create My Clinic",
+      "submitting": "Creating your clinic...",
+      "already_have_account": "Already have an account?",
+      "sign_in": "Sign In",
+      "strength_min": "8+ characters",
+      "strength_upper": "1 uppercase letter",
+      "strength_number": "1 number",
+      "welcome_toast": "Welcome! Your 14-day free trial has started.",
+      "errors": {
+        "clinic_name_required": "Clinic name is required",
+        "email_required": "Please enter a valid email address",
+        "phone_required": "Phone number is required",
+        "password_min": "Password must be at least 8 characters",
+        "password_uppercase": "Password must contain at least one uppercase letter",
+        "password_number": "Password must contain at least one number",
+        "passwords_no_match": "Passwords do not match",
+        "email_taken": "An account with this email already exists",
+        "connection_error": "Connection error. Please try again."
+      }
+    },
+    "login": {
+      "title": "Sign In",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "signing_in": "Signing in...",
+      "veterinary_management": "Veterinary Management",
+      "email_placeholder": "vet@clinic-dubai.com",
+      "password_placeholder": "Enter your password",
+      "errors": {
+        "invalid_credentials": "Invalid email or password",
+        "account_locked": "Account locked. Try again in 15 minutes.",
+        "connection_error": "Connection error. Please try again.",
+        "email_required": "Please enter a valid email address",
+        "password_required": "Password is required"
+      }
+    }
+  },
+  "nav": {
+    "appointments": "Appointments",
+    "patients": "Patients",
+    "medical_records": "Medical Records",
+    "billing": "Billing",
+    "messages": "Messages",
+    "team": "Team",
+    "settings": "Settings",
+    "profile": "Profile",
+    "sign_out": "Sign Out",
+    "stock": "Stock",
+    "read_only": "Read only"
+  },
+  "appointments": {
+    "title": "Appointments",
+    "new": "New Appointment",
+    "all_statuses": "All Statuses",
+    "clear_date": "Clear date",
+    "loading": "Loading...",
+    "no_appointments": "No appointments found",
+    "page_of": "Page {page} of {total} ({count} total)",
+    "previous": "Previous",
+    "next": "Next",
+    "columns": {
+      "datetime": "Date / Time",
+      "patient": "Patient",
+      "owner": "Owner",
+      "vet": "Veterinarian",
+      "status": "Status",
+      "actions": "Actions",
+      "view": "View"
+    },
+    "form": {
+      "title": "New Appointment",
+      "patient_name": "Patient Name",
+      "patient_name_placeholder": "e.g. Max",
+      "species": "Species",
+      "select_species": "Select species",
+      "owner_name": "Owner Name",
+      "owner_name_placeholder": "e.g. Khalid Al-Mansoori",
+      "owner_phone": "Owner Phone",
+      "owner_phone_placeholder": "+971 50 123 4567",
+      "vet": "Veterinarian",
+      "select_vet": "Select vet",
+      "date": "Date",
+      "time_slot": "Time Slot",
+      "select_time": "Select time",
+      "reason": "Reason for Visit",
+      "reason_placeholder": "Describe the reason for the appointment",
+      "notes": "Notes (optional)",
+      "notes_placeholder": "Any additional notes",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "errors": {
+        "species_required": "Species is required",
+        "patient_name_required": "Patient name is required",
+        "species_required": "Species is required",
+        "owner_name_required": "Owner name is required",
+        "owner_phone_required": "Owner phone is required",
+        "vet_required": "Vet is required",
+        "date_required": "Date is required",
+        "time_required": "Time is required",
+        "reason_required": "Reason is required"
+      },
+      "toast": {
+        "created": "Appointment created successfully",
+        "failed": "Failed to create appointment",
+        "load_vets_failed": "Failed to load vets",
+        "slot_unavailable": "This time slot is not available"
+      },
+      "suggest_slot": {
+        "button": "Suggest best slot",
+        "loading": "Finding best slots...",
+        "panel_title": "Suggested Slots",
+        "score_label": "Match score",
+        "duration_minutes": "{n} min",
+        "select_button": "Use this slot",
+        "error": "Failed to fetch suggestions"
+      }
+    },
+    "detail": {
+      "back": "Back to Appointments",
+      "update_status": "Update Status",
+      "confirm_action": "Confirm action",
+      "transition_to": "Transition to"
+    },
+    "status": {
+      "SCHEDULED": "Scheduled",
+      "CHECKED_IN": "Checked In",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "patients": {
+    "title": "Patients",
+    "add_patient": "Add Patient",
+    "import_csv": "Import CSV",
+    "search_placeholder": "Search by name or owner...",
+    "no_patients": "No patients found.",
+    "owner": "Owner",
+    "last_visit": "Last visit",
+    "next_appt": "Next appt",
+    "view_record": "View Record",
+    "import": {
+      "title": "Import Patients from CSV",
+      "template_hint": "Download the template to get the correct format.",
+      "download_template": "Download Template",
+      "drop_hint": "Drop your CSV file here or click to browse",
+      "csv_only": "CSV files only",
+      "preview_label": "Preview (first 5 rows)",
+      "preview_note": "Showing up to 5 rows",
+      "import_complete": "Import complete",
+      "imported": "Imported",
+      "skipped": "Skipped",
+      "errors_title": "Row errors",
+      "import": "Import",
+      "importing": "Importing...",
+      "cancel": "Cancel",
+      "close": "Close",
+      "error_not_csv": "Please select a CSV file",
+      "error_import_failed": "Import failed. Please try again."
+    },
+    "form": {
+      "title": "New Patient",
+      "patient_name": "Patient Name",
+      "species": "Species",
+      "breed": "Breed",
+      "gender": "Gender",
+      "date_of_birth": "Date of Birth",
+      "owner_name": "Owner Name",
+      "owner_phone": "Owner Phone",
+      "owner_email": "Owner Email",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "species": {
+      "Dog": "Dog",
+      "Cat": "Cat",
+      "Bird": "Bird",
+      "Rabbit": "Rabbit",
+      "Horse": "Horse",
+      "Camel": "Camel",
+      "Exotic": "Exotic"
+    }
+  },
+  "drug_selector": {
+    "label": "Medication",
+    "search_placeholder": "Search by name or INN (e.g. amoxicillin)...",
+    "free_text_placeholder": "Enter medication name and dosage freely",
+    "free_text_label": "Medication (free text)",
+    "use_free_text": "Enter manually",
+    "use_catalog": "Search catalog",
+    "results_label": "Drug catalog results",
+    "no_results": "No matching drugs found. Switch to manual entry.",
+    "rx_required": "Rx",
+    "selected_summary_label": "Selected"
+  },
+  "medical_records": {
+    "title": "Medical Records",
+    "records": "Records",
+    "coming_soon": "Medical records management coming soon."
+  },
+  "billing": {
+    "title": "Billing",
+    "invoices": "Invoices",
+    "new_invoice": "+ New Invoice",
+    "all_statuses": "All statuses",
+    "loading": "Loading invoices...",
+    "no_invoices": "No invoices found",
+    "failed_to_load": "Failed to load invoices",
+    "subtotal": "Subtotal",
+    "vat": "VAT (5%)",
+    "total": "Total AED",
+    "total_filtered": "Total filtered:",
+    "invoice_count_singular": "{count} invoice —",
+    "invoice_count_plural": "{count} invoices —",
+    "columns": {
+      "invoice": "# Invoice",
+      "patient": "Patient",
+      "date": "Date",
+      "subtotal": "Subtotal HT",
+      "vat": "VAT (5%)",
+      "total": "Total AED",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "detail": {
+      "created": "Created:",
+      "due": "Due:",
+      "paid_on": "Paid on:",
+      "client": "Client",
+      "patient": "Patient:",
+      "items": "Items",
+      "notes": "Notes",
+      "back_to_billing": "Back to Billing",
+      "send": "Send",
+      "edit": "Edit",
+      "delete": "Delete",
+      "mark_as_paid": "Mark as Paid",
+      "cancel": "Cancel",
+      "download_pdf": "Download PDF",
+      "description": "Description",
+      "qty": "Qty",
+      "unit_price": "Unit Price",
+      "subtotal": "Subtotal",
+      "subtotal_ht": "Subtotal HT",
+      "delete_confirm": "Delete this invoice? This action cannot be undone.",
+      "errors": {
+        "not_found": "Invoice not found",
+        "send_failed": "Failed to send invoice",
+        "paid_failed": "Failed to mark as paid",
+        "cancel_failed": "Failed to cancel invoice",
+        "delete_failed": "Failed to delete invoice",
+        "pdf_failed": "Failed to download PDF"
+      }
+    },
+    "status": {
+      "DRAFT": "Draft",
+      "SENT": "Sent",
+      "PAID": "Paid",
+      "CANCELLED": "Cancelled"
+    },
+    "form": {
+      "title": "New Invoice",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "analytics": {
+      "title": "Analytics",
+      "revenue_by_month": "Revenue by Month",
+      "patients_by_species": "Patients by Species",
+      "no_show_rate": "No-Show Rate (30d)",
+      "appointments_by_status": "Appointments by Status",
+      "currency": "AED",
+      "loading": "Loading analytics...",
+      "error": "Failed to load analytics",
+      "months": {
+        "01": "Jan",
+        "02": "Feb",
+        "03": "Mar",
+        "04": "Apr",
+        "05": "May",
+        "06": "Jun",
+        "07": "Jul",
+        "08": "Aug",
+        "09": "Sep",
+        "10": "Oct",
+        "11": "Nov",
+        "12": "Dec"
+      }
+    }
+  },
+  "team": {
+    "title": "Team",
+    "subtitle": "Manage your clinic's team members",
+    "invite_member": "Invite Member",
+    "loading": "Loading team..."
+  },
+  "stock": {
+    "title": "Stock",
+    "add_item": "Add Item",
+    "no_items": "No stock items found.",
+    "columns": {
+      "name": "Name",
+      "category": "Category",
+      "quantity": "Quantity",
+      "threshold": "Min. Threshold",
+      "expiry": "Expiry Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "categories": {
+      "medication": "Medication",
+      "vaccine": "Vaccine",
+      "supply": "Supply"
+    },
+    "status": {
+      "ok": "OK",
+      "low_stock": "Low Stock",
+      "expiring_soon": "Expiring Soon"
+    },
+    "filters": {
+      "all_categories": "All Categories",
+      "all_statuses": "All Statuses"
+    },
+    "alerts": {
+      "low_stock_title": "{count} item(s) low on stock",
+      "expiring_title": "{count} item(s) expiring within 30 days",
+      "qty_threshold": "{qty} left (min: {threshold})",
+      "expires_on": "Expires {date}"
+    },
+    "actions": {
+      "edit": "Edit",
+      "movement": "Record Movement"
+    },
+    "form": {
+      "add_title": "Add Stock Item",
+      "edit_title": "Edit Stock Item",
+      "name": "Name",
+      "name_placeholder": "e.g. Amoxicillin 250mg",
+      "category": "Category",
+      "select_category": "Select category",
+      "quantity": "Quantity",
+      "unit": "Unit",
+      "unit_placeholder": "e.g. tablets, doses, pairs",
+      "threshold": "Minimum Threshold",
+      "expiry_date": "Expiry Date",
+      "optional": "(optional)",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "movement": {
+      "title": "Record Movement",
+      "current_qty": "Current stock: {qty} {unit}",
+      "type": "Movement Type",
+      "select_type": "Select type",
+      "types": {
+        "in": "IN — Restock",
+        "out": "OUT — Consumption",
+        "adjustment": "Adjustment"
+      },
+      "quantity": "Quantity",
+      "reason": "Reason",
+      "reason_placeholder": "e.g. Monthly restock, Used during surgery",
+      "confirm": "Confirm"
+    },
+    "success": {
+      "item_added": "Stock item added successfully",
+      "item_updated": "Stock item updated successfully",
+      "movement_recorded": "Movement recorded successfully"
+    },
+    "errors": {
+      "load_failed": "Failed to load stock data",
+      "save_failed": "Failed to save. Please try again.",
+      "movement_failed": "Failed to record movement. Please try again."
+    }
+  },
+  "ai_triage": {
+    "symptoms_label": "Describe Symptoms",
+    "symptoms_placeholder": "e.g. The dog has been limping for 2 days, refuses to eat, and seems lethargic",
+    "analyze_button": "Analyze symptoms",
+    "analyzing": "Analyzing...",
+    "suggestion_title": "AI Triage Suggestion",
+    "severity": {
+      "Emergency": "Emergency",
+      "Normal": "Normal",
+      "Routine": "Routine"
+    },
+    "specialty_label": "Recommended specialty",
+    "duration_label": "Estimated duration",
+    "confidence_label": "Confidence",
+    "accept_button": "Accept",
+    "override_button": "Override",
+    "accepted_note": "Recommended: {specialty} — estimated {duration} min (AI triage)",
+    "accepted_toast": "Triage suggestion applied",
+    "accepted_indicator": "Triage suggestion applied",
+    "error": "AI service unavailable — please describe symptoms manually"
+  },
+  "messaging": {
+    "title": "Messages",
+    "search_placeholder": "Search by subject, owner or patient...",
+    "no_conversations": "No conversations found.",
+    "no_messages": "No messages yet.",
+    "select_conversation": "Select a conversation to view details.",
+    "messages_coming_soon": "Full message thread coming soon.",
+    "status_updated": "Status updated.",
+    "created": "Created",
+    "last_message": "Last message",
+    "assigned_to": "Assigned to",
+    "triage_uncertain": "Triage uncertain",
+    "internal_note": "Internal note",
+    "back_to_inbox": "Back to inbox",
+    "actions": "Actions",
+    "more_actions": "More actions",
+    "reply_sent": "Reply sent.",
+    "note_added": "Internal note added.",
+    "transferred": "Conversation transferred.",
+    "marked_spam": "Marked as spam.",
+    "reply_placeholder": "Write a reply... (Ctrl+Enter to send)",
+    "send_reply": "Send",
+    "sending": "Sending...",
+    "add_note": "Add note",
+    "attach_to_record": "Attach to medical record",
+    "char_limit_exceeded": "Message exceeds the 2000 character limit.",
+    "ai_summary": "AI Summary",
+    "ai_suggestions_title": "AI Suggestions",
+    "loading_summary": "Loading summary...",
+    "summary_unavailable": "Summary not available.",
+    "ai_disclaimer": "This response was pre-drafted by AI. It will be reviewed and validated by a veterinarian before sending.",
+    "patient_context_title": "Patient Context",
+    "no_patient_linked": "No patient linked to this conversation.",
+    "context_unavailable": "Context details not available.",
+    "last_exam": "Last exam",
+    "last_examination": "Last examination",
+    "outstanding_invoices": "Outstanding invoices",
+    "current_prescriptions": "Current prescriptions",
+    "known_allergies": "Known allergies",
+    "vaccinations": "Vaccinations",
+    "no_records": "No records available.",
+    "action_transfer": "Transfer",
+    "action_convert_appointment": "Convert to appointment",
+    "action_mark_spam": "Mark as spam",
+    "action_resolve": "Resolve",
+    "action_close": "Close",
+    "action_reopen": "Reopen",
+    "action_reassign": "Reassign",
+    "actions_toolbar": "Conversation actions",
+    "transfer_dialog_title": "Transfer conversation",
+    "transfer_to_role": "Transfer to role",
+    "select_role": "Select a role...",
+    "transferring": "Transferring...",
+    "cancel": "Cancel",
+    "status": {
+      "all": "All",
+      "Open": "Open",
+      "InProgress": "In Progress",
+      "Resolved": "Resolved",
+      "Closed": "Closed"
+    },
+    "category": {
+      "all": "All",
+      "MedicalUrgency": "Medical Urgency",
+      "PostOperativeFollowUp": "Post-Op Follow-Up",
+      "MedicalQuestion": "Medical Question",
+      "AppointmentRequest": "Appointment",
+      "Administrative": "Administrative",
+      "Feedback": "Feedback",
+      "Other": "Other"
+    },
+    "errors": {
+      "load_failed": "Failed to load conversations.",
+      "status_failed": "Failed to update status.",
+      "send_failed": "Failed to send message.",
+      "transfer_failed": "Failed to transfer conversation.",
+      "spam_failed": "Failed to mark as spam.",
+      "not_found": "Conversation not found."
+    }
+  },
+  "messaging_admin": {
+    "nav": {
+      "title": "Messaging Settings",
+      "subtitle": "Manage response templates, business hours, and messaging statistics.",
+      "templates": "Templates",
+      "hours": "Business Hours",
+      "stats": "Statistics"
+    },
+    "templates": {
+      "title": "Response Templates",
+      "subtitle": "Predefined replies to use in conversation threads.",
+      "add": "Add Template",
+      "empty": "No templates yet. Click \"Add Template\" to create one.",
+      "load_failed": "Failed to load templates.",
+      "save_failed": "Failed to save template.",
+      "delete_failed": "Failed to delete template.",
+      "saved": "Template saved.",
+      "deleted": "Template deleted.",
+      "col_name": "Name",
+      "col_category": "Category",
+      "col_updated": "Last Updated",
+      "col_actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "delete_confirm_title": "Delete template?",
+      "delete_confirm_body": "Are you sure you want to delete \"{name}\"? This cannot be undone.",
+      "form": {
+        "add_title": "Add Template",
+        "edit_title": "Edit Template",
+        "name": "Name",
+        "name_placeholder": "e.g. Post-surgery follow-up",
+        "name_required": "Name is required",
+        "category": "Category (optional)",
+        "category_placeholder": "Select a category",
+        "no_category": "No category",
+        "content_en": "Content (English)",
+        "content_en_placeholder": "Write the English template content...",
+        "content_en_required": "English content is required",
+        "content_ar": "Content (Arabic)",
+        "content_ar_placeholder": "اكتب محتوى القالب بالعربية...",
+        "content_ar_required": "Arabic content is required"
+      }
+    },
+    "hours": {
+      "title": "Business Hours",
+      "subtitle": "Configure the hours during which messages receive immediate responses.",
+      "loading": "Loading hours...",
+      "col_day": "Day",
+      "col_status": "Status",
+      "col_open": "Opens at",
+      "col_close": "Closes at",
+      "open": "Open",
+      "closed": "Closed",
+      "save": "Save Hours",
+      "saving": "Saving...",
+      "save_success": "Business hours saved.",
+      "save_failed": "Failed to save business hours.",
+      "outside_hours_note": "Messages sent outside these hours will receive an automatic acknowledgment.",
+      "days": {
+        "sunday": "Sunday",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday"
+      }
+    },
+    "stats": {
+      "title": "Triage Statistics",
+      "subtitle": "Overview of messaging performance and AI triage accuracy over the last 30 days.",
+      "loading": "Loading statistics...",
+      "load_failed": "Failed to load statistics.",
+      "avg_response_time": "Average First Response",
+      "avg_response_desc": "Time from message received to first staff reply",
+      "total_conversations": "Total Conversations",
+      "open_conversations": "{count} currently open",
+      "ai_accuracy": "AI Triage Accuracy",
+      "ai_accuracy_desc": "Percentage of AI-assigned categories confirmed by staff",
+      "conversion_rate": "Conversion Rate",
+      "conversion_desc": "Messages that led to a new appointment",
+      "by_category": "Messages by Category",
+      "volume_per_day": "Volume per Day (last 30 days)",
+      "tooltip_count": "messages",
+      "tooltip_messages": "messages"
+    },
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "deleting": "Deleting...",
+    "common_loading": "Loading..."
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "view": "View",
+    "settings": "Settings"
+  },
+  "user_menu": {
+    "settings": "Settings",
+    "sign_out": "Sign Out"
+  },
+  "landing": {
+    "meta": {
+      "title": "Vetolib — The Smart Veterinary Practice Management Platform",
+      "description": "The all-in-one platform for veterinary clinics — shared health records, AI triage, smart scheduling, and multi-language support. Free 14-day trial."
+    },
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "sign_in": "Sign In"
+    },
+    "hero": {
+      "headline": "The Smart Veterinary Platform for Modern Clinics",
+      "subtitle": "From shared animal health records to AI-powered triage — Vetolib gives your team everything needed to deliver exceptional care, in any language.",
+      "cta_primary": "Start Free Trial",
+      "cta_secondary": "Book a Demo",
+      "image_alt": "Vetolib dashboard showing appointments and patient health records"
+    },
+    "social_proof": {
+      "clinics": "50+ clinics",
+      "clinics_label": "worldwide",
+      "patients": "5,000+ patients",
+      "patients_label": "managed",
+      "invoiced": "AED 2M+ invoiced",
+      "invoiced_label": "and counting",
+      "uptime": "99.9% uptime",
+      "uptime_label": "guaranteed"
+    },
+    "new_features": {
+      "title": "Built for Tomorrow's Veterinary Clinic",
+      "subtitle": "Vetolib combines shared animal health records, intelligent AI tools, and seamless clinic operations — all in one platform.",
+      "health_passport": {
+        "title": "Shared Animal Health Passport",
+        "description": "Every animal carries a permanent health record accessible across any clinic — with owner consent. Consultations, vaccinations, prescriptions, and diagnoses, always available wherever the animal is seen.",
+        "badge": "Key differentiator"
+      },
+      "ai": {
+        "title": "Integrated Veterinary AI",
+        "description": "AI triage analyses symptoms and suggests urgency level before the appointment. Drug interaction checks protect your patients. No-show prediction optimises your schedule automatically.",
+        "badge": "Powered by AI"
+      },
+      "messaging": {
+        "title": "Clinic Messaging Portal",
+        "description": "Owners connect via a secure magic-link portal — no account required. AI classifies incoming messages by urgency. Your team stays focused on care, not the inbox."
+      },
+      "stock": {
+        "title": "Smart Stock Management",
+        "description": "Track medications and consumables in real time. Automatic alerts for low stock and expiring items. Prescriptions automatically update inventory — zero manual tracking."
+      },
+      "multilingual": {
+        "title": "Multi-Language by Design",
+        "description": "Full English and Arabic support with RTL layout — extending to more languages. Your staff and clients communicate in the language they prefer."
+      }
+    },
+    "features": {
+      "title": "Everything Your Clinic Needs",
+      "subtitle": "Purpose-built for veterinary practices — from first appointment to final invoice.",
+      "scheduling": {
+        "title": "Smart Scheduling",
+        "description": "Book appointments, manage vet availability, check-in patients on arrival. Conflict detection prevents double-bookings."
+      },
+      "medical_records": {
+        "title": "Complete Medical Records",
+        "description": "Full patient history: exams, diagnoses, treatments, prescriptions with vet license number. Immutable audit trail."
+      },
+      "invoicing": {
+        "title": "UAE-Compliant Invoicing",
+        "description": "Auto VAT 5% calculation, TRN on every invoice, sequential numbering (INV-2026-001). Draft, send, mark as paid."
+      },
+      "team": {
+        "title": "Role-Based Team Access",
+        "description": "Admin, Vet, Assistant, Receptionist — each role sees only what they need. Receptionists handle billing, not medical records."
+      },
+      "dashboard": {
+        "title": "Real-Time Dashboard",
+        "description": "Today's appointments, pending check-ins, unpaid invoices, total patients — all in one glance."
+      },
+      "notifications": {
+        "title": "Email Notifications",
+        "description": "Appointment reminders, invoice delivery, team invitations — bilingual templates in English and Arabic."
+      }
+    },
+    "how_it_works": {
+      "title": "Up and Running in Minutes",
+      "subtitle": "No lengthy onboarding. No IT department required. Three steps and your clinic is live.",
+      "step1": {
+        "number": "01",
+        "title": "Sign Up in 2 Minutes",
+        "description": "Create your clinic account. No credit card required for the free trial."
+      },
+      "step2": {
+        "number": "02",
+        "title": "Invite Your Team",
+        "description": "Add your vets, assistants, and receptionists. Each gets the right access level automatically."
+      },
+      "step3": {
+        "number": "03",
+        "title": "Start Managing Your Clinic",
+        "description": "Book appointments, record consultations, send invoices — all from one place, in English or Arabic."
+      },
+      "cta": "Get Started Free"
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "subtitle": "All plans include a 14-day free trial of the Pro plan. No credit card required.",
+      "toggle_monthly": "Monthly",
+      "toggle_annual": "Annual",
+      "annual_savings": "Save 17%",
+      "trial_note": "All plans include 14-day free trial. No credit card required.",
+      "vat_note": "Prices excl. VAT 5%.",
+      "starter": {
+        "name": "Starter",
+        "price_monthly": "299 AED",
+        "price_annual": "249 AED",
+        "per_month": "/month",
+        "description": "For small clinics with 1–2 vets just getting started.",
+        "features": [
+          "Up to 3 users",
+          "Appointments & scheduling",
+          "Complete medical records",
+          "UAE-compliant invoicing (VAT 5%, TRN)",
+          "Dashboard",
+          "Email support (48h response)",
+          "5 GB storage"
+        ],
+        "cta": "Start Free Trial"
+      },
+      "pro": {
+        "name": "Pro",
+        "badge": "Most Popular",
+        "price_monthly": "599 AED",
+        "price_annual": "499 AED",
+        "per_month": "/month",
+        "description": "For established clinics with 3–8 vets needing full productivity.",
+        "features": [
+          "Up to 10 users",
+          "Everything in Starter",
+          "Email notifications (reminders, invoices)",
+          "Custom PDF invoices with clinic logo",
+          "Prescriptions with vet license number",
+          "Advanced team management (4 RBAC roles)",
+          "Priority support (12h response)",
+          "25 GB storage",
+          "1 live onboarding session"
+        ],
+        "cta": "Start Free Trial"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "from": "From ",
+        "price": "999 AED",
+        "per_month": "/month",
+        "description": "For multi-clinic groups and veterinary chains.",
+        "features": [
+          "Unlimited users",
+          "Everything in Pro",
+          "Multi-clinic management",
+          "API access for integrations",
+          "Single Sign-On (SSO)",
+          "Full exportable audit trail",
+          "Dedicated account manager",
+          "99.9% SLA guarantee",
+          "Phone support (4h response)",
+          "Unlimited storage",
+          "Assisted data migration"
+        ],
+        "cta": "Contact Sales"
+      }
+    },
+    "testimonials": {
+      "title": "Trusted by Veterinary Clinics Across the UAE",
+      "subtitle": "See what clinic owners and managers say about Vetolib.",
+      "disclaimer": "These testimonials are illustrative examples. Real testimonials will be added before launch.",
+      "quote1": {
+        "text": "We switched from spreadsheets to Vetolib in a day. The Arabic interface was a game-changer for our reception staff.",
+        "name": "Dr. Fatima Al-Rashidi",
+        "role": "Owner",
+        "clinic": "Al Barsha Veterinary Clinic, Dubai"
+      },
+      "quote2": {
+        "text": "Finally, invoices that are actually FTA-compliant without manual workarounds. Our accountant is thrilled.",
+        "name": "Dr. James Porter",
+        "role": "Practice Manager",
+        "clinic": "Desert Paws Veterinary Centre, Abu Dhabi"
+      },
+      "quote3": {
+        "text": "The role-based access is exactly what we needed. Receptionists handle bookings and billing while vets focus on medicine.",
+        "name": "Dr. Ahmed Al-Mansoori",
+        "role": "Head Vet",
+        "clinic": "Jumeirah Pet Care, Dubai"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know before getting started.",
+      "0": {
+        "question": "Is Vetolib compliant with UAE VAT regulations?",
+        "answer": "Yes. Every invoice includes automatic 5% VAT calculation and your clinic's Tax Registration Number (TRN), as required by the Federal Tax Authority (FTA)."
+      },
+      "1": {
+        "question": "Can I use Vetolib in Arabic?",
+        "answer": "Absolutely. Vetolib is fully bilingual English/Arabic with complete RTL (right-to-left) support. You can switch languages at any time."
+      },
+      "2": {
+        "question": "How is my clinic data secured?",
+        "answer": "Each clinic's data is completely isolated (multi-tenant architecture). No other clinic can ever see your patients, records, or invoices. All data is encrypted in transit and at rest."
+      },
+      "3": {
+        "question": "What roles can I assign to my team?",
+        "answer": "Four roles: Admin (full access + team management), Vet (clinical + billing), Assistant (read-only medical records), Receptionist (appointments + billing only, no medical records)."
+      },
+      "4": {
+        "question": "Can I import my existing patient data?",
+        "answer": "Yes. We provide CSV import tools and our onboarding team can assist with data migration from your existing system."
+      },
+      "5": {
+        "question": "Is there a mobile app?",
+        "answer": "Vetolib is a responsive web application that works on any device — desktop, tablet, or phone — through your browser. No app installation required."
+      },
+      "6": {
+        "question": "What happens after the free trial?",
+        "answer": "After 14 days, you choose a plan or your account is paused (not deleted). Your data is preserved for 90 days so you can reactivate anytime."
+      },
+      "7": {
+        "question": "Do you offer training?",
+        "answer": "All plans include access to our help center and video tutorials. Pro and Enterprise plans include live onboarding sessions with our team."
+      }
+    },
+    "final_cta": {
+      "headline": "Ready to modernize your veterinary clinic?",
+      "subtitle": "Join veterinary clinics worldwide who deliver better care with Vetolib. Start your free 14-day trial today — no credit card required.",
+      "cta": "Start Free Trial",
+      "reassurance": "No credit card required. Setup in under 2 minutes."
+    },
+    "footer": {
+      "copyright": "© 2026 Vetolib.",
+      "tagline": "Made for veterinary clinics in the UAE.",
+      "lang_en": "EN",
+      "lang_ar": "AR",
+      "product": {
+        "title": "Product",
+        "features": "Features",
+        "pricing": "Pricing",
+        "integrations": "Integrations",
+        "changelog": "Changelog"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About",
+        "contact": "Contact",
+        "careers": "Careers"
+      },
+      "resources": {
+        "title": "Resources",
+        "help_center": "Help Center",
+        "api_docs": "API Documentation",
+        "status": "Status Page"
+      },
+      "legal": {
+        "title": "Legal",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "dpa": "Data Processing Agreement"
+      }
+    }
+  },
+  "portal": {
+    "header": {
+      "language": "Language"
+    },
+    "landing": {
+      "your_conversations": "Your Conversations",
+      "new_message": "New Message",
+      "no_conversations": "You have no conversations yet. Send us a message and we will get back to you.",
+      "loading": "Loading your conversations...",
+      "link_expired": "This link has expired. Please contact your clinic to receive a new one.",
+      "status": {
+        "Open": "Open",
+        "InProgress": "In Progress",
+        "Resolved": "Resolved",
+        "Closed": "Closed"
+      },
+      "unread": "{count} unread",
+      "last_message": "Last message: {date}"
+    },
+    "consent": {
+      "title": "Messaging Terms & Conditions",
+      "intro": "Before sending a message to the clinic, please read and accept the following terms.",
+      "terms_body": "By using this messaging portal, you agree that:\n\n• Messages are monitored by clinic staff during business hours (Sunday–Thursday 08:00–20:00, Friday 08:00–12:00).\n• This service is not a substitute for emergency veterinary care. In case of a life-threatening situation, contact an emergency clinic immediately.\n• You may receive up to 5 messages per day through this portal.\n• Messages and attachments are stored securely and used only to provide veterinary care.\n• You may request an export of your conversations at any time.",
+      "accept_label": "I accept the messaging terms and conditions",
+      "continue": "Continue",
+      "must_accept": "You must accept the terms to continue."
+    },
+    "new_message": {
+      "title": "New Message",
+      "pet_label": "About which pet?",
+      "pet_placeholder": "Select a pet",
+      "no_pet": "Other / No specific pet",
+      "category_label": "What is this about?",
+      "category_placeholder": "Select a category",
+      "categories": {
+        "MedicalUrgency": "My pet has a health problem",
+        "MedicalQuestion": "My pet has a health problem",
+        "PostOperativeFollowUp": "Post-surgery follow-up",
+        "AppointmentRequest": "I'd like to book an appointment",
+        "Administrative": "Administrative question",
+        "Feedback": "Feedback about the clinic",
+        "Other": "Other"
+      },
+      "subject_label": "Subject",
+      "subject_placeholder": "Brief description of your message",
+      "message_label": "Your message",
+      "message_placeholder": "Please describe your concern in as much detail as possible...",
+      "characters_remaining": "{count} characters remaining",
+      "characters_over": "{count} characters over limit",
+      "photos_label": "Attach photos (optional)",
+      "photos_hint": "Max 3 photos, 5 MB each. JPG or PNG.",
+      "add_photo": "Add photo",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success_title": "Message sent!",
+      "success_body": "We have received your message. Our team will respond within 24 hours during business hours (Sunday–Thursday 08:00–20:00, Friday 08:00–12:00).",
+      "back_to_conversations": "Back to my conversations",
+      "errors": {
+        "too_many_messages": "You have reached the daily message limit. Please try again tomorrow.",
+        "file_too_large": "File too large (max 5 MB)",
+        "too_many_photos": "Maximum 3 photos per message",
+        "invalid_type": "Only JPG and PNG files are accepted",
+        "subject_required": "Please enter a subject",
+        "category_required": "Please select a category",
+        "message_required": "Please enter a message",
+        "send_failed": "Failed to send your message. Please try again."
+      }
+    },
+    "conversation": {
+      "title": "Conversation",
+      "closed_notice": "This conversation is closed. Please start a new conversation if you need further assistance.",
+      "reply_placeholder": "Type your reply...",
+      "send_reply": "Send",
+      "sending": "Sending...",
+      "you": "You",
+      "clinic": "Desert Paws Clinic",
+      "back": "Back to conversations",
+      "errors": {
+        "too_many_messages": "You have reached the daily message limit. Please try again tomorrow.",
+        "send_failed": "Failed to send your reply. Please try again."
+      }
+    },
+    "export": {
+      "title": "Download My Messages",
+      "description": "Download a text file containing all your conversations with the clinic.",
+      "download": "Download my messages",
+      "downloading": "Preparing download...",
+      "back": "Back to conversations",
+      "error": "Failed to export conversations. Please try again."
+    }
+  }
+}

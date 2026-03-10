@@ -18,6 +18,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.*" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.*" />
+    <PackageReference Include="Serilog" Version="4.*" />
+    <PackageReference Include="Serilog.Enrichers.Sensitive" Version="1.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +34,8 @@
     <ProjectReference Include="..\..\src\backend\Modules\Billing\Vetolib.Billing.Contracts\Vetolib.Billing.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\AI\Vetolib.AI\Vetolib.AI.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\AI\Vetolib.AI.Contracts\Vetolib.AI.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
