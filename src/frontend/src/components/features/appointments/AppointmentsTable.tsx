@@ -11,6 +11,8 @@ import {
   type ColumnDef,
 } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { ErrorState } from '@/components/ui/error-state'
 import {
   Select,
   SelectContent,
@@ -60,9 +62,11 @@ export function AppointmentsTable() {
   const [statusFilter, setStatusFilter] = useState<AppointmentStatus | 'ALL'>('ALL')
   const [dateFilter, setDateFilter] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const load = useCallback(async () => {
     setIsLoading(true)
+    setError(null)
     try {
       const result = await getAppointments({
         status: statusFilter !== 'ALL' ? statusFilter : undefined,
@@ -73,7 +77,7 @@ export function AppointmentsTable() {
       setAppointments(result.items)
       setTotalCount(result.totalCount)
     } catch {
-      // silent
+      setError('Failed to load appointments')
     } finally {
       setIsLoading(false)
     }
@@ -219,9 +223,24 @@ export function AppointmentsTable() {
           </TableHeader>
           <TableBody>
             {isLoading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <TableRow key={i} data-testid={`appointment-skeleton-row-${i}`}>
+                  {Array.from({ length: columns.length }).map((_, j) => (
+                    <TableCell key={j}>
+                      <Skeleton className="h-4 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : error ? (
               <TableRow>
-                <TableCell colSpan={columns.length} className="text-center py-8">
-                  <span data-testid="loading-indicator">Loading...</span>
+                <TableCell colSpan={columns.length} className="p-0">
+                  <ErrorState
+                    data-testid="appointments-error"
+                    title="Failed to load appointments"
+                    description={error}
+                    onRetry={load}
+                  />
                 </TableCell>
               </TableRow>
             ) : table.getRowModel().rows.length === 0 ? (
