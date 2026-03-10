@@ -1,59 +1,21 @@
-# todo-back-messaging-templates-001.md — CRUD templates de reponse rapide
+## done-back-messaging-templates-001
 
-**Module** : Messaging
-**Dependances** : todo-back-messaging-domain-001
-**Priorite** : MOYENNE
-**Skills a lire** : `ardalis-result`, `cqrs-mediatr`, `aspnet-minimal-api`
+Tâche : CRUD pour les templates de réponse rapide du module Messaging.
 
----
+### Implémenté
 
-## Objectif
+- Query : ListTemplates (filtre optionnel par catégorie, policy ClinicStaff)
+- Commands : CreateTemplate, UpdateTemplate, DeleteTemplate (policy AdminOnly)
+- 4 endpoints sous /api/v1/messaging/templates
+- Templates bilingues EN + AR (ContentEn + ContentAr obligatoires)
+- Tous les handlers retournent Result<T>
+- .ToMinimalApiResult() sur tous les endpoints
 
-Implementer le CRUD pour les templates de reponse rapide (quick response templates) en EN + AR.
+### Fix inclus
 
-## Spec de reference
+Correction de l'erreur de compilation pré-existante dans CreateOwnerConversationHandler :
+le handler retournait Result<Guid> mais le command déclarait IRequest<Result<CreateOwnerConversationResponse>>.
 
-`docs/MESSAGING-SPEC.md` section 7 (Staff Endpoints: templates), Appendix A (RBAC)
+### Build
 
-## Implementation
-
-### Queries
-
-1. **ListTemplatesQuery** + Handler
-   - Retourne tous les templates de la clinique
-   - Filtre optionnel par categorie
-   - Policy : ClinicStaff (tous les staff peuvent lire)
-
-### Commands
-
-2. **CreateTemplateCommand** + Handler + Validator
-   - Cree un template avec Name, ContentEn, ContentAr, Category?
-   - Policy : AdminOnly
-
-3. **UpdateTemplateCommand** + Handler + Validator
-   - Met a jour un template existant
-   - Policy : AdminOnly
-
-4. **DeleteTemplateCommand** + Handler
-   - Supprime un template
-   - Policy : AdminOnly
-
-### Endpoints
-
-```
-GET    /api/v1/messaging/templates       → ListTemplatesQuery
-POST   /api/v1/messaging/templates       → CreateTemplateCommand
-PUT    /api/v1/messaging/templates/{id}  → UpdateTemplateCommand
-DELETE /api/v1/messaging/templates/{id}  → DeleteTemplateCommand
-```
-
-## Critere
-
-```
-[] 1 query + 3 commands implementees
-[] 4 endpoints Minimal API
-[] RBAC : seul Admin peut creer/modifier/supprimer
-[] Templates bilingues EN + AR
-[] dotnet build passe
-[] Renommer en done
-```
+dotnet build Vetolib.Api.csproj --configuration Release : 0 erreur

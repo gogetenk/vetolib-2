@@ -29,30 +29,24 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
         [MessageCategory.Other] = "24 hours"
     };
 
-    // Routing assignment per category
-    private static readonly Dictionary<MessageCategory, string> CategoryRouting = new()
-    {
-        [MessageCategory.MedicalUrgency] = "Vet",
-        [MessageCategory.PostOperativeFollowUp] = "Vet",
-        [MessageCategory.MedicalQuestion] = "Vet",
-        [MessageCategory.AppointmentRequest] = "Receptionist",
-        [MessageCategory.Administrative] = "Receptionist",
-        [MessageCategory.Feedback] = "Admin",
-        [MessageCategory.Other] = "Receptionist"
-    };
-
     private readonly MessagingDbContext _context;
     private readonly IBusinessHoursChecker _businessHoursChecker;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly ITriageOrchestrator _triageOrchestrator;
+    private readonly IMessageRouter _router;
 
     public CreateOwnerConversationHandler(
         MessagingDbContext context,
         IBusinessHoursChecker businessHoursChecker,
-        IPublishEndpoint publishEndpoint)
+        IPublishEndpoint publishEndpoint,
+        ITriageOrchestrator triageOrchestrator,
+        IMessageRouter router)
     {
         _context = context;
         _businessHoursChecker = businessHoursChecker;
         _publishEndpoint = publishEndpoint;
+        _triageOrchestrator = triageOrchestrator;
+        _router = router;
     }
 
     public async Task<Result<CreateOwnerConversationResponse>> Handle(
@@ -96,7 +90,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
             ? (request.Body.Length > 100 ? request.Body[..100] : request.Body)
             : request.Subject;
 
-        // 4. Create conversation
+        // 4. Create conversation with owner-provided category as initial default
         var conversationResult = Conversation.Create(
             request.ClinicId,
             request.OwnerId,
@@ -109,20 +103,19 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
 
         var conversation = conversationResult.Value;
 
-        // Assign conversation based on category routing
-        var assignedRole = CategoryRouting.GetValueOrDefault(request.Category, "Receptionist");
-        conversation.AssignTo(null, assignedRole);
-
         // 5. Add owner's first message
         var messageResult = conversation.AddMessage(MessageSender.Owner, null, request.Body);
         if (!messageResult.IsSuccess)
             return Result<CreateOwnerConversationResponse>.Error(string.Join("; ", messageResult.Errors));
 
+        // 6. AI triage — updates category, confidence, and routing (falls back gracefully)
+        await _triageOrchestrator.ApplyTriageAsync(conversation, request.Body, cancellationToken);
+
         _context.Conversations.Add(conversation);
 
-        // 6. Check business hours — add auto-acknowledgment for non-urgent messages outside hours
+        // 7. Check business hours — add auto-acknowledgment for non-urgent messages outside hours
         string? acknowledgment = null;
-        var isUrgent = request.Category == MessageCategory.MedicalUrgency;
+        var isUrgent = conversation.Category == MessageCategory.MedicalUrgency;
         if (!isUrgent)
         {
             var isWithinHours = await _businessHoursChecker.IsWithinBusinessHoursAsync(
@@ -139,7 +132,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        // 7. Publish integration event for urgent messages
+        // 8. Publish integration event for urgent messages
         if (isUrgent)
         {
             var preview = request.Body.Length > 100 ? request.Body[..100] + "..." : request.Body;
@@ -150,7 +143,8 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
                 preview), cancellationToken);
         }
 
-        var estimatedResponseTime = SlaEstimates.GetValueOrDefault(request.Category, "24 hours");
+        var estimatedResponseTime = SlaEstimates.GetValueOrDefault(conversation.Category, "24 hours");
+        var assignedRole = conversation.AssignedToRole ?? _router.GetAssignedRole(conversation.Category);
 
         return Result<CreateOwnerConversationResponse>.Success(new CreateOwnerConversationResponse(
             conversation.Id,
