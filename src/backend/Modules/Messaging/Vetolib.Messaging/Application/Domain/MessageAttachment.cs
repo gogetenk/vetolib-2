@@ -14,6 +14,9 @@ internal class MessageAttachment : BaseEntity
 
     private MessageAttachment() { } // EF Core
 
+    private const long MaxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+    private static readonly string[] AllowedContentTypes = ["image/jpeg", "image/png"];
+
     public static Result<MessageAttachment> Create(
         Guid messageId,
         string fileName,
@@ -31,9 +34,13 @@ internal class MessageAttachment : BaseEntity
 
         if (string.IsNullOrWhiteSpace(contentType))
             errors.Add(new ValidationError(nameof(contentType), "ContentType is required"));
+        else if (!AllowedContentTypes.Contains(contentType))
+            errors.Add(new ValidationError(nameof(contentType), "Only JPEG and PNG images are allowed"));
 
         if (fileSizeBytes <= 0)
             errors.Add(new ValidationError(nameof(fileSizeBytes), "FileSizeBytes must be positive"));
+        else if (fileSizeBytes > MaxFileSizeBytes)
+            errors.Add(new ValidationError(nameof(fileSizeBytes), "File size cannot exceed 5 MB"));
 
         if (string.IsNullOrWhiteSpace(storagePath))
             errors.Add(new ValidationError(nameof(storagePath), "StoragePath is required"));

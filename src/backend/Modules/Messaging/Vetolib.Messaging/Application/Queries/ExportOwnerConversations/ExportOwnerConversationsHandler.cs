@@ -21,6 +21,7 @@ internal class ExportOwnerConversationsHandler
         ExportOwnerConversationsQuery request,
         CancellationToken cancellationToken)
     {
+        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
         var conversations = await _context.Conversations
             .IgnoreQueryFilters()
             .Include(c => c.Messages.Where(m => !m.IsInternalNote))

@@ -9,5 +9,5 @@ internal record CreateTemplateCommand(
     string Name,
     string ContentEn,
     string ContentAr,
-    string? Category
+    MessageCategory? Category
 ) : IRequest<Result<ResponseTemplateDto>>;

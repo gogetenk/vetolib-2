@@ -19,8 +19,8 @@ internal class ListTemplatesHandler : IRequestHandler<ListTemplatesQuery, Result
     {
         var templatesQuery = _context.ResponseTemplates.AsNoTracking();
 
-        if (!string.IsNullOrWhiteSpace(query.Category))
-            templatesQuery = templatesQuery.Where(t => t.Category == query.Category);
+        if (query.Category.HasValue)
+            templatesQuery = templatesQuery.Where(t => t.Category == query.Category.Value);
 
         var templates = await templatesQuery
             .OrderBy(t => t.Name)

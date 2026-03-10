@@ -188,7 +188,7 @@ internal static class MessagingEndpoints
 
         // Templates (quick response templates)
         // GET /api/v1/messaging/templates
-        group.MapGet("/templates", async (string? category, ISender sender, CancellationToken ct) =>
+        group.MapGet("/templates", async (MessageCategory? category, ISender sender, CancellationToken ct) =>
             (await sender.Send(new ListTemplatesQuery(category), ct)).ToMinimalApiResult())
             .RequireAuthorization("ClinicStaff")
             .WithName("ListTemplates");

@@ -25,5 +25,10 @@ internal class MessageConfiguration : IEntityTypeConfiguration<Message>
 
         builder.Property(m => m.SentAt)
             .IsRequired();
+
+        builder.HasMany(m => m.Attachments)
+            .WithOne()
+            .HasForeignKey(a => a.MessageId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

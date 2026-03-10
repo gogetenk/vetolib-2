@@ -10,5 +10,10 @@ public record ConversationDto(
     ConversationStatus Status,
     int MessageCount,
     DateTime CreatedAt,
-    DateTime? LastMessageAt
+    DateTime? LastMessageAt,
+    bool IsSpam,
+    Guid? AssignedToUserId,
+    string? AssignedToRole,
+    decimal? AiTriageConfidence,
+    bool IsTriageUncertain
 );

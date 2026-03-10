@@ -16,6 +16,7 @@ internal class AcceptConsentHandler : IRequestHandler<AcceptConsentCommand, Resu
 
     public async Task<Result> Handle(AcceptConsentCommand request, CancellationToken cancellationToken)
     {
+        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
         var token = await _context.OwnerPortalTokens
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(

@@ -54,6 +54,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
         CancellationToken cancellationToken)
     {
         // 1. Verify consent has been accepted
+        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
         var portalToken = await _context.OwnerPortalTokens
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(
@@ -67,6 +68,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
             return Result<CreateOwnerConversationResponse>.Forbidden();
 
         // 2. Check daily message limit (5 messages/day/owner/clinic)
+        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
         var todayUtc = DateTime.UtcNow.Date;
         var ownerConversationIds = await _context.Conversations
             .IgnoreQueryFilters()
@@ -74,6 +76,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
             .Select(c => c.Id)
             .ToListAsync(cancellationToken);
 
+        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
         var messageCountToday = await _context.Messages
             .IgnoreQueryFilters()
             .CountAsync(

@@ -6,12 +6,17 @@ namespace Vetolib.Messaging.Application.Domain;
 
 internal class Message : BaseEntity
 {
+    private const int MaxAttachmentsPerMessage = 3;
+
     public Guid ConversationId { get; private set; }
     public MessageSender Sender { get; private set; }
     public Guid? SenderUserId { get; private set; }
     public string Body { get; private set; } = string.Empty;
     public bool IsInternalNote { get; private set; }
     public DateTime SentAt { get; private set; }
+
+    private readonly List<MessageAttachment> _attachments = [];
+    public IReadOnlyList<MessageAttachment> Attachments => _attachments.AsReadOnly();
 
     private Message() { } // EF Core
 
@@ -45,6 +50,26 @@ internal class Message : BaseEntity
             IsInternalNote = isInternalNote,
             SentAt = DateTime.UtcNow
         });
+    }
+
+    /// <summary>
+    /// Adds an attachment to this message. Enforces max 3 attachments per message (spec section 2.7).
+    /// </summary>
+    public Result<MessageAttachment> AddAttachment(
+        string fileName,
+        string contentType,
+        long fileSizeBytes,
+        string storagePath)
+    {
+        if (_attachments.Count >= MaxAttachmentsPerMessage)
+            return Result<MessageAttachment>.Error($"ATTACHMENT_LIMIT:A message cannot have more than {MaxAttachmentsPerMessage} attachments");
+
+        var attachmentResult = MessageAttachment.Create(Id, fileName, contentType, fileSizeBytes, storagePath);
+        if (!attachmentResult.IsSuccess)
+            return attachmentResult;
+
+        _attachments.Add(attachmentResult.Value);
+        return attachmentResult;
     }
 
     public MessageDto ToDto() => new(

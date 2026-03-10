@@ -74,6 +74,10 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         _messages.Add(messageResult.Value);
         LastMessageAt = messageResult.Value.SentAt;
 
+        // Spec section 2.9: owner message to a Resolved conversation reopens it automatically
+        if (Status == ConversationStatus.Resolved && sender == MessageSender.Owner)
+            Status = ConversationStatus.Open;
+
         if (Status == ConversationStatus.Open && sender != MessageSender.Owner)
             Status = ConversationStatus.InProgress;
 
@@ -116,9 +120,26 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
+    public Result RestoreFromSpam()
+    {
+        IsSpam = false;
+        return Result.Success();
+    }
+
     public Result ChangeCategory(MessageCategory newCategory)
     {
         Category = newCategory;
+        return Result.Success();
+    }
+
+    /// <summary>
+    /// Re-categorizes the conversation (human-verified). Resets IsTriageUncertain
+    /// and updates routing role based on the new category.
+    /// </summary>
+    public Result UpdateCategory(MessageCategory newCategory)
+    {
+        Category = newCategory;
+        IsTriageUncertain = false;
         return Result.Success();
     }
 
@@ -149,7 +170,12 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         Status,
         _messages.Count,
         CreatedAt,
-        LastMessageAt);
+        LastMessageAt,
+        IsSpam,
+        AssignedToUserId,
+        AssignedToRole,
+        AiTriageConfidence,
+        IsTriageUncertain);
 
     public ConversationWithMessagesDto ToDetailDto(
         bool includeInternalNotes = true,

@@ -4,5 +4,5 @@ public record CreateTemplateRequest(
     string Name,
     string ContentEn,
     string ContentAr,
-    string? Category
+    MessageCategory? Category
 );

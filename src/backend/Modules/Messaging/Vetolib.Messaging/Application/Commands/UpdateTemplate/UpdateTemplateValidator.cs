@@ -22,7 +22,7 @@ internal class UpdateTemplateValidator : AbstractValidator<UpdateTemplateCommand
             .MaximumLength(2000).WithMessage("Arabic content must not exceed 2000 characters.");
 
         RuleFor(x => x.Category)
-            .MaximumLength(100).WithMessage("Category must not exceed 100 characters.")
+            .IsInEnum().WithMessage("Category must be a valid MessageCategory value.")
             .When(x => x.Category is not null);
     }
 }

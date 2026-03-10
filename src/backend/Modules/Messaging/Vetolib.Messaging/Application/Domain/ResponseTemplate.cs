@@ -10,7 +10,7 @@ internal class ResponseTemplate : BaseEntity, IMultiTenant
     public string Name { get; private set; } = string.Empty;
     public string ContentEn { get; private set; } = string.Empty;
     public string ContentAr { get; private set; } = string.Empty;
-    public string? Category { get; private set; }
+    public MessageCategory? Category { get; private set; }
 
     private ResponseTemplate() { } // EF Core
 
@@ -19,7 +19,7 @@ internal class ResponseTemplate : BaseEntity, IMultiTenant
         string name,
         string contentEn,
         string contentAr,
-        string? category = null)
+        MessageCategory? category = null)
     {
         var errors = new List<ValidationError>();
 
@@ -48,7 +48,7 @@ internal class ResponseTemplate : BaseEntity, IMultiTenant
         });
     }
 
-    public Result Update(string name, string contentEn, string contentAr, string? category)
+    public Result Update(string name, string contentEn, string contentAr, MessageCategory? category)
     {
         var errors = new List<ValidationError>();
 

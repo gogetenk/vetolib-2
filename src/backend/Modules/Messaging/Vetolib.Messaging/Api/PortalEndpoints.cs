@@ -57,36 +57,21 @@ internal static class PortalEndpoints
             return Results.Ok(new { token = tokenValue, ownerId });
         }).WithTags("OwnerPortal");
 
-        // GET /categories — returns categories available based on whether owner has pets
-        // For owners without pets, only "Other" is available
-        app.MapGet("/api/v1/portal/categories", async (
-            string? token,
-            MessagingDbContext context,
-            CancellationToken ct) =>
+        var group = app.MapGroup("/api/v1/portal")
+            .AddEndpointFilter<MagicLinkEndpointFilter>()
+            .WithTags("OwnerPortal");
+
+        // GET /categories — returns categories available based on whether owner has pets.
+        // Uses MagicLinkEndpointFilter for auth (IPortalContext provides clinicId/ownerId).
+        group.MapGet("/categories", (IPortalContext portal) =>
         {
-            // Auth check
-            var tokenValue = token;
-            if (string.IsNullOrWhiteSpace(tokenValue))
-                return Results.Unauthorized();
-
-            var portalToken = await context.OwnerPortalTokens
-                .IgnoreQueryFilters()
-                .FirstOrDefaultAsync(t => t.Token == tokenValue, ct);
-
-            if (portalToken is null || !portalToken.IsValid())
-                return Results.Unauthorized();
-
             // In MVP: return all categories (pet filtering is client-side)
             var allCategories = Enum.GetValues<MessageCategory>()
                 .Select(c => c.ToString())
                 .ToArray();
 
             return Results.Ok(allCategories);
-        }).WithTags("OwnerPortal");
-
-        var group = app.MapGroup("/api/v1/portal")
-            .AddEndpointFilter<MagicLinkEndpointFilter>()
-            .WithTags("OwnerPortal");
+        });
 
         // GET /conversations — list owner's conversations
         group.MapGet("/conversations", async (

@@ -6,7 +6,7 @@ public record ResponseTemplateDto(
     string Name,
     string ContentEn,
     string ContentAr,
-    string? Category,
+    MessageCategory? Category,
     DateTime CreatedAt,
     DateTime UpdatedAt
 );

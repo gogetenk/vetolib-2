@@ -4,5 +4,5 @@ using Vetolib.Messaging.Contracts;
 
 namespace Vetolib.Messaging.Application.Queries.ListTemplates;
 
-internal record ListTemplatesQuery(string? Category = null)
+internal record ListTemplatesQuery(MessageCategory? Category = null)
     : IRequest<Result<IReadOnlyList<ResponseTemplateDto>>>;

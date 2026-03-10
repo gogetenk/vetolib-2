@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Vetolib.Messaging.Application.Domain;
+using Vetolib.Messaging.Contracts;
 
 namespace Vetolib.Messaging.Infrastructure;
 
@@ -28,6 +29,7 @@ internal class ResponseTemplateConfiguration : IEntityTypeConfiguration<Response
             .HasMaxLength(2000);
 
         builder.Property(t => t.Category)
+            .HasConversion<string>()
             .HasMaxLength(100);
 
         builder.Property(t => t.CreatedAt)
