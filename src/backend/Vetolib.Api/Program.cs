@@ -15,6 +15,8 @@ using Vetolib.AI.Infrastructure;
 using Vetolib.Messaging;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications;
+using Vetolib.Stock;
+using Vetolib.Stock.Infrastructure;
 using Vetolib.ServiceDefaults;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Shared.Infrastructure.Email;
@@ -143,6 +145,10 @@ builder.AddNpgsqlDbContext<AIDbContext>("vetolibdb");
 // Messaging module
 builder.Services.AddMessagingModule(builder.Configuration);
 
+// Stock module
+builder.Services.AddStockModule(builder.Configuration);
+builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb");
+
 // OpenAPI
 builder.Services.AddOpenApi();
 
@@ -160,6 +166,7 @@ app.MapBillingEndpoints();
 app.MapAuditApiEndpoints();
 app.MapAIEndpoints();
 app.MapMessagingEndpoints();
+app.MapStockEndpoints();
 
 app.MapOpenApi();
 

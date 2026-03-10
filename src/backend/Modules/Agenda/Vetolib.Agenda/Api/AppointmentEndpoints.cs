@@ -7,6 +7,7 @@ using Vetolib.Agenda.Application.Commands.CreateAppointment;
 using Vetolib.Agenda.Application.Commands.UpdateAppointmentStatus;
 using Vetolib.Agenda.Application.Queries.GetAvailability;
 using Vetolib.Agenda.Application.Queries.ListAppointments;
+using Vetolib.Agenda.Application.Queries.SuggestSlot;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Shared.Kernel;
 
@@ -37,6 +38,9 @@ internal static class AppointmentEndpoints
 
         group.MapGet("/availability", GetAvailability)
             .WithName("GetAvailability");
+
+        group.MapPost("/suggest-slot", SuggestSlot)
+            .WithName("SuggestSlot");
 
         // Unversioned alias (used by BDD step definitions and older clients)
         var legacyGroup = app.MapGroup("/api/appointments")
@@ -118,5 +122,19 @@ internal static class AppointmentEndpoints
         ISender sender)
     {
         return (await sender.Send(new GetAvailabilityQuery(veterinarianId, date, durationMinutes))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> SuggestSlot(
+        SuggestSlotRequest request,
+        ISender sender)
+    {
+        var query = new SuggestSlotQuery(
+            request.ConsultationType,
+            request.PreferredDate,
+            request.PreferredTime,
+            request.PreferredVeterinarianId,
+            request.DurationMinutes);
+
+        return (await sender.Send(query)).ToMinimalApiResult();
     }
 }
