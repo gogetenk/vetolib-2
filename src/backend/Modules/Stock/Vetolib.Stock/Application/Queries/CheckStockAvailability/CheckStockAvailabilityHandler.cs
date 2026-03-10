@@ -38,7 +38,8 @@ internal class CheckStockAvailabilityHandler : IRequestHandler<CheckStockAvailab
                 Unit: primaryItem?.Unit ?? string.Empty,
                 IsLowStock: primaryItem?.IsLowStock ?? true,
                 IsExpiringSoon: primaryItem?.IsExpiringSoon ?? false,
-                Alternatives: alternatives));
+                Alternatives: alternatives,
+                StockItemId: primaryItem?.Id));
         }
 
         return Result<StockAvailabilityResult>.Success(new StockAvailabilityResult(
@@ -47,7 +48,8 @@ internal class CheckStockAvailabilityHandler : IRequestHandler<CheckStockAvailab
             Unit: primaryItem.Unit,
             IsLowStock: primaryItem.IsLowStock,
             IsExpiringSoon: primaryItem.IsExpiringSoon,
-            Alternatives: []));
+            Alternatives: [],
+            StockItemId: primaryItem.Id));
     }
 
     private async Task<List<StockAlternativeDto>> BuildAlternatives(

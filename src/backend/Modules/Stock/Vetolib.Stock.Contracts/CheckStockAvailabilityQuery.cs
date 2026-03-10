@@ -13,7 +13,8 @@ public record StockAvailabilityResult(
     string Unit,
     bool IsLowStock,
     bool IsExpiringSoon,
-    List<StockAlternativeDto> Alternatives);
+    List<StockAlternativeDto> Alternatives,
+    Guid? StockItemId = null);
 
 public record StockAlternativeDto(
     Guid StockItemId,
