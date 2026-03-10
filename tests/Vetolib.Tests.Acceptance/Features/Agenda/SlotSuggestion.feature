@@ -1,3 +1,4 @@
+@wip
 Feature: Slot Suggestion
   As a receptionist or veterinarian
   I want the system to suggest the best available appointment slots
