@@ -7,12 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Threading.RateLimiting;
 using Vetolib.Agenda.Infrastructure;
-using Vetolib.AI.Application.Services;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
-using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Stock.Infrastructure;
@@ -23,7 +21,6 @@ namespace Vetolib.Tests.Acceptance.Support;
 internal class TestWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly string _connectionString;
-    public readonly FakeChatClient FakeChatClient = new();
 
     public TestWebApplicationFactory(string connectionString)
         => _connectionString = connectionString;
@@ -59,7 +56,7 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             {
                 typeof(AuthDbContext), typeof(AgendaDbContext), typeof(BillingDbContext),
                 typeof(MedicalRecordsDbContext), typeof(AuditDbContext), typeof(NotificationsDbContext),
-                typeof(StockDbContext), typeof(AIDbContext), typeof(MessagingDbContext)
+                typeof(StockDbContext), typeof(AIDbContext)
             };
 
             var descriptorsToRemove = services
@@ -95,8 +92,6 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
                 opts.UseNpgsql(_connectionString));
             services.AddDbContext<AIDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
-            services.AddDbContext<MessagingDbContext>(opts =>
-                opts.UseNpgsql(_connectionString));
 
             // Replace IClinicContext with test version
             var clinicContextDescriptors = services
@@ -108,31 +103,6 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
 
             services.AddSingleton<TestClinicContext>();
             services.AddSingleton<IClinicContext>(sp => sp.GetRequiredService<TestClinicContext>());
-
-            // Replace IChatClient with FakeChatClient for AI triage tests
-            var chatClientDescriptors = services
-                .Where(d => d.ServiceType == typeof(IChatClient))
-                .ToList();
-            foreach (var d in chatClientDescriptors)
-                services.Remove(d);
-
-            services.AddSingleton<IChatClient>(FakeChatClient);
-
-            // Replace INoShowPredictionService with FakeNoShowPredictionService.
-            // In tests, no ML model file is available so NoShowPredictionService would
-            // return ML_MODEL_NOT_LOADED. The fake returns deterministic predictions
-            // based solely on input features, making BDD scenarios predictable.
-            var noShowDescriptors = services
-                .Where(d => d.ServiceType == typeof(INoShowPredictionService))
-                .ToList();
-            foreach (var d in noShowDescriptors)
-                services.Remove(d);
-
-            services.AddScoped<INoShowPredictionService, FakeNoShowPredictionService>();
-
-            // Register OutputCache so IOutputCacheStore is available.
-            // EditAppointmentHandler and ImportPatientsHandler depend on it to invalidate caches.
-            services.AddOutputCache();
         });
     }
 }

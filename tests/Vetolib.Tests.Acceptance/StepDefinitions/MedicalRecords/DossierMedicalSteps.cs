@@ -1,15 +1,10 @@
 using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
-using Vetolib.Auth.Application.Domain;
-using Vetolib.Auth.Contracts;
-using Vetolib.Auth.Infrastructure;
 using Vetolib.MedicalRecords.Application.Domain;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.MedicalRecords.Infrastructure;
@@ -27,7 +22,6 @@ internal class DossierMedicalSteps
     private HttpResponseMessage _response = null!;
     private string? _errorResponseBody;
 
-    private readonly Dictionary<string, Guid> _clinicIds = new();
     private readonly Dictionary<string, Guid> _ownerIds = new();
     private readonly Dictionary<string, Guid> _patientIds = new();
     private PatientDto? _createdPatient;
@@ -54,24 +48,12 @@ internal class DossierMedicalSteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
-    [Given(@"une clinique ""(.*)""")]
-    public void GivenUneClinique(string clinicName)
-    {
-        var clinicId = GenerateGuidFromString(clinicName);
-        _clinicIds[clinicName] = clinicId;
-
-        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        if (_clinicIds.Count == 1)
-        {
-            testClinicContext.ClinicId = clinicId;
-        }
-    }
-
     [Given(@"un propriétaire ""(.*)"" avec l'email ""(.*)""")]
     public async Task GivenUnProprietaire(string ownerName, string email)
     {
-        var clinicName = _clinicIds.Keys.First();
-        var clinicId = _clinicIds[clinicName];
+        var clinicIds = GetClinicIds();
+        var clinicName = clinicIds.Keys.First();
+        var clinicId = clinicIds[clinicName];
 
         var names = ownerName.Split(' ', 2);
         var firstName = names[0];
@@ -93,14 +75,13 @@ internal class DossierMedicalSteps
     [Given(@"un animal ""(.*)"" race ""(.*)"" appartenant à ""(.*)""")]
     public async Task GivenUnAnimal(string animalName, string breed, string ownerName)
     {
-        var clinicName = _clinicIds.Keys.First();
-        var clinicId = _clinicIds[clinicName];
+        var clinicIds = GetClinicIds();
+        var clinicName = clinicIds.Keys.First();
+        var clinicId = clinicIds[clinicName];
         var ownerId = _ownerIds[ownerName];
 
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
-
-        var species = InferSpecies(breed);
 
         var patientResult = Patient.Create(clinicId, animalName, InferSpecies(breed), breed, DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-2)));
         patientResult.IsSuccess.Should().BeTrue($"Patient creation should succeed for {animalName}");
@@ -115,56 +96,13 @@ internal class DossierMedicalSteps
         _patientIds[animalName] = patient.Id;
     }
 
-    [Given(@"je suis authentifié en tant que (.*)")]
-    public async Task GivenJeSuisAuthentifie(string role)
-    {
-        var clinicName = _clinicIds.Keys.First();
-        var clinicId = _clinicIds[clinicName];
-
-        var email = $"{role.ToLowerInvariant()}@test-medical.com";
-        var password = "SecurePass1";
-
-        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        testClinicContext.ClinicId = clinicId;
-
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var userRole = role.ToUpperInvariant() switch
-        {
-            "VET" => UserRole.Vet,
-            "RECEPTIONIST" => UserRole.Receptionist,
-            "ADMIN" => UserRole.Admin,
-            _ => UserRole.Receptionist
-        };
-
-        var vetLicense = userRole == UserRole.Vet ? "TEST-VET-001" : null;
-        var userResult = User.Create(clinicId, email, password, userRole, vetLicense);
-        userResult.IsSuccess.Should().BeTrue($"User creation should succeed for role {role}");
-
-        var existing = await authDb.Users.IgnoreQueryFilters()
-            .FirstOrDefaultAsync(u => u.Email == email);
-        if (existing is null)
-        {
-            authDb.Users.Add(userResult.Value);
-            await authDb.SaveChangesAsync();
-        }
-
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
-            new LoginRequest(email, password));
-        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
-            $"Login should succeed for {email}");
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
-    }
-
     [Given(@"un animal ""(.*)"" dans la clinique ""(.*)""")]
     public async Task GivenUnAnimalDansLaClinique(string animalName, string clinicName)
     {
-        var clinicId = GenerateGuidFromString(clinicName);
-        _clinicIds[clinicName] = clinicId;
+        var clinicId = SharedSteps.GenerateGuidFromString(clinicName);
+        var clinicIds = GetClinicIds();
+        clinicIds[clinicName] = clinicId;
+        _ctx.Set(clinicIds, "ClinicIds");
 
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         var originalClinicId = testClinicContext.ClinicId;
@@ -197,7 +135,7 @@ internal class DossierMedicalSteps
     public async Task GivenNExamensDansLeDossier(int count, string animalName)
     {
         var patientId = _patientIds[animalName];
-        var clinicId = _clinicIds.Values.First();
+        var clinicId = GetClinicIds().Values.First();
 
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
@@ -222,7 +160,7 @@ internal class DossierMedicalSteps
     public async Task GivenUnExamenExistantPour(string animalName)
     {
         var patientId = _patientIds[animalName];
-        var clinicId = _clinicIds.Values.First();
+        var clinicId = GetClinicIds().Values.First();
 
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
@@ -282,6 +220,8 @@ internal class DossierMedicalSteps
         var request = new AddMedicalRecordRequest("Test diagnostic", "Test traitement");
         _response = await _client.PostAsJsonAsync($"/api/v1/patients/{patientId}/records", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"j'ajoute un examen pour ""(.*)"" avec le diagnostic ""(.*)"" et le traitement ""(.*)""")]
@@ -311,7 +251,7 @@ internal class DossierMedicalSteps
     [When(@"je consulte la liste des animaux de ""(.*)""")]
     public async Task WhenJeConsulteLaListeDesAnimaux(string clinicName)
     {
-        var clinicId = _clinicIds[clinicName];
+        var clinicId = GetClinicIds()[clinicName];
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicId;
 
@@ -321,9 +261,10 @@ internal class DossierMedicalSteps
     [When(@"je crée une ordonnance avec le médicament ""(.*)"" posologie ""(.*)""")]
     public async Task WhenJeCreerUneOrdonnance(string medication, string dosage)
     {
+        var patientId = _patientIds.Values.FirstOrDefault();
         var request = new AddPrescriptionRequest(medication, dosage);
         _response = await _client.PostAsJsonAsync(
-            $"/api/v1/patients/{Guid.NewGuid()}/records/{_lastRecordId}/prescriptions",
+            $"/api/v1/patients/{patientId}/records/{_lastRecordId}/prescriptions",
             request);
 
         if (_response.IsSuccessStatusCode)
@@ -339,9 +280,12 @@ internal class DossierMedicalSteps
     [When(@"je tente de supprimer cet examen")]
     public async Task WhenJeTenteDeSupprimer()
     {
+        var patientId = _patientIds.Values.FirstOrDefault();
         _response = await _client.DeleteAsync(
-            $"/api/v1/patients/{Guid.NewGuid()}/records/{_lastRecordId}");
+            $"/api/v1/patients/{patientId}/records/{_lastRecordId}");
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     // ─── THEN Steps ──────────────────────────────────────────────
@@ -351,7 +295,7 @@ internal class DossierMedicalSteps
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         _createdPatient.Should().NotBeNull();
-        _createdPatient!.ClinicId.Should().Be(_clinicIds.Values.First());
+        _createdPatient!.ClinicId.Should().Be(GetClinicIds().Values.First());
     }
 
     [Then(@"son dossier médical est vide")]
@@ -366,23 +310,6 @@ internal class DossierMedicalSteps
         _createdPatient.Should().NotBeNull();
         _createdPatient!.OwnerName.Should().NotBeNullOrEmpty();
         _createdPatient.OwnerName.Should().Contain(ownerName.Split(' ')[0]);
-    }
-
-    [Then(@"le système refuse avec le code ""(.*)""")]
-    public void ThenLeSystemeRefuseAvecLeCode(string errorCode)
-    {
-        _response.IsSuccessStatusCode.Should().BeFalse();
-
-        switch (errorCode)
-        {
-            case "INSUFFICIENT_PERMISSIONS":
-                _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-                break;
-            case "MEDICAL_RECORD_IMMUTABLE":
-                _response.StatusCode.Should().NotBe(HttpStatusCode.OK);
-                (_errorResponseBody ?? string.Empty).Should().Contain("MEDICAL_RECORD_IMMUTABLE");
-                break;
-        }
     }
 
     [Then(@"""(.*)"" n'apparaît pas dans la liste")]
@@ -458,11 +385,13 @@ internal class DossierMedicalSteps
 
     // ─── Helpers ─────────────────────────────────────────────────
 
-    private static Guid GenerateGuidFromString(string input)
+    private Dictionary<string, Guid> GetClinicIds()
     {
-        using var md5 = System.Security.Cryptography.MD5.Create();
-        var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-        return new Guid(hash);
+        if (_ctx.ContainsKey("ClinicIds"))
+            return _ctx.Get<Dictionary<string, Guid>>("ClinicIds");
+        var dict = new Dictionary<string, Guid>();
+        _ctx.Set(dict, "ClinicIds");
+        return dict;
     }
 
     // Helper record for paged list deserialization
