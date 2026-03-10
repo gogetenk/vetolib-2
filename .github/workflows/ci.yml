@@ -358,6 +358,28 @@ jobs:
           echo "No high/critical npm vulnerabilities found." >> $GITHUB_STEP_SUMMARY
 
   # ─────────────────────────────────────────────────────────────────────────
+  # SonarCloud — static analysis on PRs (blocking)
+  # Runs after backend-build and frontend-build to use build outputs.
+  # ─────────────────────────────────────────────────────────────────────────
+  sonarcloud:
+    name: SonarCloud — static analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'pull_request'
+    needs: [backend-build, frontend-build]
+
+    steps:
+      - name: Checkout (full history for blame)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────────────────
   # Status check gate — required by branch protection rules.
   # Depends on ALL other jobs. If any job fails, this job fails too.
   # Configure your branch protection rule on this single job name.
@@ -374,26 +396,37 @@ jobs:
       - docker-build
       - code-quality
       - security-scan
+      - sonarcloud
 
     steps:
       - name: Verify all required jobs passed
         run: |
-          results=(
-            "${{ needs.backend-build.result }}"
-            "${{ needs.backend-bdd.result }}"
-            "${{ needs.frontend-build.result }}"
-            "${{ needs.frontend-e2e.result }}"
-            "${{ needs.docker-build.result }}"
-            "${{ needs.code-quality.result }}"
-            "${{ needs.security-scan.result }}"
+          # These jobs MUST succeed (never skipped)
+          required=(
+            "backend-build=${{ needs.backend-build.result }}"
+            "backend-bdd=${{ needs.backend-bdd.result }}"
+            "frontend-build=${{ needs.frontend-build.result }}"
+            "frontend-e2e=${{ needs.frontend-e2e.result }}"
+            "docker-build=${{ needs.docker-build.result }}"
+            "code-quality=${{ needs.code-quality.result }}"
+            "security-scan=${{ needs.security-scan.result }}"
           )
+          # SonarCloud only runs on PRs — skipped is OK on push
+          sonar="${{ needs.sonarcloud.result }}"
+
           failed=0
-          for result in "${results[@]}"; do
+          for entry in "${required[@]}"; do
+            name="${entry%%=*}"
+            result="${entry##*=}"
             if [[ "$result" != "success" ]]; then
-              echo "::error::One or more required jobs did not succeed (got: $result)"
+              echo "::error::${name} did not succeed (got: ${result})"
               failed=1
             fi
           done
+          if [[ "$sonar" != "success" && "$sonar" != "skipped" ]]; then
+            echo "::error::sonarcloud did not succeed (got: ${sonar})"
+            failed=1
+          fi
           if [[ $failed -eq 1 ]]; then
             exit 1
           fi
