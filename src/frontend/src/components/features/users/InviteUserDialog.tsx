@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select"
 import { inviteUser } from "@/lib/api/users"
 import type { UserDto } from "@/lib/api/users"
+import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
 
 const inviteSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -61,6 +62,9 @@ export function InviteUserDialog({
 
   async function onSubmit(data: InviteFormValues) {
     const result = await inviteUser(data)
+    trackEvent(AnalyticsEvents.USER_INVITED, {
+      role: data.role,
+    })
     setTemporaryPassword(result.temporaryPassword)
     onUserInvited(result.user)
   }
