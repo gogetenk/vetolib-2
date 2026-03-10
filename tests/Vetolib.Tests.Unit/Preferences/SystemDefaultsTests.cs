@@ -1,0 +1,106 @@
+using FluentAssertions;
+using Vetolib.Preferences.Application.Domain;
+using Vetolib.Preferences.Contracts;
+using Xunit;
+
+namespace Vetolib.Tests.Unit.Preferences;
+
+public class SystemDefaultsTests
+{
+    // ─── Coverage ─────────────────────────────────────────────────────────────
+
+    [Fact]
+    public void AllPreferenceKeys_HaveASystemDefault()
+    {
+        var allKeys = Enum.GetValues<PreferenceKey>();
+
+        foreach (var key in allKeys)
+        {
+            SystemDefaults.HasDefault(key).Should().BeTrue(
+                $"PreferenceKey.{key} must have a hardcoded system default in SystemDefaults");
+        }
+    }
+
+    [Fact]
+    public void GetDefault_ForEveryKey_DoesNotThrow()
+    {
+        var allKeys = Enum.GetValues<PreferenceKey>();
+
+        var act = () =>
+        {
+            foreach (var key in allKeys)
+                SystemDefaults.GetDefault(key);
+        };
+
+        act.Should().NotThrow();
+    }
+
+    // ─── Specific business defaults ───────────────────────────────────────────
+
+    [Fact]
+    public void AIDrugInteractions_DefaultIsTrue()
+    {
+        // ALWAYS ON per PO decision
+        SystemDefaults.GetDefault(PreferenceKey.AIDrugInteractions).Should().Be("true");
+    }
+
+    [Fact]
+    public void AnalyticsPosthog_DefaultIsFalse()
+    {
+        // GDPR-ready: analytics OFF by default
+        SystemDefaults.GetDefault(PreferenceKey.AnalyticsPosthog).Should().Be("false");
+    }
+
+    [Fact]
+    public void AnalyticsUsageData_DefaultIsFalse()
+    {
+        // GDPR-ready: analytics OFF by default
+        SystemDefaults.GetDefault(PreferenceKey.AnalyticsUsageData).Should().Be("false");
+    }
+
+    [Fact]
+    public void NotificationEmail_DefaultIsTrue()
+    {
+        SystemDefaults.GetDefault(PreferenceKey.NotificationEmail).Should().Be("true");
+    }
+
+    [Fact]
+    public void NotificationPush_DefaultIsFalse()
+    {
+        // Push not yet implemented
+        SystemDefaults.GetDefault(PreferenceKey.NotificationPush).Should().Be("false");
+    }
+
+    [Fact]
+    public void NotificationSms_DefaultIsFalse()
+    {
+        // SMS not yet implemented
+        SystemDefaults.GetDefault(PreferenceKey.NotificationSms).Should().Be("false");
+    }
+
+    [Fact]
+    public void PrivacyDataSharing_DefaultIsFalse()
+    {
+        SystemDefaults.GetDefault(PreferenceKey.PrivacyDataSharing).Should().Be("false");
+    }
+
+    [Fact]
+    public void PrivacyMarketing_DefaultIsFalse()
+    {
+        SystemDefaults.GetDefault(PreferenceKey.PrivacyMarketing).Should().Be("false");
+    }
+
+    [Fact]
+    public void CommunicationLanguage_DefaultIsEnglish()
+    {
+        // UAE market — English default
+        SystemDefaults.GetDefault(PreferenceKey.CommunicationLanguage).Should().Be("en");
+    }
+
+    [Fact]
+    public void All_ReturnsAllKeys()
+    {
+        var allKeyCount = Enum.GetValues<PreferenceKey>().Length;
+        SystemDefaults.All.Count.Should().Be(allKeyCount);
+    }
+}

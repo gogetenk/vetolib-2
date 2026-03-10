@@ -39,6 +39,8 @@
     <ProjectReference Include="..\..\src\backend\Modules\AI\Vetolib.AI.Contracts\Vetolib.AI.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Stock\Vetolib.Stock\Vetolib.Stock.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Stock\Vetolib.Stock.Contracts\Vetolib.Stock.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Preferences\Vetolib.Preferences\Vetolib.Preferences.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Preferences\Vetolib.Preferences.Contracts\Vetolib.Preferences.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
