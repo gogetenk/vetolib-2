@@ -46,6 +46,8 @@
     <ProjectReference Include="..\..\src\backend\Modules\Messaging\Vetolib.Messaging.Contracts\Vetolib.Messaging.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\src\backend\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Preferences\Vetolib.Preferences\Vetolib.Preferences.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Preferences\Vetolib.Preferences.Contracts\Vetolib.Preferences.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
