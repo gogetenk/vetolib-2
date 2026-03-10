@@ -250,6 +250,10 @@ export default function PatientDetailPage() {
               <span data-testid="patient-detail-age">{calculateAge(patient.dateOfBirth)}</span>
               {' '}&bull; {patient.gender}
             </p>
+            <p className="text-sm text-muted-foreground mt-1" data-testid="patient-weight-display">
+              <span className="font-medium text-foreground">Weight: </span>
+              {patient.weightKg != null ? `${patient.weightKg} kg` : 'Not recorded'}
+            </p>
             <div className="mt-2 flex flex-col gap-1 text-sm text-muted-foreground">
               <span data-testid="patient-detail-owner">
                 <span className="font-medium text-foreground">Owner: </span>
