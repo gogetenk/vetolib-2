@@ -64,7 +64,12 @@ export default function NewMedicalRecordPage() {
         {patient.name}&apos;s record
       </Button>
 
-      <MedicalRecordForm patientId={id} patientName={patient.name} />
+      <MedicalRecordForm
+        patientId={id}
+        patientName={patient.name}
+        patientSpecies={patient.species}
+        patientWeightKg={patient.weightKg}
+      />
     </div>
   )
 }

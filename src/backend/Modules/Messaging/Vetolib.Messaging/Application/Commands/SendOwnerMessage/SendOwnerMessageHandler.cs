@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
 
@@ -11,10 +12,12 @@ internal class SendOwnerMessageHandler : IRequestHandler<SendOwnerMessageCommand
     private const int DailyMessageLimit = 5;
 
     private readonly MessagingDbContext _context;
+    private readonly ITriageOrchestrator _triageOrchestrator;
 
-    public SendOwnerMessageHandler(MessagingDbContext context)
+    public SendOwnerMessageHandler(MessagingDbContext context, ITriageOrchestrator triageOrchestrator)
     {
         _context = context;
+        _triageOrchestrator = triageOrchestrator;
     }
 
     public async Task<Result<Guid>> Handle(
@@ -66,6 +69,9 @@ internal class SendOwnerMessageHandler : IRequestHandler<SendOwnerMessageCommand
         var messageResult = conversation.AddMessage(MessageSender.Owner, null, request.Body);
         if (!messageResult.IsSuccess)
             return Result<Guid>.Error(string.Join("; ", messageResult.Errors));
+
+        // 5. Re-triage based on the new message content (falls back gracefully)
+        await _triageOrchestrator.ApplyTriageAsync(conversation, request.Body, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

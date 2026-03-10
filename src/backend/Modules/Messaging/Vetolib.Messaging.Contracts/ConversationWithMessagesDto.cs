@@ -14,5 +14,6 @@ public record ConversationWithMessagesDto(
     bool IsTriageUncertain,
     DateTime CreatedAt,
     DateTime? LastMessageAt,
-    IReadOnlyList<MessageDto> Messages
+    IReadOnlyList<MessageDto> Messages,
+    IReadOnlyList<string> AiSuggestedReplies
 );

@@ -1,9 +1,11 @@
 using Ardalis.Result;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Vetolib.Messaging.Application.Domain;
 using Vetolib.Messaging.Contracts;
+using Vetolib.Messaging.Contracts.Events;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Shared.Kernel;
 
@@ -14,15 +16,18 @@ internal class CreateOutboundConversationHandler : IRequestHandler<CreateOutboun
     private readonly MessagingDbContext _context;
     private readonly IClinicContext _clinicContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public CreateOutboundConversationHandler(
         MessagingDbContext context,
         IClinicContext clinicContext,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _clinicContext = clinicContext;
         _httpContextAccessor = httpContextAccessor;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<Result<ConversationDto>> Handle(CreateOutboundConversationCommand cmd, CancellationToken ct)
@@ -57,8 +62,15 @@ internal class CreateOutboundConversationHandler : IRequestHandler<CreateOutboun
         _context.Conversations.Add(conversation);
         await _context.SaveChangesAsync(ct);
 
-        // Note: An event to notify the owner via email would be published here via MassTransit
-        // when Notifications.Contracts is added in the integration task.
+        var preview = cmd.InitialMessageBody.Length > 100
+            ? cmd.InitialMessageBody[..100] + "..."
+            : cmd.InitialMessageBody;
+
+        await _publishEndpoint.Publish(new OutboundConversationCreatedEvent(
+            conversation.Id,
+            cmd.OwnerId,
+            clinicId,
+            preview), ct);
 
         return Result<ConversationDto>.Success(conversation.ToDto());
     }

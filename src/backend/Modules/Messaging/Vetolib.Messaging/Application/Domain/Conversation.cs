@@ -150,7 +150,9 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         CreatedAt,
         LastMessageAt);
 
-    public ConversationWithMessagesDto ToDetailDto(bool includeInternalNotes = true) => new(
+    public ConversationWithMessagesDto ToDetailDto(
+        bool includeInternalNotes = true,
+        IReadOnlyList<string>? aiSuggestedReplies = null) => new(
         Id,
         ClinicId,
         OwnerId,
@@ -168,5 +170,6 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
             .Where(m => includeInternalNotes || !m.IsInternalNote)
             .Select(m => m.ToDto())
             .ToList()
-            .AsReadOnly());
+            .AsReadOnly(),
+        aiSuggestedReplies ?? Array.Empty<string>());
 }

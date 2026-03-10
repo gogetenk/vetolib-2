@@ -84,37 +84,58 @@ function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
   )
 }
 
-function PrescriptionsTab({ prescriptions }: { prescriptions: PrescriptionDto[] }) {
-  if (prescriptions.length === 0) {
-    return (
-      <p className="text-muted-foreground text-sm py-8 text-center" data-testid="prescriptions-empty">
-        No prescriptions found.
-      </p>
-    )
-  }
+function PrescriptionsTab({
+  prescriptions,
+  patientId,
+  canPrescribe,
+}: {
+  prescriptions: PrescriptionDto[]
+  patientId: string
+  canPrescribe: boolean
+}) {
   return (
-    <div data-testid="prescriptions-list" className="space-y-3">
-      {prescriptions.map((presc) => (
-        <div
-          key={presc.id}
-          data-testid={`prescription-${presc.id}`}
-          className="flex items-start justify-between gap-4 rounded-md border p-4"
-        >
-          <div>
-            <p className="font-medium text-sm" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              {presc.dosage} &bull; {presc.duration}
-            </p>
-            <p className="text-xs text-muted-foreground">{presc.vetName} &bull; {formatDate(presc.prescribedDate)}</p>
-          </div>
-          <Badge
-            variant={presc.status === 'active' ? 'default' : 'secondary'}
-            data-testid={`presc-status-${presc.id}`}
+    <div className="space-y-4">
+      {canPrescribe && (
+        <div className="flex justify-end">
+          <Button
+            render={<Link href={`patients/${patientId}/records/new`} />}
+            size="sm"
+            data-testid="new-prescription-btn"
           >
-            {presc.status}
-          </Badge>
+            New Prescription
+          </Button>
         </div>
-      ))}
+      )}
+
+      {prescriptions.length === 0 ? (
+        <p className="text-muted-foreground text-sm py-8 text-center" data-testid="prescriptions-empty">
+          No prescriptions found.
+        </p>
+      ) : (
+        <div data-testid="prescriptions-list" className="space-y-3">
+          {prescriptions.map((presc) => (
+            <div
+              key={presc.id}
+              data-testid={`prescription-${presc.id}`}
+              className="flex items-start justify-between gap-4 rounded-md border p-4"
+            >
+              <div>
+                <p className="font-medium text-sm" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {presc.dosage} &bull; {presc.duration}
+                </p>
+                <p className="text-xs text-muted-foreground">{presc.vetName} &bull; {formatDate(presc.prescribedDate)}</p>
+              </div>
+              <Badge
+                variant={presc.status === 'active' ? 'default' : 'secondary'}
+                data-testid={`presc-status-${presc.id}`}
+              >
+                {presc.status}
+              </Badge>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

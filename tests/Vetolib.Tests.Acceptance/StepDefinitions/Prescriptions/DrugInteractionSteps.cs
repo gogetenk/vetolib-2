@@ -182,7 +182,7 @@ internal class DrugInteractionSteps
         var prescriptionId = prescriptionResult.Value.Id;
         var backdatedTime = DateTime.UtcNow.AddDays(-daysAgo);
         await db.Database.ExecuteSqlRawAsync(
-            "UPDATE medical.prescriptions SET created_at = {0} WHERE id = {1}",
+            "UPDATE medical.prescriptions SET "CreatedAt" = {0} WHERE "Id" = {1}",
             backdatedTime, prescriptionId);
     }
 

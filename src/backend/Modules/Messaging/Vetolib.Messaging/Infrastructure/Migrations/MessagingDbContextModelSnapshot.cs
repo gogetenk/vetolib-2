@@ -50,6 +50,9 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("EscalationSentAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsTriageUncertain")
                         .HasColumnType("boolean");
 

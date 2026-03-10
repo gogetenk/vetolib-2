@@ -30,6 +30,9 @@ public static class MessagingModuleServiceRegistrar
         // Internal services
         services.AddScoped<IBusinessHoursChecker, BusinessHoursChecker>();
 
+        // Emergency escalation background service
+        services.AddHostedService<EmergencyEscalationBackgroundService>();
+
         // SSE broadcaster — singleton so all scopes share the same connection registry
         services.AddSingleton<IMessagingEventBroadcaster, MessagingEventBroadcaster>();
 
