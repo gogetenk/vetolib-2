@@ -119,6 +119,62 @@ jobs:
           retention-days: 7
 
   # ─────────────────────────────────────────────────────────────────────────
+  # Backend — integration tests (Testcontainers — Docker socket required)
+  # Separate from BDD to allow parallel frontend jobs while this runs.
+  # ─────────────────────────────────────────────────────────────────────────
+  backend-integration:
+    name: Backend — integration tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: backend-build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+          dotnet-quality: "preview"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore
+        working-directory: src/backend
+        run: dotnet restore Vetolib.sln
+
+      - name: Build (integration tests project)
+        working-directory: tests/Vetolib.Tests.Integration
+        run: dotnet build --no-restore -c Release
+
+      - name: Integration tests (Testcontainers — Docker socket required)
+        working-directory: tests/Vetolib.Tests.Integration
+        env:
+          DOCKER_HOST: unix:///var/run/docker.sock
+        run: >
+          dotnet test
+          --no-build
+          -c Release
+          --logger "trx;LogFileName=integration-results.trx"
+          --results-directory ./TestResults
+          --filter "Category!=wip"
+
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results
+          path: tests/Vetolib.Tests.Integration/TestResults/*.trx
+          retention-days: 7
+
+  # ─────────────────────────────────────────────────────────────────────────
   # Frontend — type-check, lint, Next.js build
   # ─────────────────────────────────────────────────────────────────────────
   frontend-build:
@@ -369,6 +425,7 @@ jobs:
     name: SonarCloud — static analysis
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    continue-on-error: true  # non-blocking: SONAR_TOKEN may not be configured
 
     steps:
       - name: Set up JDK 17 (required by SonarScanner)
@@ -455,6 +512,7 @@ jobs:
     needs:
       - backend-build
       - backend-bdd
+      - backend-integration
       - frontend-build
       # - frontend-e2e  # disabled — moved to .github/workflows/nightly.yml
       - docker-build
@@ -469,12 +527,13 @@ jobs:
           required=(
             "backend-build=${{ needs.backend-build.result }}"
             "backend-bdd=${{ needs.backend-bdd.result }}"
+            "backend-integration=${{ needs.backend-integration.result }}"
             "frontend-build=${{ needs.frontend-build.result }}"
             "docker-build=${{ needs.docker-build.result }}"
             "code-quality=${{ needs.code-quality.result }}"
             "security-scan=${{ needs.security-scan.result }}"
           )
-          # SonarCloud only runs on PRs — skipped is OK on push
+          # SonarCloud is non-blocking (continue-on-error: true) — any result is acceptable
           sonar="${{ needs.sonarcloud.result }}"
 
           failed=0
@@ -486,10 +545,7 @@ jobs:
               failed=1
             fi
           done
-          if [[ "$sonar" != "success" ]]; then
-            echo "::error::sonarcloud did not succeed (got: ${sonar})"
-            failed=1
-          fi
+          echo "sonarcloud result: ${sonar} (informational — non-blocking)"
           if [[ $failed -eq 1 ]]; then
             exit 1
           fi
