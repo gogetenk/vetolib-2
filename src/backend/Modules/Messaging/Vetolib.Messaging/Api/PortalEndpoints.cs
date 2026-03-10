@@ -3,13 +3,17 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Vetolib.Messaging.Application.Commands.AcceptConsent;
 using Vetolib.Messaging.Application.Commands.CreateOwnerConversation;
 using Vetolib.Messaging.Application.Commands.SendOwnerMessage;
+using Vetolib.Messaging.Application.Domain;
 using Vetolib.Messaging.Application.Queries.ExportOwnerConversations;
 using Vetolib.Messaging.Application.Queries.GetOwnerConversationById;
 using Vetolib.Messaging.Application.Queries.ListOwnerConversations;
 using Vetolib.Messaging.Application.Queries.ListOwnerPets;
+using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
 
 namespace Vetolib.Messaging.Api;
@@ -18,6 +22,68 @@ internal static class PortalEndpoints
 {
     internal static IEndpointRouteBuilder MapPortalEndpoints(this IEndpointRouteBuilder app)
     {
+        // Test-only seeding endpoint (not protected by magic link)
+        // Registers a valid portal token + accepted consent so BDD tests can authenticate.
+        // Only available in Development/Test environments.
+        app.MapPost("/api/v1/portal/test-token", async (
+            TestTokenRequest request,
+            MessagingDbContext context,
+            IHostEnvironment env,
+            CancellationToken ct) =>
+        {
+            if (env.IsProduction())
+                return Results.NotFound();
+
+            var clinicId = new Guid("11111111-1111-1111-1111-111111111111");
+            var ownerId = Guid.NewGuid();
+            var tokenValue = $"test-{Guid.NewGuid():N}";
+
+            var tokenResult = OwnerPortalToken.Create(
+                clinicId,
+                ownerId,
+                tokenValue,
+                DateTime.UtcNow.AddDays(90));
+
+            if (!tokenResult.IsSuccess)
+                return Results.BadRequest(tokenResult.Errors);
+
+            var token = tokenResult.Value;
+            // Auto-accept consent for test tokens so BDD tests don't fail on consent check
+            token.RecordConsent("1.0");
+
+            context.OwnerPortalTokens.Add(token);
+            await context.SaveChangesAsync(ct);
+
+            return Results.Ok(new { token = tokenValue, ownerId });
+        }).WithTags("OwnerPortal");
+
+        // GET /categories — returns categories available based on whether owner has pets
+        // For owners without pets, only "Other" is available
+        app.MapGet("/api/v1/portal/categories", async (
+            string? token,
+            MessagingDbContext context,
+            CancellationToken ct) =>
+        {
+            // Auth check
+            var tokenValue = token;
+            if (string.IsNullOrWhiteSpace(tokenValue))
+                return Results.Unauthorized();
+
+            var portalToken = await context.OwnerPortalTokens
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(t => t.Token == tokenValue, ct);
+
+            if (portalToken is null || !portalToken.IsValid())
+                return Results.Unauthorized();
+
+            // In MVP: return all categories (pet filtering is client-side)
+            var allCategories = Enum.GetValues<MessageCategory>()
+                .Select(c => c.ToString())
+                .ToArray();
+
+            return Results.Ok(allCategories);
+        }).WithTags("OwnerPortal");
+
         var group = app.MapGroup("/api/v1/portal")
             .AddEndpointFilter<MagicLinkEndpointFilter>()
             .WithTags("OwnerPortal");
@@ -140,3 +206,5 @@ internal record CreateOwnerConversationRequest(
 internal record SendOwnerMessageRequest(string Body);
 
 internal record AcceptConsentRequest(string ConsentVersion);
+
+internal record TestTokenRequest(string ClinicName, string OwnerEmail);
