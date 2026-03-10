@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -28,6 +29,13 @@ public static class Extensions
 
     public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
     {
+        // OTel logging — sends logs to Aspire Dashboard via OTLP
+        builder.Logging.AddOpenTelemetry(logging =>
+        {
+            logging.IncludeFormattedMessage = true;
+            logging.IncludeScopes = true;
+        });
+
         builder.Services.AddOpenTelemetry()
             .WithMetrics(metrics =>
             {
@@ -39,9 +47,17 @@ public static class Extensions
             {
                 tracing.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddSentry();
+                    .AddSentry(); // Sentry span processor (no-op without DSN)
             });
 
+        // OTLP exporter — auto-configured by Aspire (OTEL_EXPORTER_OTLP_ENDPOINT)
+        builder.AddOpenTelemetryExporters();
+
+        return builder;
+    }
+
+    private static IHostApplicationBuilder AddOpenTelemetryExporters(this IHostApplicationBuilder builder)
+    {
         var useOtlpExporter = !string.IsNullOrWhiteSpace(
             builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
 
