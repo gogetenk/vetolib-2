@@ -8,12 +8,36 @@ using Vetolib.Messaging.Infrastructure;
 
 namespace Vetolib.Messaging.Application.Commands.CreateOwnerConversation;
 
-internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConversationCommand, Result<Guid>>
+internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConversationCommand, Result<CreateOwnerConversationResponse>>
 {
     private const string AutoAcknowledgmentBody =
         "Your message has been received. It will be processed when the clinic reopens.";
 
     private const int DailyMessageLimit = 5;
+
+    // SLA estimates per category (business hours)
+    private static readonly Dictionary<MessageCategory, string> SlaEstimates = new()
+    {
+        [MessageCategory.MedicalUrgency] = "15 minutes",
+        [MessageCategory.PostOperativeFollowUp] = "2 hours",
+        [MessageCategory.MedicalQuestion] = "8 hours",
+        [MessageCategory.AppointmentRequest] = "4 hours",
+        [MessageCategory.Administrative] = "24 hours",
+        [MessageCategory.Feedback] = "48 hours",
+        [MessageCategory.Other] = "24 hours"
+    };
+
+    // Routing assignment per category
+    private static readonly Dictionary<MessageCategory, string> CategoryRouting = new()
+    {
+        [MessageCategory.MedicalUrgency] = "Vet",
+        [MessageCategory.PostOperativeFollowUp] = "Vet",
+        [MessageCategory.MedicalQuestion] = "Vet",
+        [MessageCategory.AppointmentRequest] = "Receptionist",
+        [MessageCategory.Administrative] = "Receptionist",
+        [MessageCategory.Feedback] = "Admin",
+        [MessageCategory.Other] = "Receptionist"
+    };
 
     private readonly MessagingDbContext _context;
     private readonly IBusinessHoursChecker _businessHoursChecker;
@@ -24,7 +48,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
         _businessHoursChecker = businessHoursChecker;
     }
 
-    public async Task<Result<Guid>> Handle(
+    public async Task<Result<CreateOwnerConversationResponse>> Handle(
         CreateOwnerConversationCommand request,
         CancellationToken cancellationToken)
     {
@@ -36,10 +60,10 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
                 cancellationToken);
 
         if (portalToken is null)
-            return Result<Guid>.NotFound("Portal token not found");
+            return Result<CreateOwnerConversationResponse>.NotFound("Portal token not found");
 
         if (portalToken.ConsentAcceptedAt is null)
-            return Result<Guid>.Error("CONSENT_REQUIRED:You must accept the messaging terms before sending a message");
+            return Result<CreateOwnerConversationResponse>.Forbidden();
 
         // 2. Check daily message limit (5 messages/day/owner/clinic)
         var todayUtc = DateTime.UtcNow.Date;
@@ -58,29 +82,39 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
                 cancellationToken);
 
         if (messageCountToday >= DailyMessageLimit)
-            return Result<Guid>.Error("DAILY_LIMIT_EXCEEDED:You have reached the daily message limit. Please try again tomorrow.");
+            return Result<CreateOwnerConversationResponse>.Error("DAILY_LIMIT_EXCEEDED:You have reached the daily message limit. Please try again tomorrow.");
 
-        // 3. Create conversation
+        // 3. Derive subject from body if not provided
+        var subject = string.IsNullOrWhiteSpace(request.Subject)
+            ? (request.Body.Length > 100 ? request.Body[..100] : request.Body)
+            : request.Subject;
+
+        // 4. Create conversation
         var conversationResult = Conversation.Create(
             request.ClinicId,
             request.OwnerId,
             request.PatientId,
-            request.Subject,
+            subject,
             request.Category);
 
         if (!conversationResult.IsSuccess)
-            return Result<Guid>.Invalid(conversationResult.ValidationErrors);
+            return Result<CreateOwnerConversationResponse>.Invalid(conversationResult.ValidationErrors);
 
         var conversation = conversationResult.Value;
 
-        // 4. Add owner's first message
+        // Assign conversation based on category routing
+        var assignedRole = CategoryRouting.GetValueOrDefault(request.Category, "Receptionist");
+        conversation.AssignTo(null, assignedRole);
+
+        // 5. Add owner's first message
         var messageResult = conversation.AddMessage(MessageSender.Owner, null, request.Body);
         if (!messageResult.IsSuccess)
-            return Result<Guid>.Error(string.Join("; ", messageResult.Errors));
+            return Result<CreateOwnerConversationResponse>.Error(string.Join("; ", messageResult.Errors));
 
         _context.Conversations.Add(conversation);
 
-        // 5. Check business hours — add auto-acknowledgment for non-urgent messages outside hours
+        // 6. Check business hours — add auto-acknowledgment for non-urgent messages outside hours
+        string? acknowledgment = null;
         var isUrgent = request.Category == MessageCategory.MedicalUrgency;
         if (!isUrgent)
         {
@@ -91,12 +125,19 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
 
             if (!isWithinHours)
             {
+                acknowledgment = AutoAcknowledgmentBody;
                 conversation.AddMessage(MessageSender.System, null, AutoAcknowledgmentBody);
             }
         }
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Result<Guid>.Success(conversation.Id);
+        var estimatedResponseTime = SlaEstimates.GetValueOrDefault(request.Category, "24 hours");
+
+        return Result<CreateOwnerConversationResponse>.Success(new CreateOwnerConversationResponse(
+            conversation.Id,
+            estimatedResponseTime,
+            assignedRole,
+            acknowledgment));
     }
 }

@@ -53,3 +53,45 @@ export interface DrugCatalogEntryDto {
   interactionSeverity: InteractionSeverity | null
   requiresPrescription: boolean
 }
+
+// ─── Prescription Preflight ───────────────────────────────────────────────────
+
+export type AlertSeverity = 'Critical' | 'Moderate' | 'Info'
+export type AlertType = 'SpeciesContraindication' | 'DrugInteraction' | 'DosageOutOfRange' | 'StockWarning'
+
+export interface InteractionAlert {
+  severity: AlertSeverity
+  type: AlertType
+  message: string
+  alternativeDrugIds: string[]
+}
+
+export interface SafeAlternative {
+  id: string
+  displayName: string
+  innName: string
+  commonDosage: string
+}
+
+export interface DosageRange {
+  minDose: number
+  maxDose: number
+  unit: string
+  dosePerKg: number
+  recommendedDose?: number
+}
+
+export interface PrescriptionPreflightResult {
+  interactionAlerts: InteractionAlert[]
+  stockAvailability: boolean
+  safeAlternatives: SafeAlternative[]
+  dosageRange: DosageRange | null
+}
+
+export interface PreflightRequest {
+  patientId: string
+  drugCatalogEntryId: string
+  dosageAmount?: number
+  patientWeightKg?: number
+  patientSpecies?: Species
+}

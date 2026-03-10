@@ -1,5 +1,9 @@
 import { http, HttpResponse } from 'msw'
-import type { DrugCatalogEntryDto } from '@/lib/api/types'
+import type {
+  DrugCatalogEntryDto,
+  PrescriptionPreflightResult,
+  PreflightRequest,
+} from '@/lib/api/types'
 
 // Realistic UAE veterinary drug catalog (INN names)
 const MOCK_DRUGS: DrugCatalogEntryDto[] = [
@@ -248,5 +252,117 @@ export const drugHandlers = [
     const drug = MOCK_DRUGS.find(d => d.id === params.id)
     if (!drug) return new HttpResponse(null, { status: 404 })
     return HttpResponse.json<DrugCatalogEntryDto>(drug)
+  }),
+
+  // POST /api/medical-records/prescriptions/preflight
+  // Simulates interaction checking based on drug + patient context
+  http.post('/api/medical-records/prescriptions/preflight', async ({ request }) => {
+    await new Promise(resolve => setTimeout(resolve, 150))
+
+    const body = await request.json() as PreflightRequest
+    const { drugCatalogEntryId, patientSpecies, dosageAmount } = body
+
+    // Drug IDs used in mock scenarios:
+    // drug-...001 = Amoxicillin
+    // drug-...003 = Metronidazole
+    // drug-...008 = Ketoconazole (cat contraindication)
+
+    const AMOXICILLIN_ID = 'drug-0000-0000-0000-000000000001'
+    const METRONIDAZOLE_ID = 'drug-0000-0000-0000-000000000003'
+    const IBUPROFEN_ID = 'drug-ibuprofen-0000-0000-000000000099' // fictional for demo
+
+    // Scenario 1: Ibuprofen + Cat -> Critical (species contraindication)
+    if (drugCatalogEntryId === IBUPROFEN_ID && patientSpecies === 'Cat') {
+      return HttpResponse.json<PrescriptionPreflightResult>({
+        interactionAlerts: [
+          {
+            severity: 'Critical',
+            type: 'SpeciesContraindication',
+            message: 'Ibuprofen is contraindicated in cats — can cause acute renal failure and GI ulceration.',
+            alternativeDrugIds: [AMOXICILLIN_ID],
+          },
+        ],
+        stockAvailability: true,
+        safeAlternatives: [
+          {
+            id: AMOXICILLIN_ID,
+            displayName: 'Meloxicam 1.5mg/ml',
+            innName: 'meloxicam',
+            commonDosage: '0.05 mg/kg once daily for cats',
+          },
+        ],
+        dosageRange: null,
+      })
+    }
+
+    // Scenario 2: Metronidazole -> Moderate interaction (concurrent Amoxicillin)
+    if (drugCatalogEntryId === METRONIDAZOLE_ID) {
+      return HttpResponse.json<PrescriptionPreflightResult>({
+        interactionAlerts: [
+          {
+            severity: 'Moderate',
+            type: 'DrugInteraction',
+            message: 'Concurrent use of Metronidazole with Amoxicillin may enhance antibacterial effect but increases risk of GI adverse effects. Monitor closely.',
+            alternativeDrugIds: [],
+          },
+        ],
+        stockAvailability: true,
+        safeAlternatives: [],
+        dosageRange: {
+          minDose: 10,
+          maxDose: 25,
+          unit: 'mg/kg',
+          dosePerKg: 15,
+          recommendedDose: body.patientWeightKg ? body.patientWeightKg * 15 : undefined,
+        },
+      })
+    }
+
+    // Scenario 3: Amoxicillin + dosage out of range -> Info
+    if (drugCatalogEntryId === AMOXICILLIN_ID && dosageAmount !== undefined && dosageAmount > 25) {
+      return HttpResponse.json<PrescriptionPreflightResult>({
+        interactionAlerts: [
+          {
+            severity: 'Info',
+            type: 'DosageOutOfRange',
+            message: `Dosage ${dosageAmount} mg/kg exceeds recommended range for Amoxicillin (10–20 mg/kg). Verify weight and recalculate.`,
+            alternativeDrugIds: [],
+          },
+        ],
+        stockAvailability: true,
+        safeAlternatives: [],
+        dosageRange: {
+          minDose: 10,
+          maxDose: 20,
+          unit: 'mg/kg',
+          dosePerKg: 15,
+          recommendedDose: body.patientWeightKg ? body.patientWeightKg * 15 : undefined,
+        },
+      })
+    }
+
+    // Scenario 4: Amoxicillin with weight -> show dosage range (no alert)
+    if (drugCatalogEntryId === AMOXICILLIN_ID) {
+      return HttpResponse.json<PrescriptionPreflightResult>({
+        interactionAlerts: [],
+        stockAvailability: true,
+        safeAlternatives: [],
+        dosageRange: body.patientWeightKg ? {
+          minDose: 10,
+          maxDose: 20,
+          unit: 'mg/kg',
+          dosePerKg: 15,
+          recommendedDose: body.patientWeightKg * 15,
+        } : null,
+      })
+    }
+
+    // Default: no alerts
+    return HttpResponse.json<PrescriptionPreflightResult>({
+      interactionAlerts: [],
+      stockAvailability: true,
+      safeAlternatives: [],
+      dosageRange: null,
+    })
   }),
 ]

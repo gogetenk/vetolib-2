@@ -18,6 +18,7 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
     public bool IsTriageUncertain { get; private set; }
     public bool IsSpam { get; private set; }
     public DateTime? LastMessageAt { get; private set; }
+    public DateTime? EscalationSentAt { get; private set; }
 
     private readonly List<Message> _messages = [];
     public IReadOnlyList<Message> Messages => _messages.AsReadOnly();
@@ -99,6 +100,12 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
             return Result.Error("CONVERSATION_ALREADY_OPEN:Conversation is already open");
 
         Status = ConversationStatus.Open;
+        return Result.Success();
+    }
+
+    public Result MarkEscalationSent()
+    {
+        EscalationSentAt = DateTime.UtcNow;
         return Result.Success();
     }
 

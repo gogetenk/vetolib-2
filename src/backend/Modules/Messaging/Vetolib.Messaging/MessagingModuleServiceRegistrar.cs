@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Messaging.Api;
 using Vetolib.Messaging.Application.Services;
+using Vetolib.Messaging.Application.Services.SSE;
 using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Messaging.Infrastructure;
 
@@ -29,6 +30,9 @@ public static class MessagingModuleServiceRegistrar
         // Internal services
         services.AddScoped<IBusinessHoursChecker, BusinessHoursChecker>();
 
+        // SSE broadcaster — singleton so all scopes share the same connection registry
+        services.AddSingleton<IMessagingEventBroadcaster, MessagingEventBroadcaster>();
+
         // Portal context (scoped per request, populated by MagicLinkEndpointFilter)
         services.AddScoped<IPortalContext, PortalContext>();
 
@@ -50,6 +54,7 @@ public static class MessagingModuleServiceRegistrar
     {
         app.MapMessagingApiEndpoints();
         app.MapPortalEndpoints();
+        app.MapMessagingSseEndpoints();
         return app;
     }
 }

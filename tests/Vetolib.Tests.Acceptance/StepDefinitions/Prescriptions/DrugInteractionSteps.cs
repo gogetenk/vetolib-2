@@ -241,18 +241,15 @@ internal class DrugInteractionSteps
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
 
-        var entry = await db.DrugCatalogEntries
-            .Include(d => d.DosageGuidelines)
-            .FirstOrDefaultAsync(d => d.Id == drugId);
-
-        entry.Should().NotBeNull($"Drug {drug} should exist in catalog");
-        entry!.AddDosageGuideline(species, minDose, maxDose, "mg", "oral");
+        // Insert dosage guideline directly to avoid optimistic concurrency on parent entry
+        var guideline = DosageGuideline.Create(drugId, species, minDose, maxDose, "mg", "oral");
+        await db.Set<DosageGuideline>().AddAsync(guideline);
         await db.SaveChangesAsync();
     }
 
     // ─── WHEN steps ──────────────────────────────────────────────
 
-    [When(@"I create a prescription for patient ""(.*)"" with drug ""(.*)""")]
+    [When(@"I create a prescription for patient ""(.*)"" with drug ""(.*)""$")]
     public async Task WhenICreatePrescriptionWithDrug(string patientName, string drug)
     {
         await RunInteractionCheck(patientName, drug, dosageAmount: null);

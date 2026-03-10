@@ -198,9 +198,10 @@ internal static class PortalEndpoints
 // Request DTOs for this module
 internal record CreateOwnerConversationRequest(
     Guid? PatientId,
-    string Subject,
+    string? Subject,
     Vetolib.Messaging.Contracts.MessageCategory Category,
-    string Body
+    string Body,
+    string? PatientName = null
 );
 
 internal record SendOwnerMessageRequest(string Body);
