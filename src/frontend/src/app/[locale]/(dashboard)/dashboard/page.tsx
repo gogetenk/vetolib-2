@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { StatsCards } from '@/components/features/dashboard/StatsCards'
 import { TodayAppointments } from '@/components/features/dashboard/TodayAppointments'
 import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
 import { AnalyticsSection } from '@/components/features/dashboard/AnalyticsSection'
 import { useRole } from '@/hooks/use-role'
-import { useTranslations } from 'next-intl'
 import { getStoredUser } from '@/lib/api/auth'
 
 function getGreeting(locale: string): string {
@@ -38,21 +37,21 @@ function formatDateStr(locale: string): string {
   })
 }
 
+function getInitialUserName(): string {
+  if (typeof window === 'undefined') return ''
+  const user = getStoredUser()
+  return user?.name || ''
+}
+
+function getInitialLocale(): string {
+  if (typeof window === 'undefined') return 'en'
+  return document.documentElement.lang || 'en'
+}
+
 export default function DashboardHomePage() {
   const role = useRole()
-  const t = useTranslations('dashboard')
-  const [userName, setUserName] = useState<string>('')
-  const [locale, setLocale] = useState<string>('en')
-
-  useEffect(() => {
-    const user = getStoredUser()
-    if (user) {
-      setUserName(user.name || '')
-    }
-    // Detect locale from html lang attribute
-    const lang = document.documentElement.lang || 'en'
-    setLocale(lang)
-  }, [])
+  const [userName] = useState<string>(getInitialUserName)
+  const [locale] = useState<string>(getInitialLocale)
 
   return (
     <div className="space-y-6" data-testid="dashboard-home">

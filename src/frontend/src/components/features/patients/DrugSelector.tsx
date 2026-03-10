@@ -78,7 +78,9 @@ export function DrugSelector({
     if (isFreeText) return
     if (selected) return // already selected — don't re-search
     if (!debouncedQuery.trim()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResults([])
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsOpen(false)
       return
     }

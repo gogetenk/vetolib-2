@@ -150,19 +150,17 @@ export default function PatientDetailPage() {
   const [vaccinations, setVaccinations] = useState<VaccinationDto[]>([])
   const [prescriptions, setPrescriptions] = useState<PrescriptionDto[]>([])
   const [isLoadingPatient, setIsLoadingPatient] = useState(true)
-  const [isLoadingRecords, setIsLoadingRecords] = useState(false)
+  const [isLoadingRecords, setIsLoadingRecords] = useState(true)
   const [isEditOpen, setIsEditOpen] = useState(false)
 
   useEffect(() => {
     if (!id) return
-    setIsLoadingPatient(true)
     getPatient(id)
       .then(setPatient)
       .catch(() => setPatient(null))
       .finally(() => setIsLoadingPatient(false))
 
     // Preload records
-    setIsLoadingRecords(true)
     getPatientMedicalRecords(id)
       .then((res) => setRecords(res.items))
       .catch(() => setRecords([]))

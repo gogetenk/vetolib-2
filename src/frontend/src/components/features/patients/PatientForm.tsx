@@ -65,8 +65,8 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
     setValue,
     watch,
     formState: { errors, isSubmitting },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<PatientFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(patientSchema) as any,
     defaultValues: patient
       ? {

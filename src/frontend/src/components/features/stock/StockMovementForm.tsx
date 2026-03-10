@@ -60,8 +60,8 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
     watch,
     reset,
     formState: { errors, isSubmitting },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<MovementFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(buildSchema(item?.quantity ?? 0)) as any,
     defaultValues: { type: 'IN' },
   })

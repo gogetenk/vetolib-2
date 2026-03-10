@@ -90,8 +90,8 @@ export function MedicalRecordForm({
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<MedicalRecordFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(medicalRecordSchema) as any,
   })
 

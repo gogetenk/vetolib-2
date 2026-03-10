@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Menu, PawPrint } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -25,17 +25,16 @@ function parseClinicName(token: string): string {
   }
 }
 
+function getInitialClinicName(): string {
+  if (typeof window === "undefined") return "";
+  const token = localStorage.getItem("access_token");
+  return token ? parseClinicName(token) : "";
+}
+
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const role = useRole();
-  const [clinicName, setClinicName] = useState<string>("");
-
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      setClinicName(parseClinicName(token));
-    }
-  }, []);
+  const [clinicName] = useState<string>(getInitialClinicName);
 
   return (
     <header

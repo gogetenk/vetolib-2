@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { StatsCards } from '@/components/features/dashboard/StatsCards'
 import { TodayAppointments } from '@/components/features/dashboard/TodayAppointments'
 import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
@@ -39,16 +39,15 @@ function formatDate(): string {
   })
 }
 
+function getInitialUserName(): string {
+  if (typeof window === 'undefined') return ''
+  const token = localStorage.getItem('access_token')
+  return token ? parseUserName(token) : ''
+}
+
 export default function DashboardHomePage() {
   const role = useRole()
-  const [userName, setUserName] = useState<string>('')
-
-  useEffect(() => {
-    const token = localStorage.getItem('access_token')
-    if (token) {
-      setUserName(parseUserName(token))
-    }
-  }, [])
+  const [userName] = useState<string>(getInitialUserName)
 
   return (
     <div className="space-y-6" data-testid="dashboard-home">

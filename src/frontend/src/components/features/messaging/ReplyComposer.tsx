@@ -32,9 +32,11 @@ export function ReplyComposer({
   const [text, setText] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // When an AI suggestion is selected, prefill the textarea
+  // When an AI suggestion is selected, prefill the textarea.
+  // We intentionally sync external prop → state here; onPrefillConsumed resets the prop.
   useEffect(() => {
     if (prefillText) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setText(prefillText)
       onPrefillConsumed()
       textareaRef.current?.focus()

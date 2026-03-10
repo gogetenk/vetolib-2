@@ -30,13 +30,12 @@ export function PatientContextPanel({
 }: PatientContextPanelProps) {
   const t = useTranslations('messaging')
   const [context, setContext] = useState<PatientContextDto | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(patientId !== null)
 
   const isVetOrAdmin = role === 'VET' || role === 'ADMIN'
 
   useEffect(() => {
     if (!patientId) return
-    setIsLoading(true)
     apiGet<PatientContextDto>(`/api/v1/messaging/patients/${patientId}/context`)
       .then(setContext)
       .catch(() => {

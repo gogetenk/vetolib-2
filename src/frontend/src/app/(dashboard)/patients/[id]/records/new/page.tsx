@@ -25,7 +25,6 @@ export default function NewMedicalRecordPage() {
     }
 
     if (!id) return
-    setIsLoading(true)
     getPatient(id)
       .then(setPatient)
       .catch(() => setPatient(null))

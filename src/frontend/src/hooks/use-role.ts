@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export type UserRole = 'VET' | 'ASSISTANT' | 'RECEPTIONIST' | string
 
@@ -18,15 +18,13 @@ function parseRoleFromToken(token: string): UserRole {
   }
 }
 
+function getInitialRole(): UserRole {
+  if (typeof window === 'undefined') return 'VET'
+  const token = localStorage.getItem('access_token')
+  return token ? parseRoleFromToken(token) : 'VET'
+}
+
 export function useRole(): UserRole {
-  const [role, setRole] = useState<UserRole>('VET')
-
-  useEffect(() => {
-    const token = localStorage.getItem('access_token')
-    if (token) {
-      setRole(parseRoleFromToken(token))
-    }
-  }, [])
-
+  const [role] = useState<UserRole>(getInitialRole)
   return role
 }

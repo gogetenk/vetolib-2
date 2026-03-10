@@ -32,35 +32,33 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
+function getInitialUserInfo(): UserInfo {
+  if (typeof window === "undefined") return { fullName: "User", role: "VET", initials: "U" };
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    const payload = parseJwtPayload(token);
+    if (payload) {
+      const name =
+        (payload["name"] as string) ||
+        (payload["sub"] as string) ||
+        "User";
+      const role =
+        (payload["role"] as string) ||
+        (payload[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ] as string) ||
+        "VET";
+      return { fullName: name, role, initials: getInitials(name) };
+    }
+  }
+  return { fullName: "User", role: "VET", initials: "U" };
+}
+
 export function UserMenu() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    fullName: "User",
-    role: "VET",
-    initials: "U",
-  });
+  const [userInfo] = useState<UserInfo>(getInitialUserInfo);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      const payload = parseJwtPayload(token);
-      if (payload) {
-        const name =
-          (payload["name"] as string) ||
-          (payload["sub"] as string) ||
-          "User";
-        const role =
-          (payload["role"] as string) ||
-          (payload[
-            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-          ] as string) ||
-          "VET";
-        setUserInfo({ fullName: name, role, initials: getInitials(name) });
-      }
-    }
-  }, []);
 
   // Close on outside click
   useEffect(() => {

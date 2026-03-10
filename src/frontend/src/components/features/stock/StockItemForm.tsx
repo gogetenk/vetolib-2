@@ -52,8 +52,8 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
     watch,
     reset,
     formState: { errors, isSubmitting },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<StockItemFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(stockItemSchema) as any,
     defaultValues: item
       ? {

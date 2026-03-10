@@ -62,6 +62,8 @@ export function useMessagingSse(): MessagingSseState {
   const backoffRef = useRef(INITIAL_BACKOFF_MS)
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const mountedRef = useRef(true)
+  // Use a ref for connect so it can reference itself recursively without hoisting issues
+  const connectRef = useRef<() => void>(() => {})
 
   const connect = useCallback(() => {
     if (!mountedRef.current) return
@@ -128,17 +130,19 @@ export function useMessagingSse(): MessagingSseState {
       es.close()
       esRef.current = null
 
-      // Exponential backoff reconnect
+      // Exponential backoff reconnect — use ref to avoid circular declaration
       const delay = Math.min(backoffRef.current, MAX_BACKOFF_MS)
       backoffRef.current = Math.min(backoffRef.current * 2, MAX_BACKOFF_MS)
 
       retryTimerRef.current = setTimeout(() => {
-        if (mountedRef.current) connect()
+        if (mountedRef.current) connectRef.current()
       }, delay)
     })
   }, []) // stable — no deps
 
   useEffect(() => {
+    // Keep the ref in sync with the stable callback so the error handler can call it recursively
+    connectRef.current = connect
     mountedRef.current = true
     connect()
 
