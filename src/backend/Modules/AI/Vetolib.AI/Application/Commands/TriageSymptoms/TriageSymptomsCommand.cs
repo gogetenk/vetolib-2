@@ -6,6 +6,7 @@ namespace Vetolib.AI.Application.Commands.TriageSymptoms;
 
 internal record TriageSymptomsCommand(
     Guid ClinicId,
+    Guid UserId,
     string Symptoms,
     string Species,
     string? Breed,

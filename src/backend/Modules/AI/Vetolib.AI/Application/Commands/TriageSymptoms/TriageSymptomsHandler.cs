@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Vetolib.AI.Application.Domain;
 using Vetolib.AI.Contracts;
 using Vetolib.AI.Infrastructure;
+using Vetolib.Preferences.Contracts;
 
 namespace Vetolib.AI.Application.Commands.TriageSymptoms;
 
@@ -50,14 +51,17 @@ internal class TriageSymptomsHandler : IRequestHandler<TriageSymptomsCommand, Re
 
     private readonly AIDbContext _context;
     private readonly IChatClient? _chatClient;
+    private readonly IPreferenceChecker _preferenceChecker;
     private readonly ILogger<TriageSymptomsHandler> _logger;
 
     public TriageSymptomsHandler(
         AIDbContext context,
+        IPreferenceChecker preferenceChecker,
         ILogger<TriageSymptomsHandler> logger,
         IChatClient? chatClient = null)
     {
         _context = context;
+        _preferenceChecker = preferenceChecker;
         _logger = logger;
         _chatClient = chatClient;
     }
@@ -66,6 +70,19 @@ internal class TriageSymptomsHandler : IRequestHandler<TriageSymptomsCommand, Re
         TriageSymptomsCommand cmd,
         CancellationToken ct)
     {
+        // Check AITriage preference for this user (defaults to true).
+        // If the clinic or user has disabled AITriage, return error immediately.
+        if (cmd.UserId != Guid.Empty)
+        {
+            var prefResult = await _preferenceChecker.IsTrueAsync(cmd.UserId, PreferenceKey.AITriage, ct);
+            if (prefResult.IsSuccess && !prefResult.Value)
+            {
+                _logger.LogInformation(
+                    "AI triage skipped: AITriage preference is disabled for UserId={UserId}", cmd.UserId);
+                return Result<TriageSuggestionDto>.Error("AI_TRIAGE_DISABLED");
+            }
+        }
+
         if (_chatClient is null)
         {
             _logger.LogWarning("AI triage requested but IChatClient is not configured.");

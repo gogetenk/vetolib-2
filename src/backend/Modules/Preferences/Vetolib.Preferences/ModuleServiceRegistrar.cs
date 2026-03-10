@@ -28,8 +28,15 @@ public static class ModuleServiceRegistrar
         // FluentValidation
         services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
 
+        // IMemoryCache — used by PreferenceChecker for 5-minute TTL caching
+        services.AddMemoryCache();
+
         // IPreferenceChecker — cross-module interface implemented here
         services.AddScoped<IPreferenceChecker, PreferenceChecker>();
+
+        // Note: PreferenceChangedConsumer for cache invalidation must be registered in
+        // the host via x.AddConsumers(typeof(ModuleServiceRegistrar).Assembly) in Program.cs.
+        // Current fallback: cache entries expire after 5 minutes (CacheTtl).
 
         return services;
     }

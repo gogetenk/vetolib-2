@@ -28,7 +28,9 @@ public class PreferenceCheckerTests : IDisposable
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
         _context = new PreferencesDbContext(options, clinicContext, publisher);
-        _checker = new PreferenceChecker(_context);
+        var cache = new Microsoft.Extensions.Caching.Memory.MemoryCache(
+            new Microsoft.Extensions.Caching.Memory.MemoryCacheOptions());
+        _checker = new PreferenceChecker(_context, clinicContext, cache);
     }
 
     public void Dispose() => _context.Dispose();
