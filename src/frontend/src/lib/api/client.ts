@@ -2,6 +2,17 @@
 // In production, NEXT_PUBLIC_API_URL should point to the real backend.
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
 
+// Lazy import to avoid circular dependency — analytics imports from this module indirectly
+function trackApiError(endpoint: string, status: number, errorCode?: string): void {
+  import('@/lib/analytics').then(({ trackEvent, AnalyticsEvents }) => {
+    trackEvent(AnalyticsEvents.API_ERROR_DISPLAYED, {
+      endpoint,
+      status_code: String(status),
+      error_code: errorCode ?? "",
+    })
+  }).catch(() => {/* ignore tracking failures */})
+}
+
 function getAccessToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem("access_token");
@@ -64,6 +75,11 @@ async function apiFetch<T>(
       res = await fetch(`${API_BASE}${path}`, { ...options, headers });
     } else {
       clearTokens();
+      import('@/lib/analytics').then(({ trackEvent, AnalyticsEvents }) => {
+        trackEvent(AnalyticsEvents.SESSION_EXPIRED, {
+          time_since_login: "",
+        })
+      }).catch(() => {/* ignore */})
       if (typeof window !== "undefined") {
         window.location.href = "/login";
       }
@@ -73,6 +89,10 @@ async function apiFetch<T>(
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({ title: "Request failed" }));
+    const errorCode = typeof error === "object" && error !== null && "code" in error
+      ? String((error as { code: unknown }).code)
+      : undefined;
+    trackApiError(path, res.status, errorCode);
     throw new ApiError(res.status, error);
   }
 

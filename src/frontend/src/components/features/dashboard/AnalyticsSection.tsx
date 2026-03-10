@@ -17,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getDashboardAnalytics, type DashboardAnalyticsDto } from '@/lib/api/dashboard'
 import { useTranslations } from 'next-intl'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 // UAE-context species color palette
 const SPECIES_COLORS: Record<string, string> = {
@@ -50,6 +51,7 @@ export function AnalyticsSection() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    trackEvent(AnalyticsEvents.ANALYTICS_SECTION_VIEWED)
     getDashboardAnalytics()
       .then(setData)
       .catch(() => setError(t('error')))

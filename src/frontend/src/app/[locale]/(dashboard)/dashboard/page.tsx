@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { StatsCards } from '@/components/features/dashboard/StatsCards'
 import { TodayAppointments } from '@/components/features/dashboard/TodayAppointments'
 import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
@@ -9,6 +9,7 @@ import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
 import { SetupChecklist } from '@/components/features/onboarding/SetupChecklist'
 import { useRole } from '@/hooks/use-role'
 import { getStoredUser } from '@/lib/api/auth'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 function getGreeting(locale: string): string {
   const hour = new Date().toLocaleString('en-AE', {
@@ -68,6 +69,12 @@ export default function DashboardHomePage() {
     }
   }
   const [clinicName] = useState<string>(getClinicName)
+
+  useEffect(() => {
+    trackEvent(AnalyticsEvents.DASHBOARD_VIEWED, {
+      has_analytics_section: "true",
+    })
+  }, [])
 
   return (
     <div className="space-y-6" data-testid="dashboard-home">

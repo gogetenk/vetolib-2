@@ -11,6 +11,7 @@ import { getPatients } from '@/lib/api/patients'
 import type { PatientDto } from '@/lib/api/patients'
 import { useRole } from '@/hooks/use-role'
 import { useTranslations } from 'next-intl'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 export default function PatientsPage() {
   const t = useTranslations('patients')
@@ -39,10 +40,21 @@ export default function PatientsPage() {
   }, [fetchPatients])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchPatients(searchQuery)
+    const timer = setTimeout(async () => {
+      if (searchQuery.length > 0) {
+        await fetchPatients(searchQuery)
+        // Track after results are loaded (patients state updated async, use local ref)
+        // We track optimistically here; has_results is determined after fetch
+        trackEvent(AnalyticsEvents.PATIENT_SEARCHED, {
+          query_length: String(searchQuery.length),
+          has_results: String(patients.length > 0),
+        })
+      } else {
+        fetchPatients(searchQuery)
+      }
     }, 300)
     return () => clearTimeout(timer)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, fetchPatients])
 
   return (

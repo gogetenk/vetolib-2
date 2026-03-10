@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createMedicalRecord } from '@/lib/api/medical-records'
 import { checkPrescriptionPreflight } from '@/lib/api/prescriptions'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 import { DrugSelector } from './DrugSelector'
 import { InteractionAlertsPanel } from './InteractionAlertsPanel'
 import { OverrideSection } from './OverrideSection'
@@ -227,6 +228,10 @@ export function MedicalRecordForm({
         treatment: data.treatment,
         prescription: prescriptionText,
         nextVisitDate: data.nextVisitDate || undefined,
+      })
+      trackEvent(AnalyticsEvents.MEDICAL_RECORD_ADDED, {
+        has_prescription: String(Boolean(prescriptionText)),
+        record_type: "consultation",
       })
       router.push(`/patients/${patientId}`)
     } catch {

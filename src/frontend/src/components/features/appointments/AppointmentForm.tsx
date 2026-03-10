@@ -21,6 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createAppointment, getVets } from '@/lib/api/appointments'
 import type { VetDto, Species } from '@/lib/api/appointments'
 import { ApiError } from '@/lib/api/client'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 const SPECIES_OPTIONS: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic']
 
@@ -61,6 +62,7 @@ export function AppointmentForm() {
   })
 
   useEffect(() => {
+    trackEvent(AnalyticsEvents.APPOINTMENT_FORM_OPENED)
     getVets().then(setVets).catch(() => {
       toast.error('Failed to load vets')
     })
@@ -79,6 +81,10 @@ export function AppointmentForm() {
         scheduledAt,
         reason: values.reason,
         notes: values.notes,
+      })
+      trackEvent(AnalyticsEvents.APPOINTMENT_CREATED, {
+        species: values.species,
+        has_notes: String(Boolean(values.notes)),
       })
       toast.success('Appointment created successfully')
       router.push('/appointments')
