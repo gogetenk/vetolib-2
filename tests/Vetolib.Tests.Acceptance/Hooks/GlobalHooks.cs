@@ -8,7 +8,9 @@ using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
+using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
+using Vetolib.Preferences.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Stock.Infrastructure;
 using Vetolib.Tests.Acceptance.Support;
@@ -73,6 +75,16 @@ internal class GlobalHooks
         try { await aiDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS ai"); } catch { }
         var aiCreator = aiDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
         try { await aiCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
+        var messagingDb = scope.ServiceProvider.GetRequiredService<MessagingDbContext>();
+        // MessagingDbContext uses schema "messaging" which must exist before CreateTablesAsync().
+        try { await messagingDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS messaging"); } catch { }
+        var messagingCreator = messagingDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
+        try { await messagingCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
+        var preferencesDb = scope.ServiceProvider.GetRequiredService<PreferencesDbContext>();
+        var preferencesCreator = preferencesDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
+        try { await preferencesCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
     }
 
     [AfterTestRun]
@@ -126,6 +138,20 @@ internal class GlobalHooks
 
         var aiDb = scope.ServiceProvider.GetRequiredService<AIDbContext>();
         await aiDb.TriageResults.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        var messagingDb = scope.ServiceProvider.GetRequiredService<MessagingDbContext>();
+        await messagingDb.ReplyAudits.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await messagingDb.MessageAttachments.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await messagingDb.Messages.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await messagingDb.Conversations.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await messagingDb.OwnerPortalTokens.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await messagingDb.ResponseTemplates.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await messagingDb.MessagingHours.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        var preferencesDb = scope.ServiceProvider.GetRequiredService<PreferencesDbContext>();
+        await preferencesDb.UserPreferences.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await preferencesDb.ClinicPreferenceDefaults.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await preferencesDb.ConsentAuditEntries.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         // Reset FakeChatClient state
         _factory.FakeChatClient.SetShouldThrow(false);
