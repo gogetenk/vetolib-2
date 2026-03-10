@@ -66,6 +66,8 @@ builder.WebHost.UseSentry(options =>
     options.Environment = builder.Environment.EnvironmentName;
     options.TracesSampleRate = builder.Environment.IsProduction() ? 0.3 : 1.0;
     options.SendDefaultPii = false;
+    options.Debug = builder.Environment.IsDevelopment();
+    options.EnableLogs = true;
     options.UseOpenTelemetry();
 });
 
@@ -91,13 +93,15 @@ _ = builder.Configuration.GetConnectionString("vetolibdb")
 // ───────────────────────────────────────────────────────────────────────────
 
 // Database — Aspire Npgsql integration
-builder.AddNpgsqlDbContext<AuthDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<AgendaDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<MedicalRecordsDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<BillingDbContext>("vetolibdb");
+// Disable connection pooling: our DbContexts depend on scoped IClinicContext (multi-tenancy),
+// which is incompatible with DbContext pooling (resolves from root provider).
+builder.AddNpgsqlDbContext<AuthDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<AgendaDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<MedicalRecordsDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<BillingDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 // Audit context — dedicated context for the shared.audit_log table
-builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<MessagingDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<MessagingDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Multi-tenancy
 builder.Services.AddHttpContextAccessor();
@@ -157,18 +161,18 @@ builder.Services.AddNotificationsModule();
 
 // AI module (triage + no-show prediction)
 builder.Services.AddAIModule(builder.Configuration);
-builder.AddNpgsqlDbContext<AIDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<AIDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Messaging module
 builder.Services.AddMessagingModule(builder.Configuration);
 
 // Stock module
 builder.Services.AddStockModule(builder.Configuration);
-builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Preferences module
 builder.Services.AddPreferencesModule(builder.Configuration);
-builder.AddNpgsqlDbContext<PreferencesDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<PreferencesDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // JSON: accept string enum values in request bodies (e.g., "MedicalQuestion" instead of 2).
 // Also serializes enum responses as strings for consistency.
