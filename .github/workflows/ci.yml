@@ -278,7 +278,7 @@ jobs:
         working-directory: src/backend
         run: dotnet restore Vetolib.sln
 
-      - name: Verify dotnet format (no changes allowed)
+      - name: Verify dotnet format (warn only, non-blocking)
         working-directory: src/backend
         continue-on-error: true
         run: dotnet format Vetolib.sln --verify-no-changes --verbosity diagnostic
