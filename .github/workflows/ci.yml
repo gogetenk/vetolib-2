@@ -160,8 +160,10 @@ jobs:
 
   # ─────────────────────────────────────────────────────────────────────────
   # Frontend — Playwright E2E against MSW (no backend needed)
+  # DISABLED: too slow for CI — will run as nightly instead
   # ─────────────────────────────────────────────────────────────────────────
   frontend-e2e:
+    if: false  # disabled — moved to nightly
     name: Frontend — Playwright E2E (MSW)
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -453,7 +455,7 @@ jobs:
       - backend-build
       - backend-bdd
       - frontend-build
-      - frontend-e2e
+      # - frontend-e2e  # disabled — moved to nightly
       - docker-build
       - code-quality
       - security-scan
@@ -467,7 +469,6 @@ jobs:
             "backend-build=${{ needs.backend-build.result }}"
             "backend-bdd=${{ needs.backend-bdd.result }}"
             "frontend-build=${{ needs.frontend-build.result }}"
-            "frontend-e2e=${{ needs.frontend-e2e.result }}"
             "docker-build=${{ needs.docker-build.result }}"
             "code-quality=${{ needs.code-quality.result }}"
             "security-scan=${{ needs.security-scan.result }}"
