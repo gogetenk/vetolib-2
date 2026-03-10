@@ -1012,6 +1012,38 @@
           "check_today_schedule": "Check today's schedule"
         }
       }
+    },
+    "empty": {
+      "patients": {
+        "title": "Your patient list is empty",
+        "description": "Add your first patient to start building their medical history.",
+        "cta": "Add Patient",
+        "cta_import": "Import from CSV",
+        "tip": "Tip: You can import existing patients in bulk using a CSV file."
+      },
+      "appointments": {
+        "title": "No appointments yet",
+        "description": "Book your first appointment to get your schedule started.",
+        "cta": "New Appointment",
+        "tip": "Tip: Vetolib detects scheduling conflicts automatically — no more double bookings."
+      },
+      "billing": {
+        "title": "No invoices yet",
+        "description": "Create your first invoice — VAT 5% is calculated automatically.",
+        "cta": "New Invoice",
+        "tip": "Tip: Invoices include your TRN and are FTA-compliant out of the box."
+      },
+      "team": {
+        "title": "You're the only team member",
+        "description": "Invite vets, assistants, and receptionists to collaborate.",
+        "cta": "Invite Member",
+        "tip": "Tip: Each role has tailored access — receptionists see billing but not medical records."
+      },
+      "dashboard_today": {
+        "title": "No appointments scheduled for today.",
+        "description": "Your day is clear — or maybe it's time to book the first one?",
+        "cta": "Go to Appointments"
+      }
     }
   }
 }
