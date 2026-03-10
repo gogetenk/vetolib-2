@@ -20,6 +20,7 @@ import {
 import { createPatient, updatePatient } from '@/lib/api/patients'
 import type { PatientDto, Species } from '@/lib/api/patients'
 import { SPECIES_LABELS, ALL_SPECIES } from './SpeciesIcon'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 const patientSchema = z.object({
   name: z.string().min(1, 'Animal name is required'),
@@ -110,6 +111,10 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         toast.success('Patient updated successfully')
       } else {
         result = await createPatient(payload)
+        trackEvent(AnalyticsEvents.PATIENT_CREATED, {
+          species: data.species,
+          has_microchip: "false",
+        })
         toast.success('Patient created successfully')
       }
 

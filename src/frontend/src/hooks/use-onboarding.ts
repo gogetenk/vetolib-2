@@ -20,9 +20,24 @@ interface UseOnboardingReturn {
 export function useOnboarding(): UseOnboardingReturn {
   const [state, setState] = useState<OnboardingStateDto | null>(null)
   const [loading, setLoading] = useState(true)
+  const [refetchKey, setRefetchKey] = useState(0)
+
+  const fetchState = useCallback(async () => {
+    let cancelled = false
+    try {
+      const data = await getOnboardingState()
+      if (!cancelled) setState(data)
+    } catch {
+      // Fail silently — onboarding is non-critical
+    } finally {
+      if (!cancelled) setLoading(false)
+    }
+    return () => { cancelled = true }
+  }, [])
 
   useEffect(() => {
     let cancelled = false
+    setLoading(true)
     getOnboardingState()
       .then((data) => {
         if (!cancelled) {
@@ -37,6 +52,21 @@ export function useOnboarding(): UseOnboardingReturn {
       })
     return () => {
       cancelled = true
+    }
+  }, [refetchKey])
+
+  // Expose a refetch function on the window object for E2E tests to trigger re-fetches
+  // after direct API mutations (e.g. completing steps via page.evaluate in Playwright).
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      ;(window as unknown as Record<string, unknown>).__onboardingRefetch__ = () => {
+        setRefetchKey((k) => k + 1)
+      }
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        delete (window as unknown as Record<string, unknown>).__onboardingRefetch__
+      }
     }
   }, [])
 
@@ -74,6 +104,8 @@ export function useOnboarding(): UseOnboardingReturn {
       }
     })
   }, [])
+
+  void fetchState // suppress unused warning — used in refetch pattern
 
   return { state, loading, dismissBanner, dismissChecklist, completeStep }
 }

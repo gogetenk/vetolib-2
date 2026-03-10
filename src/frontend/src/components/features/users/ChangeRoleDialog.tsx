@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select"
 import { changeUserRole } from "@/lib/api/users"
 import type { UserDto, UserRole } from "@/lib/api/users"
+import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
 
 const ASSIGNABLE_ROLES: { value: Exclude<UserRole, "ADMIN">; label: string }[] = [
   { value: "VET", label: "Vet" },
@@ -48,8 +49,13 @@ export function ChangeRoleDialog({
     if (!selectedRole || isSubmitting) return
     const role = selectedRole as Exclude<UserRole, "ADMIN">
     setIsSubmitting(true)
+    const fromRole = user.role
     try {
       await changeUserRole(user.id, { role })
+      trackEvent(AnalyticsEvents.USER_ROLE_CHANGED, {
+        from_role: fromRole,
+        to_role: role,
+      })
       toast.success(`${user.fullName}'s role updated to ${role}`)
       onRoleChanged(role as UserRole)
     } catch {

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { CalendarClock } from 'lucide-react'
 import {
   useReactTable,
   getCoreRowModel,
@@ -26,8 +27,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { StatusBadge } from './StatusBadge'
+import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { getAppointments } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentStatus } from '@/lib/api/appointments'
+import { useTranslations } from 'next-intl'
 
 const SPECIES_ICONS: Record<string, string> = {
   Dog: '🐕',
@@ -50,6 +53,7 @@ const STATUS_OPTIONS: { value: AppointmentStatus | 'ALL'; label: string }[] = [
 const PAGE_SIZE = 10
 
 export function AppointmentsTable() {
+  const tEmpty = useTranslations('onboarding.empty.appointments')
   const [appointments, setAppointments] = useState<AppointmentDto[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [page, setPage] = useState(1)
@@ -222,8 +226,15 @@ export function AppointmentsTable() {
               </TableRow>
             ) : table.getRowModel().rows.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
-                  <span data-testid="empty-state">No appointments found</span>
+                <TableCell colSpan={columns.length} className="p-0">
+                  <EmptyState
+                    icon={<CalendarClock className="h-16 w-16" />}
+                    title={tEmpty('title')}
+                    description={tEmpty('description')}
+                    primaryCta={{ label: tEmpty('cta'), href: '/appointments/new' }}
+                    tip={tEmpty('tip')}
+                    data-testid-prefix="appointments"
+                  />
                 </TableCell>
               </TableRow>
             ) : (

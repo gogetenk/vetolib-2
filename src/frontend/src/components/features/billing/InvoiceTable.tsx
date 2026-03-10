@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { Receipt } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -13,9 +14,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { formatAED, formatDate } from '@/lib/utils'
 import { getInvoices } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus, PagedResult } from '@/lib/api/billing'
+import { useTranslations } from 'next-intl'
 
 const STATUS_OPTIONS: { value: InvoiceStatus | ''; label: string }[] = [
   { value: '', label: 'All statuses' },
@@ -40,6 +43,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
 }
 
 export function InvoiceTable() {
+  const tEmpty = useTranslations('onboarding.empty.billing')
   const [data, setData] = useState<PagedResult<InvoiceDto> | null>(null)
   const [statusFilter, setStatusFilter] = useState<InvoiceStatus | ''>('')
   const [loading, setLoading] = useState(true)
@@ -127,8 +131,15 @@ export function InvoiceTable() {
               <TableBody>
                 {invoices.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center text-muted-foreground" data-testid="no-invoices">
-                      No invoices found
+                    <TableCell colSpan={8} className="p-0">
+                      <EmptyState
+                        icon={<Receipt className="h-16 w-16" />}
+                        title={tEmpty('title')}
+                        description={tEmpty('description')}
+                        primaryCta={{ label: tEmpty('cta'), href: '/billing/new' }}
+                        tip={tEmpty('tip')}
+                        data-testid-prefix="billing"
+                      />
                     </TableCell>
                   </TableRow>
                 )}

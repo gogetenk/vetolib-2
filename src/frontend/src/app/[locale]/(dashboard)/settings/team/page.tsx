@@ -2,9 +2,11 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
+import { Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TeamTable } from "@/components/features/users/TeamTable"
 import { InviteUserDialog } from "@/components/features/users/InviteUserDialog"
+import { EmptyState } from "@/components/features/onboarding/EmptyState"
 import { getUsers } from "@/lib/api/users"
 import { useRole } from "@/hooks/use-role"
 import { useTranslations } from "next-intl"
@@ -13,6 +15,7 @@ import { getStoredUser } from "@/lib/api/auth"
 
 export default function TeamPage() {
   const t = useTranslations('team')
+  const tEmpty = useTranslations('onboarding.empty.team')
   const role = useRole()
   const router = useRouter()
   const [users, setUsers] = useState<UserDto[]>([])
@@ -96,6 +99,18 @@ export default function TeamPage() {
         <div data-testid="team-loading" className="text-sm text-muted-foreground">
           {t('loading')}
         </div>
+      ) : users.length <= 1 ? (
+        <EmptyState
+          icon={<Users className="h-16 w-16" />}
+          title={tEmpty('title')}
+          description={tEmpty('description')}
+          primaryCta={{
+            label: tEmpty('cta'),
+            onClick: () => setInviteOpen(true),
+          }}
+          tip={tEmpty('tip')}
+          data-testid-prefix="team"
+        />
       ) : (
         <TeamTable
           users={users}

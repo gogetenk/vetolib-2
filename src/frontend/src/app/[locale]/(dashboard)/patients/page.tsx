@@ -2,18 +2,21 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { Plus, Upload } from 'lucide-react'
+import { Plus, Upload, ClipboardList } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { PatientCard } from '@/components/features/patients/PatientCard'
 import { CsvImportDialog } from '@/components/features/patients/CsvImportDialog'
+import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { getPatients } from '@/lib/api/patients'
 import type { PatientDto } from '@/lib/api/patients'
 import { useRole } from '@/hooks/use-role'
 import { useTranslations } from 'next-intl'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 export default function PatientsPage() {
   const t = useTranslations('patients')
+  const tEmpty = useTranslations('onboarding.empty.patients')
   const [patients, setPatients] = useState<PatientDto[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -39,10 +42,21 @@ export default function PatientsPage() {
   }, [fetchPatients])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchPatients(searchQuery)
+    const timer = setTimeout(async () => {
+      if (searchQuery.length > 0) {
+        await fetchPatients(searchQuery)
+        // Track after results are loaded (patients state updated async, use local ref)
+        // We track optimistically here; has_results is determined after fetch
+        trackEvent(AnalyticsEvents.PATIENT_SEARCHED, {
+          query_length: String(searchQuery.length),
+          has_results: String(patients.length > 0),
+        })
+      } else {
+        fetchPatients(searchQuery)
+      }
     }, 300)
     return () => clearTimeout(timer)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, fetchPatients])
 
   return (
@@ -93,12 +107,23 @@ export default function PatientsPage() {
           ))}
         </div>
       ) : patients.length === 0 ? (
-        <p
-          className="text-muted-foreground text-sm py-12 text-center"
-          data-testid="patients-empty"
-        >
-          {t('no_patients')}
-        </p>
+        <EmptyState
+          icon={<ClipboardList className="h-16 w-16" />}
+          title={tEmpty('title')}
+          description={tEmpty('description')}
+          primaryCta={{ label: tEmpty('cta'), href: 'patients/new' }}
+          secondaryCta={
+            canWrite
+              ? {
+                  label: tEmpty('cta_import'),
+                  onClick: () => setShowImportDialog(true),
+                  'data-testid': 'empty-state-cta-import',
+                }
+              : undefined
+          }
+          tip={tEmpty('tip')}
+          data-testid-prefix="patients"
+        />
       ) : (
         <div
           data-testid="patients-table"

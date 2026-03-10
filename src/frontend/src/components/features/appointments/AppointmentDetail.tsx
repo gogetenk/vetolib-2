@@ -19,6 +19,7 @@ import { Label } from '@/components/ui/label'
 import { StatusBadge } from './StatusBadge'
 import { transitionAppointment, cancelAppointment } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentAction } from '@/lib/api/appointments'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 interface TransitionConfig {
   action: AppointmentAction
@@ -85,6 +86,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
   const handleConfirm = async () => {
     if (!pendingAction) return
     setIsProcessing(true)
+    const fromStatus = appointment.status
     try {
       let updated: AppointmentDto
       if (pendingAction.action === 'CANCEL') {
@@ -92,6 +94,10 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
       } else {
         updated = await transitionAppointment(appointment.id, pendingAction.action)
       }
+      trackEvent(AnalyticsEvents.APPOINTMENT_STATUS_CHANGED, {
+        from_status: fromStatus,
+        to_status: updated.status,
+      })
       setAppointment(updated)
       toast.success(`Appointment ${pendingAction.label.toLowerCase()}d successfully`)
       setPendingAction(null)

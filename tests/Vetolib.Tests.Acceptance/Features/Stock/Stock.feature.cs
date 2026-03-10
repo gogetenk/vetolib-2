@@ -17,12 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class GestionDeStockMedicamentsEtVaccinsFeature : object, global::Xunit.IClassFixture<GestionDeStockMedicamentsEtVaccinsFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Stock", "Gestion de stock médicaments et vaccins", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
@@ -105,12 +107,12 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 2
-  #line hidden
 #line 3
+  #line hidden
+#line 4
     await testRunner.GivenAsync("une clinique \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 4
+#line 5
     await testRunner.AndAsync("je suis authentifié en tant que VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -156,7 +158,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer un item de stock médicament", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
+#line 7
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -166,17 +168,17 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 7
+#line 8
     await testRunner.WhenAsync("je crée un item de stock \"Amoxicilline\" catégorie \"Medication\" quantité 100 unité" +
                         " \"ml\" seuil 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 8
+#line 9
     await testRunner.ThenAsync("l\'item de stock est créé avec le statut actif", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 9
+#line 10
     await testRunner.AndAsync("la quantité est 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -194,7 +196,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer un item de stock vaccin", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 11
+#line 12
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -204,17 +206,17 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 12
+#line 13
     await testRunner.WhenAsync("je crée un item de stock \"Vaccin Rage\" catégorie \"Vaccine\" quantité 50 unité \"dos" +
                         "es\" seuil 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 13
+#line 14
     await testRunner.ThenAsync("l\'item de stock est créé avec le statut actif", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 14
+#line 15
     await testRunner.AndAsync("la quantité est 50", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -232,7 +234,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Lister les items de stock", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 16
+#line 17
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -242,17 +244,17 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 17
+#line 18
     await testRunner.GivenAsync("un item de stock \"Sérum physiologique\" catégorie \"Supply\" quantité 200 unité \"ml\"" +
                         " seuil 30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 18
+#line 19
     await testRunner.WhenAsync("je liste les items de stock", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 19
+#line 20
     await testRunner.ThenAsync("la liste contient au moins 1 item", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -270,7 +272,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enregistrer une entrée de stock", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 21
+#line 22
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -280,17 +282,17 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 22
+#line 23
     await testRunner.GivenAsync("un item de stock \"Bandages\" catégorie \"Supply\" quantité 50 unité \"pièces\" seuil 1" +
                         "0", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 23
+#line 24
     await testRunner.WhenAsync("j\'enregistre un mouvement de stock \"IN\" quantité 25 raison \"Réapprovisionnement\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 24
+#line 25
     await testRunner.ThenAsync("la nouvelle quantité est 75", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -308,7 +310,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enregistrer une sortie de stock", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 26
+#line 27
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -318,18 +320,18 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 27
+#line 28
     await testRunner.GivenAsync("un item de stock \"Seringues\" catégorie \"Supply\" quantité 100 unité \"pièces\" seuil" +
                         " 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 29
     await testRunner.WhenAsync("j\'enregistre un mouvement de stock \"OUT\" quantité 10 raison \"Utilisation consulta" +
                         "tion\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 29
+#line 30
     await testRunner.ThenAsync("la nouvelle quantité est 90", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -347,7 +349,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Alertes stock bas", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 31
+#line 32
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -357,17 +359,17 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 32
+#line 33
     await testRunner.GivenAsync("un item de stock \"Vaccin Parvovirus\" catégorie \"Vaccine\" quantité 5 unité \"doses\"" +
                         " seuil 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 33
+#line 34
     await testRunner.WhenAsync("je consulte les alertes de stock", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 35
     await testRunner.ThenAsync("l\'alerte contient \"Vaccin Parvovirus\" pour stock bas", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -385,7 +387,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Modification du seuil d\'alerte", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 36
+#line 37
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -395,17 +397,17 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 37
+#line 38
     await testRunner.GivenAsync("un item de stock \"Gants stériles\" catégorie \"Supply\" quantité 200 unité \"pièces\" " +
                         "seuil 50", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 38
+#line 39
     await testRunner.WhenAsync("je modifie le seuil de l\'item à 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 39
+#line 40
     await testRunner.ThenAsync("le seuil est mis à jour à 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -423,7 +425,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Nom vide refusé", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 41
+#line 42
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -433,13 +435,13 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 42
+#line 43
     await testRunner.WhenAsync("je tente de créer un item de stock avec un nom vide", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 43
+#line 44
     await testRunner.ThenAsync("le système refuse avec le code \"VALIDATION_ERROR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -457,7 +459,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Quantité négative refusée", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 45
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -467,13 +469,13 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             else
             {
                 await this.ScenarioStartAsync();
-#line 2
+#line 3
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 46
+#line 47
     await testRunner.WhenAsync("je tente de créer un item de stock avec une quantité de -5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 47
+#line 48
     await testRunner.ThenAsync("le système refuse avec le code \"VALIDATION_ERROR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

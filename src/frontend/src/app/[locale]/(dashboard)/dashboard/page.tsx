@@ -1,13 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { StatsCards } from '@/components/features/dashboard/StatsCards'
 import { TodayAppointments } from '@/components/features/dashboard/TodayAppointments'
 import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
 import { AnalyticsSection } from '@/components/features/dashboard/AnalyticsSection'
 import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
+import { SetupChecklist } from '@/components/features/onboarding/SetupChecklist'
 import { useRole } from '@/hooks/use-role'
 import { getStoredUser } from '@/lib/api/auth'
+import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 function getGreeting(locale: string): string {
   const hour = new Date().toLocaleString('en-AE', {
@@ -68,6 +70,12 @@ export default function DashboardHomePage() {
   }
   const [clinicName] = useState<string>(getClinicName)
 
+  useEffect(() => {
+    trackEvent(AnalyticsEvents.DASHBOARD_VIEWED, {
+      has_analytics_section: "true",
+    })
+  }, [])
+
   return (
     <div className="space-y-6" data-testid="dashboard-home">
       <WelcomeBanner role={role} clinicName={clinicName} />
@@ -83,7 +91,9 @@ export default function DashboardHomePage() {
 
       <StatsCards role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
-      <div id="setup-checklist" className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <SetupChecklist role={role} />
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
         <RecentActivity />
       </div>
