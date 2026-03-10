@@ -416,19 +416,21 @@ jobs:
           /o:"gogetenk"
           /d:sonar.token="${SONAR_TOKEN}"
           /d:sonar.host.url="https://sonarcloud.io"
-          /d:sonar.cs.opencover.reportsPaths="../../tests/**/coverage.opencover.xml"
+          /d:sonar.cs.opencover.reportsPaths="../../tests/Vetolib.Tests.Unit/TestResults/**/coverage.opencover.xml"
           /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**"
 
-      - name: Build
+      - name: Build (with coverage instrumentation)
         working-directory: src/backend
         run: dotnet build Vetolib.sln --no-restore -c Release
 
-      - name: Run tests with coverage
-        working-directory: src/backend
+      - name: Unit tests with coverage
+        working-directory: tests/Vetolib.Tests.Unit
         run: >
-          dotnet test ../../tests/Vetolib.Tests.Unit/Vetolib.Tests.Unit.csproj
-          --no-build -c Release
+          dotnet test
+          --no-build
+          -c Release
           --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
           -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: SonarCloud — end analysis
