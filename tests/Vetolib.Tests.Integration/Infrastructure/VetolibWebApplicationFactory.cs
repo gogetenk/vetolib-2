@@ -107,6 +107,12 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
     {
         builder.UseSetting("ConnectionStrings:vetolibdb", _postgres?.GetConnectionString() ?? "Host=localhost;Database=placeholder");
 
+        // Override JWT key so TestJwtGenerator and the app use the same signing key
+        // regardless of user-secrets or environment variables on the developer's machine.
+        builder.UseSetting("Jwt:Key", TestJwtGenerator.JwtKey);
+        builder.UseSetting("Jwt:Issuer", TestJwtGenerator.JwtIssuer);
+        builder.UseSetting("Jwt:Audience", TestJwtGenerator.JwtAudience);
+
         builder.ConfigureServices(services =>
         {
             // Disable rate limiting for tests
@@ -170,22 +176,27 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
                 services.Remove(d);
             services.AddSingleton<IChatClient>(FakeChatClient);
 
-            // Replace IClinicContext with test version (singleton, fixed GUID)
-            var clinicContextDescriptors = services
-                .Where(d => d.ServiceType == typeof(IClinicContext) ||
-                            d.ImplementationType == typeof(ClinicContext))
-                .ToList();
-            foreach (var d in clinicContextDescriptors)
-                services.Remove(d);
-
+            // Keep the real ClinicContext (reads clinic_id from JWT claims via IHttpContextAccessor).
+            // This ensures proper multi-tenant isolation in HTTP-level integration tests:
+            // each HttpClient's JWT determines which clinic's data is visible.
+            // The TestClinicContext singleton is kept only for backward compatibility
+            // (used by CleanDatabaseAsync scopes, where IgnoreQueryFilters() bypasses the filter).
             services.AddSingleton<IntegrationTestClinicContext>(_ => TestClinicContext);
-            services.AddSingleton<IClinicContext>(sp => sp.GetRequiredService<IntegrationTestClinicContext>());
 
             // Replace MassTransit transport with InMemory test harness.
-            // Only remove services from the MassTransit namespace to avoid accidentally
-            // removing application services like IBusinessHoursChecker (which contains "IBus").
+            // We remove only service descriptors whose ServiceType lives in the MassTransit
+            // namespace (not FullName which can cause false positives like IBusinessHoursChecker).
+            // Implementation: check namespace of ServiceType, falling back to FullName prefix.
             var massTransitDescriptors = services
-                .Where(d => d.ServiceType.Namespace?.StartsWith("MassTransit") == true)
+                .Where(d =>
+                {
+                    var ns = d.ServiceType.Namespace;
+                    if (ns is not null)
+                        return ns.StartsWith("MassTransit", StringComparison.Ordinal);
+                    // Fallback for types with null namespace: use FullName prefix
+                    var fullName = d.ServiceType.FullName ?? string.Empty;
+                    return fullName.StartsWith("MassTransit.", StringComparison.Ordinal);
+                })
                 .ToList();
             foreach (var d in massTransitDescriptors)
                 services.Remove(d);
