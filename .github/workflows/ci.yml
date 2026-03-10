@@ -423,6 +423,14 @@ jobs:
         working-directory: src/backend
         run: dotnet build Vetolib.sln --no-restore -c Release
 
+      - name: Run tests with coverage
+        working-directory: src/backend
+        run: >
+          dotnet test ../../tests/Vetolib.Tests.Unit/Vetolib.Tests.Unit.csproj
+          --no-build -c Release
+          --collect:"XPlat Code Coverage"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
       - name: SonarCloud — end analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
