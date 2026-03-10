@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vetolib.Preferences.Api;
 using Vetolib.Preferences.Application.Services;
 using Vetolib.Preferences.Contracts;
 using Vetolib.Preferences.Infrastructure;
@@ -49,7 +50,6 @@ public static class ModuleServiceRegistrar
 
     public static IEndpointRouteBuilder MapPreferencesEndpoints(this IEndpointRouteBuilder app)
     {
-        // No endpoints in this scaffold task — they will be added in subsequent tasks.
-        return app;
+        return app.MapPreferenceApiEndpoints();
     }
 }
