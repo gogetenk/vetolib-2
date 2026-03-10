@@ -358,26 +358,76 @@ jobs:
           echo "No high/critical npm vulnerabilities found." >> $GITHUB_STEP_SUMMARY
 
   # ─────────────────────────────────────────────────────────────────────────
-  # SonarCloud — static analysis on PRs (blocking)
-  # Runs after backend-build and frontend-build to use build outputs.
+  # SonarCloud — static analysis (blocking on PRs, informational on push)
+  # Uses dotnet-sonarscanner to wrap the .NET build for accurate analysis.
   # ─────────────────────────────────────────────────────────────────────────
   sonarcloud:
     name: SonarCloud — static analysis
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    if: github.event_name == 'pull_request'
-    needs: [backend-build, frontend-build]
+    timeout-minutes: 20
 
     steps:
+      - name: Set up JDK 17 (required by SonarScanner)
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: "zulu"
+
       - name: Checkout (full history for blame)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+          dotnet-quality: "preview"
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Install dotnet-sonarscanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore
+        working-directory: src/backend
+        run: dotnet restore Vetolib.sln
+
+      - name: SonarCloud — begin analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        working-directory: src/backend
+        run: >
+          dotnet sonarscanner begin
+          /k:"gogetenk_vetolib-2"
+          /o:"gogetenk"
+          /d:sonar.token="${SONAR_TOKEN}"
+          /d:sonar.host.url="https://sonarcloud.io"
+          /d:sonar.cs.opencover.reportsPaths="../../tests/**/coverage.opencover.xml"
+          /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**"
+
+      - name: Build
+        working-directory: src/backend
+        run: dotnet build Vetolib.sln --no-restore -c Release
+
+      - name: SonarCloud — end analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        working-directory: src/backend
+        run: dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
 
   # ─────────────────────────────────────────────────────────────────────────
   # Status check gate — required by branch protection rules.
@@ -423,7 +473,7 @@ jobs:
               failed=1
             fi
           done
-          if [[ "$sonar" != "success" && "$sonar" != "skipped" ]]; then
+          if [[ "$sonar" != "success" ]]; then
             echo "::error::sonarcloud did not succeed (got: ${sonar})"
             failed=1
           fi
