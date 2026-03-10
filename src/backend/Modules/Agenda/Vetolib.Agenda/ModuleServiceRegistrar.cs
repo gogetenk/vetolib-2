@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Agenda.Api;
-using Vetolib.Agenda.Application.Behaviors;
 using Vetolib.Agenda.Application.Services;
+using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Agenda.Infrastructure;
 

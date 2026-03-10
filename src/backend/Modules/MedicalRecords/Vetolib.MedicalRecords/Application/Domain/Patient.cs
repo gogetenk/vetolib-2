@@ -29,13 +29,13 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             errors.Add(new ValidationError(nameof(clinicId), "ClinicId is required"));
 
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new ValidationError(nameof(name), "Le nom de l'animal est requis"));
+            errors.Add(new ValidationError(nameof(name), "Patient name is required"));
 
         if (string.IsNullOrWhiteSpace(breed))
-            errors.Add(new ValidationError(nameof(breed), "La race est requise"));
+            errors.Add(new ValidationError(nameof(breed), "Breed is required"));
 
         if (birthDate == default)
-            errors.Add(new ValidationError(nameof(birthDate), "La date de naissance est requise"));
+            errors.Add(new ValidationError(nameof(birthDate), "Birth date is required"));
 
         if (errors.Count > 0)
             return Result<Patient>.Invalid(errors);
@@ -57,7 +57,7 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
         if (name is not null)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Result.Error("Le nom de l'animal ne peut pas etre vide");
+                return Result.Error("Patient name cannot be empty");
             Name = name.Trim();
         }
 
@@ -67,14 +67,14 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
         if (breed is not null)
         {
             if (string.IsNullOrWhiteSpace(breed))
-                return Result.Error("La race ne peut pas etre vide");
+                return Result.Error("Breed cannot be empty");
             Breed = breed.Trim();
         }
 
         if (birthDate is not null)
         {
             if (birthDate.Value == default)
-                return Result.Error("La date de naissance est invalide");
+                return Result.Error("Birth date is invalid");
             BirthDate = birthDate.Value;
         }
 

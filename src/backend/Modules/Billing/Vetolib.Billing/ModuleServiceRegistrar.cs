@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Billing.Api;
-using Vetolib.Billing.Application.Behaviors;
 using Vetolib.Billing.Infrastructure;
+using Vetolib.Shared.Infrastructure.Behaviors;
 
 namespace Vetolib.Billing;
 

@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.MedicalRecords.Api;
-using Vetolib.MedicalRecords.Application.Behaviors;
 using Vetolib.MedicalRecords.Contracts;
+using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.MedicalRecords.Infrastructure;
 
 namespace Vetolib.MedicalRecords;
@@ -51,6 +51,7 @@ public static class ModuleServiceRegistrar
         app.MapPatientEndpoints();
         app.MapOwnerEndpoints();
         app.MapMedicalRecordEndpoints();
+        app.MapDrugCatalogEndpoints();
         return app;
     }
 }

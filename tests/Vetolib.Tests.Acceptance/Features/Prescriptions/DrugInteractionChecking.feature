@@ -62,3 +62,22 @@ Feature: Drug Interaction Checking
     When I view the medical record for patient "Whiskers"
     Then I should see existing prescriptions in read-only mode
     And I should not see a "New Prescription" button
+
+  Scenario: Clinic admin adds custom drug to catalog
+    Given I am logged in as an ADMIN
+    When I create a custom drug with INN name "ClinicCompound-AED" and display name "Clinic Compound AED" and category "Medication"
+    Then the drug should be visible in my clinic drug search results
+    And the drug should not be visible to a user from a different clinic
+
+  Scenario: Active prescription within 90-day window triggers interaction warning
+    Given "Whiskers" has an active prescription for "Amoxicillin" from 89 days ago
+    And "Amoxicillin" has a moderate interaction with "Metronidazole" with description "Increased risk of GI side effects"
+    When I create a prescription for patient "Whiskers" with drug "Metronidazole"
+    Then I should see a moderate warning with message containing "GI side effects"
+
+  Scenario: Prescription older than 90-day window is not considered active
+    Given "Whiskers" has a prescription for "Amoxicillin" from 91 days ago
+    And "Amoxicillin" has a moderate interaction with "Metronidazole" with description "Increased risk of GI side effects"
+    When I create a prescription for patient "Whiskers" with drug "Metronidazole"
+    Then I should see no interaction alerts
+    And the prescription should be saved successfully

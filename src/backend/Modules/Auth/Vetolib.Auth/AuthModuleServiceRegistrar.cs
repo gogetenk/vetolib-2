@@ -9,8 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Vetolib.Auth.Api;
-using Vetolib.Auth.Application.Behaviors;
 using Vetolib.Auth.Application.Services;
+using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
 
