@@ -16,6 +16,13 @@ function PostHogPageview() {
     if (!initialized.current) {
       initPostHog()
       initialized.current = true
+
+      // Restore consent state from localStorage
+      const consent = localStorage.getItem('analytics_consent')
+      if (consent === 'granted') {
+        posthog.opt_in_capturing()
+      }
+      // 'denied' or null: opt_out is already the default (opt_out_capturing_by_default: true)
     }
 
     const url =

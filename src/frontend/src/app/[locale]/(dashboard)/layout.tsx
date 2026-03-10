@@ -2,6 +2,7 @@ import { Header } from "@/components/features/shell/Header";
 import { Sidebar } from "@/components/features/shell/Sidebar";
 import { MessagingSseProvider } from "@/components/features/messaging/MessagingSseProvider";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import { ConsentBanner } from "@/components/features/analytics/ConsentBanner";
 
 export default function DashboardLayout({
   children,
@@ -20,6 +21,7 @@ export default function DashboardLayout({
             </main>
           </div>
         </div>
+        <ConsentBanner />
       </MessagingSseProvider>
     </PostHogProvider>
   );
