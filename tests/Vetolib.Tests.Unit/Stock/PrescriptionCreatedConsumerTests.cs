@@ -10,9 +10,10 @@ using Xunit;
 
 namespace Vetolib.Tests.Unit.Stock;
 
+[Collection("StockTests")]
 public class PrescriptionCreatedConsumerTests
 {
-    private static readonly Guid ClinicId = new("44444444-4444-4444-4444-444444444444");
+    private static readonly Guid ClinicId = new("11111111-1111-1111-1111-111111111111");
     private static readonly Guid DrugCatalogEntryId = new("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
     private static readonly Guid PrescriptionId = Guid.NewGuid();
 

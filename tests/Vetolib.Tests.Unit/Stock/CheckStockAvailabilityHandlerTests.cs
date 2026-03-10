@@ -11,10 +11,15 @@ using Xunit;
 
 namespace Vetolib.Tests.Unit.Stock;
 
+// NOTE: All Stock test classes use the same ClinicId (11111111-...) to avoid EF Core
+// query-plan caching issues. The global query filter uses Expression.Constant(clinicContext)
+// which is captured in the compiled plan — if different tests use different ClinicIds,
+// a cached plan from a previous test may filter out rows seeded for the current test.
+[Collection("StockTests")]
 public class CheckStockAvailabilityHandlerTests : IDisposable
 {
-    // Fixed GUID — EF Core bakes ClinicId into compiled queries via Expression.Constant
-    private static readonly Guid ClinicId = new("22222222-2222-2222-2222-222222222222");
+    // Must match all other Stock test classes
+    private static readonly Guid ClinicId = new("11111111-1111-1111-1111-111111111111");
     private static readonly Guid DrugCatalogEntryId = new("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
     private readonly StockDbContext _context;
