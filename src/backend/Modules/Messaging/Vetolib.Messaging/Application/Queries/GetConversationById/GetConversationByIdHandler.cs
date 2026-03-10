@@ -112,7 +112,7 @@ internal class GetConversationByIdHandler : IRequestHandler<GetConversationByIdQ
             catch (Exception ex)
             {
                 _logger.LogWarning(ex, "Failed to load patient context for conversation {ConversationId}", conversation.Id);
-                // Non-blocking — conversation detail is still returned without patient context
+                // Non-blocking: conversation detail is still returned without patient context
             }
         }
 

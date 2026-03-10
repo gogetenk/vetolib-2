@@ -81,9 +81,26 @@ export interface DosageRange {
   recommendedDose?: number
 }
 
+export interface StockAlternativeDto {
+  stockItemId: string
+  name: string
+  drugCatalogEntryId: string | null
+  quantity: number
+  unit: string
+}
+
+export interface StockAvailabilityResult {
+  available: boolean
+  quantity: number
+  unit: string
+  isLowStock: boolean
+  isExpiringSoon: boolean
+  alternatives: StockAlternativeDto[]
+}
+
 export interface PrescriptionPreflightResult {
   interactionAlerts: InteractionAlert[]
-  stockAvailability: boolean
+  stockAvailability: boolean | StockAvailabilityResult
   safeAlternatives: SafeAlternative[]
   dosageRange: DosageRange | null
 }
