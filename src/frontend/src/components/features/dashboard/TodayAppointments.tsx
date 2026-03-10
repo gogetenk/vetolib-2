@@ -15,6 +15,7 @@ import {
 import { apiPatch } from '@/lib/api/client'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
+import { ErrorState } from '@/components/ui/error-state'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
 
@@ -54,15 +55,23 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   const tEmpty = useTranslations('onboarding.empty.dashboard_today')
   const [appointments, setAppointments] = useState<TodayAppointmentDto[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [checkingIn, setCheckingIn] = useState<string | null>(null)
 
   const canCheckIn = role === 'ADMIN' || role === 'RECEPTIONIST'
 
-  useEffect(() => {
+  const loadAppointments = () => {
+    setLoading(true)
+    setError(null)
     getTodayAppointments()
       .then(setAppointments)
-      .catch(() => toast.error('Failed to load today appointments'))
+      .catch(() => setError('Failed to load today appointments'))
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    loadAppointments()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleCheckIn(id: string) {
@@ -95,11 +104,18 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
       </CardHeader>
       <CardContent className="p-0">
         {loading ? (
-          <div className="space-y-3 p-4">
+          <div className="space-y-3 p-4" data-testid="today-appointments-loading">
             {[1, 2, 3].map((i) => (
               <Skeleton key={i} className="h-10 w-full" />
             ))}
           </div>
+        ) : error ? (
+          <ErrorState
+            data-testid="today-appointments-error"
+            title="Failed to load appointments"
+            description={error}
+            onRetry={loadAppointments}
+          />
         ) : appointments.length === 0 ? (
           <div
             data-testid="empty-state-dashboard-today"
