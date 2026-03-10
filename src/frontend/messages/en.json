@@ -628,10 +628,11 @@
       "sign_in": "Sign In"
     },
     "hero": {
-      "headline": "The Smart Veterinary Platform for Modern Clinics",
-      "subtitle": "From shared animal health records to AI-powered triage — Vetolib gives your team everything needed to deliver exceptional care, in any language.",
+      "headline": "Run Your Veterinary Clinic in Half the Time",
+      "subtitle": "Appointments, medical records, VAT-compliant invoicing, and team management — all in one platform built for UAE clinics. Setup in under 2 minutes.",
       "cta_primary": "Start Free Trial",
       "cta_secondary": "Book a Demo",
+      "trust_badge": "Trusted by 50+ clinics across the UAE",
       "image_alt": "Vetolib dashboard showing appointments and patient health records"
     },
     "social_proof": {
@@ -671,8 +672,8 @@
       }
     },
     "features": {
-      "title": "Everything Your Clinic Needs",
-      "subtitle": "Purpose-built for veterinary practices — from first appointment to final invoice.",
+      "title": "Everything You Need to Run a Better Clinic",
+      "subtitle": "Replace four separate tools with one platform — built specifically for veterinary practices in the UAE.",
       "scheduling": {
         "title": "Smart Scheduling",
         "description": "Book appointments, manage vet availability, check-in patients on arrival. Conflict detection prevents double-bookings."
@@ -845,10 +846,10 @@
       }
     },
     "final_cta": {
-      "headline": "Ready to modernize your veterinary clinic?",
-      "subtitle": "Join veterinary clinics worldwide who deliver better care with Vetolib. Start your free 14-day trial today — no credit card required.",
-      "cta": "Start Free Trial",
-      "reassurance": "No credit card required. Setup in under 2 minutes."
+      "headline": "Stop Managing Your Clinic with Spreadsheets.",
+      "subtitle": "Join 50+ veterinary clinics in the UAE who save 2 hours a day on admin tasks. Start your free 14-day trial — no credit card required.",
+      "cta": "Start Free Trial — No Card Needed",
+      "reassurance": "Cancel anytime. Your data is yours — always."
     },
     "footer": {
       "copyright": "© 2026 Vetolib.",

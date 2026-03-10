@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getDashboardStats, type DashboardStatsDto } from '@/lib/api/dashboard'
+import { ErrorState } from '@/components/ui/error-state'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
 
@@ -21,18 +22,28 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const load = () => {
+    setLoading(true)
+    setError(null)
     getDashboardStats()
       .then(setStats)
       .catch(() => setError('Failed to load stats'))
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    load()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (error) {
     return (
-      <div data-testid="stats-error" className="text-destructive text-sm">
-        {error}
-      </div>
+      <ErrorState
+        data-testid="stats-error"
+        title="Failed to load dashboard stats"
+        description="Could not retrieve clinic statistics."
+        onRetry={load}
+      />
     )
   }
 
