@@ -120,9 +120,7 @@ Une fois la tâche terminée et tous les tests verts :
 2. Stage uniquement les fichiers modifiés par ta tâche (pas `git add -A`)
 3. Commit avec le message conventionnel :
    ```bash
-   git commit -m "feat({module}): description courte
-
-   Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+   git commit -m "feat({module}): description courte"
    ```
 4. Push sur develop :
    ```bash
