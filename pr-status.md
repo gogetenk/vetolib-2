@@ -130,6 +130,23 @@
 
 ---
 
+### PR #6 — [DEV_DONE]
+**Tâche** : tasks/done-infra-ci-fix-001.md
+**Module** : Infra
+**Branche** : feat/back-patients-001
+**Lien PR** : en attente de push
+**Vidéo démo** : N/A
+**Ouvert le** : 2026-03-10
+**Dernière activité** : 2026-03-10
+
+**Changements** :
+- `ci.yml` : ajout du job `backend-integration` (Testcontainers, Docker socket, `--filter "Category!=wip"`)
+- `ci.yml` : `sonarcloud` marqué `continue-on-error: true` — non-bloquant si SONAR_TOKEN absent
+- `ci.yml` : `status-check` mis à jour : `backend-integration` dans `needs` + vérification required, SonarCloud informatif uniquement
+- Branche `develop` déjà présente sur remote (`origin/develop`) — aucune action nécessaire
+
+---
+
 ## Template
 ### PR #{num} — [{statut}]
 **Tâche** : tasks/{id}.md  
