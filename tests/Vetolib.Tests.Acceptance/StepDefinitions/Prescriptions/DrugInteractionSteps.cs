@@ -79,6 +79,13 @@ internal class DrugInteractionSteps
         await LoginAs("ASSISTANT");
     }
 
+    [Given(@"I am logged in as an ADMIN")]
+    public async Task GivenIAmLoggedInAsAdmin()
+    {
+        _currentRole = "ADMIN";
+        await LoginAs("ADMIN");
+    }
+
     [Given(@"a patient ""(.*)"" of species ""(.*)"" exists in my clinic")]
     public async Task GivenPatientOfSpeciesExistsInMyClinic(string patientName, string speciesStr)
     {
@@ -131,14 +138,23 @@ internal class DrugInteractionSteps
     [Given(@"""(.*)"" is listed as an alternative to ""(.*)"" for ""(.*)""")]
     public async Task GivenDrugIsListedAsAlternative(string alternativeDrug, string originalDrug, string speciesStr)
     {
-        // This is stored in the context for assertion — not a DB model concept.
-        // We mark the originalDrug's contraindication as having this alternative via the context.
-        // The check-interactions handler uses AlternativeDrugIds from the catalog,
-        // so we store the mapping in the scenario context for later assertion.
-        if (_drugCatalogIds.TryGetValue(alternativeDrug, out var altId))
+        if (!_drugCatalogIds.TryGetValue(alternativeDrug, out var altId) ||
+            !_drugCatalogIds.TryGetValue(originalDrug, out var originalId))
         {
-            _ctx.Set(altId, $"AlternativeFor:{originalDrug}:{speciesStr}");
+            return;
         }
+
+        var species = ParseSpecies(speciesStr);
+
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        // Update the existing contraindication to record the alternative drug
+        await db.Database.ExecuteSqlRawAsync(
+            $"UPDATE medical.drug_species_contraindications SET \"AlternativeDrugId\" = '{altId}' " +
+            $"WHERE \"DrugCatalogEntryId\" = '{originalId}' AND \"Species\" = '{species}'");
+
+        _ctx.Set(altId, $"AlternativeFor:{originalDrug}:{speciesStr}");
     }
 
     [Given(@"""(.*)"" has a critical species contraindication for ""([^""]+)""")]
@@ -202,6 +218,13 @@ internal class DrugInteractionSteps
         var interaction = DrugInteraction.Create(id1, id2, drug2, InteractionSeverity.Moderate, description);
         await db.Set<DrugInteraction>().AddAsync(interaction);
         await db.SaveChangesAsync();
+    }
+
+    [Given(@"""(.*)"" has a prescription for ""(.*)"" from (\d+) days ago")]
+    public async Task GivenPatientHasPrescriptionFromDaysAgo(string patientName, string drug, int daysAgo)
+    {
+        // Same as "active prescription" step — the handler determines activeness based on window config.
+        await GivenPatientHasActivePrescriptionFromDaysAgo(patientName, drug, daysAgo);
     }
 
     [Given(@"""(.*)"" has no active prescriptions")]
@@ -286,6 +309,25 @@ internal class DrugInteractionSteps
         var drugCatalogId = _drugCatalogIds.TryGetValue(drugName, out var did) ? did : Guid.Empty;
 
         await SavePrescriptionWithOverride(patientId, drugName, drugCatalogId, justification);
+    }
+
+    [When(@"I create a custom drug with INN name ""(.*)"" and display name ""(.*)"" and category ""(.*)""")]
+    public async Task WhenICreateCustomDrug(string innName, string displayName, string categoryStr)
+    {
+        _ctx.Set(innName, "CustomDrugInnName");
+
+        var category = Enum.Parse<DrugCategory>(categoryStr, ignoreCase: true);
+        // Use default System.Text.Json options (numeric enum) matching the server's default deserializer
+        var response = await _client.PostAsJsonAsync("/api/v1/medical-records/drugs",
+            new AddCustomDrugRequest(innName, displayName, category));
+
+        _ctx.Set(response, "CreateCustomDrugResponse");
+        if (response.IsSuccessStatusCode)
+        {
+            var dto = await response.Content.ReadFromJsonAsync<DrugCatalogEntryDto>(JsonOptions);
+            if (dto is not null)
+                _drugCatalogIds[innName] = dto.Id;
+        }
     }
 
     [When(@"I view the medical record for patient ""(.*)""")]
@@ -404,6 +446,79 @@ internal class DrugInteractionSteps
         // The info message for free-text is returned by the API layer or convention
         // For this BDD test, we verify the prescription was saved and no interaction data was blocked.
         _savedPrescription.Should().NotBeNull();
+    }
+
+    [Then(@"the drug should be visible in my clinic drug search results")]
+    public async Task ThenDrugShouldBeVisibleInClinicSearchResults()
+    {
+        var innName = _ctx.ContainsKey("CustomDrugInnName") ? _ctx.Get<string>("CustomDrugInnName") : "";
+        var response = await _client.GetAsync($"/api/v1/medical-records/drugs?search={Uri.EscapeDataString(innName)}&limit=10");
+        response.IsSuccessStatusCode.Should().BeTrue("Drug catalog search should succeed");
+
+        var drugs = await response.Content.ReadFromJsonAsync<List<DrugCatalogEntryDto>>(JsonOptions);
+        drugs.Should().NotBeNull();
+        drugs!.Should().Contain(d =>
+            d.InnName == innName || d.DisplayName.Contains(innName, StringComparison.OrdinalIgnoreCase),
+            $"Custom drug '{innName}' should be visible in search results for this clinic");
+    }
+
+    [Then(@"the drug should not be visible to a user from a different clinic")]
+    public async Task ThenDrugShouldNotBeVisibleToDifferentClinic()
+    {
+        var innName = _ctx.ContainsKey("CustomDrugInnName") ? _ctx.Get<string>("CustomDrugInnName") : "";
+
+        // Switch to a different clinic (clinic 2)
+        var originalClinicId = _clinicId;
+        var otherClinicId = Guid.Parse("22222222-2222-2222-2222-222222222222");
+
+        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
+        testClinicContext.ClinicId = otherClinicId;
+
+        // Login as a user from the other clinic
+        var otherEmail = "admin-otherclinic-drugtest@test.com";
+        var password = "SecurePass1";
+
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+            var existing = await authDb.Users.IgnoreQueryFilters()
+                .FirstOrDefaultAsync(u => u.Email == otherEmail);
+            if (existing is null)
+            {
+                var userResult = User.Create(otherClinicId, otherEmail, password, UserRole.Admin, null);
+                userResult.IsSuccess.Should().BeTrue();
+                authDb.Users.Add(userResult.Value);
+                await authDb.SaveChangesAsync();
+            }
+        }
+
+        // Use a fresh HTTP client for the other clinic
+        var otherClient = _factory.CreateClient();
+        var loginResponse = await otherClient.PostAsJsonAsync("/api/auth/login",
+            new LoginRequest(otherEmail, password));
+        loginResponse.IsSuccessStatusCode.Should().BeTrue("Other clinic user should be able to log in");
+
+        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
+        otherClient.DefaultRequestHeaders.Authorization =
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
+
+        var searchResponse = await otherClient.GetAsync(
+            $"/api/v1/medical-records/drugs?search={Uri.EscapeDataString(innName)}&limit=10");
+
+        List<DrugCatalogEntryDto>? drugs = null;
+        if (searchResponse.IsSuccessStatusCode)
+            drugs = await searchResponse.Content.ReadFromJsonAsync<List<DrugCatalogEntryDto>>(JsonOptions);
+
+        // Restore original clinic context
+        testClinicContext.ClinicId = originalClinicId;
+
+        // The custom drug should NOT appear for the other clinic
+        if (drugs is not null)
+        {
+            drugs.Should().NotContain(d =>
+                d.InnName == innName && d.ClinicId == _clinicId,
+                $"Clinic-specific drug '{innName}' should not be visible to other clinics");
+        }
     }
 
     [Then(@"I should not have access to the prescription creation feature")]

@@ -11,6 +11,7 @@ using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
+using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Stock.Infrastructure;
@@ -22,11 +23,17 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly string _connectionString;
 
+    public FakeChatClient FakeChatClient { get; } = new FakeChatClient();
+
     public TestWebApplicationFactory(string connectionString)
         => _connectionString = connectionString;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        // Provide the connection string so Program.cs fail-fast validation passes.
+        // The actual DbContext registrations are replaced below.
+        builder.UseSetting("ConnectionStrings:vetolibdb", _connectionString);
+
         builder.ConfigureServices(services =>
         {
             // Disable rate limiting for tests: the "signup" policy allows only 3 req/h,
@@ -56,7 +63,7 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             {
                 typeof(AuthDbContext), typeof(AgendaDbContext), typeof(BillingDbContext),
                 typeof(MedicalRecordsDbContext), typeof(AuditDbContext), typeof(NotificationsDbContext),
-                typeof(StockDbContext), typeof(AIDbContext)
+                typeof(StockDbContext), typeof(AIDbContext), typeof(MessagingDbContext)
             };
 
             var descriptorsToRemove = services
@@ -92,6 +99,16 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
                 opts.UseNpgsql(_connectionString));
             services.AddDbContext<AIDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
+            services.AddDbContext<MessagingDbContext>(opts =>
+                opts.UseNpgsql(_connectionString));
+
+            // Replace IChatClient with FakeChatClient for deterministic AI tests
+            var chatClientDescriptors = services
+                .Where(d => d.ServiceType == typeof(IChatClient))
+                .ToList();
+            foreach (var d in chatClientDescriptors)
+                services.Remove(d);
+            services.AddSingleton<IChatClient>(FakeChatClient);
 
             // Replace IClinicContext with test version
             var clinicContextDescriptors = services

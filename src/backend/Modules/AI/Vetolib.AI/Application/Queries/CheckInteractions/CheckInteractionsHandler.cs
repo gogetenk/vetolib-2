@@ -78,10 +78,15 @@ internal class CheckInteractionsHandler : IRequestHandler<CheckInteractionsQuery
         // 3a. Check species contraindications
         CheckSpeciesContraindications(drug, patient.Species, alerts);
 
-        // 3b. Check drug-drug interactions
+        // 3b. Check drug-drug interactions (forward: new drug lists interactions with active drugs)
         CheckDrugInteractions(drug, activePrescriptions, alerts);
 
-        // 3c. Check dosage out of range (only if patient weight is known and dosage is provided)
+        // 3c. Check reverse drug-drug interactions (reverse: active prescription drugs list
+        // interactions with the new drug). This handles the case where interaction data is
+        // stored on the existing drug, not on the new one being prescribed.
+        await CheckReverseDrugInteractions(drug, activePrescriptions, alerts, cancellationToken);
+
+        // 3d. Check dosage out of range (only if patient weight is known and dosage is provided)
         if (patient.WeightKg.HasValue && request.DosageAmount.HasValue)
         {
             CheckDosageOutOfRange(drug, patient.Species, patient.WeightKg.Value, request.DosageAmount.Value, alerts);
@@ -120,18 +125,63 @@ internal class CheckInteractionsHandler : IRequestHandler<CheckInteractionsQuery
                 continue;
 
             var alternativeDrugIds = new List<Guid>();
-
-            // Alternatives: other drugs in the interaction list that reference alternatives
-            // (The spec says: alternatives are drugs without the same contraindication — resolved at catalog level)
-            // Here we rely on the AlternativeDrugIds populated by the catalog data; for contraindications
-            // there is no direct "alternatives" field on the DTO, so we return an empty list.
-            // The catalog-level alternatives are resolved by the caller (UI or orchestrator).
+            if (contraindication.AlternativeDrugId.HasValue)
+                alternativeDrugIds.Add(contraindication.AlternativeDrugId.Value);
 
             alerts.Add(new InteractionAlert(
                 Severity: contraindication.Severity,
                 Type: InteractionAlertType.SpeciesContraindication,
                 Message: $"{drug.DisplayName} is contraindicated for {patientSpecies}: {contraindication.Reason}",
                 AlternativeDrugIds: alternativeDrugIds));
+        }
+    }
+
+    private async Task CheckReverseDrugInteractions(
+        DrugCatalogEntryDto newDrug,
+        List<PrescriptionDto> activePrescriptions,
+        List<InteractionAlert> alerts,
+        CancellationToken cancellationToken)
+    {
+        // For each active prescription that references a catalog entry,
+        // fetch that entry and check if it lists an interaction with the new drug.
+        var activeCatalogEntryIds = activePrescriptions
+            .Where(p => p.DrugCatalogEntryId.HasValue)
+            .Select(p => p.DrugCatalogEntryId!.Value)
+            .Distinct();
+
+        foreach (var existingDrugId in activeCatalogEntryIds)
+        {
+            // Skip if we already caught this via forward check
+            if (newDrug.Interactions.Any(i => i.OtherDrugId == existingDrugId))
+                continue;
+
+            var existingDrugResult = await _sender.Send(
+                new GetDrugCatalogEntryByIdQuery(existingDrugId), cancellationToken);
+
+            if (!existingDrugResult.IsSuccess)
+                continue;
+
+            var existingDrug = existingDrugResult.Value;
+            var reverseInteraction = existingDrug.Interactions
+                .FirstOrDefault(i => i.OtherDrugId == newDrug.Id);
+
+            if (reverseInteraction is null)
+                continue;
+
+            // Avoid duplicate alerts
+            var alreadyAlerted = alerts.Any(a =>
+                a.Type == InteractionAlertType.DrugInteraction &&
+                a.Message.Contains(existingDrug.DisplayName, StringComparison.OrdinalIgnoreCase) &&
+                a.Message.Contains(newDrug.DisplayName, StringComparison.OrdinalIgnoreCase));
+
+            if (!alreadyAlerted)
+            {
+                alerts.Add(new InteractionAlert(
+                    Severity: reverseInteraction.Severity,
+                    Type: InteractionAlertType.DrugInteraction,
+                    Message: $"{newDrug.DisplayName} interacts with {existingDrug.DisplayName}: {reverseInteraction.Description}",
+                    AlternativeDrugIds: new List<Guid>()));
+            }
         }
     }
 

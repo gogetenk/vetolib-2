@@ -167,14 +167,14 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Category",
                             "Quantity",
                             "Unit",
                             "MinThreshold",
                             "ExpiryDate"});
-                table37.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Amoxicillin",
                             "Medication",
                             "100",
@@ -182,7 +182,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
                             "20",
                             "2027-06-15"});
 #line 10
-    await testRunner.WhenAsync("I create a stock item with:", ((string)(null)), table37, "When ");
+    await testRunner.WhenAsync("I create a stock item with:", ((string)(null)), table6, "When ");
 #line hidden
 #line 13
     await testRunner.ThenAsync("the stock item should be created successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -218,28 +218,28 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
 #line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table38 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Category",
                             "Quantity",
                             "MinThreshold"});
-                table38.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Amoxicillin",
                             "Medication",
                             "100",
                             "20"});
-                table38.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Rabies Vaccine",
                             "Vaccine",
                             "5",
                             "10"});
-                table38.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Syringes",
                             "Supply",
                             "200",
                             "50"});
 #line 17
-    await testRunner.GivenAsync("the following stock items exist:", ((string)(null)), table38, "Given ");
+    await testRunner.GivenAsync("the following stock items exist:", ((string)(null)), table7, "Given ");
 #line hidden
 #line 22
     await testRunner.WhenAsync("I request stock items filtered by category \"Vaccine\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -281,16 +281,16 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
 #line 27
     await testRunner.GivenAsync("a stock item \"Amoxicillin\" exists with quantity 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table39 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
                             "MovementType",
                             "Quantity",
                             "Reason"});
-                table39.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "IN",
                             "50",
                             "New delivery"});
 #line 28
-    await testRunner.WhenAsync("I record a stock movement:", ((string)(null)), table39, "When ");
+    await testRunner.WhenAsync("I record a stock movement:", ((string)(null)), table8, "When ");
 #line hidden
 #line 31
     await testRunner.ThenAsync("the stock item quantity should be 150", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -326,16 +326,16 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
 #line 34
     await testRunner.GivenAsync("a stock item \"Amoxicillin\" exists with quantity 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table40 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
                             "MovementType",
                             "Quantity",
                             "Reason"});
-                table40.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "OUT",
                             "10",
                             "Used for patient Luna"});
 #line 35
-    await testRunner.WhenAsync("I record a stock movement:", ((string)(null)), table40, "When ");
+    await testRunner.WhenAsync("I record a stock movement:", ((string)(null)), table9, "When ");
 #line hidden
 #line 38
     await testRunner.ThenAsync("the stock item quantity should be 90", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -371,16 +371,16 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
 #line 41
     await testRunner.GivenAsync("a stock item \"Amoxicillin\" exists with quantity 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table41 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "MovementType",
                             "Quantity",
                             "Reason"});
-                table41.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "OUT",
                             "10",
                             "Used for patient"});
 #line 42
-    await testRunner.WhenAsync("I record a stock movement:", ((string)(null)), table41, "When ");
+    await testRunner.WhenAsync("I record a stock movement:", ((string)(null)), table10, "When ");
 #line hidden
 #line 45
     await testRunner.ThenAsync("I should receive an error indicating insufficient stock", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -564,20 +564,20 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
 #line 68
     await testRunner.GivenAsync("I am authenticated as a user with role \"Receptionist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table42 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
                             "Name",
                             "Category",
                             "Quantity",
                             "Unit",
                             "MinThreshold"});
-                table42.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "Amoxicillin",
                             "Medication",
                             "100",
                             "tablets",
                             "20"});
 #line 69
-    await testRunner.WhenAsync("I create a stock item with:", ((string)(null)), table42, "When ");
+    await testRunner.WhenAsync("I create a stock item with:", ((string)(null)), table11, "When ");
 #line hidden
 #line 72
     await testRunner.ThenAsync("I should receive a 403 Forbidden response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

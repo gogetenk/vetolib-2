@@ -115,29 +115,29 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
 #line 9
     await testRunner.AndAsync("a patient \"Whiskers\" of species \"Cat\" exists in my clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-            global::Reqnroll.Table table36 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                         "InnName",
                         "Category"});
-            table36.AddRow(new string[] {
+            table5.AddRow(new string[] {
                         "Amoxicillin",
                         "Medication"});
-            table36.AddRow(new string[] {
+            table5.AddRow(new string[] {
                         "Metronidazole",
                         "Medication"});
-            table36.AddRow(new string[] {
+            table5.AddRow(new string[] {
                         "Ibuprofen",
                         "Medication"});
-            table36.AddRow(new string[] {
+            table5.AddRow(new string[] {
                         "Meloxicam",
                         "Medication"});
 #line 10
-    await testRunner.AndAsync("the drug catalog contains the following entries:", ((string)(null)), table36, "And ");
+    await testRunner.AndAsync("the drug catalog contains the following entries:", ((string)(null)), table5, "And ");
 #line hidden
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Prescriptions/DrugInteractionChecking.feature.ndjson", 10);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Prescriptions/DrugInteractionChecking.feature.ndjson", 13);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -490,6 +490,132 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
 #line hidden
 #line 64
     await testRunner.AndAsync("I should not see a \"New Prescription\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Clinic admin adds custom drug to catalog")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
+        [global::Xunit.TraitAttribute("Description", "Clinic admin adds custom drug to catalog")]
+        public async global::System.Threading.Tasks.Task ClinicAdminAddsCustomDrugToCatalog()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "8";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Clinic admin adds custom drug to catalog", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 66
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 7
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 67
+    await testRunner.GivenAsync("I am logged in as an ADMIN", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 68
+    await testRunner.WhenAsync("I create a custom drug with INN name \"ClinicCompound-AED\" and display name \"Clini" +
+                        "c Compound AED\" and category \"Medication\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 69
+    await testRunner.ThenAsync("the drug should be visible in my clinic drug search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 70
+    await testRunner.AndAsync("the drug should not be visible to a user from a different clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Active prescription within 90-day window triggers interaction warning")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
+        [global::Xunit.TraitAttribute("Description", "Active prescription within 90-day window triggers interaction warning")]
+        public async global::System.Threading.Tasks.Task ActivePrescriptionWithin90_DayWindowTriggersInteractionWarning()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "9";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Active prescription within 90-day window triggers interaction warning", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 72
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 7
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 73
+    await testRunner.GivenAsync("\"Whiskers\" has an active prescription for \"Amoxicillin\" from 89 days ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 74
+    await testRunner.AndAsync("\"Amoxicillin\" has a moderate interaction with \"Metronidazole\" with description \"I" +
+                        "ncreased risk of GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 75
+    await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Metronidazole\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 76
+    await testRunner.ThenAsync("I should see a moderate warning with message containing \"GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Prescription older than 90-day window is not considered active")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
+        [global::Xunit.TraitAttribute("Description", "Prescription older than 90-day window is not considered active")]
+        public async global::System.Threading.Tasks.Task PrescriptionOlderThan90_DayWindowIsNotConsideredActive()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "10";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Prescription older than 90-day window is not considered active", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 78
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 7
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 79
+    await testRunner.GivenAsync("\"Whiskers\" has a prescription for \"Amoxicillin\" from 91 days ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 80
+    await testRunner.AndAsync("\"Amoxicillin\" has a moderate interaction with \"Metronidazole\" with description \"I" +
+                        "ncreased risk of GI side effects\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 81
+    await testRunner.WhenAsync("I create a prescription for patient \"Whiskers\" with drug \"Metronidazole\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 82
+    await testRunner.ThenAsync("I should see no interaction alerts", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 83
+    await testRunner.AndAsync("the prescription should be saved successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

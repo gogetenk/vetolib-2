@@ -109,7 +109,11 @@ internal class AppointmentSteps
         // Login
         var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
             new LoginRequest(email, password));
-        loginResponse.EnsureSuccessStatusCode();
+        if (!loginResponse.IsSuccessStatusCode)
+        {
+            var body = await loginResponse.Content.ReadAsStringAsync();
+            throw new Exception($"Login failed with {loginResponse.StatusCode}: {body}");
+        }
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
         _client.DefaultRequestHeaders.Authorization =

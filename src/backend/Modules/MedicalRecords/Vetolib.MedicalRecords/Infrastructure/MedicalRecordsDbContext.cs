@@ -8,6 +8,8 @@ namespace Vetolib.MedicalRecords.Infrastructure;
 
 internal class MedicalRecordsDbContext : MultiTenantDbContext
 {
+    private readonly IClinicContext _clinicContext;
+
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Owner> Owners => Set<Owner>();
     public DbSet<PatientOwner> PatientOwners => Set<PatientOwner>();
@@ -21,11 +23,18 @@ internal class MedicalRecordsDbContext : MultiTenantDbContext
         IPublisher publisher)
         : base(options, clinicContext, publisher)
     {
+        _clinicContext = clinicContext;
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder); // MUST call base first for tenant filter
         builder.ApplyConfigurationsFromAssembly(typeof(MedicalRecordsDbContext).Assembly);
+
+        // DrugCatalogEntry has nullable ClinicId (null = global, non-null = clinic-specific).
+        // MultiTenantDbContext only filters IMultiTenant entities, so we add a custom filter here:
+        // WHERE ClinicId IS NULL OR ClinicId = @currentClinicId
+        builder.Entity<DrugCatalogEntry>()
+            .HasQueryFilter(d => d.ClinicId == null || d.ClinicId == _clinicContext.ClinicId);
     }
 }

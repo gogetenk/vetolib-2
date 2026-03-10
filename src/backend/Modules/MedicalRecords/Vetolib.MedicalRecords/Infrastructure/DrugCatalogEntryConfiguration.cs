@@ -77,6 +77,9 @@ internal class SpeciesContraindicationConfiguration : IEntityTypeConfiguration<S
         builder.Property(c => c.Reason)
             .IsRequired()
             .HasMaxLength(500);
+
+        builder.Property(c => c.AlternativeDrugId)
+            .IsRequired(false);
     }
 }
 
