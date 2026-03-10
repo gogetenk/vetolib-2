@@ -1,5 +1,7 @@
 # Vetolib — Veterinary Practice Management (UAE)
 
+[![CI](https://github.com/gogetenk/vetolib-2/actions/workflows/ci.yml/badge.svg)](https://github.com/gogetenk/vetolib-2/actions/workflows/ci.yml)
+
 > SaaS platform for veterinary clinics in the UAE.
 > Stack: .NET 10 + Next.js 15 + PostgreSQL 16 + MassTransit + MailHog
 

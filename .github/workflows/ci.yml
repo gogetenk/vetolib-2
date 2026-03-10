@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [develop, main]
   pull_request:
-    branches: [main]
+    branches: [develop, main]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -17,6 +17,7 @@ jobs:
   backend-build:
     name: Backend — build & unit tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -26,6 +27,14 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
 
       - name: Restore
         working-directory: src/backend
@@ -59,6 +68,7 @@ jobs:
   backend-bdd:
     name: Backend — BDD acceptance tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: backend-build
 
     steps:
@@ -69,6 +79,14 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
 
       - name: Restore
         working-directory: src/backend
@@ -81,7 +99,6 @@ jobs:
       - name: BDD tests (Testcontainers — Docker socket required)
         working-directory: tests/Vetolib.Tests.Acceptance
         env:
-          # Testcontainers uses the Docker socket provided by the ubuntu runner
           DOCKER_HOST: unix:///var/run/docker.sock
         run: >
           dotnet test
@@ -104,6 +121,7 @@ jobs:
   frontend-build:
     name: Frontend — lint & build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -127,7 +145,6 @@ jobs:
       - name: Build (validates TypeScript compilation + Next.js)
         working-directory: src/frontend
         env:
-          # Required by Next.js standalone build — dummy value acceptable in CI
           NEXT_PUBLIC_API_URL: http://localhost:8080
         run: npm run build
 
@@ -144,6 +161,7 @@ jobs:
   frontend-e2e:
     name: Frontend — Playwright E2E (MSW)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: frontend-build
 
     steps:
@@ -195,6 +213,7 @@ jobs:
   docker-build:
     name: Docker — build images
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: [backend-build, frontend-build]
 
     steps:
@@ -225,3 +244,152 @@ jobs:
             NEXT_PUBLIC_API_URL=http://localhost:8080
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Code quality — dotnet format + TODO/FIXME/HACK scan (warning only)
+  # Runs in parallel with other jobs — no dependencies.
+  # ─────────────────────────────────────────────────────────────────────────
+  code-quality:
+    name: Code quality — format & TODO scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore
+        working-directory: src/backend
+        run: dotnet restore Vetolib.sln
+
+      - name: Verify dotnet format (no changes allowed)
+        working-directory: src/backend
+        run: dotnet format Vetolib.sln --verify-no-changes --verbosity diagnostic
+
+      - name: Scan for TODO / FIXME / HACK (warning — non-blocking)
+        run: |
+          echo "## TODO/FIXME/HACK scan" >> $GITHUB_STEP_SUMMARY
+          count=$(grep -rn --include="*.cs" --include="*.ts" --include="*.tsx" \
+            -E "(TODO|FIXME|HACK)" src/ | wc -l)
+          echo "Found ${count} occurrence(s)." >> $GITHUB_STEP_SUMMARY
+          grep -rn --include="*.cs" --include="*.ts" --include="*.tsx" \
+            -E "(TODO|FIXME|HACK)" src/ || true
+          echo "Scan complete — ${count} occurrence(s) found (informational only)."
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Security scan — .NET CVE + npm audit
+  # Runs in parallel — no dependencies.
+  # ─────────────────────────────────────────────────────────────────────────
+  security-scan:
+    name: Security — CVE scan (.NET + npm)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore .NET packages
+        working-directory: src/backend
+        run: dotnet restore Vetolib.sln
+
+      - name: Scan .NET packages for known vulnerabilities
+        working-directory: src/backend
+        run: |
+          echo "## .NET vulnerability scan" >> $GITHUB_STEP_SUMMARY
+          dotnet list Vetolib.sln package --vulnerable --include-transitive 2>&1 | tee /tmp/dotnet-audit.txt
+          if grep -q "has the following vulnerable packages" /tmp/dotnet-audit.txt; then
+            echo "::error::Vulnerable .NET packages detected — review dotnet-audit output above."
+            exit 1
+          fi
+          echo "No vulnerable .NET packages found." >> $GITHUB_STEP_SUMMARY
+
+      - name: Install npm dependencies
+        working-directory: src/frontend
+        run: npm ci
+
+      - name: Scan npm packages for high/critical vulnerabilities
+        working-directory: src/frontend
+        run: |
+          echo "## npm vulnerability scan" >> $GITHUB_STEP_SUMMARY
+          npm audit --audit-level=high 2>&1 | tee /tmp/npm-audit.txt || {
+            echo "::error::High or critical npm vulnerabilities detected — review npm-audit output above."
+            cat /tmp/npm-audit.txt >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          echo "No high/critical npm vulnerabilities found." >> $GITHUB_STEP_SUMMARY
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Status check gate — required by branch protection rules.
+  # Depends on ALL other jobs. If any job fails, this job fails too.
+  # Configure your branch protection rule on this single job name.
+  # ─────────────────────────────────────────────────────────────────────────
+  status-check:
+    name: Status check — all jobs green
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - backend-build
+      - backend-bdd
+      - frontend-build
+      - frontend-e2e
+      - docker-build
+      - code-quality
+      - security-scan
+
+    steps:
+      - name: Verify all required jobs passed
+        run: |
+          results=(
+            "${{ needs.backend-build.result }}"
+            "${{ needs.backend-bdd.result }}"
+            "${{ needs.frontend-build.result }}"
+            "${{ needs.frontend-e2e.result }}"
+            "${{ needs.docker-build.result }}"
+            "${{ needs.code-quality.result }}"
+            "${{ needs.security-scan.result }}"
+          )
+          failed=0
+          for result in "${results[@]}"; do
+            if [[ "$result" != "success" ]]; then
+              echo "::error::One or more required jobs did not succeed (got: $result)"
+              failed=1
+            fi
+          done
+          if [[ $failed -eq 1 ]]; then
+            exit 1
+          fi
+          echo "All required jobs passed."
