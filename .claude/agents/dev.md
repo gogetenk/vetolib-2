@@ -112,7 +112,28 @@ Créer `questions/{task-id}-{timestamp}.md` et rename `wip-*.md` → `todo-*.md`
 
 ---
 
-## Checklist avant PR
+## Étape finale — Commit & Push sur develop
+
+Une fois la tâche terminée et tous les tests verts :
+
+1. Rename `tasks/wip-{id}.md` → `tasks/done-{id}.md`
+2. Stage uniquement les fichiers modifiés par ta tâche (pas `git add -A`)
+3. Commit avec le message conventionnel :
+   ```bash
+   git commit -m "feat({module}): description courte
+
+   Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+   ```
+4. Push sur develop :
+   ```bash
+   git push origin develop
+   ```
+
+**Ne jamais push sur main/master. Toujours sur develop.**
+
+---
+
+## Checklist avant commit
 
 ```
 □ 3 fichiers lus avant de coder (tâche + skills + feature)
@@ -121,5 +142,5 @@ Créer `questions/{task-id}-{timestamp}.md` et rename `wip-*.md` → `todo-*.md`
 □ dotnet build → 0 erreur | npm run build → 0 erreur
 □ data-testid sur tous les éléments interactifs (frontend)
 □ Aucun IgnoreQueryFilters(), Controller, throw business (backend)
-□ PR ouverte, pr-status.md mis à jour
+□ Tâche renommée done-*, commit poussé sur develop
 ```
