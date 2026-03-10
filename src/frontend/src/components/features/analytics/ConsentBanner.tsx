@@ -1,20 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { posthog, isPostHogAvailable } from '@/lib/posthog'
 
+function hasNoStoredConsent() {
+  if (typeof window === 'undefined') return false
+  return localStorage.getItem('analytics_consent') === null
+}
+
 export function ConsentBanner() {
   const t = useTranslations('analytics.consent_banner')
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const stored = localStorage.getItem('analytics_consent')
-    if (stored === null) {
-      setVisible(true)
-    }
-  }, [])
+  const [visible, setVisible] = useState(hasNoStoredConsent)
 
   function handleAccept() {
     localStorage.setItem('analytics_consent', 'granted')

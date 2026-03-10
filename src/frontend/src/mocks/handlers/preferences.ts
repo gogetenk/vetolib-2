@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw'
 import type { PreferenceCategoryDto, PreferenceItemDto } from '@/lib/api/preferences'
 
 // In-memory store for user preferences (mutable for session persistence)
-let MOCK_USER_PREFERENCES: Record<string, string> = {
+const MOCK_USER_PREFERENCES: Record<string, string> = {
   'notifications.email': 'true',
   'notifications.push': 'false',
   'notifications.sms': 'false',
