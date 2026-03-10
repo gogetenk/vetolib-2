@@ -112,7 +112,6 @@ test.describe('Staff Inbox — Admin', () => {
 
     // Click the "Resolved" status filter
     await page.getByTestId('filter-status-resolved').click()
-    await page.waitForLoadState('networkidle')
 
     // Should only show resolved conversations
     await expect(
@@ -130,7 +129,6 @@ test.describe('Staff Inbox — Admin', () => {
 
     // Click the "MedicalUrgency" category filter
     await page.getByTestId('filter-category-medicalurgency').click()
-    await page.waitForLoadState('networkidle')
 
     // Should only show medical urgency conversations
     await expect(
@@ -162,8 +160,7 @@ test.describe('Staff Inbox — Admin', () => {
     // Type in the search box to filter by owner name
     const searchInput = page.getByTestId('filter-search')
     await searchInput.fill('Ahmed')
-    await page.waitForTimeout(400) // debounce
-    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(500) // debounce
 
     // Should show the conversation from Ahmed Al-Rashid
     await expect(

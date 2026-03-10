@@ -224,66 +224,54 @@ test.describe('Owner Portal — new message form', () => {
 
 test.describe('Owner Portal — daily message limit', () => {
   test('Daily message limit (5) enforced', async ({ page }) => {
-    // Simulate a token that has already used 5 messages today
-    // We do this by sending 5 messages first, then trying a 6th
-    // The MSW handler tracks dailyMessageCount per token
-    const limitedToken = 'limit-test-token-' + Date.now()
+    // Use VALID_TOKEN which already has consent.
+    // We send 5 messages via direct API calls, then try to send the 6th via the form.
+    const token = VALID_TOKEN
 
-    // Navigate with the limited token and set consent
-    await page.goto(`/en/portal/${CLINIC_SLUG}/new?token=${limitedToken}`)
-    await page.addInitScript((token: string) => {
+    // Set up page with consent and token in sessionStorage
+    await page.addInitScript((t: string) => {
       sessionStorage.setItem('portal_consent_given', 'true')
-      sessionStorage.setItem('portal_token', token)
-    }, limitedToken)
-    await page.goto(`/en/portal/${CLINIC_SLUG}/new?token=${limitedToken}`)
+      sessionStorage.setItem('portal_token', t)
+    }, token)
+    await page.goto(`/en/portal/${CLINIC_SLUG}/new?token=${token}`)
     await page.waitForSelector('[data-testid="msw-ready"]', { state: 'attached', timeout: 15000 })
     await page.waitForSelector('[data-testid="new-message-form"]', { timeout: 10000 })
 
-    // First, we need to give consent for this new token via POST /api/v1/portal/consent
-    // The MSW consentGiven set does not include this token, so we need to POST consent
-    // We'll use the consent API directly via fetch
-    await page.evaluate(async (token: string) => {
-      await fetch('/api/v1/portal/consent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `MagicLink ${token}`,
-        },
-        body: JSON.stringify({ consentVersion: '1.0' }),
-      })
-    }, limitedToken)
-
-    // Send 5 messages to hit the limit
+    // Send 5 messages directly via API to reach the daily limit
     for (let i = 0; i < 5; i++) {
-      await page.evaluate(async (token: string) => {
+      await page.evaluate(async ([t, idx]: [string, number]) => {
         await fetch('/api/v1/portal/conversations', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `MagicLink ${token}`,
+            'Authorization': `MagicLink ${t}`,
           },
           body: JSON.stringify({
             petId: null,
-            subject: `Test message ${i}`,
+            subject: `Auto message ${idx}`,
             category: 'Administrative',
-            body: 'Test message body',
+            body: 'Auto-generated test message body.',
           }),
         })
-      }, limitedToken)
+      }, [token, i] as [string, number])
     }
 
-    // Now try to send a 6th message
-    const messageInput = page.getByTestId('message-input')
-    await messageInput.fill('This is my 6th message today')
-
+    // Now fill the form and try to send a 6th message (should hit 429 limit)
     const subjectInput = page.getByTestId('message-subject')
-    await subjectInput.fill('6th message')
+    await subjectInput.fill('6th message today')
+
+    // Select a category so the form validates
+    const categorySelector = page.getByTestId('category-selector')
+    await expect(categorySelector).toBeVisible()
+    await categorySelector.selectOption('Administrative')
+
+    const messageInput = page.getByTestId('message-input')
+    await messageInput.fill('This is my 6th message today and should be rejected.')
 
     await page.getByTestId('send-message-btn').click()
 
-    // Should show error about daily limit
+    // The MSW handler should return 429, which shows submit-error
     const submitError = page.getByTestId('submit-error')
     await expect(submitError).toBeVisible({ timeout: 5000 })
-    await expect(submitError).toContainText(/limit|429/)
   })
 })

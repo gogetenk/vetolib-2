@@ -104,10 +104,15 @@ export async function navigateToInbox(page: Page): Promise<void> {
 
 /**
  * Navigate to the owner portal with the given magic link token.
- * The token is set via the ?token= query string, which the portal layout
- * stores in sessionStorage before the component mounts.
+ * We set portal_token in sessionStorage via addInitScript BEFORE navigation
+ * to avoid the race condition where PortalLanding calls listPortalConversations()
+ * before the layout's useEffect can store the token.
  */
 export async function openPortalWithMagicLink(page: Page, token: string): Promise<void> {
+  // Set token in sessionStorage before the page loads so PortalLanding can read it
+  await page.addInitScript((t: string) => {
+    sessionStorage.setItem('portal_token', t)
+  }, token)
   await page.goto(`/en/portal/desert-paws?token=${token}`)
   await waitForMSW(page)
 }

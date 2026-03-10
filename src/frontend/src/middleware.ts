@@ -10,10 +10,14 @@ import type { NextRequest } from "next/server";
 
 const publicPaths = ["/login", "/api/auth"];
 
+// Routes that are public for any locale prefix (e.g. /en/portal, /ar/portal)
+const publicPatterns = [/\/portal\//];
+
 function isPublicPath(pathname: string): boolean {
-  return publicPaths.some(
-    (path) => pathname === path || pathname.startsWith(`${path}/`)
-  );
+  if (publicPaths.some((path) => pathname === path || pathname.startsWith(`${path}/`))) {
+    return true;
+  }
+  return publicPatterns.some((pattern) => pattern.test(pathname));
 }
 
 export function middleware(request: NextRequest) {

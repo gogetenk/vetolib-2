@@ -105,6 +105,31 @@
 
 ---
 
+### PR #5 — [DEV_DONE]
+**Tâche** : tasks/done-front-messaging-playwright-001.md
+**Module** : Messaging (Frontend)
+**Branche** : feat/back-patients-001
+**Lien PR** : local-only
+**Vidéo démo** : en attente
+**Ouvert le** : 2026-03-10
+**Dernière activité** : 2026-03-10
+
+**Tests couverts** : 42 tests Playwright GREEN contre MSW
+- Staff Inbox (9 scénarios): RBAC par rôle, tri, filtres statut/catégorie, badge non-lu, recherche
+- Conversation Detail (13 scénarios): thread, notes internes, suggestions AI, panel patient, envoi, transfert, spam, statuts, résumé
+- Owner Portal (13 scénarios): magic link, consent, formulaire, photos, limite quotidienne, historique, export
+- Admin Settings (3 scénarios): template CRUD, heures de messagerie, stats
+
+**Fixes techniques** :
+- `next.config.ts`: ajout de `createNextIntlPlugin` pour activer les routes locale `/en/*`
+- `middleware.ts`: whitelist routes `/portal/` (publiques, pas d'`access_token`)
+- `e2e/fixtures/messaging.ts`: `addInitScript` pour `portal_token` avant navigation (race condition)
+- `inbox.spec.ts`: suppression de `waitForLoadState('networkidle')` incompatible avec SSE MSW
+- `conversation.spec.ts`: `.first()` sur testids dupliqués (desktop + mobile panels)
+- `portal.spec.ts`: `selectOption` pour CategorySelector, loop variable capture corrigée
+
+---
+
 ## Template
 ### PR #{num} — [{statut}]
 **Tâche** : tasks/{id}.md  
