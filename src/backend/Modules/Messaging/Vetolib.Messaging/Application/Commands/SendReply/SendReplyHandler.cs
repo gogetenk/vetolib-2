@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Vetolib.Messaging.Application.Domain;
 using Vetolib.Messaging.Application.Services.SSE;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Contracts.Events;
@@ -57,6 +58,28 @@ internal class SendReplyHandler : IRequestHandler<SendReplyCommand, Result<Messa
         if (!messageResult.IsSuccess)
             return Result<MessageDto>.Error(string.Join("; ", messageResult.Errors));
 
+        var replyMessage = messageResult.Value;
+
+        // Find the last owner message to reference in the audit
+        var lastOwnerMessage = conversation.Messages
+            .Where(m => m.Sender == MessageSender.Owner)
+            .OrderByDescending(m => m.SentAt)
+            .FirstOrDefault();
+
+        // Record ReplyAudit for AI suggestion effectiveness tracking
+        if (lastOwnerMessage is not null)
+        {
+            var auditResult = ReplyAudit.Create(
+                replyMessage.Id,
+                lastOwnerMessage.Id,
+                cmd.Body,
+                cmd.AiSuggestedReply,
+                cmd.WasSuggestedReplyUsed);
+
+            if (auditResult.IsSuccess)
+                _context.ReplyAudits.Add(auditResult.Value);
+        }
+
         await _context.SaveChangesAsync(ct);
 
         var preview = cmd.Body.Length > 100 ? cmd.Body[..100] + "..." : cmd.Body;
@@ -87,6 +110,6 @@ internal class SendReplyHandler : IRequestHandler<SendReplyCommand, Result<Messa
             UnreadCount = unreadCount
         }, ct);
 
-        return Result<MessageDto>.Success(messageResult.Value.ToDto());
+        return Result<MessageDto>.Success(replyMessage.ToDto());
     }
 }

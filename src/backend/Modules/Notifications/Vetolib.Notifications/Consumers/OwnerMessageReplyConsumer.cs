@@ -1,13 +1,15 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Vetolib.Messaging.Contracts.Events;
+using Vetolib.Notifications.Templates;
+using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Notifications.Consumers;
 
 /// <summary>
 /// Handles OwnerMessageReplyEvent: notifies the pet owner that a staff member has replied.
-/// Note: owner email is not carried in this event. A future enrichment step should add
-/// OwnerEmail to the event so the email can be dispatched directly here.
+/// Note: OwnerEmail is not carried in this event (cross-module boundary).
+/// Enrichment via Auth module query is the future path; for now we log and skip email dispatch.
 /// </summary>
 internal class OwnerMessageReplyConsumer : IConsumer<OwnerMessageReplyEvent>
 {
@@ -23,14 +25,16 @@ internal class OwnerMessageReplyConsumer : IConsumer<OwnerMessageReplyEvent>
         var evt = context.Message;
 
         _logger.LogInformation(
-            "Owner reply notification: conversation {ConversationId}, owner {OwnerId}, clinic {ClinicId}. " +
-            "Preview: {Preview}",
+            "Owner reply notification queued: conversation {ConversationId}, owner {OwnerId}, clinic {ClinicId}. " +
+            "Preview: {Preview}. Email dispatch requires owner email enrichment via Auth module.",
             evt.ConversationId,
             evt.OwnerId,
             evt.ClinicId,
             evt.ReplyPreview);
 
-        // TODO: enrich with owner email from Auth module and send email notification.
+        // Owner email is not carried in this event to avoid cross-module data coupling.
+        // The owner portal URL would be: /portal/{clinicId}/conversations/{conversationId}
+        // Future: subscribe to Auth module query to fetch OwnerEmail, then send email.
         return Task.CompletedTask;
     }
 }

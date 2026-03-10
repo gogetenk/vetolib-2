@@ -30,6 +30,10 @@ public static class MessagingModuleServiceRegistrar
         // Internal services
         services.AddScoped<IBusinessHoursChecker, BusinessHoursChecker>();
 
+        // AI triage routing services
+        services.AddScoped<IMessageRouter, MessageRouter>();
+        services.AddScoped<ITriageOrchestrator, TriageOrchestrator>();
+
         // Emergency escalation background service
         services.AddHostedService<EmergencyEscalationBackgroundService>();
 
