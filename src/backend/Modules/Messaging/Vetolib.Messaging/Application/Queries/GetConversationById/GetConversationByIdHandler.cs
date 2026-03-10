@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using Vetolib.AI.Contracts;
+using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
 
@@ -21,17 +22,20 @@ internal class GetConversationByIdHandler : IRequestHandler<GetConversationByIdQ
 
     private readonly MessagingDbContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IPatientReader _patientReader;
     private readonly IMessageTriageService? _triageService;
     private readonly ILogger<GetConversationByIdHandler> _logger;
 
     public GetConversationByIdHandler(
         MessagingDbContext context,
         IHttpContextAccessor httpContextAccessor,
+        IPatientReader patientReader,
         ILogger<GetConversationByIdHandler> logger,
         IMessageTriageService? triageService = null)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
+        _patientReader = patientReader;
         _logger = logger;
         _triageService = triageService;
     }
@@ -88,7 +92,31 @@ internal class GetConversationByIdHandler : IRequestHandler<GetConversationByIdQ
             }
         }
 
+        // Load patient context when the conversation is linked to a patient.
+        // Receptionist sees basic info only (includeFullMedicalContext = false).
+        // Vet/Admin sees full medical context.
+        PatientContextDto? patientContext = null;
+        if (conversation.PatientId.HasValue)
+        {
+            var includeFullMedical = role is "Vet" or "Admin";
+            try
+            {
+                var contextResult = await _patientReader.GetPatientContextAsync(
+                    conversation.PatientId.Value,
+                    includeFullMedical,
+                    ct);
+
+                if (contextResult.IsSuccess)
+                    patientContext = contextResult.Value;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to load patient context for conversation {ConversationId}", conversation.Id);
+                // Non-blocking — conversation detail is still returned without patient context
+            }
+        }
+
         return Result<ConversationWithMessagesDto>.Success(
-            conversation.ToDetailDto(includeInternalNotes, suggestedReplies));
+            conversation.ToDetailDto(includeInternalNotes, suggestedReplies, patientContext));
     }
 }

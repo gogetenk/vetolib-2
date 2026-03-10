@@ -16,6 +16,8 @@ internal class StockItemConfiguration : IEntityTypeConfiguration<StockItem>
         builder.Property(x => x.Quantity).IsRequired();
         builder.Property(x => x.MinThreshold).IsRequired();
         builder.Property(x => x.ExpiryDate);
+        builder.Property(x => x.DrugCatalogEntryId);
+        builder.HasIndex(x => x.DrugCatalogEntryId).HasDatabaseName("ix_stock_items_drug_catalog_entry_id");
 
         builder.HasMany<StockMovement>()
             .WithOne()

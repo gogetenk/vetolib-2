@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vetolib.Stock.Contracts\Vetolib.Stock.Contracts.csproj" />
+    <ProjectReference Include="..\..\MedicalRecords\Vetolib.MedicalRecords.Contracts\Vetolib.MedicalRecords.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\..\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
   </ItemGroup>

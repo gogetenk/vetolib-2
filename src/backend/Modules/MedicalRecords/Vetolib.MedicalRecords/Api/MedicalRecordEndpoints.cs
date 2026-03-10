@@ -92,12 +92,22 @@ internal static class MedicalRecordEndpoints
         if (string.IsNullOrWhiteSpace(vetLicense))
             return Ardalis.Result.Result<PrescriptionDto>.Error("VET_LICENSE_REQUIRED:Numéro de licence vétérinaire requis").ToMinimalApiResult();
 
+        var userIdClaim = user.FindFirst("sub")?.Value
+            ?? user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        Guid.TryParse(userIdClaim, out var vetId);
+
         var cmd = new AddPrescriptionCommand(
             clinicContext.ClinicId,
             recordId,
+            patientId,
             request.Medication,
             request.Dosage,
-            vetLicense);
+            vetLicense,
+            vetId,
+            role ?? "Vet",
+            request.DrugCatalogEntryId,
+            request.DosageAmount,
+            request.OverrideJustification);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }

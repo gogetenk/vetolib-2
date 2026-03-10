@@ -41,7 +41,7 @@ internal static class StockEndpoints
         CreateStockItemRequest req,
         ISender sender)
         => (await sender.Send(new CreateStockItemCommand(
-            req.Name, req.Category, req.Quantity, req.Unit, req.MinThreshold, req.ExpiryDate)))
+            req.Name, req.Category, req.Quantity, req.Unit, req.MinThreshold, req.ExpiryDate, req.DrugCatalogEntryId)))
             .ToMinimalApiResult();
 
     private static async Task<IResult> Update(
