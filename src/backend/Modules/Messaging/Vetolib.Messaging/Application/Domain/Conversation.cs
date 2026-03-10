@@ -1,4 +1,5 @@
 using Ardalis.Result;
+using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Shared.Kernel;
 
@@ -152,7 +153,8 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
 
     public ConversationWithMessagesDto ToDetailDto(
         bool includeInternalNotes = true,
-        IReadOnlyList<string>? aiSuggestedReplies = null) => new(
+        IReadOnlyList<string>? aiSuggestedReplies = null,
+        PatientContextDto? patientContext = null) => new(
         Id,
         ClinicId,
         OwnerId,
@@ -171,5 +173,6 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
             .Select(m => m.ToDto())
             .ToList()
             .AsReadOnly(),
-        aiSuggestedReplies ?? Array.Empty<string>());
+        aiSuggestedReplies ?? Array.Empty<string>(),
+        patientContext);
 }

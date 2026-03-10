@@ -8,4 +8,6 @@ public record PrescriptionDto(
     string Dosage,
     string VetLicenseNumber,
     DateTime CreatedAt,
-    Guid? DrugCatalogEntryId = null);
+    Guid? DrugCatalogEntryId = null,
+    string? OverrideJustification = null,
+    string? OverrideSeverity = null);

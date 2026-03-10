@@ -29,5 +29,13 @@ internal class PrescriptionConfiguration : IEntityTypeConfiguration<Prescription
 
         builder.Property(p => p.DrugCatalogEntryId)
             .IsRequired(false);
+
+        builder.Property(p => p.OverrideJustification)
+            .HasMaxLength(2000)
+            .IsRequired(false);
+
+        builder.Property(p => p.OverrideSeverity)
+            .HasMaxLength(50)
+            .IsRequired(false);
     }
 }

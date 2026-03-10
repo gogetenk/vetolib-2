@@ -27,7 +27,8 @@ internal class CreateStockItemHandler : IRequestHandler<CreateStockItemCommand, 
             cmd.Quantity,
             cmd.Unit,
             cmd.MinThreshold,
-            cmd.ExpiryDate);
+            cmd.ExpiryDate,
+            cmd.DrugCatalogEntryId);
 
         if (!itemResult.IsSuccess)
             return itemResult.Map(_ => (StockItemDto)null!);

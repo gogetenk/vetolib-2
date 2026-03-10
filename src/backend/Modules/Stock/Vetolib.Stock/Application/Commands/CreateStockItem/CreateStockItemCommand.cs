@@ -10,5 +10,6 @@ internal record CreateStockItemCommand(
     int Quantity,
     string Unit,
     int MinThreshold,
-    DateTime? ExpiryDate
+    DateTime? ExpiryDate,
+    Guid? DrugCatalogEntryId = null
 ) : IRequest<Result<StockItemDto>>;

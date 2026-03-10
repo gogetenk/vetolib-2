@@ -1,3 +1,4 @@
+using System.Globalization;
 using Ardalis.Result;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -178,12 +179,13 @@ internal class CheckInteractionsHandler : IRequestHandler<CheckInteractionsQuery
             return;
 
         var direction = dosageAmount < minDose ? "below" : "above";
+        var ic = CultureInfo.InvariantCulture;
         alerts.Add(new InteractionAlert(
             Severity: InteractionSeverity.Info,
             Type: InteractionAlertType.DosageOutOfRange,
-            Message: $"Dosage {dosageAmount} {guideline.Unit} is {direction} the recommended range of " +
-                     $"{minDose:G29} {guideline.Unit} to {maxDose:G29} {guideline.Unit} " +
-                     $"for {patientSpecies} ({guideline.MinDosePerKg}-{guideline.MaxDosePerKg} {guideline.Unit}/kg at {weightKg} kg)",
+            Message: $"Dosage {dosageAmount.ToString(ic)} {guideline.Unit} is {direction} the recommended range of " +
+                     $"{minDose.ToString("G29", ic)} {guideline.Unit} to {maxDose.ToString("G29", ic)} {guideline.Unit} " +
+                     $"for {patientSpecies} ({guideline.MinDosePerKg.ToString(ic)}-{guideline.MaxDosePerKg.ToString(ic)} {guideline.Unit}/kg at {weightKg.ToString(ic)} kg)",
             AlternativeDrugIds: new List<Guid>()));
     }
 }

@@ -112,6 +112,7 @@ internal class StockItem : BaseEntity, IMultiTenant
         IsLowStock,
         IsExpiringSoon,
         CreatedAt,
-        UpdatedAt
+        UpdatedAt,
+        DrugCatalogEntryId
     );
 }
