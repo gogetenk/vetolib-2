@@ -5,6 +5,7 @@ import { StatsCards } from '@/components/features/dashboard/StatsCards'
 import { TodayAppointments } from '@/components/features/dashboard/TodayAppointments'
 import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
 import { AnalyticsSection } from '@/components/features/dashboard/AnalyticsSection'
+import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
 import { useRole } from '@/hooks/use-role'
 import { getStoredUser } from '@/lib/api/auth'
 
@@ -53,8 +54,24 @@ export default function DashboardHomePage() {
   const [userName] = useState<string>(getInitialUserName)
   const [locale] = useState<string>(getInitialLocale)
 
+  // Extract clinicName from stored user for the welcome banner
+  function getClinicName(): string {
+    if (typeof window === 'undefined') return ''
+    try {
+      const token = localStorage.getItem('access_token')
+      if (!token) return ''
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      return (payload.clinicName as string) ?? ''
+    } catch {
+      return ''
+    }
+  }
+  const [clinicName] = useState<string>(getClinicName)
+
   return (
     <div className="space-y-6" data-testid="dashboard-home">
+      <WelcomeBanner role={role} clinicName={clinicName} />
+
       <div className="flex flex-col gap-1" data-testid="dashboard-greeting">
         <h1 className="text-2xl font-bold" data-testid="dashboard-greeting-title">
           {getGreeting(locale)}{userName ? `, ${userName}` : ''}
@@ -66,7 +83,7 @@ export default function DashboardHomePage() {
 
       <StatsCards role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div id="setup-checklist" className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
         <RecentActivity />
       </div>
