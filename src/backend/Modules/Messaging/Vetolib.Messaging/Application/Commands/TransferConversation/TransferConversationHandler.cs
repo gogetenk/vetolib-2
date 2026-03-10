@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Vetolib.Messaging.Application.Services.SSE;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
 
@@ -9,10 +10,12 @@ namespace Vetolib.Messaging.Application.Commands.TransferConversation;
 internal class TransferConversationHandler : IRequestHandler<TransferConversationCommand, Result<ConversationDto>>
 {
     private readonly MessagingDbContext _context;
+    private readonly IMessagingEventBroadcaster _broadcaster;
 
-    public TransferConversationHandler(MessagingDbContext context)
+    public TransferConversationHandler(MessagingDbContext context, IMessagingEventBroadcaster broadcaster)
     {
         _context = context;
+        _broadcaster = broadcaster;
     }
 
     public async Task<Result<ConversationDto>> Handle(TransferConversationCommand cmd, CancellationToken ct)
@@ -30,6 +33,16 @@ internal class TransferConversationHandler : IRequestHandler<TransferConversatio
             return Result<ConversationDto>.Error(string.Join("; ", result.Errors));
 
         await _context.SaveChangesAsync(ct);
+
+        // Broadcast conversation-updated SSE event (transfer is a state change visible to staff)
+        await _broadcaster.BroadcastAsync(new MessagingEvent
+        {
+            Type = "conversation-updated",
+            ClinicId = conversation.ClinicId,
+            Category = conversation.Category,
+            ConversationId = conversation.Id,
+            NewStatus = conversation.Status
+        }, ct);
 
         return Result<ConversationDto>.Success(conversation.ToDto());
     }

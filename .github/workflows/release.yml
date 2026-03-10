@@ -1,0 +1,88 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# Only one release job runs at a time.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────────────
+  # Create or update the release PR, and tag + publish a GitHub Release
+  # when the release PR is merged.
+  # ─────────────────────────────────────────────────────────────────────────
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+
+    steps:
+      - name: Run release-please
+        id: release
+        uses: google-github-actions/release-please-action@v4
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # When a release is published, tag the Docker images with the version.
+  # ─────────────────────────────────────────────────────────────────────────
+  tag-docker-images:
+    name: Tag Docker images with release version
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set image names
+        id: meta
+        run: |
+          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          VERSION="${{ needs.release-please.outputs.tag_name }}"
+          echo "backend_image=ghcr.io/${REPO_LOWER}/vetolib-backend" >> "$GITHUB_OUTPUT"
+          echo "frontend_image=ghcr.io/${REPO_LOWER}/vetolib-frontend" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      # Pull the :latest image that deploy.yml already pushed, then re-tag
+      # it with the semantic version. This avoids a full rebuild.
+      - name: Tag backend image
+        run: |
+          docker pull ${{ steps.meta.outputs.backend_image }}:latest
+          docker tag  ${{ steps.meta.outputs.backend_image }}:latest \
+                      ${{ steps.meta.outputs.backend_image }}:${{ steps.meta.outputs.version }}
+          docker push ${{ steps.meta.outputs.backend_image }}:${{ steps.meta.outputs.version }}
+
+      - name: Tag frontend image
+        run: |
+          docker pull ${{ steps.meta.outputs.frontend_image }}:latest
+          docker tag  ${{ steps.meta.outputs.frontend_image }}:latest \
+                      ${{ steps.meta.outputs.frontend_image }}:${{ steps.meta.outputs.version }}
+          docker push ${{ steps.meta.outputs.frontend_image }}:${{ steps.meta.outputs.version }}
+
+      - name: Summary
+        run: |
+          echo "### Docker images tagged with ${{ steps.meta.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Image | Tag |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`${{ steps.meta.outputs.backend_image }}\`  | \`${{ steps.meta.outputs.version }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`${{ steps.meta.outputs.frontend_image }}\` | \`${{ steps.meta.outputs.version }}\` |" >> "$GITHUB_STEP_SUMMARY"

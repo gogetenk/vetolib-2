@@ -12,6 +12,7 @@ using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
+using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Stock.Infrastructure;
@@ -58,7 +59,7 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             {
                 typeof(AuthDbContext), typeof(AgendaDbContext), typeof(BillingDbContext),
                 typeof(MedicalRecordsDbContext), typeof(AuditDbContext), typeof(NotificationsDbContext),
-                typeof(StockDbContext), typeof(AIDbContext)
+                typeof(StockDbContext), typeof(AIDbContext), typeof(MessagingDbContext)
             };
 
             var descriptorsToRemove = services
@@ -93,6 +94,8 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             services.AddDbContext<StockDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
             services.AddDbContext<AIDbContext>(opts =>
+                opts.UseNpgsql(_connectionString));
+            services.AddDbContext<MessagingDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
 
             // Replace IClinicContext with test version

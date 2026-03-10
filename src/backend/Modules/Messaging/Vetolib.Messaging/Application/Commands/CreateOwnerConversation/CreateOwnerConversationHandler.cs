@@ -1,9 +1,11 @@
 using Ardalis.Result;
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Messaging.Application.Domain;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Contracts;
+using Vetolib.Messaging.Contracts.Events;
 using Vetolib.Messaging.Infrastructure;
 
 namespace Vetolib.Messaging.Application.Commands.CreateOwnerConversation;
@@ -41,11 +43,16 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
 
     private readonly MessagingDbContext _context;
     private readonly IBusinessHoursChecker _businessHoursChecker;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public CreateOwnerConversationHandler(MessagingDbContext context, IBusinessHoursChecker businessHoursChecker)
+    public CreateOwnerConversationHandler(
+        MessagingDbContext context,
+        IBusinessHoursChecker businessHoursChecker,
+        IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _businessHoursChecker = businessHoursChecker;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<Result<CreateOwnerConversationResponse>> Handle(
@@ -131,6 +138,17 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
         }
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        // 7. Publish integration event for urgent messages
+        if (isUrgent)
+        {
+            var preview = request.Body.Length > 100 ? request.Body[..100] + "..." : request.Body;
+            await _publishEndpoint.Publish(new EmergencyMessageReceivedEvent(
+                conversation.Id,
+                request.ClinicId,
+                request.PatientId,
+                preview), cancellationToken);
+        }
 
         var estimatedResponseTime = SlaEstimates.GetValueOrDefault(request.Category, "24 hours");
 

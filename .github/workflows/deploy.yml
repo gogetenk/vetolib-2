@@ -3,23 +3,37 @@ name: Deploy
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
 
-# Only one deploy runs at a time — cancel any pending deploy for the same branch.
+# Only one deploy runs at a time per environment — cancel any pending deploy for the same ref.
 concurrency:
-  group: deploy-${{ github.ref }}
+  group: deploy-${{ github.ref }}-${{ github.event.inputs.environment || 'staging' }}
   cancel-in-progress: true
 
 jobs:
   # ─────────────────────────────────────────────────────────────────────────
-  # Push Docker images to GitHub Container Registry (ghcr.io)
+  # Build and push Docker images to GitHub Container Registry (ghcr.io)
   # ─────────────────────────────────────────────────────────────────────────
-  deploy:
-    name: Push images to GHCR
+  build-and-push:
+    name: Build & Push images to GHCR
     runs-on: ubuntu-latest
-    # Require write permission to publish to GHCR
     permissions:
       contents: read
       packages: write
+
+    outputs:
+      backend_image: ${{ steps.meta.outputs.backend_image }}
+      frontend_image: ${{ steps.meta.outputs.frontend_image }}
+      version: ${{ steps.meta.outputs.sha_tag }}
 
     steps:
       - name: Checkout
@@ -36,13 +50,21 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Derive the lowercase repository name required by GHCR
-      - name: Set image names
+      # Also compute a short SHA tag and SemVer tag when a git tag is present
+      - name: Set image names and tags
         id: meta
         run: |
           REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           echo "backend_image=ghcr.io/${REPO_LOWER}/vetolib-backend" >> "$GITHUB_OUTPUT"
           echo "frontend_image=ghcr.io/${REPO_LOWER}/vetolib-frontend" >> "$GITHUB_OUTPUT"
           echo "sha_tag=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          # If the workflow was triggered by a version tag (e.g. v1.2.3), expose it
+          SEMVER_TAG="${GITHUB_REF#refs/tags/}"
+          if [[ "$SEMVER_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "semver_tag=${SEMVER_TAG}" >> "$GITHUB_OUTPUT"
+          else
+            echo "semver_tag=" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build and push backend image
         uses: docker/build-push-action@v6
@@ -52,7 +74,8 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.backend_image }}:latest
-            ${{ steps.meta.outputs.backend_image }}:${{ steps.meta.outputs.sha_tag }}
+            ${{ steps.meta.outputs.backend_image }}:sha-${{ steps.meta.outputs.sha_tag }}
+            ${{ steps.meta.outputs.semver_tag != '' && format('{0}:{1}', steps.meta.outputs.backend_image, steps.meta.outputs.semver_tag) || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -64,7 +87,8 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.frontend_image }}:latest
-            ${{ steps.meta.outputs.frontend_image }}:${{ steps.meta.outputs.sha_tag }}
+            ${{ steps.meta.outputs.frontend_image }}:sha-${{ steps.meta.outputs.sha_tag }}
+            ${{ steps.meta.outputs.semver_tag != '' && format('{0}:{1}', steps.meta.outputs.frontend_image, steps.meta.outputs.semver_tag) || '' }}
           build-args: |
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
           cache-from: type=gha
@@ -72,11 +96,123 @@ jobs:
 
       - name: Summary
         run: |
-          echo "### Images pushed" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Images pushed to GHCR" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Image | Tag |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Image | Tags |" >> "$GITHUB_STEP_SUMMARY"
           echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| \`${{ steps.meta.outputs.backend_image }}\` | \`latest\`, \`${{ steps.meta.outputs.sha_tag }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| \`${{ steps.meta.outputs.frontend_image }}\` | \`latest\`, \`${{ steps.meta.outputs.sha_tag }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`${{ steps.meta.outputs.backend_image }}\` | \`latest\`, \`sha-${{ steps.meta.outputs.sha_tag }}\`${{ steps.meta.outputs.semver_tag != '' && format(', \`{0}\`', steps.meta.outputs.semver_tag) || '' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`${{ steps.meta.outputs.frontend_image }}\` | \`latest\`, \`sha-${{ steps.meta.outputs.sha_tag }}\`${{ steps.meta.outputs.semver_tag != '' && format(', \`{0}\`', steps.meta.outputs.semver_tag) || '' }} |" >> "$GITHUB_STEP_SUMMARY"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Deploy to staging — runs automatically on every push to main
+  # Requires the "staging" environment to be configured in repo settings
+  # ─────────────────────────────────────────────────────────────────────────
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: staging
+    # Run on push to main OR on manual dispatch targeting staging
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+
+    steps:
+      - name: Deploy to staging
+        run: |
+          echo "Deploying to staging..."
+          echo "Backend image: ${{ needs.build-and-push.outputs.backend_image }}:sha-${{ needs.build-and-push.outputs.version }}"
+          echo "Frontend image: ${{ needs.build-and-push.outputs.frontend_image }}:sha-${{ needs.build-and-push.outputs.version }}"
+          echo "TODO: Replace with real deployment command (kubectl apply / docker-compose up / terraform apply)"
+          echo "Staging deployment complete (mock)"
+
+      - name: Smoke test staging
+        run: |
+          echo "Running smoke tests against staging..."
+          echo "TODO: curl https://staging.vetolib.ae/health"
+          echo "TODO: curl https://staging-api.vetolib.ae/health"
+          echo "Smoke tests passed (mock)"
+
+      - name: Summary
+        run: |
+          echo "### Staging deployment" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "> Real deployment target (Cloud Run / Kubernetes / VPS) to be configured once the hosting provider is chosen." >> "$GITHUB_STEP_SUMMARY"
+          echo "- Version: \`sha-${{ needs.build-and-push.outputs.version }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Status: deployed (mock)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Smoke tests: passed (mock)" >> "$GITHUB_STEP_SUMMARY"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Deploy to production — requires manual approval via GitHub environment gate
+  # Configure required reviewers in repo Settings > Environments > production
+  # ─────────────────────────────────────────────────────────────────────────
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    environment: production
+    # Run automatically after staging (push to main) OR on manual dispatch targeting production
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+
+    steps:
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
+          echo "Backend image: ${{ needs.build-and-push.outputs.backend_image }}:sha-${{ needs.build-and-push.outputs.version }}"
+          echo "Frontend image: ${{ needs.build-and-push.outputs.frontend_image }}:sha-${{ needs.build-and-push.outputs.version }}"
+          echo "TODO: Replace with real deployment command (kubectl apply / docker-compose up / terraform apply)"
+          echo "Production deployment complete (mock)"
+
+      - name: Smoke test production
+        run: |
+          echo "Running smoke tests against production..."
+          echo "TODO: curl https://vetolib.ae/health"
+          echo "TODO: curl https://api.vetolib.ae/health"
+          echo "Smoke tests passed (mock)"
+
+      - name: Notify deployment
+        run: |
+          echo "Production deployment notification"
+          echo "Version: sha-${{ needs.build-and-push.outputs.version }}"
+          echo "Deployed by: ${{ github.actor }}"
+          echo "TODO: Send Slack/Teams notification"
+
+      - name: Summary
+        run: |
+          echo "### Production deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Version: \`sha-${{ needs.build-and-push.outputs.version }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Deployed by: \`${{ github.actor }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Status: deployed (mock)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Smoke tests: passed (mock)" >> "$GITHUB_STEP_SUMMARY"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Rollback — triggered manually via workflow_dispatch targeting production
+  # Will only run when the production deploy job has failed
+  # ─────────────────────────────────────────────────────────────────────────
+  rollback:
+    name: Rollback Production
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    environment: production
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.event.inputs.environment == 'production' &&
+      failure()
+
+    steps:
+      - name: Rollback production
+        run: |
+          echo "Rolling back production deployment..."
+          echo "TODO: Identify last stable image tag"
+          echo "TODO: kubectl rollout undo deployment/vetolib-backend"
+          echo "TODO: kubectl rollout undo deployment/vetolib-frontend"
+          echo "Rollback complete (mock)"
+
+      - name: Notify rollback
+        run: |
+          echo "Production rollback notification"
+          echo "Rolled back by: ${{ github.actor }}"
+          echo "Failed version: sha-${{ needs.build-and-push.outputs.version }}"
+          echo "TODO: Send Slack/Teams alert"

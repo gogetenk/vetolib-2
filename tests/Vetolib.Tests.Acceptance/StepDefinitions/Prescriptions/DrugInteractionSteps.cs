@@ -141,7 +141,7 @@ internal class DrugInteractionSteps
         }
     }
 
-    [Given(@"""(.*)"" has a critical species contraindication for ""(.*)""")]
+    [Given(@"""(.*)"" has a critical species contraindication for ""([^""]+)""")]
     public async Task GivenDrugHasCriticalContraindicationForSpecies(string drug, string speciesStr)
     {
         var species = ParseSpecies(speciesStr);
@@ -249,7 +249,7 @@ internal class DrugInteractionSteps
 
     // ─── WHEN steps ──────────────────────────────────────────────
 
-    [When(@"I create a prescription for patient ""(.*)"" with drug ""(.*)""$")]
+    [When(@"I create a prescription for patient ""(.*)"" with drug ""([^""]+)""")]
     public async Task WhenICreatePrescriptionWithDrug(string patientName, string drug)
     {
         await RunInteractionCheck(patientName, drug, dosageAmount: null);

@@ -1,9 +1,12 @@
 using Ardalis.Result;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Vetolib.Messaging.Application.Services.SSE;
 using Vetolib.Messaging.Contracts;
+using Vetolib.Messaging.Contracts.Events;
 using Vetolib.Messaging.Infrastructure;
 
 namespace Vetolib.Messaging.Application.Commands.SendReply;
@@ -12,11 +15,19 @@ internal class SendReplyHandler : IRequestHandler<SendReplyCommand, Result<Messa
 {
     private readonly MessagingDbContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IMessagingEventBroadcaster _broadcaster;
 
-    public SendReplyHandler(MessagingDbContext context, IHttpContextAccessor httpContextAccessor)
+    public SendReplyHandler(
+        MessagingDbContext context,
+        IHttpContextAccessor httpContextAccessor,
+        IPublishEndpoint publishEndpoint,
+        IMessagingEventBroadcaster broadcaster)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
+        _publishEndpoint = publishEndpoint;
+        _broadcaster = broadcaster;
     }
 
     public async Task<Result<MessageDto>> Handle(SendReplyCommand cmd, CancellationToken ct)
@@ -48,9 +59,33 @@ internal class SendReplyHandler : IRequestHandler<SendReplyCommand, Result<Messa
 
         await _context.SaveChangesAsync(ct);
 
-        // Note: OwnerMessageReplyEvent would be published via MassTransit when the
-        // Notifications.Contracts reference is added in the integration task.
-        // For now, the reply is persisted and the owner will be notified by a future wire task.
+        var preview = cmd.Body.Length > 100 ? cmd.Body[..100] + "..." : cmd.Body;
+        await _publishEndpoint.Publish(new OwnerMessageReplyEvent(
+            conversation.Id,
+            conversation.OwnerId,
+            conversation.ClinicId,
+            preview), ct);
+
+        // Broadcast new-message SSE event to connected staff in the same clinic
+        await _broadcaster.BroadcastAsync(new MessagingEvent
+        {
+            Type = "new-message",
+            ClinicId = conversation.ClinicId,
+            Category = conversation.Category,
+            ConversationId = conversation.Id,
+            Preview = preview
+        }, ct);
+
+        // Recalculate and broadcast unread-count
+        var unreadCount = await _context.Conversations
+            .CountAsync(c => c.Status == ConversationStatus.Open && !c.IsSpam, ct);
+        await _broadcaster.BroadcastAsync(new MessagingEvent
+        {
+            Type = "unread-count",
+            ClinicId = conversation.ClinicId,
+            Category = null,
+            UnreadCount = unreadCount
+        }, ct);
 
         return Result<MessageDto>.Success(messageResult.Value.ToDto());
     }

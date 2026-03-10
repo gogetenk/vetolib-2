@@ -30,6 +30,9 @@ public static class ModuleServiceRegistrar
         // IAppointmentReader — used by the AI module for no-show prediction feature collection
         services.AddScoped<IAppointmentReader, AppointmentReader>();
 
+        // IOnCallVetReader — used by the Messaging module for emergency after-hours escalation
+        services.AddScoped<IOnCallVetReader, OnCallVetReader>();
+
         // SlotScoringService and DurationEstimator — injected directly (not via interface) by SuggestSlotHandler
         services.AddScoped<SlotScoringService>();
         services.AddScoped<DurationEstimator>();

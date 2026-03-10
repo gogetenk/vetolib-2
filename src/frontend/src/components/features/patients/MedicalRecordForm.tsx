@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -10,8 +10,21 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createMedicalRecord } from '@/lib/api/medical-records'
+import { checkPrescriptionPreflight } from '@/lib/api/prescriptions'
 import { DrugSelector } from './DrugSelector'
+import { InteractionAlertsPanel } from './InteractionAlertsPanel'
+import { OverrideSection } from './OverrideSection'
+import { AlternativeSuggestions } from './AlternativeSuggestions'
+import { DosageRangeIndicator } from './DosageRangeIndicator'
 import type { DrugSelectorValue } from './DrugSelector'
+import type {
+  InteractionAlert,
+  PrescriptionPreflightResult,
+  SafeAlternative,
+} from '@/lib/api/types'
+import type { Species } from '@/lib/api/patients'
+
+// ─── Schema ───────────────────────────────────────────────────────────────────
 
 const medicalRecordSchema = z.object({
   reason: z.string().min(1, 'Reason is required'),
@@ -27,33 +40,141 @@ const medicalRecordSchema = z.object({
 
 type MedicalRecordFormValues = z.infer<typeof medicalRecordSchema>
 
+// ─── Props ────────────────────────────────────────────────────────────────────
+
 interface MedicalRecordFormProps {
   patientId: string
   patientName: string
+  /** Optional patient species — used for preflight species contraindication check */
+  patientSpecies?: Species
+  /** Optional patient weight from last record — used for dosage range calculation */
+  patientWeightKg?: number | null
 }
 
-export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormProps) {
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export function MedicalRecordForm({
+  patientId,
+  patientName,
+  patientSpecies,
+  patientWeightKg,
+}: MedicalRecordFormProps) {
   const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
+
+  // Drug selection state
   const [drugSelection, setDrugSelection] = useState<DrugSelectorValue | null>(null)
+
+  // Preflight state
+  const [preflightLoading, setPreflightLoading] = useState(false)
+  const [preflightResult, setPreflightResult] = useState<PrescriptionPreflightResult | null>(null)
+
+  // Override justification (only shown when Critical alert present)
+  const [justification, setJustification] = useState('')
+  const [overrideConfirmed, setOverrideConfirmed] = useState(false)
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<MedicalRecordFormValues>({
     resolver: zodResolver(medicalRecordSchema) as any,
   })
 
+  // Watch weight field so preflight can use up-to-date value
+  const weightFieldValue = watch('weight')
+
+  // ── Alerts derived state ───────────────────────────────────────────────────
+  const alerts: InteractionAlert[] = preflightResult?.interactionAlerts ?? []
+  const hasCritical = alerts.some(a => a.severity === 'Critical')
+  const safeAlternatives: SafeAlternative[] = preflightResult?.safeAlternatives ?? []
+  const dosageRange = preflightResult?.dosageRange ?? null
+
+  // Whether submit is blocked: Critical alert present and override not confirmed
+  const isSubmitBlocked = hasCritical && !overrideConfirmed
+
+  // ── Trigger preflight when drug selection changes ──────────────────────────
+  const runPreflight = useCallback(
+    async (selection: DrugSelectorValue | null) => {
+      if (!selection || selection.mode !== 'catalog') {
+        setPreflightResult(null)
+        setJustification('')
+        setOverrideConfirmed(false)
+        return
+      }
+
+      const drug = selection.drug
+      const weightKg =
+        typeof weightFieldValue === 'number' && weightFieldValue > 0
+          ? weightFieldValue
+          : patientWeightKg ?? undefined
+
+      setPreflightLoading(true)
+      setPreflightResult(null)
+      setJustification('')
+      setOverrideConfirmed(false)
+
+      try {
+        const result = await checkPrescriptionPreflight({
+          patientId,
+          drugCatalogEntryId: drug.id,
+          patientSpecies: patientSpecies,
+          patientWeightKg: weightKg ?? undefined,
+        })
+        setPreflightResult(result)
+      } catch {
+        // Preflight failure is non-blocking — silently clear
+        setPreflightResult(null)
+      } finally {
+        setPreflightLoading(false)
+      }
+    },
+    [patientId, patientSpecies, patientWeightKg, weightFieldValue]
+  )
+
+  const handleDrugChange = useCallback(
+    (value: DrugSelectorValue | null) => {
+      setDrugSelection(value)
+      runPreflight(value)
+    },
+    [runPreflight]
+  )
+
+  // Re-run preflight if weight changes after drug is selected (catalog mode only)
+  useEffect(() => {
+    if (drugSelection?.mode === 'catalog' && weightFieldValue > 0) {
+      // Debounce: only re-run if weight actually settled
+      const timer = setTimeout(() => runPreflight(drugSelection), 600)
+      return () => clearTimeout(timer)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [weightFieldValue])
+
+  // ── Alternative selection handler ──────────────────────────────────────────
+  const handleAlternativeSelect = useCallback((alt: SafeAlternative) => {
+    // Build a minimal DrugCatalogEntryDto-like object from the alternative data
+    // and trigger a new drug selection. Since we don't have the full catalog entry,
+    // we reset to free-text with the alternative name.
+    setDrugSelection({ mode: 'free-text', text: `${alt.displayName} — ${alt.commonDosage}` })
+    setPreflightResult(null)
+    setJustification('')
+    setOverrideConfirmed(false)
+  }, [])
+
+  // ── Submit ─────────────────────────────────────────────────────────────────
   const onSubmit = async (data: MedicalRecordFormValues) => {
+    if (isSubmitBlocked) return
     setServerError(null)
 
-    // Build the prescription string from the drug selector value (or the schema field as fallback)
     let prescriptionText: string | undefined
     if (drugSelection) {
       if (drugSelection.mode === 'catalog') {
         prescriptionText = `${drugSelection.drug.displayName} — ${drugSelection.drug.commonDosage}`
+        if (justification) {
+          prescriptionText += ` [Override: ${justification}]`
+        }
       } else {
         prescriptionText = drugSelection.text || undefined
       }
@@ -78,6 +199,8 @@ export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormP
       setServerError('Failed to save record. Please try again.')
     }
   }
+
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <Card data-testid="medical-record-form">
@@ -222,12 +345,60 @@ export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormP
             )}
           </div>
 
-          {/* Prescription (optional) — Drug Selector autocomplete */}
-          <div data-testid="prescription-section">
+          {/* Prescription (optional) — Drug Selector + preflight results */}
+          <div className="space-y-3" data-testid="prescription-section">
             <DrugSelector
               label="Prescription (optional)"
-              onChange={setDrugSelection}
+              onChange={handleDrugChange}
+              defaultValue={drugSelection}
             />
+
+            {/* Dosage range indicator (shown when preflight returns a range) */}
+            {!preflightLoading && dosageRange && (
+              <DosageRangeIndicator
+                range={dosageRange}
+                patientWeightKg={
+                  typeof weightFieldValue === 'number' && weightFieldValue > 0
+                    ? weightFieldValue
+                    : patientWeightKg ?? undefined
+                }
+              />
+            )}
+
+            {/* Interaction alerts */}
+            <InteractionAlertsPanel
+              alerts={alerts}
+              isLoading={preflightLoading}
+            />
+
+            {/* Override section — only shown when Critical alert present */}
+            {!preflightLoading && hasCritical && !overrideConfirmed && (
+              <OverrideSection
+                justification={justification}
+                onChange={setJustification}
+                onConfirm={() => setOverrideConfirmed(true)}
+                isSubmitting={isSubmitting}
+              />
+            )}
+
+            {/* Confirmed override badge */}
+            {overrideConfirmed && (
+              <p
+                className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1"
+                data-testid="override-confirmed-notice"
+                role="status"
+              >
+                Override confirmed. Justification recorded.
+              </p>
+            )}
+
+            {/* Alternative suggestions */}
+            {!preflightLoading && safeAlternatives.length > 0 && (
+              <AlternativeSuggestions
+                alternatives={safeAlternatives}
+                onSelect={handleAlternativeSelect}
+              />
+            )}
           </div>
 
           {/* Next visit (optional) */}
@@ -256,11 +427,21 @@ export function MedicalRecordForm({ patientId, patientName }: MedicalRecordFormP
           <div className="flex gap-3">
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isSubmitBlocked}
               data-testid="save-record-btn"
+              title={isSubmitBlocked ? 'Provide clinical justification before saving' : undefined}
             >
               {isSubmitting ? 'Saving...' : 'Save Record'}
             </Button>
+            {isSubmitBlocked && (
+              <p
+                className="self-center text-xs text-destructive"
+                data-testid="submit-blocked-notice"
+                role="status"
+              >
+                Provide justification for the critical alert above to enable saving.
+              </p>
+            )}
             <Button
               type="button"
               variant="outline"

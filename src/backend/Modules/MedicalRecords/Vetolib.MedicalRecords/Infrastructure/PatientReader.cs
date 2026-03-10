@@ -30,4 +30,65 @@ internal class PatientReader : IPatientReader
         var dtos = patients.Select(p => p.ToDto()).ToList();
         return Result<IReadOnlyList<PatientDto>>.Success(dtos);
     }
+
+    public async Task<Result<PatientContextDto>> GetPatientContextAsync(
+        Guid patientId,
+        bool includeFullMedicalContext,
+        CancellationToken cancellationToken = default)
+    {
+        var patient = await _context.Patients
+            .Include(p => p.MedicalRecords)
+                .ThenInclude(r => r.Prescriptions)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == patientId, cancellationToken);
+
+        if (patient is null)
+            return Result<PatientContextDto>.NotFound($"Patient {patientId} not found");
+
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        var ageYears = today.Year - patient.BirthDate.Year;
+        if (patient.BirthDate > today.AddYears(-ageYears)) ageYears--;
+
+        var lastRecord = patient.MedicalRecords
+            .OrderByDescending(r => r.ExaminedAt)
+            .FirstOrDefault();
+
+        IReadOnlyList<string>? activeMedications = null;
+        IReadOnlyList<string>? knownAllergies = null;
+        IReadOnlyList<string>? vaccinationHistory = null;
+
+        if (includeFullMedicalContext)
+        {
+            activeMedications = patient.MedicalRecords
+                .SelectMany(r => r.Prescriptions)
+                .Select(p => $"{p.Medication} ({p.Dosage})")
+                .Distinct()
+                .ToList();
+
+            // Allergies and vaccinations are extracted from diagnosis/treatment notes
+            // using a simple keyword convention (prefix "ALLERGY:" or "VACCINE:")
+            knownAllergies = patient.MedicalRecords
+                .Where(r => r.Diagnosis.StartsWith("ALLERGY:", StringComparison.OrdinalIgnoreCase))
+                .Select(r => r.Diagnosis["ALLERGY:".Length..].Trim())
+                .Distinct()
+                .ToList();
+
+            vaccinationHistory = patient.MedicalRecords
+                .Where(r => r.Treatment.StartsWith("VACCINE:", StringComparison.OrdinalIgnoreCase))
+                .Select(r => $"{r.Treatment["VACCINE:".Length..].Trim()} ({r.ExaminedAt:yyyy-MM-dd})")
+                .ToList();
+        }
+
+        var context = new PatientContextDto(
+            patient.Id,
+            patient.Name,
+            patient.Species.ToString(),
+            ageYears,
+            lastRecord?.ExaminedAt,
+            activeMedications,
+            knownAllergies,
+            vaccinationHistory);
+
+        return Result<PatientContextDto>.Success(context);
+    }
 }
