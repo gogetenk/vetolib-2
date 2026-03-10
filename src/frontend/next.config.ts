@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   async rewrites() {
     // Only proxy /api/* to the real backend when BACKEND_URL is explicitly set.
     // During MSW dev mode, BACKEND_URL is unset and NEXT_PUBLIC_API_URL is empty,
