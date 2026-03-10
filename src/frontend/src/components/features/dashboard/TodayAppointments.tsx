@@ -14,6 +14,7 @@ import {
 } from '@/lib/api/dashboard'
 import { apiPatch } from '@/lib/api/client'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
 
@@ -50,6 +51,7 @@ function formatTime(isoDate: string): string {
 
 export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   const router = useRouter()
+  const tEmpty = useTranslations('onboarding.empty.dashboard_today')
   const [appointments, setAppointments] = useState<TodayAppointmentDto[]>([])
   const [loading, setLoading] = useState(true)
   const [checkingIn, setCheckingIn] = useState<string | null>(null)
@@ -99,12 +101,24 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
             ))}
           </div>
         ) : appointments.length === 0 ? (
-          <p
-            className="p-4 text-sm text-muted-foreground"
-            data-testid="today-appointments-empty"
+          <div
+            data-testid="empty-state-dashboard-today"
+            className="p-6 flex flex-col gap-2"
           >
-            Aucun rendez-vous aujourd&apos;hui
-          </p>
+            <p className="text-sm font-medium text-foreground">
+              {tEmpty('title')}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {tEmpty('description')}
+            </p>
+            <Link
+              href="/appointments"
+              className="text-sm text-primary hover:underline mt-1 inline-block"
+              data-testid="empty-state-cta-dashboard-today"
+            >
+              {tEmpty('cta')} →
+            </Link>
+          </div>
         ) : (
           <ul data-testid="today-appointments-list" className="divide-y">
             {appointments.map((appt) => (
