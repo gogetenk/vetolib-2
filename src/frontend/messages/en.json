@@ -591,6 +591,18 @@
     "deleting": "Deleting...",
     "common_loading": "Loading..."
   },
+  "analytics": {
+    "consent_banner": {
+      "message": "We use analytics to improve your experience. You can change this in Settings.",
+      "accept": "Accept",
+      "decline": "Decline"
+    },
+    "settings": {
+      "title": "Analytics & Privacy",
+      "description": "We collect anonymous usage data to improve the product. No personal information is tracked.",
+      "toggle_label": "Allow anonymous usage analytics"
+    }
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
