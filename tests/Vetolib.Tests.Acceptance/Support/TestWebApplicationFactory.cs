@@ -15,6 +15,7 @@ using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Stock.Infrastructure;
+using Vetolib.Preferences.Infrastructure;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Tests.Acceptance.Support;
@@ -63,7 +64,8 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             {
                 typeof(AuthDbContext), typeof(AgendaDbContext), typeof(BillingDbContext),
                 typeof(MedicalRecordsDbContext), typeof(AuditDbContext), typeof(NotificationsDbContext),
-                typeof(StockDbContext), typeof(AIDbContext), typeof(MessagingDbContext)
+                typeof(StockDbContext), typeof(AIDbContext), typeof(MessagingDbContext),
+                typeof(PreferencesDbContext)
             };
 
             var descriptorsToRemove = services
@@ -100,6 +102,8 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             services.AddDbContext<AIDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
             services.AddDbContext<MessagingDbContext>(opts =>
+                opts.UseNpgsql(_connectionString));
+            services.AddDbContext<PreferencesDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
 
             // Replace IChatClient with FakeChatClient for deterministic AI tests

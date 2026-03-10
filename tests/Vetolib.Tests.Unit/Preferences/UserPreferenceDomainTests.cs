@@ -10,14 +10,11 @@ public class UserPreferenceDomainTests
     private static readonly Guid ValidClinicId = Guid.NewGuid();
     private static readonly Guid ValidUserId = Guid.NewGuid();
 
-    // ─── Create ──────────────────────────────────────────────────────────────
-
     [Fact]
     public void Create_WithValidData_ReturnsSuccess()
     {
         var result = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.Notifications, PreferenceKey.NotificationEmail, "true");
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "true");
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Category.Should().Be(PreferenceCategory.Notifications);
@@ -26,11 +23,20 @@ public class UserPreferenceDomainTests
     }
 
     [Fact]
+    public void Create_CategoryIsDerivedFromKey()
+    {
+        var result = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.AnalyticsPosthog, "false");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Category.Should().Be(PreferenceCategory.Analytics);
+    }
+
+    [Fact]
     public void Create_WithEmptyClinicId_ReturnsInvalid()
     {
         var result = UserPreference.Create(
-            Guid.Empty, ValidUserId,
-            PreferenceCategory.Notifications, PreferenceKey.NotificationEmail, "true");
+            Guid.Empty, ValidUserId, PreferenceKey.NotificationEmail, "true");
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "clinicId");
@@ -40,8 +46,7 @@ public class UserPreferenceDomainTests
     public void Create_WithEmptyUserId_ReturnsInvalid()
     {
         var result = UserPreference.Create(
-            ValidClinicId, Guid.Empty,
-            PreferenceCategory.Notifications, PreferenceKey.NotificationEmail, "true");
+            ValidClinicId, Guid.Empty, PreferenceKey.NotificationEmail, "true");
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "userId");
@@ -51,8 +56,7 @@ public class UserPreferenceDomainTests
     public void Create_WithEmptyValue_ReturnsInvalid()
     {
         var result = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.Notifications, PreferenceKey.NotificationEmail, "");
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "");
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "value");
@@ -61,10 +65,8 @@ public class UserPreferenceDomainTests
     [Fact]
     public void Create_AIDrugInteractions_SetToFalse_ReturnsInvalid()
     {
-        // PO decision: AIDrugInteractions is ALWAYS ON and cannot be disabled
         var result = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.AIFeatures, PreferenceKey.AIDrugInteractions, "false");
+            ValidClinicId, ValidUserId, PreferenceKey.AIDrugInteractions, "false");
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "key");
@@ -74,21 +76,17 @@ public class UserPreferenceDomainTests
     public void Create_AIDrugInteractions_SetToTrue_ReturnsSuccess()
     {
         var result = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.AIFeatures, PreferenceKey.AIDrugInteractions, "true");
+            ValidClinicId, ValidUserId, PreferenceKey.AIDrugInteractions, "true");
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Value.Should().Be("true");
     }
 
-    // ─── Update ──────────────────────────────────────────────────────────────
-
     [Fact]
     public void Update_WithValidValue_ReturnsSuccess()
     {
         var pref = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.Notifications, PreferenceKey.NotificationEmail, "true").Value;
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "true").Value;
 
         var result = pref.Update("false");
 
@@ -100,8 +98,7 @@ public class UserPreferenceDomainTests
     public void Update_WithEmptyValue_ReturnsInvalid()
     {
         var pref = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.Notifications, PreferenceKey.NotificationEmail, "true").Value;
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "true").Value;
 
         var result = pref.Update("");
 
@@ -112,10 +109,8 @@ public class UserPreferenceDomainTests
     [Fact]
     public void Update_AIDrugInteractions_SetToFalse_ReturnsInvalid()
     {
-        // PO decision: AIDrugInteractions is ALWAYS ON and cannot be disabled
         var pref = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.AIFeatures, PreferenceKey.AIDrugInteractions, "true").Value;
+            ValidClinicId, ValidUserId, PreferenceKey.AIDrugInteractions, "true").Value;
 
         var result = pref.Update("false");
 
@@ -123,14 +118,11 @@ public class UserPreferenceDomainTests
         result.ValidationErrors.Should().Contain(e => e.Identifier == "newValue");
     }
 
-    // ─── ToDto ───────────────────────────────────────────────────────────────
-
     [Fact]
     public void ToDto_ReturnsUserSource()
     {
         var pref = UserPreference.Create(
-            ValidClinicId, ValidUserId,
-            PreferenceCategory.Analytics, PreferenceKey.AnalyticsPosthog, "false").Value;
+            ValidClinicId, ValidUserId, PreferenceKey.AnalyticsPosthog, "false").Value;
 
         var dto = pref.ToDto();
 

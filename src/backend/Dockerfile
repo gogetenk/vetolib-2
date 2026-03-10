@@ -25,6 +25,8 @@ COPY Modules/Messaging/Vetolib.Messaging.Contracts/Vetolib.Messaging.Contracts.c
 COPY Modules/Messaging/Vetolib.Messaging/Vetolib.Messaging.csproj                                    Modules/Messaging/Vetolib.Messaging/
 COPY Modules/Stock/Vetolib.Stock.Contracts/Vetolib.Stock.Contracts.csproj                            Modules/Stock/Vetolib.Stock.Contracts/
 COPY Modules/Stock/Vetolib.Stock/Vetolib.Stock.csproj                                                Modules/Stock/Vetolib.Stock/
+COPY Modules/Preferences/Vetolib.Preferences.Contracts/Vetolib.Preferences.Contracts.csproj          Modules/Preferences/Vetolib.Preferences.Contracts/
+COPY Modules/Preferences/Vetolib.Preferences/Vetolib.Preferences.csproj                              Modules/Preferences/Vetolib.Preferences/
 
 # AppHost is Aspire-only — not needed for Docker deployment; exclude it.
 # The solution references it, so we add a stub entry to satisfy the sln without building it.

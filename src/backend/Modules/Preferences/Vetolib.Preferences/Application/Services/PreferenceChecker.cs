@@ -16,41 +16,29 @@ internal class PreferenceChecker : IPreferenceChecker
     }
 
     public async Task<Result<string>> GetValueAsync(
-        Guid clinicId,
         Guid userId,
         PreferenceKey key,
         CancellationToken ct = default)
     {
-        // 1. User-level override (highest priority)
         var userPref = await _context.UserPreferences
             .FirstOrDefaultAsync(p => p.UserId == userId && p.Key == key, ct);
-
         if (userPref is not null)
             return Result<string>.Success(userPref.Value);
 
-        // 2. Clinic-level default
-        // Note: multi-tenant filter is active, so ClinicId is already filtered to current clinic.
-        // However, this method receives explicit clinicId for cross-clinic scenarios (background jobs).
-        // We use IgnoreQueryFilters only conceptually — here we rely on the injected context
-        // which is scoped to the current clinic via IClinicContext.
         var clinicPref = await _context.ClinicPreferenceDefaults
             .FirstOrDefaultAsync(p => p.Key == key, ct);
-
         if (clinicPref is not null)
             return Result<string>.Success(clinicPref.Value);
 
-        // 3. Hardcoded system default
-        var systemDefault = SystemDefaults.GetDefault(key);
-        return Result<string>.Success(systemDefault);
+        return Result<string>.Success(SystemDefaults.GetDefault(key));
     }
 
     public async Task<Result<bool>> IsTrueAsync(
-        Guid clinicId,
         Guid userId,
         PreferenceKey key,
         CancellationToken ct = default)
     {
-        var result = await GetValueAsync(clinicId, userId, key, ct);
+        var result = await GetValueAsync(userId, key, ct);
         if (!result.IsSuccess)
             return Result<bool>.Error(string.Join(", ", result.Errors));
 

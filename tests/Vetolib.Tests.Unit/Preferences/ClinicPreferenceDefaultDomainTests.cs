@@ -9,14 +9,11 @@ public class ClinicPreferenceDefaultDomainTests
 {
     private static readonly Guid ValidClinicId = Guid.NewGuid();
 
-    // ─── Create ──────────────────────────────────────────────────────────────
-
     [Fact]
     public void Create_WithValidData_ReturnsSuccess()
     {
         var result = ClinicPreferenceDefault.Create(
-            ValidClinicId,
-            PreferenceCategory.AIFeatures, PreferenceKey.AITriage, "true");
+            ValidClinicId, PreferenceKey.AITriage, "true");
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Category.Should().Be(PreferenceCategory.AIFeatures);
@@ -25,11 +22,20 @@ public class ClinicPreferenceDefaultDomainTests
     }
 
     [Fact]
+    public void Create_CategoryIsDerivedFromKey()
+    {
+        var result = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.NotificationEmail, "true");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Category.Should().Be(PreferenceCategory.Notifications);
+    }
+
+    [Fact]
     public void Create_WithEmptyClinicId_ReturnsInvalid()
     {
         var result = ClinicPreferenceDefault.Create(
-            Guid.Empty,
-            PreferenceCategory.AIFeatures, PreferenceKey.AITriage, "true");
+            Guid.Empty, PreferenceKey.AITriage, "true");
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "clinicId");
@@ -39,8 +45,7 @@ public class ClinicPreferenceDefaultDomainTests
     public void Create_WithEmptyValue_ReturnsInvalid()
     {
         var result = ClinicPreferenceDefault.Create(
-            ValidClinicId,
-            PreferenceCategory.AIFeatures, PreferenceKey.AITriage, "");
+            ValidClinicId, PreferenceKey.AITriage, "");
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "value");
@@ -49,23 +54,18 @@ public class ClinicPreferenceDefaultDomainTests
     [Fact]
     public void Create_AIDrugInteractions_SetToFalse_ReturnsInvalid()
     {
-        // PO decision: AIDrugInteractions is ALWAYS ON — clinics cannot disable it either
         var result = ClinicPreferenceDefault.Create(
-            ValidClinicId,
-            PreferenceCategory.AIFeatures, PreferenceKey.AIDrugInteractions, "false");
+            ValidClinicId, PreferenceKey.AIDrugInteractions, "false");
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "key");
     }
 
-    // ─── Update ──────────────────────────────────────────────────────────────
-
     [Fact]
     public void Update_WithValidValue_ReturnsSuccess()
     {
         var pref = ClinicPreferenceDefault.Create(
-            ValidClinicId,
-            PreferenceCategory.Analytics, PreferenceKey.AnalyticsPosthog, "false").Value;
+            ValidClinicId, PreferenceKey.AnalyticsPosthog, "false").Value;
 
         var result = pref.Update("true");
 
@@ -77,22 +77,18 @@ public class ClinicPreferenceDefaultDomainTests
     public void Update_AIDrugInteractions_SetToFalse_ReturnsInvalid()
     {
         var pref = ClinicPreferenceDefault.Create(
-            ValidClinicId,
-            PreferenceCategory.AIFeatures, PreferenceKey.AIDrugInteractions, "true").Value;
+            ValidClinicId, PreferenceKey.AIDrugInteractions, "true").Value;
 
         var result = pref.Update("false");
 
         result.IsSuccess.Should().BeFalse();
     }
 
-    // ─── ToDto ───────────────────────────────────────────────────────────────
-
     [Fact]
     public void ToDto_ReturnsClinicSource()
     {
         var pref = ClinicPreferenceDefault.Create(
-            ValidClinicId,
-            PreferenceCategory.Notifications, PreferenceKey.NotificationSms, "false").Value;
+            ValidClinicId, PreferenceKey.NotificationSms, "false").Value;
 
         var dto = pref.ToDto();
 

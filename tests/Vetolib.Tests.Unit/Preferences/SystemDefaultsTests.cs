@@ -103,4 +103,27 @@ public class SystemDefaultsTests
         var allKeyCount = Enum.GetValues<PreferenceKey>().Length;
         SystemDefaults.All.Count.Should().Be(allKeyCount);
     }
+
+    [Fact]
+    public void AllPreferenceKeys_HaveACategoryMapping()
+    {
+        var allKeys = Enum.GetValues<PreferenceKey>();
+        foreach (var key in allKeys)
+        {
+            var act = () => SystemDefaults.GetCategory(key);
+            act.Should().NotThrow();
+        }
+    }
+
+    [Theory]
+    [InlineData(PreferenceKey.NotificationEmail, PreferenceCategory.Notifications)]
+    [InlineData(PreferenceKey.AnalyticsPosthog, PreferenceCategory.Analytics)]
+    [InlineData(PreferenceKey.AITriage, PreferenceCategory.AIFeatures)]
+    [InlineData(PreferenceKey.AIDrugInteractions, PreferenceCategory.AIFeatures)]
+    [InlineData(PreferenceKey.CommunicationLanguage, PreferenceCategory.Communication)]
+    [InlineData(PreferenceKey.PrivacyDataSharing, PreferenceCategory.Privacy)]
+    public void GetCategory_ReturnsCorrectCategoryForKey(PreferenceKey key, PreferenceCategory expected)
+    {
+        SystemDefaults.GetCategory(key).Should().Be(expected);
+    }
 }

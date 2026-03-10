@@ -17,7 +17,6 @@ internal class UserPreference : BaseEntity, IMultiTenant
     public static Result<UserPreference> Create(
         Guid clinicId,
         Guid userId,
-        PreferenceCategory category,
         PreferenceKey key,
         string value)
     {
@@ -32,7 +31,6 @@ internal class UserPreference : BaseEntity, IMultiTenant
         if (string.IsNullOrWhiteSpace(value))
             errors.Add(new ValidationError(nameof(value), "Value is required"));
 
-        // AIDrugInteractions is ALWAYS ON — cannot be set to false (PO decision)
         if (key == PreferenceKey.AIDrugInteractions &&
             value.Equals("false", StringComparison.OrdinalIgnoreCase))
         {
@@ -47,7 +45,7 @@ internal class UserPreference : BaseEntity, IMultiTenant
         {
             ClinicId = clinicId,
             UserId = userId,
-            Category = category,
+            Category = SystemDefaults.GetCategory(key),
             Key = key,
             Value = value
         });
@@ -58,7 +56,6 @@ internal class UserPreference : BaseEntity, IMultiTenant
         if (string.IsNullOrWhiteSpace(newValue))
             return Result.Invalid(new ValidationError(nameof(newValue), "Value is required"));
 
-        // AIDrugInteractions is ALWAYS ON — cannot be set to false (PO decision)
         if (Key == PreferenceKey.AIDrugInteractions &&
             newValue.Equals("false", StringComparison.OrdinalIgnoreCase))
         {
