@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Sentry.OpenTelemetry;
 
 namespace Vetolib.ServiceDefaults;
 
@@ -37,7 +38,8 @@ public static class Extensions
             .WithTracing(tracing =>
             {
                 tracing.AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation();
+                    .AddHttpClientInstrumentation()
+                    .AddSentry();
             });
 
         var useOtlpExporter = !string.IsNullOrWhiteSpace(

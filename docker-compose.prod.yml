@@ -13,6 +13,7 @@ services:
       - ConnectionStrings__vetolibdb=${DATABASE_URL}
       - Cors__Origins=${CORS_ORIGINS}
       - Email__Provider=console
+      - Sentry__Dsn=${SENTRY_DSN}
 
   frontend:
     environment:

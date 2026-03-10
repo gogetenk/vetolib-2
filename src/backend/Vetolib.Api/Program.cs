@@ -1,4 +1,6 @@
 using MassTransit;
+using Sentry.OpenTelemetry;
+using Sentry.Serilog;
 using Serilog;
 using Serilog.Formatting.Json;
 using Vetolib.Agenda;
@@ -37,7 +39,8 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .Enrich.WithProperty("Application", "Vetolib.Api")
-        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName);
+        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+        .WriteTo.Sentry();
 
     if (context.HostingEnvironment.IsDevelopment())
     {
@@ -54,6 +57,17 @@ builder.Host.UseSerilog((context, config) =>
 
 // Aspire ServiceDefaults
 builder.AddServiceDefaults();
+
+// Sentry SDK — error tracking + distributed tracing
+// DSN is empty by default (SDK disabled). Set Sentry__Dsn env var in production.
+builder.WebHost.UseSentry(options =>
+{
+    options.Dsn = builder.Configuration["Sentry:Dsn"] ?? "";
+    options.Environment = builder.Environment.EnvironmentName;
+    options.TracesSampleRate = builder.Environment.IsProduction() ? 0.3 : 1.0;
+    options.SendDefaultPii = false;
+    options.UseOpenTelemetry();
+});
 
 // ── Fail-fast secret validation ────────────────────────────────────────────
 // Secrets must be provided via environment variables or User Secrets.
