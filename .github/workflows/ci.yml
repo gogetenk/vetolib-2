@@ -160,10 +160,11 @@ jobs:
 
   # ─────────────────────────────────────────────────────────────────────────
   # Frontend — Playwright E2E against MSW (no backend needed)
-  # DISABLED: too slow for CI — will run as nightly instead
+  # DISABLED: too slow for PR CI — moved to nightly schedule.
+  # See .github/workflows/nightly.yml for the scheduled Playwright runs.
   # ─────────────────────────────────────────────────────────────────────────
   frontend-e2e:
-    if: false  # disabled — moved to nightly
+    if: false  # disabled — moved to .github/workflows/nightly.yml
     name: Frontend — Playwright E2E (MSW)
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -455,7 +456,7 @@ jobs:
       - backend-build
       - backend-bdd
       - frontend-build
-      # - frontend-e2e  # disabled — moved to nightly
+      # - frontend-e2e  # disabled — moved to .github/workflows/nightly.yml
       - docker-build
       - code-quality
       - security-scan
