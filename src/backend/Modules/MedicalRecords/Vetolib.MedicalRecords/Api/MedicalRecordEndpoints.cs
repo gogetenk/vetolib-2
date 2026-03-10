@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.MedicalRecords.Application.Commands.AddMedicalRecord;
 using Vetolib.MedicalRecords.Application.Commands.AddPrescription;
-using Vetolib.MedicalRecords.Application.Queries.GetPrescriptionPreflight;
 using Vetolib.MedicalRecords.Application.Queries.ListMedicalRecords;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Shared.Kernel;
@@ -32,12 +31,6 @@ internal static class MedicalRecordEndpoints
 
         group.MapPost("/{recordId:guid}/prescriptions", AddPrescription)
             .WithName("AddPrescription");
-
-        // Preflight endpoint for prescription safety check before creation
-        app.MapPost("/api/v1/medical-records/prescriptions/preflight", PrescriptionPreflight)
-            .RequireAuthorization()
-            .WithTags("MedicalRecords")
-            .WithName("PrescriptionPreflight");
 
         return app;
     }
@@ -117,14 +110,5 @@ internal static class MedicalRecordEndpoints
             request.OverrideJustification);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
-    }
-
-    private static async Task<IResult> PrescriptionPreflight(
-        GetPrescriptionPreflightQuery query,
-        IClinicContext clinicContext,
-        ISender sender)
-    {
-        var queryWithClinic = query with { ClinicId = clinicContext.ClinicId };
-        return (await sender.Send(queryWithClinic)).ToMinimalApiResult();
     }
 }
