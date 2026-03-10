@@ -12,7 +12,7 @@ using Vetolib.Shared.Infrastructure.Behaviors;
 
 namespace Vetolib.Preferences;
 
-public static class PreferencesModuleServiceRegistrar
+public static class ModuleServiceRegistrar
 {
     public static IServiceCollection AddPreferencesModule(
         this IServiceCollection services,
@@ -21,12 +21,12 @@ public static class PreferencesModuleServiceRegistrar
         // MediatR — register handlers from this assembly
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(typeof(PreferencesModuleServiceRegistrar).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(PreferencesModuleServiceRegistrar).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
 
         // IPreferenceChecker — cross-module interface implemented here
         services.AddScoped<IPreferenceChecker, PreferenceChecker>();
