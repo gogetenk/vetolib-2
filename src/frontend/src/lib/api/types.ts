@@ -3,6 +3,28 @@
  * Import from here rather than defining locally.
  */
 
+// ─── Onboarding ───────────────────────────────────────────────────────────────
+
+export interface OnboardingStepDto {
+  id: string
+  title: string
+  completed: boolean
+  order: number
+}
+
+export interface OnboardingProgressDto {
+  totalSteps: number
+  completedSteps: number
+  percentComplete: number
+}
+
+export interface OnboardingStateDto {
+  welcomeBannerVisible: boolean
+  checklistVisible: boolean
+  progress: OnboardingProgressDto
+  steps: OnboardingStepDto[]
+}
+
 export interface PagedResult<T> {
   items: T[]
   totalCount: number
