@@ -960,5 +960,58 @@
       "back": "Back to conversations",
       "error": "Failed to export conversations. Please try again."
     }
+  },
+  "onboarding": {
+    "banner": {
+      "admin": {
+        "greeting": "Welcome to {clinicName}! Your clinic is ready — let's get everything set up.",
+        "cta": "Complete setup checklist"
+      },
+      "vet": {
+        "greeting": "Welcome! Your workspace is ready — start by adding your first patient.",
+        "cta": "Go to setup checklist"
+      },
+      "receptionist": {
+        "greeting": "Welcome! You're all set to start managing appointments.",
+        "cta": "Book first appointment"
+      },
+      "assistant": {
+        "greeting": "Welcome! You can view patient records and support the clinical team.",
+        "cta": "View patients"
+      }
+    },
+    "checklist": {
+      "title": "Setup Checklist",
+      "progress": "{completed} of {total} completed",
+      "dismiss": "Dismiss checklist",
+      "completed_title": "You're all set!",
+      "completed_body": "You've completed the setup. Enjoy using Vetolib.",
+      "steps": {
+        "admin": {
+          "invite_team_member": "Invite your first team member",
+          "add_first_patient": "Add your first patient",
+          "book_first_appointment": "Book your first appointment",
+          "create_first_invoice": "Create your first invoice",
+          "explore_dashboard": "Explore the dashboard"
+        },
+        "vet": {
+          "view_appointments": "View your appointments",
+          "open_patient_record": "Open a patient record",
+          "add_medical_record": "Add a medical record",
+          "write_prescription": "Write a prescription"
+        },
+        "receptionist": {
+          "book_appointment": "Book an appointment",
+          "check_in_patient": "Check in a patient",
+          "create_invoice": "Create an invoice",
+          "send_invoice": "Send an invoice"
+        },
+        "assistant": {
+          "browse_patients": "Browse patients",
+          "view_medical_record": "View a medical record",
+          "check_today_schedule": "Check today's schedule"
+        }
+      }
+    }
   }
 }

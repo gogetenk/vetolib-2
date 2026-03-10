@@ -960,5 +960,58 @@
       "back": "العودة إلى المحادثات",
       "error": "فشل تصدير المحادثات. يرجى المحاولة مجدداً."
     }
+  },
+  "onboarding": {
+    "banner": {
+      "admin": {
+        "greeting": "مرحباً بك في {clinicName}! عيادتك جاهزة — لنُكمل الإعداد معاً.",
+        "cta": "إكمال قائمة الإعداد"
+      },
+      "vet": {
+        "greeting": "مرحباً! مساحة عملك جاهزة — ابدأ بإضافة أول حيوان أليف.",
+        "cta": "الانتقال إلى قائمة الإعداد"
+      },
+      "receptionist": {
+        "greeting": "مرحباً! أنت مستعد لبدء إدارة المواعيد.",
+        "cta": "حجز أول موعد"
+      },
+      "assistant": {
+        "greeting": "مرحباً! يمكنك الاطلاع على السجلات الطبية ودعم الفريق السريري.",
+        "cta": "عرض الحيوانات"
+      }
+    },
+    "checklist": {
+      "title": "قائمة الإعداد",
+      "progress": "{completed} من {total} مكتمل",
+      "dismiss": "إخفاء قائمة الإعداد",
+      "completed_title": "أحسنت!",
+      "completed_body": "لقد أكملت الإعداد. استمتع باستخدام Vetolib.",
+      "steps": {
+        "admin": {
+          "invite_team_member": "دعوة أول عضو في الفريق",
+          "add_first_patient": "إضافة أول حيوان أليف",
+          "book_first_appointment": "حجز أول موعد",
+          "create_first_invoice": "إنشاء أول فاتورة",
+          "explore_dashboard": "استكشاف لوحة التحكم"
+        },
+        "vet": {
+          "view_appointments": "عرض مواعيدك",
+          "open_patient_record": "فتح سجل حيوان أليف",
+          "add_medical_record": "إضافة سجل طبي",
+          "write_prescription": "كتابة وصفة طبية"
+        },
+        "receptionist": {
+          "book_appointment": "حجز موعد",
+          "check_in_patient": "تسجيل وصول الحيوان الأليف",
+          "create_invoice": "إنشاء فاتورة",
+          "send_invoice": "إرسال فاتورة"
+        },
+        "assistant": {
+          "browse_patients": "تصفح الحيوانات الأليفة",
+          "view_medical_record": "عرض سجل طبي",
+          "check_today_schedule": "التحقق من جدول اليوم"
+        }
+      }
+    }
   }
 }
