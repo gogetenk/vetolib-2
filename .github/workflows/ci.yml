@@ -424,7 +424,7 @@ jobs:
   sonarcloud:
     name: SonarCloud — static analysis
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     continue-on-error: true  # non-blocking: SONAR_TOKEN may not be configured
 
     steps:
@@ -477,9 +477,9 @@ jobs:
           /o:"gogetenk"
           /d:sonar.token="${SONAR_TOKEN}"
           /d:sonar.host.url="https://sonarcloud.io"
-          /d:sonar.cs.opencover.reportsPaths="../../tests/Vetolib.Tests.Unit/TestResults/**/coverage.opencover.xml"
+          /d:sonar.cs.opencover.reportsPaths="../../tests/**/TestResults/**/coverage.opencover.xml"
           /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**"
-          /d:sonar.coverage.exclusions="**/Program.cs,**/ServiceDefaults/**,**/AppHost/**,**/Migrations/**,**/*.feature.cs,**/Api/*Endpoints.cs,**/*Validator.cs,**/*ServiceRegistrar.cs,**/*.Contracts/**,**/Infrastructure/**,**/Consumers/**,**/DbInitializer.cs,**/appsettings*.json,**/Behaviors/**,**/*SeedData.cs,**/*Query.cs,**/Messaging/**,**/Preferences/**,**/Stock/**,**/AI/**,**/MedicalRecords/**/Queries/**"
+          /d:sonar.coverage.exclusions="**/Program.cs,**/ServiceDefaults/**,**/AppHost/**,**/Migrations/**,**/*.feature.cs,**/appsettings*.json"
 
       - name: Build (with coverage instrumentation)
         working-directory: src/backend
@@ -493,6 +493,32 @@ jobs:
           -c Release
           --collect:"XPlat Code Coverage"
           --results-directory ./TestResults
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: Integration tests with coverage
+        working-directory: tests/Vetolib.Tests.Integration
+        env:
+          DOCKER_HOST: unix:///var/run/docker.sock
+        run: >
+          dotnet test
+          --no-build
+          -c Release
+          --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
+          --filter "Category!=wip"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: BDD acceptance tests with coverage
+        working-directory: tests/Vetolib.Tests.Acceptance
+        env:
+          DOCKER_HOST: unix:///var/run/docker.sock
+        run: >
+          dotnet test
+          --no-build
+          -c Release
+          --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
+          --filter "Category!=wip"
           -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: SonarCloud — end analysis
