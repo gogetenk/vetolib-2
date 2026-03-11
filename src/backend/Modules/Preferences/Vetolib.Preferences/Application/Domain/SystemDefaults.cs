@@ -24,6 +24,11 @@ internal static class SystemDefaults
         { PreferenceKey.CommunicationLanguage, "en" },
         { PreferenceKey.PrivacyDataSharing, "false" },
         { PreferenceKey.PrivacyMarketing, "false" },
+        { PreferenceKey.BookingEnabled, "false" },
+        { PreferenceKey.BookingMaxAdvanceDays, "28" },
+        { PreferenceKey.BookingMinCancelHours, "24" },
+        { PreferenceKey.BookingMaxReschedules, "2" },
+        { PreferenceKey.BookingSlotGridMinutes, "30" },
     };
 
     private static readonly Dictionary<PreferenceKey, PreferenceCategory> Categories = new()
@@ -45,6 +50,11 @@ internal static class SystemDefaults
         { PreferenceKey.CommunicationLanguage, PreferenceCategory.Communication },
         { PreferenceKey.PrivacyDataSharing, PreferenceCategory.Privacy },
         { PreferenceKey.PrivacyMarketing, PreferenceCategory.Privacy },
+        { PreferenceKey.BookingEnabled, PreferenceCategory.Booking },
+        { PreferenceKey.BookingMaxAdvanceDays, PreferenceCategory.Booking },
+        { PreferenceKey.BookingMinCancelHours, PreferenceCategory.Booking },
+        { PreferenceKey.BookingMaxReschedules, PreferenceCategory.Booking },
+        { PreferenceKey.BookingSlotGridMinutes, PreferenceCategory.Booking },
     };
 
     public static Result<string> GetDefault(PreferenceKey key)

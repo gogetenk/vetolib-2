@@ -149,6 +149,73 @@ public class SystemDefaultsTests
         result.Value.Should().Be(expected);
     }
 
+    // ─── Booking defaults ─────────────────────────────────────────────────────
+
+    [Theory]
+    [InlineData(PreferenceKey.BookingEnabled)]
+    [InlineData(PreferenceKey.BookingMaxAdvanceDays)]
+    [InlineData(PreferenceKey.BookingMinCancelHours)]
+    [InlineData(PreferenceKey.BookingMaxReschedules)]
+    [InlineData(PreferenceKey.BookingSlotGridMinutes)]
+    public void BookingKeys_HaveADefault(PreferenceKey key)
+    {
+        SystemDefaults.HasDefault(key).Should().BeTrue(
+            $"PreferenceKey.{key} must have a hardcoded system default in SystemDefaults");
+    }
+
+    [Theory]
+    [InlineData(PreferenceKey.BookingEnabled, PreferenceCategory.Booking)]
+    [InlineData(PreferenceKey.BookingMaxAdvanceDays, PreferenceCategory.Booking)]
+    [InlineData(PreferenceKey.BookingMinCancelHours, PreferenceCategory.Booking)]
+    [InlineData(PreferenceKey.BookingMaxReschedules, PreferenceCategory.Booking)]
+    [InlineData(PreferenceKey.BookingSlotGridMinutes, PreferenceCategory.Booking)]
+    public void BookingKeys_HaveBookingCategory(PreferenceKey key, PreferenceCategory expected)
+    {
+        var result = SystemDefaults.GetCategory(key);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be(expected);
+    }
+
+    [Fact]
+    public void BookingEnabled_DefaultIsFalse()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.BookingEnabled);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
+    }
+
+    [Fact]
+    public void BookingMaxAdvanceDays_DefaultIs28()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.BookingMaxAdvanceDays);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("28");
+    }
+
+    [Fact]
+    public void BookingMinCancelHours_DefaultIs24()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.BookingMinCancelHours);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("24");
+    }
+
+    [Fact]
+    public void BookingMaxReschedules_DefaultIs2()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.BookingMaxReschedules);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("2");
+    }
+
+    [Fact]
+    public void BookingSlotGridMinutes_DefaultIs30()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.BookingSlotGridMinutes);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("30");
+    }
+
     [Fact]
     public void GetDefault_UnknownKey_ReturnsNotFound()
     {

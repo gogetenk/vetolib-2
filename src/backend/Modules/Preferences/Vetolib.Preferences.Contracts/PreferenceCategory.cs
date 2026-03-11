@@ -6,5 +6,6 @@ public enum PreferenceCategory
     Analytics,
     AIFeatures,
     Communication,
-    Privacy
+    Privacy,
+    Booking
 }
