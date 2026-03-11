@@ -118,6 +118,31 @@ Pas de "je committe et je fix après". Pas de `--filter` pour exclure les tests 
 
 Un agent dev qui ouvre une PR sans avoir exécuté ces commandes = PR rejetée.
 
+### 3c. Commit immédiat après GREEN (ajout v3.2 — post-mortem 2026-03-11)
+
+**Dès que les tests sont GREEN → `git add` + `git commit` + `git push` IMMÉDIATEMENT.**
+
+Un fix vérifié localement mais non commité **n'existe pas**. Il peut être perdu par :
+- Un revert automatique (linter, hook, autre agent)
+- Un checkout de branche
+- Un merge qui écrase les changements locaux
+
+Séquence obligatoire :
+```
+1. Faire le changement
+2. Exécuter les tests (voir 3b)
+3. Si GREEN → commit + push dans la minute
+4. Ne JAMAIS faire autre chose entre le GREEN et le commit (pas de /forge, pas de dispatch)
+```
+
+### 3d. Hygiène des PRs (ajout v3.2)
+
+- **1 tâche = 1 branche = 1 PR vers `develop`**
+- Max ~30 fichiers modifiés par PR. Au-delà = PR monstre → split obligatoire.
+- Un agent worktree crée sa PROPRE PR. INTERDIT de pousser sur la branche d'un autre agent.
+- Après chaque merge de PR → vérifier que `develop` CI est GREEN dans les 2 minutes.
+- Si develop RED après merge → fix immédiat, AVANT toute autre action.
+
 ### 4. Multi-tenancy — Global Query Filter
 
 Le `MultiTenantDbContext` applique automatiquement `WHERE ClinicId = @current` sur toutes les requêtes.

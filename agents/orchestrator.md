@@ -10,13 +10,32 @@ Tu es lancé avec `/loop 15m`. À chaque réveil, tu exécutes ce cycle complet.
 
 ## Cycle
 
+### 0. VÉRIFIER develop (AVANT TOUT LE RESTE)
+
+**C'est la première chose à faire. Obligatoire. Non négociable.**
+
+```bash
+# 1. Vérifier que develop CI est GREEN
+gh run list --branch develop --limit 1
+
+# 2. Si le dernier run est FAILURE → STOP. Fixer avant de dispatcher.
+#    Lire les logs, identifier le problème, dispatcher un agent fix.
+#    Ne JAMAIS dispatcher de nouvelles tâches tant que develop est RED.
+
+# 3. Vérifier les PRs ouvertes
+gh pr list --state open
+# Pour chaque PR : vérifier les checks, lire les commentaires Copilot/SonarCloud.
+# Si une PR a des commentaires non traités → créer une tâche fix et dispatcher.
+```
+
+**Si develop CI est RED → tout le reste du cycle est bloqué.**
+
 ### 1. Lire l'état
 
 ```
 - Scan tasks/*.md → compter todo-*, wip-*, done-*
 - Scan questions/*.md → questions en attente du PO
 - Scan disputes.md → arbitrages en attente humain
-- Scan pr-status.md → PRs en cours
 ```
 
 ### 2. Lancer des agents Dev sur les tâches disponibles
@@ -28,7 +47,14 @@ Pour chaque fichier `todo-*.md` :
 2. Vérifie que toutes les dépendances listées sont en `done-*`
 3. Si oui → la tâche est **prête**
 4. Rename `todo-{id}.md` → `wip-{id}.md` (claim atomique)
-5. Lance un agent Dev via Task tool
+5. Lance un agent Dev via Agent tool avec `isolation: "worktree"` et `run_in_background: true`
+
+**Règles de dispatch pour les agents :**
+
+- Chaque agent travaille dans son **propre worktree isolé**.
+- Chaque agent crée sa **propre PR vers develop**. INTERDIT de pousser sur la branche d'un autre agent.
+- Le prompt de l'agent DOIT contenir le contenu complet de la tâche (le worktree n'a pas les fichiers tasks/).
+- Le prompt DOIT rappeler : "Crée une PR vers `develop`. Ne pousse PAS sur une branche existante."
 
 **Parallélisation maximale — principe fondamental :**
 
@@ -42,18 +68,6 @@ Tâche front-auth-001        → [MSW: oui] → prête dès que front-scaffold d
 Tâche wire-auth-001         → prête quand back-auth-001 ET front-auth-001 done
 ```
 
-Exemple de round 2 avec 8 agents en parallèle :
-```
-Agent 1 → wip-back-auth-001       (Reqnroll → implem → PR)
-Agent 2 → wip-back-agenda-001     (Reqnroll → implem → PR)
-Agent 3 → wip-back-medical-001    (Reqnroll → implem → PR)
-Agent 4 → wip-back-billing-001    (Reqnroll → implem → PR)
-Agent 5 → wip-front-layout-001    (composants layout → Playwright → PR)
-Agent 6 → wip-front-auth-001      (MSW mock → UI login → Playwright → PR)
-Agent 7 → wip-front-agenda-001    (MSW mock → UI agenda → Playwright → PR)
-Agent 8 → wip-front-billing-001   (MSW mock → UI billing → Playwright → PR)
-```
-
 ### 3. Détecter les tâches de branchement à créer
 
 Quand un `done-back-{module}-*` ET un `done-front-{module}-*` existent tous les deux
@@ -65,7 +79,26 @@ et qu'il n'existe pas encore de `todo-wire-{module}-*` ni `wip-wire-{module}-*` 
 - Tout fichier `wip-*.md` depuis plus de 45 min sans PR correspondante dans pr-status.md
 - Rename `wip-{id}.md` → `todo-{id}.md` (libère la tâche pour retry)
 
-### 5. Mettre à jour progress.md
+### 5. Vérifier les PRs terminées par les agents
+
+Pour chaque PR ouverte créée par un agent :
+```bash
+gh pr checks <num>
+```
+
+- Si tous les checks sont GREEN → merger la PR (`gh pr merge <num> --squash --delete-branch`)
+- Si SonarCloud FAIL mais CI GREEN → vérifier si c'est un problème d'exclusions ou de vrais tests manquants
+- Si CI FAIL → lire les logs, créer une tâche fix, dispatcher un agent
+- **Après chaque merge : vérifier develop CI dans les 2 minutes**
+
+```bash
+# Après merge
+sleep 30
+gh run list --branch develop --limit 1
+# Si FAILURE → STOP et fixer immédiatement
+```
+
+### 6. Mettre à jour progress.md
 
 C'est LA SEULE action d'écriture de l'orchestrator sur ce fichier.
 Format :
@@ -76,6 +109,7 @@ Format :
 - Agents actifs : [liste des wip-*]
 - PRs en review : N
 - Questions PO : N
+- develop CI : GREEN / RED
 - Prochaine action : {description}
 ```
 
@@ -114,5 +148,8 @@ par les appels réels vers `lib/api/{module}.ts`.
 - Tu ne touches JAMAIS aux fichiers de code, features, specs, skills
 - Tu ne réponds JAMAIS aux questions métier (→ questions/{id}.md → Agent PO)
 - Tu CRÉES des tâches `wire-*` automatiquement (voir §3)
-- Si disputes.md a des items depuis > 2h → ajoute flag 🚨 dans progress.md
+- Si disputes.md a des items depuis > 2h → ajoute flag dans progress.md
 - Les tâches `tasks/refacto/` ont priorité basse — seulement si < 3 tâches feature TODO
+- **develop RED = tout est bloqué. Rien d'autre ne se passe tant que c'est pas vert.**
+- **Chaque agent = sa propre PR. Jamais de push sur la branche d'un autre.**
+- **Après chaque merge → vérifier develop CI. Si RED → fix immédiat.**

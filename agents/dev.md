@@ -217,6 +217,8 @@ Crée `questions/{task-id}-{timestamp}.md` et rename `wip-*.md` → `todo-*.md` 
 
 ## Checklist avant PR
 
+**TOUTES les étapes doivent être EXÉCUTÉES (pas juste cochées). Coller la sortie console comme preuve.**
+
 ```
 □ Étape 0 lue (CLAUDE.md, archi-spec, openspec, task, features, skills)
 □ Bindings Reqnroll écrits en RED avant l'implémentation (backend)
@@ -228,3 +230,20 @@ Crée `questions/{task-id}-{timestamp}.md` et rename `wip-*.md` → `todo-*.md` 
 □ data-testid sur tous les éléments interactifs (frontend)
 □ PR body rempli avec le template CLAUDE.md
 ```
+
+## Règles de commit et PR
+
+### Commit immédiat
+- **Dès que les tests sont GREEN → commit + push immédiatement.**
+- Ne JAMAIS laisser des fixes en local non commités. Un fix non commité n'existe pas.
+- Si tu as fait un changement et que les tests passent, commit AVANT toute autre action.
+
+### Une PR par tâche, vers develop
+- Chaque tâche = 1 branche = 1 PR vers `develop`.
+- **INTERDIT de pousser sur la branche d'un autre agent ou d'une autre tâche.**
+- Si tu es dans un worktree, crée ta propre PR vers develop.
+- Max ~30 fichiers par PR. Si tu dépasses, tu fais trop de choses.
+
+### Validation post-PR
+- Après `gh pr create`, vérifie que la CI se lance (`gh pr checks <num>`).
+- Si un check est rouge, corrige AVANT de marquer la tâche comme done.
