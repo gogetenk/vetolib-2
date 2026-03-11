@@ -16,6 +16,7 @@ using Vetolib.Messaging.Application.Queries.ListOwnerConversations;
 using Vetolib.Messaging.Application.Queries.ListOwnerPets;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
+using Vetolib.Agenda.Contracts;
 
 namespace Vetolib.Messaging.Api;
 
@@ -177,6 +178,17 @@ internal static class PortalEndpoints
                 new ListOwnerPetsQuery(portal.OwnerId, portal.ClinicId), ct);
             return result.ToMinimalApiResult();
         });
+
+        // GET /booking/veterinarians — list active vets available for owner booking
+        group.MapGet("/booking/veterinarians", async (
+            IPortalContext portal,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            var result = await sender.Send(
+                new ListClinicVeterinariansQuery(portal.ClinicId), ct);
+            return result.ToMinimalApiResult();
+        }).WithName("ListBookingVeterinarians");
 
         return app;
     }

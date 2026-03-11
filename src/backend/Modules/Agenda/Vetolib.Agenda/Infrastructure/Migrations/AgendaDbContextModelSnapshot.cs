@@ -232,7 +232,7 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
 
                     b.HasIndex("ClinicId", "Name")
                         .IsUnique()
-                        .HasFilter("is_active = true");
+                        .HasFilter("\"IsActive\" = true");
 
                     b.ToTable("consultation_types", "agenda");
                 });
