@@ -206,13 +206,13 @@ internal class MessageTriageSteps
         // Authentication is handled via HttpClient bearer token set in Given steps
     }
 
-    [StepDefinition(@"the AI confidence is below (.*)")]
+    [StepDefinition(@"^the AI confidence is below (-?\d+(?:\.\d+)?)$")]
     public void WhenTheAiConfidenceIsBelow(double threshold)
     {
         _ctx.Set(threshold - 0.2, "AiConfidence");
     }
 
-    [StepDefinition(@"the AI is uncertain between ""(.*)"" and ""(.*)""")]
+    [StepDefinition(@"the AI is uncertain between ""([^""]*)"" and ""([^""]*)""")]
     public void WhenTheAiIsUncertain(string category1, string category2)
     {
         _ctx.Set(true, "AiUncertain");
