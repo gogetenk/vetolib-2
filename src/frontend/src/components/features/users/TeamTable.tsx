@@ -25,21 +25,6 @@ interface TeamTableProps {
   onUserDeactivated: (userId: string) => void
 }
 
-function roleBadgeVariant(role: UserRole): string {
-  switch (role) {
-    case "ADMIN":
-      return "destructive"
-    case "VET":
-      return "default"
-    case "ASSISTANT":
-      return "secondary"
-    case "RECEPTIONIST":
-      return "outline"
-    default:
-      return "secondary"
-  }
-}
-
 function roleBadgeClass(role: UserRole): string {
   switch (role) {
     case "ADMIN":

@@ -72,7 +72,6 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
 
   useEffect(() => {
     loadAppointments()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleCheckIn(id: string) {

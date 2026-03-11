@@ -87,6 +87,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         },
   })
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedSpecies = watch('species')
   const selectedGender = watch('gender')
 

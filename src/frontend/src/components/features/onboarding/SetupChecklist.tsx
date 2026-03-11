@@ -35,7 +35,8 @@ interface SetupChecklistProps {
   role: UserRole
 }
 
-export function SetupChecklist({ role: _role }: SetupChecklistProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function SetupChecklist({ role }: SetupChecklistProps) {
   const t = useTranslations('onboarding.checklist')
   const { state, loading, completeStep, dismissChecklist } = useOnboarding()
 
