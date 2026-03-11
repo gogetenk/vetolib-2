@@ -132,7 +132,7 @@ export const billingHandlers = [
       ownerPhone: body.ownerPhone,
       appointmentId: body.appointmentId ?? null,
       status: 'DRAFT',
-      items: body.items.map((item, idx) => ({
+      items: body.items.map((item) => ({
         id: crypto.randomUUID(),
         description: item.description,
         quantity: item.quantity,

@@ -64,6 +64,7 @@ export function SignupForm() {
     resolver: zodResolver(signupSchema),
   })
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const passwordValue = watch("password", "")
 
   const passwordStrength = {

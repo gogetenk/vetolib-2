@@ -67,6 +67,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
       : { category: 'Medication' },
   })
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedCategory = watch('category')
 
   useEffect(() => {

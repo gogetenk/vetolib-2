@@ -80,7 +80,6 @@ export function DrugSelector({
     if (!debouncedQuery.trim()) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setResults([])
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsOpen(false)
       return
     }

@@ -34,8 +34,8 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (error) {
