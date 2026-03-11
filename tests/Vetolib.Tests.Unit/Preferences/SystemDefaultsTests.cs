@@ -1,3 +1,4 @@
+using Ardalis.Result;
 using FluentAssertions;
 using Vetolib.Preferences.Application.Domain;
 using Vetolib.Preferences.Contracts;
@@ -149,26 +150,26 @@ public class SystemDefaultsTests
     }
 
     [Fact]
-    public void GetDefault_UnknownKey_ThrowsInvalidOperationException()
+    public void GetDefault_UnknownKey_ReturnsNotFound()
     {
         // Cast an out-of-range int to PreferenceKey to simulate an unknown key
         var unknownKey = (PreferenceKey)9999;
 
-        var act = () => SystemDefaults.GetDefault(unknownKey);
+        var result = SystemDefaults.GetDefault(unknownKey);
 
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*No system default defined for PreferenceKey*");
+        result.Status.Should().Be(ResultStatus.NotFound);
+        result.Errors.Should().ContainMatch("*No system default defined for PreferenceKey*");
     }
 
     [Fact]
-    public void GetCategory_UnknownKey_ThrowsInvalidOperationException()
+    public void GetCategory_UnknownKey_ReturnsNotFound()
     {
         var unknownKey = (PreferenceKey)9999;
 
-        var act = () => SystemDefaults.GetCategory(unknownKey);
+        var result = SystemDefaults.GetCategory(unknownKey);
 
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*No category mapping defined for PreferenceKey*");
+        result.Status.Should().Be(ResultStatus.NotFound);
+        result.Errors.Should().ContainMatch("*No category mapping defined for PreferenceKey*");
     }
 
     [Fact]
