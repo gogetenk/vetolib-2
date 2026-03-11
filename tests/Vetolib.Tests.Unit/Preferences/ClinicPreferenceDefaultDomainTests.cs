@@ -74,6 +74,30 @@ public class ClinicPreferenceDefaultDomainTests
     }
 
     [Fact]
+    public void Update_WithEmptyValue_ReturnsInvalid()
+    {
+        var pref = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.AnalyticsPosthog, "false").Value;
+
+        var result = pref.Update("");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "newValue");
+    }
+
+    [Fact]
+    public void Update_WithWhitespaceValue_ReturnsInvalid()
+    {
+        var pref = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.AnalyticsPosthog, "false").Value;
+
+        var result = pref.Update("   ");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "newValue");
+    }
+
+    [Fact]
     public void Update_AIDrugInteractions_SetToFalse_ReturnsInvalid()
     {
         var pref = ClinicPreferenceDefault.Create(
@@ -82,6 +106,18 @@ public class ClinicPreferenceDefaultDomainTests
         var result = pref.Update("false");
 
         result.IsSuccess.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Update_AIDrugInteractions_SetToFalseCaseInsensitive_ReturnsInvalid()
+    {
+        var pref = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.AIDrugInteractions, "true").Value;
+
+        var result = pref.Update("FALSE");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "newValue");
     }
 
     [Fact]
