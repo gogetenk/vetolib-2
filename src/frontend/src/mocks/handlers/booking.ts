@@ -1,5 +1,6 @@
 import { http, HttpResponse, delay } from 'msw'
 import type { BookingDay, BookingSlot, SlotSuggestionDto } from '@/lib/api/booking'
+import type { ConsultationTypeDto, VeterinarianDto, BookingPetDto, CreateBookingAppointmentRequest } from '@/lib/api/booking'
 
 const MOCK_VETS = [
   { id: 'vet-0000-0000-0000-000000000001', name: 'Dr. Sarah Johnson' },
@@ -85,6 +86,41 @@ function buildWeekDays(weekStart: string, vetId?: string): BookingDay[] {
   return days
 }
 
+// ─── Portal booking mock data ──────────────────────────────────────────────────
+
+const MOCK_CONSULTATION_TYPES: ConsultationTypeDto[] = [
+  { id: 'ct-001', name: 'General Checkup', durationMinutes: 30, description: 'Routine wellness examination' },
+  { id: 'ct-002', name: 'Vaccination', durationMinutes: 20, description: 'Annual vaccine boosters' },
+  { id: 'ct-003', name: 'Dental Care', durationMinutes: 60, description: 'Dental cleaning and examination' },
+  { id: 'ct-004', name: 'Emergency', durationMinutes: 30, description: 'Urgent medical attention' },
+  { id: 'ct-005', name: 'Lab Tests', durationMinutes: 15, description: 'Blood work and diagnostic tests' },
+  { id: 'ct-006', name: 'Surgery Consultation', durationMinutes: 45, description: 'Pre- or post-surgical evaluation' },
+]
+
+const MOCK_VETERINARIANS: VeterinarianDto[] = [
+  { id: 'vet-0000-0000-0000-000000000001', name: 'Dr. Sarah Johnson', specialties: ['Small Animals', 'Surgery'] },
+  { id: 'vet-0000-0000-0000-000000000002', name: 'Dr. Omar Al-Rashid', specialties: ['Exotic Animals', 'Dermatology'] },
+  { id: 'vet-0000-0000-0000-000000000003', name: 'Dr. Layla Al-Mansoori', specialties: ['Dentistry', 'Internal Medicine'] },
+]
+
+const MOCK_BOOKING_PETS: BookingPetDto[] = [
+  { id: 'pet-0001', name: 'Zayed', species: 'Dog', breed: 'Labrador Retriever', ageYears: 3 },
+  { id: 'pet-0002', name: 'Lulu', species: 'Cat', breed: 'Persian', ageYears: 5 },
+  { id: 'pet-0003', name: 'Falcon', species: 'Bird', breed: 'Falcon — Saker', ageYears: 2 },
+]
+
+// Track created appointments in memory
+const createdBookingAppointments: Array<{ id: string } & CreateBookingAppointmentRequest> = []
+
+const PORTAL_BASE = '/api/v1/portal/booking'
+
+function getPortalToken(request: Request): string | null {
+  const auth = request.headers.get('Authorization')
+  if (!auth) return null
+  const parts = auth.split(' ')
+  return parts[1] ?? null
+}
+
 const BASE = '/api/v1/booking'
 
 export const bookingHandlers = [
@@ -152,5 +188,56 @@ export const bookingHandlers = [
     }
 
     return HttpResponse.json(suggestions)
+  }),
+
+  // ─── Portal booking endpoints ────────────────────────────────────────────────
+
+  // GET /api/v1/portal/booking/consultation-types
+  http.get(`${PORTAL_BASE}/consultation-types`, async ({ request }) => {
+    await delay(150)
+    const token = getPortalToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+    return HttpResponse.json(MOCK_CONSULTATION_TYPES)
+  }),
+
+  // GET /api/v1/portal/booking/veterinarians
+  http.get(`${PORTAL_BASE}/veterinarians`, async ({ request }) => {
+    await delay(150)
+    const token = getPortalToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+    return HttpResponse.json(MOCK_VETERINARIANS)
+  }),
+
+  // GET /api/v1/portal/booking/pets
+  http.get(`${PORTAL_BASE}/pets`, async ({ request }) => {
+    await delay(150)
+    const token = getPortalToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+    return HttpResponse.json(MOCK_BOOKING_PETS)
+  }),
+
+  // POST /api/v1/portal/booking/appointments
+  http.post(`${PORTAL_BASE}/appointments`, async ({ request }) => {
+    await delay(400)
+    const token = getPortalToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const body = await request.json() as CreateBookingAppointmentRequest
+
+    if (!body.petId || !body.consultationTypeId || !body.slotStartsAt) {
+      return HttpResponse.json(
+        { title: 'petId, consultationTypeId, and slotStartsAt are required.' },
+        { status: 422 }
+      )
+    }
+
+    const newAppointment = {
+      id: crypto.randomUUID(),
+      ...body,
+      createdAt: new Date().toISOString(),
+    }
+    createdBookingAppointments.push(newAppointment)
+
+    return HttpResponse.json(newAppointment, { status: 201 })
   }),
 ]
