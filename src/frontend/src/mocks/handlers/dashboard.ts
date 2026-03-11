@@ -3,6 +3,7 @@ import type {
   DashboardStatsDto,
   TodayAppointmentDto,
   ActivityDto,
+  DashboardAnalyticsDto,
 } from '@/lib/api/dashboard'
 
 const MOCK_STATS: DashboardStatsDto = {
@@ -142,6 +143,26 @@ const MOCK_RECENT_ACTIVITY: ActivityDto[] = [
   },
 ]
 
+const MOCK_ANALYTICS: DashboardAnalyticsDto = {
+  revenueByMonth: [
+    { month: '2025-10', total: 41000 },
+    { month: '2025-11', total: 47500 },
+    { month: '2025-12', total: 39000 },
+    { month: '2026-01', total: 45000 },
+    { month: '2026-02', total: 52000 },
+    { month: '2026-03', total: 38000 },
+  ],
+  patientsBySpecies: [
+    { species: 'Dog', count: 120 },
+    { species: 'Cat', count: 85 },
+    { species: 'Bird', count: 15 },
+    { species: 'Rabbit', count: 8 },
+    { species: 'Camel', count: 4 },
+    { species: 'Exotic', count: 3 },
+  ],
+  noShowRate: 0.08,
+}
+
 export const dashboardHandlers = [
   // GET /api/dashboard/stats
   http.get('/api/dashboard/stats', async () => {
@@ -159,5 +180,11 @@ export const dashboardHandlers = [
   http.get('/api/dashboard/recent-activity', async () => {
     await delay(150)
     return HttpResponse.json<ActivityDto[]>(MOCK_RECENT_ACTIVITY)
+  }),
+
+  // GET /api/dashboard/analytics
+  http.get('/api/dashboard/analytics', async () => {
+    await delay(200)
+    return HttpResponse.json<DashboardAnalyticsDto>(MOCK_ANALYTICS)
   }),
 ]
