@@ -54,6 +54,7 @@ public static class ModuleServiceRegistrar
     public static WebApplication MapAgendaEndpoints(this WebApplication app)
     {
         app.MapAppointmentApiEndpoints();
+        app.MapConsultationTypeEndpoints();
         return app;
     }
 }
