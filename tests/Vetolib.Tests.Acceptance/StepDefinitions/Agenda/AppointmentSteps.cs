@@ -432,13 +432,9 @@ internal class AppointmentSteps
         appointments.Should().NotBeNull().And.HaveCount(count);
     }
 
-    [Then(@"the system rejects with code ""(.*)""")]
-    public void ThenTheSystemRejectsWithCode(string errorCode)
-    {
-        _response.IsSuccessStatusCode.Should().BeFalse();
-        _errorResponseBody.Should().NotBeNull();
-        _errorResponseBody.Should().Contain(errorCode);
-    }
+    // NOTE: "the system rejects with code" is handled by SharedSteps (unscoped).
+    // When steps in this class store LastResponse and ErrorResponseBody in ScenarioContext
+    // so SharedSteps.ThenTheSystemRejectsWithCode can read them.
 
     [Then(@"the message is ""(.*)""")]
     public void ThenTheMessageIs(string expectedMessage)
