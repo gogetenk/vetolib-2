@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Vetolib.Agenda.Application.Domain;
+using Vetolib.Agenda.Contracts;
 
 namespace Vetolib.Agenda.Infrastructure;
 
@@ -52,6 +53,18 @@ internal class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
 
         builder.Property(a => a.Reason)
             .HasMaxLength(1000);
+
+        builder.Property(a => a.Source)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(50)
+            .HasDefaultValue(BookingSource.Staff);
+
+        builder.Property(a => a.RescheduleCount)
+            .IsRequired()
+            .HasDefaultValue(0);
+
+        builder.Property(a => a.OriginalAppointmentId);
 
         // Index for conflict detection queries
         builder.HasIndex(a => new { a.ClinicId, a.VeterinarianId, a.Date });
