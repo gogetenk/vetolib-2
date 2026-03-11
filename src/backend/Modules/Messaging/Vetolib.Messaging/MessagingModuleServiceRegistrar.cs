@@ -10,6 +10,7 @@ using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Application.Services.SSE;
 using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Messaging.Infrastructure;
+using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Messaging;
 
@@ -43,6 +44,13 @@ public static class MessagingModuleServiceRegistrar
         // Portal context (scoped per request, populated by MagicLinkEndpointFilter)
         services.AddScoped<IPortalContext, PortalContext>();
 
+        // Override IClinicContext with PortalAwareClinicContext for this module:
+        // resolves ClinicId from portal magic link token (HttpContext.Items) first,
+        // then falls back to the standard JWT claim. This enables MessagingDbContext's
+        // global query filter to work for portal endpoints without IgnoreQueryFilters().
+        // For non-portal requests the JWT fallback path is identical to ClinicContext.
+        services.AddScoped<IClinicContext, PortalAwareClinicContext>();
+
         return services;
     }
 
@@ -52,8 +60,10 @@ public static class MessagingModuleServiceRegistrar
     /// </summary>
     public static IServiceCollection AddMessagingDbContext(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<MessagingDbContext>(opts =>
-            opts.UseNpgsql(connectionString));
+        services.AddDbContext<MessagingDbContext>((sp, opts) =>
+        {
+            opts.UseNpgsql(connectionString);
+        });
         return services;
     }
 

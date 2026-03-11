@@ -54,11 +54,10 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
         CancellationToken cancellationToken)
     {
         // 1. Verify consent has been accepted
-        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
+        // Global query filter applies ClinicId automatically via PortalAwareClinicContext.
         var portalToken = await _context.OwnerPortalTokens
-            .IgnoreQueryFilters()
             .FirstOrDefaultAsync(
-                t => t.OwnerId == request.OwnerId && t.ClinicId == request.ClinicId,
+                t => t.OwnerId == request.OwnerId,
                 cancellationToken);
 
         if (portalToken is null)
@@ -68,17 +67,14 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
             return Result<CreateOwnerConversationResponse>.Forbidden();
 
         // 2. Check daily message limit (5 messages/day/owner/clinic)
-        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
+        // Global query filter applies ClinicId automatically via PortalAwareClinicContext.
         var todayUtc = DateTime.UtcNow.Date;
         var ownerConversationIds = await _context.Conversations
-            .IgnoreQueryFilters()
-            .Where(c => c.OwnerId == request.OwnerId && c.ClinicId == request.ClinicId)
+            .Where(c => c.OwnerId == request.OwnerId)
             .Select(c => c.Id)
             .ToListAsync(cancellationToken);
 
-        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
         var messageCountToday = await _context.Messages
-            .IgnoreQueryFilters()
             .CountAsync(
                 m => m.Sender == MessageSender.Owner
                   && m.SentAt >= todayUtc

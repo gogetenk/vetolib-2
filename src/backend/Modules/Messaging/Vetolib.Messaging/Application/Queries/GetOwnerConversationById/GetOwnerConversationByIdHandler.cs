@@ -20,15 +20,13 @@ internal class GetOwnerConversationByIdHandler
         GetOwnerConversationByIdQuery request,
         CancellationToken cancellationToken)
     {
-        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
+        // Global query filter applies ClinicId automatically via PortalAwareClinicContext.
         var conversation = await _context.Conversations
-            .IgnoreQueryFilters()
             .AsNoTracking()
             .Include(c => c.Messages.Where(m => !m.IsInternalNote)) // Never return internal notes to owner
             .FirstOrDefaultAsync(
                 c => c.Id == request.ConversationId
-                  && c.OwnerId == request.OwnerId
-                  && c.ClinicId == request.ClinicId,
+                  && c.OwnerId == request.OwnerId,
                 cancellationToken);
 
         if (conversation is null)

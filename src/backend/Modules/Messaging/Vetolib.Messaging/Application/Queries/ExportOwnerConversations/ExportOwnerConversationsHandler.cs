@@ -21,11 +21,10 @@ internal class ExportOwnerConversationsHandler
         ExportOwnerConversationsQuery request,
         CancellationToken cancellationToken)
     {
-        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
+        // Global query filter applies ClinicId automatically via PortalAwareClinicContext.
         var conversations = await _context.Conversations
-            .IgnoreQueryFilters()
             .Include(c => c.Messages.Where(m => !m.IsInternalNote))
-            .Where(c => c.OwnerId == request.OwnerId && c.ClinicId == request.ClinicId)
+            .Where(c => c.OwnerId == request.OwnerId)
             .OrderBy(c => c.CreatedAt)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
