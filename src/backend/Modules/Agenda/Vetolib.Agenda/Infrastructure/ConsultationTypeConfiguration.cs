@@ -39,6 +39,6 @@ internal class ConsultationTypeConfiguration : IEntityTypeConfiguration<Consulta
         // so we add a unique index on (ClinicId, Name) and enforce IsActive filtering in application logic.
         builder.HasIndex(c => new { c.ClinicId, c.Name })
             .IsUnique()
-            .HasFilter("is_active = true");
+            .HasFilter("\"IsActive\" = true");
     }
 }

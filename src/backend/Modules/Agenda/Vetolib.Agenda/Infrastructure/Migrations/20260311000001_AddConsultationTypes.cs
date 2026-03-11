@@ -38,7 +38,7 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                 table: "consultation_types",
                 columns: new[] { "ClinicId", "Name" },
                 unique: true,
-                filter: "is_active = true");
+                filter: "\"IsActive\" = true");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
