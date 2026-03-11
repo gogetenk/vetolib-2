@@ -987,6 +987,84 @@
       "downloading": "Preparing download...",
       "back": "Back to conversations",
       "error": "Failed to export conversations. Please try again."
+    },
+    "booking": {
+      "landing": {
+        "title": "Book an Appointment",
+        "subtitle": "Schedule a visit for your pet",
+        "bookButton": "Book an Appointment",
+        "upcomingTitle": "Upcoming Appointments",
+        "noUpcoming": "No upcoming appointments",
+        "contactClinic": "Need to contact the clinic?",
+        "loading": "Loading..."
+      },
+      "wizard": {
+        "step1Title": "Select Consultation Type",
+        "step2Title": "Choose Date & Time",
+        "step3Title": "Select Your Pet",
+        "step4Title": "Confirm Booking",
+        "next": "Next",
+        "back": "Back",
+        "confirm": "Confirm Booking",
+        "cancel": "Cancel"
+      },
+      "slotGrid": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "noSlots": "No available slots for this date",
+        "selectDate": "Select a date"
+      },
+      "confirmation": {
+        "title": "Booking Confirmed!",
+        "subtitle": "Your appointment has been scheduled",
+        "details": "Appointment Details",
+        "date": "Date",
+        "time": "Time",
+        "vet": "Veterinarian",
+        "type": "Consultation Type",
+        "pet": "Pet",
+        "backToPortal": "Back to Portal"
+      },
+      "guestSignup": {
+        "title": "Create your account to confirm",
+        "name": "Full Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "phonePlaceholder": "+971 XX XXX XXXX",
+        "verify": "Verify",
+        "otpTitle": "Enter verification code",
+        "otpSubtitle": "We sent a 6-digit code to your email",
+        "confirmBooking": "Confirm Booking"
+      },
+      "myAppointments": {
+        "title": "My Appointments",
+        "upcoming": "Upcoming",
+        "past": "Past",
+        "cancelButton": "Cancel",
+        "rescheduleButton": "Reschedule",
+        "cancelConfirmTitle": "Cancel Appointment",
+        "cancelConfirmMessage": "Are you sure you want to cancel this appointment?",
+        "cancelSuccess": "Appointment cancelled successfully",
+        "rescheduleSuccess": "Appointment rescheduled successfully",
+        "noAppointments": "No appointments found",
+        "status": {
+          "Scheduled": "Scheduled",
+          "CheckedIn": "Checked In",
+          "Completed": "Completed",
+          "Cancelled": "Cancelled",
+          "NoShow": "No Show"
+        }
+      },
+      "consultationType": {
+        "generalCheckup": "General Checkup",
+        "vaccination": "Vaccination",
+        "surgery": "Surgery",
+        "dental": "Dental Care",
+        "emergency": "Emergency",
+        "grooming": "Grooming",
+        "labTests": "Lab Tests"
+      }
     }
   },
   "onboarding": {
