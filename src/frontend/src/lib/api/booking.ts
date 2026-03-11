@@ -1,4 +1,12 @@
 import { apiGet } from './client'
+import { getPortalToken } from './portal'
+import { ApiError } from './client'
+import type {
+  BookingAppointmentDto,
+  CreateBookingAppointmentRequest,
+  CancelBookingAppointmentRequest,
+  RescheduleBookingAppointmentRequest,
+} from './booking-types'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -60,4 +68,67 @@ export async function suggestSlots(
   if (params.reason) searchParams.set('reason', params.reason)
   if (params.durationMinutes) searchParams.set('durationMinutes', String(params.durationMinutes))
   return apiGet<SlotSuggestionDto[]>(`/api/v1/booking/suggest?${searchParams.toString()}`)
+}
+
+// ─── Portal Booking (MagicLink auth) ──────────────────────────────────────────
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? ''
+const PORTAL_BOOKING_BASE = '/api/v1/portal/booking'
+
+async function bookingFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const token = getPortalToken()
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(options.headers as Record<string, string>),
+  }
+  if (token) {
+    headers['Authorization'] = `MagicLink ${token}`
+  }
+
+  const res = await fetch(`${API_BASE}${path}`, { ...options, headers })
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({ title: 'Request failed' }))
+    throw new ApiError(res.status, error)
+  }
+
+  if (res.status === 204) return undefined as T
+  return res.json()
+}
+
+export function listBookingAppointments(): Promise<BookingAppointmentDto[]> {
+  return bookingFetch<BookingAppointmentDto[]>(`${PORTAL_BOOKING_BASE}/appointments`)
+}
+
+export function getBookingAppointment(id: string): Promise<BookingAppointmentDto> {
+  return bookingFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}`)
+}
+
+export function createBookingAppointment(
+  request: CreateBookingAppointmentRequest
+): Promise<BookingAppointmentDto> {
+  return bookingFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments`, {
+    method: 'POST',
+    body: JSON.stringify(request),
+  })
+}
+
+export function cancelBookingAppointment(
+  id: string,
+  request: CancelBookingAppointmentRequest
+): Promise<void> {
+  return bookingFetch<void>(`${PORTAL_BOOKING_BASE}/appointments/${id}/cancel`, {
+    method: 'POST',
+    body: JSON.stringify(request),
+  })
+}
+
+export function rescheduleBookingAppointment(
+  id: string,
+  request: RescheduleBookingAppointmentRequest
+): Promise<BookingAppointmentDto> {
+  return bookingFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}/reschedule`, {
+    method: 'POST',
+    body: JSON.stringify(request),
+  })
 }
