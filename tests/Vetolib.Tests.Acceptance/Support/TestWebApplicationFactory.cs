@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Threading.RateLimiting;
 using Vetolib.Agenda.Infrastructure;
+using Vetolib.AI.Application.Services;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
@@ -113,6 +114,23 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             foreach (var d in chatClientDescriptors)
                 services.Remove(d);
             services.AddSingleton<IChatClient>(FakeChatClient);
+
+            // Replace INoShowPredictionService with FakeNoShowPredictionService so that
+            // acceptance tests do not depend on an ML model file (which is not present in CI).
+            // The real NoShowPredictionService returns ML_MODEL_NOT_LOADED when no model is loaded.
+            var noShowDescriptors = services
+                .Where(d => d.ServiceType == typeof(INoShowPredictionService))
+                .ToList();
+            foreach (var d in noShowDescriptors)
+                services.Remove(d);
+            services.AddScoped<INoShowPredictionService, FakeNoShowPredictionService>();
+
+            // Re-wire audit interceptors for MedicalRecordsDbContext so that the audit trail
+            // is populated during acceptance tests (the descriptor removal above strips them).
+            services.AddAuditInterceptor<MedicalRecordsDbContext>();
+            services.AddAuditInterceptor<AgendaDbContext>();
+            services.AddAuditInterceptor<BillingDbContext>();
+            services.AddAuditInterceptor<AuthDbContext>();
 
             // Replace IClinicContext with test version
             var clinicContextDescriptors = services

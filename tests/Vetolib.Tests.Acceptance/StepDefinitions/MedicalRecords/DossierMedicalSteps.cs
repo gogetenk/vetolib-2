@@ -316,7 +316,12 @@ internal class DossierMedicalSteps
     [Then(@"""(.*)"" does not appear in the list")]
     public async Task ThenDoesNotAppearInTheList(string animalName)
     {
-        _response.StatusCode.Should().Be(HttpStatusCode.OK);
+        if (!_response.IsSuccessStatusCode)
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
+        _response.StatusCode.Should().Be(HttpStatusCode.OK,
+            $"Expected 200 but got {(int)_response.StatusCode}. Body: {_errorResponseBody}");
         var result = await _response.Content.ReadFromJsonAsync<PatientPagedResultDto>(JsonOptions);
         result.Should().NotBeNull();
         result!.Items.Should().NotContain(p => p.Name == animalName);
@@ -347,7 +352,13 @@ internal class DossierMedicalSteps
     [Then(@"I see (\d+) examinations in reverse chronological order")]
     public async Task ThenISeeNExaminationsInReverseChronologicalOrder(int expectedCount)
     {
-        _response.StatusCode.Should().Be(HttpStatusCode.OK);
+        if (!_response.IsSuccessStatusCode)
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
+        _response.StatusCode.Should().Be(HttpStatusCode.OK,
+            $"Expected 200 but got {(int)_response.StatusCode}. Body: {_errorResponseBody}");
+
         var paged = await _response.Content.ReadFromJsonAsync<MedicalRecordPagedResultDto>(JsonOptions);
         paged.Should().NotBeNull();
         var records = paged!.Items.ToList();

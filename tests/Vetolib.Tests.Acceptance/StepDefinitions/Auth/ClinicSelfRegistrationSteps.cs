@@ -55,7 +55,7 @@ internal class ClinicSelfRegistrationSteps
 
     // ─── WHEN ─────────────────────────────────────────────────────
 
-    [When("^I POST /api/v1/clinics/register with:$")]
+    [When(@"^I POST /api/v1/clinics/register with:$")]
     public async Task WhenIPostRegister(DataTable table)
     {
         var row = table.Rows[0];

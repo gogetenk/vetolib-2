@@ -17,7 +17,7 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.Auth;
 
 [Binding]
-[Scope(Feature = "RBAC matrix — role-based access control")]
+[Scope(Feature = "RBAC matrix -- role-based access control")]
 internal class RbacSteps
 {
     private readonly ScenarioContext _ctx;

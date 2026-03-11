@@ -40,15 +40,17 @@ internal class SharedSteps
     public void GivenAClinic(string clinicName)
     {
         var clinicIds = GetOrCreateClinicIds();
-        var clinicId = GenerateGuidFromString(clinicName);
+
+        // Always use the fixed TestClinicGuid so the EF Core compiled query filter
+        // (baked at model-creation time with the initial TestClinicContext.ClinicId value)
+        // matches the ClinicId used when inserting and querying test data.
+        var clinicId = TestClinicContext.TestClinicGuid;
         clinicIds[clinicName] = clinicId;
 
         var factory = _ctx.Get<TestWebApplicationFactory>();
         var testClinicContext = factory.Services.GetRequiredService<TestClinicContext>();
-        if (clinicIds.Count == 1)
-        {
-            testClinicContext.ClinicId = clinicId;
-        }
+        // Keep ClinicId at the fixed GUID — never change it from the baked-in value.
+        testClinicContext.ClinicId = TestClinicContext.TestClinicGuid;
 
         _ctx.Set(clinicIds, "ClinicIds");
     }
@@ -97,6 +99,21 @@ internal class SharedSteps
         {
             case "INSUFFICIENT_PERMISSIONS":
                 response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+                break;
+            case "VALIDATION_ERROR":
+                // Ardalis.Result serializes validation errors as a JSON array
+                // with fields "identifier", "errorMessage", "errorCode", "severity".
+                // There is no literal "VALIDATION_ERROR" string in the body.
+                response.StatusCode.Should().BeOneOf(
+                    new[] { HttpStatusCode.BadRequest, HttpStatusCode.UnprocessableEntity },
+                    $"Expected a 400/422 for code '{errorCode}' but got {(int)response.StatusCode}");
+                var validationBody = _ctx.ContainsKey("ErrorResponseBody")
+                    ? _ctx.Get<string>("ErrorResponseBody")
+                    : null;
+                if (validationBody != null)
+                    validationBody.Should().ContainAny(
+                        new[] { "errorMessage", "identifier", "errors" },
+                        "Expected validation error body with 'errorMessage' or 'identifier' field");
                 break;
             default:
                 var body = _ctx.ContainsKey("ErrorResponseBody")

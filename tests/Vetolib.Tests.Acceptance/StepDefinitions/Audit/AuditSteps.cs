@@ -50,7 +50,9 @@ internal class AuditSteps
     [Given(@"a clinic ""(.*)""")]
     public void GivenAClinic(string clinicName)
     {
-        _clinicId = GenerateGuidFromString(clinicName);
+        // MUST use the fixed TestClinicGuid — EF Core compiles the multi-tenant query filter
+        // once per model and bakes in the ClinicId value at model creation time.
+        _clinicId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }
@@ -79,8 +81,12 @@ internal class AuditSteps
             OwnerPhone: "+971501234567");
 
         var patientResponse = await _client.PostAsJsonAsync("/api/v1/patients", patientRequest);
-        patientResponse.IsSuccessStatusCode.Should().BeTrue(
-            $"Creating patient failed: {await patientResponse.Content.ReadAsStringAsync()}");
+        if (!patientResponse.IsSuccessStatusCode)
+        {
+            var errorBody = await patientResponse.Content.ReadAsStringAsync();
+            patientResponse.IsSuccessStatusCode.Should().BeTrue(
+                $"Creating patient failed ({(int)patientResponse.StatusCode}): {errorBody}");
+        }
     }
 
     // ─── WHEN ───────────────────────────────────────────────────
@@ -163,7 +169,13 @@ internal class AuditSteps
 
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
-        loginResponse.IsSuccessStatusCode.Should().BeTrue($"Login for {email} failed");
+
+        if (!loginResponse.IsSuccessStatusCode)
+        {
+            var loginError = await loginResponse.Content.ReadAsStringAsync();
+            loginResponse.IsSuccessStatusCode.Should().BeTrue($"Login for {email} failed: {loginError}");
+            return;
+        }
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
         _client.DefaultRequestHeaders.Authorization =

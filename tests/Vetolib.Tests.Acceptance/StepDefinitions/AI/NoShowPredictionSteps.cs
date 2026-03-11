@@ -29,6 +29,7 @@ internal class NoShowPredictionSteps
     private NoShowPredictionDto? _prediction;
     private List<NoShowPredictionDto>? _batchPredictions;
     private Guid _targetAppointmentId;
+    private string? _errorBody;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -79,8 +80,14 @@ internal class NoShowPredictionSteps
 
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
-        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
-            $"Login failed for role {role}");
+
+        if (!loginResponse.IsSuccessStatusCode)
+        {
+            var loginError = await loginResponse.Content.ReadAsStringAsync();
+            loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
+                $"Login failed for role {role}: {loginError}");
+            return;
+        }
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
         _client.DefaultRequestHeaders.Authorization =
@@ -184,6 +191,10 @@ internal class NoShowPredictionSteps
         {
             _prediction = await _response.Content.ReadFromJsonAsync<NoShowPredictionDto>(JsonOptions);
         }
+        else
+        {
+            _errorBody = await _response.Content.ReadAsStringAsync();
+        }
     }
 
     [When(@"I request a no-show prediction for any appointment")]
@@ -213,6 +224,10 @@ internal class NoShowPredictionSteps
         {
             _prediction = await _response.Content.ReadFromJsonAsync<NoShowPredictionDto>(JsonOptions);
         }
+        else
+        {
+            _errorBody = await _response.Content.ReadAsStringAsync();
+        }
     }
 
     [When(@"I request batch no-show predictions for ""(.*)""")]
@@ -227,6 +242,10 @@ internal class NoShowPredictionSteps
         {
             _batchPredictions = await _response.Content.ReadFromJsonAsync<List<NoShowPredictionDto>>(JsonOptions);
         }
+        else
+        {
+            _errorBody = await _response.Content.ReadAsStringAsync();
+        }
     }
 
     // ─── THEN Steps ──────────────────────────────────────────────
@@ -235,7 +254,7 @@ internal class NoShowPredictionSteps
     public void ThenIShouldReceivePrediction200()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK,
-            $"Expected 200 but got {(int)_response.StatusCode}. Response: {ReadResponseBody()}");
+            $"Expected 200 but got {(int)_response.StatusCode}. Response: {_errorBody ?? ReadResponseBody()}");
         _prediction.Should().NotBeNull("Prediction DTO should be deserialized");
     }
 

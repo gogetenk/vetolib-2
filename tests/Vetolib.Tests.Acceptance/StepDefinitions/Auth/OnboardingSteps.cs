@@ -50,12 +50,15 @@ internal class OnboardingSteps
     [Given(@"a clinic ""(.*)"" exists")]
     public void GivenAClinicExists(string clinicName)
     {
-        var clinicId = GenerateGuidFromString(clinicName);
+        // Use the fixed TestClinicGuid so the EF Core compiled query filter
+        // (baked at model-creation time with the initial TestClinicContext.ClinicId value)
+        // matches the ClinicId used when inserting and querying test data.
+        var clinicId = TestClinicContext.TestClinicGuid;
         _ctx.Set(clinicId, "ClinicId");
         _ctx.Set(clinicName, "ClinicName");
 
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        testClinicContext.ClinicId = clinicId;
+        testClinicContext.ClinicId = TestClinicContext.TestClinicGuid;
     }
 
     [Given(@"a user with role ""(.*)"" exists in the clinic")]

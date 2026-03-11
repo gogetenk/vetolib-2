@@ -212,8 +212,16 @@ internal class PatientSteps
     [Then(@"the patient name is ""(.*)""")]
     public void ThenPatientName(string expectedName)
     {
-        _patientDto.Should().NotBeNull();
-        _patientDto!.Name.Should().Be(expectedName);
+        if (_patientDto is not null)
+        {
+            _patientDto.Name.Should().Be(expectedName);
+        }
+        else
+        {
+            _patientList.Should().NotBeNull("expected either a patient DTO or a patient list to be set");
+            _patientList!.Should().Contain(p => p.Name == expectedName,
+                $"patient list should contain a patient named '{expectedName}'");
+        }
     }
 
     [Then(@"the patient owner name is ""(.*)""")]

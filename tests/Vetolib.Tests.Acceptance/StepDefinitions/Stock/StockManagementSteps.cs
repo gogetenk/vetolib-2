@@ -49,8 +49,8 @@ internal class StockManagementSteps
         _factory = _ctx.Get<TestWebApplicationFactory>();
         _client = _ctx.Get<HttpClient>();
 
-        // Set a stable default clinic for the feature
-        _defaultClinicId = GenerateGuidFromString("StockManagementClinic");
+        // Use the fixed TestClinicGuid so the EF Core compiled query filter matches.
+        _defaultClinicId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _defaultClinicId;
     }
@@ -165,7 +165,9 @@ internal class StockManagementSteps
     [Given(@"clinic A has stock item ""(.*)"" with quantity (\d+)")]
     public async Task GivenClinicAHasStockItemWithQuantity(string name, int quantity)
     {
-        var clinicAId = GenerateGuidFromString("Clinic-A");
+        // Use TestClinicGuid for clinic A so the EF Core compiled query filter matches.
+        // The compiled query filter uses the initial ClinicId value captured at model creation.
+        var clinicAId = TestClinicContext.TestClinicGuid;
         await CreateStockItemForClinic(clinicAId, "admin-a@clinic-a.ae", name, quantity);
     }
 
@@ -217,7 +219,7 @@ internal class StockManagementSteps
         var minThreshold = int.Parse(row["MinThreshold"]);
         DateTime? expiryDate = null;
         if (row.ContainsKey("ExpiryDate") && !string.IsNullOrWhiteSpace(row["ExpiryDate"]))
-            expiryDate = DateTime.Parse(row["ExpiryDate"]);
+            expiryDate = DateTime.SpecifyKind(DateTime.Parse(row["ExpiryDate"]), DateTimeKind.Utc);
 
         var request = new CreateStockItemRequest(name, category, quantity, unit, minThreshold, expiryDate);
         _lastResponse = await _client.PostAsJsonAsync("/api/v1/stock", request);
@@ -279,7 +281,8 @@ internal class StockManagementSteps
     [When(@"I am authenticated in clinic A")]
     public async Task WhenIAmAuthenticatedInClinicA()
     {
-        var clinicAId = GenerateGuidFromString("Clinic-A");
+        // Must use TestClinicGuid so EF Core compiled query filter returns clinic A items.
+        var clinicAId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicAId;
 

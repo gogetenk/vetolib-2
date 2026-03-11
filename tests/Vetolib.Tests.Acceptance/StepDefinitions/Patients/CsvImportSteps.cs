@@ -21,6 +21,7 @@ internal class CsvImportSteps
     private TestWebApplicationFactory _factory = null!;
     private HttpResponseMessage _response = null!;
     private ImportReportDto? _importReport;
+    private string? _errorBody;
 
     public CsvImportSteps(ScenarioContext ctx)
     {
@@ -67,6 +68,8 @@ internal class CsvImportSteps
 
         if (_response.IsSuccessStatusCode)
             _importReport = await _response.Content.ReadFromJsonAsync<ImportReportDto>(JsonOptions);
+        else
+            _errorBody = await _response.Content.ReadAsStringAsync();
     }
 
     [When(@"I import a CSV where 1 row is missing Species")]
@@ -81,6 +84,8 @@ internal class CsvImportSteps
 
         if (_response.IsSuccessStatusCode)
             _importReport = await _response.Content.ReadFromJsonAsync<ImportReportDto>(JsonOptions);
+        else
+            _errorBody = await _response.Content.ReadAsStringAsync();
     }
 
     [When(@"I import a CSV with 2 patients sharing owner email ""(.*)""")]
@@ -95,6 +100,8 @@ internal class CsvImportSteps
 
         if (_response.IsSuccessStatusCode)
             _importReport = await _response.Content.ReadFromJsonAsync<ImportReportDto>(JsonOptions);
+        else
+            _errorBody = await _response.Content.ReadAsStringAsync();
     }
 
     [When(@"I request the CSV import template")]
@@ -108,8 +115,9 @@ internal class CsvImportSteps
     [Then(@"the import report shows (\d+) imported, (\d+) skipped")]
     public void ThenImportReport(int expectedImported, int expectedSkipped)
     {
-        _response.StatusCode.Should().Be(HttpStatusCode.OK);
-        _importReport.Should().NotBeNull();
+        _response.StatusCode.Should().Be(HttpStatusCode.OK,
+            $"Expected 200 but got {(int)_response.StatusCode}. Body: {_errorBody}");
+        _importReport.Should().NotBeNull("Import report should be deserialized from response");
         _importReport!.Imported.Should().Be(expectedImported);
         _importReport.Skipped.Should().Be(expectedSkipped);
     }
@@ -159,8 +167,8 @@ internal class CsvImportSteps
     private async Task<HttpResponseMessage> PostCsvAsync(string csvContent)
     {
         var csvBytes = Encoding.UTF8.GetBytes(csvContent);
-        using var form = new MultipartFormDataContent();
-        using var fileContent = new ByteArrayContent(csvBytes);
+        var form = new MultipartFormDataContent();
+        var fileContent = new ByteArrayContent(csvBytes);
         fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
         form.Add(fileContent, "file", "patients.csv");
         return await _client.PostAsync("/api/v1/patients/import", form);

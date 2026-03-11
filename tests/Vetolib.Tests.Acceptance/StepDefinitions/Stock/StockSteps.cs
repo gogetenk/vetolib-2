@@ -1,10 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
 using Vetolib.Stock.Contracts;
 using Vetolib.Tests.Acceptance.Support;
@@ -67,6 +65,8 @@ internal class StockSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_lastResponse, "LastResponse");
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -91,6 +91,8 @@ internal class StockSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_lastResponse, "LastResponse");
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -115,6 +117,8 @@ internal class StockSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_lastResponse, "LastResponse");
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -124,6 +128,8 @@ internal class StockSteps
         var request = new CreateStockItemRequest("", "Medication", 10, "ml", 5, null);
         _lastResponse = await _client.PostAsJsonAsync("/api/v1/stock", request);
         _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+        _ctx.Set(_lastResponse, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"I attempt to create a stock item with a quantity of (-?\d+)")]
@@ -132,6 +138,8 @@ internal class StockSteps
         var request = new CreateStockItemRequest("Test Item", "Medication", quantity, "ml", 5, null);
         _lastResponse = await _client.PostAsJsonAsync("/api/v1/stock", request);
         _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+        _ctx.Set(_lastResponse, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     // ─── THEN ───────────────────────────────────────────────────
@@ -154,7 +162,9 @@ internal class StockSteps
     public async Task ThenTheListContainsAtLeast(int minCount)
     {
         _lastResponse.Should().NotBeNull();
-        var items = await _lastResponse!.Content.ReadFromJsonAsync<List<StockItemDto>>(JsonOptions);
+        _lastResponse!.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected success but got {(int)_lastResponse.StatusCode}");
+        var items = await _lastResponse.Content.ReadFromJsonAsync<List<StockItemDto>>(JsonOptions);
         items.Should().NotBeNull();
         items!.Count.Should().BeGreaterThanOrEqualTo(minCount);
     }
@@ -170,7 +180,9 @@ internal class StockSteps
     public async Task ThenTheAlertIncludesForLowStock(string itemName)
     {
         _lastResponse.Should().NotBeNull();
-        var alerts = await _lastResponse!.Content.ReadFromJsonAsync<StockAlertsDto>(JsonOptions);
+        _lastResponse!.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected success but got {(int)_lastResponse.StatusCode}");
+        var alerts = await _lastResponse.Content.ReadFromJsonAsync<StockAlertsDto>(JsonOptions);
         alerts.Should().NotBeNull();
         alerts!.LowStockItems.Should().Contain(i => i.Name == itemName);
     }
@@ -182,11 +194,7 @@ internal class StockSteps
         _currentItem!.MinThreshold.Should().Be(expectedThreshold);
     }
 
-    [Then(@"the system rejects with code ""(.*)""")]
-    public void ThenTheSystemRejectsWithCode(string errorCode)
-    {
-        _lastResponse!.IsSuccessStatusCode.Should().BeFalse();
-        _errorResponseBody.Should().NotBeNull();
-        _errorResponseBody.Should().Contain(errorCode);
-    }
+    // NOTE: "the system rejects with code" is handled by SharedSteps.
+    // We store LastResponse and ErrorResponseBody in ScenarioContext
+    // in the When steps so SharedSteps can pick them up.
 }
