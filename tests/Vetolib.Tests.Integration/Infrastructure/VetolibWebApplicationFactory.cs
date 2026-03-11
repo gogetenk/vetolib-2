@@ -65,6 +65,7 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
         await authDb.Database.EnsureCreatedAsync();
 
         var agendaDb = scope.ServiceProvider.GetRequiredService<AgendaDbContext>();
+        try { await agendaDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS agenda"); } catch { }
         var agendaCreator = agendaDb.GetService<IRelationalDatabaseCreator>()!;
         try { await agendaCreator.CreateTablesAsync(); } catch { }
 
