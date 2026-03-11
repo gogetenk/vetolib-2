@@ -110,7 +110,6 @@
       "errors": {
         "species_required": "النوع مطلوب",
         "patient_name_required": "اسم الحيوان مطلوب",
-        "species_required": "النوع مطلوب",
         "owner_name_required": "اسم المالك مطلوب",
         "owner_phone_required": "هاتف المالك مطلوب",
         "vet_required": "الطبيب البيطري مطلوب",
@@ -1014,6 +1013,74 @@
           "duration": "المدة",
           "status": "الحالة",
           "notes": "ملاحظات"
+        }
+      },
+      "wizard": {
+        "title": "حجز موعد",
+        "step_pet": "حيوانك الأليف",
+        "step_type": "نوع الاستشارة",
+        "step_slot": "اختر موعداً",
+        "step_confirm": "تأكيد",
+        "next": "التالي",
+        "back": "رجوع",
+        "step_of": "الخطوة {current} من {total}",
+        "pet_selection": {
+          "title": "ما هو الحيوان الأليف الذي تحجز له؟",
+          "loading": "جارٍ تحميل حيواناتك الأليفة...",
+          "no_pets": "لا توجد حيوانات أليفة مسجلة في حسابك.",
+          "add_pet": "إضافة حيوان أليف جديد",
+          "pre_selected": "تم الاختيار تلقائياً لأنك تملك حيواناً أليفاً واحداً فقط"
+        },
+        "consultation_type": {
+          "title": "ما نوع الاستشارة التي تحتاجها؟",
+          "loading": "جارٍ تحميل أنواع الاستشارات...",
+          "duration": "{minutes} دقيقة",
+          "price": "{price} درهم",
+          "vet_label": "الطبيب البيطري المفضل",
+          "vet_no_preference": "لا تفضيل",
+          "reason_label": "سبب الزيارة",
+          "reason_placeholder": "صف سبب هذا الموعد بإيجاز (اختياري)",
+          "reason_max_chars": "{count}/500 حرف",
+          "emergency_warning": "في حالات الطوارئ التي تهدد الحياة، يرجى الاتصال بالعيادة مباشرةً. قد لا تتم مراقبة هذه العملية في الوقت الفعلي."
+        },
+        "slot_selection": {
+          "title": "اختر التاريخ والوقت",
+          "loading": "جارٍ التحقق من التوفر...",
+          "no_slots": "لا تتوفر مواعيد في هذا اليوم.",
+          "available": "متاح",
+          "unavailable": "غير متاح",
+          "selected": "محدد"
+        },
+        "confirmation": {
+          "title": "تأكيد موعدك",
+          "pet": "الحيوان الأليف",
+          "consultation_type": "نوع الاستشارة",
+          "vet": "الطبيب البيطري",
+          "date_time": "التاريخ والوقت",
+          "duration": "المدة",
+          "duration_value": "{minutes} دقيقة",
+          "notes": "سبب الزيارة",
+          "price": "رسوم الاستشارة",
+          "price_value": "{price} درهم",
+          "confirm_checkbox": "أؤكد أن المعلومات أعلاه صحيحة وأوافق على سياسة الإلغاء الخاصة بالعيادة.",
+          "submit": "تأكيد الحجز",
+          "submitting": "جارٍ الحجز...",
+          "slot_unavailable_error": "هذا الموعد لم يعد متاحاً. يرجى الرجوع واختيار وقت مختلف.",
+          "generic_error": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+        },
+        "success": {
+          "title": "تم تأكيد الحجز!",
+          "subtitle": "تم حجز موعدك. ستتلقى تأكيداً قريباً.",
+          "pet": "الحيوان الأليف",
+          "consultation_type": "نوع الاستشارة",
+          "vet": "الطبيب البيطري",
+          "date_time": "التاريخ والوقت",
+          "duration": "المدة",
+          "clinic": "العيادة",
+          "address": "العنوان",
+          "add_to_calendar": "أضف إلى التقويم",
+          "view_appointments": "عرض مواعيدي",
+          "redirect_notice": "سيتم التحويل إلى مواعيدي خلال {seconds} ثانية..."
         }
       }
     }

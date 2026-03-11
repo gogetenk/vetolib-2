@@ -1,12 +1,49 @@
 import { http, HttpResponse, delay } from 'msw'
-import { getMockOwnerAppointments } from '@/mocks/data/booking'
+import { getMockOwnerAppointments, MOCK_CONSULTATION_TYPES, MOCK_VETERINARIANS } from '@/mocks/data/booking'
 import type {
   BookingAppointmentDto,
   CancelBookingAppointmentRequest,
   RescheduleBookingAppointmentRequest,
+  AvailabilityDayDto,
 } from '@/lib/api/booking-types'
 
 const BASE = '/api/v1/portal/booking'
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+const UAE_WORK_DAYS = new Set([0, 1, 2, 3, 4]) // Sun=0 … Thu=4
+
+function generateAvailabilitySlots(date: string, durationMinutes: number): AvailabilityDayDto {
+  const d = new Date(date + 'T00:00:00')
+  const isWorkDay = UAE_WORK_DAYS.has(d.getDay())
+  if (!isWorkDay) return { date, slots: [] }
+
+  const slots = []
+  let hour = 8
+  let minute = 0
+
+  while (hour < 18) {
+    const startTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+    const totalEnd = hour * 60 + minute + durationMinutes
+    const endHour = Math.floor(totalEnd / 60)
+    const endMinute = totalEnd % 60
+    if (endHour > 18 || (endHour === 18 && endMinute > 0)) break
+
+    const isLunch = hour === 13
+    slots.push({
+      time: startTime,
+      isAvailable: !isLunch,
+    })
+
+    minute += durationMinutes
+    if (minute >= 60) {
+      hour += Math.floor(minute / 60)
+      minute = minute % 60
+    }
+  }
+
+  return { date, slots }
+}
 
 // Mutable in-memory state
 const ownerAppointments: BookingAppointmentDto[] = getMockOwnerAppointments()
@@ -34,6 +71,40 @@ function requireAuth(request: Request): Response | null {
 // ─── Handlers ─────────────────────────────────────────────────────────────────
 
 export const bookingHandlers = [
+  // GET /api/v1/portal/booking/clinics/:clinicSlug/consultation-types
+  http.get(`${BASE}/clinics/:clinicSlug/consultation-types`, async ({ request }) => {
+    await delay(150)
+    const authError = requireAuth(request)
+    if (authError) return authError
+
+    return HttpResponse.json(MOCK_CONSULTATION_TYPES)
+  }),
+
+  // GET /api/v1/portal/booking/clinics/:clinicSlug/veterinarians
+  http.get(`${BASE}/clinics/:clinicSlug/veterinarians`, async ({ request }) => {
+    await delay(100)
+    const authError = requireAuth(request)
+    if (authError) return authError
+
+    return HttpResponse.json(MOCK_VETERINARIANS)
+  }),
+
+  // GET /api/v1/portal/booking/clinics/:clinicSlug/availability
+  http.get(`${BASE}/clinics/:clinicSlug/availability`, async ({ request }) => {
+    await delay(200)
+    const authError = requireAuth(request)
+    if (authError) return authError
+
+    const url = new URL(request.url)
+    const date = url.searchParams.get('date') ?? new Date().toISOString().split('T')[0]
+    const consultationTypeId = url.searchParams.get('consultationTypeId') ?? ''
+
+    const type = MOCK_CONSULTATION_TYPES.find(ct => ct.id === consultationTypeId)
+    const duration = type?.durationMinutes ?? 30
+
+    return HttpResponse.json(generateAvailabilitySlots(date, duration))
+  }),
+
   // GET /api/v1/portal/booking/appointments
   http.get(`${BASE}/appointments`, async ({ request }) => {
     await delay(150)

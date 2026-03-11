@@ -4,6 +4,9 @@ import type {
   CreateBookingAppointmentRequest,
   CancelBookingAppointmentRequest,
   RescheduleBookingAppointmentRequest,
+  ConsultationTypeDto,
+  VeterinarianDto,
+  AvailabilityDayDto,
 } from './booking-types'
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? ''
@@ -37,6 +40,32 @@ async function bookingFetch<T>(path: string, options: RequestInit = {}): Promise
 
   if (res.status === 204) return undefined as T
   return res.json()
+}
+
+// ─── Wizard endpoints ─────────────────────────────────────────────────────────
+
+export function getConsultationTypes(clinicSlug: string): Promise<ConsultationTypeDto[]> {
+  return bookingFetch<ConsultationTypeDto[]>(`${BASE}/clinics/${clinicSlug}/consultation-types`)
+}
+
+export function getVeterinarians(clinicSlug: string): Promise<VeterinarianDto[]> {
+  return bookingFetch<VeterinarianDto[]>(`${BASE}/clinics/${clinicSlug}/veterinarians`)
+}
+
+export function getAvailability(
+  clinicSlug: string,
+  params: { date: string; consultationTypeId: string; veterinarianId?: string | null }
+): Promise<AvailabilityDayDto> {
+  const searchParams = new URLSearchParams({
+    date: params.date,
+    consultationTypeId: params.consultationTypeId,
+  })
+  if (params.veterinarianId) {
+    searchParams.set('veterinarianId', params.veterinarianId)
+  }
+  return bookingFetch<AvailabilityDayDto>(
+    `${BASE}/clinics/${clinicSlug}/availability?${searchParams.toString()}`
+  )
 }
 
 // ─── Appointment endpoints ────────────────────────────────────────────────────

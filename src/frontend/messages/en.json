@@ -110,7 +110,6 @@
       "errors": {
         "species_required": "Species is required",
         "patient_name_required": "Patient name is required",
-        "species_required": "Species is required",
         "owner_name_required": "Owner name is required",
         "owner_phone_required": "Owner phone is required",
         "vet_required": "Vet is required",
@@ -1026,6 +1025,74 @@
           "duration": "Duration",
           "status": "Status",
           "notes": "Notes"
+        }
+      },
+      "wizard": {
+        "title": "Book an Appointment",
+        "step_pet": "Your Pet",
+        "step_type": "Consultation Type",
+        "step_slot": "Choose a Slot",
+        "step_confirm": "Confirm",
+        "next": "Next",
+        "back": "Back",
+        "step_of": "Step {current} of {total}",
+        "pet_selection": {
+          "title": "Which pet is this appointment for?",
+          "loading": "Loading your pets...",
+          "no_pets": "No pets found on your account.",
+          "add_pet": "Add a new pet",
+          "pre_selected": "Pre-selected as you only have one pet"
+        },
+        "consultation_type": {
+          "title": "What type of consultation do you need?",
+          "loading": "Loading consultation types...",
+          "duration": "{minutes} min",
+          "price": "AED {price}",
+          "vet_label": "Preferred veterinarian",
+          "vet_no_preference": "No preference",
+          "reason_label": "Reason for visit",
+          "reason_placeholder": "Briefly describe the reason for this appointment (optional)",
+          "reason_max_chars": "{count}/500 characters",
+          "emergency_warning": "For life-threatening emergencies, please call the clinic directly. This booking flow may not be monitored in real time."
+        },
+        "slot_selection": {
+          "title": "Select a date and time",
+          "loading": "Checking availability...",
+          "no_slots": "No available slots for this day.",
+          "available": "Available",
+          "unavailable": "Unavailable",
+          "selected": "Selected"
+        },
+        "confirmation": {
+          "title": "Confirm your appointment",
+          "pet": "Pet",
+          "consultation_type": "Consultation type",
+          "vet": "Veterinarian",
+          "date_time": "Date & time",
+          "duration": "Duration",
+          "duration_value": "{minutes} min",
+          "notes": "Reason for visit",
+          "price": "Consultation fee",
+          "price_value": "AED {price}",
+          "confirm_checkbox": "I confirm that the information above is correct and I agree to the clinic's cancellation policy.",
+          "submit": "Confirm Booking",
+          "submitting": "Booking...",
+          "slot_unavailable_error": "This slot is no longer available. Please go back and choose a different time.",
+          "generic_error": "Something went wrong. Please try again."
+        },
+        "success": {
+          "title": "Booking Confirmed!",
+          "subtitle": "Your appointment has been booked. You will receive a confirmation shortly.",
+          "pet": "Pet",
+          "consultation_type": "Consultation type",
+          "vet": "Veterinarian",
+          "date_time": "Date & time",
+          "duration": "Duration",
+          "clinic": "Clinic",
+          "address": "Address",
+          "add_to_calendar": "Add to Calendar",
+          "view_appointments": "View My Appointments",
+          "redirect_notice": "Redirecting to My Appointments in {seconds}s..."
         }
       }
     }

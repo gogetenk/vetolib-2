@@ -7,12 +7,16 @@ export interface ConsultationTypeDto {
   durationMinutes: number
   description: string | null
   price: number // AED
+  isActive: boolean
+  sortOrder: number
+  colorHex: string
 }
 
 export interface VeterinarianDto {
   id: string
   name: string
   speciality: string | null
+  specializations: string[]
   avatarUrl: string | null
 }
 

@@ -3,7 +3,88 @@
  * UAE context: Arabic/English names, Asia/Dubai timezone.
  * UAE work week: Sunday-Thursday.
  */
-import type { BookingAppointmentDto } from '@/lib/api/booking-types'
+import type { BookingAppointmentDto, ConsultationTypeDto, VeterinarianDto } from '@/lib/api/booking-types'
+
+// ─── Consultation Types ───────────────────────────────────────────────────────
+
+export const MOCK_CONSULTATION_TYPES: ConsultationTypeDto[] = [
+  {
+    id: 'ct-00000000-0000-0000-0000-000000000001',
+    name: 'General Consultation',
+    durationMinutes: 30,
+    description: 'Routine check-up and general health examination',
+    price: 250,
+    isActive: true,
+    sortOrder: 1,
+    colorHex: '#4CAF50',
+  },
+  {
+    id: 'ct-00000000-0000-0000-0000-000000000002',
+    name: 'Vaccination',
+    durationMinutes: 20,
+    description: 'Annual vaccinations and booster shots',
+    price: 150,
+    isActive: true,
+    sortOrder: 2,
+    colorHex: '#2196F3',
+  },
+  {
+    id: 'ct-00000000-0000-0000-0000-000000000003',
+    name: 'Dental Cleaning',
+    durationMinutes: 60,
+    description: 'Professional dental scaling and polishing under anesthesia',
+    price: 800,
+    isActive: true,
+    sortOrder: 3,
+    colorHex: '#FF9800',
+  },
+  {
+    id: 'ct-00000000-0000-0000-0000-000000000004',
+    name: 'Emergency',
+    durationMinutes: 45,
+    description: 'Urgent care for critical conditions',
+    price: 500,
+    isActive: true,
+    sortOrder: 4,
+    colorHex: '#F44336',
+  },
+  {
+    id: 'ct-00000000-0000-0000-0000-000000000005',
+    name: 'Surgery Consultation',
+    durationMinutes: 45,
+    description: 'Pre-operative assessment and surgical planning',
+    price: 350,
+    isActive: true,
+    sortOrder: 5,
+    colorHex: '#9C27B0',
+  },
+]
+
+// ─── Veterinarians ────────────────────────────────────────────────────────────
+
+export const MOCK_VETERINARIANS: VeterinarianDto[] = [
+  {
+    id: 'vet-00000000-0000-0000-0000-000000000001',
+    name: 'Dr. Ahmed Al-Rashidi',
+    speciality: 'Small Animals',
+    specializations: ['Small Animals', 'Internal Medicine'],
+    avatarUrl: null,
+  },
+  {
+    id: 'vet-00000000-0000-0000-0000-000000000002',
+    name: 'Dr. Fatima Al-Zaabi',
+    speciality: 'Surgery',
+    specializations: ['Surgery', 'Orthopedics'],
+    avatarUrl: null,
+  },
+  {
+    id: 'vet-00000000-0000-0000-0000-000000000003',
+    name: 'Dr. Sarah Mitchell',
+    speciality: 'Dentistry',
+    specializations: ['Dentistry', 'Small Animals'],
+    avatarUrl: null,
+  },
+]
 
 // ─── Date helpers ─────────────────────────────────────────────────────────────
 
