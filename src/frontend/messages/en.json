@@ -987,6 +987,164 @@
       "downloading": "Preparing download...",
       "back": "Back to conversations",
       "error": "Failed to export conversations. Please try again."
+    },
+    "booking": {
+      "landing": {
+        "title": "Book an Appointment",
+        "upcoming": "Upcoming Appointments",
+        "book_button": "Book an Appointment",
+        "contact_link": "Send a message to the clinic",
+        "no_upcoming": "No upcoming appointments.",
+        "loading": "Loading your appointments..."
+      },
+      "wizard": {
+        "step_pet": "Select Your Pet",
+        "step_type": "Consultation Type",
+        "step_slot": "Choose a Time Slot",
+        "step_confirm": "Confirm Booking",
+        "step_success": "Booking Confirmed",
+        "next": "Next",
+        "back": "Back",
+        "confirm": "Confirm Booking",
+        "confirming": "Confirming..."
+      },
+      "pet_selection": {
+        "title": "Select your pet",
+        "subtitle": "Which animal is this appointment for?",
+        "add_pet": "Add a new pet",
+        "select_pet": "Select a pet"
+      },
+      "consultation_type": {
+        "title": "What type of consultation?",
+        "routine": "Routine checkup",
+        "vaccination": "Vaccination",
+        "illness": "Illness / symptoms",
+        "surgery": "Surgery follow-up",
+        "emergency": "Emergency",
+        "other": "Other",
+        "reason_label": "Additional details (optional)",
+        "reason_placeholder": "Describe the reason for your visit..."
+      },
+      "slot_selection": {
+        "title": "Choose a time slot",
+        "subtitle": "Available slots with {vet}",
+        "no_slots": "No available slots for this day. Please try another date.",
+        "loading": "Loading available slots...",
+        "select_date": "Select a date",
+        "slot_duration": "{hours} min"
+      },
+      "confirmation": {
+        "title": "Confirm your booking",
+        "pet": "Pet",
+        "consultation_type": "Consultation type",
+        "date_time": "Date & time",
+        "vet": "Veterinarian",
+        "clinic": "Clinic",
+        "edit": "Edit"
+      },
+      "success": {
+        "title": "Your appointment is confirmed!",
+        "subtitle": "You will receive a confirmation by email.",
+        "appointment_ref": "Appointment reference",
+        "date_time": "Date & time",
+        "vet": "With",
+        "view_appointments": "View my appointments",
+        "book_another": "Book another appointment"
+      },
+      "appointments": {
+        "title": "My Appointments",
+        "upcoming": "Upcoming",
+        "past": "Past",
+        "no_upcoming": "You have no upcoming appointments.",
+        "no_past": "No past appointments.",
+        "loading": "Loading your appointments...",
+        "view_detail": "View details",
+        "cancel": "Cancel",
+        "reschedule": "Reschedule"
+      },
+      "appointment_detail": {
+        "title": "Appointment Details",
+        "back": "Back to appointments",
+        "date_time": "Date & time",
+        "vet": "Veterinarian",
+        "pet": "Pet",
+        "consultation_type": "Consultation type",
+        "status": "Status",
+        "cancel_button": "Cancel this appointment",
+        "reschedule_button": "Reschedule",
+        "cancel_confirm_title": "Cancel this appointment?",
+        "cancel_confirm_body": "Are you sure you want to cancel this appointment? This action cannot be undone.",
+        "cancel_confirm": "Yes, cancel",
+        "cancel_abort": "Keep appointment",
+        "cancel_success": "Your appointment has been cancelled.",
+        "cancel_failed": "Failed to cancel the appointment. Please try again.",
+        "reschedule_success": "Your appointment has been rescheduled."
+      },
+      "add_pet": {
+        "title": "Add a pet",
+        "name": "Pet name",
+        "name_placeholder": "e.g. Max",
+        "species": "Species",
+        "select_species": "Select a species",
+        "breed": "Breed (optional)",
+        "breed_placeholder": "e.g. Golden Retriever",
+        "date_of_birth": "Date of birth (optional)",
+        "save": "Add pet",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "success": "Pet added successfully.",
+        "errors": {
+          "name_required": "Pet name is required",
+          "species_required": "Species is required",
+          "save_failed": "Failed to add pet. Please try again."
+        }
+      },
+      "status": {
+        "scheduled": "Scheduled",
+        "checkedIn": "Checked In",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "noShow": "No Show"
+      },
+      "rate_limit": {
+        "title": "Booking limit reached",
+        "message": "You have reached the maximum number of bookings allowed for today. Please try again tomorrow or contact the clinic directly.",
+        "contact_clinic": "Contact the clinic"
+      },
+      "expired_link": {
+        "title": "This link has expired",
+        "message": "This booking link is no longer valid. Please contact the clinic to receive a new invitation.",
+        "contact_clinic": "Contact the clinic"
+      },
+      "guest_signup": {
+        "title": "Enter your details",
+        "subtitle": "To book an appointment, please provide your contact information.",
+        "name": "Full name",
+        "name_placeholder": "e.g. Khalid Al-Mansoori",
+        "email": "Email",
+        "email_placeholder": "your@email.com",
+        "phone": "Phone number",
+        "phone_placeholder": "+971 50 123 4567",
+        "submit": "Continue",
+        "submitting": "Verifying...",
+        "verify_title": "Verify your phone number",
+        "verify_subtitle": "We sent a 6-digit code to {phone}",
+        "otp_label": "Verification code",
+        "otp_placeholder": "Enter 6-digit code",
+        "verify": "Verify",
+        "verifying": "Verifying...",
+        "resend": "Resend code",
+        "resend_in": "Resend in {seconds}s",
+        "errors": {
+          "name_required": "Full name is required",
+          "email_required": "Please enter a valid email address",
+          "phone_required": "Phone number is required",
+          "phone_invalid": "Please enter a valid UAE phone number",
+          "otp_required": "Please enter the verification code",
+          "otp_invalid": "Invalid or expired code. Please try again.",
+          "submit_failed": "Something went wrong. Please try again."
+        }
+      }
     }
   },
   "onboarding": {
