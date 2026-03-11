@@ -126,4 +126,35 @@ public class SystemDefaultsTests
     {
         SystemDefaults.GetCategory(key).Should().Be(expected);
     }
+
+    [Fact]
+    public void GetDefault_UnknownKey_ThrowsInvalidOperationException()
+    {
+        // Cast an out-of-range int to PreferenceKey to simulate an unknown key
+        var unknownKey = (PreferenceKey)9999;
+
+        var act = () => SystemDefaults.GetDefault(unknownKey);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("*No system default defined for PreferenceKey*");
+    }
+
+    [Fact]
+    public void GetCategory_UnknownKey_ThrowsInvalidOperationException()
+    {
+        var unknownKey = (PreferenceKey)9999;
+
+        var act = () => SystemDefaults.GetCategory(unknownKey);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("*No category mapping defined for PreferenceKey*");
+    }
+
+    [Fact]
+    public void HasDefault_UnknownKey_ReturnsFalse()
+    {
+        var unknownKey = (PreferenceKey)9999;
+
+        SystemDefaults.HasDefault(unknownKey).Should().BeFalse();
+    }
 }

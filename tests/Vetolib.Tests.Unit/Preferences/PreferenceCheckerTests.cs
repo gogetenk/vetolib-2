@@ -118,4 +118,43 @@ public class PreferenceCheckerTests : IDisposable
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeTrue();
     }
+
+    [Fact]
+    public async Task GetValueAsync_SecondCall_ReturnsCachedValue()
+    {
+        // First call populates cache
+        var first = await _checker.GetValueAsync(UserId, PreferenceKey.NotificationEmail);
+        first.IsSuccess.Should().BeTrue();
+
+        // Second call should hit cache (same result)
+        var second = await _checker.GetValueAsync(UserId, PreferenceKey.NotificationEmail);
+        second.IsSuccess.Should().BeTrue();
+        second.Value.Should().Be(first.Value);
+    }
+
+    [Fact]
+    public async Task Invalidate_RemovesCachedValue_NextCallFetchesFresh()
+    {
+        // Populate cache
+        await _checker.GetValueAsync(UserId, PreferenceKey.NotificationEmail);
+
+        // Invalidate the cached entry
+        _checker.Invalidate(ClinicId, UserId, PreferenceKey.NotificationEmail);
+
+        // Next call should fetch fresh from DB/system defaults
+        var result = await _checker.GetValueAsync(UserId, PreferenceKey.NotificationEmail);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
+    }
+
+    [Fact]
+    public void BuildCacheKey_ProducesConsistentKey()
+    {
+        var clinicId = new Guid("11111111-1111-1111-1111-111111111111");
+        var userId = new Guid("22222222-2222-2222-2222-222222222222");
+        var key = PreferenceChecker.BuildCacheKey(clinicId, userId, PreferenceKey.NotificationEmail);
+
+        key.Should().Be($"pref:{clinicId}:{userId}:{PreferenceKey.NotificationEmail}");
+        key.Should().Contain("NotificationEmail");
+    }
 }
