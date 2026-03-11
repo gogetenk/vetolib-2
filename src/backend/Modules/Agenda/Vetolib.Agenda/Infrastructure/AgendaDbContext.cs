@@ -9,6 +9,7 @@ namespace Vetolib.Agenda.Infrastructure;
 internal class AgendaDbContext : MultiTenantDbContext
 {
     public DbSet<Appointment> Appointments => Set<Appointment>();
+    public DbSet<ConsultationType> ConsultationTypes => Set<ConsultationType>();
 
     public AgendaDbContext(
         DbContextOptions<AgendaDbContext> options,
