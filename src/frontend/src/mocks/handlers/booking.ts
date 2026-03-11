@@ -9,7 +9,7 @@ import type {
 const BASE = '/api/v1/portal/booking'
 
 // Mutable in-memory state
-let ownerAppointments: BookingAppointmentDto[] = getMockOwnerAppointments()
+const ownerAppointments: BookingAppointmentDto[] = getMockOwnerAppointments()
 
 // ─── Auth helper ──────────────────────────────────────────────────────────────
 
