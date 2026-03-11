@@ -8,89 +8,56 @@ const MOCK_VETS: VetDto[] = [
   { id: 'vet-0000-0000-0000-000000000004', name: 'Dr. Khalid Ibrahim' },
 ]
 
+const CLINIC_ID = 'clinic-001'
+
+function mockAppointment(
+  seq: number,
+  overrides: Partial<AppointmentDto> & Pick<AppointmentDto, 'patientName' | 'species' | 'ownerName' | 'ownerPhone' | 'vetId' | 'vetName' | 'status' | 'scheduledAt' | 'reason'>,
+): AppointmentDto {
+  return {
+    id: `apt-0000-0000-0000-00000000000${seq}`,
+    clinicId: CLINIC_ID,
+    ...overrides,
+  }
+}
+
 const MOCK_APPOINTMENTS: AppointmentDto[] = [
-  {
-    id: 'apt-0000-0000-0000-000000000001',
-    patientName: 'Max',
-    species: 'Dog',
-    ownerName: 'Ahmed Al-Rashid',
-    ownerPhone: '+971 50 123 4567',
-    vetId: 'vet-0000-0000-0000-000000000001',
-    vetName: 'Dr. Sarah Johnson',
-    status: 'SCHEDULED',
+  mockAppointment(1, {
+    patientName: 'Max', species: 'Dog', ownerName: 'Ahmed Al-Rashid', ownerPhone: '+971 50 123 4567',
+    vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'SCHEDULED',
     scheduledAt: new Date('2026-03-12T09:00:00+04:00').toISOString(),
-    reason: 'Annual vaccination',
-    notes: 'Owner requested morning slot',
-    clinicId: 'clinic-001',
-  },
-  {
-    id: 'apt-0000-0000-0000-000000000002',
-    patientName: 'Luna',
-    species: 'Cat',
-    ownerName: 'Fatima Hassan',
-    ownerPhone: '+971 55 987 6543',
-    vetId: 'vet-0000-0000-0000-000000000002',
-    vetName: 'Dr. Omar Al-Rashid',
-    status: 'CHECKED_IN',
+    reason: 'Annual vaccination', notes: 'Owner requested morning slot',
+  }),
+  mockAppointment(2, {
+    patientName: 'Luna', species: 'Cat', ownerName: 'Fatima Hassan', ownerPhone: '+971 55 987 6543',
+    vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'CHECKED_IN',
     scheduledAt: new Date('2026-03-11T10:30:00+04:00').toISOString(),
     reason: 'Skin condition follow-up',
-    clinicId: 'clinic-001',
-  },
-  {
-    id: 'apt-0000-0000-0000-000000000003',
-    patientName: 'Rocky',
-    species: 'Dog',
-    ownerName: 'Mohammed Al-Zaabi',
-    ownerPhone: '+971 54 321 0987',
-    vetId: 'vet-0000-0000-0000-000000000001',
-    vetName: 'Dr. Sarah Johnson',
-    status: 'IN_PROGRESS',
+  }),
+  mockAppointment(3, {
+    patientName: 'Rocky', species: 'Dog', ownerName: 'Mohammed Al-Zaabi', ownerPhone: '+971 54 321 0987',
+    vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'IN_PROGRESS',
     scheduledAt: new Date('2026-03-11T11:00:00+04:00').toISOString(),
-    reason: 'Post-surgery check',
-    notes: 'Please prepare examination room 2',
-    clinicId: 'clinic-001',
-  },
-  {
-    id: 'apt-0000-0000-0000-000000000004',
-    patientName: 'Mango',
-    species: 'Bird',
-    ownerName: 'Noura Al-Ketbi',
-    ownerPhone: '+971 56 456 7890',
-    vetId: 'vet-0000-0000-0000-000000000003',
-    vetName: 'Dr. Layla Al-Mansoori',
-    status: 'COMPLETED',
+    reason: 'Post-surgery check', notes: 'Please prepare examination room 2',
+  }),
+  mockAppointment(4, {
+    patientName: 'Mango', species: 'Bird', ownerName: 'Noura Al-Ketbi', ownerPhone: '+971 56 456 7890',
+    vetId: MOCK_VETS[2].id, vetName: MOCK_VETS[2].name, status: 'COMPLETED',
     scheduledAt: new Date('2026-03-10T08:30:00+04:00').toISOString(),
     reason: 'Feather loss examination',
-    clinicId: 'clinic-001',
-  },
-  {
-    id: 'apt-0000-0000-0000-000000000005',
-    patientName: 'Oreo',
-    species: 'Rabbit',
-    ownerName: 'Saeed Al-Hamdan',
-    ownerPhone: '+971 50 789 0123',
-    vetId: 'vet-0000-0000-0000-000000000004',
-    vetName: 'Dr. Khalid Ibrahim',
-    status: 'CANCELLED',
+  }),
+  mockAppointment(5, {
+    patientName: 'Oreo', species: 'Rabbit', ownerName: 'Saeed Al-Hamdan', ownerPhone: '+971 50 789 0123',
+    vetId: MOCK_VETS[3].id, vetName: MOCK_VETS[3].name, status: 'CANCELLED',
     scheduledAt: new Date('2026-03-09T14:00:00+04:00').toISOString(),
-    reason: 'Routine check',
-    cancellationReason: 'Owner request -- travel',
-    clinicId: 'clinic-001',
-  },
-  {
-    id: 'apt-0000-0000-0000-000000000006',
-    patientName: 'Sultan',
-    species: 'Horse',
-    ownerName: 'Hamdan Al-Maktoum',
-    ownerPhone: '+971 52 111 2233',
-    vetId: 'vet-0000-0000-0000-000000000002',
-    vetName: 'Dr. Omar Al-Rashid',
-    status: 'SCHEDULED',
+    reason: 'Routine check', cancellationReason: 'Owner request -- travel',
+  }),
+  mockAppointment(6, {
+    patientName: 'Sultan', species: 'Horse', ownerName: 'Hamdan Al-Maktoum', ownerPhone: '+971 52 111 2233',
+    vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'SCHEDULED',
     scheduledAt: new Date('2026-03-13T07:00:00+04:00').toISOString(),
-    reason: 'Dental examination',
-    notes: 'Large animal -- book extended slot',
-    clinicId: 'clinic-001',
-  },
+    reason: 'Dental examination', notes: 'Large animal -- book extended slot',
+  }),
 ]
 
 const STATUS_TRANSITIONS: Record<string, string> = {
@@ -112,8 +79,8 @@ export const appointmentHandlers = [
     const status = url.searchParams.get('status')
     const vetId = url.searchParams.get('vetId')
     const date = url.searchParams.get('date')
-    const page = parseInt(url.searchParams.get('page') ?? '1')
-    const pageSize = parseInt(url.searchParams.get('pageSize') ?? '10')
+    const page = Number.parseInt(url.searchParams.get('page') ?? '1', 10)
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10', 10)
 
     let items = [...MOCK_APPOINTMENTS]
 
@@ -171,7 +138,7 @@ export const appointmentHandlers = [
       scheduledAt: body.scheduledAt,
       reason: body.reason,
       notes: body.notes,
-      clinicId: 'clinic-001',
+      clinicId: CLINIC_ID,
     }
 
     MOCK_APPOINTMENTS.push(newAppointment)
