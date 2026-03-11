@@ -34,9 +34,8 @@ internal class ConsultationTypeConfiguration : IEntityTypeConfiguration<Consulta
             .IsRequired()
             .HasDefaultValue(false);
 
-        // Unique index on (ClinicId, Name) for active types only
-        // Note: partial unique indexes are not supported by EF Core in a cross-DB manner,
-        // so we add a unique index on (ClinicId, Name) and enforce IsActive filtering in application logic.
+        // Partial unique index: only active types must have unique names per clinic
+        // CRITICAL: Npgsql uses PascalCase column names with double quotes, NOT snake_case
         builder.HasIndex(c => new { c.ClinicId, c.Name })
             .IsUnique()
             .HasFilter("\"IsActive\" = true");
