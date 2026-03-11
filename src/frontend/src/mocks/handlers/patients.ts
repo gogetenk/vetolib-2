@@ -1,5 +1,5 @@
-import { http, HttpResponse } from 'msw'
-import type { PatientDto, PagedResult, CreatePatientRequest } from '@/lib/api/patients'
+import { http, HttpResponse, delay } from 'msw'
+import type { PatientDto, PagedResult, CreatePatientRequest, ImportReportDto } from '@/lib/api/patients'
 import type { MedicalRecordDto, CreateMedicalRecordRequest } from '@/lib/api/medical-records'
 
 // UAE-realistic patient data
@@ -300,6 +300,38 @@ export const patientHandlers = [
     }
     MOCK_PATIENTS.push(newPatient)
     return HttpResponse.json(newPatient, { status: 201 })
+  }),
+
+  // POST /api/patients/import -- upload CSV, returns import report
+  http.post('/api/patients/import', async () => {
+    await delay(800)
+    const report: ImportReportDto = {
+      imported: 12,
+      skipped: 2,
+      errors: [
+        'Row 4: Missing required field "ownerPhone"',
+        'Row 9: Invalid species "Tortoise" -- must be one of: Dog, Cat, Bird, Rabbit, Horse, Camel, Exotic',
+      ],
+    }
+    return HttpResponse.json<ImportReportDto>(report, { status: 200 })
+  }),
+
+  // GET /api/patients/import/template -- download CSV template
+  http.get('/api/patients/import/template', async () => {
+    await delay(200)
+    const csvContent = [
+      'name,species,breed,dateOfBirth,gender,weightKg,ownerName,ownerPhone,ownerEmail',
+      'Max,Dog,Golden Retriever,2019-03-15,Male,32.5,Ahmed Al-Rashid,+971501234567,ahmed@email.ae',
+      'Luna,Cat,Siamese,2021-07-22,Female,3.8,Fatima Hassan,+971559876543,fatima@email.ae',
+    ].join('\n')
+
+    return new HttpResponse(csvContent, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': 'attachment; filename="patient-import-template.csv"',
+      },
+    })
   }),
 
   // PATCH /api/patients/:id
