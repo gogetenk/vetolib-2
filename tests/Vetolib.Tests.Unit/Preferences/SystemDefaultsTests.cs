@@ -41,60 +41,78 @@ public class SystemDefaultsTests
     public void AIDrugInteractions_DefaultIsTrue()
     {
         // ALWAYS ON per PO decision
-        SystemDefaults.GetDefault(PreferenceKey.AIDrugInteractions).Should().Be("true");
+        var result = SystemDefaults.GetDefault(PreferenceKey.AIDrugInteractions);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
     }
 
     [Fact]
     public void AnalyticsPosthog_DefaultIsFalse()
     {
         // GDPR-ready: analytics OFF by default
-        SystemDefaults.GetDefault(PreferenceKey.AnalyticsPosthog).Should().Be("false");
+        var result = SystemDefaults.GetDefault(PreferenceKey.AnalyticsPosthog);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
     }
 
     [Fact]
     public void AnalyticsUsageData_DefaultIsFalse()
     {
         // GDPR-ready: analytics OFF by default
-        SystemDefaults.GetDefault(PreferenceKey.AnalyticsUsageData).Should().Be("false");
+        var result = SystemDefaults.GetDefault(PreferenceKey.AnalyticsUsageData);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
     }
 
     [Fact]
     public void NotificationEmail_DefaultIsTrue()
     {
-        SystemDefaults.GetDefault(PreferenceKey.NotificationEmail).Should().Be("true");
+        var result = SystemDefaults.GetDefault(PreferenceKey.NotificationEmail);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
     }
 
     [Fact]
     public void NotificationPush_DefaultIsFalse()
     {
         // Push not yet implemented
-        SystemDefaults.GetDefault(PreferenceKey.NotificationPush).Should().Be("false");
+        var result = SystemDefaults.GetDefault(PreferenceKey.NotificationPush);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
     }
 
     [Fact]
     public void NotificationSms_DefaultIsFalse()
     {
         // SMS not yet implemented
-        SystemDefaults.GetDefault(PreferenceKey.NotificationSms).Should().Be("false");
+        var result = SystemDefaults.GetDefault(PreferenceKey.NotificationSms);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
     }
 
     [Fact]
     public void PrivacyDataSharing_DefaultIsFalse()
     {
-        SystemDefaults.GetDefault(PreferenceKey.PrivacyDataSharing).Should().Be("false");
+        var result = SystemDefaults.GetDefault(PreferenceKey.PrivacyDataSharing);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
     }
 
     [Fact]
     public void PrivacyMarketing_DefaultIsFalse()
     {
-        SystemDefaults.GetDefault(PreferenceKey.PrivacyMarketing).Should().Be("false");
+        var result = SystemDefaults.GetDefault(PreferenceKey.PrivacyMarketing);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
     }
 
     [Fact]
     public void CommunicationLanguage_DefaultIsEnglish()
     {
         // UAE market — English default
-        SystemDefaults.GetDefault(PreferenceKey.CommunicationLanguage).Should().Be("en");
+        var result = SystemDefaults.GetDefault(PreferenceKey.CommunicationLanguage);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("en");
     }
 
     [Fact]
@@ -110,8 +128,9 @@ public class SystemDefaultsTests
         var allKeys = Enum.GetValues<PreferenceKey>();
         foreach (var key in allKeys)
         {
-            var act = () => SystemDefaults.GetCategory(key);
-            act.Should().NotThrow();
+            var result = SystemDefaults.GetCategory(key);
+            result.IsSuccess.Should().BeTrue(
+                $"PreferenceKey.{key} must have a category mapping in SystemDefaults");
         }
     }
 
@@ -124,6 +143,8 @@ public class SystemDefaultsTests
     [InlineData(PreferenceKey.PrivacyDataSharing, PreferenceCategory.Privacy)]
     public void GetCategory_ReturnsCorrectCategoryForKey(PreferenceKey key, PreferenceCategory expected)
     {
-        SystemDefaults.GetCategory(key).Should().Be(expected);
+        var result = SystemDefaults.GetCategory(key);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be(expected);
     }
 }
