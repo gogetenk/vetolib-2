@@ -3,6 +3,7 @@ import type {
   DashboardStatsDto,
   TodayAppointmentDto,
   ActivityDto,
+  DashboardAnalyticsDto,
 } from '@/lib/api/dashboard'
 
 const MOCK_STATS: DashboardStatsDto = {
@@ -73,74 +74,94 @@ const MOCK_RECENT_ACTIVITY: ActivityDto[] = [
   {
     id: 'act-001',
     type: 'BILLING',
-    message: 'Facture #INV-2026-003 payÃ©e â€” AED 2,310.00',
+    message: 'Facture #INV-2026-003 payée — AED 2,310.00',
     occurredAt: new Date(Date.now() - 30 * 60_000).toISOString(),
     relatedId: 'inv-0000-0000-0000-000000000003',
   },
   {
     id: 'act-002',
     type: 'MEDICAL',
-    message: 'Dossier mÃ©dical crÃ©Ã© â€” Luna (Dr. Ahmed Khalil)',
+    message: 'Dossier médical créé — Luna (Dr. Ahmed Khalil)',
     occurredAt: new Date(Date.now() - 105 * 60_000).toISOString(),
     relatedId: 'pat-0000-0000-0000-000000000002',
   },
   {
     id: 'act-003',
     type: 'APPOINTMENT',
-    message: 'RDV terminÃ© â€” Max (Dr. Sarah Johnson)',
+    message: 'RDV terminé — Max (Dr. Sarah Johnson)',
     occurredAt: new Date(Date.now() - 180 * 60_000).toISOString(),
     relatedId: 'appt-0000-0000-0000-000000000001',
   },
   {
     id: 'act-004',
     type: 'BILLING',
-    message: 'Facture #INV-2026-002 envoyÃ©e â€” AED 241.50',
+    message: 'Facture #INV-2026-002 envoyée — AED 241.50',
     occurredAt: new Date(Date.now() - 240 * 60_000).toISOString(),
     relatedId: 'inv-0000-0000-0000-000000000002',
   },
   {
     id: 'act-005',
     type: 'APPOINTMENT',
-    message: 'RDV crÃ©Ã© â€” Rocky, 11:00 (Dr. Sarah Johnson)',
+    message: 'RDV créé — Rocky, 11:00 (Dr. Sarah Johnson)',
     occurredAt: new Date(Date.now() - 300 * 60_000).toISOString(),
     relatedId: 'appt-0000-0000-0000-000000000003',
   },
   {
     id: 'act-006',
     type: 'MEDICAL',
-    message: 'Ordonnance ajoutÃ©e â€” Bella (Dr. Ahmed Khalil)',
+    message: 'Ordonnance ajoutée — Bella (Dr. Ahmed Khalil)',
     occurredAt: new Date(Date.now() - 360 * 60_000).toISOString(),
     relatedId: 'pat-0000-0000-0000-000000000004',
   },
   {
     id: 'act-007',
     type: 'APPOINTMENT',
-    message: 'RDV annulÃ© â€” Milo (Dr. Sarah Johnson)',
+    message: 'RDV annulé — Milo (Dr. Sarah Johnson)',
     occurredAt: new Date(Date.now() - 420 * 60_000).toISOString(),
     relatedId: null,
   },
   {
     id: 'act-008',
     type: 'BILLING',
-    message: 'Facture #INV-2026-001 crÃ©Ã©e â€” AED 210.00',
+    message: 'Facture #INV-2026-001 créée — AED 210.00',
     occurredAt: new Date(Date.now() - 480 * 60_000).toISOString(),
     relatedId: 'inv-0000-0000-0000-000000000001',
   },
   {
     id: 'act-009',
     type: 'MEDICAL',
-    message: 'Examen ajoutÃ© â€” Charlie (Dr. Sarah Johnson)',
+    message: 'Examen ajouté — Charlie (Dr. Sarah Johnson)',
     occurredAt: new Date(Date.now() - 540 * 60_000).toISOString(),
     relatedId: null,
   },
   {
     id: 'act-010',
     type: 'APPOINTMENT',
-    message: 'RDV crÃ©Ã© â€” Bella, 12:00 (Dr. Ahmed Khalil)',
+    message: 'RDV créé — Bella, 12:00 (Dr. Ahmed Khalil)',
     occurredAt: new Date(Date.now() - 600 * 60_000).toISOString(),
     relatedId: 'appt-0000-0000-0000-000000000004',
   },
 ]
+
+const MOCK_ANALYTICS: DashboardAnalyticsDto = {
+  revenueByMonth: [
+    { month: '2025-10', total: 41000 },
+    { month: '2025-11', total: 47500 },
+    { month: '2025-12', total: 39000 },
+    { month: '2026-01', total: 45000 },
+    { month: '2026-02', total: 52000 },
+    { month: '2026-03', total: 38000 },
+  ],
+  patientsBySpecies: [
+    { species: 'Dog', count: 120 },
+    { species: 'Cat', count: 85 },
+    { species: 'Bird', count: 15 },
+    { species: 'Rabbit', count: 8 },
+    { species: 'Camel', count: 4 },
+    { species: 'Exotic', count: 3 },
+  ],
+  noShowRate: 0.08,
+}
 
 export const dashboardHandlers = [
   // GET /api/dashboard/stats
@@ -159,5 +180,11 @@ export const dashboardHandlers = [
   http.get('/api/dashboard/recent-activity', async () => {
     await delay(150)
     return HttpResponse.json<ActivityDto[]>(MOCK_RECENT_ACTIVITY)
+  }),
+
+  // GET /api/dashboard/analytics
+  http.get('/api/dashboard/analytics', async () => {
+    await delay(200)
+    return HttpResponse.json<DashboardAnalyticsDto>(MOCK_ANALYTICS)
   }),
 ]
