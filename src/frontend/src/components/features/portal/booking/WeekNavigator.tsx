@@ -54,15 +54,6 @@ function getTodayDubai(): string {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' }) // en-CA = YYYY-MM-DD format
 }
 
-/** Format a date for display as "Mar 15" */
-function formatShort(dateStr: string): string {
-  return new Date(parseDate(dateStr)).toLocaleDateString('en-AE', {
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'UTC',
-  })
-}
-
 /** Format week range header: "Mar 15 – Mar 21, 2026" */
 function formatWeekRange(weekStart: string): string {
   const start = parseDate(weekStart)

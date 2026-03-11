@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer } from 'react'
 import { Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { suggestSlots } from '@/lib/api/booking'
@@ -57,15 +57,34 @@ export function RecommendedSlots({
   selectedSlotStart,
   onSelect,
 }: RecommendedSlotsProps) {
-  const [suggestions, setSuggestions] = useState<SlotSuggestionDto[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
+  type FetchState = {
+    suggestions: SlotSuggestionDto[]
+    isLoading: boolean
+    hasError: boolean
+  }
+  type FetchAction =
+    | { type: 'success'; payload: SlotSuggestionDto[] }
+    | { type: 'error' }
+
+  function fetchReducer(_state: FetchState, action: FetchAction): FetchState {
+    switch (action.type) {
+      case 'success':
+        return { suggestions: action.payload, isLoading: false, hasError: false }
+      case 'error':
+        return { suggestions: [], isLoading: false, hasError: true }
+    }
+  }
+
+  const [{ suggestions, isLoading, hasError }, dispatch] = useReducer(fetchReducer, {
+    suggestions: [],
+    isLoading: true,
+    hasError: false,
+  })
 
   const resolvedToDate = toDate ?? addDays(fromDate, 14)
 
   useEffect(() => {
-    setIsLoading(true)
-    setHasError(false)
+    let cancelled = false
 
     suggestSlots({
       from: fromDate,
@@ -73,9 +92,14 @@ export function RecommendedSlots({
       vetId,
       reason,
     })
-      .then((data) => setSuggestions(data.slice(0, 3)))
-      .catch(() => setHasError(true))
-      .finally(() => setIsLoading(false))
+      .then((data) => {
+        if (!cancelled) dispatch({ type: 'success', payload: data.slice(0, 3) })
+      })
+      .catch(() => {
+        if (!cancelled) dispatch({ type: 'error' })
+      })
+
+    return () => { cancelled = true }
   }, [fromDate, resolvedToDate, vetId, reason])
 
   // Loading skeletons
@@ -130,7 +154,6 @@ export function RecommendedSlots({
             <button
               key={slot.startsAt}
               type="button"
-              role="listitem"
               onClick={() => onSelect(slot)}
               data-testid={`recommended-slot-${idx}`}
               aria-pressed={isSelected}
