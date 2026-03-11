@@ -9,6 +9,7 @@ import { drugHandlers } from './drugs'
 import { portalHandlers } from './portal'
 import { onboardingHandlers } from './onboarding'
 import { preferenceHandlers } from './preferences'
+import { bookingHandlers } from './booking'
 
 export const handlers = [
   ...authHandlers,
@@ -22,4 +23,5 @@ export const handlers = [
   ...portalHandlers,
   ...onboardingHandlers,
   ...preferenceHandlers,
+  ...bookingHandlers,
 ]
