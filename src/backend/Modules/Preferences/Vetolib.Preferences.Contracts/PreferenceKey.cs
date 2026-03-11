@@ -27,5 +27,12 @@ public enum PreferenceKey
 
     // Privacy
     PrivacyDataSharing,
-    PrivacyMarketing
+    PrivacyMarketing,
+
+    // Booking
+    BookingEnabled,           // bool
+    BookingMaxAdvanceDays,    // int
+    BookingMinCancelHours,    // int
+    BookingMaxReschedules,    // int
+    BookingSlotGridMinutes,   // int
 }
