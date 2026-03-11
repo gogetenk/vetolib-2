@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -27,6 +28,7 @@ const MOCK_PATIENTS = [
 
 export function InvoiceForm() {
   const router = useRouter()
+  const t = useTranslations('billing.form')
   const [selectedPatientId, setSelectedPatientId] = useState('')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItem[]>([
@@ -66,11 +68,11 @@ export function InvoiceForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!selectedPatient) {
-      setError('Please select a patient')
+      setError(t('errors.select_patient'))
       return
     }
     if (items.length === 0 || items.some((item) => !item.description)) {
-      setError('Please add at least one item with a description')
+      setError(t('errors.add_item_description'))
       return
     }
 
@@ -92,7 +94,7 @@ export function InvoiceForm() {
       })
       router.push(`/billing/${invoice.id}`)
     } catch {
-      setError('Failed to create invoice. Please try again.')
+      setError(t('errors.create_failed'))
       setSubmitting(false)
     }
   }
@@ -103,15 +105,15 @@ export function InvoiceForm() {
         {/* Patient Selection */}
         <Card>
           <CardHeader>
-            <CardTitle>Patient</CardTitle>
+            <CardTitle>{t('patient_section')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <Label htmlFor="patient-search">Search patient</Label>
+              <Label htmlFor="patient-search">{t('search_patient')}</Label>
               <Input
                 id="patient-search"
                 data-testid="patient-search-input"
-                placeholder="Type patient or owner name..."
+                placeholder={t('search_patient_placeholder')}
                 value={patientSearch}
                 onChange={(e) => setPatientSearch(e.target.value)}
               />
@@ -136,7 +138,7 @@ export function InvoiceForm() {
                     </button>
                   ))}
                   {filteredPatients.length === 0 && (
-                    <p className="px-3 py-2 text-sm text-muted-foreground">No patients found</p>
+                    <p className="px-3 py-2 text-sm text-muted-foreground">{t('no_patients_found')}</p>
                   )}
                 </div>
               )}
@@ -145,7 +147,7 @@ export function InvoiceForm() {
               <div className="rounded-md bg-muted px-3 py-2 text-sm" data-testid="selected-patient">
                 <p className="font-medium">{selectedPatient.name}</p>
                 <p className="text-muted-foreground">
-                  Owner: {selectedPatient.ownerName} — {selectedPatient.ownerPhone}
+                  {t('owner_label')}: {selectedPatient.ownerName} — {selectedPatient.ownerPhone}
                 </p>
                 <button
                   type="button"
@@ -156,7 +158,7 @@ export function InvoiceForm() {
                     setPatientSearch('')
                   }}
                 >
-                  Change patient
+                  {t('change_patient')}
                 </button>
               </div>
             )}
@@ -167,7 +169,7 @@ export function InvoiceForm() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Invoice Items</CardTitle>
+              <CardTitle>{t('items_section')}</CardTitle>
               <Button
                 type="button"
                 variant="outline"
@@ -175,7 +177,7 @@ export function InvoiceForm() {
                 data-testid="add-item-btn"
                 onClick={addItem}
               >
-                + Add item
+                {t('add_item')}
               </Button>
             </div>
           </CardHeader>
@@ -183,10 +185,10 @@ export function InvoiceForm() {
             {items.map((item, index) => (
               <div key={index} className="grid grid-cols-12 gap-2 items-end" data-testid={`line-item-${index}`}>
                 <div className="col-span-5">
-                  {index === 0 && <Label>Description</Label>}
+                  {index === 0 && <Label>{t('description')}</Label>}
                   <Input
                     data-testid={`item-description-${index}`}
-                    placeholder="e.g. Consultation"
+                    placeholder={t('description_placeholder')}
                     aria-label={`Item ${index + 1} description`}
                     value={item.description}
                     onChange={(e) => updateItem(index, 'description', e.target.value)}
@@ -194,7 +196,7 @@ export function InvoiceForm() {
                   />
                 </div>
                 <div className="col-span-2">
-                  {index === 0 && <Label>Qty</Label>}
+                  {index === 0 && <Label>{t('qty')}</Label>}
                   <Input
                     data-testid={`item-quantity-${index}`}
                     type="number"
@@ -206,7 +208,7 @@ export function InvoiceForm() {
                   />
                 </div>
                 <div className="col-span-3">
-                  {index === 0 && <Label>Unit Price (AED)</Label>}
+                  {index === 0 && <Label>{t('unit_price')}</Label>}
                   <Input
                     data-testid={`item-unit-price-${index}`}
                     type="number"
@@ -240,15 +242,15 @@ export function InvoiceForm() {
             {/* Totals */}
             <div className="mt-4 border-t pt-4 space-y-1 text-sm" data-testid="invoice-totals">
               <div className="flex justify-between">
-                <span>Subtotal (excl. VAT)</span>
+                <span>{t('subtotal_excl_vat')}</span>
                 <span data-testid="form-subtotal">{formatAED(subtotal)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
-                <span>VAT (5%)</span>
+                <span>{t('vat_percent')}</span>
                 <span data-testid="form-vat">{formatAED(vatAmount)}</span>
               </div>
               <div className="flex justify-between font-bold text-base border-t pt-1">
-                <span>Total AED</span>
+                <span>{t('total_aed')}</span>
                 <span data-testid="form-total">{formatAED(total)}</span>
               </div>
             </div>
@@ -258,13 +260,13 @@ export function InvoiceForm() {
         {/* Notes */}
         <Card>
           <CardHeader>
-            <CardTitle>Notes (optional)</CardTitle>
+            <CardTitle>{t('notes_section')}</CardTitle>
           </CardHeader>
           <CardContent>
             <Textarea
               data-testid="invoice-notes"
               className="resize-y"
-              placeholder="Additional notes for the invoice..."
+              placeholder={t('notes_placeholder')}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />
@@ -284,14 +286,14 @@ export function InvoiceForm() {
             data-testid="cancel-form-btn"
             onClick={() => router.push('/billing')}
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             type="submit"
             data-testid="submit-invoice-btn"
             disabled={submitting}
           >
-            {submitting ? 'Creating...' : 'Create Invoice'}
+            {submitting ? t('creating') : t('create_invoice')}
           </Button>
         </div>
       </div>
