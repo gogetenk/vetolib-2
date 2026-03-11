@@ -30,7 +30,18 @@ public class ValidationBehavior<TRequest, TResponse>
         if (failures.Count == 0) return await next();
 
         var errors = failures
-            .Select(f => new ValidationError(f.PropertyName, f.ErrorMessage))
+            .Select(f => new ValidationError
+            {
+                Identifier = f.PropertyName,
+                ErrorMessage = f.ErrorMessage,
+                ErrorCode = f.ErrorCode,
+                Severity = f.Severity switch
+                {
+                    FluentValidation.Severity.Warning => ValidationSeverity.Warning,
+                    FluentValidation.Severity.Info => ValidationSeverity.Info,
+                    _ => ValidationSeverity.Error
+                }
+            })
             .ToList();
 
         // Handle Result (non-generic)

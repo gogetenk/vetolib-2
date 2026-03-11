@@ -51,7 +51,10 @@ internal class FacturationSteps
     [Given(@"a clinic ""(.*)""")]
     public void GivenAClinic(string clinicName)
     {
-        _clinicId = GenerateGuidFromString(clinicName);
+        // Use the fixed TestClinicGuid so the multi-tenant query filter sees data
+        // created in the same scenario. Using GenerateGuidFromString would produce a
+        // ClinicId invisible to queries filtered by the current IClinicContext value.
+        _clinicId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }

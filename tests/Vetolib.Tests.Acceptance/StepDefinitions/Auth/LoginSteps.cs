@@ -54,8 +54,11 @@ internal class LoginSteps
     [Given(@"a clinic ""(.*)"" with identifier ""(.*)""")]
     public void GivenAClinicWithIdentifier(string clinicName, string clinicIdentifier)
     {
-        // Generate a stable GUID from the identifier
-        var clinicId = GenerateGuidFromString(clinicIdentifier);
+        // First clinic gets the fixed TestClinicGuid; subsequent ones get unique GUIDs
+        // so that tenant-isolation queries work correctly.
+        var clinicId = _clinicIds.Count == 0
+            ? TestClinicContext.TestClinicGuid
+            : GenerateGuidFromString(clinicIdentifier);
         _clinicIds[clinicIdentifier] = clinicId;
 
         // Update the test clinic context
@@ -558,7 +561,9 @@ internal class LoginSteps
         var clinicIdentifier = row["ClinicId"];
         if (!_clinicIds.ContainsKey(clinicIdentifier))
         {
-            _clinicIds[clinicIdentifier] = GenerateGuidFromString(clinicIdentifier);
+            _clinicIds[clinicIdentifier] = _clinicIds.Count == 0
+                ? TestClinicContext.TestClinicGuid
+                : GenerateGuidFromString(clinicIdentifier);
         }
         var clinicId = _clinicIds[clinicIdentifier];
 

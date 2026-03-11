@@ -25,7 +25,7 @@ public static class ModuleServiceRegistrar
         });
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         // IAppointmentReader — used by the AI module for no-show prediction feature collection
         services.AddScoped<IAppointmentReader, AppointmentReader>();

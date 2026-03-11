@@ -533,13 +533,50 @@ internal class ReceptionistInboxSteps
     }
 
     /// <summary>
+    /// Ensures an admin user exists and returns their Bearer token for seeding operations
+    /// that require Admin authorization (e.g., the outbound conversation endpoint).
+    /// </summary>
+    private async Task<string> GetAdminBearerToken()
+    {
+        const string adminEmail = "seed-admin@test-receptionist-inbox.ae";
+        var clinicId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+
+        using var scope = _factory.Services.CreateScope();
+        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+
+        var existing = await authDb.Users.IgnoreQueryFilters()
+            .FirstOrDefaultAsync(u => u.Email == adminEmail);
+        if (existing is null)
+        {
+            var userResult = User.Create(clinicId, adminEmail, "SecurePass1", UserRole.Admin, null);
+            authDb.Users.Add(userResult.Value);
+            await authDb.SaveChangesAsync();
+        }
+
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
+            new LoginRequest(adminEmail, "SecurePass1"));
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, "Login as Admin for seeding should succeed");
+
+        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
+        return authToken!.AccessToken;
+    }
+
+    /// <summary>
     /// Seeds a conversation via the outbound staff endpoint.
-    /// Uses a fixed owner Guid and a generated subject from the body.
+    /// Temporarily switches to Admin auth (required by the endpoint), then restores the original auth.
     /// </summary>
     private async Task<HttpResponseMessage> SeedConversation(string body, string category)
     {
         var ownerId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
         var subject = body.Length > 100 ? body[..100] : body;
+
+        // Save current auth header
+        var originalAuth = _client.DefaultRequestHeaders.Authorization;
+
+        // Switch to admin for seeding
+        var adminToken = await GetAdminBearerToken();
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", adminToken);
 
         var response = await _client.PostAsJsonAsync("/api/v1/messaging/conversations/outbound", new
         {
@@ -548,6 +585,10 @@ internal class ReceptionistInboxSteps
             InitialMessageBody = body,
             Category = category
         });
+
+        // Restore original auth
+        _client.DefaultRequestHeaders.Authorization = originalAuth;
+
         return response;
     }
 }

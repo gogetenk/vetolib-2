@@ -447,7 +447,7 @@ internal class OnboardingSteps
 
         var clinicId = _ctx.ContainsKey("ClinicId")
             ? _ctx.Get<Guid>("ClinicId")
-            : GenerateGuidFromString("Desert Paws");
+            : TestClinicContext.TestClinicGuid;
 
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicId;

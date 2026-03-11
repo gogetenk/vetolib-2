@@ -1,11 +1,11 @@
 namespace Vetolib.Messaging.Contracts;
 
 public record TriageStatsDto(
-    double AverageFirstResponseTimeMinutes,
+    double AverageFirstResponseTime,
     IReadOnlyList<CategoryCountDto> MessagesByCategory,
-    double AiTriageAccuracyPercent,
+    double AiTriageAccuracy,
     IReadOnlyList<DailyVolumeDto> VolumePerDay,
-    double ConversionRatePercent
+    double ConversionRateToAppointment
 );
 
 public record CategoryCountDto(

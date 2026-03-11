@@ -24,7 +24,7 @@ public static class ModuleServiceRegistrar
         });
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         // Cross-module reader interfaces
         services.AddScoped<IPatientReader, PatientReader>();

@@ -23,6 +23,7 @@ internal static class InvoiceEndpoints
             .WithTags("Invoices");
 
         group.MapPost("/", CreateInvoice)
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
             .WithName("CreateInvoice");
 
         group.MapGet("/", ListInvoices)

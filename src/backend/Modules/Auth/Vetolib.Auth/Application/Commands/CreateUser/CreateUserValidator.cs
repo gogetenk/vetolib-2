@@ -16,6 +16,7 @@ internal class CreateUserValidator : AbstractValidator<CreateUserCommand>
         RuleFor(x => x.VetLicenseNumber)
             .NotEmpty()
             .When(x => x.Role == UserRole.Vet)
+            .WithErrorCode("VET_LICENSE_REQUIRED")
             .WithMessage("Un numero de licence veterinaire est requis pour le role Vet");
     }
 }

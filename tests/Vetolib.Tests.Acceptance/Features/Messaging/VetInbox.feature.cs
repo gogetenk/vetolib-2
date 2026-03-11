@@ -256,18 +256,18 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 24
     await testRunner.GivenAsync("I open a message linked to patient \"Luna\" (cat, 3 years old)", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table34 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
                             "Context"});
-                table34.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Last examination date"});
-                table34.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Current prescriptions"});
-                table34.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Known allergies"});
-                table34.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Vaccination history"});
 #line 25
-    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table34, "Then ");
+    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table25, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -445,20 +445,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 59
     await testRunner.WhenAsync("I click \"Create urgent appointment\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Pre-filled value"});
-                table35.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Patient",
                             "Buddy"});
-                table35.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Type",
                             "Emergency"});
-                table35.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Reason",
                             "Extracted from message text"});
 #line 60
-    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table35, "Then ");
+    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table26, "Then ");
 #line hidden
 #line 65
     await testRunner.AndAsync("the appointment should be created in the next available slot", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");

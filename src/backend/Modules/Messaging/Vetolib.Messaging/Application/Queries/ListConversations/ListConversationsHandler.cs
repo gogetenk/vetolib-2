@@ -60,15 +60,19 @@ internal class ListConversationsHandler : IRequestHandler<ListConversationsQuery
         }
         else if (role == "Vet")
         {
-            q = q.Where(c => VetCategories.Contains(c.Category));
+            q = q.Where(c => VetCategories.Contains(c.Category)
+                || c.AssignedToRole == "Vet");
+            q = q.Where(c => c.AssignedToRole == null || c.AssignedToRole == "Vet");
         }
         else if (role == "Receptionist")
         {
             q = q.Where(c => ReceptionistCategories.Contains(c.Category));
+            q = q.Where(c => c.AssignedToRole == null || c.AssignedToRole == "Receptionist");
         }
         else if (role == "Assistant")
         {
             q = q.Where(c => AssistantCategories.Contains(c.Category));
+            q = q.Where(c => c.AssignedToRole == null || c.AssignedToRole == "Assistant");
         }
         else
         {
@@ -99,7 +103,7 @@ internal class ListConversationsHandler : IRequestHandler<ListConversationsQuery
                 : c.Category == MessageCategory.PostOperativeFollowUp ? 1
                 : c.Category == MessageCategory.MedicalQuestion || c.Category == MessageCategory.AppointmentRequest ? 2
                 : 3)
-            .ThenByDescending(c => c.LastMessageAt ?? c.CreatedAt)
+            .ThenBy(c => c.LastMessageAt ?? c.CreatedAt)
             .Skip((query.Page - 1) * query.PageSize)
             .Take(query.PageSize)
             .ToListAsync(ct);

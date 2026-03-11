@@ -25,7 +25,7 @@ public static class MessagingModuleServiceRegistrar
         });
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(MessagingModuleServiceRegistrar).Assembly);
+        services.AddValidatorsFromAssembly(typeof(MessagingModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         // Internal services
         services.AddScoped<IBusinessHoursChecker, BusinessHoursChecker>();

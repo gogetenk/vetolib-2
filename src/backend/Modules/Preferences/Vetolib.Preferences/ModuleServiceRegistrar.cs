@@ -26,7 +26,7 @@ public static class ModuleServiceRegistrar
         });
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         // IMemoryCache — used by PreferenceChecker for 5-minute TTL caching
         services.AddMemoryCache();
