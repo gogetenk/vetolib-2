@@ -55,6 +55,7 @@ public static class ModuleServiceRegistrar
     {
         app.MapAppointmentApiEndpoints();
         app.MapConsultationTypeEndpoints();
+        app.MapBookingEndpoints();
         return app;
     }
 }
