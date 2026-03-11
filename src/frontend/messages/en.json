@@ -987,6 +987,138 @@
       "downloading": "Preparing download...",
       "back": "Back to conversations",
       "error": "Failed to export conversations. Please try again."
+    },
+    "booking": {
+      "landing": {
+        "upcoming_appointments": "Upcoming Appointments",
+        "no_upcoming": "You have no upcoming appointments.",
+        "book_appointment": "Book an Appointment",
+        "contact_clinic": "Need to contact the clinic?",
+        "loading": "Loading your appointments...",
+        "appointment_date": "Date",
+        "appointment_time": "Time",
+        "appointment_vet": "Veterinarian",
+        "appointment_type": "Type",
+        "appointment_pet": "Pet",
+        "status": {
+          "Scheduled": "Scheduled",
+          "CheckedIn": "Checked In"
+        }
+      },
+      "wizard": {
+        "title": "Book an Appointment",
+        "step_pet": "Your Pet",
+        "step_type": "Consultation Type",
+        "step_slot": "Choose a Slot",
+        "step_confirm": "Confirm",
+        "next": "Next",
+        "back": "Back",
+        "step_of": "Step {current} of {total}",
+        "pet_selection": {
+          "title": "Which pet is this appointment for?",
+          "loading": "Loading your pets...",
+          "no_pets": "No pets found. Please contact the clinic to add your pet.",
+          "add_pet": "Add a new pet",
+          "pre_selected": "We pre-selected your only pet"
+        },
+        "consultation_type": {
+          "title": "What type of consultation do you need?",
+          "loading": "Loading consultation types...",
+          "duration": "{minutes} min",
+          "price": "AED {price}",
+          "vet_label": "Preferred Veterinarian",
+          "vet_no_preference": "No preference",
+          "reason_label": "Reason for visit (optional)",
+          "reason_placeholder": "Briefly describe the reason for your visit...",
+          "reason_max_chars": "{count}/500 characters",
+          "emergency_warning": "Emergency consultation is for urgent situations during clinic hours. For life-threatening emergencies, call our 24/7 emergency line immediately."
+        },
+        "slot_selection": {
+          "title": "Choose a date and time",
+          "loading": "Loading availability...",
+          "no_slots": "No available slots for this period. Please try another week.",
+          "available": "Available",
+          "unavailable": "Unavailable",
+          "selected": "Selected"
+        },
+        "confirmation": {
+          "title": "Confirm your booking",
+          "pet": "Pet",
+          "consultation_type": "Consultation Type",
+          "vet": "Veterinarian",
+          "date_time": "Date & Time",
+          "duration": "Duration",
+          "duration_value": "{minutes} min",
+          "notes": "Notes",
+          "price": "Estimated Price",
+          "price_value": "AED {price}",
+          "confirm_checkbox": "I confirm this booking and agree to the clinic's cancellation policy (24h notice required).",
+          "submit": "Confirm Booking",
+          "submitting": "Booking...",
+          "slot_unavailable_error": "This slot is no longer available. Please choose another time.",
+          "generic_error": "Failed to confirm booking. Please try again."
+        },
+        "success": {
+          "title": "Booking Confirmed!",
+          "subtitle": "Your appointment has been successfully booked.",
+          "pet": "Pet",
+          "consultation_type": "Consultation Type",
+          "vet": "Veterinarian",
+          "date_time": "Date & Time",
+          "clinic": "Clinic",
+          "address": "Address",
+          "add_to_calendar": "Add to Calendar",
+          "view_appointments": "View My Appointments",
+          "redirect_notice": "Redirecting to My Appointments in {seconds}s..."
+        }
+      },
+      "appointments": {
+        "page_title": "My Appointments",
+        "tab_upcoming": "Upcoming",
+        "tab_past": "Past",
+        "loading": "Loading your appointments...",
+        "no_upcoming": "You have no upcoming appointments.",
+        "no_past": "You have no past appointments.",
+        "book_new": "Book a New Appointment",
+        "back": "Back to My Appointments",
+        "duration": "{minutes} min",
+        "booking_source": "Booked via",
+        "reschedule_count": "Rescheduled {count} time(s)",
+        "cancel": "Cancel Appointment",
+        "reschedule": "Reschedule",
+        "cancel_dialog_title": "Cancel Appointment",
+        "cancel_dialog_description": "Are you sure you want to cancel this appointment? This action cannot be undone.",
+        "cancel_reason_label": "Reason for cancellation (optional)",
+        "cancel_reason_placeholder": "e.g. Schedule conflict",
+        "cancel_confirm": "Yes, Cancel Appointment",
+        "cancel_cancelling": "Cancelling...",
+        "cancel_success": "Appointment cancelled successfully.",
+        "cancel_error": "Failed to cancel appointment. Please try again.",
+        "error_load": "Failed to load appointment. Please try again.",
+        "read_only_notice": "This appointment is {status} and cannot be modified.",
+        "status": {
+          "Scheduled": "Scheduled",
+          "CheckedIn": "Checked In",
+          "Completed": "Completed",
+          "Cancelled": "Cancelled",
+          "NoShow": "No Show"
+        },
+        "source": {
+          "Online": "Online",
+          "Staff": "Staff"
+        },
+        "fields": {
+          "pet": "Pet",
+          "type": "Type",
+          "vet": "Veterinarian",
+          "date_time": "Date & Time",
+          "duration": "Duration",
+          "status": "Status",
+          "source": "Booking Source",
+          "reschedules": "Reschedules",
+          "notes": "Notes"
+        }
+      }
     }
   },
   "onboarding": {
