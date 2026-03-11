@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Vetolib.Agenda.Contracts;
 using Vetolib.Messaging.Application.Commands.AcceptConsent;
 using Vetolib.Messaging.Application.Commands.CreateOwnerConversation;
 using Vetolib.Messaging.Application.Commands.SendOwnerMessage;
@@ -178,6 +179,42 @@ internal static class PortalEndpoints
             return result.ToMinimalApiResult();
         });
 
+        // POST /booking/appointments/{id}/cancel — owner cancels their appointment
+        group.MapPost("/booking/appointments/{id:guid}/cancel", async (
+            Guid id,
+            CancelBookingRequest? request,
+            IPortalContext portal,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            var result = await sender.Send(
+                new CancelBookingAppointmentCommand(
+                    AppointmentId: id,
+                    OwnerId: portal.OwnerId,
+                    ClinicId: portal.ClinicId,
+                    Reason: request?.Reason), ct);
+            return result.ToMinimalApiResult();
+        });
+
+        // POST /booking/appointments/{id}/reschedule — owner reschedules their appointment
+        group.MapPost("/booking/appointments/{id:guid}/reschedule", async (
+            Guid id,
+            RescheduleBookingRequest request,
+            IPortalContext portal,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            var result = await sender.Send(
+                new RescheduleBookingAppointmentCommand(
+                    AppointmentId: id,
+                    OwnerId: portal.OwnerId,
+                    ClinicId: portal.ClinicId,
+                    NewDate: request.NewDate,
+                    NewStartTime: request.NewStartTime,
+                    NewDurationMinutes: request.NewDurationMinutes), ct);
+            return result.ToMinimalApiResult();
+        });
+
         return app;
     }
 }
@@ -196,3 +233,10 @@ internal record SendOwnerMessageRequest(string Body);
 internal record AcceptConsentRequest(string ConsentVersion);
 
 internal record TestTokenRequest(string ClinicName, string OwnerEmail);
+
+internal record CancelBookingRequest(string? Reason);
+
+internal record RescheduleBookingRequest(
+    DateOnly NewDate,
+    TimeOnly NewStartTime,
+    int NewDurationMinutes);

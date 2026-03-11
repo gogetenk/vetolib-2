@@ -269,6 +269,9 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                     b.Property<Guid?>("OriginalAppointmentId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("OwnerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("OwnerEmail")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");

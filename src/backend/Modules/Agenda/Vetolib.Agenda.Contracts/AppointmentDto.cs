@@ -16,4 +16,5 @@ public record AppointmentDto(
     string? Reason,
     BookingSource Source,
     int RescheduleCount,
-    Guid? OriginalAppointmentId);
+    Guid? OriginalAppointmentId,
+    Guid? OwnerId = null);
