@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,11 @@ public static class ModuleServiceRegistrar
 
         // FluentValidation
         services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly, includeInternalTypes: true);
+
+        // Portal context for owner booking endpoints (MagicLink auth)
+        services.AddHttpContextAccessor();
+        services.AddScoped<IAgendaPortalContext, AgendaPortalContext>();
+        services.AddScoped<AgendaBookingPortalFilter>();
 
         // IAppointmentReader — used by the AI module for no-show prediction feature collection
         services.AddScoped<IAppointmentReader, AppointmentReader>();

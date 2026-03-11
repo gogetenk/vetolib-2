@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Messaging.Api;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Application.Services.SSE;
+using Vetolib.Messaging.Contracts;
 using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Messaging.Infrastructure;
 
@@ -42,6 +43,10 @@ public static class MessagingModuleServiceRegistrar
 
         // Portal context (scoped per request, populated by MagicLinkEndpointFilter)
         services.AddScoped<IPortalContext, PortalContext>();
+
+        // Public contract — allows other modules (e.g. Agenda) to validate portal tokens
+        // without referencing the Messaging runtime assembly.
+        services.AddScoped<IOwnerPortalTokenValidator, OwnerPortalTokenValidator>();
 
         return services;
     }

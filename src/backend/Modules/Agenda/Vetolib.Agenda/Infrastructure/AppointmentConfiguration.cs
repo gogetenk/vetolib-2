@@ -34,6 +34,11 @@ internal class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
             .IsRequired()
             .HasMaxLength(256);
 
+        builder.Property(a => a.OwnerId);
+
+        builder.HasIndex(a => new { a.ClinicId, a.OwnerId })
+            .HasFilter("\"OwnerId\" IS NOT NULL");
+
         builder.Property(a => a.Date)
             .IsRequired();
 

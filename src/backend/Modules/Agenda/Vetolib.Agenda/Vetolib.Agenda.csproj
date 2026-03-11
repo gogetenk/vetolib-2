@@ -33,6 +33,7 @@
     <ProjectReference Include="..\..\..\Shared\Vetolib.Shared.Kernel\Vetolib.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\..\Shared\Vetolib.Shared.Infrastructure\Vetolib.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Auth\Vetolib.Auth.Contracts\Vetolib.Auth.Contracts.csproj" />
+    <ProjectReference Include="..\..\Messaging\Vetolib.Messaging.Contracts\Vetolib.Messaging.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

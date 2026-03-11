@@ -273,6 +273,9 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<Guid?>("OwnerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("OwnerName")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -321,6 +324,9 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClinicId", "VeterinarianId", "Date");
+
+                    b.HasIndex("ClinicId", "OwnerId")
+                        .HasFilter("\"OwnerId\" IS NOT NULL");
 
                     b.ToTable("appointments", "agenda");
                 });

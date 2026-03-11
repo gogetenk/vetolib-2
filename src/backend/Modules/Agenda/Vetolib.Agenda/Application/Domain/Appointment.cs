@@ -13,6 +13,12 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public string AnimalName { get; private set; } = string.Empty;
     public string OwnerName { get; private set; } = string.Empty;
     public string? OwnerEmail { get; private set; }
+    /// <summary>
+    /// Set when the appointment is booked via the owner portal (MagicLink auth).
+    /// Allows filtering appointments by owner in portal queries.
+    /// Null for staff-created appointments.
+    /// </summary>
+    public Guid? OwnerId { get; private set; }
     public DateOnly Date { get; private set; }
     public TimeOnly StartTime { get; private set; }
     public int DurationMinutes { get; private set; }
@@ -37,7 +43,8 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         TimeOnly startTime,
         int durationMinutes,
         string? reason,
-        BookingSource source = BookingSource.Staff)
+        BookingSource source = BookingSource.Staff,
+        Guid? ownerId = null)
     {
         var errors = new List<ValidationError>();
 
@@ -81,7 +88,8 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
             EndTime = endTime,
             Status = AppointmentStatus.Scheduled,
             Reason = reason,
-            Source = source
+            Source = source,
+            OwnerId = ownerId
         };
 
         return Result<Appointment>.Success(appointment);
