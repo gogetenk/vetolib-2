@@ -111,33 +111,33 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 9
     await testRunner.GivenAsync("a clinic \"Happy Paws\" with identifier \"clinic-happy-paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-            global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
                         "Email",
                         "Password",
                         "Role",
                         "ClinicId",
                         "VetLicenseNumber"});
-            table19.AddRow(new string[] {
+            table24.AddRow(new string[] {
                         "vet@happypaws.ae",
                         "SecurePass1",
                         "Vet",
                         "clinic-happy-paws",
                         "UAE-VET-12345"});
 #line 10
-    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table19, "And ");
+    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table24, "And ");
 #line hidden
-            global::Reqnroll.Table table20 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
                         "Email",
                         "Password",
                         "Role",
                         "ClinicId"});
-            table20.AddRow(new string[] {
+            table25.AddRow(new string[] {
                         "admin@happypaws.ae",
                         "AdminPass1",
                         "Admin",
                         "clinic-happy-paws"});
 #line 13
-    await testRunner.AndAsync("an existing admin user:", ((string)(null)), table20, "And ");
+    await testRunner.AndAsync("an existing admin user:", ((string)(null)), table25, "And ");
 #line hidden
         }
         
@@ -204,18 +204,18 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 22
     await testRunner.AndAsync("I receive a refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Role",
                             "ClinicId",
                             "VetLicenseNumber"});
-                table21.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "vet@happypaws.ae",
                             "Vet",
                             "clinic-happy-paws",
                             "UAE-VET-12345"});
 #line 23
-    await testRunner.AndAsync("the response contains the user information:", ((string)(null)), table21, "And ");
+    await testRunner.AndAsync("the response contains the user information:", ((string)(null)), table26, "And ");
 #line hidden
 #line 26
     await testRunner.AndAsync("the JWT contains the claim \"clinic_id\" with value \"clinic-happy-paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -420,18 +420,18 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 62
     await testRunner.WhenAsync("I call GET /api/v1/auth/me", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table27 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Role",
                             "ClinicId",
                             "VetLicenseNumber"});
-                table22.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "vet@happypaws.ae",
                             "Vet",
                             "clinic-happy-paws",
                             "UAE-VET-12345"});
 #line 63
-    await testRunner.ThenAsync("I receive my profile information:", ((string)(null)), table22, "Then ");
+    await testRunner.ThenAsync("I receive my profile information:", ((string)(null)), table27, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -769,18 +769,18 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 121
     await testRunner.GivenAsync("a clinic \"Desert Vet\" with identifier \"clinic-desert-vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table28 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role",
                             "ClinicId"});
-                table23.AddRow(new string[] {
+                table28.AddRow(new string[] {
                             "recep@desertvet.ae",
                             "SecurePass1",
                             "Receptionist",
                             "clinic-desert-vet"});
 #line 122
-    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table23, "And ");
+    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table28, "And ");
 #line hidden
 #line 125
     await testRunner.WhenAsync("I log in with email \"recep@desertvet.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -822,18 +822,18 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 132
     await testRunner.GivenAsync("I am logged in as \"admin@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table29 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role",
                             "VetLicenseNumber"});
-                table24.AddRow(new string[] {
+                table29.AddRow(new string[] {
                             "newvet@happypaws.ae",
                             "NewVetPass1",
                             "Vet",
                             "UAE-VET-99999"});
 #line 133
-    await testRunner.WhenAsync("I create a user with the following information:", ((string)(null)), table24, "When ");
+    await testRunner.WhenAsync("I create a user with the following information:", ((string)(null)), table29, "When ");
 #line hidden
 #line 136
     await testRunner.ThenAsync("the user is created successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -872,16 +872,16 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 140
     await testRunner.GivenAsync("I am logged in as \"vet@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table30 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role"});
-                table25.AddRow(new string[] {
+                table30.AddRow(new string[] {
                             "autre@happypaws.ae",
                             "OtherPass1",
                             "Receptionist"});
 #line 141
-    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table25, "When ");
+    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table30, "When ");
 #line hidden
 #line 144
     await testRunner.ThenAsync("the system rejects with code \"FORBIDDEN\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -917,18 +917,18 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 147
     await testRunner.GivenAsync("I am logged in as \"admin@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table31 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role",
                             "VetLicenseNumber"});
-                table26.AddRow(new string[] {
+                table31.AddRow(new string[] {
                             "novet@happypaws.ae",
                             "NoVetPass1",
                             "Vet",
                             ""});
 #line 148
-    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table26, "When ");
+    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table31, "When ");
 #line hidden
 #line 151
     await testRunner.ThenAsync("the system rejects with code \"VET_LICENSE_REQUIRED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
