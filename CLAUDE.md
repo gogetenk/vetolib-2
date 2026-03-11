@@ -97,6 +97,27 @@ using Vetolib.Agenda;  // INTERDIT
 
 Un agent qui ouvre une PR avec des tests Reqnroll rouges = PR rejetée automatiquement.
 
+### 3b. Vérification locale obligatoire AVANT commit/push (ajout v3.1 — post-mortem 2026-03-11)
+
+**Aucun code ne quitte la machine sans vérification locale.** C'est la règle la plus importante du pipeline.
+
+**Backend** — exécuter dans cet ordre, STOPPER au premier échec :
+```bash
+dotnet build src/backend/Vetolib.sln -c Release        # DOIT retourner 0 erreurs
+dotnet test tests/Vetolib.Tests.Unit/ --no-build -c Release  # DOIT passer
+dotnet test tests/Vetolib.Tests.Integration/ --no-build -c Release --filter "Category!=wip"  # DOIT passer
+```
+
+**Frontend** — exécuter dans cet ordre :
+```bash
+cd src/frontend && npm run build   # 0 erreurs TypeScript
+```
+
+**Si un test échoue → corriger AVANT de committer.** Pas de `git push` avec des tests rouges.
+Pas de "je committe et je fix après". Pas de `--filter` pour exclure les tests qui cassent.
+
+Un agent dev qui ouvre une PR sans avoir exécuté ces commandes = PR rejetée.
+
 ### 4. Multi-tenancy — Global Query Filter
 
 Le `MultiTenantDbContext` applique automatiquement `WHERE ClinicId = @current` sur toutes les requêtes.
@@ -309,6 +330,7 @@ Chaque fichier `todo-*.md` doit contenir tout ce dont l'agent a besoin :
 | Hook | Déclencheur | Effet |
 |---|---|---|
 | `guard-shared.sh` | Toute écriture Write/Edit | Bloque modification de `Shared/` sans autorisation |
+| `verify-before-push.sh` | Bash `git push` | Build + tests unitaires DOIVENT passer avant push |
 | `log-cost.sh` | Fin de session (Stop) | Log dans `.claude/cost-log.csv`, alerte si > $2/session |
 
 ## Flags dans les tâches

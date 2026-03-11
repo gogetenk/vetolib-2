@@ -770,8 +770,12 @@ internal class AppointmentSteps
     {
         _createdAppointment.Should().NotBeNull("an appointment must have been created first");
 
+        // Normalize SCREAMING_SNAKE_CASE (e.g. "NO_SHOW") to PascalCase ("NoShow")
+        // so Enum.TryParse can match enum member names correctly.
+        var normalized = NormalizeEnumString(statusStr);
+
         // Try to parse as enum; if not parseable, send raw string to trigger 400
-        if (Enum.TryParse<AppointmentStatus>(statusStr, ignoreCase: true, out var parsedStatus))
+        if (Enum.TryParse<AppointmentStatus>(normalized, ignoreCase: true, out var parsedStatus))
         {
             var request = new UpdateAppointmentStatusRequest(parsedStatus, null);
             _response = await _client.PatchAsJsonAsync(
@@ -796,7 +800,8 @@ internal class AppointmentSteps
     public async Task WhenIUpdateANonExistentAppointmentStatusTo(string statusStr)
     {
         var nonExistentId = Guid.NewGuid();
-        if (Enum.TryParse<AppointmentStatus>(statusStr, ignoreCase: true, out var parsedStatus))
+        var normalized = NormalizeEnumString(statusStr);
+        if (Enum.TryParse<AppointmentStatus>(normalized, ignoreCase: true, out var parsedStatus))
         {
             var request = new UpdateAppointmentStatusRequest(parsedStatus, null);
             _response = await _client.PatchAsJsonAsync(
@@ -811,6 +816,23 @@ internal class AppointmentSteps
         }
 
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    /// <summary>
+    /// Converts SCREAMING_SNAKE_CASE strings (e.g. "NO_SHOW", "CHECKED_IN") to PascalCase
+    /// ("NoShow", "CheckedIn") so they can be parsed by <see cref="Enum.TryParse{T}"/>.
+    /// Strings without underscores are returned unchanged.
+    /// </summary>
+    private static string NormalizeEnumString(string value)
+    {
+        if (!value.Contains('_'))
+            return value;
+
+        return string.Concat(
+            value.Split('_')
+                 .Select(word => word.Length == 0
+                     ? word
+                     : char.ToUpperInvariant(word[0]) + word.Substring(1).ToLowerInvariant()));
     }
 
     [Then(@"the appointment status is ""(.*)""")]

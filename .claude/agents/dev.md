@@ -122,9 +122,28 @@ Créer `questions/{task-id}-{timestamp}.md` et STOP si :
 
 ---
 
-## Étape finale — Créer la PR
+## Étape finale — Vérification locale OBLIGATOIRE puis PR
 
-Une fois la tâche terminée et tous les tests verts :
+### Vérification (NON NÉGOCIABLE — exécuter AVANT tout commit)
+
+**Backend** :
+```bash
+dotnet build src/backend/Vetolib.sln -c Release --no-restore
+dotnet test tests/Vetolib.Tests.Unit/ --no-build -c Release
+```
+
+**Frontend** :
+```bash
+cd src/frontend && npm run build
+```
+
+**Si une seule commande échoue → corriger AVANT de committer.**
+Un agent qui push du code sans avoir exécuté ces commandes = PR rejetée.
+Le hook `verify-before-push.sh` bloquera le push si le build ou les tests échouent.
+
+### Créer la PR
+
+Une fois la vérification passée :
 
 1. Stage uniquement les fichiers modifiés par ta tâche (pas `git add -A`)
 2. Commit avec le message conventionnel :
@@ -145,10 +164,10 @@ Une fois la tâche terminée et tous les tests verts :
    - Scénario 1 : ...
    - Scénario 2 : ...
 
-   ## Tests
-   - [ ] Tests BDD verts
-   - [ ] Tests unitaires verts
-   - [ ] Build 0 erreurs
+   ## Vérification locale
+   - [x] `dotnet build` → 0 erreur
+   - [x] `dotnet test` unit → X/X pass
+   - [x] `npm run build` → 0 erreur (si frontend)
    EOF
    )"
    ```
@@ -162,9 +181,10 @@ Une fois la tâche terminée et tous les tests verts :
 ```
 □ 3 fichiers lus avant de coder (tâche + skills + feature)
 □ Tests RED avant implémentation (backend) / MSW avant UI (frontend)
-□ Tous les tests VERTS
-□ dotnet build → 0 erreur | npm run build → 0 erreur
+□ dotnet build → 0 erreur (EXÉCUTÉ, pas juste coché)
+□ dotnet test unit → 0 failures (EXÉCUTÉ, pas juste coché)
+□ npm run build → 0 erreur (EXÉCUTÉ, si frontend)
 □ data-testid sur tous les éléments interactifs (frontend)
 □ Aucun IgnoreQueryFilters(), Controller, throw business (backend)
-□ PR créée vers develop avec description complète
+□ PR créée vers develop avec résultat de vérification dans le body
 ```

@@ -348,9 +348,10 @@ internal class DossierMedicalSteps
     public async Task ThenJeVoisNExamens(int expectedCount)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var records = await _response.Content.ReadFromJsonAsync<List<MedicalRecordDto>>(JsonOptions);
-        records.Should().NotBeNull();
-        records!.Count.Should().Be(expectedCount);
+        var paged = await _response.Content.ReadFromJsonAsync<MedicalRecordPagedResultDto>(JsonOptions);
+        paged.Should().NotBeNull();
+        var records = paged!.Items.ToList();
+        records.Count.Should().Be(expectedCount);
 
         // Verify descending order
         for (int i = 0; i < records.Count - 1; i++)

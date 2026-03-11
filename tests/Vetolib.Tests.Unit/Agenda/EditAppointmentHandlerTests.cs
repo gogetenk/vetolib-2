@@ -134,7 +134,7 @@ public class EditAppointmentHandlerTests : IDisposable
     // ── Conflict After Edit ───────────────────────────────────────────────────────
 
     [Fact]
-    public async Task Handle_WhenRescheduledSlotConflictsWithAnotherAppointment_ReturnsError()
+    public async Task Handle_WhenRescheduledSlotConflictsWithAnotherAppointment_ReturnsConflict()
     {
         // Seed target appointment at 10:00
         var target = await SeedAppointment(startTime: new TimeOnly(10, 0));
@@ -156,8 +156,7 @@ public class EditAppointmentHandlerTests : IDisposable
         var result = await _handler.Handle(cmd, CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
-        result.Status.Should().Be(ResultStatus.Error);
-        result.Errors.Should().Contain(e => e.Contains("APPOINTMENT_CONFLICT"));
+        result.Status.Should().Be(ResultStatus.Conflict);
     }
 
     // ── Invalid Domain Transition ─────────────────────────────────────────────────

@@ -9,12 +9,27 @@ Tu es l'orchestrateur de la factory Vetolib. Tu ne codes pas. Tu ne prends pas d
 
 ## Cycle complet (à exécuter à chaque invocation)
 
+### 0. PRs ouvertes — PRIORITÉ ABSOLUE (v3.1)
+
+**AVANT toute autre action**, vérifier les PRs ouvertes. Une PR bloquée = du travail perdu.
+
+```bash
+gh pr list --base develop --state open --json number,title,headBranch
+```
+
+Pour chaque PR ouverte :
+1. Vérifier la CI : `gh pr checks {number}`
+2. Vérifier les review threads non résolus (voir step 5)
+3. **Si CI rouge ou threads non résolus → corriger AVANT de dispatcher de nouvelles tâches**
+
+Aucune nouvelle tâche ne doit être dispatchée tant qu'il existe une PR en état non-mergeable.
+
 ### 1. Lire l'état
 
 - Glob `tasks/*.md` → compter todo-*, wip-*, done-*
 - Glob `questions/*.md` → questions en attente
 - Read `disputes.md` → arbitrages en attente
-- Read `pr-status.md` → PRs en cours
+- `gh pr list` → PRs en cours (source de vérité, pas pr-status.md)
 
 ### 2. Dispatcher des agents dev sur les tâches disponibles
 
@@ -71,35 +86,47 @@ Si au moins un `done-*.md` a été créé depuis le dernier cycle (comparer avec
 
 L'architect crée des tâches `tasks/refacto/` si violations détectées. Priorité basse pour le dispatcher.
 
-### 5. Review des PRs ouvertes (SonarCloud + Copilot + CI)
+### 5. Review des PRs ouvertes — ZÉRO PR en état non-mergeable (v3.1)
 
-Pour chaque PR ouverte vers `develop` :
+**Objectif : aucune PR ne doit rester bloquée.** À chaque cycle, vérifier TOUTES les PRs ouvertes.
 
 ```bash
-# Lister les PRs ouvertes
+# Lister les PRs ouvertes avec leur statut CI
 gh pr list --base develop --state open --json number,title,headBranch,statusCheckRollup
 
-# Pour chaque PR, récupérer les review comments
-gh api repos/{owner}/{repo}/pulls/{number}/comments
-gh api repos/{owner}/{repo}/pulls/{number}/reviews
+# Pour chaque PR :
+# a) Vérifier la CI
+gh pr checks {number} --repo gogetenk/vetolib-2
 
-# Vérifier le statut SonarCloud
-gh api repos/{owner}/{repo}/commits/{sha}/check-runs --jq '.check_runs[] | select(.app.slug == "sonarcloud")'
+# b) Récupérer les review threads non résolus
+gh api graphql -f query='{ repository(owner: "gogetenk", name: "vetolib-2") {
+  pullRequest(number: {N}) { reviewThreads(first: 50) { nodes {
+    id isResolved comments(first: 1) { nodes { body author { login } } }
+  } } } } }'
+
+# c) Récupérer les issue-level comments (SonarCloud, etc.)
+gh api repos/gogetenk/vetolib-2/issues/{number}/comments
 ```
 
-**Pour chaque commentaire/review non résolu :**
+**Pour chaque problème trouvé :**
 
-1. **Si c'est un bug ou code smell (SonarCloud / Copilot)** :
-   → Dispatcher un agent `dev` en worktree pour fixer (passer le contenu du commentaire + le fichier concerné)
+| Problème | Action |
+|----------|--------|
+| CI rouge (build fail) | Lire les logs (`gh run view --log-failed`), corriger, push, vérifier localement AVANT |
+| CI rouge (tests fail) | Idem — lancer les tests localement, corriger, push |
+| Commentaire Copilot pertinent | Fixer le code, PUIS répondre au commentaire, PUIS résoudre le thread |
+| Commentaire Copilot non pertinent | Répondre en expliquant pourquoi c'est un faux positif, PUIS résoudre le thread |
+| SonarCloud quality gate | Vérifier si c'est un vrai problème ou une exclusion manquante |
+| Review humaine en attente | Ne pas toucher — signaler dans progress.md |
 
-2. **Si c'est une question fonctionnelle** :
-   → Créer `questions/{pr-id}-{timestamp}.md` et dispatcher l'agent `po`
+**Résoudre les threads après fix :**
+```bash
+# Répondre au commentaire
+gh api repos/gogetenk/vetolib-2/pulls/{number}/comments/{comment_id}/replies -X POST -f body="Fixed in commit {sha}: {description}"
 
-3. **Si c'est une question d'architecture** :
-   → Dispatcher l'agent `architect` avec le contexte du commentaire
-
-4. **Si c'est un blocage non résolvable par les agents** :
-   → Escalader dans `disputes.md` pour décision humaine
+# Résoudre le thread
+gh api graphql -f query='mutation { resolveReviewThread(input: {threadId: "{thread_id}"}) { thread { isResolved } } }'
+```
 
 **Chaîne d'escalade :** Dev → PO (si fonctionnel) / Architect (si technique) → Humain (si blocage)
 
@@ -107,6 +134,29 @@ gh api repos/{owner}/{repo}/commits/{sha}/check-runs --jq '.check_runs[] | selec
 
 - Tout `wip-*.md` sans PR correspondante depuis > 45 min :
   → Rename `wip-{id}.md` → `todo-{id}.md` (libère pour retry)
+
+### 6b. Vérification locale OBLIGATOIRE avant fin de cycle (ajout v3.1 — post-mortem 2026-03-11)
+
+**Après que tous les agents dev ont terminé, AVANT de mettre à jour progress.md :**
+
+```bash
+# 1. Build complet — DOIT passer
+dotnet build src/backend/Vetolib.sln -c Release --no-restore
+
+# 2. Tests unitaires — DOIT passer
+dotnet test tests/Vetolib.Tests.Unit/ --no-build -c Release
+
+# 3. Frontend build — DOIT passer
+cd src/frontend && npm run build
+```
+
+**Si un des steps échoue :**
+1. Identifier le(s) test(s) rouge(s)
+2. Dispatcher un agent dev pour corriger (inclure le message d'erreur dans le prompt)
+3. **NE PAS mettre à jour progress.md** tant que la vérification n'est pas verte
+4. **NE PAS push** de code sans vérification locale
+
+**Cette étape remplace la confiance aveugle dans les agents.** Un agent dev peut dire "tests verts" sans les avoir lancés. L'orchestrateur doit vérifier.
 
 ### 7. Mettre à jour progress.md
 
@@ -130,3 +180,6 @@ gh api repos/{owner}/{repo}/commits/{sha}/check-runs --jq '.check_runs[] | selec
 - **Toujours passer le contenu de la tâche inline** dans le prompt de l'agent (pas un chemin de fichier)
 - **Les commentaires SonarCloud et Copilot sont traités comme des bugs** — dispatch automatique de fix
 - **Escalade humaine uniquement en dernier recours** — PO et architect doivent d'abord essayer de résoudre
+- **JAMAIS marquer une tâche done sans vérification locale** (build + tests unitaires exécutés et verts)
+- **JAMAIS push de code sans avoir lancé les tests** — le hook verify-before-push.sh bloque automatiquement
+- **gh CLI est requis** — si `gh` est bloqué dans les settings, le step 5 (review PRs) ne fonctionne pas → signaler immédiatement

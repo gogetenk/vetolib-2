@@ -293,7 +293,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("je possede un refresh token valide", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 37
-    await testRunner.WhenAsync("j\'appelle POST /api/auth/refresh avec mon refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("j\'appelle POST /api/v1/auth/refresh avec mon refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 38
     await testRunner.ThenAsync("je recois un nouveau access token JWT valide", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -339,7 +339,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("je possede un refresh token valide", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 45
-    await testRunner.WhenAsync("j\'appelle POST /api/auth/refresh avec mon refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("j\'appelle POST /api/v1/auth/refresh avec mon refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 46
     await testRunner.ThenAsync("le nouveau refresh token a une duree de validite de 7 jours", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -379,7 +379,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("je possede un refresh token valide", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 53
-    await testRunner.WhenAsync("j\'appelle POST /api/auth/logout", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("j\'appelle POST /api/v1/auth/logout", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 54
     await testRunner.ThenAsync("la deconnexion est confirmee", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -422,7 +422,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.GivenAsync("je suis connecte en tant que \"vet@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 62
-    await testRunner.WhenAsync("j\'appelle GET /api/auth/me", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("j\'appelle GET /api/v1/auth/me", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table27 = new global::Reqnroll.Table(new string[] {
                             "Email",
@@ -668,7 +668,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("mon refresh token a ete revoque par un precedent refresh", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 103
-    await testRunner.WhenAsync("j\'appelle POST /api/auth/refresh avec le refresh token revoque", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("j\'appelle POST /api/v1/auth/refresh avec le refresh token revoque", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 104
     await testRunner.ThenAsync("le systeme refuse avec le code \"INVALID_REFRESH_TOKEN\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -708,7 +708,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("mon refresh token a expire depuis plus de 7 jours", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 109
-    await testRunner.WhenAsync("j\'appelle POST /api/auth/refresh avec le refresh token expire", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("j\'appelle POST /api/v1/auth/refresh avec le refresh token expire", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 110
     await testRunner.ThenAsync("le systeme refuse avec le code \"INVALID_REFRESH_TOKEN\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -742,7 +742,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 115
-    await testRunner.WhenAsync("j\'appelle GET /api/auth/me sans token d\'authentification", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("j\'appelle GET /api/v1/auth/me sans token d\'authentification", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 116
     await testRunner.ThenAsync("le systeme retourne le code HTTP 401", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

@@ -60,8 +60,7 @@ internal class EditAppointmentHandler : IRequestHandler<EditAppointmentCommand, 
                 .FirstOrDefault(a => a.OverlapsWith(appointment.StartTime, appointment.EndTime));
 
             if (conflict is not null)
-                return Result<AppointmentDto>.Error(
-                    "APPOINTMENT_CONFLICT:Ce creneau est deja pris pour ce veterinaire.");
+                return Result<AppointmentDto>.Conflict();
 
             try
             {
@@ -77,8 +76,7 @@ internal class EditAppointmentHandler : IRequestHandler<EditAppointmentCommand, 
             }
         }
 
-        return Result<AppointmentDto>.Error(
-            "APPOINTMENT_CONFLICT:Ce creneau vient d'etre pris simultanement. Veuillez choisir un autre creneau.");
+        return Result<AppointmentDto>.Conflict();
     }
 
     private static bool IsUniqueConstraintViolation(DbUpdateException ex)

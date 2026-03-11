@@ -9,6 +9,15 @@
             "command": "bash .claude/hooks/guard-shared.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/verify-before-push.sh"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -41,7 +50,8 @@
       "Bash(touch:*)",
       "Bash(chmod:*)",
       "Bash(date:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(gh:*)"
     ],
     "deny": [
       "Bash(curl:*)",
@@ -49,8 +59,7 @@
       "Bash(ssh:*)",
       "Bash(docker:*)",
       "Bash(kubectl:*)",
-      "Bash(aws:*)",
-      "Bash(gh:*)"
+      "Bash(aws:*)"
     ]
   },
   "dangerouslySkipPermissions": true

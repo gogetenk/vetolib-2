@@ -62,11 +62,11 @@ internal static class MedicalRecordEndpoints
 
     private static async Task<IResult> ListMedicalRecords(
         Guid patientId,
-        int page,
-        int pageSize,
-        ISender sender)
+        ISender sender,
+        int page = 1,
+        int pageSize = 20)
     {
-        return (await sender.Send(new ListMedicalRecordsQuery(patientId, page == 0 ? 1 : page, pageSize == 0 ? 20 : pageSize))).ToMinimalApiResult();
+        return (await sender.Send(new ListMedicalRecordsQuery(patientId, page < 1 ? 1 : page, pageSize < 1 ? 20 : pageSize))).ToMinimalApiResult();
     }
 
     private static IResult DeleteMedicalRecord(

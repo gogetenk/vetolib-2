@@ -34,7 +34,7 @@ Feature: Authentification et gestion des tokens JWT
   Scenario: Rafraichir le token retourne une nouvelle paire et invalide l'ancien refresh token
     Given je suis connecte en tant que "vet@happypaws.ae"
     And je possede un refresh token valide
-    When j'appelle POST /api/auth/refresh avec mon refresh token
+    When j'appelle POST /api/v1/auth/refresh avec mon refresh token
     Then je recois un nouveau access token JWT valide
     And je recois un nouveau refresh token different de l'ancien
     And l'ancien refresh token est invalide
@@ -42,7 +42,7 @@ Feature: Authentification et gestion des tokens JWT
   Scenario: Le nouveau refresh token expire apres 7 jours
     Given je suis connecte en tant que "vet@happypaws.ae"
     And je possede un refresh token valide
-    When j'appelle POST /api/auth/refresh avec mon refresh token
+    When j'appelle POST /api/v1/auth/refresh avec mon refresh token
     Then le nouveau refresh token a une duree de validite de 7 jours
 
   # ─── Logout — Happy Path ─────────────────────────────────
@@ -50,7 +50,7 @@ Feature: Authentification et gestion des tokens JWT
   Scenario: Deconnexion invalide le refresh token
     Given je suis connecte en tant que "vet@happypaws.ae"
     And je possede un refresh token valide
-    When j'appelle POST /api/auth/logout
+    When j'appelle POST /api/v1/auth/logout
     Then la deconnexion est confirmee
     And le refresh token est invalide
     And une tentative de refresh avec cet ancien token echoue
@@ -59,7 +59,7 @@ Feature: Authentification et gestion des tokens JWT
 
   Scenario: Recuperer le profil de l'utilisateur connecte
     Given je suis connecte en tant que "vet@happypaws.ae"
-    When j'appelle GET /api/auth/me
+    When j'appelle GET /api/v1/auth/me
     Then je recois les informations de mon profil:
       | Email            | Role | ClinicId          | VetLicenseNumber |
       | vet@happypaws.ae | Vet  | clinic-happy-paws | UAE-VET-12345    |
@@ -100,19 +100,19 @@ Feature: Authentification et gestion des tokens JWT
   Scenario: Refresh avec un token revoque echoue
     Given je suis connecte en tant que "vet@happypaws.ae"
     And mon refresh token a ete revoque par un precedent refresh
-    When j'appelle POST /api/auth/refresh avec le refresh token revoque
+    When j'appelle POST /api/v1/auth/refresh avec le refresh token revoque
     Then le systeme refuse avec le code "INVALID_REFRESH_TOKEN"
 
   Scenario: Refresh avec un token expire echoue
     Given je suis connecte en tant que "vet@happypaws.ae"
     And mon refresh token a expire depuis plus de 7 jours
-    When j'appelle POST /api/auth/refresh avec le refresh token expire
+    When j'appelle POST /api/v1/auth/refresh avec le refresh token expire
     Then le systeme refuse avec le code "INVALID_REFRESH_TOKEN"
 
   # ─── GET /me — Erreurs ───────────────────────────────────
 
   Scenario: Acces a /me sans token retourne 401
-    When j'appelle GET /api/auth/me sans token d'authentification
+    When j'appelle GET /api/v1/auth/me sans token d'authentification
     Then le systeme retourne le code HTTP 401
 
   # ─── Multi-tenancy ───────────────────────────────────────
