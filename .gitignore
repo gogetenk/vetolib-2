@@ -38,3 +38,4 @@ blob-report/
 
 # Claude Code
 .claude/cost-log.csv
+.claude/worktrees/

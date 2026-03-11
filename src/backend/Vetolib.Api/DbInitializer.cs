@@ -33,6 +33,14 @@ public static class DbInitializer
         await MigrateContextAsync<NotificationsDbContext>(services);
     }
 
+    /// <summary>
+    /// Seeds the global drug catalog (medications, vaccines, supplements) into the database.
+    /// Idempotent — safe to call on every restart; does nothing if catalog already exists.
+    ///
+    /// NOT wired in Program.cs by default (2026-03-10). To activate automatic seeding at startup,
+    /// add the following after MigrateAllAsync in Program.cs:
+    ///   await DbInitializer.SeedDrugCatalogAsync(app.Services);
+    /// </summary>
     public static async Task SeedDrugCatalogAsync(IServiceProvider services)
     {
         using var scope = services.CreateScope();

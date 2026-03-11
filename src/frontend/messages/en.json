@@ -236,7 +236,7 @@
       "invoice": "# Invoice",
       "patient": "Patient",
       "date": "Date",
-      "subtotal": "Subtotal HT",
+      "subtotal": "Subtotal (excl. VAT)",
       "vat": "VAT (5%)",
       "total": "Total AED",
       "status": "Status",
@@ -261,7 +261,7 @@
       "qty": "Qty",
       "unit_price": "Unit Price",
       "subtotal": "Subtotal",
-      "subtotal_ht": "Subtotal HT",
+      "subtotal_ht": "Subtotal (excl. VAT)",
       "delete_confirm": "Delete this invoice? This action cannot be undone.",
       "errors": {
         "not_found": "Invoice not found",
@@ -287,6 +287,21 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Welcome back",
+    "stats": {
+      "appointments_today": "Appointments Today",
+      "pending_checkin": "Pending Check-in",
+      "urgent": "Urgent",
+      "unpaid_invoices": "Unpaid Invoices",
+      "total_patients": "Total Patients"
+    },
+    "today": {
+      "title": "Today's Schedule",
+      "view_all": "View all"
+    },
+    "recent_activity": {
+      "title": "Recent Activity",
+      "empty": "No recent activity"
+    },
     "analytics": {
       "title": "Analytics",
       "revenue_by_month": "Revenue by Month",

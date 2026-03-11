@@ -2,6 +2,76 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
+## 2026-03-10 -- Forge cycle (nightly quality sweep)
+
+- TODO: 4 | WIP: 0 | DONE: 228
+- Agents actifs : aucun (factory idle)
+- PRs en review : 5
+- Questions PO : 9 ouvertes
+- Disputes : aucun
+- Nightly sweep: 3 cycles completed (arch audit, quality scan, robustness scan) + security scan
+- Security fixes: rate limiting on auth endpoints, CORS policy, portal test-token restricted, token log redacted
+
+### Completed this session (28+ tasks)
+
+| Task | Type | Result |
+|---|---|---|
+| refacto-audit-001 | CRITICAL | Notifications throw new — comments standardized for MassTransit retry |
+| refacto-audit-002 | CRITICAL | Preferences SystemDefaults — converted to Result<T> |
+| refacto-audit-004 | IMPORTANT | data-testid added to 152+ frontend buttons |
+| refacto-audit-005 | IMPORTANT | patients.ts raw fetch replaced with apiClient |
+| refacto-audit-006 | MINOR | IgnoreQueryFilters documented in disputes.md |
+| refacto-nightly-001 | HIGH | Messaging ListConversations — SQL-side pagination |
+| refacto-nightly-002 | MEDIUM | Stock query handlers — AsNoTracking added |
+| refacto-nightly-003 | HIGH | Stock DecrementStockByDrugCatalogEntry — validator created |
+| refacto-nightly-004 | MEDIUM | AddPrescriptionHandler — extracted 5 private methods |
+| refacto-nightly-005 | MEDIUM | GetOnboardingStateHandler — extracted LoadSnapshot + ComputeState |
+| front-ux-audit-001 | AUDIT | 8 fix tasks created from UX audit |
+| front-empty-error-states | UX | ErrorState component + wired into 7 components |
+| front-landing-conversion | UX | Landing page copy optimized for conversion |
+| front-fix-sidebar-logo | UX | Desktop sidebar logo added |
+| front-fix-confirm-dialog | UX | window.confirm replaced with shadcn AlertDialog |
+| front-fix-native-inputs | UX | Native select/input replaced with shadcn |
+| front-fix-loading-skeletons | UX | Skeleton components replace text loading |
+| front-fix-appointment-nav | UX | Back navigation moved to top with ArrowLeft |
+| front-fix-error-states | UX | ErrorState with retry on team, invoice detail |
+| back-integration-tests | INFRA | WebApplicationFactory + Testcontainers project |
+| infra-git-cleanup | INFRA | 20 atomic commits on feature branch |
+| nightly-loop-001 | ANALYSIS | 5 refacto tasks created from code scan |
+| front-fix-accessibility | UX | WCAG AA gaps (aria-labels, keyboard) |
+
+### Additional completions (audit agents)
+
+| Task | Type | Result |
+|---|---|---|
+| front-fix-i18n-hardcoded-fr | CRITICAL | French strings replaced with next-intl (9 files) |
+| front-design-system-001 | AUDIT | 5 textarea to shadcn, no other violations |
+| refacto-consistency-001 | AUDIT | 4 validators added, 1 endpoint fixed, route versioning task created |
+| audit-coverage-001 | AUDIT | 70 endpoints mapped, 5 test tasks created for gaps |
+
+### Second wave completions
+
+| Task | Type | Result |
+|---|---|---|
+| test-agenda-endpoint-gaps-001 | HIGH | GET/PUT appointment endpoints exposed + 4 Gherkin scenarios |
+| test-auth-change-password-001 | HIGH | POST /change-password endpoint + 4 Gherkin scenarios |
+| test-billing-pdf-001 | HIGH | 3 PDF download Gherkin scenarios |
+| test-dashboard-analytics-001 | MEDIUM | 3 analytics Gherkin scenarios (200, 401, 403) |
+| test-agenda-status-edge-cases-001 | MEDIUM | 3 status edge case scenarios (200, 400, 404) |
+| refacto-route-versioning-001 | MEDIUM | 40+ files migrated /api/ → /api/v1/ |
+
+### Remaining TODOs (5)
+
+| Task | Priority | Status |
+|---|---|---|
+| refacto-audit-003 | IMPORTANT | Messaging PortalClinicContext (complex arch, needs discussion) |
+| front-a11y-001 | MEDIUM | Broader WCAG AA audit |
+| nightly-loop-002 | LOW | Next analysis cycle |
+| back-api-public-001 | POST-MVP | API publique + OpenAPI |
+| back-multi-clinic-001 | POST-MVP | Multi-clinic group view |
+
+---
+
 ## Audit archi -- 2026-03-10 (Complet)
 
 - Violations critiques : 2 (taches refacto creees)

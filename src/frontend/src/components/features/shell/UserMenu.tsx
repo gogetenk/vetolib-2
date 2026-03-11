@@ -93,6 +93,7 @@ export function UserMenu() {
         )}
         aria-expanded={open}
         aria-haspopup="true"
+        aria-label="User menu"
       >
         {/* Avatar */}
         <span

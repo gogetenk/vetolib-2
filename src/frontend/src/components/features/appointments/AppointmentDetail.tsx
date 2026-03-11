@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -75,7 +74,6 @@ interface AppointmentDetailProps {
 }
 
 export function AppointmentDetail({ appointment: initial }: AppointmentDetailProps) {
-  const router = useRouter()
   const [appointment, setAppointment] = useState<AppointmentDto>(initial)
   const [pendingAction, setPendingAction] = useState<TransitionConfig | null>(null)
   const [cancelReason, setCancelReason] = useState('')
@@ -179,15 +177,6 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
             </div>
           )}
 
-          <div className="pt-4">
-            <Button
-              variant="outline"
-              data-testid="btn-back"
-              onClick={() => router.push('/appointments')}
-            >
-              Back to list
-            </Button>
-          </div>
         </CardContent>
       </Card>
 

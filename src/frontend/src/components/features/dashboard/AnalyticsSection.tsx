@@ -128,7 +128,12 @@ export function AnalyticsSection() {
                 —
               </div>
             ) : (
-              <div className="h-40" data-testid="analytics-species-chart">
+              <div
+                className="h-40"
+                data-testid="analytics-species-chart"
+                role="img"
+                aria-label={`Patients by species: ${speciesData.map((s) => `${s.name} ${s.value}`).join(', ')}`}
+              >
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -167,7 +172,12 @@ export function AnalyticsSection() {
           {loading ? (
             <Skeleton className="h-48 w-full" />
           ) : (
-            <div className="h-48" data-testid="analytics-revenue-chart">
+            <div
+              className="h-48"
+              data-testid="analytics-revenue-chart"
+              role="img"
+              aria-label={t('revenue_by_month')}
+            >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={revenueData} margin={{ top: 4, right: 8, left: 8, bottom: 0 }}>
                   <XAxis

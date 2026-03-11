@@ -32,7 +32,7 @@ async function refreshAccessToken(): Promise<boolean> {
   if (!refreshToken) return false;
 
   try {
-    const res = await fetch(`${API_BASE}/api/auth/refresh`, {
+    const res = await fetch(`${API_BASE}/api/v1/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken }),
@@ -160,6 +160,42 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
     method: "POST",
     body: JSON.stringify(body),
   });
+}
+
+export async function apiPostFormData<T>(path: string, formData: FormData): Promise<T> {
+  const token = getAccessToken();
+  // Do NOT set Content-Type — the browser sets it with the correct multipart boundary
+  const headers: Record<string, string> = {};
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  let res = await fetch(`${API_BASE}${path}`, { method: "POST", headers, body: formData });
+
+  if (res.status === 401 && token) {
+    const refreshed = await refreshAccessToken();
+    if (refreshed) {
+      headers["Authorization"] = `Bearer ${getAccessToken()}`;
+      res = await fetch(`${API_BASE}${path}`, { method: "POST", headers, body: formData });
+    } else {
+      clearTokens();
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+      throw new Error("Session expired");
+    }
+  }
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({ title: "Request failed" }));
+    const errorCode = typeof error === "object" && error !== null && "code" in error
+      ? String((error as { code: unknown }).code)
+      : undefined;
+    trackApiError(path, res.status, errorCode);
+    throw new ApiError(res.status, error);
+  }
+
+  return res.json();
 }
 
 export async function apiPatch<T>(path: string, body: unknown): Promise<T> {

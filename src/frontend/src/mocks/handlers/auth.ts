@@ -53,8 +53,8 @@ function generateToken(payload: object): string {
 }
 
 export const authHandlers = [
-  // POST /api/auth/login
-  http.post('/api/auth/login', async ({ request }) => {
+  // POST /api/v1/auth/login
+  http.post('/api/v1/auth/login', async ({ request }) => {
     await delay(200) // Realistic network delay
     const body = await request.json() as LoginRequest
     const { email, password } = body
@@ -107,8 +107,8 @@ export const authHandlers = [
     })
   }),
 
-  // POST /api/auth/refresh
-  http.post('/api/auth/refresh', async ({ request }) => {
+  // POST /api/v1/auth/refresh
+  http.post('/api/v1/auth/refresh', async ({ request }) => {
     await delay(100)
     const body = await request.json() as RefreshRequest
     const { refreshToken } = body

@@ -7,6 +7,13 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Table,
   TableBody,
   TableCell,
@@ -22,8 +29,8 @@ import { getInvoices } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus, PagedResult } from '@/lib/api/billing'
 import { useTranslations } from 'next-intl'
 
-const STATUS_OPTIONS: { value: InvoiceStatus | ''; label: string }[] = [
-  { value: '', label: 'All statuses' },
+const STATUS_OPTIONS: { value: InvoiceStatus | 'ALL'; label: string }[] = [
+  { value: 'ALL', label: 'All statuses' },
   { value: 'DRAFT', label: 'Draft' },
   { value: 'SENT', label: 'Sent' },
   { value: 'PAID', label: 'Paid' },
@@ -47,7 +54,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
 export function InvoiceTable() {
   const tEmpty = useTranslations('onboarding.empty.billing')
   const [data, setData] = useState<PagedResult<InvoiceDto> | null>(null)
-  const [statusFilter, setStatusFilter] = useState<InvoiceStatus | ''>('')
+  const [statusFilter, setStatusFilter] = useState<InvoiceStatus | 'ALL'>('ALL')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -55,7 +62,7 @@ export function InvoiceTable() {
     setLoading(true)
     setError(null)
     try {
-      const result = await getInvoices(statusFilter ? { status: statusFilter } : undefined)
+      const result = await getInvoices(statusFilter !== 'ALL' ? { status: statusFilter } : undefined)
       setData(result)
     } catch {
       setError('Failed to load invoices')
@@ -67,15 +74,6 @@ export function InvoiceTable() {
   useEffect(() => {
     loadInvoices()
   }, [loadInvoices])
-
-  // Auto-retry once after 1.5s if an error occurred (handles MSW initialisation race)
-  useEffect(() => {
-    if (!error) return
-    const timer = setTimeout(() => {
-      loadInvoices()
-    }, 1500)
-    return () => clearTimeout(timer)
-  }, [error, loadInvoices])
 
   const invoices = data?.items ?? []
   const grandTotal = invoices.reduce((sum, inv) => sum + inv.total, 0)
@@ -90,30 +88,38 @@ export function InvoiceTable() {
           </Link>
         </div>
         <div className="flex gap-3 mt-2">
-          <select
-            data-testid="status-filter"
+          <Select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as InvoiceStatus | '')}
-            className="rounded-md border border-input bg-background px-3 py-1.5 text-sm"
+            onValueChange={(val) => setStatusFilter(val as InvoiceStatus | 'ALL')}
           >
-            {STATUS_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-48" data-testid="status-filter">
+              <SelectValue placeholder="All statuses" />
+            </SelectTrigger>
+            <SelectContent>
+              {STATUS_OPTIONS.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </CardHeader>
       <CardContent>
         {loading && (
-          <p className="text-sm text-muted-foreground" data-testid="invoices-loading">
-            Loading invoices...
-          </p>
+          <div data-testid="invoices-loading" className="space-y-3 py-2">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-10 w-full" />
+            ))}
+          </div>
         )}
         {error && (
-          <p className="text-sm text-destructive" data-testid="invoices-error">
-            {error}
-          </p>
+          <ErrorState
+            data-testid="invoices-error"
+            title="Failed to load invoices"
+            description={error}
+            onRetry={loadInvoices}
+          />
         )}
         {!loading && !error && (
           <>
@@ -123,7 +129,7 @@ export function InvoiceTable() {
                   <TableHead># Invoice</TableHead>
                   <TableHead>Patient</TableHead>
                   <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Subtotal HT</TableHead>
+                  <TableHead className="text-right">Subtotal (excl. VAT)</TableHead>
                   <TableHead className="text-right">VAT (5%)</TableHead>
                   <TableHead className="text-right">Total AED</TableHead>
                   <TableHead>Status</TableHead>

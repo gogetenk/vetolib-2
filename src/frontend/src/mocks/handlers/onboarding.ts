@@ -98,31 +98,31 @@ function recalcProgress(state: OnboardingStateDto): void {
 }
 
 export const onboardingHandlers = [
-  // GET /api/onboarding
-  http.get('/api/onboarding', async ({ request }) => {
+  // GET /api/v1/onboarding
+  http.get('/api/v1/onboarding', async ({ request }) => {
     await delay(100)
     const state = getOrCreateState(request)
     return HttpResponse.json<OnboardingStateDto>(state)
   }),
 
-  // POST /api/onboarding/banner/dismiss
-  http.post('/api/onboarding/banner/dismiss', async ({ request }) => {
+  // POST /api/v1/onboarding/banner/dismiss
+  http.post('/api/v1/onboarding/banner/dismiss', async ({ request }) => {
     await delay(80)
     const state = getOrCreateState(request)
     state.welcomeBannerVisible = false
     return new HttpResponse(null, { status: 204 })
   }),
 
-  // POST /api/onboarding/checklist/dismiss
-  http.post('/api/onboarding/checklist/dismiss', async ({ request }) => {
+  // POST /api/v1/onboarding/checklist/dismiss
+  http.post('/api/v1/onboarding/checklist/dismiss', async ({ request }) => {
     await delay(80)
     const state = getOrCreateState(request)
     state.checklistVisible = false
     return new HttpResponse(null, { status: 204 })
   }),
 
-  // POST /api/onboarding/steps/:stepId/complete
-  http.post('/api/onboarding/steps/:stepId/complete', async ({ request, params }) => {
+  // POST /api/v1/onboarding/steps/:stepId/complete
+  http.post('/api/v1/onboarding/steps/:stepId/complete', async ({ request, params }) => {
     await delay(80)
     const state = getOrCreateState(request)
     const stepId = params.stepId as string

@@ -53,6 +53,8 @@ jobs:
           -c Release
           --logger "trx;LogFileName=unit-results.trx"
           --results-directory ./TestResults
+          --collect:"XPlat Code Coverage"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: Upload test results
         if: always()
@@ -60,6 +62,14 @@ jobs:
         with:
           name: unit-test-results
           path: tests/Vetolib.Tests.Unit/TestResults/*.trx
+          retention-days: 7
+
+      - name: Upload unit coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-coverage
+          path: tests/Vetolib.Tests.Unit/TestResults/**/coverage.opencover.xml
           retention-days: 7
 
   # ─────────────────────────────────────────────────────────────────────────
@@ -109,6 +119,8 @@ jobs:
           --logger "trx;LogFileName=bdd-results.trx"
           --results-directory ./TestResults
           --filter "Category!=wip"
+          --collect:"XPlat Code Coverage"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: Upload BDD test results
         if: always()
@@ -116,6 +128,14 @@ jobs:
         with:
           name: bdd-test-results
           path: tests/Vetolib.Tests.Acceptance/TestResults/*.trx
+          retention-days: 7
+
+      - name: Upload BDD coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bdd-coverage
+          path: tests/Vetolib.Tests.Acceptance/TestResults/**/coverage.opencover.xml
           retention-days: 7
 
   # ─────────────────────────────────────────────────────────────────────────
@@ -165,6 +185,8 @@ jobs:
           --logger "trx;LogFileName=integration-results.trx"
           --results-directory ./TestResults
           --filter "Category!=wip"
+          --collect:"XPlat Code Coverage"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: Upload integration test results
         if: always()
@@ -172,6 +194,14 @@ jobs:
         with:
           name: integration-test-results
           path: tests/Vetolib.Tests.Integration/TestResults/*.trx
+          retention-days: 7
+
+      - name: Upload integration coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-coverage
+          path: tests/Vetolib.Tests.Integration/TestResults/**/coverage.opencover.xml
           retention-days: 7
 
   # ─────────────────────────────────────────────────────────────────────────
@@ -419,12 +449,13 @@ jobs:
 
   # ─────────────────────────────────────────────────────────────────────────
   # SonarCloud — static analysis (blocking on PRs, informational on push)
-  # Uses dotnet-sonarscanner to wrap the .NET build for accurate analysis.
+  # Downloads coverage artifacts from test jobs instead of re-running tests.
   # ─────────────────────────────────────────────────────────────────────────
   sonarcloud:
     name: SonarCloud — static analysis
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    needs: [backend-build, backend-bdd, backend-integration]
     continue-on-error: true  # non-blocking: SONAR_TOKEN may not be configured
 
     steps:
@@ -467,6 +498,24 @@ jobs:
         working-directory: src/backend
         run: dotnet restore Vetolib.sln
 
+      - name: Download unit coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: unit-coverage
+          path: coverage/unit
+
+      - name: Download BDD coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: bdd-coverage
+          path: coverage/bdd
+
+      - name: Download integration coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: integration-coverage
+          path: coverage/integration
+
       - name: SonarCloud — begin analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -477,49 +526,13 @@ jobs:
           /o:"gogetenk"
           /d:sonar.token="${SONAR_TOKEN}"
           /d:sonar.host.url="https://sonarcloud.io"
-          /d:sonar.cs.opencover.reportsPaths="../../tests/**/TestResults/**/coverage.opencover.xml"
+          /d:sonar.cs.opencover.reportsPaths="../../coverage/**/coverage.opencover.xml"
           /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**"
           /d:sonar.coverage.exclusions="**/Program.cs,**/ServiceDefaults/**,**/AppHost/**,**/Migrations/**,**/*.feature.cs,**/appsettings*.json"
 
-      - name: Build (with coverage instrumentation)
+      - name: Build (Roslyn analyzers — no tests)
         working-directory: src/backend
         run: dotnet build Vetolib.sln --no-restore -c Release
-
-      - name: Unit tests with coverage
-        working-directory: tests/Vetolib.Tests.Unit
-        run: >
-          dotnet test
-          --no-build
-          -c Release
-          --collect:"XPlat Code Coverage"
-          --results-directory ./TestResults
-          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-
-      - name: Integration tests with coverage
-        working-directory: tests/Vetolib.Tests.Integration
-        env:
-          DOCKER_HOST: unix:///var/run/docker.sock
-        run: >
-          dotnet test
-          --no-build
-          -c Release
-          --collect:"XPlat Code Coverage"
-          --results-directory ./TestResults
-          --filter "Category!=wip"
-          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-
-      - name: BDD acceptance tests with coverage
-        working-directory: tests/Vetolib.Tests.Acceptance
-        env:
-          DOCKER_HOST: unix:///var/run/docker.sock
-        run: >
-          dotnet test
-          --no-build
-          -c Release
-          --collect:"XPlat Code Coverage"
-          --results-directory ./TestResults
-          --filter "Category!=wip"
-          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: SonarCloud — end analysis
         env:

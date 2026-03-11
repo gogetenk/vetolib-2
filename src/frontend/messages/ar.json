@@ -236,7 +236,7 @@
       "invoice": "# الفاتورة",
       "patient": "الحيوان",
       "date": "التاريخ",
-      "subtotal": "المجموع الجزئي",
+      "subtotal": "المجموع (قبل الضريبة)",
       "vat": "ضريبة (5%)",
       "total": "الإجمالي بالدرهم",
       "status": "الحالة",
@@ -261,7 +261,7 @@
       "qty": "الكمية",
       "unit_price": "سعر الوحدة",
       "subtotal": "المجموع الجزئي",
-      "subtotal_ht": "المجموع قبل الضريبة",
+      "subtotal_ht": "المجموع (قبل الضريبة)",
       "delete_confirm": "حذف هذه الفاتورة؟ لا يمكن التراجع عن هذا الإجراء.",
       "errors": {
         "not_found": "الفاتورة غير موجودة",
@@ -287,6 +287,21 @@
   "dashboard": {
     "title": "لوحة التحكم",
     "welcome": "مرحباً بك",
+    "stats": {
+      "appointments_today": "مواعيد اليوم",
+      "pending_checkin": "في انتظار تسجيل الوصول",
+      "urgent": "عاجل",
+      "unpaid_invoices": "الفواتير غير المدفوعة",
+      "total_patients": "إجمالي الحيوانات"
+    },
+    "today": {
+      "title": "جدول اليوم",
+      "view_all": "عرض الكل"
+    },
+    "recent_activity": {
+      "title": "النشاط الأخير",
+      "empty": "لا يوجد نشاط حديث"
+    },
     "analytics": {
       "title": "التحليلات",
       "revenue_by_month": "الإيرادات الشهرية",

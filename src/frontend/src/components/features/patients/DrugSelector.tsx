@@ -243,7 +243,9 @@ export function DrugSelector({
                   aria-selected={selected?.id === drug.id}
                   data-testid={`drug-selector-option-${drug.id}`}
                   onClick={() => handleSelect(drug)}
-                  className="flex items-start justify-between px-3 py-2 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(drug) } }}
+                  tabIndex={0}
+                  className="flex items-start justify-between px-3 py-2 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors focus:outline-none focus:bg-accent focus:text-accent-foreground"
                 >
                   <div className="flex flex-col min-w-0">
                     <span className="font-medium text-sm truncate">

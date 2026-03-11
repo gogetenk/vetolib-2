@@ -3,7 +3,10 @@
 > Items nécessitant une décision de ta part.
 > Format : ajoute ta décision sous chaque item, puis marque [RÉSOLU].
 
-*Aucun item pour l'instant.*
+## IgnoreQueryFilters in AppointmentReminderService
+**Decision**: APPROVED
+**Reason**: Background service must scan reminders across all clinics. Cannot use tenant-scoped context.
+**Date**: 2026-03-10
 
 ---
 

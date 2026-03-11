@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getRecentActivity, type ActivityDto, type ActivityType } from '@/lib/api/dashboard'
 import { ErrorState } from '@/components/ui/error-state'
+import { useTranslations } from 'next-intl'
 
 const ACTIVITY_ICONS: Record<ActivityType, string> = {
   APPOINTMENT: '📅',
@@ -15,14 +16,14 @@ const ACTIVITY_ICONS: Record<ActivityType, string> = {
 function formatRelativeTime(isoDate: string): string {
   const diffMs = Date.now() - new Date(isoDate).getTime()
   const diffMins = Math.floor(diffMs / 60_000)
-  if (diffMins < 60) return `il y a ${diffMins} min`
+  if (diffMins < 60) return `${diffMins} min ago`
   const diffHours = Math.floor(diffMins / 60)
-  if (diffHours < 24) return `il y a ${diffHours}h`
-  return new Date(isoDate).toLocaleDateString('fr-AE', { timeZone: 'Asia/Dubai' })
+  if (diffHours < 24) return `${diffHours}h ago`
+  return new Date(isoDate).toLocaleDateString('en-AE', { timeZone: 'Asia/Dubai' })
 }
 
 function formatTime(isoDate: string): string {
-  return new Date(isoDate).toLocaleTimeString('fr-AE', {
+  return new Date(isoDate).toLocaleTimeString('en-AE', {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'Asia/Dubai',
@@ -30,6 +31,7 @@ function formatTime(isoDate: string): string {
 }
 
 export function RecentActivity() {
+  const t = useTranslations('dashboard.recent_activity')
   const [activities, setActivities] = useState<ActivityDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -51,7 +53,7 @@ export function RecentActivity() {
   return (
     <Card data-testid="recent-activity-card">
       <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">Activité récente</CardTitle>
+        <CardTitle className="text-base font-semibold">{t('title')}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         {loading ? (
@@ -72,7 +74,7 @@ export function RecentActivity() {
             className="p-4 text-sm text-muted-foreground"
             data-testid="recent-activity-empty"
           >
-            Aucune activité récente
+            {t('empty')}
           </p>
         ) : (
           <ul data-testid="recent-activity-list" className="divide-y">
@@ -99,7 +101,7 @@ export function RecentActivity() {
                   <p
                     className="text-xs text-muted-foreground mt-0.5"
                     data-testid={`activity-time-${activity.id}`}
-                    title={new Date(activity.occurredAt).toLocaleString('fr-AE', { timeZone: 'Asia/Dubai' })}
+                    title={new Date(activity.occurredAt).toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}
                   >
                     {formatTime(activity.occurredAt)} · {formatRelativeTime(activity.occurredAt)}
                   </p>

@@ -18,5 +18,5 @@ export interface TriageResponse {
 }
 
 export async function analyzeTriage(request: TriageRequest): Promise<TriageResponse> {
-  return apiPost<TriageResponse>('/api/ai/triage', request)
+  return apiPost<TriageResponse>('/api/v1/ai/triage', request)
 }

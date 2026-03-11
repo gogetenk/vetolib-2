@@ -11,6 +11,7 @@ import {
   type ColumnDef,
 } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ErrorState } from '@/components/ui/error-state'
 import {
@@ -168,7 +169,7 @@ export function AppointmentsTable() {
             setPage(1)
           }}
         >
-          <SelectTrigger className="w-48" data-testid="status-filter">
+          <SelectTrigger className="w-48" data-testid="status-filter" aria-label="Filter by status">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent>
@@ -184,10 +185,11 @@ export function AppointmentsTable() {
           </SelectContent>
         </Select>
 
-        <input
+        <Input
           type="date"
-          className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm"
+          className="w-40"
           data-testid="date-filter"
+          aria-label="Filter by date"
           value={dateFilter}
           onChange={(e) => {
             setDateFilter(e.target.value)

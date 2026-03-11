@@ -64,6 +64,7 @@ export function DayHoursRow({ hours, onChange }: DayHoursRowProps) {
           onChange={handleOpenTime}
           disabled={hours.isClosed}
           data-testid={`day-open-time-${dayName}`}
+          aria-label={`${t(`days.${dayName}`)} — ${t("col_open")}`}
           className="w-32 disabled:opacity-40"
         />
       </td>
@@ -74,6 +75,7 @@ export function DayHoursRow({ hours, onChange }: DayHoursRowProps) {
           onChange={handleCloseTime}
           disabled={hours.isClosed}
           data-testid={`day-close-time-${dayName}`}
+          aria-label={`${t(`days.${dayName}`)} — ${t("col_close")}`}
           className="w-32 disabled:opacity-40"
         />
       </td>

@@ -1,11 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   Table,
   TableBody,
@@ -14,6 +23,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Skeleton } from '@/components/ui/skeleton'
+import { ErrorState } from '@/components/ui/error-state'
 import { formatAED, formatDate } from '@/lib/utils'
 import {
   getInvoice,
@@ -48,41 +59,45 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
   const router = useRouter()
   const [invoice, setInvoice] = useState<InvoiceDto | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [lastActionError, setLastActionError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+
+  const loadInvoice = useCallback(async () => {
+    setLoading(true)
+    setLoadError(null)
+    try {
+      const data = await getInvoice(id)
+      setInvoice(data)
+    } catch {
+      setLoadError('Invoice not found')
+    } finally {
+      setLoading(false)
+    }
+  }, [id])
 
   useEffect(() => {
-    async function load() {
-      try {
-        const data = await getInvoice(id)
-        setInvoice(data)
-        setError(null)
-      } catch {
-        setError('Invoice not found')
-      } finally {
-        setLoading(false)
-      }
-    }
-    load()
-  }, [id])
+    loadInvoice()
+  }, [loadInvoice])
 
   // Auto-retry once after 1.5s if an error occurred (handles MSW initialisation race)
   useEffect(() => {
-    if (!error || invoice) return
+    if (!loadError || invoice) return
     const timer = setTimeout(async () => {
       setLoading(true)
-      setError(null)
+      setLoadError(null)
       try {
         const data = await getInvoice(id)
         setInvoice(data)
       } catch {
-        setError('Invoice not found')
+        setLoadError('Invoice not found')
       } finally {
         setLoading(false)
       }
     }, 1500)
     return () => clearTimeout(timer)
-  }, [error, id, invoice])
+  }, [loadError, id, invoice])
 
   async function handleSend() {
     if (!invoice) return
@@ -96,7 +111,9 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       })
       setInvoice(updated)
     } catch {
-      setError('Failed to send invoice')
+      const msg = 'Failed to send invoice'
+      setLastActionError(msg)
+      toast.error(msg)
     } finally {
       setActionLoading(false)
     }
@@ -114,7 +131,9 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       })
       setInvoice(updated)
     } catch {
-      setError('Failed to mark as paid')
+      const msg = 'Failed to mark as paid'
+      setLastActionError(msg)
+      toast.error(msg)
     } finally {
       setActionLoading(false)
     }
@@ -132,21 +151,30 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       })
       setInvoice(updated)
     } catch {
-      setError('Failed to cancel invoice')
+      const msg = 'Failed to cancel invoice'
+      setLastActionError(msg)
+      toast.error(msg)
     } finally {
       setActionLoading(false)
     }
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!invoice) return
-    if (!confirm('Delete this invoice? This action cannot be undone.')) return
+    setDeleteDialogOpen(true)
+  }
+
+  async function handleDeleteConfirm() {
+    if (!invoice) return
+    setDeleteDialogOpen(false)
     setActionLoading(true)
     try {
       await deleteInvoice(invoice.id)
       router.push('/billing')
     } catch {
-      setError('Failed to delete invoice')
+      const msg = 'Failed to delete invoice'
+      setLastActionError(msg)
+      toast.error(msg)
       setActionLoading(false)
     }
   }
@@ -164,24 +192,51 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       URL.revokeObjectURL(url)
       trackEvent(AnalyticsEvents.INVOICE_PDF_DOWNLOADED)
     } catch {
-      setError('Failed to download PDF')
+      const msg = 'Failed to download PDF'
+      setLastActionError(msg)
+      toast.error(msg)
     } finally {
       setActionLoading(false)
     }
   }
 
   if (loading) {
-    return <p className="text-sm text-muted-foreground" data-testid="invoice-detail-loading">Loading...</p>
+    return (
+      <div className="space-y-6" data-testid="invoice-detail-loading">
+        <Skeleton className="h-32 w-full rounded-lg" />
+        <Skeleton className="h-24 w-full rounded-lg" />
+        <Skeleton className="h-48 w-full rounded-lg" />
+      </div>
+    )
   }
 
-  if (error && !invoice) {
-    return <p className="text-sm text-destructive" data-testid="invoice-detail-error">{error}</p>
+  if (loadError && !invoice) {
+    return (
+      <ErrorState
+        data-testid="invoice-detail-error"
+        title="Invoice not found"
+        description={loadError}
+        onRetry={loadInvoice}
+      />
+    )
   }
 
   if (!invoice) return null
 
   return (
+    <>
     <div className="space-y-6" data-testid="invoice-detail">
+      {/* Visually hidden alert for test accessibility — action errors are shown via toast */}
+      {lastActionError && (
+        <span
+          role="alert"
+          data-testid="action-error"
+          className="sr-only"
+        >
+          {lastActionError}
+        </span>
+      )}
+
       {/* Header */}
       <Card>
         <CardHeader>
@@ -259,7 +314,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
           {/* Totals */}
           <div className="mt-4 border-t pt-4 space-y-1 text-sm max-w-xs ml-auto" data-testid="detail-totals">
             <div className="flex justify-between">
-              <span>Subtotal HT</span>
+              <span>Subtotal (excl. VAT)</span>
               <span data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
@@ -350,10 +405,35 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
           </Button>
         )}
       </div>
-
-      {error && (
-        <p className="text-sm text-destructive" data-testid="action-error">{error}</p>
-      )}
     </div>
+
+    <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <DialogContent data-testid="delete-confirm-dialog">
+        <DialogHeader>
+          <DialogTitle>Delete Invoice</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. The invoice will be permanently deleted.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
+            variant="outline"
+            data-testid="delete-confirm-cancel"
+            onClick={() => setDeleteDialogOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="destructive"
+            data-testid="delete-confirm-ok"
+            onClick={handleDeleteConfirm}
+            disabled={actionLoading}
+          >
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   )
 }

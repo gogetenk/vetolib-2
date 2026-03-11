@@ -26,17 +26,17 @@ export interface ChangeRoleRequest {
 }
 
 export async function getUsers(): Promise<UserDto[]> {
-  return apiGet<UserDto[]>('/api/users')
+  return apiGet<UserDto[]>('/api/v1/users')
 }
 
 export async function inviteUser(data: InviteUserRequest): Promise<InviteUserResponse> {
-  return apiPost<InviteUserResponse>('/api/users', data)
+  return apiPost<InviteUserResponse>('/api/v1/users', data)
 }
 
 export async function changeUserRole(userId: string, data: ChangeRoleRequest): Promise<UserDto> {
-  return apiPatch<UserDto>(`/api/users/${userId}/role`, data)
+  return apiPatch<UserDto>(`/api/v1/users/${userId}/role`, data)
 }
 
 export async function deactivateUser(userId: string): Promise<void> {
-  return apiDelete(`/api/users/${userId}`)
+  return apiDelete(`/api/v1/users/${userId}`)
 }

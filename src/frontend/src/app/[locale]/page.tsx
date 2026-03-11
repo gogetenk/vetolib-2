@@ -137,6 +137,7 @@ export default async function LandingPage({ params }: Props) {
               <Button
                 size="sm"
                 className="bg-emerald-700 text-white hover:bg-emerald-800"
+                data-testid="btn-nav-start-trial"
               >
                 {t("hero.cta_primary")}
               </Button>
@@ -148,6 +149,7 @@ export default async function LandingPage({ params }: Props) {
               <Button
                 size="sm"
                 className="bg-emerald-700 text-white hover:bg-emerald-800"
+                data-testid="btn-nav-mobile-start-trial"
               >
                 {t("hero.cta_primary")}
               </Button>
@@ -177,6 +179,7 @@ export default async function LandingPage({ params }: Props) {
                     <Button
                       size="lg"
                       className="w-full bg-emerald-700 px-8 text-base font-semibold text-white hover:bg-emerald-800 sm:w-auto"
+                      data-testid="btn-hero-start-trial"
                     >
                       {t("hero.cta_primary")}
                     </Button>
@@ -189,6 +192,7 @@ export default async function LandingPage({ params }: Props) {
                       variant="outline"
                       size="lg"
                       className="w-full border-emerald-700 px-8 text-base font-semibold text-emerald-700 hover:bg-emerald-50 sm:w-auto"
+                      data-testid="btn-hero-book-demo"
                     >
                       {t("hero.cta_secondary")}
                     </Button>
@@ -392,6 +396,7 @@ export default async function LandingPage({ params }: Props) {
                 <Button
                   size="lg"
                   className="bg-emerald-700 px-10 text-base font-semibold text-white hover:bg-emerald-800"
+                  data-testid="btn-how-it-works-start-trial"
                 >
                   {t("how_it_works.cta")}
                 </Button>

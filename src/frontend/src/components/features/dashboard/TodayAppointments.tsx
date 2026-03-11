@@ -24,11 +24,11 @@ interface TodayAppointmentsProps {
 }
 
 const STATUS_LABELS: Record<AppointmentStatus, string> = {
-  SCHEDULED: 'Planifié',
-  CHECKED_IN: 'Arrivé',
-  IN_PROGRESS: 'En cours',
-  COMPLETED: 'Terminé',
-  CANCELLED: 'Annulé',
+  SCHEDULED: 'Scheduled',
+  CHECKED_IN: 'Checked In',
+  IN_PROGRESS: 'In Progress',
+  COMPLETED: 'Completed',
+  CANCELLED: 'Cancelled',
 }
 
 const STATUS_VARIANTS: Record<
@@ -43,7 +43,7 @@ const STATUS_VARIANTS: Record<
 }
 
 function formatTime(isoDate: string): string {
-  return new Date(isoDate).toLocaleTimeString('fr-AE', {
+  return new Date(isoDate).toLocaleTimeString('en-AE', {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'Asia/Dubai',
@@ -52,6 +52,7 @@ function formatTime(isoDate: string): string {
 
 export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   const router = useRouter()
+  const t = useTranslations('dashboard.today')
   const tEmpty = useTranslations('onboarding.empty.dashboard_today')
   const [appointments, setAppointments] = useState<TodayAppointmentDto[]>([])
   const [loading, setLoading] = useState(true)
@@ -93,13 +94,13 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   return (
     <Card data-testid="today-appointments-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-base font-semibold">Agenda du jour</CardTitle>
+        <CardTitle className="text-base font-semibold">{t('title')}</CardTitle>
         <Link
           href="/appointments"
           className="text-sm text-muted-foreground hover:underline"
           data-testid="today-appointments-view-all"
         >
-          Voir tout →
+          {t('view_all')} →
         </Link>
       </CardHeader>
       <CardContent className="p-0">
@@ -179,10 +180,11 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       size="sm"
                       variant="outline"
                       disabled={checkingIn === appt.id}
+                      aria-busy={checkingIn === appt.id}
                       onClick={() => handleCheckIn(appt.id)}
                       data-testid={`checkin-btn-${appt.id}`}
                     >
-                      {checkingIn === appt.id ? '...' : 'Check In'}
+                      {checkingIn === appt.id ? 'Checking in...' : 'Check In'}
                     </Button>
                   )}
                 </div>

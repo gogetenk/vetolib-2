@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -50,7 +51,7 @@ export function OverrideSection({
         >
           Clinical justification
         </Label>
-        <textarea
+        <Textarea
           id="override-justification"
           data-testid="override-justification-input"
           rows={3}
@@ -60,7 +61,7 @@ export function OverrideSection({
           aria-required="true"
           aria-invalid={!isValid && charCount > 0}
           aria-describedby="override-char-count"
-          className="flex min-h-[72px] w-full rounded-md border border-red-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-red-700 dark:bg-red-900/20"
+          className="border-red-300 focus-visible:ring-red-500/50 dark:border-red-700"
         />
         <p
           id="override-char-count"

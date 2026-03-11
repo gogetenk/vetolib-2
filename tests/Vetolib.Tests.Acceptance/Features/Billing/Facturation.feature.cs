@@ -468,7 +468,7 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
     await testRunner.WhenAsync("je télécharge le PDF de cette facture", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 55
-    await testRunner.ThenAsync("la réponse a le statut 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("la réponse a le statut 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

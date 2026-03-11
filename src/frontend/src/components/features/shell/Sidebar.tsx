@@ -221,6 +221,16 @@ export function Sidebar() {
       data-testid="dashboard-sidebar"
       className="hidden w-64 border-r bg-sidebar text-sidebar-foreground md:flex md:flex-col"
     >
+      <div className="flex h-16 items-center border-b px-4">
+        <Link
+          href="/appointments"
+          data-testid="sidebar-logo"
+          className="flex items-center gap-2 font-bold text-lg text-primary"
+        >
+          <PawPrint className="h-6 w-6" />
+          <span>Vetolib</span>
+        </Link>
+      </div>
       <SidebarContent role={role} pathname={pathname} />
     </aside>
   );
