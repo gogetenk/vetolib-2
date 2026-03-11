@@ -46,6 +46,7 @@ internal class GetConversationByIdHandler : IRequestHandler<GetConversationByIdQ
         var role = user?.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
 
         var conversation = await _context.Conversations
+            .AsNoTracking()
             .Include(c => c.Messages)
             .FirstOrDefaultAsync(c => c.Id == query.ConversationId, ct);
 

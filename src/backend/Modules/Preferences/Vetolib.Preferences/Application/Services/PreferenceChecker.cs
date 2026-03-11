@@ -49,9 +49,17 @@ internal class PreferenceChecker : IPreferenceChecker
         {
             var clinicPref = await _context.ClinicPreferenceDefaults
                 .FirstOrDefaultAsync(p => p.Key == key, ct);
-            value = clinicPref is not null
-                ? clinicPref.Value
-                : SystemDefaults.GetDefault(key);
+            if (clinicPref is not null)
+            {
+                value = clinicPref.Value;
+            }
+            else
+            {
+                var defaultResult = SystemDefaults.GetDefault(key);
+                if (!defaultResult.IsSuccess)
+                    return Result<string>.NotFound(defaultResult.Errors.ToArray());
+                value = defaultResult.Value;
+            }
         }
 
         _cache.Set(cacheKey, value, CacheTtl);

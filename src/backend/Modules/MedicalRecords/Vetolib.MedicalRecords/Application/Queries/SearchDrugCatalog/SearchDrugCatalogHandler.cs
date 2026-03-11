@@ -22,6 +22,7 @@ internal class SearchDrugCatalogHandler : IRequestHandler<SearchDrugCatalogQuery
         var limit = request.Limit is > 0 and <= 100 ? request.Limit : 20;
 
         var query = _context.DrugCatalogEntries
+            .AsNoTracking()
             .Include(d => d.SpeciesContraindications)
             .Include(d => d.Interactions)
             .Include(d => d.DosageGuidelines)

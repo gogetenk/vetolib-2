@@ -1,3 +1,4 @@
+using Ardalis.Result;
 using Vetolib.Preferences.Contracts;
 
 namespace Vetolib.Preferences.Application.Domain;
@@ -46,20 +47,20 @@ internal static class SystemDefaults
         { PreferenceKey.PrivacyMarketing, PreferenceCategory.Privacy },
     };
 
-    public static string GetDefault(PreferenceKey key)
+    public static Result<string> GetDefault(PreferenceKey key)
     {
         if (Defaults.TryGetValue(key, out var value))
-            return value;
-        throw new InvalidOperationException(
+            return Result<string>.Success(value);
+        return Result<string>.NotFound(
             $"No system default defined for PreferenceKey '{key}'. " +
             $"Every PreferenceKey must have a hardcoded default in SystemDefaults.");
     }
 
-    public static PreferenceCategory GetCategory(PreferenceKey key)
+    public static Result<PreferenceCategory> GetCategory(PreferenceKey key)
     {
         if (Categories.TryGetValue(key, out var category))
-            return category;
-        throw new InvalidOperationException(
+            return Result<PreferenceCategory>.Success(category);
+        return Result<PreferenceCategory>.NotFound(
             $"No category mapping defined for PreferenceKey '{key}'. " +
             $"Every PreferenceKey must have a category in SystemDefaults.");
     }

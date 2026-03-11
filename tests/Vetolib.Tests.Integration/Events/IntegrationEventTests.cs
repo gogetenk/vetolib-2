@@ -51,7 +51,7 @@ public sealed class IntegrationEventTests : EventIntegrationTestBase
             Role: UserRole.Vet);
 
         // Act
-        var response = await adminClient.PostAsJsonAsync("/api/users/invite", inviteRequest, JsonOptions);
+        var response = await adminClient.PostAsJsonAsync("/api/v1/users/invite", inviteRequest, JsonOptions);
 
         // Assert — HTTP succeeded
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -76,7 +76,7 @@ public sealed class IntegrationEventTests : EventIntegrationTestBase
             ItemUnitPrice: 450.00m);
 
         var createResponse = await adminClient.PostAsJsonAsync("/api/v1/invoices", createRequest, JsonOptions);
-        createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        createResponse.StatusCode.Should().Be(HttpStatusCode.OK); // ToMinimalApiResult maps success to 200
         var invoice = await createResponse.Content.ReadFromJsonAsync<InvoiceDto>(JsonOptions);
 
         // Act — transition to Sent

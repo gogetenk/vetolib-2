@@ -77,7 +77,7 @@ internal class FacturationSteps
         authDb.Users.Add(userResult.Value);
         await authDb.SaveChangesAsync();
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.EnsureSuccessStatusCode();
 
@@ -118,6 +118,28 @@ internal class FacturationSteps
             paidResponse.EnsureSuccessStatusCode();
             _currentInvoice = await paidResponse.Content.ReadFromJsonAsync<InvoiceDto>(JsonOptions);
         }
+    }
+
+    [Given(@"une facture ""SENT"" pour ""(.*)"" avec au moins un item")]
+    public async Task GivenUneFactureSentAvecAuMoinsUnItem(string animalName)
+    {
+        // Create a DRAFT invoice first
+        var createRequest = new CreateInvoiceRequest(
+            _animalId,
+            "Consultation",
+            200m);
+
+        var response = await _client.PostAsJsonAsync("/api/v1/invoices", createRequest);
+        response.EnsureSuccessStatusCode();
+        _currentInvoice = await response.Content.ReadFromJsonAsync<InvoiceDto>(JsonOptions);
+        _currentInvoice.Should().NotBeNull();
+
+        // Transition to SENT
+        var sentResponse = await _client.PatchAsJsonAsync(
+            $"/api/v1/invoices/{_currentInvoice!.Id}/status",
+            new UpdateInvoiceStatusRequest(InvoiceStatus.Sent));
+        sentResponse.EnsureSuccessStatusCode();
+        _currentInvoice = await sentResponse.Content.ReadFromJsonAsync<InvoiceDto>(JsonOptions);
     }
 
     [Given(@"une facture ""DRAFT"" pour ""(.*)"" avec au moins un item")]
@@ -245,6 +267,24 @@ internal class FacturationSteps
         }
     }
 
+    [When(@"je télécharge le PDF de cette facture")]
+    public async Task WhenJeTelechargeLePdfDeCetteFacture()
+    {
+        _lastResponse = await _client.GetAsync($"/api/v1/invoices/{_currentInvoice!.Id}/pdf");
+        if (!_lastResponse.IsSuccessStatusCode)
+        {
+            _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+        }
+    }
+
+    [When(@"je télécharge le PDF d'une facture avec un ID aléatoire inexistant")]
+    public async Task WhenJeTelechargeLePdfDUneFactureInexistante()
+    {
+        var randomId = Guid.NewGuid();
+        _lastResponse = await _client.GetAsync($"/api/v1/invoices/{randomId}/pdf");
+        _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+    }
+
     // ─── THEN ───────────────────────────────────────────────────
 
     [Then(@"la facture est créée avec le statut ""(.*)""")]
@@ -332,6 +372,28 @@ internal class FacturationSteps
     {
         _currentInvoice.Should().NotBeNull();
         _currentInvoice!.InvoiceNumber.Should().Be(expectedNumber);
+    }
+
+    [Then(@"la réponse a le statut (\d+)")]
+    public void ThenLaReponseALeStatut(int statusCode)
+    {
+        _lastResponse.Should().NotBeNull();
+        ((int)_lastResponse!.StatusCode).Should().Be(statusCode);
+    }
+
+    [Then(@"le Content-Type est ""(.*)""")]
+    public void ThenLeContentTypeEst(string expectedContentType)
+    {
+        _lastResponse.Should().NotBeNull();
+        _lastResponse!.Content.Headers.ContentType?.MediaType.Should().Be(expectedContentType);
+    }
+
+    [Then(@"le contenu n'est pas vide")]
+    public async Task ThenLeContenuNEstPasVide()
+    {
+        _lastResponse.Should().NotBeNull();
+        var bytes = await _lastResponse!.Content.ReadAsByteArrayAsync();
+        bytes.Should().NotBeEmpty();
     }
 
     // ─── Helpers ────────────────────────────────────────────────

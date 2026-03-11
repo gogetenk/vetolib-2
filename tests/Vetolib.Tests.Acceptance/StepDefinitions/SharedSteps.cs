@@ -98,7 +98,7 @@ internal class SharedSteps
         }
 
         // Login to get JWT
-        var loginResponse = await client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
             $"Login should succeed for {email}");

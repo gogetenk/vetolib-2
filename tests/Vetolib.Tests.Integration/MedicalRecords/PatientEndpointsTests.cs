@@ -41,8 +41,8 @@ public sealed class PatientEndpointsTests : IntegrationTestBase
         // Act
         var response = await vetClient.PostAsJsonAsync("/api/v1/patients", request, JsonOptions);
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        // Assert — ToMinimalApiResult() maps Result.Success to 200 OK for creates
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
         var body = await response.Content.ReadFromJsonAsync<PatientDto>(JsonOptions);
         body.Should().NotBeNull();
         body!.Id.Should().NotBeEmpty();

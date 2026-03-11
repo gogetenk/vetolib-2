@@ -75,7 +75,7 @@ internal class PreferencesIntegrationSteps
         _ctx.Set(clinicId, "CurrentClinicId");
         _ctx.Set(email, "CurrentUserEmail");
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login", new LoginRequest(email, password));
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login", new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login failed for {email}");
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
@@ -164,7 +164,7 @@ internal class PreferencesIntegrationSteps
     public async Task WhenVetRequestsAITriage(string symptoms)
     {
         var body = new { symptoms, species = "dog" };
-        _response = await _client.PostAsJsonAsync("/api/ai/triage", body);
+        _response = await _client.PostAsJsonAsync("/api/v1/ai/triage", body);
         _ctx.Set(_response, "LastResponse");
     }
 
@@ -173,7 +173,7 @@ internal class PreferencesIntegrationSteps
     {
         // Use a random appointment ID — we expect disabled preference error before the lookup
         var appointmentId = Guid.NewGuid();
-        _response = await _client.GetAsync($"/api/ai/no-show-prediction/{appointmentId}");
+        _response = await _client.GetAsync($"/api/v1/ai/no-show-prediction/{appointmentId}");
         _ctx.Set(_response, "LastResponse");
     }
 
@@ -188,7 +188,7 @@ internal class PreferencesIntegrationSteps
             drugCatalogEntryId = Guid.NewGuid(),
             dosageAmount = (decimal?)null
         };
-        _response = await _client.PostAsJsonAsync("/api/ai/check-interactions", body);
+        _response = await _client.PostAsJsonAsync("/api/v1/ai/check-interactions", body);
         _ctx.Set(_response, "LastResponse");
     }
 

@@ -344,7 +344,7 @@ internal class AdminMessagingSteps
             await authDb.SaveChangesAsync();
         }
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, "SecurePass1"));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login as {role} should succeed");
 

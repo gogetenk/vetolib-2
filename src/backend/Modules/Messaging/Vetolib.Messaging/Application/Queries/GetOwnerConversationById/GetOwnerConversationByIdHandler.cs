@@ -23,6 +23,7 @@ internal class GetOwnerConversationByIdHandler
         // IgnoreQueryFilters: portal auth bypasses JWT tenant context
         var conversation = await _context.Conversations
             .IgnoreQueryFilters()
+            .AsNoTracking()
             .Include(c => c.Messages.Where(m => !m.IsInternalNote)) // Never return internal notes to owner
             .FirstOrDefaultAsync(
                 c => c.Id == request.ConversationId

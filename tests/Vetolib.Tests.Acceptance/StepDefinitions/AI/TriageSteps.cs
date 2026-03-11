@@ -78,7 +78,7 @@ internal class TriageSteps
         await authDb.SaveChangesAsync();
 
         // For Owner role, we still login successfully but the endpoint should return 403
-        var loginResponse = await client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -145,7 +145,7 @@ internal class TriageSteps
     public async Task WhenTheVeterinarianAcceptsTheTriage()
     {
         var triageId = _ctx.Get<Guid>("CurrentTriageId");
-        _response = await _client.PutAsync($"/api/ai/triage/{triageId}/accept", null);
+        _response = await _client.PutAsync($"/api/v1/ai/triage/{triageId}/accept", null);
     }
 
     [When(@"the veterinarian overrides the severity to ""(.*)""")]
@@ -156,7 +156,7 @@ internal class TriageSteps
             JsonSerializer.Serialize(new { newSeverity = Enum.Parse<AISeverity>(newSeverity, true) }),
             Encoding.UTF8,
             "application/json");
-        _response = await _client.PutAsync($"/api/ai/triage/{triageId}/override", body);
+        _response = await _client.PutAsync($"/api/v1/ai/triage/{triageId}/override", body);
     }
 
     // ─── THEN Steps ─────────────────────────────────────────────
@@ -401,6 +401,6 @@ internal class TriageSteps
             weightKg
         };
 
-        _response = await _client.PostAsJsonAsync("/api/ai/triage", body);
+        _response = await _client.PostAsJsonAsync("/api/v1/ai/triage", body);
     }
 }

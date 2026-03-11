@@ -18,7 +18,7 @@ internal static class UserEndpoints
 {
     internal static IEndpointRouteBuilder MapUserApiEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/users")
+        var group = app.MapGroup("/api/v1/users")
             .RequireAuthorization()
             .WithTags("Users");
 

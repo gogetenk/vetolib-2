@@ -74,10 +74,10 @@ internal class OnboardingSteps
     [Given(@"the user has an onboarding state initialized")]
     public async Task GivenTheUserHasAnOnboardingStateInitialized()
     {
-        // Ensure user is authenticated, then trigger lazy init by calling GET /api/onboarding
+        // Ensure user is authenticated, then trigger lazy init by calling GET /api/v1/onboarding
         await EnsureAuthenticatedAdmin();
-        _response = await _client.GetAsync("/api/onboarding");
-        _response.StatusCode.Should().Be(HttpStatusCode.OK, "GET /api/onboarding should succeed");
+        _response = await _client.GetAsync("/api/v1/onboarding");
+        _response.StatusCode.Should().Be(HttpStatusCode.OK, "GET /api/v1/onboarding should succeed");
     }
 
     [Given(@"the clinic already has (\d+) patients")]
@@ -135,14 +135,14 @@ internal class OnboardingSteps
     public async Task GivenTheUserHasAllChecklistStepsCompleted()
     {
         await EnsureAuthenticatedAdmin();
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         var state = await _response.Content.ReadFromJsonAsync<OnboardingStateDto>(JsonOptions);
 
         // Complete all steps via API
         foreach (var step in state!.Steps.Where(s => !s.IsCompleted))
         {
-            var result = await _client.PostAsync($"/api/onboarding/steps/{step.StepId}/complete", null);
+            var result = await _client.PostAsync($"/api/v1/onboarding/steps/{step.StepId}/complete", null);
             result.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
         }
     }
@@ -152,10 +152,10 @@ internal class OnboardingSteps
     {
         await EnsureAuthenticatedAdmin();
         // First initialize the onboarding state via GET (lazy init)
-        var initResponse = await _client.GetAsync("/api/onboarding");
+        var initResponse = await _client.GetAsync("/api/v1/onboarding");
         initResponse.StatusCode.Should().Be(HttpStatusCode.OK, "Onboarding state should be initialized");
         // Then dismiss the banner
-        _response = await _client.PostAsync("/api/onboarding/banner/dismiss", null);
+        _response = await _client.PostAsync("/api/v1/onboarding/banner/dismiss", null);
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
     }
 
@@ -166,35 +166,35 @@ internal class OnboardingSteps
     {
         await EnsureAuthenticatedAdmin();
         // First login triggers lazy init on GET
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
     }
 
     [When(@"the user retrieves their onboarding state")]
     public async Task WhenTheUserRetrievesTheirOnboardingState()
     {
         await EnsureAuthenticatedAdmin();
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
     }
 
     [When(@"the step ""(.*)"" is marked as completed")]
     public async Task WhenTheStepIsMarkedAsCompleted(string stepId)
     {
         await EnsureAuthenticatedAdmin();
-        _response = await _client.PostAsync($"/api/onboarding/steps/{stepId}/complete", null);
+        _response = await _client.PostAsync($"/api/v1/onboarding/steps/{stepId}/complete", null);
     }
 
     [When(@"the user dismisses the welcome banner")]
     public async Task WhenTheUserDismissesTheWelcomeBanner()
     {
         await EnsureAuthenticatedAdmin();
-        _response = await _client.PostAsync("/api/onboarding/banner/dismiss", null);
+        _response = await _client.PostAsync("/api/v1/onboarding/banner/dismiss", null);
     }
 
     [When(@"the user dismisses the checklist")]
     public async Task WhenTheUserDismissesTheChecklist()
     {
         await EnsureAuthenticatedAdmin();
-        _response = await _client.PostAsync("/api/onboarding/checklist/dismiss", null);
+        _response = await _client.PostAsync("/api/v1/onboarding/checklist/dismiss", null);
     }
 
     [When(@"the user logs out and logs back in")]
@@ -202,28 +202,28 @@ internal class OnboardingSteps
     {
         // Re-login: just re-authenticate with same credentials
         await EnsureAuthenticatedAdmin(forceRelogin: true);
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
     }
 
     [When(@"the vet user retrieves their onboarding state")]
     public async Task WhenTheVetUserRetrievesTheirOnboardingState()
     {
         await EnsureAuthenticatedRole("Vet");
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
     }
 
     [When(@"the receptionist user retrieves their onboarding state")]
     public async Task WhenTheReceptionistUserRetrievesTheirOnboardingState()
     {
         await EnsureAuthenticatedRole("Receptionist");
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
     }
 
     [When(@"the assistant user retrieves their onboarding state")]
     public async Task WhenTheAssistantUserRetrievesTheirOnboardingState()
     {
         await EnsureAuthenticatedRole("Assistant");
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
     }
 
     [When(@"an unauthenticated request is made to the onboarding endpoint")]
@@ -231,7 +231,7 @@ internal class OnboardingSteps
     {
         // Remove auth header
         _client.DefaultRequestHeaders.Authorization = null;
-        _response = await _client.GetAsync("/api/onboarding");
+        _response = await _client.GetAsync("/api/v1/onboarding");
     }
 
     // ─── THEN Steps ──────────────────────────────────────────────
@@ -261,7 +261,7 @@ internal class OnboardingSteps
     public async Task ThenTheChecklistIsMarkedAs(string status)
     {
         // Re-fetch to get updated state
-        var currentResponse = await _client.GetAsync("/api/onboarding");
+        var currentResponse = await _client.GetAsync("/api/v1/onboarding");
         currentResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         var state = await currentResponse.Content.ReadFromJsonAsync<OnboardingStateDto>(JsonOptions);
         state.Should().NotBeNull();
@@ -318,7 +318,7 @@ internal class OnboardingSteps
             HttpStatusCode.OK, HttpStatusCode.NoContent);
 
         // Re-fetch to verify
-        var getResponse = await _client.GetAsync("/api/onboarding");
+        var getResponse = await _client.GetAsync("/api/v1/onboarding");
         getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         var state = await getResponse.Content.ReadFromJsonAsync<OnboardingStateDto>(JsonOptions);
         state.Should().NotBeNull();
@@ -330,7 +330,7 @@ internal class OnboardingSteps
     [Then(@"the progress count is updated")]
     public async Task ThenTheProgressCountIsUpdated()
     {
-        var getResponse = await _client.GetAsync("/api/onboarding");
+        var getResponse = await _client.GetAsync("/api/v1/onboarding");
         var state = await getResponse.Content.ReadFromJsonAsync<OnboardingStateDto>(JsonOptions);
         state.Should().NotBeNull();
         state!.Progress.Completed.Should().BeGreaterThan(0);
@@ -350,7 +350,7 @@ internal class OnboardingSteps
     [Then(@"the checklist remains ""visible""")]
     public async Task ThenTheChecklistRemainsVisible()
     {
-        var getResponse = await _client.GetAsync("/api/onboarding");
+        var getResponse = await _client.GetAsync("/api/v1/onboarding");
         getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         var state = await getResponse.Content.ReadFromJsonAsync<OnboardingStateDto>(JsonOptions);
         state.Should().NotBeNull();
@@ -360,7 +360,7 @@ internal class OnboardingSteps
     [Then(@"the welcome banner status is unchanged")]
     public async Task ThenTheWelcomeBannerStatusIsUnchanged()
     {
-        var getResponse = await _client.GetAsync("/api/onboarding");
+        var getResponse = await _client.GetAsync("/api/v1/onboarding");
         getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         var state = await getResponse.Content.ReadFromJsonAsync<OnboardingStateDto>(JsonOptions);
         state.Should().NotBeNull();
@@ -427,7 +427,7 @@ internal class OnboardingSteps
 
     private async Task<OnboardingStateDto?> GetCurrentState()
     {
-        var resp = await _client.GetAsync("/api/onboarding");
+        var resp = await _client.GetAsync("/api/v1/onboarding");
         if (!resp.IsSuccessStatusCode) return null;
         return await resp.Content.ReadFromJsonAsync<OnboardingStateDto>(JsonOptions);
     }
@@ -475,7 +475,7 @@ internal class OnboardingSteps
             await authDb.SaveChangesAsync();
         }
 
-        var loginResp = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResp = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResp.StatusCode.Should().Be(HttpStatusCode.OK, $"Login for {email} should succeed");
 

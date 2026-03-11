@@ -36,10 +36,14 @@ internal class ClinicPreferenceDefault : BaseEntity, IMultiTenant
         if (errors.Count > 0)
             return Result<ClinicPreferenceDefault>.Invalid(errors);
 
+        var categoryResult = SystemDefaults.GetCategory(key);
+        if (!categoryResult.IsSuccess)
+            return Result<ClinicPreferenceDefault>.NotFound(categoryResult.Errors.ToArray());
+
         return Result<ClinicPreferenceDefault>.Success(new ClinicPreferenceDefault
         {
             ClinicId = clinicId,
-            Category = SystemDefaults.GetCategory(key),
+            Category = categoryResult.Value,
             Key = key,
             Value = value
         });

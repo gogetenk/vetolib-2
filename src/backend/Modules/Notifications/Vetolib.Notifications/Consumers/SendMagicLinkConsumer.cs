@@ -39,6 +39,7 @@ internal class SendMagicLinkConsumer : IConsumer<SendMagicLinkEvent>
                 evt.OwnerEmail,
                 string.Join(", ", result.Errors));
 
+            // Intentional throw: MassTransit retry policy will requeue on transient failures
             throw new InvalidOperationException($"Failed to send magic link email to {evt.OwnerEmail}");
         }
 

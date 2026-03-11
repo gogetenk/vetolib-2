@@ -22,10 +22,12 @@ internal class GetStockAlertsHandler : IRequestHandler<GetStockAlertsQuery, Resu
         var expiryThreshold = DateTime.UtcNow.AddDays(30);
 
         var lowStockItems = await _context.StockItems
+            .AsNoTracking()
             .Where(i => i.Quantity < i.MinThreshold)
             .ToListAsync(ct);
 
         var expiringItems = await _context.StockItems
+            .AsNoTracking()
             .Where(i => i.ExpiryDate != null && i.ExpiryDate <= expiryThreshold)
             .ToListAsync(ct);
 

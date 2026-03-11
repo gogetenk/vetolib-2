@@ -91,7 +91,8 @@ public class AuditInterceptorTests
 
         var interceptor = new AuditSaveChangesInterceptor(httpAccessor, scopeFactory);
 
-        interceptor.Should().NotBeNull();
+        interceptor.Should().BeAssignableTo<Microsoft.EntityFrameworkCore.Diagnostics.ISaveChangesInterceptor>(
+            "the interceptor must implement ISaveChangesInterceptor to plug into the EF Core pipeline");
     }
 
     // ─── Change tracker integration ───────────────────────────────────────────

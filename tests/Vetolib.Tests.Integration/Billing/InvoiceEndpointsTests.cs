@@ -40,7 +40,8 @@ public sealed class InvoiceEndpointsTests : IntegrationTestBase
         var response = await adminClient.PostAsJsonAsync("/api/v1/invoices", request, JsonOptions);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        // Assert — ToMinimalApiResult() maps Result.Success to 200 OK for creates
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
         var body = await response.Content.ReadFromJsonAsync<InvoiceDto>(JsonOptions);
         body.Should().NotBeNull();
         body!.Id.Should().NotBeEmpty();

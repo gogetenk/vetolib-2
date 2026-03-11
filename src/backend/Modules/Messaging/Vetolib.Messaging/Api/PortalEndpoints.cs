@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Vetolib.Messaging.Application.Commands.AcceptConsent;
 using Vetolib.Messaging.Application.Commands.CreateOwnerConversation;
@@ -22,40 +23,41 @@ internal static class PortalEndpoints
 {
     internal static IEndpointRouteBuilder MapPortalEndpoints(this IEndpointRouteBuilder app)
     {
+        var env = app.ServiceProvider.GetRequiredService<IHostEnvironment>();
+
         // Test-only seeding endpoint (not protected by magic link)
         // Registers a valid portal token + accepted consent so BDD tests can authenticate.
-        // Only available in Development/Test environments.
-        app.MapPost("/api/v1/portal/test-token", async (
-            TestTokenRequest request,
-            MessagingDbContext context,
-            IHostEnvironment env,
-            CancellationToken ct) =>
+        // Only registered in Development/Test environments — the route does not exist in Production.
+        if (env.IsDevelopment() || env.IsEnvironment("Test"))
         {
-            if (env.IsProduction())
-                return Results.NotFound();
+            app.MapPost("/api/v1/portal/test-token", async (
+                TestTokenRequest request,
+                MessagingDbContext context,
+                CancellationToken ct) =>
+            {
+                var clinicId = new Guid("11111111-1111-1111-1111-111111111111");
+                var ownerId = Guid.NewGuid();
+                var tokenValue = $"test-{Guid.NewGuid():N}";
 
-            var clinicId = new Guid("11111111-1111-1111-1111-111111111111");
-            var ownerId = Guid.NewGuid();
-            var tokenValue = $"test-{Guid.NewGuid():N}";
+                var tokenResult = OwnerPortalToken.Create(
+                    clinicId,
+                    ownerId,
+                    tokenValue,
+                    DateTime.UtcNow.AddDays(90));
 
-            var tokenResult = OwnerPortalToken.Create(
-                clinicId,
-                ownerId,
-                tokenValue,
-                DateTime.UtcNow.AddDays(90));
+                if (!tokenResult.IsSuccess)
+                    return Results.BadRequest(tokenResult.Errors);
 
-            if (!tokenResult.IsSuccess)
-                return Results.BadRequest(tokenResult.Errors);
+                var token = tokenResult.Value;
+                // Auto-accept consent for test tokens so BDD tests don't fail on consent check
+                token.RecordConsent("1.0");
 
-            var token = tokenResult.Value;
-            // Auto-accept consent for test tokens so BDD tests don't fail on consent check
-            token.RecordConsent("1.0");
+                context.OwnerPortalTokens.Add(token);
+                await context.SaveChangesAsync(ct);
 
-            context.OwnerPortalTokens.Add(token);
-            await context.SaveChangesAsync(ct);
-
-            return Results.Ok(new { token = tokenValue, ownerId });
-        }).WithTags("OwnerPortal");
+                return Results.Ok(new { token = tokenValue, ownerId });
+            }).WithTags("OwnerPortal");
+        }
 
         var group = app.MapGroup("/api/v1/portal")
             .AddEndpointFilter<MagicLinkEndpointFilter>()

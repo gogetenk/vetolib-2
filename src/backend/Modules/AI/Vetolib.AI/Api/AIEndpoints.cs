@@ -19,7 +19,7 @@ internal static class AIEndpoints
 {
     internal static IEndpointRouteBuilder MapAIApiEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/ai")
+        var group = app.MapGroup("/api/v1/ai")
             .RequireAuthorization("ClinicStaff")
             .RequireRateLimiting("api")
             .WithTags("AI");

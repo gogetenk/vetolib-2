@@ -161,7 +161,7 @@ internal class AuditSteps
             await authDb.SaveChangesAsync();
         }
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.IsSuccessStatusCode.Should().BeTrue($"Login for {email} failed");
 

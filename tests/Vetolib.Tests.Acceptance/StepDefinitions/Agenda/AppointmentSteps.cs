@@ -32,6 +32,10 @@ internal class AppointmentSteps
     private readonly DateOnly _defaultDate = new(2026, 4, 1);
     private List<AvailabilitySlotDto>? _availabilitySlots;
 
+    // Used by the English GetById/Edit scenarios
+    private AppointmentDto? _firstAppointment;
+    private AppointmentDto? _secondAppointment;
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -108,7 +112,7 @@ internal class AppointmentSteps
         await authDb.SaveChangesAsync();
 
         // Login
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         if (!loginResponse.IsSuccessStatusCode)
         {
@@ -430,7 +434,7 @@ internal class AppointmentSteps
         response.EnsureSuccessStatusCode();
 
         var appointments = await response.Content.ReadFromJsonAsync<List<AppointmentDto>>(JsonOptions);
-        appointments.Should().NotBeNull();
+        appointments.Should().NotBeNull().And.NotBeEmpty("the agenda should contain at least the created appointment");
 
         var expectedTime = TimeOnly.Parse(timeStr);
         appointments.Should().Contain(a =>
@@ -443,8 +447,7 @@ internal class AppointmentSteps
     {
         _response.IsSuccessStatusCode.Should().BeTrue();
         var appointments = await _response.Content.ReadFromJsonAsync<List<AppointmentDto>>(JsonOptions);
-        appointments.Should().NotBeNull();
-        appointments.Should().HaveCount(count);
+        appointments.Should().NotBeNull().And.HaveCount(count);
     }
 
     [Then(@"le systeme refuse avec le code ""(.*)""")]
@@ -496,8 +499,7 @@ internal class AppointmentSteps
     {
         _response.IsSuccessStatusCode.Should().BeTrue(
             $"Expected success but got {_response.StatusCode}: {_errorResponseBody}");
-        _availabilitySlots.Should().NotBeNull();
-        _availabilitySlots.Should().NotBeEmpty();
+        _availabilitySlots.Should().NotBeNull().And.NotBeEmpty("availability query should return at least one slot");
         _availabilitySlots.Should().Contain(s => s.IsAvailable);
         _availabilitySlots.Should().Contain(s => !s.IsAvailable);
     }
@@ -506,10 +508,316 @@ internal class AppointmentSteps
     public void ThenLeCreneauEstMarqueNonDisponible(string timeStr)
     {
         var expectedTime = TimeOnly.Parse(timeStr);
-        _availabilitySlots.Should().NotBeNull();
+        _availabilitySlots.Should().NotBeNull().And.NotBeEmpty("availability query must return slots before checking individual ones");
         var slot = _availabilitySlots!.FirstOrDefault(s => s.StartTime == expectedTime);
         slot.Should().NotBeNull($"Le creneau {timeStr} devrait exister");
         slot!.IsAvailable.Should().BeFalse($"Le creneau {timeStr} devrait etre non disponible");
+    }
+
+    // ─── English steps for GetById / EditAppointment scenarios ───
+
+    [Given(@"an existing appointment for patient ""(.*)"" on ""(.*)"" at ""(.*)""")]
+    public async Task GivenAnExistingAppointmentForPatientOnAt(string animalName, string dateStr, string timeStr)
+    {
+        var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
+        _animalIds[animalName] = animalId;
+        var ownerName = _animalOwners.ContainsKey(animalName) ? _animalOwners[animalName] : "John Smith";
+        _animalOwners[animalName] = ownerName;
+
+        var date = DateOnly.Parse(dateStr);
+        var startTime = TimeOnly.Parse(timeStr);
+
+        var request = new CreateAppointmentRequest(
+            VeterinarianId: _vetId,
+            VeterinarianName: _vetName,
+            AnimalId: animalId,
+            AnimalName: animalName,
+            OwnerName: ownerName,
+            Date: date,
+            StartTime: startTime,
+            DurationMinutes: 30,
+            Reason: null);
+
+        var response = await _client.PostAsJsonAsync("/api/appointments", request);
+        response.EnsureSuccessStatusCode();
+        _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        _firstAppointment = _createdAppointment;
+    }
+
+    [Given(@"an existing appointment on ""(.*)"" at ""(.*)""")]
+    public async Task GivenAnExistingAppointmentOnAt(string dateStr, string timeStr)
+    {
+        var animalName = "Luna";
+        var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
+        _animalIds[animalName] = animalId;
+        var ownerName = "Jane Doe";
+        _animalOwners[animalName] = ownerName;
+
+        var date = DateOnly.Parse(dateStr);
+        var startTime = TimeOnly.Parse(timeStr);
+
+        var request = new CreateAppointmentRequest(
+            VeterinarianId: _vetId,
+            VeterinarianName: _vetName,
+            AnimalId: animalId,
+            AnimalName: animalName,
+            OwnerName: ownerName,
+            Date: date,
+            StartTime: startTime,
+            DurationMinutes: 30,
+            Reason: null);
+
+        var response = await _client.PostAsJsonAsync("/api/appointments", request);
+        response.EnsureSuccessStatusCode();
+        _firstAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        _createdAppointment = _firstAppointment;
+    }
+
+    [Given(@"another appointment for ""(.*)"" on ""(.*)"" at ""(.*)""")]
+    public async Task GivenAnotherAppointmentForOnAt(string animalName, string dateStr, string timeStr)
+    {
+        var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
+        _animalIds[animalName] = animalId;
+        var ownerName = _animalOwners.ContainsKey(animalName) ? _animalOwners[animalName] : "John Smith";
+        _animalOwners[animalName] = ownerName;
+
+        var date = DateOnly.Parse(dateStr);
+        var startTime = TimeOnly.Parse(timeStr);
+
+        var request = new CreateAppointmentRequest(
+            VeterinarianId: _vetId,
+            VeterinarianName: _vetName,
+            AnimalId: animalId,
+            AnimalName: animalName,
+            OwnerName: ownerName,
+            Date: date,
+            StartTime: startTime,
+            DurationMinutes: 30,
+            Reason: null);
+
+        var response = await _client.PostAsJsonAsync("/api/appointments", request);
+        response.EnsureSuccessStatusCode();
+        _secondAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        _createdAppointment = _secondAppointment;
+    }
+
+    [When(@"I request the appointment by its ID")]
+    public async Task WhenIRequestTheAppointmentByItsId()
+    {
+        _createdAppointment.Should().NotBeNull("an appointment must have been created first");
+        _response = await _client.GetAsync($"/api/appointments/{_createdAppointment!.Id}");
+        if (_response.IsSuccessStatusCode)
+            _createdAppointment = await _response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        else
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    [When(@"I request appointment with a random non-existent ID")]
+    public async Task WhenIRequestAppointmentWithARandomNonExistentId()
+    {
+        var nonExistentId = Guid.NewGuid();
+        _response = await _client.GetAsync($"/api/appointments/{nonExistentId}");
+        _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    [When(@"I update the appointment to ""(.*)"" at ""(.*)""")]
+    public async Task WhenIUpdateTheAppointmentToAt(string dateStr, string timeStr)
+    {
+        _createdAppointment.Should().NotBeNull("an appointment must have been created first");
+        var date = DateOnly.Parse(dateStr);
+        var startTime = TimeOnly.Parse(timeStr);
+
+        var request = new UpdateAppointmentRequest(
+            Date: date,
+            StartTime: startTime,
+            DurationMinutes: null,
+            VeterinarianId: null,
+            VeterinarianName: null,
+            Reason: null,
+            Notes: null);
+
+        _response = await _client.PutAsJsonAsync($"/api/appointments/{_createdAppointment!.Id}", request);
+        if (_response.IsSuccessStatusCode)
+            _createdAppointment = await _response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        else
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    [When(@"I update the second appointment to ""(.*)"" at ""(.*)""")]
+    public async Task WhenIUpdateTheSecondAppointmentToAt(string dateStr, string timeStr)
+    {
+        _secondAppointment.Should().NotBeNull("a second appointment must have been created first");
+        var date = DateOnly.Parse(dateStr);
+        var startTime = TimeOnly.Parse(timeStr);
+
+        var request = new UpdateAppointmentRequest(
+            Date: date,
+            StartTime: startTime,
+            DurationMinutes: null,
+            VeterinarianId: null,
+            VeterinarianName: null,
+            Reason: null,
+            Notes: null);
+
+        _response = await _client.PutAsJsonAsync($"/api/appointments/{_secondAppointment!.Id}", request);
+        _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    [Then(@"the response status is (\d+)")]
+    public void ThenTheResponseStatusIs(int statusCode)
+    {
+        ((int)_response.StatusCode).Should().Be(statusCode,
+            $"Expected status {statusCode} but got {(int)_response.StatusCode}: {_errorResponseBody}");
+    }
+
+    [Then(@"the appointment details include patient ""(.*)"" and time ""(.*)""")]
+    public void ThenTheAppointmentDetailsIncludePatientAndTime(string animalName, string timeStr)
+    {
+        _createdAppointment.Should().NotBeNull();
+        _createdAppointment!.AnimalName.Should().Be(animalName);
+        _createdAppointment.StartTime.Should().Be(TimeOnly.Parse(timeStr));
+    }
+
+    [Then(@"the appointment is now scheduled for ""(.*)"" at ""(.*)""")]
+    public void ThenTheAppointmentIsNowScheduledForAt(string dateStr, string timeStr)
+    {
+        _createdAppointment.Should().NotBeNull();
+        _createdAppointment!.Date.Should().Be(DateOnly.Parse(dateStr));
+        _createdAppointment.StartTime.Should().Be(TimeOnly.Parse(timeStr));
+    }
+
+    // ─── English steps for PATCH /status edge-case scenarios ─────
+
+    [Given(@"a clinic ""(.*)""")]
+    public void GivenAClinic(string clinicName)
+    {
+        _clinicId = GenerateGuidFromString(clinicName);
+        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
+        testClinicContext.ClinicId = _clinicId;
+    }
+
+    [Given(@"I am authenticated as ADMIN")]
+    public async Task GivenIAmAuthenticatedAsAdmin()
+    {
+        using var scope = _factory.Services.CreateScope();
+        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+
+        var email = "admin-status@happypaws.ae";
+        var password = "SecurePass1";
+
+        var userResult = User.Create(_clinicId, email, password, UserRole.Admin);
+        userResult.IsSuccess.Should().BeTrue();
+
+        authDb.Users.Add(userResult.Value);
+        await authDb.SaveChangesAsync();
+
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
+            new LoginRequest(email, password));
+        if (!loginResponse.IsSuccessStatusCode)
+        {
+            var body = await loginResponse.Content.ReadAsStringAsync();
+            throw new Exception($"Admin login failed with {loginResponse.StatusCode}: {body}");
+        }
+
+        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
+    }
+
+    [Given(@"an existing appointment with status ""(.*)""")]
+    public async Task GivenAnExistingAppointmentWithStatus(string status)
+    {
+        // Create a vet if not yet set up
+        if (_vetId == Guid.Empty)
+        {
+            _vetName = "Dr. Test Vet";
+            _vetId = GenerateGuidFromString(_vetName);
+            using var scope = _factory.Services.CreateScope();
+            var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+            var userResult = User.Create(_clinicId, "testvet-status@happypaws.ae", "SecurePass1", UserRole.Vet, "UAE-VET-99999");
+            userResult.IsSuccess.Should().BeTrue();
+            typeof(Vetolib.Shared.Kernel.BaseEntity)
+                .GetProperty("Id")!
+                .SetValue(userResult.Value, _vetId);
+            authDb.Users.Add(userResult.Value);
+            await authDb.SaveChangesAsync();
+        }
+
+        var animalName = "Max";
+        var animalId = GenerateGuidFromString(animalName);
+        _animalIds[animalName] = animalId;
+        var ownerName = "John Smith";
+        _animalOwners[animalName] = ownerName;
+
+        var request = new CreateAppointmentRequest(
+            VeterinarianId: _vetId,
+            VeterinarianName: _vetName,
+            AnimalId: animalId,
+            AnimalName: animalName,
+            OwnerName: ownerName,
+            Date: _defaultDate,
+            StartTime: new TimeOnly(10, 0),
+            DurationMinutes: 30,
+            Reason: null);
+
+        var response = await _client.PostAsJsonAsync("/api/appointments", request);
+        response.EnsureSuccessStatusCode();
+        _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+    }
+
+    [When(@"I update the appointment status to ""(.*)""")]
+    public async Task WhenIUpdateTheAppointmentStatusTo(string statusStr)
+    {
+        _createdAppointment.Should().NotBeNull("an appointment must have been created first");
+
+        // Try to parse as enum; if not parseable, send raw string to trigger 400
+        if (Enum.TryParse<AppointmentStatus>(statusStr, ignoreCase: true, out var parsedStatus))
+        {
+            var request = new UpdateAppointmentStatusRequest(parsedStatus, null);
+            _response = await _client.PatchAsJsonAsync(
+                $"/api/v1/appointments/{_createdAppointment!.Id}/status", request);
+        }
+        else
+        {
+            // Send invalid JSON to trigger deserialization failure -> 400
+            var rawJson = $"{{\"newStatus\":\"{statusStr}\",\"reason\":null}}";
+            _response = await _client.PatchAsync(
+                $"/api/v1/appointments/{_createdAppointment!.Id}/status",
+                new StringContent(rawJson, System.Text.Encoding.UTF8, "application/json"));
+        }
+
+        if (_response.IsSuccessStatusCode)
+            _createdAppointment = await _response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
+        else
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    [When(@"I update a non-existent appointment status to ""(.*)""")]
+    public async Task WhenIUpdateANonExistentAppointmentStatusTo(string statusStr)
+    {
+        var nonExistentId = Guid.NewGuid();
+        if (Enum.TryParse<AppointmentStatus>(statusStr, ignoreCase: true, out var parsedStatus))
+        {
+            var request = new UpdateAppointmentStatusRequest(parsedStatus, null);
+            _response = await _client.PatchAsJsonAsync(
+                $"/api/v1/appointments/{nonExistentId}/status", request);
+        }
+        else
+        {
+            var rawJson = $"{{\"newStatus\":\"{statusStr}\",\"reason\":null}}";
+            _response = await _client.PatchAsync(
+                $"/api/v1/appointments/{nonExistentId}/status",
+                new StringContent(rawJson, System.Text.Encoding.UTF8, "application/json"));
+        }
+
+        _errorResponseBody = await _response.Content.ReadAsStringAsync();
+    }
+
+    [Then(@"the appointment status is ""(.*)""")]
+    public void ThenTheAppointmentStatusIs(string expectedStatus)
+    {
+        _createdAppointment.Should().NotBeNull();
+        _createdAppointment!.Status.ToString().Should().Be(expectedStatus);
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

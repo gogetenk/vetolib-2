@@ -46,7 +46,7 @@ internal class InvoiceSentConsumer : IConsumer<InvoiceSentIntegrationEvent>
                 evt.OwnerEmail,
                 string.Join(", ", result.Errors));
 
-            // INFRA: MassTransit retry mechanism requires exception propagation — not business control flow
+            // Intentional throw: MassTransit retry policy will requeue on transient failures
             throw new InvalidOperationException($"Failed to send invoice email to {evt.OwnerEmail}");
         }
 

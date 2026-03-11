@@ -90,7 +90,7 @@ internal class StockManagementSteps
             await authDb.SaveChangesAsync();
         }
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
             $"Login should succeed for {email}");
@@ -192,7 +192,7 @@ internal class StockManagementSteps
             await authDb.SaveChangesAsync();
         }
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, "SecurePass1"));
         loginResponse.EnsureSuccessStatusCode();
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
@@ -284,7 +284,7 @@ internal class StockManagementSteps
         testClinicContext.ClinicId = clinicAId;
 
         var email = "admin-a@clinic-a.ae";
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, "SecurePass1"));
         loginResponse.EnsureSuccessStatusCode();
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);

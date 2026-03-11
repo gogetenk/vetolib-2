@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.Agenda.Application.Commands.CreateAppointment;
+using Vetolib.Agenda.Application.Commands.EditAppointment;
 using Vetolib.Agenda.Application.Commands.UpdateAppointmentStatus;
+using Vetolib.Agenda.Application.Queries.GetAppointmentById;
 using Vetolib.Agenda.Application.Queries.GetAvailability;
 using Vetolib.Agenda.Application.Queries.ListAppointments;
 using Vetolib.Agenda.Application.Queries.SuggestSlot;
@@ -36,6 +38,12 @@ internal static class AppointmentEndpoints
         group.MapPatch("/{id:guid}/transition", TransitionAppointment)
             .WithName("TransitionAppointment");
 
+        group.MapGet("/{id:guid}", GetAppointmentById)
+            .WithName("GetAppointmentById");
+
+        group.MapPut("/{id:guid}", EditAppointment)
+            .WithName("EditAppointment");
+
         group.MapGet("/availability", GetAvailability)
             .WithName("GetAvailability");
 
@@ -51,6 +59,8 @@ internal static class AppointmentEndpoints
         legacyGroup.MapGet("/", ListAppointments);
         legacyGroup.MapPatch("/{id:guid}/transition", TransitionAppointment);
         legacyGroup.MapGet("/availability", GetAvailability);
+        legacyGroup.MapGet("/{id:guid}", GetAppointmentById);
+        legacyGroup.MapPut("/{id:guid}", EditAppointment);
 
         return app;
     }
@@ -136,5 +146,30 @@ internal static class AppointmentEndpoints
             request.DurationMinutes);
 
         return (await sender.Send(query)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GetAppointmentById(
+        Guid id,
+        ISender sender)
+    {
+        return (await sender.Send(new GetAppointmentByIdQuery(id))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> EditAppointment(
+        Guid id,
+        UpdateAppointmentRequest request,
+        ISender sender)
+    {
+        var cmd = new EditAppointmentCommand(
+            AppointmentId: id,
+            Date: request.Date,
+            StartTime: request.StartTime,
+            DurationMinutes: request.DurationMinutes,
+            VeterinarianId: request.VeterinarianId,
+            VeterinarianName: request.VeterinarianName,
+            Reason: request.Reason,
+            Notes: request.Notes);
+
+        return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 }

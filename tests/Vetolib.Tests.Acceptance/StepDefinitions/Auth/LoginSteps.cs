@@ -89,7 +89,7 @@ internal class LoginSteps
     public async Task GivenJeSuisConnecteEnTantQue(string email)
     {
         var password = _userPasswords[email];
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.EnsureSuccessStatusCode();
         _authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
@@ -109,7 +109,7 @@ internal class LoginSteps
     {
         for (int i = 0; i < 5; i++)
         {
-            await _client.PostAsJsonAsync("/api/auth/login",
+            await _client.PostAsJsonAsync("/api/v1/auth/login",
                 new LoginRequest(email, "WrongPassword1!"));
         }
     }
@@ -120,7 +120,7 @@ internal class LoginSteps
         // First, lock the account
         for (int i = 0; i < 5; i++)
         {
-            await _client.PostAsJsonAsync("/api/auth/login",
+            await _client.PostAsJsonAsync("/api/v1/auth/login",
                 new LoginRequest(email, "WrongPassword1!"));
         }
 
@@ -142,7 +142,7 @@ internal class LoginSteps
         _previousAuthToken = _authToken;
 
         // Perform a refresh to rotate the token (which revokes the old one)
-        var refreshResponse = await _client.PostAsJsonAsync("/api/auth/refresh",
+        var refreshResponse = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_authToken!.RefreshToken));
         refreshResponse.EnsureSuccessStatusCode();
         _authToken = await refreshResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
@@ -167,7 +167,7 @@ internal class LoginSteps
     [When(@"je me connecte avec l'email ""(.*)"" et le mot de passe ""(.*)""")]
     public async Task WhenJeMeConnecte(string email, string password)
     {
-        _response = await _client.PostAsJsonAsync("/api/auth/login",
+        _response = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
 
         if (_response.IsSuccessStatusCode)
@@ -185,17 +185,17 @@ internal class LoginSteps
     {
         for (int i = 0; i < 5; i++)
         {
-            _response = await _client.PostAsJsonAsync("/api/auth/login",
+            _response = await _client.PostAsJsonAsync("/api/v1/auth/login",
                 new LoginRequest(email, "WrongPassword1!"));
         }
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^j'appelle POST /api/auth/refresh avec mon refresh token$")]
+    [When(@"^j'appelle POST /api/v1/auth/refresh avec mon refresh token$")]
     public async Task WhenJAppelleRefreshAvecMonRefreshToken()
     {
         _previousAuthToken = _authToken;
-        _response = await _client.PostAsJsonAsync("/api/auth/refresh",
+        _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_authToken!.RefreshToken));
 
         if (_response.IsSuccessStatusCode)
@@ -208,26 +208,26 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^j'appelle POST /api/auth/refresh avec le refresh token revoque$")]
+    [When(@"^j'appelle POST /api/v1/auth/refresh avec le refresh token revoque$")]
     public async Task WhenJAppelleRefreshAvecLeRefreshTokenRevoque()
     {
-        _response = await _client.PostAsJsonAsync("/api/auth/refresh",
+        _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^j'appelle POST /api/auth/refresh avec le refresh token expire$")]
+    [When(@"^j'appelle POST /api/v1/auth/refresh avec le refresh token expire$")]
     public async Task WhenJAppelleRefreshAvecLeRefreshTokenExpire()
     {
-        _response = await _client.PostAsJsonAsync("/api/auth/refresh",
+        _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_authToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^j'appelle POST /api/auth/logout$")]
+    [When(@"^j'appelle POST /api/v1/auth/logout$")]
     public async Task WhenJAppelleLogout()
     {
-        _response = await _client.PostAsync("/api/auth/logout", null);
+        _response = await _client.PostAsync("/api/v1/auth/logout", null);
 
         if (_response.IsSuccessStatusCode)
         {
@@ -239,10 +239,10 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^j'appelle GET /api/auth/me$")]
+    [When(@"^j'appelle GET /api/v1/auth/me$")]
     public async Task WhenJAppelleGetMe()
     {
-        _response = await _client.GetAsync("/api/auth/me");
+        _response = await _client.GetAsync("/api/v1/auth/me");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -254,11 +254,11 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^j'appelle GET /api/auth/me sans token d'authentification$")]
+    [When(@"^j'appelle GET /api/v1/auth/me sans token d'authentification$")]
     public async Task WhenJAppelleGetMeSansToken()
     {
         var unauthClient = _factory.CreateClient();
-        _response = await unauthClient.GetAsync("/api/auth/me");
+        _response = await unauthClient.GetAsync("/api/v1/auth/me");
     }
 
     [When(@"je cree un utilisateur avec les informations suivantes:")]
@@ -273,7 +273,7 @@ internal class LoginSteps
                 ? row["VetLicenseNumber"]
                 : null);
 
-        _response = await _client.PostAsJsonAsync("/api/users", request);
+        _response = await _client.PostAsJsonAsync("/api/v1/users", request);
 
         if (_response.IsSuccessStatusCode)
         {
@@ -298,7 +298,7 @@ internal class LoginSteps
             Enum.Parse<UserRole>(row["Role"]),
             vetLicense);
 
-        _response = await _client.PostAsJsonAsync("/api/users", request);
+        _response = await _client.PostAsJsonAsync("/api/v1/users", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
@@ -306,7 +306,7 @@ internal class LoginSteps
     public async Task WhenJeTenteDeCreerUnUtilisateurAvecEmailEtPassword(string email, string password)
     {
         var request = new CreateUserRequest(email, password, UserRole.Receptionist, null);
-        _response = await _client.PostAsJsonAsync("/api/users", request);
+        _response = await _client.PostAsJsonAsync("/api/v1/users", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
@@ -390,7 +390,7 @@ internal class LoginSteps
     [Then(@"l'ancien refresh token est invalide")]
     public async Task ThenLancienRefreshTokenEstInvalide()
     {
-        var response = await _client.PostAsJsonAsync("/api/auth/refresh",
+        var response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         response.IsSuccessStatusCode.Should().BeFalse("Old refresh token should be invalid");
     }
@@ -433,7 +433,7 @@ internal class LoginSteps
     [Then(@"une tentative de refresh avec cet ancien token echoue")]
     public async Task ThenUneTentativeDeRefreshAvecCetAncienTokenEchoue()
     {
-        var response = await _client.PostAsJsonAsync("/api/auth/refresh",
+        var response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         response.IsSuccessStatusCode.Should().BeFalse();
     }

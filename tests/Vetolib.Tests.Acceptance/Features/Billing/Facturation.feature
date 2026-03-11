@@ -41,3 +41,19 @@ Feature: Facturation vétérinaire
     Given 3 factures existantes pour "Happy Paws"
     When je crée une nouvelle facture
     Then le numéro est "INV-2026-004"
+
+  Scenario: Télécharger le PDF d'une facture envoyée
+    Given une facture "SENT" pour "Max" avec au moins un item
+    When je télécharge le PDF de cette facture
+    Then la réponse a le statut 200
+    And le Content-Type est "application/pdf"
+    And le contenu n'est pas vide
+
+  Scenario: Impossible de télécharger le PDF d'une facture brouillon
+    Given une facture "DRAFT" pour "Max"
+    When je télécharge le PDF de cette facture
+    Then la réponse a le statut 400
+
+  Scenario: PDF inexistant retourne 404
+    When je télécharge le PDF d'une facture avec un ID aléatoire inexistant
+    Then la réponse a le statut 404

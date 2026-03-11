@@ -77,7 +77,7 @@ internal class NoShowPredictionSteps
         authDb.Users.Add(userResult.Value);
         await authDb.SaveChangesAsync();
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
             $"Login failed for role {role}");
@@ -178,7 +178,7 @@ internal class NoShowPredictionSteps
     public async Task WhenIRequestNoShowPrediction()
     {
         _response = await _client.GetAsync(
-            $"/api/ai/no-show-prediction/{_targetAppointmentId}");
+            $"/api/v1/ai/no-show-prediction/{_targetAppointmentId}");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -191,7 +191,7 @@ internal class NoShowPredictionSteps
     {
         // Use a random appointment ID — 403 will be returned before any DB lookup
         _response = await _client.GetAsync(
-            $"/api/ai/no-show-prediction/{Guid.NewGuid()}");
+            $"/api/v1/ai/no-show-prediction/{Guid.NewGuid()}");
     }
 
     [When(@"I request a no-show prediction for an appointment")]
@@ -207,7 +207,7 @@ internal class NoShowPredictionSteps
             clinicId, "Test Owner", new DateOnly(2026, 3, 15), new TimeOnly(10, 0));
 
         _response = await _client.GetAsync(
-            $"/api/ai/no-show-prediction/{_targetAppointmentId}");
+            $"/api/v1/ai/no-show-prediction/{_targetAppointmentId}");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -221,7 +221,7 @@ internal class NoShowPredictionSteps
         var date = DateOnly.Parse(dateStr);
         var body = new { date = date.ToString("yyyy-MM-dd") };
 
-        _response = await _client.PostAsJsonAsync("/api/ai/no-show-predictions/batch", body);
+        _response = await _client.PostAsJsonAsync("/api/v1/ai/no-show-predictions/batch", body);
 
         if (_response.IsSuccessStatusCode)
         {
