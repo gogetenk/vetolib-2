@@ -195,6 +195,10 @@ export async function apiPostFormData<T>(path: string, formData: FormData): Prom
     throw new ApiError(res.status, error);
   }
 
+  if (res.status === 204) {
+    return undefined as unknown as T;
+  }
+
   return res.json();
 }
 

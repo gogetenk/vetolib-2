@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -o pipefail
 # Hook PreToolUse — bloque git push si le build ou les tests unitaires échouent
 # Fichier : .claude/hooks/verify-before-push.sh
 #
