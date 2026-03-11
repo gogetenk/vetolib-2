@@ -52,7 +52,7 @@ Feature: Facturation vétérinaire
   Scenario: Impossible de télécharger le PDF d'une facture brouillon
     Given une facture "DRAFT" pour "Max"
     When je télécharge le PDF de cette facture
-    Then la réponse a le statut 400
+    Then la réponse a le statut 422
 
   Scenario: PDF inexistant retourne 404
     When je télécharge le PDF d'une facture avec un ID aléatoire inexistant

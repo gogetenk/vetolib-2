@@ -479,6 +479,7 @@ jobs:
           /d:sonar.host.url="https://sonarcloud.io"
           /d:sonar.cs.opencover.reportsPaths="../../tests/Vetolib.Tests.Unit/TestResults/**/coverage.opencover.xml"
           /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**"
+          /d:sonar.coverage.exclusions="**/Program.cs,**/ServiceDefaults/**,**/AppHost/**,**/Migrations/**,**/*.feature.cs"
 
       - name: Build (with coverage instrumentation)
         working-directory: src/backend

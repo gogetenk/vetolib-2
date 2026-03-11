@@ -775,7 +775,7 @@ internal class AppointmentSteps
         {
             var request = new UpdateAppointmentStatusRequest(parsedStatus, null);
             _response = await _client.PatchAsJsonAsync(
-                $"/api/v1/appointments/{_createdAppointment!.Id}/status", request);
+                $"/api/v1/appointments/{_createdAppointment!.Id}/status", request, JsonOptions);
         }
         else
         {
@@ -800,7 +800,7 @@ internal class AppointmentSteps
         {
             var request = new UpdateAppointmentStatusRequest(parsedStatus, null);
             _response = await _client.PatchAsJsonAsync(
-                $"/api/v1/appointments/{nonExistentId}/status", request);
+                $"/api/v1/appointments/{nonExistentId}/status", request, JsonOptions);
         }
         else
         {
