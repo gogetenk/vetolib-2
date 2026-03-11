@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.AI
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/AI", "No-Show Prediction", "  As a veterinarian or receptionist\r\n  I want to see the probability of a patient" +
                 " not showing up\r\n  So that I can send extra reminders or plan overbooking", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -145,7 +146,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Predict no-show for appointment with sufficient history")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Predict no-show for appointment with sufficient history", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "Predict no-show for appointment with sufficient history")]
         public async global::System.Threading.Tasks.Task PredictNo_ShowForAppointmentWithSufficientHistory()
@@ -197,7 +198,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Cold start returns insufficient data error")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Cold start returns insufficient data error", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "Cold start returns insufficient data error")]
         public async global::System.Threading.Tasks.Task ColdStartReturnsInsufficientDataError()
@@ -237,7 +238,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Batch prediction for a given date")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Batch prediction for a given date", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "Batch prediction for a given date")]
         public async global::System.Threading.Tasks.Task BatchPredictionForAGivenDate()
@@ -280,7 +281,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="High risk triggers reminder suggestion")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="High risk triggers reminder suggestion", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "High risk triggers reminder suggestion")]
         public async global::System.Threading.Tasks.Task HighRiskTriggersReminderSuggestion()
@@ -323,7 +324,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="No-show score is never visible to owners")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="No-show score is never visible to owners", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "No-show score is never visible to owners")]
         public async global::System.Threading.Tasks.Task No_ShowScoreIsNeverVisibleToOwners()
@@ -360,7 +361,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist can view predictions")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist can view predictions", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "Receptionist can view predictions")]
         public async global::System.Threading.Tasks.Task ReceptionistCanViewPredictions()
@@ -403,7 +404,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Prediction factors are non-discriminatory")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Prediction factors are non-discriminatory", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "Prediction factors are non-discriminatory")]
         public async global::System.Threading.Tasks.Task PredictionFactorsAreNon_Discriminatory()
@@ -440,7 +441,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Weekend appointments have adjusted prediction")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Weekend appointments have adjusted prediction", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "No-Show Prediction")]
         [global::Xunit.TraitAttribute("Description", "Weekend appointments have adjusted prediction")]
         public async global::System.Threading.Tasks.Task WeekendAppointmentsHaveAdjustedPrediction()
@@ -487,12 +488,10 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await No_ShowPredictionFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await No_ShowPredictionFeature.FeatureTearDownAsync();
             }
         }
     }

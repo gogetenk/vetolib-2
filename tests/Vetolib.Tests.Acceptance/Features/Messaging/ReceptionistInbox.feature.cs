@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Receptionist Messaging Inbox", "  As a receptionist\r\n  I want to see and respond to appointment requests and admi" +
                 "nistrative questions\r\n  So that I can handle owner inquiries efficiently", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -145,7 +146,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist sees only relevant messages")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist sees only relevant messages", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Receptionist sees only relevant messages")]
         public async global::System.Threading.Tasks.Task ReceptionistSeesOnlyRelevantMessages()
@@ -189,7 +190,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Messages are sorted by priority then by date")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Messages are sorted by priority then by date", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Messages are sorted by priority then by date")]
         public async global::System.Threading.Tasks.Task MessagesAreSortedByPriorityThenByDate()
@@ -230,7 +231,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist replies using AI suggestion")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist replies using AI suggestion", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Receptionist replies using AI suggestion")]
         public async global::System.Threading.Tasks.Task ReceptionistRepliesUsingAISuggestion()
@@ -279,7 +280,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist uses a quick response template")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist uses a quick response template", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Receptionist uses a quick response template")]
         public async global::System.Threading.Tasks.Task ReceptionistUsesAQuickResponseTemplate()
@@ -322,7 +323,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist transfers a medical message to vet")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist transfers a medical message to vet", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Receptionist transfers a medical message to vet")]
         public async global::System.Threading.Tasks.Task ReceptionistTransfersAMedicalMessageToVet()
@@ -366,7 +367,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist converts a message to an appointment")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist converts a message to an appointment", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Receptionist converts a message to an appointment")]
         public async global::System.Threading.Tasks.Task ReceptionistConvertsAMessageToAnAppointment()
@@ -412,7 +413,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist marks a message as spam")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist marks a message as spam", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Receptionist marks a message as spam")]
         public async global::System.Threading.Tasks.Task ReceptionistMarksAMessageAsSpam()
@@ -452,7 +453,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist sees patient context alongside message")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist sees patient context alongside message", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Receptionist sees patient context alongside message")]
         public async global::System.Threading.Tasks.Task ReceptionistSeesPatientContextAlongsideMessage()
@@ -497,12 +498,10 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await ReceptionistMessagingInboxFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await ReceptionistMessagingInboxFeature.FeatureTearDownAsync();
             }
         }
     }

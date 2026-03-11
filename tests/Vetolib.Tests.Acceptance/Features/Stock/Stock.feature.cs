@@ -18,22 +18,23 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::Xunit.TraitAttribute("Category", "wip")]
-    public partial class GestionDeStockMedicamentsEtVaccinsFeature : object, global::Xunit.IClassFixture<GestionDeStockMedicamentsEtVaccinsFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class MedicationAndVaccineStockManagementFeature : object, global::Xunit.IClassFixture<MedicationAndVaccineStockManagementFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Stock", "Gestion de stock médicaments et vaccins", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Stock", "Medication and vaccine stock management", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "Stock.feature"
 #line hidden
         
-        public GestionDeStockMedicamentsEtVaccinsFeature(GestionDeStockMedicamentsEtVaccinsFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public MedicationAndVaccineStockManagementFeature(MedicationAndVaccineStockManagementFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -110,10 +111,10 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
 #line 3
   #line hidden
 #line 4
-    await testRunner.GivenAsync("une clinique \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 5
-    await testRunner.AndAsync("je suis authentifié en tant que VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -147,15 +148,15 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Créer un item de stock médicament")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Créer un item de stock médicament")]
-        public async global::System.Threading.Tasks.Task CreerUnItemDeStockMedicament()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create a medication stock item", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Create a medication stock item")]
+        public async global::System.Threading.Tasks.Task CreateAMedicationStockItem()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer un item de stock médicament", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a medication stock item", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 7
@@ -172,28 +173,28 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 8
-    await testRunner.WhenAsync("je crée un item de stock \"Amoxicilline\" catégorie \"Medication\" quantité 100 unité" +
-                        " \"ml\" seuil 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I create a stock item \"Amoxicillin\" category \"Medication\" quantity 100 unit \"ml\" " +
+                        "threshold 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
-    await testRunner.ThenAsync("l\'item de stock est créé avec le statut actif", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the stock item is created with active status", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 10
-    await testRunner.AndAsync("la quantité est 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the quantity is 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Créer un item de stock vaccin")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Créer un item de stock vaccin")]
-        public async global::System.Threading.Tasks.Task CreerUnItemDeStockVaccin()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create a vaccine stock item", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Create a vaccine stock item")]
+        public async global::System.Threading.Tasks.Task CreateAVaccineStockItem()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer un item de stock vaccin", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a vaccine stock item", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 12
@@ -210,28 +211,28 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 13
-    await testRunner.WhenAsync("je crée un item de stock \"Vaccin Rage\" catégorie \"Vaccine\" quantité 50 unité \"dos" +
-                        "es\" seuil 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I create a stock item \"Rabies Vaccine\" category \"Vaccine\" quantity 50 unit \"doses" +
+                        "\" threshold 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 14
-    await testRunner.ThenAsync("l\'item de stock est créé avec le statut actif", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the stock item is created with active status", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 15
-    await testRunner.AndAsync("la quantité est 50", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the quantity is 50", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Lister les items de stock")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Lister les items de stock")]
-        public async global::System.Threading.Tasks.Task ListerLesItemsDeStock()
+        [global::Xunit.SkippableFactAttribute(DisplayName="List stock items", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "List stock items")]
+        public async global::System.Threading.Tasks.Task ListStockItems()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Lister les items de stock", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("List stock items", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 17
@@ -248,28 +249,28 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 18
-    await testRunner.GivenAsync("un item de stock \"Sérum physiologique\" catégorie \"Supply\" quantité 200 unité \"ml\"" +
-                        " seuil 30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a stock item \"Saline Solution\" category \"Supply\" quantity 200 unit \"ml\" threshold" +
+                        " 30", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 19
-    await testRunner.WhenAsync("je liste les items de stock", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I list stock items", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 20
-    await testRunner.ThenAsync("la liste contient au moins 1 item", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the list contains at least 1 item", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Enregistrer une entrée de stock")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Enregistrer une entrée de stock")]
-        public async global::System.Threading.Tasks.Task EnregistrerUneEntreeDeStock()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement IN", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Record stock movement IN")]
+        public async global::System.Threading.Tasks.Task RecordStockMovementIN()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enregistrer une entrée de stock", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record stock movement IN", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 22
@@ -286,28 +287,27 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 23
-    await testRunner.GivenAsync("un item de stock \"Bandages\" catégorie \"Supply\" quantité 50 unité \"pièces\" seuil 1" +
-                        "0", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a stock item \"Bandages\" category \"Supply\" quantity 50 unit \"pieces\" threshold 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 24
-    await testRunner.WhenAsync("j\'enregistre un mouvement de stock \"IN\" quantité 25 raison \"Réapprovisionnement\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I record a stock movement \"IN\" quantity 25 reason \"Restock\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 25
-    await testRunner.ThenAsync("la nouvelle quantité est 75", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the new quantity is 75", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Enregistrer une sortie de stock")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Enregistrer une sortie de stock")]
-        public async global::System.Threading.Tasks.Task EnregistrerUneSortieDeStock()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement OUT", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Record stock movement OUT")]
+        public async global::System.Threading.Tasks.Task RecordStockMovementOUT()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enregistrer une sortie de stock", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record stock movement OUT", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 27
@@ -324,29 +324,28 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 28
-    await testRunner.GivenAsync("un item de stock \"Seringues\" catégorie \"Supply\" quantité 100 unité \"pièces\" seuil" +
-                        " 20", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a stock item \"Syringes\" category \"Supply\" quantity 100 unit \"pieces\" threshold 20" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 29
-    await testRunner.WhenAsync("j\'enregistre un mouvement de stock \"OUT\" quantité 10 raison \"Utilisation consulta" +
-                        "tion\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I record a stock movement \"OUT\" quantity 10 reason \"Used during consultation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 30
-    await testRunner.ThenAsync("la nouvelle quantité est 90", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the new quantity is 90", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Alertes stock bas")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Alertes stock bas")]
-        public async global::System.Threading.Tasks.Task AlertesStockBas()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Low stock alerts", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Low stock alerts")]
+        public async global::System.Threading.Tasks.Task LowStockAlerts()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Alertes stock bas", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Low stock alerts", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 32
@@ -363,28 +362,28 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 33
-    await testRunner.GivenAsync("un item de stock \"Vaccin Parvovirus\" catégorie \"Vaccine\" quantité 5 unité \"doses\"" +
-                        " seuil 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a stock item \"Parvovirus Vaccine\" category \"Vaccine\" quantity 5 unit \"doses\" thre" +
+                        "shold 10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 34
-    await testRunner.WhenAsync("je consulte les alertes de stock", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I check stock alerts", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 35
-    await testRunner.ThenAsync("l\'alerte contient \"Vaccin Parvovirus\" pour stock bas", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the alert includes \"Parvovirus Vaccine\" for low stock", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Modification du seuil d\'alerte")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Modification du seuil d\'alerte")]
-        public async global::System.Threading.Tasks.Task ModificationDuSeuilDalerte()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Update alert threshold", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Update alert threshold")]
+        public async global::System.Threading.Tasks.Task UpdateAlertThreshold()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Modification du seuil d\'alerte", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Update alert threshold", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 37
@@ -401,28 +400,28 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 38
-    await testRunner.GivenAsync("un item de stock \"Gants stériles\" catégorie \"Supply\" quantité 200 unité \"pièces\" " +
-                        "seuil 50", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a stock item \"Sterile Gloves\" category \"Supply\" quantity 200 unit \"pieces\" thresh" +
+                        "old 50", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 39
-    await testRunner.WhenAsync("je modifie le seuil de l\'item à 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I update the item threshold to 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 40
-    await testRunner.ThenAsync("le seuil est mis à jour à 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the threshold is updated to 100", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Nom vide refusé")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Nom vide refusé")]
-        public async global::System.Threading.Tasks.Task NomVideRefuse()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Empty name rejected", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Empty name rejected")]
+        public async global::System.Threading.Tasks.Task EmptyNameRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "7";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Nom vide refusé", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Empty name rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 42
@@ -439,24 +438,24 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 43
-    await testRunner.WhenAsync("je tente de créer un item de stock avec un nom vide", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to create a stock item with an empty name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 44
-    await testRunner.ThenAsync("le système refuse avec le code \"VALIDATION_ERROR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"VALIDATION_ERROR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Quantité négative refusée")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion de stock médicaments et vaccins")]
-        [global::Xunit.TraitAttribute("Description", "Quantité négative refusée")]
-        public async global::System.Threading.Tasks.Task QuantiteNegativeRefusee()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Negative quantity rejected", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
+        [global::Xunit.TraitAttribute("Description", "Negative quantity rejected")]
+        public async global::System.Threading.Tasks.Task NegativeQuantityRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "8";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Quantité négative refusée", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Negative quantity rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 46
@@ -473,10 +472,10 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 47
-    await testRunner.WhenAsync("je tente de créer un item de stock avec une quantité de -5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to create a stock item with a quantity of -5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 48
-    await testRunner.ThenAsync("le système refuse avec le code \"VALIDATION_ERROR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"VALIDATION_ERROR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -489,12 +488,10 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await GestionDeStockMedicamentsEtVaccinsFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await GestionDeStockMedicamentsEtVaccinsFeature.FeatureTearDownAsync();
             }
         }
     }

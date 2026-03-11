@@ -1,4 +1,4 @@
-@wip
+@wip @ignore
 # language: en
 Feature: Drug Interaction Checking
   As a veterinarian

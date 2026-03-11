@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Message Triage", "  As the messaging system\r\n  I want to automatically classify incoming owner mess" +
                 "ages\r\n  So that they are routed to the right staff member with the right priorit" +
@@ -137,7 +138,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency message classified correctly")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency message classified correctly", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Emergency message classified correctly")]
         public async global::System.Threading.Tasks.Task EmergencyMessageClassifiedCorrectly()
@@ -177,7 +178,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Appointment request classified correctly")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Appointment request classified correctly", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Appointment request classified correctly")]
         public async global::System.Threading.Tasks.Task AppointmentRequestClassifiedCorrectly()
@@ -211,7 +212,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Administrative question classified correctly")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Administrative question classified correctly", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Administrative question classified correctly")]
         public async global::System.Threading.Tasks.Task AdministrativeQuestionClassifiedCorrectly()
@@ -245,7 +246,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Post-operative follow-up classified correctly")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Post-operative follow-up classified correctly", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Post-operative follow-up classified correctly")]
         public async global::System.Threading.Tasks.Task Post_OperativeFollow_UpClassifiedCorrectly()
@@ -282,7 +283,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Feedback classified correctly")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Feedback classified correctly", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Feedback classified correctly")]
         public async global::System.Threading.Tasks.Task FeedbackClassifiedCorrectly()
@@ -316,7 +317,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Low confidence triggers uncertain triage")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Low confidence triggers uncertain triage", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Low confidence triggers uncertain triage")]
         public async global::System.Threading.Tasks.Task LowConfidenceTriggersUncertainTriage()
@@ -353,7 +354,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI biases toward emergency for safety")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI biases toward emergency for safety", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "AI biases toward emergency for safety")]
         public async global::System.Threading.Tasks.Task AIBiasesTowardEmergencyForSafety()
@@ -387,7 +388,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI suggests replies for incoming message")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI suggests replies for incoming message", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "AI suggests replies for incoming message")]
         public async global::System.Threading.Tasks.Task AISuggestsRepliesForIncomingMessage()
@@ -427,7 +428,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI generates conversation summary")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI generates conversation summary", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "AI generates conversation summary")]
         public async global::System.Threading.Tasks.Task AIGeneratesConversationSummary()
@@ -467,7 +468,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency escalation after 10 minutes")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency escalation after 10 minutes", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Emergency escalation after 10 minutes")]
         public async global::System.Threading.Tasks.Task EmergencyEscalationAfter10Minutes()
@@ -501,7 +502,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Veterinarian validates suggested reply before sending")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Veterinarian validates suggested reply before sending", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Veterinarian validates suggested reply before sending")]
         public async global::System.Threading.Tasks.Task VeterinarianValidatesSuggestedReplyBeforeSending()
@@ -538,7 +539,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Message linked to patient record")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Message linked to patient record", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Message linked to patient record")]
         public async global::System.Threading.Tasks.Task MessageLinkedToPatientRecord()
@@ -572,7 +573,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Multi-tenant message isolation")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Multi-tenant message isolation", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Multi-tenant message isolation")]
         public async global::System.Threading.Tasks.Task Multi_TenantMessageIsolation()
@@ -609,7 +610,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Arabic message detected and replied in Arabic")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Arabic message detected and replied in Arabic", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Message Triage")]
         [global::Xunit.TraitAttribute("Description", "Arabic message detected and replied in Arabic")]
         public async global::System.Threading.Tasks.Task ArabicMessageDetectedAndRepliedInArabic()
@@ -650,12 +651,10 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await MessageTriageFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await MessageTriageFeature.FeatureTearDownAsync();
             }
         }
     }

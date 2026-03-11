@@ -17,7 +17,7 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.Auth;
 
 [Binding]
-[Scope(Feature = "Authentification et gestion des tokens JWT")]
+[Scope(Feature = "Authentication and JWT token management")]
 internal class LoginSteps
 {
     private readonly ScenarioContext _ctx;
@@ -51,8 +51,8 @@ internal class LoginSteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
-    [Given(@"une clinique ""(.*)"" avec l'identifiant ""(.*)""")]
-    public void GivenUneClinique(string clinicName, string clinicIdentifier)
+    [Given(@"a clinic ""(.*)"" with identifier ""(.*)""")]
+    public void GivenAClinicWithIdentifier(string clinicName, string clinicIdentifier)
     {
         // Generate a stable GUID from the identifier
         var clinicId = GenerateGuidFromString(clinicIdentifier);
@@ -67,8 +67,8 @@ internal class LoginSteps
         }
     }
 
-    [Given(@"un utilisateur existant avec les informations suivantes:")]
-    public async Task GivenUnUtilisateurExistant(DataTable table)
+    [Given(@"an existing user with the following information:")]
+    public async Task GivenAnExistingUserWithTheFollowingInformation(DataTable table)
     {
         foreach (var row in table.Rows)
         {
@@ -76,8 +76,8 @@ internal class LoginSteps
         }
     }
 
-    [Given(@"un utilisateur admin existant:")]
-    public async Task GivenUnUtilisateurAdminExistant(DataTable table)
+    [Given(@"an existing admin user:")]
+    public async Task GivenAnExistingAdminUser(DataTable table)
     {
         foreach (var row in table.Rows)
         {
@@ -85,8 +85,8 @@ internal class LoginSteps
         }
     }
 
-    [Given(@"je suis connecte en tant que ""(.*)""")]
-    public async Task GivenJeSuisConnecteEnTantQue(string email)
+    [Given(@"I am logged in as ""(.*)""")]
+    public async Task GivenIAmLoggedInAs(string email)
     {
         var password = _userPasswords[email];
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
@@ -97,15 +97,15 @@ internal class LoginSteps
             new AuthenticationHeaderValue("Bearer", _authToken!.AccessToken);
     }
 
-    [Given(@"je possede un refresh token valide")]
-    public void GivenJePossedeUnRefreshTokenValide()
+    [Given(@"I have a valid refresh token")]
+    public void GivenIHaveAValidRefreshToken()
     {
         _authToken.Should().NotBeNull("I should be logged in first");
         _authToken!.RefreshToken.Should().NotBeNullOrEmpty();
     }
 
-    [Given(@"le compte ""(.*)"" est verrouille suite a 5 tentatives echouees")]
-    public async Task GivenLeCompteEstVerrouille(string email)
+    [Given(@"the account ""(.*)"" is locked after 5 failed attempts")]
+    public async Task GivenTheAccountIsLockedAfter5FailedAttempts(string email)
     {
         for (int i = 0; i < 5; i++)
         {
@@ -114,8 +114,8 @@ internal class LoginSteps
         }
     }
 
-    [Given(@"le compte ""(.*)"" a ete verrouille il y a 16 minutes")]
-    public async Task GivenLeCompteAEteVerrouilleIlYa16Minutes(string email)
+    [Given(@"the account ""(.*)"" was locked 16 minutes ago")]
+    public async Task GivenTheAccountWasLocked16MinutesAgo(string email)
     {
         // First, lock the account
         for (int i = 0; i < 5; i++)
@@ -136,8 +136,8 @@ internal class LoginSteps
         await db.SaveChangesAsync();
     }
 
-    [Given(@"mon refresh token a ete revoque par un precedent refresh")]
-    public async Task GivenMonRefreshTokenAEteRevoqueParUnPrecedentRefresh()
+    [Given(@"my refresh token has been revoked by a previous refresh")]
+    public async Task GivenMyRefreshTokenHasBeenRevokedByAPreviousRefresh()
     {
         _previousAuthToken = _authToken;
 
@@ -148,8 +148,8 @@ internal class LoginSteps
         _authToken = await refreshResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
     }
 
-    [Given(@"mon refresh token a expire depuis plus de 7 jours")]
-    public async Task GivenMonRefreshTokenAExpire()
+    [Given(@"my refresh token has expired for more than 7 days")]
+    public async Task GivenMyRefreshTokenHasExpiredForMoreThan7Days()
     {
         // Set the refresh token expiry to the past directly in DB
         using var scope = _factory.Services.CreateScope();
@@ -164,8 +164,8 @@ internal class LoginSteps
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"je me connecte avec l'email ""(.*)"" et le mot de passe ""(.*)""")]
-    public async Task WhenJeMeConnecte(string email, string password)
+    [When(@"I log in with email ""(.*)"" and password ""(.*)""")]
+    public async Task WhenILogInWithEmailAndPassword(string email, string password)
     {
         _response = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
@@ -180,8 +180,8 @@ internal class LoginSteps
         }
     }
 
-    [When(@"je me connecte 5 fois avec l'email ""(.*)"" et un mot de passe incorrect")]
-    public async Task WhenJeMeConnecte5Fois(string email)
+    [When(@"I log in 5 times with email ""(.*)"" and an incorrect password")]
+    public async Task WhenILogIn5TimesWithEmailAndAnIncorrectPassword(string email)
     {
         for (int i = 0; i < 5; i++)
         {
@@ -191,8 +191,8 @@ internal class LoginSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^j'appelle POST /api/v1/auth/refresh avec mon refresh token$")]
-    public async Task WhenJAppelleRefreshAvecMonRefreshToken()
+    [When(@"^I call POST /api/v1/auth/refresh with my refresh token$")]
+    public async Task WhenICallPostRefreshWithMyRefreshToken()
     {
         _previousAuthToken = _authToken;
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
@@ -208,24 +208,24 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^j'appelle POST /api/v1/auth/refresh avec le refresh token revoque$")]
-    public async Task WhenJAppelleRefreshAvecLeRefreshTokenRevoque()
+    [When(@"^I call POST /api/v1/auth/refresh with the revoked refresh token$")]
+    public async Task WhenICallPostRefreshWithTheRevokedRefreshToken()
     {
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^j'appelle POST /api/v1/auth/refresh avec le refresh token expire$")]
-    public async Task WhenJAppelleRefreshAvecLeRefreshTokenExpire()
+    [When(@"^I call POST /api/v1/auth/refresh with the expired refresh token$")]
+    public async Task WhenICallPostRefreshWithTheExpiredRefreshToken()
     {
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_authToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^j'appelle POST /api/v1/auth/logout$")]
-    public async Task WhenJAppelleLogout()
+    [When(@"^I call POST /api/v1/auth/logout$")]
+    public async Task WhenICallPostLogout()
     {
         _response = await _client.PostAsync("/api/v1/auth/logout", null);
 
@@ -239,8 +239,8 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^j'appelle GET /api/v1/auth/me$")]
-    public async Task WhenJAppelleGetMe()
+    [When(@"^I call GET /api/v1/auth/me$")]
+    public async Task WhenICallGetMe()
     {
         _response = await _client.GetAsync("/api/v1/auth/me");
 
@@ -254,15 +254,15 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^j'appelle GET /api/v1/auth/me sans token d'authentification$")]
-    public async Task WhenJAppelleGetMeSansToken()
+    [When(@"^I call GET /api/v1/auth/me without authentication token$")]
+    public async Task WhenICallGetMeWithoutAuthenticationToken()
     {
         var unauthClient = _factory.CreateClient();
         _response = await unauthClient.GetAsync("/api/v1/auth/me");
     }
 
-    [When(@"je cree un utilisateur avec les informations suivantes:")]
-    public async Task WhenJeCreerUnUtilisateur(DataTable table)
+    [When(@"I create a user with the following information:")]
+    public async Task WhenICreateAUserWithTheFollowingInformation(DataTable table)
     {
         var row = table.Rows[0];
         var request = new CreateUserRequest(
@@ -285,8 +285,8 @@ internal class LoginSteps
         }
     }
 
-    [When(@"je tente de creer un utilisateur avec les informations suivantes:")]
-    public async Task WhenJeTenteDeCreerUnUtilisateur(DataTable table)
+    [When(@"I attempt to create a user with the following information:")]
+    public async Task WhenIAttemptToCreateAUserWithTheFollowingInformation(DataTable table)
     {
         var row = table.Rows[0];
         var vetLicense = row.ContainsKey("VetLicenseNumber") ? row["VetLicenseNumber"] : null;
@@ -302,8 +302,8 @@ internal class LoginSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"je tente de creer un utilisateur avec l'email ""(.*)"" et le mot de passe ""(.*)""")]
-    public async Task WhenJeTenteDeCreerUnUtilisateurAvecEmailEtPassword(string email, string password)
+    [When(@"I attempt to create a user with email ""(.*)"" and password ""(.*)""")]
+    public async Task WhenIAttemptToCreateAUserWithEmailAndPassword(string email, string password)
     {
         var request = new CreateUserRequest(email, password, UserRole.Receptionist, null);
         _response = await _client.PostAsJsonAsync("/api/v1/users", request);
@@ -312,8 +312,8 @@ internal class LoginSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"je recois un access token JWT valide")]
-    public void ThenJeRecoisUnAccessTokenJWTValide()
+    [Then(@"I receive a valid JWT access token")]
+    public void ThenIReceiveAValidJwtAccessToken()
     {
         _authToken.Should().NotBeNull();
         _authToken!.AccessToken.Should().NotBeNullOrEmpty();
@@ -323,15 +323,15 @@ internal class LoginSteps
         handler.CanReadToken(_authToken.AccessToken).Should().BeTrue();
     }
 
-    [Then(@"je recois un refresh token")]
-    public void ThenJeRecoisUnRefreshToken()
+    [Then(@"I receive a refresh token")]
+    public void ThenIReceiveARefreshToken()
     {
         _authToken.Should().NotBeNull();
         _authToken!.RefreshToken.Should().NotBeNullOrEmpty();
     }
 
-    [Then(@"la reponse contient les informations utilisateur:")]
-    public void ThenLaReponseContientLesInfosUtilisateur(DataTable table)
+    [Then(@"the response contains the user information:")]
+    public void ThenTheResponseContainsTheUserInformation(DataTable table)
     {
         var row = table.Rows[0];
         _authToken.Should().NotBeNull();
@@ -342,8 +342,8 @@ internal class LoginSteps
             _authToken.User.VetLicenseNumber.Should().Be(row["VetLicenseNumber"]);
     }
 
-    [Then(@"le JWT contient le claim ""(.*)"" avec la valeur ""(.*)""")]
-    public void ThenLeJWTContientLeClaim(string claimName, string expectedValue)
+    [Then(@"the JWT contains the claim ""(.*)"" with value ""(.*)""")]
+    public void ThenTheJwtContainsTheClaimWithValue(string claimName, string expectedValue)
     {
         _authToken.Should().NotBeNull();
         var handler = new JwtSecurityTokenHandler();
@@ -357,8 +357,8 @@ internal class LoginSteps
         claim!.Value.Should().Be(expectedGuid);
     }
 
-    [Then(@"le access token a une duree de validite de 15 minutes")]
-    public void ThenLeAccessTokenExpireApres15Minutes()
+    [Then(@"the access token has a validity duration of 15 minutes")]
+    public void ThenTheAccessTokenHasAValidityDurationOf15Minutes()
     {
         _authToken.Should().NotBeNull();
         var handler = new JwtSecurityTokenHandler();
@@ -372,31 +372,31 @@ internal class LoginSteps
             "Access token should expire after approximately 15 minutes");
     }
 
-    [Then(@"je recois un nouveau access token JWT valide")]
-    public void ThenJeRecoisUnNouveauAccessTokenJWTValide()
+    [Then(@"I receive a new valid JWT access token")]
+    public void ThenIReceiveANewValidJwtAccessToken()
     {
         _authToken.Should().NotBeNull();
         _authToken!.AccessToken.Should().NotBeNullOrEmpty();
         _authToken.AccessToken.Should().NotBe(_previousAuthToken!.AccessToken);
     }
 
-    [Then(@"je recois un nouveau refresh token different de l'ancien")]
-    public void ThenJeRecoisUnNouveauRefreshTokenDifferent()
+    [Then(@"I receive a new refresh token different from the old one")]
+    public void ThenIReceiveANewRefreshTokenDifferentFromTheOldOne()
     {
         _authToken.Should().NotBeNull();
         _authToken!.RefreshToken.Should().NotBe(_previousAuthToken!.RefreshToken);
     }
 
-    [Then(@"l'ancien refresh token est invalide")]
-    public async Task ThenLancienRefreshTokenEstInvalide()
+    [Then(@"the old refresh token is invalid")]
+    public async Task ThenTheOldRefreshTokenIsInvalid()
     {
         var response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         response.IsSuccessStatusCode.Should().BeFalse("Old refresh token should be invalid");
     }
 
-    [Then(@"le nouveau refresh token a une duree de validite de 7 jours")]
-    public async Task ThenLeNouveauRefreshTokenExpireApres7Jours()
+    [Then(@"the new refresh token has a validity duration of 7 days")]
+    public async Task ThenTheNewRefreshTokenHasAValidityDurationOf7Days()
     {
         _authToken.Should().NotBeNull();
 
@@ -412,14 +412,14 @@ internal class LoginSteps
             "Refresh token should expire after approximately 7 days");
     }
 
-    [Then(@"la deconnexion est confirmee")]
-    public void ThenLaDeconnexionEstConfirmee()
+    [Then(@"the logout is confirmed")]
+    public void ThenTheLogoutIsConfirmed()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [Then(@"le refresh token est invalide")]
-    public async Task ThenLeRefreshTokenEstInvalide()
+    [Then(@"the refresh token is invalid")]
+    public async Task ThenTheRefreshTokenIsInvalid()
     {
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
@@ -430,16 +430,16 @@ internal class LoginSteps
         tokens.Should().AllSatisfy(t => t.IsRevoked.Should().BeTrue());
     }
 
-    [Then(@"une tentative de refresh avec cet ancien token echoue")]
-    public async Task ThenUneTentativeDeRefreshAvecCetAncienTokenEchoue()
+    [Then(@"an attempt to refresh with the old token fails")]
+    public async Task ThenAnAttemptToRefreshWithTheOldTokenFails()
     {
         var response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         response.IsSuccessStatusCode.Should().BeFalse();
     }
 
-    [Then(@"je recois les informations de mon profil:")]
-    public async Task ThenJeRecoisLesInformationsDuProfil(DataTable table)
+    [Then(@"I receive my profile information:")]
+    public async Task ThenIReceiveMyProfileInformation(DataTable table)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         var user = await _response.Content.ReadFromJsonAsync<UserDto>(JsonOptions);
@@ -453,8 +453,8 @@ internal class LoginSteps
             user.VetLicenseNumber.Should().Be(row["VetLicenseNumber"]);
     }
 
-    [Then(@"le systeme refuse avec le code ""(.*)""")]
-    public void ThenLeSystemeRefuseAvecLeCode(string errorCode)
+    [Then(@"the system rejects with code ""(.*)""")]
+    public void ThenTheSystemRejectsWithCode(string errorCode)
     {
         _response.IsSuccessStatusCode.Should().BeFalse();
         _errorResponseBody.Should().NotBeNull();
@@ -482,27 +482,27 @@ internal class LoginSteps
         }
     }
 
-    [Then(@"le message est ""(.*)""")]
-    public void ThenLeMessageEst(string expectedMessage)
+    [Then(@"the error message is ""(.*)""")]
+    public void ThenTheErrorMessageIs(string expectedMessage)
     {
         _errorResponseBody.Should().Contain(expectedMessage);
     }
 
-    [Then(@"le message indique que le compte est verrouille pour 15 minutes")]
-    public void ThenLeMessageIndiqueVerrouillage15Minutes()
+    [Then(@"the message indicates the account is locked for 15 minutes")]
+    public void ThenTheMessageIndicatesTheAccountIsLockedFor15Minutes()
     {
         _errorResponseBody.Should().Contain("verrouille");
         _errorResponseBody.Should().Contain("15 minutes");
     }
 
-    [Then(@"le message indique que le compte est verrouille")]
-    public void ThenLeMessageIndiqueVerrouillage()
+    [Then(@"the message indicates the account is locked")]
+    public void ThenTheMessageIndicatesTheAccountIsLocked()
     {
         _errorResponseBody.Should().Contain("verrouille");
     }
 
-    [Then(@"le compteur de tentatives echouees est reinitialise")]
-    public async Task ThenLeCompteurEstReinitialise()
+    [Then(@"the failed attempts counter is reset")]
+    public async Task ThenTheFailedAttemptsCounterIsReset()
     {
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
@@ -512,14 +512,14 @@ internal class LoginSteps
         user.IsLocked.Should().BeFalse();
     }
 
-    [Then(@"le systeme retourne le code HTTP (.*)")]
-    public void ThenLeSystemeRetourneLeCodeHTTP(int statusCode)
+    [Then(@"the system returns HTTP code (.*)")]
+    public void ThenTheSystemReturnsHttpCode(int statusCode)
     {
         ((int)_response.StatusCode).Should().Be(statusCode);
     }
 
-    [Then(@"les requetes de cet utilisateur ne retournent que les donnees de ""(.*)""")]
-    public void ThenLesRequetesNeRetournentQueLesData(string clinicIdentifier)
+    [Then(@"the requests from this user only return data from ""(.*)""")]
+    public void ThenTheRequestsFromThisUserOnlyReturnDataFrom(string clinicIdentifier)
     {
         _authToken.Should().NotBeNull();
 
@@ -531,22 +531,22 @@ internal class LoginSteps
         clinicClaim.Value.Should().Be(expectedClinicId);
     }
 
-    [Then(@"l'utilisateur est cree avec succes")]
-    public void ThenLUtilisateurEstCreeAvecSucces()
+    [Then(@"the user is created successfully")]
+    public void ThenTheUserIsCreatedSuccessfully()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         _createdUser.Should().NotBeNull();
     }
 
-    [Then(@"l'utilisateur cree appartient a la clinique ""(.*)""")]
-    public void ThenLUtilisateurAppartientALaClinique(string clinicIdentifier)
+    [Then(@"the created user belongs to clinic ""(.*)""")]
+    public void ThenTheCreatedUserBelongsToClinic(string clinicIdentifier)
     {
         _createdUser.Should().NotBeNull();
         _createdUser!.ClinicId.Should().Be(_clinicIds[clinicIdentifier]);
     }
 
-    [Then(@"le message contient ""(.*)""")]
-    public void ThenLeMessageContient(string expectedPart)
+    [Then(@"the message contains ""(.*)""")]
+    public void ThenTheMessageContains(string expectedPart)
     {
         _errorResponseBody.Should().Contain(expectedPart);
     }

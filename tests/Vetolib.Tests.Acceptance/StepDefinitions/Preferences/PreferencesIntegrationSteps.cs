@@ -18,7 +18,7 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.Preferences;
 
 [Binding]
-[Scope(Feature = "Preferences Integration — cross-module opt-in/opt-out")]
+[Scope(Feature = "Preferences Integration -- cross-module opt-in/opt-out")]
 internal class PreferencesIntegrationSteps
 {
     private readonly ScenarioContext _ctx;

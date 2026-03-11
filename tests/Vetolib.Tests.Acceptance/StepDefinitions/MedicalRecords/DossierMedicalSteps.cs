@@ -13,7 +13,7 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.MedicalRecords;
 
 [Binding]
-[Scope(Feature = "Dossier médical animal")]
+[Scope(Feature = "Animal medical record")]
 internal class DossierMedicalSteps
 {
     private readonly ScenarioContext _ctx;
@@ -49,8 +49,8 @@ internal class DossierMedicalSteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
-    [Given(@"un propriétaire ""(.*)"" avec l'email ""(.*)""")]
-    public async Task GivenUnProprietaire(string ownerName, string email)
+    [Given(@"an owner ""(.*)"" with email ""(.*)""")]
+    public async Task GivenAnOwner(string ownerName, string email)
     {
         var clinicIds = GetClinicIds();
         var clinicName = clinicIds.Keys.First();
@@ -73,8 +73,8 @@ internal class DossierMedicalSteps
         _ownerIds[ownerName] = ownerResult.Value.Id;
     }
 
-    [Given(@"un animal ""(.*)"" race ""(.*)"" appartenant à ""(.*)""")]
-    public async Task GivenUnAnimal(string animalName, string breed, string ownerName)
+    [Given(@"an animal ""(.*)"" breed ""(.*)"" belonging to ""(.*)""")]
+    public async Task GivenAnAnimal(string animalName, string breed, string ownerName)
     {
         var clinicIds = GetClinicIds();
         var clinicName = clinicIds.Keys.First();
@@ -97,8 +97,8 @@ internal class DossierMedicalSteps
         _patientIds[animalName] = patient.Id;
     }
 
-    [Given(@"un animal ""(.*)"" dans la clinique ""(.*)""")]
-    public async Task GivenUnAnimalDansLaClinique(string animalName, string clinicName)
+    [Given(@"an animal ""(.*)"" in clinic ""(.*)""")]
+    public async Task GivenAnAnimalInClinic(string animalName, string clinicName)
     {
         var clinicId = SharedSteps.GenerateGuidFromString(clinicName);
         var clinicIds = GetClinicIds();
@@ -132,8 +132,8 @@ internal class DossierMedicalSteps
         testClinicContext.ClinicId = originalClinicId;
     }
 
-    [Given(@"(\d+) examens dans le dossier de ""(.*)""")]
-    public async Task GivenNExamensDansLeDossier(int count, string animalName)
+    [Given(@"(\d+) examinations in the record of ""(.*)""")]
+    public async Task GivenNExaminationsInTheRecord(int count, string animalName)
     {
         var patientId = _patientIds[animalName];
         var clinicId = GetClinicIds().Values.First();
@@ -146,7 +146,7 @@ internal class DossierMedicalSteps
             var recordResult = MedicalRecord.Create(
                 clinicId, patientId,
                 $"Diagnostic {i}",
-                $"Traitement {i}",
+                $"Treatment {i}",
                 "Dr. Test",
                 DateTime.UtcNow.AddDays(-i));
 
@@ -157,8 +157,8 @@ internal class DossierMedicalSteps
         await db.SaveChangesAsync();
     }
 
-    [Given(@"un examen existant pour ""(.*)""")]
-    public async Task GivenUnExamenExistantPour(string animalName)
+    [Given(@"an existing examination for ""(.*)""")]
+    public async Task GivenAnExistingExaminationFor(string animalName)
     {
         var patientId = _patientIds[animalName];
         var clinicId = GetClinicIds().Values.First();
@@ -168,7 +168,7 @@ internal class DossierMedicalSteps
 
         var recordResult = MedicalRecord.Create(
             clinicId, patientId,
-            "Consultation de routine",
+            "Routine consultation",
             "Observation",
             "Dr. Test",
             DateTime.UtcNow);
@@ -180,16 +180,16 @@ internal class DossierMedicalSteps
         _lastRecordId = recordResult.Value.Id;
     }
 
-    [Given(@"un examen dans le dossier de ""(.*)""")]
-    public async Task GivenUnExamenDansLeDossier(string animalName)
+    [Given(@"an examination in the record of ""(.*)""")]
+    public async Task GivenAnExaminationInTheRecord(string animalName)
     {
-        await GivenUnExamenExistantPour(animalName);
+        await GivenAnExistingExaminationFor(animalName);
     }
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"je crée un animal ""(.*)"" race ""(.*)"" pour le propriétaire ""(.*)""")]
-    public async Task WhenJeCreerUnAnimal(string animalName, string breed, string ownerName)
+    [When(@"I create an animal ""(.*)"" breed ""(.*)"" for owner ""(.*)""")]
+    public async Task WhenICreateAnAnimal(string animalName, string breed, string ownerName)
     {
         var species = InferSpecies(breed);
 
@@ -214,19 +214,19 @@ internal class DossierMedicalSteps
         }
     }
 
-    [When(@"je tente d'ajouter un examen pour ""(.*)""")]
-    public async Task WhenJeTenteDajouterUnExamen(string animalName)
+    [When(@"I attempt to add an examination for ""(.*)""")]
+    public async Task WhenIAttemptToAddAnExamination(string animalName)
     {
         var patientId = _patientIds.TryGetValue(animalName, out var id) ? id : Guid.NewGuid();
-        var request = new AddMedicalRecordRequest("Test diagnostic", "Test traitement");
+        var request = new AddMedicalRecordRequest("Test diagnostic", "Test treatment");
         _response = await _client.PostAsJsonAsync($"/api/v1/patients/{patientId}/records", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
         _ctx.Set(_response, "LastResponse");
         _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
-    [When(@"j'ajoute un examen pour ""(.*)"" avec le diagnostic ""(.*)"" et le traitement ""(.*)""")]
-    public async Task WhenJAjouteUnExamen(string animalName, string diagnosis, string treatment)
+    [When(@"I add an examination for ""(.*)"" with diagnosis ""(.*)"" and treatment ""(.*)""")]
+    public async Task WhenIAddAnExamination(string animalName, string diagnosis, string treatment)
     {
         var patientId = _patientIds[animalName];
         var request = new AddMedicalRecordRequest(diagnosis, treatment);
@@ -242,15 +242,15 @@ internal class DossierMedicalSteps
         }
     }
 
-    [When(@"je consulte le dossier de ""(.*)""")]
-    public async Task WhenJeConsulteLeDossier(string animalName)
+    [When(@"I view the record of ""(.*)""")]
+    public async Task WhenIViewTheRecord(string animalName)
     {
         var patientId = _patientIds[animalName];
         _response = await _client.GetAsync($"/api/v1/patients/{patientId}/records");
     }
 
-    [When(@"je consulte la liste des animaux de ""(.*)""")]
-    public async Task WhenJeConsulteLaListeDesAnimaux(string clinicName)
+    [When(@"I list the animals of ""(.*)""")]
+    public async Task WhenIListTheAnimalsOf(string clinicName)
     {
         var clinicId = GetClinicIds()[clinicName];
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
@@ -259,8 +259,8 @@ internal class DossierMedicalSteps
         _response = await _client.GetAsync("/api/v1/patients");
     }
 
-    [When(@"je crée une ordonnance avec le médicament ""(.*)"" posologie ""(.*)""")]
-    public async Task WhenJeCreerUneOrdonnance(string medication, string dosage)
+    [When(@"I create a prescription with medication ""(.*)"" dosage ""(.*)""")]
+    public async Task WhenICreateAPrescription(string medication, string dosage)
     {
         var patientId = _patientIds.Values.FirstOrDefault();
         var request = new AddPrescriptionRequest(medication, dosage);
@@ -278,8 +278,8 @@ internal class DossierMedicalSteps
         }
     }
 
-    [When(@"je tente de supprimer cet examen")]
-    public async Task WhenJeTenteDeSupprimer()
+    [When(@"I attempt to delete this examination")]
+    public async Task WhenIAttemptToDeleteThisExamination()
     {
         var patientId = _patientIds.Values.FirstOrDefault();
         _response = await _client.DeleteAsync(
@@ -291,30 +291,30 @@ internal class DossierMedicalSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"l'animal est créé dans la clinique")]
-    public void ThenLAnimalEstCreeDansLaClinique()
+    [Then(@"the animal is created in the clinic")]
+    public void ThenTheAnimalIsCreatedInTheClinic()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         _createdPatient.Should().NotBeNull();
         _createdPatient!.ClinicId.Should().Be(GetClinicIds().Values.First());
     }
 
-    [Then(@"son dossier médical est vide")]
-    public void ThenSonDossierMedicalEstVide()
+    [Then(@"its medical record is empty")]
+    public void ThenItsMedicalRecordIsEmpty()
     {
         _createdPatient.Should().NotBeNull();
     }
 
-    [Then(@"le propriétaire ""(.*)"" est lié à ""(.*)""")]
-    public void ThenLeProprietaireEstLie(string ownerName, string animalName)
+    [Then(@"the owner ""(.*)"" is linked to ""(.*)""")]
+    public void ThenTheOwnerIsLinkedTo(string ownerName, string animalName)
     {
         _createdPatient.Should().NotBeNull();
         _createdPatient!.OwnerName.Should().NotBeNullOrEmpty();
         _createdPatient.OwnerName.Should().Contain(ownerName.Split(' ')[0]);
     }
 
-    [Then(@"""(.*)"" n'apparaît pas dans la liste")]
-    public async Task ThenNApparaitPasDansLaListe(string animalName)
+    [Then(@"""(.*)"" does not appear in the list")]
+    public async Task ThenDoesNotAppearInTheList(string animalName)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         var result = await _response.Content.ReadFromJsonAsync<PatientPagedResultDto>(JsonOptions);
@@ -322,30 +322,30 @@ internal class DossierMedicalSteps
         result!.Items.Should().NotContain(p => p.Name == animalName);
     }
 
-    [Then(@"l'examen apparaît dans l'historique de ""(.*)""")]
-    public void ThenLExamenApparaitDansLHistorique(string animalName)
+    [Then(@"the examination appears in the history of ""(.*)""")]
+    public void ThenTheExaminationAppearsInTheHistory(string animalName)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK, $"Expected success response, got: {_errorResponseBody}");
         _createdRecord.Should().NotBeNull();
         _createdRecord!.PatientId.Should().Be(_patientIds[animalName]);
     }
 
-    [Then(@"il est horodaté avec la date du jour")]
-    public void ThenIlEstHorodateAvecLaDateDuJour()
+    [Then(@"it is timestamped with today's date")]
+    public void ThenItIsTimestampedWithTodaysDate()
     {
         _createdRecord.Should().NotBeNull();
         _createdRecord!.ExaminedAt.Date.Should().Be(DateTime.UtcNow.Date);
     }
 
-    [Then(@"il porte le vétérinaire courant comme auteur")]
-    public void ThenIlPorteLeVeterinaireCommeAuteur()
+    [Then(@"it bears the current veterinarian as author")]
+    public void ThenItBearsTheCurrentVeterinarianAsAuthor()
     {
         _createdRecord.Should().NotBeNull();
         _createdRecord!.VetName.Should().NotBeNullOrEmpty();
     }
 
-    [Then(@"je vois (\d+) examens dans l'ordre chronologique inverse")]
-    public async Task ThenJeVoisNExamens(int expectedCount)
+    [Then(@"I see (\d+) examinations in reverse chronological order")]
+    public async Task ThenISeeNExaminationsInReverseChronologicalOrder(int expectedCount)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         var paged = await _response.Content.ReadFromJsonAsync<MedicalRecordPagedResultDto>(JsonOptions);
@@ -360,29 +360,29 @@ internal class DossierMedicalSteps
         }
     }
 
-    [Then(@"l'ordonnance est créée avec le numéro de licence ""(.*)""")]
-    public void ThenLOrdonnanceEstCreee(string licenseNumber)
+    [Then(@"the prescription is created with license number ""(.*)""")]
+    public void ThenThePrescriptionIsCreated(string licenseNumber)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK, $"Expected success, got: {_errorResponseBody}");
         _createdPrescription.Should().NotBeNull();
         _createdPrescription!.VetLicenseNumber.Should().Be(licenseNumber);
     }
 
-    [Then(@"elle est liée à l'examen")]
-    public void ThenElleEstLieeALExamen()
+    [Then(@"it is linked to the examination")]
+    public void ThenItIsLinkedToTheExamination()
     {
         _createdPrescription.Should().NotBeNull();
         _createdPrescription!.MedicalRecordId.Should().Be(_lastRecordId);
     }
 
-    [Then(@"l'examen est toujours visible dans l'historique")]
-    public async Task ThenLExamenEstToujoursVisible()
+    [Then(@"the examination is still visible in the history")]
+    public async Task ThenTheExaminationIsStillVisibleInTheHistory()
     {
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
         var record = await db.MedicalRecords.IgnoreQueryFilters()
             .FirstOrDefaultAsync(r => r.Id == _lastRecordId);
-        record.Should().NotBeNull("L'examen doit toujours être présent après une tentative de suppression");
+        record.Should().NotBeNull("The examination must still be present after a deletion attempt");
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

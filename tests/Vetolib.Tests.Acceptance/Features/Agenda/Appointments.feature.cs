@@ -17,22 +17,22 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class GestionDesRendez_VousVeterinairesFeature : object, global::Xunit.IClassFixture<GestionDesRendez_VousVeterinairesFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class VeterinaryAppointmentManagementFeature : object, global::Xunit.IClassFixture<VeterinaryAppointmentManagementFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Agenda", "Gestion des rendez-vous veterinaires", "  En tant que receptionniste de clinique veterinaire\r\n  Je veux gerer les rendez-" +
-                "vous\r\n  Afin d\'organiser l\'agenda des veterinaires efficacement", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Agenda", "Veterinary appointment management", "  As a veterinary clinic receptionist\r\n  I want to manage appointments\r\n  In orde" +
+                "r to organize the veterinarians\' schedule efficiently", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "Appointments.feature"
 #line hidden
         
-        public GestionDesRendez_VousVeterinairesFeature(GestionDesRendez_VousVeterinairesFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public VeterinaryAppointmentManagementFeature(VeterinaryAppointmentManagementFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -109,16 +109,16 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
 #line 8
   #line hidden
 #line 9
-    await testRunner.GivenAsync("une clinique \"Happy Paws\" avec les horaires 9h-18h", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Happy Paws\" with hours 9am-6pm", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
-    await testRunner.AndAsync("un veterinaire \"Dr. Ahmed Al-Rashid\" avec licence \"UAE-VET-12345\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("a veterinarian \"Dr. Ahmed Al-Rashid\" with license \"UAE-VET-12345\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 11
-    await testRunner.AndAsync("un animal \"Max\" de race \"Labrador\" appartenant a \"John Smith\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("an animal \"Max\" breed \"Labrador\" belonging to \"John Smith\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 12
-    await testRunner.AndAsync("je suis authentifie en tant que RECEPTIONIST", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as RECEPTIONIST", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -152,15 +152,15 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Creer un rendez-vous dans un creneau libre")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Creer un rendez-vous dans un creneau libre")]
-        public async global::System.Threading.Tasks.Task CreerUnRendez_VousDansUnCreneauLibre()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create an appointment in a free slot")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Create an appointment in a free slot")]
+        public async global::System.Threading.Tasks.Task CreateAnAppointmentInAFreeSlot()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Creer un rendez-vous dans un creneau libre", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create an appointment in a free slot", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 14
@@ -177,28 +177,28 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 15
-    await testRunner.WhenAsync("je cree un rendez-vous pour \"Max\" avec \"Dr. Ahmed\" le \"2026-04-01\" a \"10:00\" pour" +
+    await testRunner.WhenAsync("I create an appointment for \"Max\" with \"Dr. Ahmed\" on \"2026-04-01\" at \"10:00\" for" +
                         " 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 16
-    await testRunner.ThenAsync("le rendez-vous est cree avec le statut \"SCHEDULED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the appointment is created with status \"SCHEDULED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 17
-    await testRunner.AndAsync("le rendez-vous apparait dans l\'agenda de \"Dr. Ahmed\" a \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the appointment appears in \"Dr. Ahmed\" agenda at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Lister les rendez-vous du jour")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Lister les rendez-vous du jour")]
-        public async global::System.Threading.Tasks.Task ListerLesRendez_VousDuJour()
+        [global::Xunit.SkippableFactAttribute(DisplayName="List appointments for the day")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "List appointments for the day")]
+        public async global::System.Threading.Tasks.Task ListAppointmentsForTheDay()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Lister les rendez-vous du jour", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("List appointments for the day", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 19
@@ -215,30 +215,30 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 20
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" a \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 21
-    await testRunner.AndAsync("un rendez-vous existant pour \"Luna\" a \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("an existing appointment for \"Luna\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 22
-    await testRunner.WhenAsync("je consulte l\'agenda du \"2026-04-01\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I view the agenda for \"2026-04-01\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 23
-    await testRunner.ThenAsync("je vois 2 rendez-vous dans la liste", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I see 2 appointments in the list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Refus si creneau deja pris")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Refus si creneau deja pris")]
-        public async global::System.Threading.Tasks.Task RefusSiCreneauDejaPris()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Reject if slot already taken")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Reject if slot already taken")]
+        public async global::System.Threading.Tasks.Task RejectIfSlotAlreadyTaken()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Refus si creneau deja pris", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Reject if slot already taken", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 25
@@ -255,33 +255,33 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 26
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 27
-    await testRunner.WhenAsync("je tente de creer un rendez-vous pour \"Luna\" avec \"Dr. Ahmed\" a \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I try to create an appointment for \"Luna\" with \"Dr. Ahmed\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 28
-    await testRunner.ThenAsync("le systeme refuse avec le code \"APPOINTMENT_CONFLICT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"APPOINTMENT_CONFLICT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 29
-    await testRunner.AndAsync("le message est \"Ce creneau est deja pris pour ce veterinaire\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the message is \"Ce creneau est deja pris pour ce veterinaire\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 30
-    await testRunner.AndAsync("les prochains creneaux disponibles sont proposes", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the next available slots are suggested", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Refus si chevauchement partiel")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Refus si chevauchement partiel")]
-        public async global::System.Threading.Tasks.Task RefusSiChevauchementPartiel()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Reject if partial overlap")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Reject if partial overlap")]
+        public async global::System.Threading.Tasks.Task RejectIfPartialOverlap()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Refus si chevauchement partiel", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Reject if partial overlap", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 32
@@ -298,27 +298,27 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 33
-    await testRunner.GivenAsync("un rendez-vous existant de \"10:00\" a \"10:30\" avec \"Dr. Ahmed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment from \"10:00\" to \"10:30\" with \"Dr. Ahmed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 34
-    await testRunner.WhenAsync("je tente de creer un rendez-vous de \"10:15\" a \"10:45\" avec \"Dr. Ahmed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I try to create an appointment from \"10:15\" to \"10:45\" with \"Dr. Ahmed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 35
-    await testRunner.ThenAsync("le systeme refuse avec le code \"APPOINTMENT_CONFLICT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"APPOINTMENT_CONFLICT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Refus hors horaires d\'ouverture")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Refus hors horaires d\'ouverture")]
-        public async global::System.Threading.Tasks.Task RefusHorsHorairesDouverture()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Reject outside business hours")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Reject outside business hours")]
+        public async global::System.Threading.Tasks.Task RejectOutsideBusinessHours()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Refus hors horaires d\'ouverture", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Reject outside business hours", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 37
@@ -335,27 +335,27 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 38
-    await testRunner.WhenAsync("je tente de creer un rendez-vous a \"19:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I try to create an appointment at \"19:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 39
-    await testRunner.ThenAsync("le systeme refuse avec le code \"OUTSIDE_BUSINESS_HOURS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"OUTSIDE_BUSINESS_HOURS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 40
-    await testRunner.AndAsync("le message indique les horaires \"9h00 - 18h00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the message indicates the hours \"9h00 - 18h00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Refus dans le passe")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Refus dans le passe")]
-        public async global::System.Threading.Tasks.Task RefusDansLePasse()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Reject in the past")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Reject in the past")]
+        public async global::System.Threading.Tasks.Task RejectInThePast()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Refus dans le passe", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Reject in the past", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 42
@@ -372,24 +372,24 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 43
-    await testRunner.WhenAsync("je tente de creer un rendez-vous pour le \"2020-01-01\" a \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I try to create an appointment on date \"2020-01-01\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 44
-    await testRunner.ThenAsync("le systeme refuse avec le code \"PAST_DATE_NOT_ALLOWED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"PAST_DATE_NOT_ALLOWED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Enregistrer l\'arrivee du patient (check-in)")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Enregistrer l\'arrivee du patient (check-in)")]
-        public async global::System.Threading.Tasks.Task EnregistrerLarriveeDuPatientCheck_In()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Record patient arrival (check-in)")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Record patient arrival (check-in)")]
+        public async global::System.Threading.Tasks.Task RecordPatientArrivalCheck_In()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enregistrer l\'arrivee du patient (check-in)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record patient arrival (check-in)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 46
@@ -406,27 +406,27 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 47
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 48
-    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I update the last appointment status to \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 49
-    await testRunner.ThenAsync("le statut du rendez-vous est \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the appointment status is \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Demarrer la consultation")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Demarrer la consultation")]
-        public async global::System.Threading.Tasks.Task DemarrerLaConsultation()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Start the consultation")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Start the consultation")]
+        public async global::System.Threading.Tasks.Task StartTheConsultation()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "7";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Demarrer la consultation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Start the consultation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 51
@@ -443,30 +443,30 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 52
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 53
-    await testRunner.AndAsync("le statut du dernier rendez-vous a ete mis a jour vers \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the last appointment status has been updated to \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 54
-    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I update the last appointment status to \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 55
-    await testRunner.ThenAsync("le statut du rendez-vous est \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the appointment status is \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Terminer la consultation")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Terminer la consultation")]
-        public async global::System.Threading.Tasks.Task TerminerLaConsultation()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Complete the consultation")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Complete the consultation")]
+        public async global::System.Threading.Tasks.Task CompleteTheConsultation()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "8";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Terminer la consultation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Complete the consultation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 57
@@ -483,33 +483,33 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 58
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 59
-    await testRunner.AndAsync("le statut du dernier rendez-vous a ete mis a jour vers \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the last appointment status has been updated to \"CheckedIn\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 60
-    await testRunner.AndAsync("le statut du dernier rendez-vous a ete mis a jour vers \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the last appointment status has been updated to \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 61
-    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I update the last appointment status to \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 62
-    await testRunner.ThenAsync("le statut du rendez-vous est \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the appointment status is \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Annuler un rendez-vous avec motif")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Annuler un rendez-vous avec motif")]
-        public async global::System.Threading.Tasks.Task AnnulerUnRendez_VousAvecMotif()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Cancel an appointment with reason")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Cancel an appointment with reason")]
+        public async global::System.Threading.Tasks.Task CancelAnAppointmentWithReason()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "9";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Annuler un rendez-vous avec motif", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Cancel an appointment with reason", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 64
@@ -526,27 +526,27 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 65
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 66
-    await testRunner.WhenAsync("j\'annule le dernier rendez-vous avec le motif \"Owner called to cancel\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I cancel the last appointment with reason \"Owner called to cancel\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 67
-    await testRunner.ThenAsync("le statut du rendez-vous est \"Cancelled\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the appointment status is \"Cancelled\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Transition invalide refuse")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Transition invalide refuse")]
-        public async global::System.Threading.Tasks.Task TransitionInvalideRefuse()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Invalid transition rejected")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "Invalid transition rejected")]
+        public async global::System.Threading.Tasks.Task InvalidTransitionRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "10";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Transition invalide refuse", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Invalid transition rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 69
@@ -563,27 +563,27 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 70
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 71
-    await testRunner.WhenAsync("je mets a jour le statut du dernier rendez-vous vers \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I update the last appointment status to \"Completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 72
-    await testRunner.ThenAsync("le systeme refuse la transition avec le code \"INVALID_TRANSITION\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects the transition with code \"INVALID_TRANSITION\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Consulter les disponibilites d\'un veterinaire")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
-        [global::Xunit.TraitAttribute("Description", "Consulter les disponibilites d\'un veterinaire")]
-        public async global::System.Threading.Tasks.Task ConsulterLesDisponibilitesDunVeterinaire()
+        [global::Xunit.SkippableFactAttribute(DisplayName="View veterinarian availability")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
+        [global::Xunit.TraitAttribute("Description", "View veterinarian availability")]
+        public async global::System.Threading.Tasks.Task ViewVeterinarianAvailability()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "11";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Consulter les disponibilites d\'un veterinaire", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("View veterinarian availability", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 74
@@ -600,23 +600,23 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 75
-    await testRunner.GivenAsync("un rendez-vous existant pour \"Max\" avec \"Dr. Ahmed\" a \"10:00\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 76
-    await testRunner.WhenAsync("je consulte les disponibilites de \"Dr. Ahmed\" le \"2026-04-01\" pour 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I check availability for \"Dr. Ahmed\" on \"2026-04-01\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 77
-    await testRunner.ThenAsync("je vois des creneaux disponibles et non disponibles", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I see available and unavailable slots", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 78
-    await testRunner.AndAsync("le creneau \"10:00\" est marque non disponible", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the slot \"10:00\" is marked unavailable", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Get appointment by ID")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
         [global::Xunit.TraitAttribute("Description", "Get appointment by ID")]
         public async global::System.Threading.Tasks.Task GetAppointmentByID()
         {
@@ -656,7 +656,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Get appointment by ID returns 404 when not found")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
         [global::Xunit.TraitAttribute("Description", "Get appointment by ID returns 404 when not found")]
         public async global::System.Threading.Tasks.Task GetAppointmentByIDReturns404WhenNotFound()
         {
@@ -690,7 +690,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Edit appointment date and time")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
         [global::Xunit.TraitAttribute("Description", "Edit appointment date and time")]
         public async global::System.Threading.Tasks.Task EditAppointmentDateAndTime()
         {
@@ -730,7 +730,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Edit appointment refused if slot conflict")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
         [global::Xunit.TraitAttribute("Description", "Edit appointment refused if slot conflict")]
         public async global::System.Threading.Tasks.Task EditAppointmentRefusedIfSlotConflict()
         {
@@ -770,7 +770,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Admin updates appointment status directly")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
         [global::Xunit.TraitAttribute("Description", "Admin updates appointment status directly")]
         public async global::System.Threading.Tasks.Task AdminUpdatesAppointmentStatusDirectly()
         {
@@ -816,7 +816,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Status update with invalid status value returns 400")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
         [global::Xunit.TraitAttribute("Description", "Status update with invalid status value returns 400")]
         public async global::System.Threading.Tasks.Task StatusUpdateWithInvalidStatusValueReturns400()
         {
@@ -859,7 +859,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Status update on non-existent appointment returns 404")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Gestion des rendez-vous veterinaires")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
         [global::Xunit.TraitAttribute("Description", "Status update on non-existent appointment returns 404")]
         public async global::System.Threading.Tasks.Task StatusUpdateOnNon_ExistentAppointmentReturns404()
         {
@@ -905,12 +905,12 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await GestionDesRendez_VousVeterinairesFeature.FeatureSetupAsync();
+                await VeterinaryAppointmentManagementFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await GestionDesRendez_VousVeterinairesFeature.FeatureTearDownAsync();
+                await VeterinaryAppointmentManagementFeature.FeatureTearDownAsync();
             }
         }
     }

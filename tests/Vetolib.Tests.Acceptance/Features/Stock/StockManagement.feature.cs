@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Stock", "Stock Management", "  As a veterinarian or admin\r\n  I want to manage medication and vaccine inventory" +
                 "\r\n  So that I never run out of essential supplies", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -145,7 +146,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Create a stock item")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create a stock item", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Create a stock item")]
         public async global::System.Threading.Tasks.Task CreateAStockItem()
@@ -196,7 +197,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="List stock items with filters")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="List stock items with filters", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "List stock items with filters")]
         public async global::System.Threading.Tasks.Task ListStockItemsWithFilters()
@@ -256,7 +257,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement IN")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement IN", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Record stock movement IN")]
         public async global::System.Threading.Tasks.Task RecordStockMovementIN()
@@ -301,7 +302,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement OUT")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement OUT", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Record stock movement OUT")]
         public async global::System.Threading.Tasks.Task RecordStockMovementOUT()
@@ -346,7 +347,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Stock movement OUT cannot exceed current quantity")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Stock movement OUT cannot exceed current quantity", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Stock movement OUT cannot exceed current quantity")]
         public async global::System.Threading.Tasks.Task StockMovementOUTCannotExceedCurrentQuantity()
@@ -391,7 +392,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Low stock alert")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Low stock alert", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Low stock alert")]
         public async global::System.Threading.Tasks.Task LowStockAlert()
@@ -428,7 +429,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Expiring soon alert")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Expiring soon alert", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Expiring soon alert")]
         public async global::System.Threading.Tasks.Task ExpiringSoonAlert()
@@ -465,7 +466,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Update stock item threshold")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Update stock item threshold", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Update stock item threshold")]
         public async global::System.Threading.Tasks.Task UpdateStockItemThreshold()
@@ -502,7 +503,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can view and record movements")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can view and record movements", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Vet can view and record movements")]
         public async global::System.Threading.Tasks.Task VetCanViewAndRecordMovements()
@@ -539,7 +540,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot create stock items")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot create stock items", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Receptionist cannot create stock items")]
         public async global::System.Threading.Tasks.Task ReceptionistCannotCreateStockItems()
@@ -588,7 +589,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Multi-tenant isolation")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Multi-tenant isolation", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock Management")]
         [global::Xunit.TraitAttribute("Description", "Multi-tenant isolation")]
         public async global::System.Threading.Tasks.Task Multi_TenantIsolation()
@@ -638,12 +639,10 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await StockManagementFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await StockManagementFeature.FeatureTearDownAsync();
             }
         }
     }

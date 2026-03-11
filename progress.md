@@ -2,6 +2,41 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
+## Audit archi -- 2026-03-11 (BDD step binding audit)
+
+- Violations critiques : 3 (taches refacto creees)
+- Violations importantes : 2 (taches refacto creees)
+- Conformite globale : ATTENTION
+
+### Detail des violations
+
+| # | Severite | Violation | Tache refacto |
+|---|---|---|---|
+| 1 | CRITIQUE | StockPrescriptionIntegration.feature: `Given I am logged in as a VET` has no binding (DrugInteractionSteps scoped to wrong feature) | `todo-refacto-20260311-bdd-steps-001` |
+| 2 | CRITIQUE | StockPrescriptionSteps: step text `"Or skip stock decrement entirely"` does not match feature text `"I should be able to skip stock decrement entirely"` | `todo-refacto-20260311-bdd-steps-002` |
+| 3 | CRITIQUE | 28 duplicate step bindings across 10 scoped files shadow SharedSteps (divergent error storage: private fields vs ScenarioContext) | `todo-refacto-20260311-bdd-steps-005` |
+| 4 | IMPORTANTE | MessageTriageSteps: `[Given]` attributes on steps used as `When` (via `And`) -- should use `[StepDefinition]` for safety | `todo-refacto-20260311-bdd-steps-003` |
+| 5 | IMPORTANTE | StockPrescriptionSteps: ALL 17 step methods throw `PendingStepException` -- 8 scenarios permanently failing | `todo-refacto-20260311-bdd-steps-004` |
+
+### Duplicate bindings detail (task 005)
+
+5 step patterns duplicated across SharedSteps (unscoped) and scoped feature steps:
+- `a clinic "(.*)"` -- 5 scoped duplicates (Billing, Dashboard, ChangePassword, Audit, Agenda)
+- `I am authenticated as <ROLE>` -- 6 scoped duplicates (Agenda x2, Billing, Dashboard x2, Audit x2)
+- `I am logged in as a <ROLE>` -- 4 scoped duplicates (DrugInteraction x4)
+- `the system rejects with code "(.*)"` -- 3 scoped duplicates (Billing, Login, Stock)
+- `the error message is "(.*)"` -- 2 scoped duplicates (Billing, Login)
+
+All duplicates are in `[Scope]`-annotated classes so no compile-time ambiguity, but the implementations diverge (private fields vs ScenarioContext storage), creating silent failure risk if scopes drift.
+
+### Verified non-issues
+
+- OwnerPortalSteps `GivenTheCurrentTimeIsFridayEvening` -- binding exists and matches feature text correctly
+- Agenda SlotSuggestionSteps -- no Friday scenario exists in the Agenda features
+- MessageTriageSteps Given/When keyword mismatch -- Reqnroll matches across keywords, but `[StepDefinition]` is safer
+- `I am authenticated as a user with role "(.*)"` -- duplicated across 5 files but all scoped and pattern not in SharedSteps (no ambiguity)
+- Messaging role steps (`role "Admin"`, `role "Vet"`, etc.) -- all scoped with literal strings, no overlap with SharedSteps regex
+
 ## 2026-03-10 -- Forge cycle (nightly quality sweep)
 
 - TODO: 4 | WIP: 0 | DONE: 228
@@ -16,16 +51,16 @@ _Mis a jour par l'orchestrator a chaque cycle._
 
 | Task | Type | Result |
 |---|---|---|
-| refacto-audit-001 | CRITICAL | Notifications throw new — comments standardized for MassTransit retry |
-| refacto-audit-002 | CRITICAL | Preferences SystemDefaults — converted to Result<T> |
+| refacto-audit-001 | CRITICAL | Notifications throw new -- comments standardized for MassTransit retry |
+| refacto-audit-002 | CRITICAL | Preferences SystemDefaults -- converted to Result<T> |
 | refacto-audit-004 | IMPORTANT | data-testid added to 152+ frontend buttons |
 | refacto-audit-005 | IMPORTANT | patients.ts raw fetch replaced with apiClient |
 | refacto-audit-006 | MINOR | IgnoreQueryFilters documented in disputes.md |
-| refacto-nightly-001 | HIGH | Messaging ListConversations — SQL-side pagination |
-| refacto-nightly-002 | MEDIUM | Stock query handlers — AsNoTracking added |
-| refacto-nightly-003 | HIGH | Stock DecrementStockByDrugCatalogEntry — validator created |
-| refacto-nightly-004 | MEDIUM | AddPrescriptionHandler — extracted 5 private methods |
-| refacto-nightly-005 | MEDIUM | GetOnboardingStateHandler — extracted LoadSnapshot + ComputeState |
+| refacto-nightly-001 | HIGH | Messaging ListConversations -- SQL-side pagination |
+| refacto-nightly-002 | MEDIUM | Stock query handlers -- AsNoTracking added |
+| refacto-nightly-003 | HIGH | Stock DecrementStockByDrugCatalogEntry -- validator created |
+| refacto-nightly-004 | MEDIUM | AddPrescriptionHandler -- extracted 5 private methods |
+| refacto-nightly-005 | MEDIUM | GetOnboardingStateHandler -- extracted LoadSnapshot + ComputeState |
 | front-ux-audit-001 | AUDIT | 8 fix tasks created from UX audit |
 | front-empty-error-states | UX | ErrorState component + wired into 7 components |
 | front-landing-conversion | UX | Landing page copy optimized for conversion |
@@ -58,7 +93,7 @@ _Mis a jour par l'orchestrator a chaque cycle._
 | test-billing-pdf-001 | HIGH | 3 PDF download Gherkin scenarios |
 | test-dashboard-analytics-001 | MEDIUM | 3 analytics Gherkin scenarios (200, 401, 403) |
 | test-agenda-status-edge-cases-001 | MEDIUM | 3 status edge case scenarios (200, 400, 404) |
-| refacto-route-versioning-001 | MEDIUM | 40+ files migrated /api/ → /api/v1/ |
+| refacto-route-versioning-001 | MEDIUM | 40+ files migrated /api/ -> /api/v1/ |
 
 ### Remaining TODOs (5)
 

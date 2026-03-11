@@ -4,7 +4,7 @@ Feature: Change password
   So that I can maintain account security
 
   Background:
-    Given une clinique "Happy Paws"
+    Given a clinic "Happy Paws"
 
   Scenario: Successful password change
     Given I am authenticated as VET with password "Secure@1234567!"

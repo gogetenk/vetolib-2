@@ -73,10 +73,20 @@ Ordre : Domain → Handler → Validator → DbContext → Endpoint → Migratio
 - `IMultiTenant` sur toutes les entités
 - Zéro Controller, uniquement `.ToMinimalApiResult()`
 
-### Étape 4 — Tests unitaires
+### Étape 4 — Tests selon le modèle en sablier
+
+**3 couches de tests — chacune a un rôle distinct, ne pas mélanger :**
+
+| Couche | Rôle | Ce qu'elle teste | Ce qu'elle NE teste PAS |
+|---|---|---|---|
+| **TU** (Unit) | Edge cases, mutations, complexité | Validators, Domain factories (error paths), Handler branches | Wiring HTTP, use cases métier complets |
+| **TI** (Integration) | Wiring technique, contract testing | 1 test par endpoint (HTTP fonctionne), sérialisation, auth/authz | Règles métier, edge cases |
+| **TF** (Fonctionnel/BDD) | Use cases métier via Gherkin | Comportement observable par l'utilisateur | Technique (status codes, JSON, URLs) |
 
 ```bash
-dotnet test Tests/Vetolib.{Module}.Tests.Unit/
+dotnet test tests/Vetolib.Tests.Unit/
+dotnet test tests/Vetolib.Tests.Integration/
+dotnet test tests/Vetolib.Tests.Acceptance/
 dotnet build src/backend/Vetolib.sln
 ```
 

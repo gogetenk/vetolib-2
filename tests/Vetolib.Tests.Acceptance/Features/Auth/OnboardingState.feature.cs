@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "Onboarding State Management", "  As a user\r\n  I want my onboarding progress to be tracked server-side\r\n  So that" +
                 " it persists across sessions and devices", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -108,12 +109,12 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
-  #line hidden
 #line 8
+  #line hidden
+#line 9
     await testRunner.GivenAsync("a clinic \"Desert Paws\" exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 10
     await testRunner.AndAsync("a user with role \"Admin\" exists in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -148,7 +149,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="New admin gets onboarding state initialized on first login")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="New admin gets onboarding state initialized on first login", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "New admin gets onboarding state initialized on first login")]
         public async global::System.Threading.Tasks.Task NewAdminGetsOnboardingStateInitializedOnFirstLogin()
@@ -159,7 +160,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("New admin gets onboarding state initialized on first login", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 11
+#line 12
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -169,32 +170,32 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 12
+#line 13
     await testRunner.GivenAsync("the user has never logged in before", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 13
+#line 14
     await testRunner.WhenAsync("the user logs in for the first time", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 14
+#line 15
     await testRunner.ThenAsync("the onboarding state is initialized with role \"Admin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 15
+#line 16
     await testRunner.AndAsync("the welcome banner is marked as \"visible\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 16
+#line 17
     await testRunner.AndAsync("the checklist is marked as \"visible\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 17
+#line 18
     await testRunner.AndAsync("all checklist steps are in \"pending\" status", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Retrieve onboarding state")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Retrieve onboarding state", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Retrieve onboarding state")]
         public async global::System.Threading.Tasks.Task RetrieveOnboardingState()
@@ -205,7 +206,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Retrieve onboarding state", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 19
+#line 20
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -215,29 +216,29 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 20
+#line 21
     await testRunner.GivenAsync("the user has an onboarding state initialized", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 21
+#line 22
     await testRunner.WhenAsync("the user retrieves their onboarding state", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 22
+#line 23
     await testRunner.ThenAsync("the response contains the welcome banner status", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 23
+#line 24
     await testRunner.AndAsync("the response contains checklist steps with completion status", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 24
+#line 25
     await testRunner.AndAsync("the response contains the progress count", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Complete an onboarding step")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Complete an onboarding step", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Complete an onboarding step")]
         public async global::System.Threading.Tasks.Task CompleteAnOnboardingStep()
@@ -248,7 +249,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Complete an onboarding step", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 26
+#line 27
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -258,26 +259,26 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 27
+#line 28
     await testRunner.GivenAsync("the user has an onboarding state initialized", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 29
     await testRunner.WhenAsync("the step \"add_first_patient\" is marked as completed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 29
+#line 30
     await testRunner.ThenAsync("the step \"add_first_patient\" has status \"completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 30
+#line 31
     await testRunner.AndAsync("the progress count is updated", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Auto-complete steps based on existing data")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Auto-complete steps based on existing data", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Auto-complete steps based on existing data")]
         public async global::System.Threading.Tasks.Task Auto_CompleteStepsBasedOnExistingData()
@@ -288,7 +289,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Auto-complete steps based on existing data", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 32
+#line 33
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -298,29 +299,29 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 33
+#line 34
     await testRunner.GivenAsync("the clinic already has 5 patients", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 34
+#line 35
     await testRunner.AndAsync("the clinic already has 2 appointments", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 35
+#line 36
     await testRunner.WhenAsync("the user retrieves their onboarding state", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 36
+#line 37
     await testRunner.ThenAsync("the step \"add_first_patient\" is auto-completed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 37
+#line 38
     await testRunner.AndAsync("the step \"book_first_appointment\" is auto-completed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss welcome banner")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss welcome banner", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Dismiss welcome banner")]
         public async global::System.Threading.Tasks.Task DismissWelcomeBanner()
@@ -331,7 +332,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Dismiss welcome banner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 39
+#line 40
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -341,26 +342,26 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 40
+#line 41
     await testRunner.GivenAsync("the user has an onboarding state initialized", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 41
+#line 42
     await testRunner.WhenAsync("the user dismisses the welcome banner", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 43
     await testRunner.ThenAsync("the welcome banner is marked as \"dismissed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 43
+#line 44
     await testRunner.AndAsync("the checklist remains \"visible\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss checklist")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss checklist", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Dismiss checklist")]
         public async global::System.Threading.Tasks.Task DismissChecklist()
@@ -371,7 +372,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Dismiss checklist", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 45
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -381,26 +382,26 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 46
+#line 47
     await testRunner.GivenAsync("the user has an onboarding state initialized", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 47
+#line 48
     await testRunner.WhenAsync("the user dismisses the checklist", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 49
     await testRunner.ThenAsync("the checklist is marked as \"dismissed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 49
+#line 50
     await testRunner.AndAsync("the welcome banner status is unchanged", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="All steps completed triggers onboarding completion")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="All steps completed triggers onboarding completion", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "All steps completed triggers onboarding completion")]
         public async global::System.Threading.Tasks.Task AllStepsCompletedTriggersOnboardingCompletion()
@@ -411,7 +412,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("All steps completed triggers onboarding completion", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 51
+#line 52
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -421,23 +422,23 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 52
+#line 53
     await testRunner.GivenAsync("the user has all checklist steps completed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 53
+#line 54
     await testRunner.WhenAsync("the user retrieves their onboarding state", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 54
+#line 55
     await testRunner.ThenAsync("the onboarding status is \"completed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Onboarding state persists across sessions")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Onboarding state persists across sessions", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Onboarding state persists across sessions")]
         public async global::System.Threading.Tasks.Task OnboardingStatePersistsAcrossSessions()
@@ -448,7 +449,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Onboarding state persists across sessions", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 56
+#line 57
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -458,23 +459,23 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 57
+#line 58
     await testRunner.GivenAsync("the user has dismissed the welcome banner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 58
+#line 59
     await testRunner.WhenAsync("the user logs out and logs back in", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 59
+#line 60
     await testRunner.ThenAsync("the welcome banner is still marked as \"dismissed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet gets role-specific checklist")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet gets role-specific checklist", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Vet gets role-specific checklist")]
         public async global::System.Threading.Tasks.Task VetGetsRole_SpecificChecklist()
@@ -485,7 +486,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet gets role-specific checklist", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 61
+#line 62
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -495,23 +496,23 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 62
+#line 63
     await testRunner.GivenAsync("a user with role \"Vet\" exists in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 63
+#line 64
     await testRunner.WhenAsync("the vet user retrieves their onboarding state", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 64
+#line 65
     await testRunner.ThenAsync("the checklist contains 4 steps specific to the Vet role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist gets role-specific checklist")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist gets role-specific checklist", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Receptionist gets role-specific checklist")]
         public async global::System.Threading.Tasks.Task ReceptionistGetsRole_SpecificChecklist()
@@ -522,7 +523,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist gets role-specific checklist", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 66
+#line 67
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -532,23 +533,23 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 67
+#line 68
     await testRunner.GivenAsync("a user with role \"Receptionist\" exists in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 68
+#line 69
     await testRunner.WhenAsync("the receptionist user retrieves their onboarding state", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 69
+#line 70
     await testRunner.ThenAsync("the checklist contains 4 steps specific to the Receptionist role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant gets role-specific checklist")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant gets role-specific checklist", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Assistant gets role-specific checklist")]
         public async global::System.Threading.Tasks.Task AssistantGetsRole_SpecificChecklist()
@@ -559,7 +560,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Assistant gets role-specific checklist", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 71
+#line 72
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -569,23 +570,23 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 72
+#line 73
     await testRunner.GivenAsync("a user with role \"Assistant\" exists in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 73
+#line 74
     await testRunner.WhenAsync("the assistant user retrieves their onboarding state", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 74
+#line 75
     await testRunner.ThenAsync("the checklist contains 3 steps specific to the Assistant role", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Non-authenticated user cannot access onboarding state")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Non-authenticated user cannot access onboarding state", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Non-authenticated user cannot access onboarding state")]
         public async global::System.Threading.Tasks.Task Non_AuthenticatedUserCannotAccessOnboardingState()
@@ -596,7 +597,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Non-authenticated user cannot access onboarding state", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 76
+#line 77
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -606,13 +607,13 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 77
+#line 78
     await testRunner.WhenAsync("an unauthenticated request is made to the onboarding endpoint", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 78
+#line 79
     await testRunner.ThenAsync("the response status is 401", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -626,12 +627,10 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await OnboardingStateManagementFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await OnboardingStateManagementFeature.FeatureTearDownAsync();
             }
         }
     }

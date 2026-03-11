@@ -19,24 +19,25 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::Xunit.TraitAttribute("Category", "wip")]
     [global::Xunit.TraitAttribute("Category", "rbac")]
-    public partial class MatriceRBACControleDAccesParRoleFeature : object, global::Xunit.IClassFixture<MatriceRBACControleDAccesParRoleFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class RBACMatrix_Role_BasedAccessControlFeature : object, global::Xunit.IClassFixture<RBACMatrix_Role_BasedAccessControlFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
                 "wip",
+                "ignore",
                 "rbac"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "Matrice RBAC — controle d acces par role", "  En tant que systeme\r\n  Je veux appliquer la matrice RBAC du cabinet veterinaire" +
-                " UAE\r\n  Pour que chaque role ne puisse effectuer que les actions autorisees", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "RBAC matrix -- role-based access control", "  As a system\r\n  I want to enforce the UAE veterinary clinic RBAC matrix\r\n  So th" +
+                "at each role can only perform authorized actions", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "RBAC.feature"
 #line hidden
         
-        public MatriceRBACControleDAccesParRoleFeature(MatriceRBACControleDAccesParRoleFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public RBACMatrix_Role_BasedAccessControlFeature(RBACMatrix_Role_BasedAccessControlFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -113,7 +114,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 8
   #line hidden
 #line 9
-    await testRunner.GivenAsync("une clinique \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -147,15 +148,15 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant ne peut pas creer de rendez-vous (403)")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Matrice RBAC — controle d acces par role")]
-        [global::Xunit.TraitAttribute("Description", "Assistant ne peut pas creer de rendez-vous (403)")]
-        public async global::System.Threading.Tasks.Task AssistantNePeutPasCreerDeRendez_Vous403()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot create an appointment (403)", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
+        [global::Xunit.TraitAttribute("Description", "Assistant cannot create an appointment (403)")]
+        public async global::System.Threading.Tasks.Task AssistantCannotCreateAnAppointment403()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Assistant ne peut pas creer de rendez-vous (403)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Assistant cannot create an appointment (403)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 11
@@ -172,27 +173,27 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 12
-    await testRunner.GivenAsync("je suis authentifie en tant que Assistant", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Assistant", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 13
-    await testRunner.WhenAsync("je tente de creer un rendez-vous", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to create an appointment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 14
-    await testRunner.ThenAsync("le systeme retourne 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system returns 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist ne peut pas ajouter de dossier medical (403)")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Matrice RBAC — controle d acces par role")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist ne peut pas ajouter de dossier medical (403)")]
-        public async global::System.Threading.Tasks.Task ReceptionistNePeutPasAjouterDeDossierMedical403()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot add a medical record (403)", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
+        [global::Xunit.TraitAttribute("Description", "Receptionist cannot add a medical record (403)")]
+        public async global::System.Threading.Tasks.Task ReceptionistCannotAddAMedicalRecord403()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist ne peut pas ajouter de dossier medical (403)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist cannot add a medical record (403)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 16
@@ -209,27 +210,27 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 17
-    await testRunner.GivenAsync("je suis authentifie en tant que Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 18
-    await testRunner.WhenAsync("je tente d\'ajouter un dossier medical", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to add a medical record", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 19
-    await testRunner.ThenAsync("le systeme retourne 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system returns 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet peut creer un rendez-vous")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Matrice RBAC — controle d acces par role")]
-        [global::Xunit.TraitAttribute("Description", "Vet peut creer un rendez-vous")]
-        public async global::System.Threading.Tasks.Task VetPeutCreerUnRendez_Vous()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can create an appointment", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
+        [global::Xunit.TraitAttribute("Description", "Vet can create an appointment")]
+        public async global::System.Threading.Tasks.Task VetCanCreateAnAppointment()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet peut creer un rendez-vous", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet can create an appointment", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 21
@@ -246,27 +247,27 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 22
-    await testRunner.GivenAsync("je suis authentifie en tant que Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 23
-    await testRunner.WhenAsync("je tente de creer un rendez-vous", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to create an appointment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 24
-    await testRunner.ThenAsync("le systeme accepte la requete", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system accepts the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin peut creer une facture")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Matrice RBAC — controle d acces par role")]
-        [global::Xunit.TraitAttribute("Description", "Admin peut creer une facture")]
-        public async global::System.Threading.Tasks.Task AdminPeutCreerUneFacture()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin can create an invoice", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
+        [global::Xunit.TraitAttribute("Description", "Admin can create an invoice")]
+        public async global::System.Threading.Tasks.Task AdminCanCreateAnInvoice()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin peut creer une facture", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin can create an invoice", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 26
@@ -283,27 +284,27 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 27
-    await testRunner.GivenAsync("je suis authentifie en tant que Admin", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Admin", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 28
-    await testRunner.WhenAsync("je tente de creer une facture", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to create an invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 29
-    await testRunner.ThenAsync("le systeme accepte la requete", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system accepts the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant ne peut pas creer de facture (403)")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Matrice RBAC — controle d acces par role")]
-        [global::Xunit.TraitAttribute("Description", "Assistant ne peut pas creer de facture (403)")]
-        public async global::System.Threading.Tasks.Task AssistantNePeutPasCreerDeFacture403()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot create an invoice (403)", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
+        [global::Xunit.TraitAttribute("Description", "Assistant cannot create an invoice (403)")]
+        public async global::System.Threading.Tasks.Task AssistantCannotCreateAnInvoice403()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Assistant ne peut pas creer de facture (403)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Assistant cannot create an invoice (403)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 31
@@ -320,27 +321,27 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 32
-    await testRunner.GivenAsync("je suis authentifie en tant que Assistant", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Assistant", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 33
-    await testRunner.WhenAsync("je tente de creer une facture", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to create an invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 34
-    await testRunner.ThenAsync("le systeme retourne 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system returns 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Seul le Vet peut ajouter une prescription (VetOnly)")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Matrice RBAC — controle d acces par role")]
-        [global::Xunit.TraitAttribute("Description", "Seul le Vet peut ajouter une prescription (VetOnly)")]
-        public async global::System.Threading.Tasks.Task SeulLeVetPeutAjouterUnePrescriptionVetOnly()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Only Vet can add a prescription (VetOnly)", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
+        [global::Xunit.TraitAttribute("Description", "Only Vet can add a prescription (VetOnly)")]
+        public async global::System.Threading.Tasks.Task OnlyVetCanAddAPrescriptionVetOnly()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Seul le Vet peut ajouter une prescription (VetOnly)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Only Vet can add a prescription (VetOnly)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 36
@@ -357,27 +358,27 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 37
-    await testRunner.GivenAsync("je suis authentifie en tant que Admin", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Admin", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 38
-    await testRunner.WhenAsync("je tente d\'ajouter une prescription a un dossier medical", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to add a prescription to a medical record", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 39
-    await testRunner.ThenAsync("le systeme retourne 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system returns 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet peut ajouter une prescription")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Matrice RBAC — controle d acces par role")]
-        [global::Xunit.TraitAttribute("Description", "Vet peut ajouter une prescription")]
-        public async global::System.Threading.Tasks.Task VetPeutAjouterUnePrescription()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can add a prescription", Skip="Ignored")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
+        [global::Xunit.TraitAttribute("Description", "Vet can add a prescription")]
+        public async global::System.Threading.Tasks.Task VetCanAddAPrescription()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet peut ajouter une prescription", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet can add a prescription", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 41
@@ -394,13 +395,13 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 42
-    await testRunner.GivenAsync("je suis authentifie en tant que Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 43
-    await testRunner.WhenAsync("je tente d\'ajouter une prescription a un dossier medical", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to add a prescription to a medical record", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 44
-    await testRunner.ThenAsync("le systeme accepte la requete", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system accepts the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -413,12 +414,10 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await MatriceRBACControleDAccesParRoleFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await MatriceRBACControleDAccesParRoleFeature.FeatureTearDownAsync();
             }
         }
     }

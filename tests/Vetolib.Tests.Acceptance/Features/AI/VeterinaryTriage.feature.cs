@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.AI
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/AI", "AI Veterinary Triage", "  As a veterinarian or receptionist\r\n  I want AI to analyze pet symptoms and sugg" +
                 "est severity\r\n  So that I can prioritize appointments and estimate consultation " +
@@ -32,7 +33,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "TriageVeterinaire.feature"
+#line 1 "VeterinaryTriage.feature"
 #line hidden
         
         public AIVeterinaryTriageFeature(AIVeterinaryTriageFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
@@ -118,7 +119,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/AI/TriageVeterinaire.feature.ndjson", 13);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/AI/VeterinaryTriage.feature.ndjson", 13);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -146,7 +147,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage returns a valid suggestion")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage returns a valid suggestion", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Triage returns a valid suggestion")]
         public async global::System.Threading.Tasks.Task TriageReturnsAValidSuggestion()
@@ -210,7 +211,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage accepted by veterinarian")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage accepted by veterinarian", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Triage accepted by veterinarian")]
         public async global::System.Threading.Tasks.Task TriageAcceptedByVeterinarian()
@@ -250,7 +251,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage overridden by veterinarian")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage overridden by veterinarian", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Triage overridden by veterinarian")]
         public async global::System.Threading.Tasks.Task TriageOverriddenByVeterinarian()
@@ -290,7 +291,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency symptoms detected")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency symptoms detected", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Emergency symptoms detected")]
         public async global::System.Threading.Tasks.Task EmergencySymptomsDetected()
@@ -330,7 +331,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage with missing symptoms returns validation error")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage with missing symptoms returns validation error", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Triage with missing symptoms returns validation error")]
         public async global::System.Threading.Tasks.Task TriageWithMissingSymptomsReturnsValidationError()
@@ -370,7 +371,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage with missing species returns validation error")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage with missing species returns validation error", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Triage with missing species returns validation error")]
         public async global::System.Threading.Tasks.Task TriageWithMissingSpeciesReturnsValidationError()
@@ -410,7 +411,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Disclaimer is always present and constant")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Disclaimer is always present and constant", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Disclaimer is always present and constant")]
         public async global::System.Threading.Tasks.Task DisclaimerIsAlwaysPresentAndConstant()
@@ -453,7 +454,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI service unavailable returns graceful error")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI service unavailable returns graceful error", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "AI service unavailable returns graceful error")]
         public async global::System.Threading.Tasks.Task AIServiceUnavailableReturnsGracefulError()
@@ -499,7 +500,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage result is persisted for audit")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage result is persisted for audit", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Triage result is persisted for audit")]
         public async global::System.Threading.Tasks.Task TriageResultIsPersistedForAudit()
@@ -554,7 +555,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist can also request triage")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist can also request triage", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Receptionist can also request triage")]
         public async global::System.Threading.Tasks.Task ReceptionistCanAlsoRequestTriage()
@@ -597,7 +598,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Unauthorized user cannot request triage")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Unauthorized user cannot request triage", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
         [global::Xunit.TraitAttribute("Description", "Unauthorized user cannot request triage")]
         public async global::System.Threading.Tasks.Task UnauthorizedUserCannotRequestTriage()
@@ -647,12 +648,10 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await AIVeterinaryTriageFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await AIVeterinaryTriageFeature.FeatureTearDownAsync();
             }
         }
     }

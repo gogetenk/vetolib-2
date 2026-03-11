@@ -44,6 +44,22 @@ internal class ChangePasswordSteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
+    [Given(@"a clinic ""(.*)""")]
+    public void GivenAClinic(string clinicName)
+    {
+        var clinicIds = GetOrCreateClinicIds();
+        var clinicId = GenerateGuidFromString(clinicName);
+        clinicIds[clinicName] = clinicId;
+
+        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
+        if (clinicIds.Count == 1)
+        {
+            testClinicContext.ClinicId = clinicId;
+        }
+
+        _ctx.Set(clinicIds, "ClinicIds");
+    }
+
     [Given(@"I am authenticated as VET with password ""(.*)""")]
     public async Task GivenIAmAuthenticatedAsVetWithPassword(string password)
     {
@@ -132,8 +148,23 @@ internal class ChangePasswordSteps
         }
 
         // Fallback: generate from "Happy Paws"
+        return GenerateGuidFromString("Happy Paws");
+    }
+
+    private Dictionary<string, Guid> GetOrCreateClinicIds()
+    {
+        if (_ctx.ContainsKey("ClinicIds"))
+            return _ctx.Get<Dictionary<string, Guid>>("ClinicIds");
+
+        var dict = new Dictionary<string, Guid>();
+        _ctx.Set(dict, "ClinicIds");
+        return dict;
+    }
+
+    private static Guid GenerateGuidFromString(string input)
+    {
         using var md5 = System.Security.Cryptography.MD5.Create();
-        var hash = md5.ComputeHash(Encoding.UTF8.GetBytes("Happy Paws"));
+        var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
         return new Guid(hash);
     }
 }

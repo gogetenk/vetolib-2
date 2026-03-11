@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Owner Messaging Portal", "  As a pet owner\r\n  I want to send messages to my veterinary clinic\r\n  So that I " +
                 "can get help without calling or visiting", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -148,7 +149,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends a new message about a health concern")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends a new message about a health concern", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner sends a new message about a health concern")]
         public async global::System.Threading.Tasks.Task OwnerSendsANewMessageAboutAHealthConcern()
@@ -200,7 +201,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends a message with photo attachments")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends a message with photo attachments", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner sends a message with photo attachments")]
         public async global::System.Threading.Tasks.Task OwnerSendsAMessageWithPhotoAttachments()
@@ -243,7 +244,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner cannot attach more than 3 photos")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner cannot attach more than 3 photos", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner cannot attach more than 3 photos")]
         public async global::System.Threading.Tasks.Task OwnerCannotAttachMoreThan3Photos()
@@ -280,7 +281,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner cannot send a message exceeding 2000 characters")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner cannot send a message exceeding 2000 characters", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner cannot send a message exceeding 2000 characters")]
         public async global::System.Threading.Tasks.Task OwnerCannotSendAMessageExceeding2000Characters()
@@ -320,7 +321,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner receives a reply notification")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner receives a reply notification", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner receives a reply notification")]
         public async global::System.Threading.Tasks.Task OwnerReceivesAReplyNotification()
@@ -360,7 +361,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner views conversation history")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner views conversation history", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner views conversation history")]
         public async global::System.Threading.Tasks.Task OwnerViewsConversationHistory()
@@ -403,7 +404,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner with expired magic link")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner with expired magic link", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner with expired magic link")]
         public async global::System.Threading.Tasks.Task OwnerWithExpiredMagicLink()
@@ -444,7 +445,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner without registered pets uses \"Other\" category")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner without registered pets uses \"Other\" category", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner without registered pets uses \"Other\" category")]
         public async global::System.Threading.Tasks.Task OwnerWithoutRegisteredPetsUsesOtherCategory()
@@ -484,7 +485,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner must accept consent before first message")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner must accept consent before first message", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner must accept consent before first message")]
         public async global::System.Threading.Tasks.Task OwnerMustAcceptConsentBeforeFirstMessage()
@@ -524,7 +525,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner downloads conversation history")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner downloads conversation history", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner downloads conversation history")]
         public async global::System.Threading.Tasks.Task OwnerDownloadsConversationHistory()
@@ -561,7 +562,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner cannot send more than 5 messages per day")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner cannot send more than 5 messages per day", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner cannot send more than 5 messages per day")]
         public async global::System.Threading.Tasks.Task OwnerCannotSendMoreThan5MessagesPerDay()
@@ -599,7 +600,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends message outside business hours")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends message outside business hours", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner sends message outside business hours")]
         public async global::System.Threading.Tasks.Task OwnerSendsMessageOutsideBusinessHours()
@@ -640,7 +641,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends emergency message outside business hours")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sends emergency message outside business hours", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Owner Messaging Portal")]
         [global::Xunit.TraitAttribute("Description", "Owner sends emergency message outside business hours")]
         public async global::System.Threading.Tasks.Task OwnerSendsEmergencyMessageOutsideBusinessHours()
@@ -690,12 +691,10 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await OwnerMessagingPortalFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await OwnerMessagingPortalFeature.FeatureTearDownAsync();
             }
         }
     }

@@ -1,163 +1,163 @@
 # features/auth/login.feature
 
-Feature: Authentification et gestion des tokens JWT
-  En tant qu'utilisateur de Vetolib
-  Je veux m'authentifier avec mon email et mot de passe
-  Afin d'accéder aux fonctionnalites de ma clinique de maniere securisee
+Feature: Authentication and JWT token management
+  As a Vetolib user
+  I want to authenticate with my email and password
+  In order to access my clinic's features securely
 
   Background:
-    Given une clinique "Happy Paws" avec l'identifiant "clinic-happy-paws"
-    And un utilisateur existant avec les informations suivantes:
+    Given a clinic "Happy Paws" with identifier "clinic-happy-paws"
+    And an existing user with the following information:
       | Email              | Password     | Role         | ClinicId          | VetLicenseNumber |
       | vet@happypaws.ae   | SecurePass1  | Vet          | clinic-happy-paws | UAE-VET-12345    |
-    And un utilisateur admin existant:
+    And an existing admin user:
       | Email                | Password     | Role  | ClinicId          |
       | admin@happypaws.ae   | AdminPass1   | Admin | clinic-happy-paws |
 
   # ─── Login — Happy Path ──────────────────────────────────
 
-  Scenario: Connexion reussie retourne un JWT et un refresh token
-    When je me connecte avec l'email "vet@happypaws.ae" et le mot de passe "SecurePass1"
-    Then je recois un access token JWT valide
-    And je recois un refresh token
-    And la reponse contient les informations utilisateur:
+  Scenario: Successful login returns a JWT and a refresh token
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    Then I receive a valid JWT access token
+    And I receive a refresh token
+    And the response contains the user information:
       | Email            | Role | ClinicId          | VetLicenseNumber |
       | vet@happypaws.ae | Vet  | clinic-happy-paws | UAE-VET-12345    |
-    And le JWT contient le claim "clinic_id" avec la valeur "clinic-happy-paws"
+    And the JWT contains the claim "clinic_id" with value "clinic-happy-paws"
 
-  Scenario: Le access token expire apres 15 minutes
-    When je me connecte avec l'email "vet@happypaws.ae" et le mot de passe "SecurePass1"
-    Then le access token a une duree de validite de 15 minutes
+  Scenario: The access token expires after 15 minutes
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    Then the access token has a validity duration of 15 minutes
 
   # ─── Refresh Token — Happy Path ──────────────────────────
 
-  Scenario: Rafraichir le token retourne une nouvelle paire et invalide l'ancien refresh token
-    Given je suis connecte en tant que "vet@happypaws.ae"
-    And je possede un refresh token valide
-    When j'appelle POST /api/v1/auth/refresh avec mon refresh token
-    Then je recois un nouveau access token JWT valide
-    And je recois un nouveau refresh token different de l'ancien
-    And l'ancien refresh token est invalide
+  Scenario: Refreshing the token returns a new pair and invalidates the old refresh token
+    Given I am logged in as "vet@happypaws.ae"
+    And I have a valid refresh token
+    When I call POST /api/v1/auth/refresh with my refresh token
+    Then I receive a new valid JWT access token
+    And I receive a new refresh token different from the old one
+    And the old refresh token is invalid
 
-  Scenario: Le nouveau refresh token expire apres 7 jours
-    Given je suis connecte en tant que "vet@happypaws.ae"
-    And je possede un refresh token valide
-    When j'appelle POST /api/v1/auth/refresh avec mon refresh token
-    Then le nouveau refresh token a une duree de validite de 7 jours
+  Scenario: The new refresh token expires after 7 days
+    Given I am logged in as "vet@happypaws.ae"
+    And I have a valid refresh token
+    When I call POST /api/v1/auth/refresh with my refresh token
+    Then the new refresh token has a validity duration of 7 days
 
   # ─── Logout — Happy Path ─────────────────────────────────
 
-  Scenario: Deconnexion invalide le refresh token
-    Given je suis connecte en tant que "vet@happypaws.ae"
-    And je possede un refresh token valide
-    When j'appelle POST /api/v1/auth/logout
-    Then la deconnexion est confirmee
-    And le refresh token est invalide
-    And une tentative de refresh avec cet ancien token echoue
+  Scenario: Logout invalidates the refresh token
+    Given I am logged in as "vet@happypaws.ae"
+    And I have a valid refresh token
+    When I call POST /api/v1/auth/logout
+    Then the logout is confirmed
+    And the refresh token is invalid
+    And an attempt to refresh with the old token fails
 
   # ─── GET /me — Happy Path ────────────────────────────────
 
-  Scenario: Recuperer le profil de l'utilisateur connecte
-    Given je suis connecte en tant que "vet@happypaws.ae"
-    When j'appelle GET /api/v1/auth/me
-    Then je recois les informations de mon profil:
+  Scenario: Retrieve the connected user profile
+    Given I am logged in as "vet@happypaws.ae"
+    When I call GET /api/v1/auth/me
+    Then I receive my profile information:
       | Email            | Role | ClinicId          | VetLicenseNumber |
       | vet@happypaws.ae | Vet  | clinic-happy-paws | UAE-VET-12345    |
 
-  # ─── Login — Erreurs ─────────────────────────────────────
+  # ─── Login — Errors ─────────────────────────────────────
 
-  Scenario: Mot de passe incorrect retourne une erreur
-    When je me connecte avec l'email "vet@happypaws.ae" et le mot de passe "MauvaisPass1"
-    Then le systeme refuse avec le code "INVALID_CREDENTIALS"
-    And le message est "Email ou mot de passe incorrect"
+  Scenario: Incorrect password returns an error
+    When I log in with email "vet@happypaws.ae" and password "MauvaisPass1"
+    Then the system rejects with code "INVALID_CREDENTIALS"
+    And the error message is "Email ou mot de passe incorrect"
 
-  Scenario: Email inexistant retourne une erreur
-    When je me connecte avec l'email "inconnu@happypaws.ae" et le mot de passe "SecurePass1"
-    Then le systeme refuse avec le code "INVALID_CREDENTIALS"
-    And le message est "Email ou mot de passe incorrect"
+  Scenario: Non-existent email returns an error
+    When I log in with email "inconnu@happypaws.ae" and password "SecurePass1"
+    Then the system rejects with code "INVALID_CREDENTIALS"
+    And the error message is "Email ou mot de passe incorrect"
 
-  # ─── Verrouillage de compte ──────────────────────────────
+  # ─── Account lockout ────────────────────────────────────
 
-  Scenario: 5 tentatives echouees verrouillent le compte pour 15 minutes
-    When je me connecte 5 fois avec l'email "vet@happypaws.ae" et un mot de passe incorrect
-    Then le systeme refuse avec le code "ACCOUNT_LOCKED"
-    And le message indique que le compte est verrouille pour 15 minutes
+  Scenario: 5 failed attempts lock the account for 15 minutes
+    When I log in 5 times with email "vet@happypaws.ae" and an incorrect password
+    Then the system rejects with code "ACCOUNT_LOCKED"
+    And the message indicates the account is locked for 15 minutes
 
-  Scenario: Connexion refusee pendant la periode de verrouillage meme avec le bon mot de passe
-    Given le compte "vet@happypaws.ae" est verrouille suite a 5 tentatives echouees
-    When je me connecte avec l'email "vet@happypaws.ae" et le mot de passe "SecurePass1"
-    Then le systeme refuse avec le code "ACCOUNT_LOCKED"
-    And le message indique que le compte est verrouille
+  Scenario: Login refused during lockout period even with the correct password
+    Given the account "vet@happypaws.ae" is locked after 5 failed attempts
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    Then the system rejects with code "ACCOUNT_LOCKED"
+    And the message indicates the account is locked
 
-  Scenario: Connexion reussie apres expiration de la periode de verrouillage
-    Given le compte "vet@happypaws.ae" a ete verrouille il y a 16 minutes
-    When je me connecte avec l'email "vet@happypaws.ae" et le mot de passe "SecurePass1"
-    Then je recois un access token JWT valide
-    And le compteur de tentatives echouees est reinitialise
+  Scenario: Successful login after lockout period expires
+    Given the account "vet@happypaws.ae" was locked 16 minutes ago
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    Then I receive a valid JWT access token
+    And the failed attempts counter is reset
 
-  # ─── Refresh Token — Erreurs ─────────────────────────────
+  # ─── Refresh Token — Errors ─────────────────────────────
 
-  Scenario: Refresh avec un token revoque echoue
-    Given je suis connecte en tant que "vet@happypaws.ae"
-    And mon refresh token a ete revoque par un precedent refresh
-    When j'appelle POST /api/v1/auth/refresh avec le refresh token revoque
-    Then le systeme refuse avec le code "INVALID_REFRESH_TOKEN"
+  Scenario: Refresh with a revoked token fails
+    Given I am logged in as "vet@happypaws.ae"
+    And my refresh token has been revoked by a previous refresh
+    When I call POST /api/v1/auth/refresh with the revoked refresh token
+    Then the system rejects with code "INVALID_REFRESH_TOKEN"
 
-  Scenario: Refresh avec un token expire echoue
-    Given je suis connecte en tant que "vet@happypaws.ae"
-    And mon refresh token a expire depuis plus de 7 jours
-    When j'appelle POST /api/v1/auth/refresh avec le refresh token expire
-    Then le systeme refuse avec le code "INVALID_REFRESH_TOKEN"
+  Scenario: Refresh with an expired token fails
+    Given I am logged in as "vet@happypaws.ae"
+    And my refresh token has expired for more than 7 days
+    When I call POST /api/v1/auth/refresh with the expired refresh token
+    Then the system rejects with code "INVALID_REFRESH_TOKEN"
 
-  # ─── GET /me — Erreurs ───────────────────────────────────
+  # ─── GET /me — Errors ───────────────────────────────────
 
-  Scenario: Acces a /me sans token retourne 401
-    When j'appelle GET /api/v1/auth/me sans token d'authentification
-    Then le systeme retourne le code HTTP 401
+  Scenario: Access to /me without token returns 401
+    When I call GET /api/v1/auth/me without authentication token
+    Then the system returns HTTP code 401
 
   # ─── Multi-tenancy ───────────────────────────────────────
 
-  Scenario: Un utilisateur de la clinique A ne peut pas voir les donnees de la clinique B
-    Given une clinique "Desert Vet" avec l'identifiant "clinic-desert-vet"
-    And un utilisateur existant avec les informations suivantes:
+  Scenario: A user from clinic A cannot see clinic B data
+    Given a clinic "Desert Vet" with identifier "clinic-desert-vet"
+    And an existing user with the following information:
       | Email                | Password     | Role | ClinicId           |
       | recep@desertvet.ae   | SecurePass1  | Receptionist | clinic-desert-vet |
-    When je me connecte avec l'email "recep@desertvet.ae" et le mot de passe "SecurePass1"
-    Then le JWT contient le claim "clinic_id" avec la valeur "clinic-desert-vet"
-    And les requetes de cet utilisateur ne retournent que les donnees de "clinic-desert-vet"
+    When I log in with email "recep@desertvet.ae" and password "SecurePass1"
+    Then the JWT contains the claim "clinic_id" with value "clinic-desert-vet"
+    And the requests from this user only return data from "clinic-desert-vet"
 
-  # ─── Creation utilisateur (support minimal) ──────────────
+  # ─── User creation (minimal support) ────────────────────
 
-  Scenario: Un admin peut creer un utilisateur
-    Given je suis connecte en tant que "admin@happypaws.ae"
-    When je cree un utilisateur avec les informations suivantes:
+  Scenario: An admin can create a user
+    Given I am logged in as "admin@happypaws.ae"
+    When I create a user with the following information:
       | Email                  | Password     | Role         | VetLicenseNumber |
       | newvet@happypaws.ae    | NewVetPass1  | Vet          | UAE-VET-99999    |
-    Then l'utilisateur est cree avec succes
-    And l'utilisateur cree appartient a la clinique "clinic-happy-paws"
+    Then the user is created successfully
+    And the created user belongs to clinic "clinic-happy-paws"
 
-  Scenario: Un non-admin ne peut pas creer un utilisateur
-    Given je suis connecte en tant que "vet@happypaws.ae"
-    When je tente de creer un utilisateur avec les informations suivantes:
+  Scenario: A non-admin cannot create a user
+    Given I am logged in as "vet@happypaws.ae"
+    When I attempt to create a user with the following information:
       | Email                  | Password     | Role         |
       | autre@happypaws.ae     | OtherPass1   | Receptionist |
-    Then le systeme refuse avec le code "FORBIDDEN"
+    Then the system rejects with code "FORBIDDEN"
 
-  Scenario: Le role Vet exige un numero de licence veterinaire
-    Given je suis connecte en tant que "admin@happypaws.ae"
-    When je tente de creer un utilisateur avec les informations suivantes:
+  Scenario: The Vet role requires a veterinary license number
+    Given I am logged in as "admin@happypaws.ae"
+    When I attempt to create a user with the following information:
       | Email                  | Password     | Role | VetLicenseNumber |
       | novet@happypaws.ae     | NoVetPass1   | Vet  |                  |
-    Then le systeme refuse avec le code "VET_LICENSE_REQUIRED"
-    And le message est "Un numero de licence veterinaire est requis pour le role Vet"
+    Then the system rejects with code "VET_LICENSE_REQUIRED"
+    And the error message is "Un numero de licence veterinaire est requis pour le role Vet"
 
-  # ─── Validation mot de passe (creation utilisateur) ──────
+  # ─── Password validation (user creation) ────────────────
 
-  Scenario Outline: Mot de passe invalide lors de la creation d'un utilisateur
-    Given je suis connecte en tant que "admin@happypaws.ae"
-    When je tente de creer un utilisateur avec l'email "test@happypaws.ae" et le mot de passe "<password>"
-    Then le systeme refuse avec le code "VALIDATION_ERROR"
-    And le message contient "<raison>"
+  Scenario Outline: Invalid password during user creation
+    Given I am logged in as "admin@happypaws.ae"
+    When I attempt to create a user with email "test@happypaws.ae" and password "<password>"
+    Then the system rejects with code "VALIDATION_ERROR"
+    And the message contains "<raison>"
 
     Examples:
       | password | raison                                      |

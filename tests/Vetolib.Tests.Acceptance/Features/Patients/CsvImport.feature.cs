@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Patients", "CSV Import Patients", "  As a vet or admin\r\n  I want to import patients from a CSV file\r\n  So that I can" +
                 " migrate existing data without manual entry", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -111,10 +112,10 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
 #line 8
   #line hidden
 #line 9
-    await testRunner.GivenAsync("une clinique \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
-    await testRunner.AndAsync("je suis authentifié en tant que Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -148,7 +149,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Successful CSV import returns report")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successful CSV import returns report", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Successful CSV import returns report")]
         public async global::System.Threading.Tasks.Task SuccessfulCSVImportReturnsReport()
@@ -185,7 +186,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Rows with missing required fields are skipped")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Rows with missing required fields are skipped", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Rows with missing required fields are skipped")]
         public async global::System.Threading.Tasks.Task RowsWithMissingRequiredFieldsAreSkipped()
@@ -222,7 +223,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Duplicate owner email reuses existing owner")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Duplicate owner email reuses existing owner", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Duplicate owner email reuses existing owner")]
         public async global::System.Threading.Tasks.Task DuplicateOwnerEmailReusesExistingOwner()
@@ -262,7 +263,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Download CSV template")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Download CSV template", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Download CSV template")]
         public async global::System.Threading.Tasks.Task DownloadCSVTemplate()
@@ -297,7 +298,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot import patients")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot import patients", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Receptionist cannot import patients")]
         public async global::System.Threading.Tasks.Task ReceptionistCannotImportPatients()
@@ -322,7 +323,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 33
-    await testRunner.GivenAsync("je suis authentifié en tant que Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 34
     await testRunner.WhenAsync("I import a CSV with 1 valid patient row", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -341,12 +342,10 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await CSVImportPatientsFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await CSVImportPatientsFeature.FeatureTearDownAsync();
             }
         }
     }

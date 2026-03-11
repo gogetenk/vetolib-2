@@ -1,20 +1,20 @@
-@wip
+@wip @ignore
 Feature: Audit trail
   As a clinic administrator
   I want to query the audit log
   So that I can review changes made across all modules
 
   Background:
-    Given une clinique "Happy Paws"
+    Given a clinic "Happy Paws"
 
   Scenario: Admin can query audit log
-    Given je suis authentifié en tant que ADMIN
+    Given I am authenticated as ADMIN
     And a patient was created
     When I query audit for entityType "Patient"
     Then I see an audit entry with action "Created"
     And the entry contains a changedBy value
 
   Scenario: Non-admin cannot access audit
-    Given je suis authentifié en tant que VET
+    Given I am authenticated as VET
     When I query audit
     Then I receive 403 Forbidden

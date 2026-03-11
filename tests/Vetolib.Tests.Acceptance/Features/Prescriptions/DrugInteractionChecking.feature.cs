@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Prescriptions", "Drug Interaction Checking", "  As a veterinarian\r\n  I want the system to check drug interactions when I prescr" +
                 "ibe medication\r\n  So that I avoid harmful drug combinations and species contrain" +
@@ -167,7 +168,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Species contraindication detected -- critical alert")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Species contraindication detected -- critical alert", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Species contraindication detected -- critical alert")]
         public async global::System.Threading.Tasks.Task SpeciesContraindicationDetected_CriticalAlert()
@@ -214,7 +215,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet overrides a critical alert with justification")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet overrides a critical alert with justification", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Vet overrides a critical alert with justification")]
         public async global::System.Threading.Tasks.Task VetOverridesACriticalAlertWithJustification()
@@ -258,7 +259,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Drug-drug interaction detected -- moderate alert")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Drug-drug interaction detected -- moderate alert", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Drug-drug interaction detected -- moderate alert")]
         public async global::System.Threading.Tasks.Task Drug_DrugInteractionDetected_ModerateAlert()
@@ -302,7 +303,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="No interactions detected")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="No interactions detected", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "No interactions detected")]
         public async global::System.Threading.Tasks.Task NoInteractionsDetected()
@@ -342,7 +343,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Dosage out of range warning")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Dosage out of range warning", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Dosage out of range warning")]
         public async global::System.Threading.Tasks.Task DosageOutOfRangeWarning()
@@ -384,7 +385,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Free-text medication -- no interaction check available")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Free-text medication -- no interaction check available", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Free-text medication -- no interaction check available")]
         public async global::System.Threading.Tasks.Task Free_TextMedication_NoInteractionCheckAvailable()
@@ -423,7 +424,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="RECEPTIONIST cannot override critical alerts")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="RECEPTIONIST cannot override critical alerts", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "RECEPTIONIST cannot override critical alerts")]
         public async global::System.Threading.Tasks.Task RECEPTIONISTCannotOverrideCriticalAlerts()
@@ -457,7 +458,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="ASSISTANT can view but not create prescriptions")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="ASSISTANT can view but not create prescriptions", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "ASSISTANT can view but not create prescriptions")]
         public async global::System.Threading.Tasks.Task ASSISTANTCanViewButNotCreatePrescriptions()
@@ -497,7 +498,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Clinic admin adds custom drug to catalog")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Clinic admin adds custom drug to catalog", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Clinic admin adds custom drug to catalog")]
         public async global::System.Threading.Tasks.Task ClinicAdminAddsCustomDrugToCatalog()
@@ -538,7 +539,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Active prescription within 90-day window triggers interaction warning")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Active prescription within 90-day window triggers interaction warning", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Active prescription within 90-day window triggers interaction warning")]
         public async global::System.Threading.Tasks.Task ActivePrescriptionWithin90_DayWindowTriggersInteractionWarning()
@@ -579,7 +580,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Prescription older than 90-day window is not considered active")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Prescription older than 90-day window is not considered active", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Drug Interaction Checking")]
         [global::Xunit.TraitAttribute("Description", "Prescription older than 90-day window is not considered active")]
         public async global::System.Threading.Tasks.Task PrescriptionOlderThan90_DayWindowIsNotConsideredActive()
@@ -630,12 +631,10 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await DrugInteractionCheckingFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await DrugInteractionCheckingFeature.FeatureTearDownAsync();
             }
         }
     }

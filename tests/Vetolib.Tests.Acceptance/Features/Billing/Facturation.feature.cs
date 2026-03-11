@@ -17,21 +17,21 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class FacturationVeterinaireFeature : object, global::Xunit.IClassFixture<FacturationVeterinaireFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class VeterinaryInvoicingFeature : object, global::Xunit.IClassFixture<VeterinaryInvoicingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Billing", "Facturation vétérinaire", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Billing", "Veterinary invoicing", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "Facturation.feature"
 #line hidden
         
-        public FacturationVeterinaireFeature(FacturationVeterinaireFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public VeterinaryInvoicingFeature(VeterinaryInvoicingFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -108,13 +108,13 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
 #line 2
   #line hidden
 #line 3
-    await testRunner.GivenAsync("une clinique \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 4
-    await testRunner.AndAsync("un animal \"Max\" dans la clinique", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("an animal \"Max\" in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 5
-    await testRunner.AndAsync("je suis authentifié en tant que VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -148,15 +148,15 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Créer une facture en brouillon")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Créer une facture en brouillon")]
-        public async global::System.Threading.Tasks.Task CreerUneFactureEnBrouillon()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create a draft invoice")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Create a draft invoice")]
+        public async global::System.Threading.Tasks.Task CreateADraftInvoice()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer une facture en brouillon", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a draft invoice", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 7
@@ -173,33 +173,33 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 8
-    await testRunner.WhenAsync("je crée une facture pour \"Max\" avec l\'item \"Consultation\" à 200 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I create an invoice for \"Max\" with item \"Consultation\" at 200 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
-    await testRunner.ThenAsync("la facture est créée avec le statut \"DRAFT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the invoice is created with status \"DRAFT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 10
-    await testRunner.AndAsync("le numéro est au format \"INV-2026-001\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the number matches format \"INV-2026-001\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 11
-    await testRunner.AndAsync("la TVA de 5% est calculée automatiquement (10 AED)", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the 5% VAT is calculated automatically (10 AED)", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 12
-    await testRunner.AndAsync("le total est 210 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the total is 210 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Ajouter plusieurs items à une facture")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Ajouter plusieurs items à une facture")]
-        public async global::System.Threading.Tasks.Task AjouterPlusieursItemsAUneFacture()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Add multiple items to an invoice")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Add multiple items to an invoice")]
+        public async global::System.Threading.Tasks.Task AddMultipleItemsToAnInvoice()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Ajouter plusieurs items à une facture", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add multiple items to an invoice", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 14
@@ -216,39 +216,39 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 15
-    await testRunner.GivenAsync("une facture \"DRAFT\" pour \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a \"DRAFT\" invoice for \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
-    await testRunner.WhenAsync("j\'ajoute l\'item \"Vaccin\" à 150 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I add item \"Vaccin\" at 150 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 17
-    await testRunner.AndAsync("j\'ajoute l\'item \"Médicaments\" à 80 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I add item \"Medication\" at 80 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 18
-    await testRunner.ThenAsync("la facture contient 3 items", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the invoice contains 3 items", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 19
-    await testRunner.AndAsync("le sous-total est 430 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the subtotal is 430 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 20
-    await testRunner.AndAsync("la TVA totale est 21.5 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the total VAT is 21.5 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 21
-    await testRunner.AndAsync("le total est 451.5 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the total is 451.5 AED", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Envoyer une facture")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Envoyer une facture")]
-        public async global::System.Threading.Tasks.Task EnvoyerUneFacture()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Send an invoice")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Send an invoice")]
+        public async global::System.Threading.Tasks.Task SendAnInvoice()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Envoyer une facture", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Send an invoice", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 23
@@ -265,30 +265,30 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 24
-    await testRunner.GivenAsync("une facture \"DRAFT\" pour \"Max\" avec au moins un item", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a \"DRAFT\" invoice for \"Max\" with at least one item", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 25
-    await testRunner.WhenAsync("je passe la facture à \"SENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I change the invoice status to \"SENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 26
-    await testRunner.ThenAsync("le statut est \"SENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the status is \"SENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 27
-    await testRunner.AndAsync("la date d\'échéance est fixée à 30 jours", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the due date is set to 30 days", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Marquer une facture comme payée")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Marquer une facture comme payée")]
-        public async global::System.Threading.Tasks.Task MarquerUneFactureCommePayee()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Mark an invoice as paid")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Mark an invoice as paid")]
+        public async global::System.Threading.Tasks.Task MarkAnInvoiceAsPaid()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Marquer une facture comme payée", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Mark an invoice as paid", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 29
@@ -305,27 +305,27 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 30
-    await testRunner.GivenAsync("une facture \"SENT\" pour \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a \"SENT\" invoice for \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 31
-    await testRunner.WhenAsync("je marque la facture comme \"PAID\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I mark the invoice as \"PAID\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 32
-    await testRunner.ThenAsync("le statut est \"PAID\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the status is \"PAID\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Impossible de modifier une facture payée")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Impossible de modifier une facture payée")]
-        public async global::System.Threading.Tasks.Task ImpossibleDeModifierUneFacturePayee()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Cannot modify a paid invoice")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Cannot modify a paid invoice")]
+        public async global::System.Threading.Tasks.Task CannotModifyAPaidInvoice()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Impossible de modifier une facture payée", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Cannot modify a paid invoice", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 34
@@ -342,30 +342,30 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 35
-    await testRunner.GivenAsync("une facture \"PAID\" pour \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a \"PAID\" invoice for \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 36
-    await testRunner.WhenAsync("je tente d\'ajouter un item à la facture", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to add an item to the invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 37
-    await testRunner.ThenAsync("le système refuse avec le code \"INVOICE_IMMUTABLE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"INVOICE_IMMUTABLE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 38
-    await testRunner.AndAsync("le message est \"Une facture payée ne peut plus être modifiée\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the error message is \"Une facture payée ne peut plus être modifiée\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Numérotation séquentielle par clinique")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Numérotation séquentielle par clinique")]
-        public async global::System.Threading.Tasks.Task NumerotationSequentielleParClinique()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Sequential numbering per clinic")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Sequential numbering per clinic")]
+        public async global::System.Threading.Tasks.Task SequentialNumberingPerClinic()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Numérotation séquentielle par clinique", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Sequential numbering per clinic", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 40
@@ -382,27 +382,27 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 41
-    await testRunner.GivenAsync("3 factures existantes pour \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("3 existing invoices for \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 42
-    await testRunner.WhenAsync("je crée une nouvelle facture", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I create a new invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 43
-    await testRunner.ThenAsync("le numéro est \"INV-2026-004\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the number is \"INV-2026-004\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Télécharger le PDF d\'une facture envoyée")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Télécharger le PDF d\'une facture envoyée")]
-        public async global::System.Threading.Tasks.Task TelechargerLePDFDuneFactureEnvoyee()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Download PDF of a sent invoice")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Download PDF of a sent invoice")]
+        public async global::System.Threading.Tasks.Task DownloadPDFOfASentInvoice()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Télécharger le PDF d\'une facture envoyée", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Download PDF of a sent invoice", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 45
@@ -419,33 +419,33 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 46
-    await testRunner.GivenAsync("une facture \"SENT\" pour \"Max\" avec au moins un item", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a \"SENT\" invoice for \"Max\" with at least one item", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 47
-    await testRunner.WhenAsync("je télécharge le PDF de cette facture", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I download the PDF of this invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 48
-    await testRunner.ThenAsync("la réponse a le statut 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the response has status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 49
-    await testRunner.AndAsync("le Content-Type est \"application/pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the Content-Type is \"application/pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 50
-    await testRunner.AndAsync("le contenu n\'est pas vide", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the content is not empty", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Impossible de télécharger le PDF d\'une facture brouillon")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "Impossible de télécharger le PDF d\'une facture brouillon")]
-        public async global::System.Threading.Tasks.Task ImpossibleDeTelechargerLePDFDuneFactureBrouillon()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Cannot download PDF of a draft invoice")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Cannot download PDF of a draft invoice")]
+        public async global::System.Threading.Tasks.Task CannotDownloadPDFOfADraftInvoice()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "7";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Impossible de télécharger le PDF d\'une facture brouillon", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Cannot download PDF of a draft invoice", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 52
@@ -462,27 +462,27 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 53
-    await testRunner.GivenAsync("une facture \"DRAFT\" pour \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a \"DRAFT\" invoice for \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 54
-    await testRunner.WhenAsync("je télécharge le PDF de cette facture", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I download the PDF of this invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 55
-    await testRunner.ThenAsync("la réponse a le statut 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the response has status 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="PDF inexistant retourne 404")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Facturation vétérinaire")]
-        [global::Xunit.TraitAttribute("Description", "PDF inexistant retourne 404")]
-        public async global::System.Threading.Tasks.Task PDFInexistantRetourne404()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Non-existent PDF returns 404")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
+        [global::Xunit.TraitAttribute("Description", "Non-existent PDF returns 404")]
+        public async global::System.Threading.Tasks.Task Non_ExistentPDFReturns404()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "8";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("PDF inexistant retourne 404", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Non-existent PDF returns 404", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 57
@@ -499,10 +499,10 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 58
-    await testRunner.WhenAsync("je télécharge le PDF d\'une facture avec un ID aléatoire inexistant", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I download the PDF of an invoice with a random non-existent ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 59
-    await testRunner.ThenAsync("la réponse a le statut 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the response has status 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -515,12 +515,12 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await FacturationVeterinaireFeature.FeatureSetupAsync();
+                await VeterinaryInvoicingFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await FacturationVeterinaireFeature.FeatureTearDownAsync();
+                await VeterinaryInvoicingFeature.FeatureTearDownAsync();
             }
         }
     }

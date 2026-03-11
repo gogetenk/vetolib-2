@@ -4,8 +4,8 @@ Feature: Dashboard statistics
   So that I can manage the clinic efficiently
 
   Background:
-    Given une clinique "Happy Paws"
-    And je suis authentifié en tant que ADMIN
+    Given a clinic "Happy Paws"
+    And I am authenticated as ADMIN
 
   Scenario: Admin sees all dashboard stats
     When I request dashboard stats

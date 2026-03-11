@@ -109,10 +109,10 @@ namespace Vetolib.Tests.Acceptance.Features.Dashboard
 #line 6
   #line hidden
 #line 7
-    await testRunner.GivenAsync("une clinique \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
-    await testRunner.AndAsync("je suis authentifié en tant que ADMIN", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as ADMIN", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         

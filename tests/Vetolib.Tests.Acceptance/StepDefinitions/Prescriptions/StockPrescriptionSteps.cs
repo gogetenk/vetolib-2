@@ -163,8 +163,8 @@ internal class StockPrescriptionSteps
         throw new PendingStepException();
     }
 
-    [Then(@"Or skip stock decrement entirely")]
-    public void ThenOrSkipStockDecrement()
+    [Then(@"I should be able to skip stock decrement entirely")]
+    public void ThenIShouldBeAbleToSkipStockDecrementEntirely()
     {
         throw new PendingStepException();
     }

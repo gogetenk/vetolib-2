@@ -45,6 +45,15 @@ Tu vérifies l'architecture et les patterns — pas la couverture de tests (c'es
 □ Nommage cohérent avec les conventions du module
 ```
 
+### Tests — modèle en sablier
+```
+□ TU = edge cases, mutations, validators (PAS de wiring)
+□ TI = contract testing, 1 par endpoint, wiring technique (PAS de métier)
+□ TF = Gherkin anglais, use cases métier purs (ZÉRO technique : pas de HTTP codes/URLs)
+□ Les .feature sont EN ANGLAIS uniquement
+□ Pas de duplication entre couches (un edge case en TU ne se reteste pas en TF)
+```
+
 ## Format du verdict
 
 Écrire dans `pr-status.md` :

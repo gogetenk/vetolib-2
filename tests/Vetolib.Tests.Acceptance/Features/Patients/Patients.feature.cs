@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Patients", "Patient standalone CRUD", "  As a vet or admin\r\n  I want to create and manage patients independently of appo" +
                 "intments\r\n  So that I can maintain a complete patient database with UAE species", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -111,10 +112,10 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
 #line 8
   #line hidden
 #line 9
-    await testRunner.GivenAsync("une clinique \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
-    await testRunner.AndAsync("je suis authentifié en tant que Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -148,7 +149,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet creates a patient with owner inline")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet creates a patient with owner inline", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Patient standalone CRUD")]
         [global::Xunit.TraitAttribute("Description", "Vet creates a patient with owner inline")]
         public async global::System.Threading.Tasks.Task VetCreatesAPatientWithOwnerInline()
@@ -189,7 +190,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Camel is a valid species for UAE market")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Camel is a valid species for UAE market", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Patient standalone CRUD")]
         [global::Xunit.TraitAttribute("Description", "Camel is a valid species for UAE market")]
         public async global::System.Threading.Tasks.Task CamelIsAValidSpeciesForUAEMarket()
@@ -228,7 +229,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Patient list can be filtered by name")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Patient list can be filtered by name", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Patient standalone CRUD")]
         [global::Xunit.TraitAttribute("Description", "Patient list can be filtered by name")]
         public async global::System.Threading.Tasks.Task PatientListCanBeFilteredByName()
@@ -268,7 +269,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can update patient phone number")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can update patient phone number", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Patient standalone CRUD")]
         [global::Xunit.TraitAttribute("Description", "Vet can update patient phone number")]
         public async global::System.Threading.Tasks.Task VetCanUpdatePatientPhoneNumber()
@@ -305,7 +306,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot create patients")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot create patients", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Patient standalone CRUD")]
         [global::Xunit.TraitAttribute("Description", "Receptionist cannot create patients")]
         public async global::System.Threading.Tasks.Task ReceptionistCannotCreatePatients()
@@ -330,7 +331,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 35
-    await testRunner.GivenAsync("je suis authentifié en tant que Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 36
     await testRunner.WhenAsync("I create a patient with name \"Buddy\", species \"Dog\", breed \"Poodle\", birth date \"" +
@@ -343,7 +344,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Tenant isolation on patients")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Tenant isolation on patients", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Patient standalone CRUD")]
         [global::Xunit.TraitAttribute("Description", "Tenant isolation on patients")]
         public async global::System.Threading.Tasks.Task TenantIsolationOnPatients()
@@ -368,7 +369,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 40
-    await testRunner.GivenAsync("une clinique \"Al Barsha Vets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Al Barsha Vets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 41
     await testRunner.AndAsync("a patient named \"Buddy\" exists in clinic \"Al Barsha Vets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -383,7 +384,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Patient detail includes medical records")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Patient detail includes medical records", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Patient standalone CRUD")]
         [global::Xunit.TraitAttribute("Description", "Patient detail includes medical records")]
         public async global::System.Threading.Tasks.Task PatientDetailIncludesMedicalRecords()
@@ -430,12 +431,10 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await PatientStandaloneCRUDFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await PatientStandaloneCRUDFeature.FeatureTearDownAsync();
             }
         }
     }

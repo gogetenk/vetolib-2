@@ -36,7 +36,20 @@ grep -r "public.*Task<" Modules/ --include="*Handler.cs" | grep -v "Result"
 
 # data-testid manquant sur les boutons frontend
 grep -r "<button\|<Button" vetolib-frontend/src --include="*.tsx" | grep -v "data-testid"
+
+# .feature en français (interdit — tout en anglais)
+grep -rl "une clinique\|je suis\|le système\|Quand\|Alors\|Soit" tests/ --include="*.feature"
+
+# Technique dans les .feature (interdit — status codes/URLs vont en TI)
+grep -rn "response status is\|status code\|/api/" tests/ --include="*.feature" | grep -v "@wip"
 ```
+
+## Modèle de test en sablier (vérifier la répartition)
+
+- **TU** : edge cases, mutations, validators — PAS de wiring, PAS de use cases complets
+- **TI** : wiring technique, contract testing, 1 par endpoint — PAS de règles métier
+- **TF** : use cases métier purs en Gherkin anglais — ZÉRO technique (pas de HTTP codes, URLs, JSON)
+- Si un fichier backend n'est couvert par aucune des 3 couches → tâche manquante ou code mort
 
 ## Format d'une tâche de refacto
 

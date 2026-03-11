@@ -109,7 +109,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 6
   #line hidden
 #line 7
-    await testRunner.GivenAsync("une clinique \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
         

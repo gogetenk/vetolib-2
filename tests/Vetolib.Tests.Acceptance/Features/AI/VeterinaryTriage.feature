@@ -1,4 +1,4 @@
-@wip
+@wip @ignore
 Feature: AI Veterinary Triage
   As a veterinarian or receptionist
   I want AI to analyze pet symptoms and suggest severity

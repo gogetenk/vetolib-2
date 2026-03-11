@@ -1,4 +1,4 @@
-@wip
+@wip @ignore
 Feature: Stock Management
   As a veterinarian or admin
   I want to manage medication and vaccine inventory

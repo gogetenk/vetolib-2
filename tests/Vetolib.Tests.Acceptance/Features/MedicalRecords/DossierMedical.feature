@@ -1,45 +1,45 @@
-Feature: Dossier médical animal
+Feature: Animal medical record
   Background:
-    Given une clinique "Happy Paws"
-    And un propriétaire "John Smith" avec l'email "john@example.com"
-    And un animal "Max" race "Labrador" appartenant à "John Smith"
-    And je suis authentifié en tant que VET
+    Given a clinic "Happy Paws"
+    And an owner "John Smith" with email "john@example.com"
+    And an animal "Max" breed "Labrador" belonging to "John Smith"
+    And I am authenticated as VET
 
-  Scenario: Créer un dossier animal (nouveau patient)
-    When je crée un animal "Luna" race "Persian Cat" pour le propriétaire "John Smith"
-    Then l'animal est créé dans la clinique
-    And son dossier médical est vide
-    And le propriétaire "John Smith" est lié à "Luna"
+  Scenario: Create an animal record (new patient)
+    When I create an animal "Luna" breed "Persian Cat" for owner "John Smith"
+    Then the animal is created in the clinic
+    And its medical record is empty
+    And the owner "John Smith" is linked to "Luna"
 
-  Scenario: RECEPTIONIST ne peut pas écrire dans un dossier
-    Given je suis authentifié en tant que RECEPTIONIST
-    When je tente d'ajouter un examen pour "Max"
-    Then le système refuse avec le code "INSUFFICIENT_PERMISSIONS"
+  Scenario: RECEPTIONIST cannot write to a record
+    Given I am authenticated as RECEPTIONIST
+    When I attempt to add an examination for "Max"
+    Then the system rejects with code "INSUFFICIENT_PERMISSIONS"
 
-  Scenario: Isolation tenant — ne pas voir les animaux d'une autre clinique
-    Given un animal "Rocky" dans la clinique "Desert Vets"
-    When je consulte la liste des animaux de "Happy Paws"
-    Then "Rocky" n'apparaît pas dans la liste
+  Scenario: Tenant isolation — cannot see animals from another clinic
+    Given an animal "Rocky" in clinic "Desert Vets"
+    When I list the animals of "Happy Paws"
+    Then "Rocky" does not appear in the list
 
-  Scenario: Ajouter un examen au dossier
-    When j'ajoute un examen pour "Max" avec le diagnostic "Otite bactérienne" et le traitement "Nettoyage oreilles + antibiotiques 7 jours"
-    Then l'examen apparaît dans l'historique de "Max"
-    And il est horodaté avec la date du jour
-    And il porte le vétérinaire courant comme auteur
+  Scenario: Add an examination to the record
+    When I add an examination for "Max" with diagnosis "Bacterial otitis" and treatment "Ear cleaning + antibiotics 7 days"
+    Then the examination appears in the history of "Max"
+    And it is timestamped with today's date
+    And it bears the current veterinarian as author
 
-  Scenario: Consulter l'historique complet
-    Given 3 examens dans le dossier de "Max"
-    When je consulte le dossier de "Max"
-    Then je vois 3 examens dans l'ordre chronologique inverse
+  Scenario: View complete history
+    Given 3 examinations in the record of "Max"
+    When I view the record of "Max"
+    Then I see 3 examinations in reverse chronological order
 
-  Scenario: Créer une ordonnance
-    Given un examen existant pour "Max"
-    When je crée une ordonnance avec le médicament "Amoxicilline 250mg" posologie "2x/jour pendant 7j"
-    Then l'ordonnance est créée avec le numéro de licence "TEST-VET-001"
-    And elle est liée à l'examen
+  Scenario: Create a prescription
+    Given an existing examination for "Max"
+    When I create a prescription with medication "Amoxicilline 250mg" dosage "2x/day for 7 days"
+    Then the prescription is created with license number "TEST-VET-001"
+    And it is linked to the examination
 
-  Scenario: Un dossier n'est jamais supprimé
-    Given un examen dans le dossier de "Max"
-    When je tente de supprimer cet examen
-    Then le système refuse avec le code "MEDICAL_RECORD_IMMUTABLE"
-    And l'examen est toujours visible dans l'historique
+  Scenario: A record is never deleted
+    Given an examination in the record of "Max"
+    When I attempt to delete this examination
+    Then the system rejects with code "MEDICAL_RECORD_IMMUTABLE"
+    And the examination is still visible in the history

@@ -14,7 +14,7 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.Agenda;
 
 [Binding]
-[Scope(Feature = "Gestion des rendez-vous veterinaires")]
+[Scope(Feature = "Veterinary appointment management")]
 internal class AppointmentSteps
 {
     private readonly ScenarioContext _ctx;
@@ -32,7 +32,7 @@ internal class AppointmentSteps
     private readonly DateOnly _defaultDate = new(2026, 4, 1);
     private List<AvailabilitySlotDto>? _availabilitySlots;
 
-    // Used by the English GetById/Edit scenarios
+    // Used by the GetById/Edit scenarios
     private AppointmentDto? _firstAppointment;
     private AppointmentDto? _secondAppointment;
 
@@ -56,16 +56,16 @@ internal class AppointmentSteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
-    [Given(@"une clinique ""(.*)"" avec les horaires 9h-18h")]
-    public void GivenUneCliniqueAvecLesHoraires(string clinicName)
+    [Given(@"a clinic ""(.*)"" with hours 9am-6pm")]
+    public void GivenAClinicWithHours(string clinicName)
     {
         _clinicId = GenerateGuidFromString(clinicName);
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }
 
-    [Given(@"un veterinaire ""(.*)"" avec licence ""(.*)""")]
-    public async Task GivenUnVeterinaireAvecLicence(string vetName, string licenseNumber)
+    [Given(@"a veterinarian ""(.*)"" with license ""(.*)""")]
+    public async Task GivenAVeterinarianWithLicense(string vetName, string licenseNumber)
     {
         _vetName = vetName;
         _vetId = GenerateGuidFromString(vetName);
@@ -87,16 +87,16 @@ internal class AppointmentSteps
         await authDb.SaveChangesAsync();
     }
 
-    [Given(@"un animal ""(.*)"" de race ""(.*)"" appartenant a ""(.*)""")]
-    public void GivenUnAnimalDeRace(string animalName, string breed, string ownerName)
+    [Given(@"an animal ""(.*)"" breed ""(.*)"" belonging to ""(.*)""")]
+    public void GivenAnAnimalBreedBelongingTo(string animalName, string breed, string ownerName)
     {
         var animalId = GenerateGuidFromString(animalName);
         _animalIds[animalName] = animalId;
         _animalOwners[animalName] = ownerName;
     }
 
-    [Given(@"je suis authentifie en tant que RECEPTIONIST")]
-    public async Task GivenJeSuisAuthentifieEnTantQueReceptionist()
+    [Given(@"I am authenticated as RECEPTIONIST")]
+    public async Task GivenIAmAuthenticatedAsReceptionist()
     {
         // Create a receptionist user and login
         using var scope = _factory.Services.CreateScope();
@@ -125,8 +125,8 @@ internal class AppointmentSteps
             new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
     }
 
-    [Given(@"un rendez-vous existant pour ""(.*)"" a ""(.*)""")]
-    public async Task GivenUnRendezVousExistantPour(string animalName, string time)
+    [Given(@"an existing appointment for ""(.*)"" at ""(.*)""")]
+    public async Task GivenAnExistingAppointmentForAt(string animalName, string time)
     {
         var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
         _animalIds[animalName] = animalId;
@@ -150,8 +150,8 @@ internal class AppointmentSteps
         _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
     }
 
-    [Given(@"un rendez-vous existant pour ""(.*)"" avec ""(.*)"" a ""(.*)"" pour (.*) minutes")]
-    public async Task GivenUnRendezVousExistantPourAvecAPourMinutes(string animalName, string vetName, string time, int duration)
+    [Given(@"an existing appointment for ""(.*)"" with ""(.*)"" at ""(.*)"" for (.*) minutes")]
+    public async Task GivenAnExistingAppointmentForWithAtForMinutes(string animalName, string vetName, string time, int duration)
     {
         var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
         _animalIds[animalName] = animalId;
@@ -174,8 +174,8 @@ internal class AppointmentSteps
         _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
     }
 
-    [Given(@"un rendez-vous existant de ""(.*)"" a ""(.*)"" avec ""(.*)""")]
-    public async Task GivenUnRendezVousExistantDeAAvec(string startTimeStr, string endTimeStr, string vetName)
+    [Given(@"an existing appointment from ""(.*)"" to ""(.*)"" with ""(.*)""")]
+    public async Task GivenAnExistingAppointmentFromToWith(string startTimeStr, string endTimeStr, string vetName)
     {
         var startTime = TimeOnly.Parse(startTimeStr);
         var endTime = TimeOnly.Parse(endTimeStr);
@@ -201,18 +201,18 @@ internal class AppointmentSteps
         _createdAppointment = await response.Content.ReadFromJsonAsync<AppointmentDto>(JsonOptions);
     }
 
-    [Given(@"le statut du dernier rendez-vous a ete mis a jour vers ""(.*)""")]
-    public async Task GivenLeStatutDuDernierRendezVousAEteMisAJourVers(string statusStr)
+    [Given(@"the last appointment status has been updated to ""(.*)""")]
+    public async Task GivenTheLastAppointmentStatusHasBeenUpdatedTo(string statusStr)
     {
-        await WhenJeMetsAJourLeStatutDuDernierRendezVousVers(statusStr);
+        await WhenIUpdateTheLastAppointmentStatusTo(statusStr);
         _response.IsSuccessStatusCode.Should().BeTrue(
-            $"La mise a jour de statut vers {statusStr} a echoue: {_errorResponseBody}");
+            $"Status update to {statusStr} failed: {_errorResponseBody}");
     }
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"je cree un rendez-vous pour ""(.*)"" avec ""(.*)"" le ""(.*)"" a ""(.*)"" pour (.*) minutes")]
-    public async Task WhenJeCreerUnRendezVous(string animalName, string vetName, string dateStr, string timeStr, int duration)
+    [When(@"I create an appointment for ""(.*)"" with ""(.*)"" on ""(.*)"" at ""(.*)"" for (.*) minutes")]
+    public async Task WhenICreateAnAppointmentForWithOnAtForMinutes(string animalName, string vetName, string dateStr, string timeStr, int duration)
     {
         var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
         var ownerName = _animalOwners.ContainsKey(animalName) ? _animalOwners[animalName] : "Owner";
@@ -242,8 +242,8 @@ internal class AppointmentSteps
         }
     }
 
-    [When(@"je consulte l'agenda du ""(.*)""")]
-    public async Task WhenJeConsulteLagenda(string dateStr)
+    [When(@"I view the agenda for ""(.*)""")]
+    public async Task WhenIViewTheAgendaFor(string dateStr)
     {
         var date = DateOnly.Parse(dateStr);
         _response = await _client.GetAsync($"/api/appointments?date={date:yyyy-MM-dd}");
@@ -254,8 +254,8 @@ internal class AppointmentSteps
         }
     }
 
-    [When(@"je tente de creer un rendez-vous pour ""(.*)"" avec ""(.*)"" a ""(.*)""")]
-    public async Task WhenJeTenteDeCreerUnRendezVous(string animalName, string vetName, string timeStr)
+    [When(@"I try to create an appointment for ""(.*)"" with ""(.*)"" at ""(.*)""")]
+    public async Task WhenITryToCreateAnAppointmentForWithAt(string animalName, string vetName, string timeStr)
     {
         var animalId = _animalIds.ContainsKey(animalName) ? _animalIds[animalName] : GenerateGuidFromString(animalName);
         _animalIds[animalName] = animalId;
@@ -279,8 +279,8 @@ internal class AppointmentSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"je tente de creer un rendez-vous de ""(.*)"" a ""(.*)"" avec ""(.*)""")]
-    public async Task WhenJeTenteDeCreerUnRendezVousDeAAvec(string startTimeStr, string endTimeStr, string vetName)
+    [When(@"I try to create an appointment from ""(.*)"" to ""(.*)"" with ""(.*)""")]
+    public async Task WhenITryToCreateAnAppointmentFromToWith(string startTimeStr, string endTimeStr, string vetName)
     {
         var startTime = TimeOnly.Parse(startTimeStr);
         var endTime = TimeOnly.Parse(endTimeStr);
@@ -304,8 +304,8 @@ internal class AppointmentSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"je tente de creer un rendez-vous a ""(.*)""")]
-    public async Task WhenJeTenteDeCreerUnRendezVousA(string timeStr)
+    [When(@"I try to create an appointment at ""(.*)""")]
+    public async Task WhenITryToCreateAnAppointmentAt(string timeStr)
     {
         var startTime = TimeOnly.Parse(timeStr);
         var animalName = "Max";
@@ -326,8 +326,8 @@ internal class AppointmentSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"je tente de creer un rendez-vous pour le ""(.*)"" a ""(.*)""")]
-    public async Task WhenJeTenteDeCreerUnRendezVousPourLe(string dateStr, string timeStr)
+    [When("I try to create an appointment on date {string} at {string}")]
+    public async Task WhenITryToCreateAnAppointmentOnDateAt(string dateStr, string timeStr)
     {
         var date = DateOnly.Parse(dateStr);
         var startTime = TimeOnly.Parse(timeStr);
@@ -349,10 +349,10 @@ internal class AppointmentSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"je mets a jour le statut du dernier rendez-vous vers ""(.*)""")]
-    public async Task WhenJeMetsAJourLeStatutDuDernierRendezVousVers(string statusStr)
+    [When(@"I update the last appointment status to ""(.*)""")]
+    public async Task WhenIUpdateTheLastAppointmentStatusTo(string statusStr)
     {
-        _createdAppointment.Should().NotBeNull("un rendez-vous doit avoir ete cree au prealable");
+        _createdAppointment.Should().NotBeNull("an appointment must have been created first");
 
         // Map Reqnroll status names to the action string the endpoint expects
         var action = statusStr switch
@@ -379,8 +379,8 @@ internal class AppointmentSteps
         }
     }
 
-    [When(@"j'annule le dernier rendez-vous avec le motif ""(.*)""")]
-    public async Task WhenJAnnuleLeDernierRendezVousAvecLeMotif(string reason)
+    [When(@"I cancel the last appointment with reason ""(.*)""")]
+    public async Task WhenICancelTheLastAppointmentWithReason(string reason)
     {
         _createdAppointment.Should().NotBeNull();
         var request = new TransitionAppointmentRequest("CANCEL", reason);
@@ -397,8 +397,8 @@ internal class AppointmentSteps
         }
     }
 
-    [When(@"je consulte les disponibilites de ""(.*)"" le ""(.*)"" pour (.*) minutes")]
-    public async Task WhenJeConsulteLesDisponibilitesDeLePourtMinutes(string vetName, string dateStr, int duration)
+    [When(@"I check availability for ""(.*)"" on ""(.*)"" for (.*) minutes")]
+    public async Task WhenICheckAvailabilityForOnForMinutes(string vetName, string dateStr, int duration)
     {
         var date = DateOnly.Parse(dateStr);
         _response = await _client.GetAsync(
@@ -416,8 +416,8 @@ internal class AppointmentSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"le rendez-vous est cree avec le statut ""(.*)""")]
-    public void ThenLeRendezVousEstCreeAvecLeStatut(string status)
+    [Then(@"the appointment is created with status ""(.*)""")]
+    public void ThenTheAppointmentIsCreatedWithStatus(string status)
     {
         _response.IsSuccessStatusCode.Should().BeTrue(
             $"Expected success but got {_response.StatusCode}: {_errorResponseBody}");
@@ -425,8 +425,8 @@ internal class AppointmentSteps
         _createdAppointment!.Status.ToString().ToUpperInvariant().Should().Be(status.ToUpperInvariant());
     }
 
-    [Then(@"le rendez-vous apparait dans l'agenda de ""(.*)"" a ""(.*)""")]
-    public async Task ThenLeRendezVousApparaitDansLagenda(string vetName, string timeStr)
+    [Then(@"the appointment appears in ""(.*)"" agenda at ""(.*)""")]
+    public async Task ThenTheAppointmentAppearsInAgendaAt(string vetName, string timeStr)
     {
         var dateOnly = _createdAppointment!.Date;
 
@@ -442,60 +442,57 @@ internal class AppointmentSteps
             a.StartTime == expectedTime);
     }
 
-    [Then(@"je vois (.*) rendez-vous dans la liste")]
-    public async Task ThenJeVoisRendezVousDansLaListe(int count)
+    [Then(@"I see (.*) appointments in the list")]
+    public async Task ThenISeeAppointmentsInTheList(int count)
     {
         _response.IsSuccessStatusCode.Should().BeTrue();
         var appointments = await _response.Content.ReadFromJsonAsync<List<AppointmentDto>>(JsonOptions);
         appointments.Should().NotBeNull().And.HaveCount(count);
     }
 
-    [Then(@"le systeme refuse avec le code ""(.*)""")]
-    public void ThenLeSystemeRefuseAvecLeCode(string errorCode)
+    [Then(@"the system rejects with code ""(.*)""")]
+    public void ThenTheSystemRejectsWithCode(string errorCode)
     {
         _response.IsSuccessStatusCode.Should().BeFalse();
         _errorResponseBody.Should().NotBeNull();
         _errorResponseBody.Should().Contain(errorCode);
     }
 
-    [Then(@"le message est ""(.*)""")]
-    public void ThenLeMessageEst(string expectedMessage)
+    [Then(@"the message is ""(.*)""")]
+    public void ThenTheMessageIs(string expectedMessage)
     {
         _errorResponseBody.Should().Contain(expectedMessage);
     }
 
-    [Then(@"les prochains creneaux disponibles sont proposes")]
-    public void ThenLesProchainsCreneauxDisponiblesSontProposes()
+    [Then(@"the next available slots are suggested")]
+    public void ThenTheNextAvailableSlotsAreSuggested()
     {
         _errorResponseBody.Should().Contain("Prochains creneaux disponibles");
     }
 
-    [Then(@"le message indique les horaires ""(.*)""")]
-    public void ThenLeMessageIndiqueLesHoraires(string horaires)
+    [Then(@"the message indicates the hours ""(.*)""")]
+    public void ThenTheMessageIndicatesTheHours(string hours)
     {
         // The format from ClinicSchedule.FormatHours() is "09h00 - 18h00"
-        // The feature expects "9h00 - 18h00"
         _errorResponseBody.Should().Contain("horaires d'ouverture");
     }
 
-    [Then(@"le statut du rendez-vous est ""(.*)""")]
-    public void ThenLeStatutDuRendezVousEst(string expectedStatus)
+    [Then(@"the appointment status is ""(.*)""")]
+    public void ThenTheAppointmentStatusIs(string expectedStatus)
     {
-        _response.IsSuccessStatusCode.Should().BeTrue(
-            $"Expected success but got {_response.StatusCode}: {_errorResponseBody}");
         _createdAppointment.Should().NotBeNull();
         _createdAppointment!.Status.ToString().Should().Be(expectedStatus);
     }
 
-    [Then(@"le systeme refuse la transition avec le code ""(.*)""")]
-    public void ThenLeSystemeRefuseLaTransitionAvecLeCode(string errorCode)
+    [Then(@"the system rejects the transition with code ""(.*)""")]
+    public void ThenTheSystemRejectsTheTransitionWithCode(string errorCode)
     {
         _response.IsSuccessStatusCode.Should().BeFalse();
         _errorResponseBody.Should().Contain(errorCode);
     }
 
-    [Then(@"je vois des creneaux disponibles et non disponibles")]
-    public void ThenJeVoisDesCraneauxDisponiblesEtNonDisponibles()
+    [Then(@"I see available and unavailable slots")]
+    public void ThenISeeAvailableAndUnavailableSlots()
     {
         _response.IsSuccessStatusCode.Should().BeTrue(
             $"Expected success but got {_response.StatusCode}: {_errorResponseBody}");
@@ -504,14 +501,14 @@ internal class AppointmentSteps
         _availabilitySlots.Should().Contain(s => !s.IsAvailable);
     }
 
-    [Then(@"le creneau ""(.*)"" est marque non disponible")]
-    public void ThenLeCreneauEstMarqueNonDisponible(string timeStr)
+    [Then(@"the slot ""(.*)"" is marked unavailable")]
+    public void ThenTheSlotIsMarkedUnavailable(string timeStr)
     {
         var expectedTime = TimeOnly.Parse(timeStr);
         _availabilitySlots.Should().NotBeNull().And.NotBeEmpty("availability query must return slots before checking individual ones");
         var slot = _availabilitySlots!.FirstOrDefault(s => s.StartTime == expectedTime);
-        slot.Should().NotBeNull($"Le creneau {timeStr} devrait exister");
-        slot!.IsAvailable.Should().BeFalse($"Le creneau {timeStr} devrait etre non disponible");
+        slot.Should().NotBeNull($"Slot {timeStr} should exist");
+        slot!.IsAvailable.Should().BeFalse($"Slot {timeStr} should be unavailable");
     }
 
     // ─── English steps for GetById / EditAppointment scenarios ───
@@ -833,13 +830,6 @@ internal class AppointmentSteps
                  .Select(word => word.Length == 0
                      ? word
                      : char.ToUpperInvariant(word[0]) + word.Substring(1).ToLowerInvariant()));
-    }
-
-    [Then(@"the appointment status is ""(.*)""")]
-    public void ThenTheAppointmentStatusIs(string expectedStatus)
-    {
-        _createdAppointment.Should().NotBeNull();
-        _createdAppointment!.Status.ToString().Should().Be(expectedStatus);
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

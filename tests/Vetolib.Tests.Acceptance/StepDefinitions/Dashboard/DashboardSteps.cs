@@ -56,16 +56,16 @@ internal class DashboardSteps
 
     // ─── GIVEN ──────────────────────────────────────────────────
 
-    [Given(@"une clinique ""(.*)""")]
-    public void GivenUneClinique(string clinicName)
+    [Given(@"a clinic ""(.*)""")]
+    public void GivenAClinic(string clinicName)
     {
         _clinicId = GenerateGuidFromString(clinicName);
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }
 
-    [Given(@"je suis authentifié en tant que ADMIN")]
-    public async Task GivenJeSuisAuthentifieEnTantQueAdmin()
+    [Given(@"I am authenticated as ADMIN")]
+    public async Task GivenIAmAuthenticatedAsAdmin()
     {
         await AuthenticateAs(UserRole.Admin, "admin@dashboard-test.ae", "AdminPass1!");
     }

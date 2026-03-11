@@ -94,24 +94,28 @@ internal class MessageTriageSteps
         // Authentication is handled via HttpClient bearer token set in Given steps
     }
 
+    [When(@"the AI confidence is below (.*)")]
+    [Given(@"the AI confidence is below (.*)")]
+    public void WhenTheAiConfidenceIsBelow(double threshold)
+    {
+        _ctx.Set(threshold - 0.2, "AiConfidence");
+    }
+
+    [When(@"the AI is uncertain between ""(.*)"" and ""(.*)""")]
+    [Given(@"the AI is uncertain between ""(.*)"" and ""(.*)""")]
+    public void WhenTheAiIsUncertain(string category1, string category2)
+    {
+        _ctx.Set(true, "AiUncertain");
+        _ctx.Set(category1, "UncertainCategory1");
+        _ctx.Set(category2, "UncertainCategory2");
+    }
+
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
     [Given(@"the owner's pet had surgery 5 days ago")]
     public void GivenTheOwnersPetHadSurgery5DaysAgo()
     {
         _ctx.Set(true, "HasRecentSurgery");
-    }
-
-    [Given(@"the AI confidence is below 0.7")]
-    public void GivenTheAiConfidenceIsBelow07()
-    {
-        _ctx.Set(0.5, "AiConfidence");
-    }
-
-    [Given(@"the AI is uncertain between ""(.*)"" and ""(.*)""")]
-    public void GivenTheAiIsUncertain(string category1, string category2)
-    {
-        _ctx.Set(true, "AiUncertain");
     }
 
     [Given(@"a conversation has (\d+) messages")]

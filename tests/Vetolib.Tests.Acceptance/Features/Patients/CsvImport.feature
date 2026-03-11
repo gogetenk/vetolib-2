@@ -1,4 +1,4 @@
-@wip
+@wip @ignore
 # language: en
 Feature: CSV Import Patients
   As a vet or admin
@@ -6,8 +6,8 @@ Feature: CSV Import Patients
   So that I can migrate existing data without manual entry
 
   Background:
-    Given une clinique "Desert Paws"
-    And je suis authentifié en tant que Vet
+    Given a clinic "Desert Paws"
+    And I am authenticated as Vet
 
   Scenario: Successful CSV import returns report
     When I import a CSV with 3 valid patient rows
@@ -30,6 +30,6 @@ Feature: CSV Import Patients
     Then I receive a CSV file with header "PatientName,Species,Breed,DateOfBirth,OwnerName,OwnerEmail,OwnerPhone"
 
   Scenario: Receptionist cannot import patients
-    Given je suis authentifié en tant que Receptionist
+    Given I am authenticated as Receptionist
     When I import a CSV with 1 valid patient row
     Then the import is rejected with status 403

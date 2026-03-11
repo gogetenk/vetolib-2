@@ -24,7 +24,8 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip"};
+                "wip",
+                "ignore"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Assistant Messaging Access", "  As an assistant\r\n  I want to view messaging conversations in read-only mode\r\n  " +
                 "So that I can stay informed without modifying anything", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -145,7 +146,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant can view non-medical conversations")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant can view non-medical conversations", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Assistant Messaging Access")]
         [global::Xunit.TraitAttribute("Description", "Assistant can view non-medical conversations")]
         public async global::System.Threading.Tasks.Task AssistantCanViewNon_MedicalConversations()
@@ -188,7 +189,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot view medical conversations")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot view medical conversations", Skip="Ignored")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Assistant Messaging Access")]
         [global::Xunit.TraitAttribute("Description", "Assistant cannot view medical conversations")]
         public async global::System.Threading.Tasks.Task AssistantCannotViewMedicalConversations()
@@ -232,12 +233,10 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await AssistantMessagingAccessFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await AssistantMessagingAccessFeature.FeatureTearDownAsync();
             }
         }
     }

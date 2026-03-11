@@ -36,8 +36,8 @@ internal class SharedSteps
 
     // ─── Shared clinic context ───────────────────────────────────
 
-    [Given(@"une clinique ""(.*)""")]
-    public void GivenUneClinique(string clinicName)
+    [Given(@"a clinic ""(.*)""")]
+    public void GivenAClinic(string clinicName)
     {
         var clinicIds = GetOrCreateClinicIds();
         var clinicId = GenerateGuidFromString(clinicName);
@@ -55,11 +55,83 @@ internal class SharedSteps
 
     // ─── Shared authentication ───────────────────────────────────
 
-    [Given(@"je suis authentifié en tant que (.*)")]
-    public async Task GivenJeSuisAuthentifie(string role)
+    [Given(@"I am authenticated as (.*)")]
+    public async Task GivenIAmAuthenticatedAs(string role)
+    {
+        await AuthenticateAsRole(role);
+    }
+
+    [Given(@"I am logged in as a VET")]
+    public async Task GivenIAmLoggedInAsVet()
+    {
+        await AuthenticateAsRole("VET");
+    }
+
+    [Given(@"I am logged in as a RECEPTIONIST")]
+    public async Task GivenIAmLoggedInAsReceptionist()
+    {
+        await AuthenticateAsRole("RECEPTIONIST");
+    }
+
+    [Given(@"I am logged in as an ASSISTANT")]
+    public async Task GivenIAmLoggedInAsAssistant()
+    {
+        await AuthenticateAsRole("ASSISTANT");
+    }
+
+    [Given(@"I am logged in as an ADMIN")]
+    public async Task GivenIAmLoggedInAsAdmin()
+    {
+        await AuthenticateAsRole("ADMIN");
+    }
+
+    // ─── Shared error assertion ──────────────────────────────────
+
+    [Then(@"the system rejects with code ""(.*)""")]
+    public void ThenTheSystemRejectsWithCode(string errorCode)
+    {
+        var response = _ctx.Get<HttpResponseMessage>("LastResponse");
+        response.IsSuccessStatusCode.Should().BeFalse();
+
+        switch (errorCode)
+        {
+            case "INSUFFICIENT_PERMISSIONS":
+                response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+                break;
+            default:
+                var body = _ctx.ContainsKey("ErrorResponseBody")
+                    ? _ctx.Get<string>("ErrorResponseBody")
+                    : null;
+                body.Should().NotBeNull();
+                body.Should().Contain(errorCode);
+                break;
+        }
+    }
+
+    // ─── Shared error message assertion ──────────────────────────
+
+    [Then(@"the error message is ""(.*)""")]
+    public void ThenTheErrorMessageIs(string expectedMessage)
+    {
+        var body = _ctx.ContainsKey("ErrorResponseBody")
+            ? _ctx.Get<string>("ErrorResponseBody")
+            : null;
+        body.Should().NotBeNull();
+        body.Should().Contain(expectedMessage);
+    }
+
+    // ─── Core authentication logic ──────────────────────────────
+
+    private async Task AuthenticateAsRole(string role)
     {
         var clinicIds = GetOrCreateClinicIds();
-        var clinicName = clinicIds.Keys.First();
+        var clinicName = clinicIds.Keys.FirstOrDefault() ?? "default-clinic";
+        if (!clinicIds.ContainsKey(clinicName))
+        {
+            var generatedId = GenerateGuidFromString(clinicName);
+            clinicIds[clinicName] = generatedId;
+            _ctx.Set(clinicIds, "ClinicIds");
+        }
         var clinicId = clinicIds[clinicName];
 
         var factory = _ctx.Get<TestWebApplicationFactory>();
@@ -81,6 +153,7 @@ internal class SharedSteps
             "VET" => UserRole.Vet,
             "RECEPTIONIST" => UserRole.Receptionist,
             "ADMIN" => UserRole.Admin,
+            "ASSISTANT" => UserRole.Assistant,
             _ => UserRole.Receptionist
         };
 
@@ -108,29 +181,6 @@ internal class SharedSteps
             new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
 
         _ctx.Set(role, "CurrentRole");
-    }
-
-    // ─── Shared error assertion ──────────────────────────────────
-
-    [Then(@"le système refuse avec le code ""(.*)""")]
-    public void ThenLeSystemeRefuseAvecLeCode(string errorCode)
-    {
-        var response = _ctx.Get<HttpResponseMessage>("LastResponse");
-        response.IsSuccessStatusCode.Should().BeFalse();
-
-        switch (errorCode)
-        {
-            case "INSUFFICIENT_PERMISSIONS":
-                response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-                break;
-            default:
-                var body = _ctx.ContainsKey("ErrorResponseBody")
-                    ? _ctx.Get<string>("ErrorResponseBody")
-                    : null;
-                body.Should().NotBeNull();
-                body.Should().Contain(errorCode);
-                break;
-        }
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

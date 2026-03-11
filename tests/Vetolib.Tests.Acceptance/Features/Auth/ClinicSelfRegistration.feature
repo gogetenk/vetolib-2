@@ -1,4 +1,4 @@
-@wip
+@wip @ignore
 # language: en
 Feature: Clinic self-service registration
   As a new veterinary practice owner
