@@ -975,6 +975,84 @@
       "downloading": "جارٍ تحضير التنزيل...",
       "back": "العودة إلى المحادثات",
       "error": "فشل تصدير المحادثات. يرجى المحاولة مجدداً."
+    },
+    "booking": {
+      "landing": {
+        "title": "احجز موعداً",
+        "subtitle": "جدّل زيارة لحيوانك الأليف",
+        "bookButton": "احجز موعداً",
+        "upcomingTitle": "المواعيد القادمة",
+        "noUpcoming": "لا توجد مواعيد قادمة",
+        "contactClinic": "هل تحتاج إلى التواصل مع العيادة؟",
+        "loading": "جارٍ التحميل..."
+      },
+      "wizard": {
+        "step1Title": "اختر نوع الاستشارة",
+        "step2Title": "اختر التاريخ والوقت",
+        "step3Title": "اختر حيوانك الأليف",
+        "step4Title": "تأكيد الحجز",
+        "next": "التالي",
+        "back": "السابق",
+        "confirm": "تأكيد الحجز",
+        "cancel": "إلغاء"
+      },
+      "slotGrid": {
+        "morning": "الصباح",
+        "afternoon": "بعد الظهر",
+        "evening": "المساء",
+        "noSlots": "لا توجد أوقات متاحة لهذا التاريخ",
+        "selectDate": "اختر تاريخاً"
+      },
+      "confirmation": {
+        "title": "تم تأكيد الحجز!",
+        "subtitle": "تم جدولة موعدك بنجاح",
+        "details": "تفاصيل الموعد",
+        "date": "التاريخ",
+        "time": "الوقت",
+        "vet": "الطبيب البيطري",
+        "type": "نوع الاستشارة",
+        "pet": "الحيوان الأليف",
+        "backToPortal": "العودة إلى البوابة"
+      },
+      "guestSignup": {
+        "title": "أنشئ حسابك لتأكيد الحجز",
+        "name": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "phonePlaceholder": "+971 XX XXX XXXX",
+        "verify": "تحقق",
+        "otpTitle": "أدخل رمز التحقق",
+        "otpSubtitle": "أرسلنا رمزاً مكوناً من 6 أرقام إلى بريدك الإلكتروني",
+        "confirmBooking": "تأكيد الحجز"
+      },
+      "myAppointments": {
+        "title": "مواعيدي",
+        "upcoming": "القادمة",
+        "past": "السابقة",
+        "cancelButton": "إلغاء",
+        "rescheduleButton": "إعادة جدولة",
+        "cancelConfirmTitle": "إلغاء الموعد",
+        "cancelConfirmMessage": "هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟",
+        "cancelSuccess": "تم إلغاء الموعد بنجاح",
+        "rescheduleSuccess": "تمت إعادة جدولة الموعد بنجاح",
+        "noAppointments": "لا توجد مواعيد",
+        "status": {
+          "Scheduled": "مجدول",
+          "CheckedIn": "تم الوصول",
+          "Completed": "مكتمل",
+          "Cancelled": "ملغى",
+          "NoShow": "لم يحضر"
+        }
+      },
+      "consultationType": {
+        "generalCheckup": "فحص عام",
+        "vaccination": "تطعيم",
+        "surgery": "جراحة",
+        "dental": "رعاية الأسنان",
+        "emergency": "طوارئ",
+        "grooming": "عناية وتجميل",
+        "labTests": "فحوصات مخبرية"
+      }
     }
   },
   "onboarding": {
