@@ -81,7 +81,7 @@ export function MedicalRecordForm({
   const [overrideConfirmed, setOverrideConfirmed] = useState(false)
 
   // Dispense toggle state
-  const [dispenseValue, setDispenseValue] = useState<DispenseToggleValue>({
+  const [, setDispenseValue] = useState<DispenseToggleValue>({
     dispense: false,
     quantity: null,
     partialConfirmed: false,

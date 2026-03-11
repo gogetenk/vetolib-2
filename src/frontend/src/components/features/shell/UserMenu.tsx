@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogOut, Settings, ChevronDown, UserCircle } from "lucide-react";
+import { LogOut, Settings, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { clearSession } from "@/lib/auth";
 
