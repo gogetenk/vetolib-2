@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Admin Messaging Management", "  As a clinic admin\r\n  I want to manage all messaging configuration and monitor t" +
                 "riage quality\r\n  So that the messaging system runs effectively", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -146,7 +145,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin sees all conversations", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin sees all conversations")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
         [global::Xunit.TraitAttribute("Description", "Admin sees all conversations")]
         public async global::System.Threading.Tasks.Task AdminSeesAllConversations()
@@ -186,7 +185,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin reassigns a conversation", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin reassigns a conversation")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
         [global::Xunit.TraitAttribute("Description", "Admin reassigns a conversation")]
         public async global::System.Threading.Tasks.Task AdminReassignsAConversation()
@@ -226,7 +225,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures quick response templates", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures quick response templates")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
         [global::Xunit.TraitAttribute("Description", "Admin configures quick response templates")]
         public async global::System.Threading.Tasks.Task AdminConfiguresQuickResponseTemplates()
@@ -253,20 +252,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 23
     await testRunner.WhenAsync("I go to Messaging Settings > Templates", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table32 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Value"});
-                table32.AddRow(new string[] {
+                table24.AddRow(new string[] {
                             "Name",
                             "Vaccination reminder"});
-                table32.AddRow(new string[] {
+                table24.AddRow(new string[] {
                             "English",
                             "Your pet is due for vaccination. Please book an appointment."});
-                table32.AddRow(new string[] {
+                table24.AddRow(new string[] {
                             "Arabic",
                             "حيوانك الأليف بحاجة إلى التطعيم. يرجى حجز موعد."});
 #line 24
-    await testRunner.AndAsync("I create a new template with:", ((string)(null)), table32, "And ");
+    await testRunner.AndAsync("I create a new template with:", ((string)(null)), table24, "And ");
 #line hidden
 #line 29
     await testRunner.ThenAsync("the template should be available to all staff when replying to messages", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -275,7 +274,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures messaging hours", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures messaging hours")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
         [global::Xunit.TraitAttribute("Description", "Admin configures messaging hours")]
         public async global::System.Threading.Tasks.Task AdminConfiguresMessagingHours()
@@ -315,7 +314,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views triage statistics dashboard", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views triage statistics dashboard")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
         [global::Xunit.TraitAttribute("Description", "Admin views triage statistics dashboard")]
         public async global::System.Threading.Tasks.Task AdminViewsTriageStatisticsDashboard()
@@ -342,26 +341,26 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 38
     await testRunner.WhenAsync("I go to Messaging Settings > Statistics", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table33 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
                             "Metric"});
-                table33.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Average first response time"});
-                table33.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Messages by category (pie chart)"});
-                table33.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "AI triage accuracy (% re-categorized)"});
-                table33.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Volume per day (trend)"});
-                table33.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Conversion rate: message to appointment"});
 #line 39
-    await testRunner.ThenAsync("I should see:", ((string)(null)), table33, "Then ");
+    await testRunner.ThenAsync("I should see:", ((string)(null)), table25, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin proactively messages an owner", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin proactively messages an owner")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
         [global::Xunit.TraitAttribute("Description", "Admin proactively messages an owner")]
         public async global::System.Threading.Tasks.Task AdminProactivelyMessagesAnOwner()
@@ -407,7 +406,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views spam folder", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views spam folder")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
         [global::Xunit.TraitAttribute("Description", "Admin views spam folder")]
         public async global::System.Threading.Tasks.Task AdminViewsSpamFolder()
@@ -451,10 +450,12 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await AdminMessagingManagementFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await AdminMessagingManagementFeature.FeatureTearDownAsync();
             }
         }
     }

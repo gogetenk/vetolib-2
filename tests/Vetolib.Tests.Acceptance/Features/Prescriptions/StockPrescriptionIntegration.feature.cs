@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Prescriptions", "Stock-Prescription Integration", "  As a veterinarian\r\n  I want prescriptions to be linked to clinic stock\r\n  So th" +
                 "at inventory is automatically updated and I know what is available", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -155,7 +154,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Stock availability shown during prescription creation", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Stock availability shown during prescription creation")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Stock availability shown during prescription creation")]
         public async global::System.Threading.Tasks.Task StockAvailabilityShownDuringPrescriptionCreation()
@@ -193,7 +192,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Low stock warning during prescription", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Low stock warning during prescription")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Low stock warning during prescription")]
         public async global::System.Threading.Tasks.Task LowStockWarningDuringPrescription()
@@ -234,7 +233,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Out of stock with alternative suggestion", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Out of stock with alternative suggestion")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Out of stock with alternative suggestion")]
         public async global::System.Threading.Tasks.Task OutOfStockWithAlternativeSuggestion()
@@ -283,7 +282,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Stock decremented on prescription confirmation", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Stock decremented on prescription confirmation")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Stock decremented on prescription confirmation")]
         public async global::System.Threading.Tasks.Task StockDecrementedOnPrescriptionConfirmation()
@@ -329,7 +328,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet skips stock decrement", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet skips stock decrement")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Vet skips stock decrement")]
         public async global::System.Threading.Tasks.Task VetSkipsStockDecrement()
@@ -374,7 +373,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Insufficient stock -- partial dispense", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Insufficient stock -- partial dispense")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Insufficient stock -- partial dispense")]
         public async global::System.Threading.Tasks.Task InsufficientStock_PartialDispense()
@@ -422,7 +421,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Free-text prescription -- no automatic stock link", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Free-text prescription -- no automatic stock link")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Free-text prescription -- no automatic stock link")]
         public async global::System.Threading.Tasks.Task Free_TextPrescription_NoAutomaticStockLink()
@@ -463,7 +462,7 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Stock low event triggered after prescription", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Stock low event triggered after prescription")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Stock-Prescription Integration")]
         [global::Xunit.TraitAttribute("Description", "Stock low event triggered after prescription")]
         public async global::System.Threading.Tasks.Task StockLowEventTriggeredAfterPrescription()
@@ -515,10 +514,12 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await Stock_PrescriptionIntegrationFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await Stock_PrescriptionIntegrationFeature.FeatureTearDownAsync();
             }
         }
     }

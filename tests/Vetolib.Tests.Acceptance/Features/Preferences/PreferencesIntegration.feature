@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 # language: en
 Feature: Preferences Integration -- cross-module opt-in/opt-out
   As a clinic administrator or staff member

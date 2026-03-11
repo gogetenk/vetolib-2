@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Preferences", "Preferences Integration -- cross-module opt-in/opt-out", "  As a clinic administrator or staff member\r\n  I want preferences to control whic" +
                 "h AI features and notifications are active\r\n  So that the system respects user a" +
@@ -147,7 +146,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner without User account always receives reminder", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner without User account always receives reminder")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "Owner without User account always receives reminder")]
         public async global::System.Threading.Tasks.Task OwnerWithoutUserAccountAlwaysReceivesReminder()
@@ -181,7 +180,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Owner always receives invoice email", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner always receives invoice email")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "Owner always receives invoice email")]
         public async global::System.Threading.Tasks.Task OwnerAlwaysReceivesInvoiceEmail()
@@ -215,7 +214,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI triage is allowed by default", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI triage is allowed by default")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI triage is allowed by default")]
         public async global::System.Threading.Tasks.Task AITriageIsAllowedByDefault()
@@ -249,7 +248,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI triage respects user preference disabled", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI triage respects user preference disabled")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI triage respects user preference disabled")]
         public async global::System.Threading.Tasks.Task AITriageRespectsUserPreferenceDisabled()
@@ -286,7 +285,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI triage enabled after preference is enabled", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI triage enabled after preference is enabled")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI triage enabled after preference is enabled")]
         public async global::System.Threading.Tasks.Task AITriageEnabledAfterPreferenceIsEnabled()
@@ -323,7 +322,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Drug interaction check ignores preferences", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Drug interaction check ignores preferences")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "Drug interaction check ignores preferences")]
         public async global::System.Threading.Tasks.Task DrugInteractionCheckIgnoresPreferences()
@@ -357,7 +356,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="AI no-show prediction is disabled by preference", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="AI no-show prediction is disabled by preference")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI no-show prediction is disabled by preference")]
         public async global::System.Threading.Tasks.Task AINo_ShowPredictionIsDisabledByPreference()
@@ -401,10 +400,12 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature.FeatureTearDownAsync();
             }
         }
     }

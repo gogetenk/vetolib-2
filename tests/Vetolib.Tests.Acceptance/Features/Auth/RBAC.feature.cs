@@ -26,7 +26,6 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         
         private static string[] featureTags = new string[] {
                 "wip",
-                "ignore",
                 "rbac"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "RBAC matrix -- role-based access control", "  As a system\r\n  I want to enforce the UAE veterinary clinic RBAC matrix\r\n  So th" +
@@ -148,7 +147,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot create an appointment (403)", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot create an appointment (403)")]
         [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
         [global::Xunit.TraitAttribute("Description", "Assistant cannot create an appointment (403)")]
         public async global::System.Threading.Tasks.Task AssistantCannotCreateAnAppointment403()
@@ -185,7 +184,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot add a medical record (403)", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot add a medical record (403)")]
         [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
         [global::Xunit.TraitAttribute("Description", "Receptionist cannot add a medical record (403)")]
         public async global::System.Threading.Tasks.Task ReceptionistCannotAddAMedicalRecord403()
@@ -222,7 +221,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can create an appointment", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can create an appointment")]
         [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
         [global::Xunit.TraitAttribute("Description", "Vet can create an appointment")]
         public async global::System.Threading.Tasks.Task VetCanCreateAnAppointment()
@@ -259,7 +258,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin can create an invoice", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin can create an invoice")]
         [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
         [global::Xunit.TraitAttribute("Description", "Admin can create an invoice")]
         public async global::System.Threading.Tasks.Task AdminCanCreateAnInvoice()
@@ -296,7 +295,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot create an invoice (403)", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant cannot create an invoice (403)")]
         [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
         [global::Xunit.TraitAttribute("Description", "Assistant cannot create an invoice (403)")]
         public async global::System.Threading.Tasks.Task AssistantCannotCreateAnInvoice403()
@@ -333,7 +332,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Only Vet can add a prescription (VetOnly)", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Only Vet can add a prescription (VetOnly)")]
         [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
         [global::Xunit.TraitAttribute("Description", "Only Vet can add a prescription (VetOnly)")]
         public async global::System.Threading.Tasks.Task OnlyVetCanAddAPrescriptionVetOnly()
@@ -370,7 +369,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can add a prescription", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet can add a prescription")]
         [global::Xunit.TraitAttribute("FeatureTitle", "RBAC matrix -- role-based access control")]
         [global::Xunit.TraitAttribute("Description", "Vet can add a prescription")]
         public async global::System.Threading.Tasks.Task VetCanAddAPrescription()
@@ -414,10 +413,12 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await RBACMatrix_Role_BasedAccessControlFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await RBACMatrix_Role_BasedAccessControlFeature.FeatureTearDownAsync();
             }
         }
     }

@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 Feature: Medication and vaccine stock management
   Background:
     Given a clinic "Happy Paws"

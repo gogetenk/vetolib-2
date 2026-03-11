@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Audit
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Audit", "Audit trail", "  As a clinic administrator\r\n  I want to query the audit log\r\n  So that I can rev" +
                 "iew changes made across all modules", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -146,7 +145,7 @@ namespace Vetolib.Tests.Acceptance.Features.Audit
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin can query audit log", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin can query audit log")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Audit trail")]
         [global::Xunit.TraitAttribute("Description", "Admin can query audit log")]
         public async global::System.Threading.Tasks.Task AdminCanQueryAuditLog()
@@ -189,7 +188,7 @@ namespace Vetolib.Tests.Acceptance.Features.Audit
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Non-admin cannot access audit", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Non-admin cannot access audit")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Audit trail")]
         [global::Xunit.TraitAttribute("Description", "Non-admin cannot access audit")]
         public async global::System.Threading.Tasks.Task Non_AdminCannotAccessAudit()
@@ -233,10 +232,12 @@ namespace Vetolib.Tests.Acceptance.Features.Audit
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await AuditTrailFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await AuditTrailFeature.FeatureTearDownAsync();
             }
         }
     }

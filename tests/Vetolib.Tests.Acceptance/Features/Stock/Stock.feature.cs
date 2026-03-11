@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Stock", "Medication and vaccine stock management", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
@@ -148,7 +147,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Create a medication stock item", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create a medication stock item")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Create a medication stock item")]
         public async global::System.Threading.Tasks.Task CreateAMedicationStockItem()
@@ -186,7 +185,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Create a vaccine stock item", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create a vaccine stock item")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Create a vaccine stock item")]
         public async global::System.Threading.Tasks.Task CreateAVaccineStockItem()
@@ -224,7 +223,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="List stock items", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="List stock items")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "List stock items")]
         public async global::System.Threading.Tasks.Task ListStockItems()
@@ -262,7 +261,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement IN", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement IN")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Record stock movement IN")]
         public async global::System.Threading.Tasks.Task RecordStockMovementIN()
@@ -299,7 +298,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement OUT", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Record stock movement OUT")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Record stock movement OUT")]
         public async global::System.Threading.Tasks.Task RecordStockMovementOUT()
@@ -337,7 +336,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Low stock alerts", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Low stock alerts")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Low stock alerts")]
         public async global::System.Threading.Tasks.Task LowStockAlerts()
@@ -375,7 +374,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Update alert threshold", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Update alert threshold")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Update alert threshold")]
         public async global::System.Threading.Tasks.Task UpdateAlertThreshold()
@@ -413,7 +412,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Empty name rejected", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Empty name rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Empty name rejected")]
         public async global::System.Threading.Tasks.Task EmptyNameRejected()
@@ -447,7 +446,7 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Negative quantity rejected", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Negative quantity rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Medication and vaccine stock management")]
         [global::Xunit.TraitAttribute("Description", "Negative quantity rejected")]
         public async global::System.Threading.Tasks.Task NegativeQuantityRejected()
@@ -488,10 +487,12 @@ namespace Vetolib.Tests.Acceptance.Features.Stock
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await MedicationAndVaccineStockManagementFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await MedicationAndVaccineStockManagementFeature.FeatureTearDownAsync();
             }
         }
     }

@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 Feature: Admin Messaging Management
   As a clinic admin
   I want to manage all messaging configuration and monitor triage quality

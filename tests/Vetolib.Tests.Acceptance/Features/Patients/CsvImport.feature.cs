@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Patients", "CSV Import Patients", "  As a vet or admin\r\n  I want to import patients from a CSV file\r\n  So that I can" +
                 " migrate existing data without manual entry", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -149,7 +148,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Successful CSV import returns report", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successful CSV import returns report")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Successful CSV import returns report")]
         public async global::System.Threading.Tasks.Task SuccessfulCSVImportReturnsReport()
@@ -186,7 +185,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Rows with missing required fields are skipped", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Rows with missing required fields are skipped")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Rows with missing required fields are skipped")]
         public async global::System.Threading.Tasks.Task RowsWithMissingRequiredFieldsAreSkipped()
@@ -223,7 +222,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Duplicate owner email reuses existing owner", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Duplicate owner email reuses existing owner")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Duplicate owner email reuses existing owner")]
         public async global::System.Threading.Tasks.Task DuplicateOwnerEmailReusesExistingOwner()
@@ -263,7 +262,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Download CSV template", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Download CSV template")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Download CSV template")]
         public async global::System.Threading.Tasks.Task DownloadCSVTemplate()
@@ -298,7 +297,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot import patients", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist cannot import patients")]
         [global::Xunit.TraitAttribute("FeatureTitle", "CSV Import Patients")]
         [global::Xunit.TraitAttribute("Description", "Receptionist cannot import patients")]
         public async global::System.Threading.Tasks.Task ReceptionistCannotImportPatients()
@@ -342,10 +341,12 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await CSVImportPatientsFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await CSVImportPatientsFeature.FeatureTearDownAsync();
             }
         }
     }

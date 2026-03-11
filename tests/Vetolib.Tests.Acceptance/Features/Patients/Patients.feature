@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 # language: en
 Feature: Patient standalone CRUD
   As a vet or admin

@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "Clinic self-service registration", "  As a new veterinary practice owner\r\n  I want to register my clinic online witho" +
                 "ut manual intervention\r\n  So that I can start using Vetolib immediately with a 1" +
@@ -138,7 +137,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Successful clinic registration returns JWT and creates tenant", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successful clinic registration returns JWT and creates tenant")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Clinic self-service registration")]
         [global::Xunit.TraitAttribute("Description", "Successful clinic registration returns JWT and creates tenant")]
         public async global::System.Threading.Tasks.Task SuccessfulClinicRegistrationReturnsJWTAndCreatesTenant()
@@ -199,7 +198,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Duplicate email across tenants is rejected", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Duplicate email across tenants is rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Clinic self-service registration")]
         [global::Xunit.TraitAttribute("Description", "Duplicate email across tenants is rejected")]
         public async global::System.Threading.Tasks.Task DuplicateEmailAcrossTenantsIsRejected()
@@ -248,7 +247,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Blank clinic name is rejected", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Blank clinic name is rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Clinic self-service registration")]
         [global::Xunit.TraitAttribute("Description", "Blank clinic name is rejected")]
         public async global::System.Threading.Tasks.Task BlankClinicNameIsRejected()
@@ -294,7 +293,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Weak password is rejected", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Weak password is rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Clinic self-service registration")]
         [global::Xunit.TraitAttribute("Description", "Weak password is rejected")]
         public async global::System.Threading.Tasks.Task WeakPasswordIsRejected()
@@ -340,7 +339,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Password must have at least 10 characters and a special character", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Password must have at least 10 characters and a special character")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Clinic self-service registration")]
         [global::Xunit.TraitAttribute("Description", "Password must have at least 10 characters and a special character")]
         public async global::System.Threading.Tasks.Task PasswordMustHaveAtLeast10CharactersAndASpecialCharacter()
@@ -393,10 +392,12 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await ClinicSelf_ServiceRegistrationFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await ClinicSelf_ServiceRegistrationFeature.FeatureTearDownAsync();
             }
         }
     }

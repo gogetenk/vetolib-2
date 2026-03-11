@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 # language: en
 Feature: Slot Suggestion
   As a receptionist or veterinarian

@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 # language: en
 Feature: Onboarding State Management
   As a user

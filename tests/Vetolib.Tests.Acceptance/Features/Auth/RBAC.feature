@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 @rbac
 Feature: RBAC matrix -- role-based access control
   As a system

@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Veterinarian Messaging Inbox", "  As a veterinarian\r\n  I want to see and respond to medical messages with full pa" +
                 "tient context\r\n  So that I can provide informed responses to pet owners", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -146,7 +145,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet sees medical messages in priority order", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet sees medical messages in priority order")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet sees medical messages in priority order")]
         public async global::System.Threading.Tasks.Task VetSeesMedicalMessagesInPriorityOrder()
@@ -190,7 +189,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency messages always appear at the top", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency messages always appear at the top")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Emergency messages always appear at the top")]
         public async global::System.Threading.Tasks.Task EmergencyMessagesAlwaysAppearAtTheTop()
@@ -230,7 +229,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet sees full medical context for a message", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet sees full medical context for a message")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet sees full medical context for a message")]
         public async global::System.Threading.Tasks.Task VetSeesFullMedicalContextForAMessage()
@@ -257,24 +256,24 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 24
     await testRunner.GivenAsync("I open a message linked to patient \"Luna\" (cat, 3 years old)", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table34 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
                             "Context"});
-                table34.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Last examination date"});
-                table34.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Current prescriptions"});
-                table34.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Known allergies"});
-                table34.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Vaccination history"});
 #line 25
-    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table34, "Then ");
+    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table26, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet sees AI conversation summary for long threads", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet sees AI conversation summary for long threads")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet sees AI conversation summary for long threads")]
         public async global::System.Threading.Tasks.Task VetSeesAIConversationSummaryForLongThreads()
@@ -317,7 +316,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet adds an internal note", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet adds an internal note")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet adds an internal note")]
         public async global::System.Threading.Tasks.Task VetAddsAnInternalNote()
@@ -367,7 +366,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet replies with a modified AI suggestion", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet replies with a modified AI suggestion")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet replies with a modified AI suggestion")]
         public async global::System.Threading.Tasks.Task VetRepliesWithAModifiedAISuggestion()
@@ -416,7 +415,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet creates an urgent appointment from a message", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet creates an urgent appointment from a message")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet creates an urgent appointment from a message")]
         public async global::System.Threading.Tasks.Task VetCreatesAnUrgentAppointmentFromAMessage()
@@ -446,20 +445,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 59
     await testRunner.WhenAsync("I click \"Create urgent appointment\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table27 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Pre-filled value"});
-                table35.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Patient",
                             "Buddy"});
-                table35.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Type",
                             "Emergency"});
-                table35.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Reason",
                             "Extracted from message text"});
 #line 60
-    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table35, "Then ");
+    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table27, "Then ");
 #line hidden
 #line 65
     await testRunner.AndAsync("the appointment should be created in the next available slot", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -468,7 +467,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet attaches message content to medical record", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet attaches message content to medical record")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet attaches message content to medical record")]
         public async global::System.Threading.Tasks.Task VetAttachesMessageContentToMedicalRecord()
@@ -509,7 +508,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet receives push notification for emergency", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet receives push notification for emergency")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Vet receives push notification for emergency")]
         public async global::System.Threading.Tasks.Task VetReceivesPushNotificationForEmergency()
@@ -546,7 +545,7 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency escalation after 10 minutes without viewing", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Emergency escalation after 10 minutes without viewing")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinarian Messaging Inbox")]
         [global::Xunit.TraitAttribute("Description", "Emergency escalation after 10 minutes without viewing")]
         public async global::System.Threading.Tasks.Task EmergencyEscalationAfter10MinutesWithoutViewing()
@@ -593,10 +592,12 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await VeterinarianMessagingInboxFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await VeterinarianMessagingInboxFeature.FeatureTearDownAsync();
             }
         }
     }

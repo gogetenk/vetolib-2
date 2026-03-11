@@ -1,4 +1,4 @@
-@wip @ignore
+@wip
 Feature: Audit trail
   As a clinic administrator
   I want to query the audit log

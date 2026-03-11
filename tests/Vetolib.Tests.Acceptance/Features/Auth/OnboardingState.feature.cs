@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "Onboarding State Management", "  As a user\r\n  I want my onboarding progress to be tracked server-side\r\n  So that" +
                 " it persists across sessions and devices", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -149,7 +148,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="New admin gets onboarding state initialized on first login", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="New admin gets onboarding state initialized on first login")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "New admin gets onboarding state initialized on first login")]
         public async global::System.Threading.Tasks.Task NewAdminGetsOnboardingStateInitializedOnFirstLogin()
@@ -195,7 +194,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Retrieve onboarding state", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Retrieve onboarding state")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Retrieve onboarding state")]
         public async global::System.Threading.Tasks.Task RetrieveOnboardingState()
@@ -238,7 +237,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Complete an onboarding step", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Complete an onboarding step")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Complete an onboarding step")]
         public async global::System.Threading.Tasks.Task CompleteAnOnboardingStep()
@@ -278,7 +277,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Auto-complete steps based on existing data", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Auto-complete steps based on existing data")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Auto-complete steps based on existing data")]
         public async global::System.Threading.Tasks.Task Auto_CompleteStepsBasedOnExistingData()
@@ -321,7 +320,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss welcome banner", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss welcome banner")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Dismiss welcome banner")]
         public async global::System.Threading.Tasks.Task DismissWelcomeBanner()
@@ -361,7 +360,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss checklist", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Dismiss checklist")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Dismiss checklist")]
         public async global::System.Threading.Tasks.Task DismissChecklist()
@@ -401,7 +400,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="All steps completed triggers onboarding completion", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="All steps completed triggers onboarding completion")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "All steps completed triggers onboarding completion")]
         public async global::System.Threading.Tasks.Task AllStepsCompletedTriggersOnboardingCompletion()
@@ -438,7 +437,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Onboarding state persists across sessions", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Onboarding state persists across sessions")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Onboarding state persists across sessions")]
         public async global::System.Threading.Tasks.Task OnboardingStatePersistsAcrossSessions()
@@ -475,7 +474,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Vet gets role-specific checklist", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet gets role-specific checklist")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Vet gets role-specific checklist")]
         public async global::System.Threading.Tasks.Task VetGetsRole_SpecificChecklist()
@@ -512,7 +511,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist gets role-specific checklist", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist gets role-specific checklist")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Receptionist gets role-specific checklist")]
         public async global::System.Threading.Tasks.Task ReceptionistGetsRole_SpecificChecklist()
@@ -549,7 +548,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant gets role-specific checklist", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Assistant gets role-specific checklist")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Assistant gets role-specific checklist")]
         public async global::System.Threading.Tasks.Task AssistantGetsRole_SpecificChecklist()
@@ -586,7 +585,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Non-authenticated user cannot access onboarding state", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Non-authenticated user cannot access onboarding state")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Onboarding State Management")]
         [global::Xunit.TraitAttribute("Description", "Non-authenticated user cannot access onboarding state")]
         public async global::System.Threading.Tasks.Task Non_AuthenticatedUserCannotAccessOnboardingState()
@@ -627,10 +626,12 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await OnboardingStateManagementFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await OnboardingStateManagementFeature.FeatureTearDownAsync();
             }
         }
     }

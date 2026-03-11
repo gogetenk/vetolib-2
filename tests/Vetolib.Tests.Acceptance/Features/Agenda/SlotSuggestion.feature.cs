@@ -24,8 +24,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "wip",
-                "ignore"};
+                "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Agenda", "Slot Suggestion", "  As a receptionist or veterinarian\r\n  I want the system to suggest the best avai" +
                 "lable appointment slots\r\n  So that I can optimize the clinic schedule and reduce" +
@@ -159,7 +158,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Suggest best slot with available gaps", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Suggest best slot with available gaps")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Slot Suggestion")]
         [global::Xunit.TraitAttribute("Description", "Suggest best slot with available gaps")]
         public async global::System.Threading.Tasks.Task SuggestBestSlotWithAvailableGaps()
@@ -222,7 +221,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Load balancing across veterinarians", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Load balancing across veterinarians")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Slot Suggestion")]
         [global::Xunit.TraitAttribute("Description", "Load balancing across veterinarians")]
         public async global::System.Threading.Tasks.Task LoadBalancingAcrossVeterinarians()
@@ -270,7 +269,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Grouping by consultation type", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Grouping by consultation type")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Slot Suggestion")]
         [global::Xunit.TraitAttribute("Description", "Grouping by consultation type")]
         public async global::System.Threading.Tasks.Task GroupingByConsultationType()
@@ -318,7 +317,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Fallback to default duration when insufficient history", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Fallback to default duration when insufficient history")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Slot Suggestion")]
         [global::Xunit.TraitAttribute("Description", "Fallback to default duration when insufficient history")]
         public async global::System.Threading.Tasks.Task FallbackToDefaultDurationWhenInsufficientHistory()
@@ -363,7 +362,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Duration estimation from history", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Duration estimation from history")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Slot Suggestion")]
         [global::Xunit.TraitAttribute("Description", "Duration estimation from history")]
         public async global::System.Threading.Tasks.Task DurationEstimationFromHistory()
@@ -411,7 +410,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="No available slots on requested date", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="No available slots on requested date")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Slot Suggestion")]
         [global::Xunit.TraitAttribute("Description", "No available slots on requested date")]
         public async global::System.Threading.Tasks.Task NoAvailableSlotsOnRequestedDate()
@@ -456,7 +455,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Preferred veterinarian specified", Skip="Ignored")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Preferred veterinarian specified")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Slot Suggestion")]
         [global::Xunit.TraitAttribute("Description", "Preferred veterinarian specified")]
         public async global::System.Threading.Tasks.Task PreferredVeterinarianSpecified()
@@ -507,10 +506,12 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
+                await SlotSuggestionFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
+                await SlotSuggestionFeature.FeatureTearDownAsync();
             }
         }
     }
