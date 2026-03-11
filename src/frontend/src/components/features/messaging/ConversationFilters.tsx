@@ -40,11 +40,12 @@ export function ConversationFilters({
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center" data-testid="conversation-filters">
       {/* Search */}
       <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
           data-testid="filter-search"
           className="pl-9"
           placeholder={t('search_placeholder')}
+          aria-label={t('search_placeholder')}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
         />

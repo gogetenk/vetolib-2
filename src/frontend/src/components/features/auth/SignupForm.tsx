@@ -189,19 +189,19 @@ export function SignupForm() {
                 data-testid="password-strength"
               >
                 <li
-                  className={passwordStrength.hasMin ? "text-emerald-600" : "text-gray-400"}
+                  className={passwordStrength.hasMin ? "text-emerald-600" : "text-gray-500"}
                   data-testid="strength-min"
                 >
                   {passwordStrength.hasMin ? "✓" : "○"} {t("strength_min")}
                 </li>
                 <li
-                  className={passwordStrength.hasUpper ? "text-emerald-600" : "text-gray-400"}
+                  className={passwordStrength.hasUpper ? "text-emerald-600" : "text-gray-500"}
                   data-testid="strength-upper"
                 >
                   {passwordStrength.hasUpper ? "✓" : "○"} {t("strength_upper")}
                 </li>
                 <li
-                  className={passwordStrength.hasNumber ? "text-emerald-600" : "text-gray-400"}
+                  className={passwordStrength.hasNumber ? "text-emerald-600" : "text-gray-500"}
                   data-testid="strength-number"
                 >
                   {passwordStrength.hasNumber ? "✓" : "○"} {t("strength_number")}

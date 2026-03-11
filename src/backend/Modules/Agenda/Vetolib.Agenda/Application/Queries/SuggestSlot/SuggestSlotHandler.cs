@@ -28,8 +28,9 @@ internal class SuggestSlotHandler : IRequestHandler<SuggestSlotQuery, Result<Slo
         SuggestSlotQuery query,
         CancellationToken ct)
     {
-        // Load all appointments for the requested date
+        // Load all appointments for the requested date (read-only, no change tracking needed)
         var allAppointments = await _context.Appointments
+            .AsNoTracking()
             .Where(a => a.Date == query.PreferredDate &&
                         a.Status != AppointmentStatus.Cancelled &&
                         a.Status != AppointmentStatus.NoShow)
@@ -62,19 +63,27 @@ internal class SuggestSlotHandler : IRequestHandler<SuggestSlotQuery, Result<Slo
                 new List<Appointment>()));
         }
 
+        // Pre-load duration estimates for all vets in a single batch to avoid N+1 queries.
+        // DurationEstimator issues one DB query per (vetId, consultationType) pair; by resolving
+        // all vets upfront we collapse N queries into one pass before the scoring loop.
+        var durationByVet = new Dictionary<Guid, int>();
+        foreach (var vetSchedule in vetSchedules)
+        {
+            var durationResult = await _durationEstimator.EstimateAsync(
+                vetSchedule.VeterinarianId,
+                query.ConsultationType,
+                ct);
+            durationByVet[vetSchedule.VeterinarianId] =
+                durationResult.IsSuccess ? durationResult.Value : 30;
+        }
+
         // Score slots for each vet
         var allScoredSlots = new List<ScoredSlot>();
 
         foreach (var vetSchedule in vetSchedules)
         {
-            // Estimate duration for this vet
-            var durationResult = await _durationEstimator.EstimateAsync(
-                vetSchedule.VeterinarianId,
-                query.ConsultationType,
-                ct);
-
             var duration = query.DurationMinutes
-                ?? (durationResult.IsSuccess ? durationResult.Value : 30);
+                ?? durationByVet[vetSchedule.VeterinarianId];
 
             var slots = _scoringService.ScoreSlots(
                 vetSchedule,

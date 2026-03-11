@@ -17,14 +17,16 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class PreferencesIntegrationCross_ModuleOpt_InOpt_OutFeature : object, global::Xunit.IClassFixture<PreferencesIntegrationCross_ModuleOpt_InOpt_OutFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    [global::Xunit.TraitAttribute("Category", "wip")]
+    public partial class PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature : object, global::Xunit.IClassFixture<PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Preferences", "Preferences Integration — cross-module opt-in/opt-out", "  As a clinic administrator or staff member\r\n  I want preferences to control whic" +
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Preferences", "Preferences Integration -- cross-module opt-in/opt-out", "  As a clinic administrator or staff member\r\n  I want preferences to control whic" +
                 "h AI features and notifications are active\r\n  So that the system respects user a" +
                 "nd clinic-level opt-in/opt-out decisions", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
@@ -33,7 +35,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
 #line 1 "PreferencesIntegration.feature"
 #line hidden
         
-        public PreferencesIntegrationCross_ModuleOpt_InOpt_OutFeature(PreferencesIntegrationCross_ModuleOpt_InOpt_OutFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature(PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -107,9 +109,9 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 6
+#line 8
   #line hidden
-#line 7
+#line 9
     await testRunner.GivenAsync("I am authenticated as a user with role \"Vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
@@ -145,7 +147,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Owner without User account always receives reminder")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration — cross-module opt-in/opt-out")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "Owner without User account always receives reminder")]
         public async global::System.Threading.Tasks.Task OwnerWithoutUserAccountAlwaysReceivesReminder()
         {
@@ -155,7 +157,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Owner without User account always receives reminder", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 9
+#line 11
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -165,13 +167,13 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 10
+#line 12
     await testRunner.WhenAsync("an appointment reminder event is published for an owner email without UserId", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 11
+#line 13
     await testRunner.ThenAsync("an email is sent to the owner email", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -179,7 +181,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Owner always receives invoice email")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration — cross-module opt-in/opt-out")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "Owner always receives invoice email")]
         public async global::System.Threading.Tasks.Task OwnerAlwaysReceivesInvoiceEmail()
         {
@@ -189,7 +191,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Owner always receives invoice email", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 13
+#line 15
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -199,13 +201,13 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 14
+#line 16
     await testRunner.WhenAsync("an invoice sent event is published for an owner email without UserId", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 15
+#line 17
     await testRunner.ThenAsync("an invoice email is sent to the owner email", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -213,7 +215,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="AI triage is allowed by default")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration — cross-module opt-in/opt-out")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI triage is allowed by default")]
         public async global::System.Threading.Tasks.Task AITriageIsAllowedByDefault()
         {
@@ -223,7 +225,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AI triage is allowed by default", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 17
+#line 19
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -233,13 +235,13 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 18
+#line 20
     await testRunner.WhenAsync("a vet requests AI triage for a dog with symptoms \"Limping on front left paw\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 19
+#line 21
     await testRunner.ThenAsync("the triage response is successful or AI service unavailable", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -247,7 +249,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="AI triage respects user preference disabled")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration — cross-module opt-in/opt-out")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI triage respects user preference disabled")]
         public async global::System.Threading.Tasks.Task AITriageRespectsUserPreferenceDisabled()
         {
@@ -257,7 +259,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AI triage respects user preference disabled", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 21
+#line 23
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -267,16 +269,16 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 22
+#line 24
     await testRunner.GivenAsync("the current user has preference \"AITriage\" set to \"false\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 23
+#line 25
     await testRunner.WhenAsync("a vet requests AI triage for a dog with symptoms \"Limping on front left paw\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 24
+#line 26
     await testRunner.ThenAsync("the response indicates AI triage is disabled with error \"AI_TRIAGE_DISABLED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -284,7 +286,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="AI triage enabled after preference is enabled")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration — cross-module opt-in/opt-out")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI triage enabled after preference is enabled")]
         public async global::System.Threading.Tasks.Task AITriageEnabledAfterPreferenceIsEnabled()
         {
@@ -294,7 +296,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AI triage enabled after preference is enabled", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 26
+#line 28
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -304,16 +306,16 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 27
+#line 29
     await testRunner.GivenAsync("the current user has preference \"AITriage\" set to \"true\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 30
     await testRunner.WhenAsync("a vet requests AI triage for a dog with symptoms \"Limping on front left paw\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 29
+#line 31
     await testRunner.ThenAsync("the triage response is successful or AI service unavailable", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -321,7 +323,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Drug interaction check ignores preferences")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration — cross-module opt-in/opt-out")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "Drug interaction check ignores preferences")]
         public async global::System.Threading.Tasks.Task DrugInteractionCheckIgnoresPreferences()
         {
@@ -331,7 +333,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Drug interaction check ignores preferences", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 31
+#line 33
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -341,13 +343,13 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 32
+#line 34
     await testRunner.WhenAsync("the drug interaction check is performed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 33
+#line 35
     await testRunner.ThenAsync("the drug interaction check always executes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -355,7 +357,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="AI no-show prediction is disabled by preference")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration — cross-module opt-in/opt-out")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Preferences Integration -- cross-module opt-in/opt-out")]
         [global::Xunit.TraitAttribute("Description", "AI no-show prediction is disabled by preference")]
         public async global::System.Threading.Tasks.Task AINo_ShowPredictionIsDisabledByPreference()
         {
@@ -365,7 +367,7 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AI no-show prediction is disabled by preference", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 35
+#line 37
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -375,16 +377,16 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
+#line 8
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 36
+#line 38
     await testRunner.GivenAsync("the current user has preference \"AINoShow\" set to \"false\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 37
+#line 39
     await testRunner.WhenAsync("a vet requests no-show prediction for an appointment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 38
+#line 40
     await testRunner.ThenAsync("the response indicates AI no-show is disabled with error \"AI_NOSHOW_DISABLED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -398,12 +400,12 @@ namespace Vetolib.Tests.Acceptance.Features.Preferences
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await PreferencesIntegrationCross_ModuleOpt_InOpt_OutFeature.FeatureSetupAsync();
+                await PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await PreferencesIntegrationCross_ModuleOpt_InOpt_OutFeature.FeatureTearDownAsync();
+                await PreferencesIntegration_Cross_ModuleOpt_InOpt_OutFeature.FeatureTearDownAsync();
             }
         }
     }

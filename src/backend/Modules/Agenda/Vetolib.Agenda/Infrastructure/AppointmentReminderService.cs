@@ -44,8 +44,6 @@ internal class AppointmentReminderService : BackgroundService
     {
         using var scope = _scopeFactory.CreateScope();
 
-        // We bypass tenant filter for this background service
-        // because it processes appointments across all clinics.
         var dbContext = scope.ServiceProvider.GetRequiredService<AgendaDbContext>();
         var publishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
 
@@ -59,6 +57,7 @@ internal class AppointmentReminderService : BackgroundService
         var timeEnd = TimeOnly.FromDateTime(windowEnd);
 
         // Query appointments in the 23–25h window that have not been reminded yet
+        // EXCEPTION approved: cross-tenant background service scans all clinics for reminders (see disputes.md)
         var appointments = await dbContext.Appointments
             .IgnoreQueryFilters()
             .Where(a =>

@@ -111,7 +111,7 @@ namespace Vetolib.Tests.Acceptance.Features.Audit
 #line 7
   #line hidden
 #line 8
-    await testRunner.GivenAsync("une clinique \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -170,7 +170,7 @@ namespace Vetolib.Tests.Acceptance.Features.Audit
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 11
-    await testRunner.GivenAsync("je suis authentifié en tant que ADMIN", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as ADMIN", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 12
     await testRunner.AndAsync("a patient was created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -213,7 +213,7 @@ namespace Vetolib.Tests.Acceptance.Features.Audit
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 18
-    await testRunner.GivenAsync("je suis authentifié en tant que VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 19
     await testRunner.WhenAsync("I query audit", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

@@ -121,7 +121,7 @@ internal static class PatientEndpoints
         ISender sender)
     {
         if (file is null || file.Length == 0)
-            return Results.BadRequest("CSV file is required.");
+            return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError("CSV file is required.")).ToMinimalApiResult();
 
         await using var stream = file.OpenReadStream();
         var cmd = new ImportPatientsCommand(clinicContext.ClinicId, stream);

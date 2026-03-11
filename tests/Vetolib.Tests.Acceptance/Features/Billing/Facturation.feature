@@ -1,43 +1,59 @@
-Feature: Facturation vétérinaire
+Feature: Veterinary invoicing
   Background:
-    Given une clinique "Happy Paws"
-    And un animal "Max" dans la clinique
-    And je suis authentifié en tant que VET
+    Given a clinic "Happy Paws"
+    And an animal "Max" in the clinic
+    And I am authenticated as VET
 
-  Scenario: Créer une facture en brouillon
-    When je crée une facture pour "Max" avec l'item "Consultation" à 200 AED
-    Then la facture est créée avec le statut "DRAFT"
-    And le numéro est au format "INV-2026-001"
-    And la TVA de 5% est calculée automatiquement (10 AED)
-    And le total est 210 AED
+  Scenario: Create a draft invoice
+    When I create an invoice for "Max" with item "Consultation" at 200 AED
+    Then the invoice is created with status "DRAFT"
+    And the number matches format "INV-2026-001"
+    And the 5% VAT is calculated automatically (10 AED)
+    And the total is 210 AED
 
-  Scenario: Ajouter plusieurs items à une facture
-    Given une facture "DRAFT" pour "Max"
-    When j'ajoute l'item "Vaccin" à 150 AED
-    And j'ajoute l'item "Médicaments" à 80 AED
-    Then la facture contient 3 items
-    And le sous-total est 430 AED
-    And la TVA totale est 21.5 AED
-    And le total est 451.5 AED
+  Scenario: Add multiple items to an invoice
+    Given a "DRAFT" invoice for "Max"
+    When I add item "Vaccin" at 150 AED
+    And I add item "Medication" at 80 AED
+    Then the invoice contains 3 items
+    And the subtotal is 430 AED
+    And the total VAT is 21.5 AED
+    And the total is 451.5 AED
 
-  Scenario: Envoyer une facture
-    Given une facture "DRAFT" pour "Max" avec au moins un item
-    When je passe la facture à "SENT"
-    Then le statut est "SENT"
-    And la date d'échéance est fixée à 30 jours
+  Scenario: Send an invoice
+    Given a "DRAFT" invoice for "Max" with at least one item
+    When I change the invoice status to "SENT"
+    Then the status is "SENT"
+    And the due date is set to 30 days
 
-  Scenario: Marquer une facture comme payée
-    Given une facture "SENT" pour "Max"
-    When je marque la facture comme "PAID"
-    Then le statut est "PAID"
+  Scenario: Mark an invoice as paid
+    Given a "SENT" invoice for "Max"
+    When I mark the invoice as "PAID"
+    Then the status is "PAID"
 
-  Scenario: Impossible de modifier une facture payée
-    Given une facture "PAID" pour "Max"
-    When je tente d'ajouter un item à la facture
-    Then le système refuse avec le code "INVOICE_IMMUTABLE"
-    And le message est "Une facture payée ne peut plus être modifiée"
+  Scenario: Cannot modify a paid invoice
+    Given a "PAID" invoice for "Max"
+    When I attempt to add an item to the invoice
+    Then the system rejects with code "INVOICE_IMMUTABLE"
+    And the error message is "Une facture payée ne peut plus être modifiée"
 
-  Scenario: Numérotation séquentielle par clinique
-    Given 3 factures existantes pour "Happy Paws"
-    When je crée une nouvelle facture
-    Then le numéro est "INV-2026-004"
+  Scenario: Sequential numbering per clinic
+    Given 3 existing invoices for "Happy Paws"
+    When I create a new invoice
+    Then the number is "INV-2026-004"
+
+  Scenario: Download PDF of a sent invoice
+    Given a "SENT" invoice for "Max" with at least one item
+    When I download the PDF of this invoice
+    Then the response has status 200
+    And the Content-Type is "application/pdf"
+    And the content is not empty
+
+  Scenario: Cannot download PDF of a draft invoice
+    Given a "DRAFT" invoice for "Max"
+    When I download the PDF of this invoice
+    Then the response has status 422
+
+  Scenario: Non-existent PDF returns 404
+    When I download the PDF of an invoice with a random non-existent ID
+    Then the response has status 404

@@ -43,14 +43,14 @@ const MOCK_USERS: UserDto[] = [
 ]
 
 export const userHandlers = [
-  // GET /api/users
-  http.get('/api/users', async () => {
+  // GET /api/v1/users
+  http.get('/api/v1/users', async () => {
     await delay(150)
     return HttpResponse.json(MOCK_USERS.filter(u => u.isActive !== undefined))
   }),
 
-  // POST /api/users — invite a new member
-  http.post('/api/users', async ({ request }) => {
+  // POST /api/v1/users — invite a new member
+  http.post('/api/v1/users', async ({ request }) => {
     await delay(200)
     const body = await request.json() as InviteUserRequest
 
@@ -88,8 +88,8 @@ export const userHandlers = [
     )
   }),
 
-  // PATCH /api/users/:id/role — change user role
-  http.patch('/api/users/:id/role', async ({ params, request }) => {
+  // PATCH /api/v1/users/:id/role — change user role
+  http.patch('/api/v1/users/:id/role', async ({ params, request }) => {
     await delay(150)
     const body = await request.json() as ChangeRoleRequest
     const user = MOCK_USERS.find(u => u.id === params.id)
@@ -106,8 +106,8 @@ export const userHandlers = [
     return HttpResponse.json(user)
   }),
 
-  // DELETE /api/users/:id — deactivate user
-  http.delete('/api/users/:id', async ({ params }) => {
+  // DELETE /api/v1/users/:id — deactivate user
+  http.delete('/api/v1/users/:id', async ({ params }) => {
     await delay(150)
     const user = MOCK_USERS.find(u => u.id === params.id)
 

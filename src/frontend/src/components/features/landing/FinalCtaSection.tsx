@@ -37,6 +37,7 @@ export function FinalCtaSection({
               size="lg"
               className="bg-white px-10 text-base font-semibold text-emerald-700 hover:bg-emerald-50"
               onClick={() => trackEvent(AnalyticsEvents.CTA_FINAL)}
+              data-testid="btn-final-cta"
             >
               {cta}
             </Button>

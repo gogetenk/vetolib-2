@@ -10,6 +10,13 @@ using Vetolib.MedicalRecords.Contracts;
 
 namespace Vetolib.Auth.Application.Queries.GetOnboardingState;
 
+internal sealed record OnboardingDataSnapshot(
+    OnboardingState State,
+    int PatientCount,
+    int AppointmentCount,
+    int InvoiceCount
+);
+
 internal class GetOnboardingStateHandler : IRequestHandler<GetOnboardingStateQuery, Result<OnboardingStateDto>>
 {
     private readonly AuthDbContext _context;
@@ -23,78 +30,88 @@ internal class GetOnboardingStateHandler : IRequestHandler<GetOnboardingStateQue
 
     public async Task<Result<OnboardingStateDto>> Handle(GetOnboardingStateQuery query, CancellationToken ct)
     {
-        // Load or lazy-init the onboarding state
+        var snapshotResult = await LoadSnapshotAsync(query.UserId, ct);
+        if (!snapshotResult.IsSuccess)
+            return snapshotResult.Map(_ => (OnboardingStateDto)null!);
+
+        var snapshot = snapshotResult.Value;
+        ApplyAutoCompletions(snapshot);
+        await _context.SaveChangesAsync(ct);
+
+        return Result<OnboardingStateDto>.Success(ComputeState(snapshot));
+    }
+
+    private async Task<Result<OnboardingDataSnapshot>> LoadSnapshotAsync(Guid userId, CancellationToken ct)
+    {
         var state = await _context.OnboardingStates
-            .FirstOrDefaultAsync(o => o.UserId == query.UserId, ct);
+            .FirstOrDefaultAsync(o => o.UserId == userId, ct);
 
         if (state is null)
         {
-            // Lazy init: load user to get role
             var user = await _context.Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == query.UserId, ct);
+                .FirstOrDefaultAsync(u => u.Id == userId, ct);
 
             if (user is null)
-                return Result<OnboardingStateDto>.NotFound("User not found");
+                return Result<OnboardingDataSnapshot>.NotFound("User not found");
 
-            var createResult = OnboardingState.Create(query.UserId, user.Role.ToString(), user.ClinicId);
+            var createResult = OnboardingState.Create(userId, user.Role.ToString(), user.ClinicId);
             if (!createResult.IsSuccess)
-                return createResult.Map(_ => (OnboardingStateDto)null!);
+                return createResult.Map(_ => (OnboardingDataSnapshot)null!);
 
             state = createResult.Value;
             _context.OnboardingStates.Add(state);
             await _context.SaveChangesAsync(ct);
         }
 
-        // Auto-completion for data-driven steps (Admin role only for now)
-        await RunAutoCompletionAsync(state, ct);
-
-        // Save any auto-completed steps
-        await _context.SaveChangesAsync(ct);
-
-        return Result<OnboardingStateDto>.Success(BuildDto(state));
-    }
-
-    private async Task RunAutoCompletionAsync(OnboardingState state, CancellationToken ct)
-    {
         var roleSteps = OnboardingSteps.GetStepsForRole(state.Role);
 
-        // add_first_patient — auto-complete if clinic has at least 1 patient
-        if (roleSteps.Contains(OnboardingSteps.AddFirstPatient)
-            && !state.CompletedSteps.Contains(OnboardingSteps.AddFirstPatient))
-        {
-            var countResult = await _sender.Send(new GetPatientCountQuery(), ct);
-            if (countResult.IsSuccess && countResult.Value > 0)
-                state.CompleteStep(OnboardingSteps.AddFirstPatient);
-        }
+        var patientCountResult = roleSteps.Contains(OnboardingSteps.AddFirstPatient)
+            ? await _sender.Send(new GetPatientCountQuery(), ct)
+            : Result<int>.Success(0);
+        var patientCount = patientCountResult.IsSuccess ? patientCountResult.Value : 0;
 
-        // book_first_appointment — auto-complete if clinic has at least 1 appointment
-        if (roleSteps.Contains(OnboardingSteps.BookFirstAppointment)
-            && !state.CompletedSteps.Contains(OnboardingSteps.BookFirstAppointment))
-        {
-            var countResult = await _sender.Send(new GetAppointmentCountQuery(), ct);
-            if (countResult.IsSuccess && countResult.Value > 0)
-                state.CompleteStep(OnboardingSteps.BookFirstAppointment);
-        }
+        var appointmentCountResult = roleSteps.Contains(OnboardingSteps.BookFirstAppointment)
+            ? await _sender.Send(new GetAppointmentCountQuery(), ct)
+            : Result<int>.Success(0);
+        var appointmentCount = appointmentCountResult.IsSuccess ? appointmentCountResult.Value : 0;
 
-        // create_first_invoice — auto-complete if clinic has at least 1 invoice
-        if (roleSteps.Contains(OnboardingSteps.CreateFirstInvoice)
-            && !state.CompletedSteps.Contains(OnboardingSteps.CreateFirstInvoice))
-        {
-            var countResult = await _sender.Send(new GetInvoiceCountQuery(), ct);
-            if (countResult.IsSuccess && countResult.Value > 0)
-                state.CompleteStep(OnboardingSteps.CreateFirstInvoice);
-        }
+        var invoiceCountResult = roleSteps.Contains(OnboardingSteps.CreateFirstInvoice)
+            ? await _sender.Send(new GetInvoiceCountQuery(), ct)
+            : Result<int>.Success(0);
+        var invoiceCount = invoiceCountResult.IsSuccess ? invoiceCountResult.Value : 0;
 
-        // Check if all steps completed → mark as done
-        if (!state.CompletedAt.HasValue && state.IsFullyCompleted(roleSteps))
-        {
-            state.MarkCompleted();
-        }
+        return Result<OnboardingDataSnapshot>.Success(
+            new OnboardingDataSnapshot(state, patientCount, appointmentCount, invoiceCount));
     }
 
-    private static OnboardingStateDto BuildDto(OnboardingState state)
+    private static void ApplyAutoCompletions(OnboardingDataSnapshot snapshot)
     {
+        var (state, patientCount, appointmentCount, invoiceCount) = snapshot;
+        var roleSteps = OnboardingSteps.GetStepsForRole(state.Role);
+
+        if (roleSteps.Contains(OnboardingSteps.AddFirstPatient)
+            && !state.CompletedSteps.Contains(OnboardingSteps.AddFirstPatient)
+            && patientCount > 0)
+            state.CompleteStep(OnboardingSteps.AddFirstPatient);
+
+        if (roleSteps.Contains(OnboardingSteps.BookFirstAppointment)
+            && !state.CompletedSteps.Contains(OnboardingSteps.BookFirstAppointment)
+            && appointmentCount > 0)
+            state.CompleteStep(OnboardingSteps.BookFirstAppointment);
+
+        if (roleSteps.Contains(OnboardingSteps.CreateFirstInvoice)
+            && !state.CompletedSteps.Contains(OnboardingSteps.CreateFirstInvoice)
+            && invoiceCount > 0)
+            state.CompleteStep(OnboardingSteps.CreateFirstInvoice);
+
+        if (!state.CompletedAt.HasValue && state.IsFullyCompleted(roleSteps))
+            state.MarkCompleted();
+    }
+
+    private static OnboardingStateDto ComputeState(OnboardingDataSnapshot snapshot)
+    {
+        var state = snapshot.State;
         var roleSteps = OnboardingSteps.GetStepsForRole(state.Role);
 
         var stepDtos = roleSteps.Select(stepId => new OnboardingStepDto(
@@ -106,7 +123,6 @@ internal class GetOnboardingStateHandler : IRequestHandler<GetOnboardingStateQue
 
         var completed = stepDtos.Count(s => s.IsCompleted);
         var total = stepDtos.Count;
-
         var isCompleted = state.CompletedAt.HasValue || (total > 0 && completed == total);
 
         return new OnboardingStateDto(

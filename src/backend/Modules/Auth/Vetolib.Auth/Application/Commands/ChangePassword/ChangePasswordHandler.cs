@@ -40,8 +40,10 @@ internal class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, Re
             var revokeResult = token.Revoke();
             if (!revokeResult.IsSuccess)
             {
-                _logger.LogWarning("ChangePasswordHandler: failed to revoke token {TokenId} for user {UserId} — {Errors}",
-                    token.Id, cmd.UserId, string.Join("; ", revokeResult.Errors));
+                var tokenIdStr = token.Id.ToString();
+                var tokenIdPrefix = tokenIdStr.Length >= 8 ? tokenIdStr[..8] + "..." : tokenIdStr;
+                _logger.LogWarning("ChangePasswordHandler: failed to revoke token {TokenIdPrefix} for user {UserId} — {Errors}",
+                    tokenIdPrefix, cmd.UserId, string.Join("; ", revokeResult.Errors));
             }
         }
 

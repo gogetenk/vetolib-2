@@ -1,4 +1,7 @@
 using MassTransit;
+using Microsoft.AspNetCore.RateLimiting;
+using Sentry.OpenTelemetry;
+using Sentry.Serilog;
 using Serilog;
 using Serilog.Formatting.Json;
 using Vetolib.Agenda;
@@ -37,7 +40,8 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .Enrich.WithProperty("Application", "Vetolib.Api")
-        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName);
+        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+        .WriteTo.Sentry();
 
     if (context.HostingEnvironment.IsDevelopment())
     {
@@ -54,6 +58,20 @@ builder.Host.UseSerilog((context, config) =>
 
 // Aspire ServiceDefaults
 builder.AddServiceDefaults();
+
+// Sentry SDK — error tracking + distributed tracing
+// DSN is empty by default (SDK disabled). Set Sentry__Dsn env var in production.
+builder.WebHost.UseSentry(options =>
+{
+    var sentryDsn = builder.Configuration["Sentry:Dsn"] ?? "";
+    options.Dsn = Uri.IsWellFormedUriString(sentryDsn, UriKind.Absolute) ? sentryDsn : "";
+    options.Environment = builder.Environment.EnvironmentName;
+    options.TracesSampleRate = builder.Environment.IsProduction() ? 0.3 : 1.0;
+    options.SendDefaultPii = false;
+    options.Debug = builder.Environment.IsDevelopment();
+    options.EnableLogs = true;
+    options.UseOpenTelemetry();
+});
 
 // ── Fail-fast secret validation ────────────────────────────────────────────
 // Secrets must be provided via environment variables or User Secrets.
@@ -77,13 +95,15 @@ _ = builder.Configuration.GetConnectionString("vetolibdb")
 // ───────────────────────────────────────────────────────────────────────────
 
 // Database — Aspire Npgsql integration
-builder.AddNpgsqlDbContext<AuthDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<AgendaDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<MedicalRecordsDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<BillingDbContext>("vetolibdb");
+// Disable connection pooling: our DbContexts depend on scoped IClinicContext (multi-tenancy),
+// which is incompatible with DbContext pooling (resolves from root provider).
+builder.AddNpgsqlDbContext<AuthDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<AgendaDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<MedicalRecordsDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<BillingDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 // Audit context — dedicated context for the shared.audit_log table
-builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb");
-builder.AddNpgsqlDbContext<MessagingDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<MessagingDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Multi-tenancy
 builder.Services.AddHttpContextAccessor();
@@ -143,18 +163,49 @@ builder.Services.AddNotificationsModule();
 
 // AI module (triage + no-show prediction)
 builder.Services.AddAIModule(builder.Configuration);
-builder.AddNpgsqlDbContext<AIDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<AIDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Messaging module
 builder.Services.AddMessagingModule(builder.Configuration);
 
 // Stock module
 builder.Services.AddStockModule(builder.Configuration);
-builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Preferences module
 builder.Services.AddPreferencesModule(builder.Configuration);
-builder.AddNpgsqlDbContext<PreferencesDbContext>("vetolibdb");
+builder.AddNpgsqlDbContext<PreferencesDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+
+// Rate limiting
+// "auth"   — 10 req/min per IP (login, refresh, change-password)
+// "signup" — 3 req/h per IP   (clinic self-registration)
+// "api"    — 100 req/min per IP (all other authenticated endpoints)
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddSlidingWindowLimiter("auth", opt =>
+    {
+        opt.PermitLimit = 10;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.SegmentsPerWindow = 6;
+        opt.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("signup", opt =>
+    {
+        opt.PermitLimit = 3;
+        opt.Window = TimeSpan.FromHours(1);
+        opt.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("api", opt =>
+    {
+        opt.PermitLimit = 100;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+});
 
 // JSON: accept string enum values in request bodies (e.g., "MedicalQuestion" instead of 2).
 // Also serializes enum responses as strings for consistency.
@@ -167,6 +218,7 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 

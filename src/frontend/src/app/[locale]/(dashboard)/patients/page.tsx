@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { PatientCard } from '@/components/features/patients/PatientCard'
 import { CsvImportDialog } from '@/components/features/patients/CsvImportDialog'
 import { EmptyState } from '@/components/features/onboarding/EmptyState'
+import { ErrorState } from '@/components/ui/error-state'
 import { getPatients } from '@/lib/api/patients'
 import type { PatientDto } from '@/lib/api/patients'
 import { useRole } from '@/hooks/use-role'
@@ -20,6 +21,7 @@ export default function PatientsPage() {
   const [patients, setPatients] = useState<PatientDto[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [showImportDialog, setShowImportDialog] = useState(false)
   const role = useRole()
 
@@ -27,10 +29,12 @@ export default function PatientsPage() {
 
   const fetchPatients = useCallback(async (search?: string) => {
     setIsLoading(true)
+    setError(null)
     try {
       const result = await getPatients({ search: search || undefined })
       setPatients(result.items)
     } catch {
+      setError('Failed to load patients')
       setPatients([])
     } finally {
       setIsLoading(false)
@@ -106,6 +110,13 @@ export default function PatientsPage() {
             <div key={i} className="h-48 rounded-lg bg-muted animate-pulse" />
           ))}
         </div>
+      ) : error ? (
+        <ErrorState
+          data-testid="patients-error"
+          title="Failed to load patients"
+          description={error}
+          onRetry={() => fetchPatients(searchQuery)}
+        />
       ) : patients.length === 0 ? (
         <EmptyState
           icon={<ClipboardList className="h-16 w-16" />}

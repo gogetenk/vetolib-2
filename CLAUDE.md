@@ -97,6 +97,27 @@ using Vetolib.Agenda;  // INTERDIT
 
 Un agent qui ouvre une PR avec des tests Reqnroll rouges = PR rejetée automatiquement.
 
+### 3b. Vérification locale obligatoire AVANT commit/push (ajout v3.1 — post-mortem 2026-03-11)
+
+**Aucun code ne quitte la machine sans vérification locale.** C'est la règle la plus importante du pipeline.
+
+**Backend** — exécuter dans cet ordre, STOPPER au premier échec :
+```bash
+dotnet build src/backend/Vetolib.sln -c Release        # DOIT retourner 0 erreurs
+dotnet test tests/Vetolib.Tests.Unit/ --no-build -c Release  # DOIT passer
+dotnet test tests/Vetolib.Tests.Integration/ --no-build -c Release --filter "Category!=wip"  # DOIT passer
+```
+
+**Frontend** — exécuter dans cet ordre :
+```bash
+cd src/frontend && npm run build   # 0 erreurs TypeScript
+```
+
+**Si un test échoue → corriger AVANT de committer.** Pas de `git push` avec des tests rouges.
+Pas de "je committe et je fix après". Pas de `--filter` pour exclure les tests qui cassent.
+
+Un agent dev qui ouvre une PR sans avoir exécuté ces commandes = PR rejetée.
+
 ### 4. Multi-tenancy — Global Query Filter
 
 Le `MultiTenantDbContext` applique automatiquement `WHERE ClinicId = @current` sur toutes les requêtes.
@@ -232,12 +253,14 @@ Ne jamais modifier sans arbitrage humain (`disputes.md`) :
 - Les tests Playwright décrivent le comportement utilisateur, pas les appels réseau
 - Pas de `cy.intercept()` ou `page.route()` pour mocker — MSW gère ça
 
-### Features Gherkin — verticales
+### Features Gherkin — purement fonctionnelles
 
+- **Toujours en anglais** — zéro français dans les .feature
 - Les features décrivent le **comportement observable par l'utilisateur** (pas les endpoints API)
-- Scénarios UI-first : "Given I am on the login page, When I submit, Then I see..."
-- Un scénario = une tranche verticale complète (UI → API → DB)
-- Les steps backend (HTTP status codes) s'utilisent uniquement pour les tests d'API isolation (ex: tenant isolation)
+- **Zéro technique** : pas de status codes HTTP, pas d'URLs, pas de JSON dans les steps
+- Scénarios écrits par/avec le PO en langage naturel
+- Un scénario = un use case métier complet
+- Les steps techniques (HTTP codes, tenant isolation) vont dans les TI, PAS dans les TF
 
 ### Tâches de branchement (wire)
 
@@ -247,27 +270,46 @@ Ne jamais modifier sans arbitrage humain (`disputes.md`) :
 
 ---
 
-## Structure tests (ajout v2.1)
+## Stratégie de tests — modèle en sablier (v2.3)
 
+3 couches complémentaires, chacune avec un rôle distinct. **Aucune couche ne duplique les tests d'une autre.**
+
+### TU — Tests Unitaires (xUnit + NSubstitute)
+- **Rôle** : Edge cases, mutations, setups complexes impossibles à reproduire en intégration
+- Testent : Domain factories, Handler branches (error paths, edge cases), Validators, Value Objects
+- Tout est mocké (NSubstitute) — PAS de Testcontainers, PAS de HTTP
+- Rapides (< 5s pour tout le projet)
+
+### TI — Tests d'Intégration (xUnit + Testcontainers)
+- **Rôle** : Wiring technique pur et contract testing — **pas de logique métier**
+- Testent : 1 TI par endpoint minimum (le contrat HTTP fonctionne), sérialisation JSON, auth/authz, multi-tenancy isolation
+- Vérifient que le pipeline technique fonctionne (DI → handler → DB → response)
+- Ne testent PAS les règles métier (c'est le rôle des TF)
+
+### TF — Tests Fonctionnels / BDD (Reqnroll + Testcontainers)
+- **Rôle** : Comportement fonctionnel observable, écrit par/avec le PO
+- Testent : Tous les use cases métier via Gherkin, langage naturel
+- **Zéro technique** dans les .feature : pas de status codes, pas d'URLs, pas de JSON
+- Les .feature sont **la spec vivante** — si un scénario n'est pas couvert, c'est un bug
+- **Toujours en anglais** (marché UAE)
+
+### Ce que ça implique pour SonarCloud
+Chaque fichier backend est couvert directement ou indirectement par au moins une des 3 couches.
+Si SonarCloud montre un fichier non couvert → il manque des tests OU c'est du code mort à supprimer.
+**Aucune exclusion de coverage** — tout doit être couvert.
+
+### Structure
 ```
 Tests/
-├── Vetolib.Tests.Acceptance/         ← Reqnroll + Testcontainers (tests BDD cross-module)
+├── Vetolib.Tests.Acceptance/         ← TF : Reqnroll + Testcontainers (BDD fonctionnel)
 │   ├── StepDefinitions/
-│   │   ├── Auth/LoginSteps.cs
-│   │   ├── Agenda/AppointmentSteps.cs
-│   │   └── ...
 │   ├── Support/
-│   │   ├── ApiFactory.cs             ← TestWebApplicationFactory + Testcontainers PostgreSQL
-│   │   └── Hooks.cs
-│   └── Features/                     ← symlinks ou copies des .feature depuis features/
-├── Vetolib.Auth.Tests.Unit/          ← xUnit, NSubstitute — UN PROJET PAR MODULE
-├── Vetolib.Agenda.Tests.Unit/
-├── Vetolib.MedicalRecords.Tests.Unit/
-└── Vetolib.Billing.Tests.Unit/
+│   └── Features/                     ← .feature EN ANGLAIS uniquement
+├── Vetolib.Tests.Integration/        ← TI : contract testing, wiring, 1 par endpoint
+├── Vetolib.Tests.Unit/               ← TU : edge cases, mutations, validators
 ```
 
-Les projets Unit testent : Domain factories, Handler happy/error paths, Validators.
-Pas de Testcontainers dans les projets Unit — tout est mocké (NSubstitute).
+Les projets TU ne dépendent JAMAIS de Testcontainers — tout est mocké (NSubstitute).
 
 ---
 
@@ -309,6 +351,7 @@ Chaque fichier `todo-*.md` doit contenir tout ce dont l'agent a besoin :
 | Hook | Déclencheur | Effet |
 |---|---|---|
 | `guard-shared.sh` | Toute écriture Write/Edit | Bloque modification de `Shared/` sans autorisation |
+| `verify-before-push.sh` | Bash `git push` | Build + tests unitaires DOIVENT passer avant push |
 | `log-cost.sh` | Fin de session (Stop) | Log dans `.claude/cost-log.csv`, alerte si > $2/session |
 
 ## Flags dans les tâches

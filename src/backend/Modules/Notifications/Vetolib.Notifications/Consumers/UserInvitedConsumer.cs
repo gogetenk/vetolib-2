@@ -46,7 +46,7 @@ internal class UserInvitedConsumer : IConsumer<UserInvitedIntegrationEvent>
                 evt.Email,
                 string.Join(", ", result.Errors));
 
-            // Throwing causes MassTransit to retry with exponential backoff
+            // Intentional throw: MassTransit retry policy will requeue on transient failures
             throw new InvalidOperationException($"Failed to send invitation email to {evt.Email}");
         }
 

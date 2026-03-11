@@ -79,6 +79,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
           variant="ghost"
           onClick={() => router.push(`/${params.locale}/portal/${params.clinicSlug}`)}
           className="mt-3"
+          data-testid="portal-conversation-back-btn"
         >
           {t('back')}
         </Button>

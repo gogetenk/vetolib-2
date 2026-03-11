@@ -7,11 +7,10 @@ import {
   ClipboardList,
   FileText,
   Users,
-  LayoutDashboard,
-  Bell,
   UserPlus,
   Building2,
   Quote,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -53,8 +52,6 @@ const FEATURE_ICONS = [
   ClipboardList,
   FileText,
   Users,
-  LayoutDashboard,
-  Bell,
 ] as const;
 
 const FEATURE_KEYS = [
@@ -62,8 +59,6 @@ const FEATURE_KEYS = [
   "medical_records",
   "invoicing",
   "team",
-  "dashboard",
-  "notifications",
 ] as const;
 
 const SOCIAL_PROOF_KEYS = [
@@ -142,6 +137,7 @@ export default async function LandingPage({ params }: Props) {
               <Button
                 size="sm"
                 className="bg-emerald-700 text-white hover:bg-emerald-800"
+                data-testid="btn-nav-start-trial"
               >
                 {t("hero.cta_primary")}
               </Button>
@@ -153,6 +149,7 @@ export default async function LandingPage({ params }: Props) {
               <Button
                 size="sm"
                 className="bg-emerald-700 text-white hover:bg-emerald-800"
+                data-testid="btn-nav-mobile-start-trial"
               >
                 {t("hero.cta_primary")}
               </Button>
@@ -182,6 +179,7 @@ export default async function LandingPage({ params }: Props) {
                     <Button
                       size="lg"
                       className="w-full bg-emerald-700 px-8 text-base font-semibold text-white hover:bg-emerald-800 sm:w-auto"
+                      data-testid="btn-hero-start-trial"
                     >
                       {t("hero.cta_primary")}
                     </Button>
@@ -194,11 +192,22 @@ export default async function LandingPage({ params }: Props) {
                       variant="outline"
                       size="lg"
                       className="w-full border-emerald-700 px-8 text-base font-semibold text-emerald-700 hover:bg-emerald-50 sm:w-auto"
+                      data-testid="btn-hero-book-demo"
                     >
                       {t("hero.cta_secondary")}
                     </Button>
                   </a>
                 </div>
+                <p
+                  data-testid="hero-trust-badge"
+                  className="mt-5 flex items-center justify-center gap-1.5 text-sm text-gray-500 lg:justify-start"
+                >
+                  <ShieldCheck
+                    className="h-4 w-4 shrink-0 text-emerald-600"
+                    aria-hidden="true"
+                  />
+                  {t("hero.trust_badge")}
+                </p>
               </div>
 
               {/* Visual side */}
@@ -260,7 +269,7 @@ export default async function LandingPage({ params }: Props) {
               </p>
             </div>
 
-            <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-16 grid gap-6 sm:grid-cols-2">
               {FEATURE_KEYS.map((key, i) => {
                 const Icon = FEATURE_ICONS[i];
                 return (
@@ -387,6 +396,7 @@ export default async function LandingPage({ params }: Props) {
                 <Button
                   size="lg"
                   className="bg-emerald-700 px-10 text-base font-semibold text-white hover:bg-emerald-800"
+                  data-testid="btn-how-it-works-start-trial"
                 >
                   {t("how_it_works.cta")}
                 </Button>

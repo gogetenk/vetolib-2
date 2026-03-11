@@ -151,6 +151,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
               className="text-xs text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setShowFullDate((p) => !p)}
               data-testid={`message-timestamp-${message.id}`}
+              aria-label={showFullDate ? 'Show relative time' : 'Show full date and time'}
             >
               {showFullDate ? formatFullDate(message.sentAt) : formatRelativeTime(message.sentAt)}
             </button>
@@ -187,6 +188,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             className="text-xs text-muted-foreground hover:text-foreground transition-colors mt-1 ml-1"
             onClick={() => setShowFullDate((p) => !p)}
             data-testid={`message-timestamp-${message.id}`}
+            aria-label={showFullDate ? 'Show relative time' : 'Show full date and time'}
           >
             {showFullDate ? formatFullDate(message.sentAt) : formatRelativeTime(message.sentAt)}
           </button>
@@ -227,6 +229,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             className="text-xs text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setShowFullDate((p) => !p)}
             data-testid={`message-timestamp-${message.id}`}
+            aria-label={showFullDate ? 'Show relative time' : 'Show full date and time'}
           >
             {showFullDate ? formatFullDate(message.sentAt) : formatRelativeTime(message.sentAt)}
           </button>

@@ -10,6 +10,8 @@
     <InternalsVisibleTo Include="Vetolib.Api" />
     <InternalsVisibleTo Include="Vetolib.Tests.Acceptance" />
     <InternalsVisibleTo Include="Vetolib.Tests.Unit" />
+    <InternalsVisibleTo Include="Vetolib.Tests.Integration" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
 
   <ItemGroup>

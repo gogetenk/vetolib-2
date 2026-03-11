@@ -99,10 +99,10 @@ function identifyUserInPostHog(tokens: AuthTokens, user: UserInfo): void {
   posthog.group('clinic', user.clinicId)
 }
 
-// POST /api/auth/login
+// POST /api/v1/auth/login
 export async function login(email: string, password: string): Promise<LoginResponse> {
   try {
-    const response = await apiPost<LoginResponse>('/api/auth/login', { email, password })
+    const response = await apiPost<LoginResponse>('/api/v1/auth/login', { email, password })
     storeTokens(response)
     identifyUserInPostHog(response, response.user)
     return response
@@ -118,9 +118,9 @@ export async function login(email: string, password: string): Promise<LoginRespo
   }
 }
 
-// POST /api/auth/refresh
+// POST /api/v1/auth/refresh
 export async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
-  const response = await apiPost<AuthTokens>('/api/auth/refresh', { refreshToken })
+  const response = await apiPost<AuthTokens>('/api/v1/auth/refresh', { refreshToken })
   storeTokens(response)
   return response
 }
@@ -146,10 +146,10 @@ export interface RegisterClinicRequest {
   phone: string
 }
 
-// POST /api/auth/register-clinic
+// POST /api/v1/auth/register-clinic
 export async function registerClinic(data: RegisterClinicRequest): Promise<void> {
   try {
-    await apiPost<void>('/api/auth/register-clinic', data)
+    await apiPost<void>('/api/v1/auth/register-clinic', data)
   } catch (err) {
     if (err instanceof ApiError && err.status === 409) {
       throw { code: 'EMAIL_TAKEN', message: 'Email already in use' } as RegisterError

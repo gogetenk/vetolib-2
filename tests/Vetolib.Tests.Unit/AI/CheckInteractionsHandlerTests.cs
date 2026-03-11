@@ -500,4 +500,267 @@ public class CheckInteractionsHandlerTests
         // (that's the current implementation — alternatives are populated from alert.AlternativeDrugIds)
         result.Value.Alternatives.Should().BeEmpty();
     }
+
+    [Fact]
+    public async Task Handle_WhenContraindicationHasAlternativeDrugId_FetchesAlternativeDrug()
+    {
+        // Arrange — contraindication includes an alternative drug ID
+        var alternativeId = Guid.NewGuid();
+
+        var contraindication = new SpeciesContraindicationDto(
+            Species: Species.Cat,
+            Severity: InteractionSeverity.Critical,
+            Reason: "Toxic to cats",
+            AlternativeDrugId: alternativeId);
+
+        var drug = BuildDrug(contraindications: [contraindication]);
+        var alternativeDrug = BuildDrug(id: alternativeId);
+
+        SetupDrugResult(drug);
+        SetupPatientResult(Species.Cat);
+        SetupActivePrescriptions([]);
+
+        // Setup the alternative drug lookup
+        _sender.Send(
+                Arg.Is<GetDrugCatalogEntryByIdQuery>(q => q.Id == alternativeId),
+                Arg.Any<CancellationToken>())
+            .Returns(Result<DrugCatalogEntryDto>.Success(alternativeDrug));
+
+        // Act
+        var result = await _handler.Handle(BuildQuery(), CancellationToken.None);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().HaveCount(1);
+        result.Value.Alerts[0].AlternativeDrugIds.Should().Contain(alternativeId);
+        result.Value.Alternatives.Should().HaveCount(1);
+        result.Value.Alternatives[0].Id.Should().Be(alternativeId);
+    }
+
+    [Fact]
+    public async Task Handle_WhenAlternativeDrugLookupFails_StillReturnsSuccess()
+    {
+        // Arrange — contraindication with alternative but the lookup for that alternative fails
+        var alternativeId = Guid.NewGuid();
+
+        var contraindication = new SpeciesContraindicationDto(
+            Species: Species.Cat,
+            Severity: InteractionSeverity.Critical,
+            Reason: "Toxic to cats",
+            AlternativeDrugId: alternativeId);
+
+        var drug = BuildDrug(contraindications: [contraindication]);
+
+        SetupDrugResult(drug);
+        SetupPatientResult(Species.Cat);
+        SetupActivePrescriptions([]);
+
+        // Alternative lookup returns NotFound (best-effort — should not fail the whole request)
+        _sender.Send(
+                Arg.Is<GetDrugCatalogEntryByIdQuery>(q => q.Id == alternativeId),
+                Arg.Any<CancellationToken>())
+            .Returns(Result<DrugCatalogEntryDto>.NotFound("Alt drug not found"));
+
+        // Act
+        var result = await _handler.Handle(BuildQuery(), CancellationToken.None);
+
+        // Assert — main result is still success; alternatives list is just empty
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().HaveCount(1);
+        result.Value.Alternatives.Should().BeEmpty();
+    }
+
+    // ── Reverse Drug Interaction Tests ────────────────────────────────────────────
+
+    [Fact]
+    public async Task Handle_WhenActiveDrugHasReverseInteractionWithNewDrug_ReturnsInteractionAlert()
+    {
+        // Arrange — existing drug (in active prescriptions) has an interaction WITH the new drug
+        // (not listed in the new drug's interactions, only in the existing drug's interactions)
+        var existingDrugId = Guid.NewGuid();
+        var newDrugId = DrugId;
+
+        // New drug has no forward interactions
+        var newDrug = BuildDrug(id: newDrugId, interactions: Array.Empty<DrugInteractionDto>());
+
+        // Existing drug has a reverse interaction pointing to the new drug
+        var reverseInteraction = new DrugInteractionDto(
+            OtherDrugId: newDrugId,
+            OtherDrugName: "Amoxicillin 250mg",
+            Severity: InteractionSeverity.Critical,
+            Description: "Risk of anaphylaxis when combined");
+
+        var existingDrug = BuildDrug(
+            id: existingDrugId,
+            interactions: [reverseInteraction]);
+
+        var activePrescription = BuildActivePrescription(existingDrugId);
+
+        SetupDrugResult(newDrug);
+        SetupPatientResult(Species.Dog);
+        SetupActivePrescriptions([activePrescription]);
+
+        // The reverse lookup fetches the existing drug
+        _sender.Send(
+                Arg.Is<GetDrugCatalogEntryByIdQuery>(q => q.Id == existingDrugId),
+                Arg.Any<CancellationToken>())
+            .Returns(Result<DrugCatalogEntryDto>.Success(existingDrug));
+
+        // Act
+        var result = await _handler.Handle(BuildQuery(), CancellationToken.None);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().HaveCount(1);
+
+        var alert = result.Value.Alerts[0];
+        alert.Type.Should().Be(InteractionAlertType.DrugInteraction);
+        alert.Severity.Should().Be(InteractionSeverity.Critical);
+        alert.Message.Should().Contain("Amoxicillin 250mg");
+        alert.Message.Should().Contain("anaphylaxis");
+    }
+
+    [Fact]
+    public async Task Handle_WhenActiveDrugLookupFailsDuringReverseCheck_SkipsAndContinues()
+    {
+        // Arrange — reverse check tries to fetch existing drug but it is not found (best-effort)
+        var existingDrugId = Guid.NewGuid();
+
+        var newDrug = BuildDrug(interactions: Array.Empty<DrugInteractionDto>());
+        var activePrescription = BuildActivePrescription(existingDrugId);
+
+        SetupDrugResult(newDrug);
+        SetupPatientResult(Species.Dog);
+        SetupActivePrescriptions([activePrescription]);
+
+        // Existing drug lookup fails
+        _sender.Send(
+                Arg.Is<GetDrugCatalogEntryByIdQuery>(q => q.Id == existingDrugId),
+                Arg.Any<CancellationToken>())
+            .Returns(Result<DrugCatalogEntryDto>.NotFound("Not found"));
+
+        // Act
+        var result = await _handler.Handle(BuildQuery(), CancellationToken.None);
+
+        // Assert — handler continues gracefully, no alerts
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Handle_WhenForwardAndReverseInteractionBothExist_DoesNotDuplicateAlert()
+    {
+        // Arrange — new drug's forward interactions already include the existing drug;
+        // reverse check should skip because forward already caught it
+        var existingDrugId = OtherDrugId;
+
+        var forwardInteraction = new DrugInteractionDto(
+            OtherDrugId: existingDrugId,
+            OtherDrugName: "Metronidazole",
+            Severity: InteractionSeverity.Moderate,
+            Description: "Neurotoxicity risk");
+
+        var newDrug = BuildDrug(interactions: [forwardInteraction]);
+
+        // Existing drug also has the reverse interaction
+        var reverseInteraction = new DrugInteractionDto(
+            OtherDrugId: DrugId,
+            OtherDrugName: "Amoxicillin 250mg",
+            Severity: InteractionSeverity.Moderate,
+            Description: "Neurotoxicity risk reverse");
+
+        var existingDrug = BuildDrug(id: existingDrugId, interactions: [reverseInteraction]);
+        var activePrescription = BuildActivePrescription(existingDrugId);
+
+        SetupDrugResult(newDrug);
+        SetupPatientResult(Species.Dog);
+        SetupActivePrescriptions([activePrescription]);
+
+        // The reverse lookup should NOT be called because the forward check already flagged it
+        // (the handler skips when newDrug.Interactions.Any(i => i.OtherDrugId == existingDrugId))
+        _sender.Send(
+                Arg.Is<GetDrugCatalogEntryByIdQuery>(q => q.Id == existingDrugId),
+                Arg.Any<CancellationToken>())
+            .Returns(Result<DrugCatalogEntryDto>.Success(existingDrug));
+
+        // Act
+        var result = await _handler.Handle(BuildQuery(), CancellationToken.None);
+
+        // Assert — only one alert (forward check), not duplicated
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().HaveCount(1);
+        result.Value.Alerts[0].Type.Should().Be(InteractionAlertType.DrugInteraction);
+    }
+
+    // ── Active Prescriptions Load Failure ─────────────────────────────────────────
+
+    [Fact]
+    public async Task Handle_WhenActivePrescriptionLoadFails_TreatsAsEmptyAndSucceeds()
+    {
+        // Arrange — GetActivePrescriptionsForPatientQuery returns failure
+        var drug = BuildDrug();
+
+        SetupDrugResult(drug);
+        SetupPatientResult(Species.Dog);
+
+        _sender.Send(
+                Arg.Is<GetActivePrescriptionsForPatientQuery>(q => q.PatientId == PatientId),
+                Arg.Any<CancellationToken>())
+            .Returns(Result<List<PrescriptionDto>>.Error("Service unavailable"));
+
+        // Act
+        var result = await _handler.Handle(BuildQuery(), CancellationToken.None);
+
+        // Assert — graceful fallback to empty list, no crash
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().BeEmpty();
+    }
+
+    // ── Dosage Guideline — No Guideline For Species ────────────────────────────────
+
+    [Fact]
+    public async Task Handle_WhenNoDosageGuidelineForPatientSpecies_SkipsDosageCheck()
+    {
+        // Arrange — guideline exists for Dog but patient is a Cat
+        var guideline = new DosageGuidelineDto(
+            Species: Species.Dog,
+            MinDosePerKg: 5m,
+            MaxDosePerKg: 10m,
+            Unit: "mg",
+            Route: "oral");
+
+        var drug = BuildDrug(dosageGuidelines: [guideline]);
+
+        SetupDrugResult(drug);
+        SetupPatientResult(Species.Cat, weightKg: 4m);
+        SetupActivePrescriptions([]);
+
+        // Act — dosage provided but species has no matching guideline
+        var result = await _handler.Handle(BuildQuery(dosageAmount: 5m), CancellationToken.None);
+
+        // Assert — no dosage alert because no guideline applies
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().BeEmpty();
+    }
+
+    // ── Happy Path — Clean Prescription ───────────────────────────────────────────
+
+    [Fact]
+    public async Task Handle_WhenNoAlertsDetected_ReturnsSuccessWithEmptyAlertsAndAlternatives()
+    {
+        // Arrange — simple drug, no contraindications, no active prescriptions, no dosage check
+        var drug = BuildDrug();
+
+        SetupDrugResult(drug);
+        SetupPatientResult(Species.Dog);
+        SetupActivePrescriptions([]);
+
+        // Act
+        var result = await _handler.Handle(BuildQuery(), CancellationToken.None);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Alerts.Should().BeEmpty();
+        result.Value.Alternatives.Should().BeEmpty();
+    }
 }

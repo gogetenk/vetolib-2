@@ -41,11 +41,15 @@ internal class UserPreference : BaseEntity, IMultiTenant
         if (errors.Count > 0)
             return Result<UserPreference>.Invalid(errors);
 
+        var categoryResult = SystemDefaults.GetCategory(key);
+        if (!categoryResult.IsSuccess)
+            return Result<UserPreference>.NotFound(categoryResult.Errors.ToArray());
+
         return Result<UserPreference>.Success(new UserPreference
         {
             ClinicId = clinicId,
             UserId = userId,
-            Category = SystemDefaults.GetCategory(key),
+            Category = categoryResult.Value,
             Key = key,
             Value = value
         });

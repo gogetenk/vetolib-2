@@ -17,21 +17,21 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class DossierMedicalAnimalFeature : object, global::Xunit.IClassFixture<DossierMedicalAnimalFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class AnimalMedicalRecordFeature : object, global::Xunit.IClassFixture<AnimalMedicalRecordFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/MedicalRecords", "Dossier médical animal", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/MedicalRecords", "Animal medical record", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "DossierMedical.feature"
 #line hidden
         
-        public DossierMedicalAnimalFeature(DossierMedicalAnimalFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public AnimalMedicalRecordFeature(AnimalMedicalRecordFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -108,16 +108,16 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
 #line 2
   #line hidden
 #line 3
-    await testRunner.GivenAsync("une clinique \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 4
-    await testRunner.AndAsync("un propriétaire \"John Smith\" avec l\'email \"john@example.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("an owner \"John Smith\" with email \"john@example.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 5
-    await testRunner.AndAsync("un animal \"Max\" race \"Labrador\" appartenant à \"John Smith\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("an animal \"Max\" breed \"Labrador\" belonging to \"John Smith\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 6
-    await testRunner.AndAsync("je suis authentifié en tant que VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -151,15 +151,15 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Créer un dossier animal (nouveau patient)")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
-        [global::Xunit.TraitAttribute("Description", "Créer un dossier animal (nouveau patient)")]
-        public async global::System.Threading.Tasks.Task CreerUnDossierAnimalNouveauPatient()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create an animal record (new patient)")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Animal medical record")]
+        [global::Xunit.TraitAttribute("Description", "Create an animal record (new patient)")]
+        public async global::System.Threading.Tasks.Task CreateAnAnimalRecordNewPatient()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer un dossier animal (nouveau patient)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create an animal record (new patient)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 8
@@ -176,30 +176,30 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 9
-    await testRunner.WhenAsync("je crée un animal \"Luna\" race \"Persian Cat\" pour le propriétaire \"John Smith\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I create an animal \"Luna\" breed \"Persian Cat\" for owner \"John Smith\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 10
-    await testRunner.ThenAsync("l\'animal est créé dans la clinique", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the animal is created in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 11
-    await testRunner.AndAsync("son dossier médical est vide", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("its medical record is empty", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 12
-    await testRunner.AndAsync("le propriétaire \"John Smith\" est lié à \"Luna\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the owner \"John Smith\" is linked to \"Luna\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="RECEPTIONIST ne peut pas écrire dans un dossier")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
-        [global::Xunit.TraitAttribute("Description", "RECEPTIONIST ne peut pas écrire dans un dossier")]
-        public async global::System.Threading.Tasks.Task RECEPTIONISTNePeutPasEcrireDansUnDossier()
+        [global::Xunit.SkippableFactAttribute(DisplayName="RECEPTIONIST cannot write to a record")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Animal medical record")]
+        [global::Xunit.TraitAttribute("Description", "RECEPTIONIST cannot write to a record")]
+        public async global::System.Threading.Tasks.Task RECEPTIONISTCannotWriteToARecord()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("RECEPTIONIST ne peut pas écrire dans un dossier", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("RECEPTIONIST cannot write to a record", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 14
@@ -216,27 +216,27 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 15
-    await testRunner.GivenAsync("je suis authentifié en tant que RECEPTIONIST", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as RECEPTIONIST", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
-    await testRunner.WhenAsync("je tente d\'ajouter un examen pour \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to add an examination for \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 17
-    await testRunner.ThenAsync("le système refuse avec le code \"INSUFFICIENT_PERMISSIONS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"INSUFFICIENT_PERMISSIONS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Isolation tenant — ne pas voir les animaux d\'une autre clinique")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
-        [global::Xunit.TraitAttribute("Description", "Isolation tenant — ne pas voir les animaux d\'une autre clinique")]
-        public async global::System.Threading.Tasks.Task IsolationTenantNePasVoirLesAnimauxDuneAutreClinique()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Tenant isolation — cannot see animals from another clinic")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Animal medical record")]
+        [global::Xunit.TraitAttribute("Description", "Tenant isolation — cannot see animals from another clinic")]
+        public async global::System.Threading.Tasks.Task TenantIsolationCannotSeeAnimalsFromAnotherClinic()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Isolation tenant — ne pas voir les animaux d\'une autre clinique", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Tenant isolation — cannot see animals from another clinic", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 19
@@ -253,27 +253,27 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 20
-    await testRunner.GivenAsync("un animal \"Rocky\" dans la clinique \"Desert Vets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an animal \"Rocky\" in clinic \"Desert Vets\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 21
-    await testRunner.WhenAsync("je consulte la liste des animaux de \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I list the animals of \"Happy Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 22
-    await testRunner.ThenAsync("\"Rocky\" n\'apparaît pas dans la liste", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("\"Rocky\" does not appear in the list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Ajouter un examen au dossier")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
-        [global::Xunit.TraitAttribute("Description", "Ajouter un examen au dossier")]
-        public async global::System.Threading.Tasks.Task AjouterUnExamenAuDossier()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Add an examination to the record")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Animal medical record")]
+        [global::Xunit.TraitAttribute("Description", "Add an examination to the record")]
+        public async global::System.Threading.Tasks.Task AddAnExaminationToTheRecord()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Ajouter un examen au dossier", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add an examination to the record", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 24
@@ -290,31 +290,31 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 25
-    await testRunner.WhenAsync("j\'ajoute un examen pour \"Max\" avec le diagnostic \"Otite bactérienne\" et le traite" +
-                        "ment \"Nettoyage oreilles + antibiotiques 7 jours\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I add an examination for \"Max\" with diagnosis \"Bacterial otitis\" and treatment \"E" +
+                        "ar cleaning + antibiotics 7 days\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 26
-    await testRunner.ThenAsync("l\'examen apparaît dans l\'historique de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the examination appears in the history of \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 27
-    await testRunner.AndAsync("il est horodaté avec la date du jour", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("it is timestamped with today\'s date", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 28
-    await testRunner.AndAsync("il porte le vétérinaire courant comme auteur", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("it bears the current veterinarian as author", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Consulter l\'historique complet")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
-        [global::Xunit.TraitAttribute("Description", "Consulter l\'historique complet")]
-        public async global::System.Threading.Tasks.Task ConsulterLhistoriqueComplet()
+        [global::Xunit.SkippableFactAttribute(DisplayName="View complete history")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Animal medical record")]
+        [global::Xunit.TraitAttribute("Description", "View complete history")]
+        public async global::System.Threading.Tasks.Task ViewCompleteHistory()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Consulter l\'historique complet", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("View complete history", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 30
@@ -331,27 +331,27 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 31
-    await testRunner.GivenAsync("3 examens dans le dossier de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("3 examinations in the record of \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 32
-    await testRunner.WhenAsync("je consulte le dossier de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I view the record of \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 33
-    await testRunner.ThenAsync("je vois 3 examens dans l\'ordre chronologique inverse", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I see 3 examinations in reverse chronological order", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Créer une ordonnance")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
-        [global::Xunit.TraitAttribute("Description", "Créer une ordonnance")]
-        public async global::System.Threading.Tasks.Task CreerUneOrdonnance()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Create a prescription")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Animal medical record")]
+        [global::Xunit.TraitAttribute("Description", "Create a prescription")]
+        public async global::System.Threading.Tasks.Task CreateAPrescription()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Créer une ordonnance", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a prescription", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 35
@@ -368,31 +368,31 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 36
-    await testRunner.GivenAsync("un examen existant pour \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing examination for \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 37
-    await testRunner.WhenAsync("je crée une ordonnance avec le médicament \"Amoxicilline 250mg\" posologie \"2x/jour" +
-                        " pendant 7j\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I create a prescription with medication \"Amoxicilline 250mg\" dosage \"2x/day for 7" +
+                        " days\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 38
-    await testRunner.ThenAsync("l\'ordonnance est créée avec le numéro de licence \"TEST-VET-001\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the prescription is created with license number \"TEST-VET-001\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 39
-    await testRunner.AndAsync("elle est liée à l\'examen", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("it is linked to the examination", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Un dossier n\'est jamais supprimé")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Dossier médical animal")]
-        [global::Xunit.TraitAttribute("Description", "Un dossier n\'est jamais supprimé")]
-        public async global::System.Threading.Tasks.Task UnDossierNestJamaisSupprime()
+        [global::Xunit.SkippableFactAttribute(DisplayName="A record is never deleted")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Animal medical record")]
+        [global::Xunit.TraitAttribute("Description", "A record is never deleted")]
+        public async global::System.Threading.Tasks.Task ARecordIsNeverDeleted()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Un dossier n\'est jamais supprimé", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("A record is never deleted", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 41
@@ -409,16 +409,16 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 42
-    await testRunner.GivenAsync("un examen dans le dossier de \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an examination in the record of \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 43
-    await testRunner.WhenAsync("je tente de supprimer cet examen", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I attempt to delete this examination", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 44
-    await testRunner.ThenAsync("le système refuse avec le code \"MEDICAL_RECORD_IMMUTABLE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the system rejects with code \"MEDICAL_RECORD_IMMUTABLE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 45
-    await testRunner.AndAsync("l\'examen est toujours visible dans l\'historique", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the examination is still visible in the history", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -431,12 +431,12 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await DossierMedicalAnimalFeature.FeatureSetupAsync();
+                await AnimalMedicalRecordFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await DossierMedicalAnimalFeature.FeatureTearDownAsync();
+                await AnimalMedicalRecordFeature.FeatureTearDownAsync();
             }
         }
     }

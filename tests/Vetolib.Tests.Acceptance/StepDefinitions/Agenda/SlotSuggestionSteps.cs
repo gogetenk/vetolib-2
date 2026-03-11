@@ -25,6 +25,7 @@ internal class SlotSuggestionSteps
     private TestWebApplicationFactory _factory = null!;
     private HttpResponseMessage _response = null!;
     private SlotSuggestionsResponse? _suggestionsResponse;
+    private string? _errorBody;
 
     private Guid _clinicId;
 
@@ -48,7 +49,12 @@ internal class SlotSuggestionSteps
     {
         _factory = _ctx.Get<TestWebApplicationFactory>();
         _client = _ctx.Get<HttpClient>();
-        _clinicId = Guid.NewGuid();
+
+        // MUST use the fixed TestClinicGuid — EF Core compiles the multi-tenant query filter
+        // once per model and bakes in the ClinicId value at model creation time.
+        // Using Guid.NewGuid() would produce a random GUID that never matches the baked-in filter,
+        // causing all queries to return empty results.
+        _clinicId = TestClinicContext.TestClinicGuid;
 
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
@@ -78,9 +84,14 @@ internal class SlotSuggestionSteps
         authDb.Users.Add(userResult.Value);
         await authDb.SaveChangesAsync();
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
-        loginResponse.EnsureSuccessStatusCode();
+
+        if (!loginResponse.IsSuccessStatusCode)
+        {
+            var loginError = await loginResponse.Content.ReadAsStringAsync();
+            loginResponse.EnsureSuccessStatusCode(); // will throw with detailed message
+        }
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
         _client.DefaultRequestHeaders.Authorization =
@@ -156,8 +167,8 @@ internal class SlotSuggestionSteps
     [Given(@"Dr\. Ahmad has fewer than 5 past ""(.*)"" appointments")]
     public async Task GivenDrAhmadHasFewerThan5PastAppointments(string type)
     {
-        // Insert 2 completed appointments of this type so count < 5
-        var date = new DateOnly(2025, 1, 1);
+        // Insert 2 past completed appointments of this type so count < 5 (insufficient history).
+        var pastDate = new DateOnly(2025, 1, 1);
         using var scope = _factory.Services.CreateScope();
         var agendaDb = scope.ServiceProvider.GetRequiredService<AgendaDbContext>();
 
@@ -166,12 +177,25 @@ internal class SlotSuggestionSteps
             var apptResult = Appointment.Create(
                 _clinicId, AhmadId, "Dr. Ahmad",
                 Guid.NewGuid(), "Animal", "Owner",
-                date.AddDays(i), new TimeOnly(9, 0), 30, type);
+                pastDate.AddDays(i), new TimeOnly(9, 0), 30, type);
             apptResult.IsSuccess.Should().BeTrue();
             var appt = apptResult.Value;
-            // Need to complete it via status transitions
+            appt.CheckIn();
+            appt.StartConsultation();
+            appt.Complete();
             agendaDb.Appointments.Add(appt);
         }
+
+        // Also add a scheduled (upcoming) appointment on 2026-03-15 so that the SuggestSlotHandler
+        // discovers Dr. Ahmad when querying that date (the handler builds vetIds from existing
+        // appointments on the requested date). Without this, vetIds would be empty and no
+        // suggestions would be generated.
+        var futureApptResult = Appointment.Create(
+            _clinicId, AhmadId, "Dr. Ahmad",
+            Guid.NewGuid(), "Animal", "Owner",
+            new DateOnly(2026, 3, 15), new TimeOnly(9, 0), 30, type);
+        futureApptResult.IsSuccess.Should().BeTrue();
+        agendaDb.Appointments.Add(futureApptResult.Value);
 
         await agendaDb.SaveChangesAsync();
     }
@@ -240,6 +264,10 @@ internal class SlotSuggestionSteps
         {
             _suggestionsResponse = await _response.Content.ReadFromJsonAsync<SlotSuggestionsResponse>(JsonOptions);
         }
+        else
+        {
+            _errorBody = await _response.Content.ReadAsStringAsync();
+        }
     }
 
     // ─── THEN ────────────────────────────────────────────────────
@@ -248,7 +276,7 @@ internal class SlotSuggestionSteps
     public void ThenIShouldReceiveNSlotSuggestions(int expectedCount)
     {
         _response.IsSuccessStatusCode.Should().BeTrue(
-            $"Expected success but got {_response.StatusCode}");
+            $"Expected success but got {_response.StatusCode}. Body: {_errorBody}");
         _suggestionsResponse.Should().NotBeNull();
         _suggestionsResponse!.Suggestions.Should().HaveCount(expectedCount);
     }

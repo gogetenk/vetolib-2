@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPatch } from './client'
+import { apiGet, apiPost, apiPatch, apiPostFormData, apiGetBlob } from './client'
 
 export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Camel' | 'Exotic'
 
@@ -102,19 +102,9 @@ export interface ImportReportDto {
 export async function importPatientsCsv(file: File): Promise<ImportReportDto> {
   const formData = new FormData()
   formData.append('file', file)
-  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
-  const headers: Record<string, string> = {}
-  if (token) headers['Authorization'] = `Bearer ${token}`
-  const res = await fetch('/api/patients/import', { method: 'POST', headers, body: formData })
-  if (!res.ok) throw new Error('Import failed')
-  return res.json() as Promise<ImportReportDto>
+  return apiPostFormData<ImportReportDto>('/api/patients/import', formData)
 }
 
 export async function downloadImportTemplate(): Promise<Blob> {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
-  const headers: Record<string, string> = {}
-  if (token) headers['Authorization'] = `Bearer ${token}`
-  const res = await fetch('/api/patients/import/template', { method: 'GET', headers })
-  if (!res.ok) throw new Error('Download failed')
-  return res.blob()
+  return apiGetBlob('/api/patients/import/template')
 }

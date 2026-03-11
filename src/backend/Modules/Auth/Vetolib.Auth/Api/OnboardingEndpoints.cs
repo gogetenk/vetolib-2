@@ -18,7 +18,7 @@ internal static class OnboardingEndpoints
 {
     internal static IEndpointRouteBuilder MapOnboardingEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/onboarding")
+        var group = app.MapGroup("/api/v1/onboarding")
             .RequireAuthorization()
             .WithTags("Onboarding");
 

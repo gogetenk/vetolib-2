@@ -4,9 +4,11 @@ import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { TeamTable } from "@/components/features/users/TeamTable"
 import { InviteUserDialog } from "@/components/features/users/InviteUserDialog"
 import { EmptyState } from "@/components/features/onboarding/EmptyState"
+import { ErrorState } from "@/components/ui/error-state"
 import { getUsers } from "@/lib/api/users"
 import { useRole } from "@/hooks/use-role"
 import { useTranslations } from "next-intl"
@@ -20,6 +22,7 @@ export default function TeamPage() {
   const router = useRouter()
   const [users, setUsers] = useState<UserDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [inviteOpen, setInviteOpen] = useState(false)
   const [currentUserEmail, setCurrentUserEmail] = useState<string>("")
 
@@ -45,10 +48,11 @@ export default function TeamPage() {
   const loadUsers = useCallback(async () => {
     try {
       setIsLoading(true)
+      setError(null)
       const data = await getUsers()
       setUsers(data)
     } catch {
-      // silent
+      setError('Failed to load team members')
     } finally {
       setIsLoading(false)
     }
@@ -96,9 +100,18 @@ export default function TeamPage() {
       </div>
 
       {isLoading ? (
-        <div data-testid="team-loading" className="text-sm text-muted-foreground">
-          {t('loading')}
+        <div data-testid="team-loading" className="space-y-3">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-12 w-full rounded-lg" />
+          ))}
         </div>
+      ) : error ? (
+        <ErrorState
+          data-testid="team-error"
+          title="Failed to load team members"
+          description={error}
+          onRetry={loadUsers}
+        />
       ) : users.length <= 1 ? (
         <EmptyState
           icon={<Users className="h-16 w-16" />}

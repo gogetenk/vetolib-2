@@ -316,8 +316,10 @@ export default function PatientDetailPage() {
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              id={`tab-${tab.id}`}
               role="tab"
               aria-selected={activeTab === tab.id}
+              aria-controls={`panel-${tab.id}`}
               data-testid={tab.testId}
               onClick={() => setActiveTab(tab.id)}
               className={[
@@ -334,12 +336,12 @@ export default function PatientDetailPage() {
 
         <div className="mt-4">
           {activeTab === 'medical-records' && (
-            <div role="tabpanel" data-testid="tabpanel-medical-records">
+            <div id="panel-medical-records" role="tabpanel" aria-labelledby="tab-medical-records" data-testid="tabpanel-medical-records">
               <MedicalRecordsList records={records} isLoading={isLoadingRecords} />
             </div>
           )}
           {activeTab === 'prescriptions' && (
-            <div role="tabpanel" data-testid="tabpanel-prescriptions">
+            <div id="panel-prescriptions" role="tabpanel" aria-labelledby="tab-prescriptions" data-testid="tabpanel-prescriptions">
               <PrescriptionsTab
                 prescriptions={prescriptions}
                 patientId={id}
@@ -348,7 +350,7 @@ export default function PatientDetailPage() {
             </div>
           )}
           {activeTab === 'vaccinations' && (
-            <div role="tabpanel" data-testid="tabpanel-vaccinations">
+            <div id="panel-vaccinations" role="tabpanel" aria-labelledby="tab-vaccinations" data-testid="tabpanel-vaccinations">
               <VaccinationsTab vaccinations={vaccinations} />
             </div>
           )}

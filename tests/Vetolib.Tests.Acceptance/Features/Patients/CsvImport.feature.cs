@@ -111,10 +111,10 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
 #line 8
   #line hidden
 #line 9
-    await testRunner.GivenAsync("une clinique \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Desert Paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
-    await testRunner.AndAsync("je suis authentifié en tant que Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am authenticated as Vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
@@ -322,7 +322,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 33
-    await testRunner.GivenAsync("je suis authentifié en tant que Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as Receptionist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 34
     await testRunner.WhenAsync("I import a CSV with 1 valid patient row", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

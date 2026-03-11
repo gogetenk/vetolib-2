@@ -17,7 +17,7 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.Auth;
 
 [Binding]
-[Scope(Feature = "Matrice RBAC — controle d acces par role")]
+[Scope(Feature = "RBAC matrix -- role-based access control")]
 internal class RbacSteps
 {
     private readonly ScenarioContext _ctx;
@@ -45,8 +45,8 @@ internal class RbacSteps
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"je tente de creer un rendez-vous")]
-    public async Task WhenJeTenteDeCreerUnRendezVous()
+    [When(@"I attempt to create an appointment")]
+    public async Task WhenIAttemptToCreateAnAppointment()
     {
         var clinicId = GetClinicId();
 
@@ -63,14 +63,14 @@ internal class RbacSteps
             Date = "2026-06-01",
             StartTime = "09:00:00",
             DurationMinutes = 30,
-            Reason = "Consultation annuelle"
+            Reason = "Annual consultation"
         };
 
         _response = await _client.PostAsJsonAsync("/api/v1/appointments", body);
     }
 
-    [When(@"je tente d'ajouter un dossier medical")]
-    public async Task WhenJeTenteDajouterUnDossierMedical()
+    [When(@"I attempt to add a medical record")]
+    public async Task WhenIAttemptToAddAMedicalRecord()
     {
         var clinicId = GetClinicId();
 
@@ -86,8 +86,8 @@ internal class RbacSteps
         _response = await _client.PostAsJsonAsync($"/api/v1/patients/{patientId}/records", body);
     }
 
-    [When(@"je tente de creer une facture")]
-    public async Task WhenJeTenteDeCreerUneFacture()
+    [When(@"I attempt to create an invoice")]
+    public async Task WhenIAttemptToCreateAnInvoice()
     {
         var body = new
         {
@@ -99,8 +99,8 @@ internal class RbacSteps
         _response = await _client.PostAsJsonAsync("/api/v1/invoices", body);
     }
 
-    [When(@"je tente d'ajouter une prescription a un dossier medical")]
-    public async Task WhenJeTenteDajouterUnePrescription()
+    [When(@"I attempt to add a prescription to a medical record")]
+    public async Task WhenIAttemptToAddAPrescriptionToAMedicalRecord()
     {
         var clinicId = GetClinicId();
 
@@ -109,8 +109,8 @@ internal class RbacSteps
 
         var body = new
         {
-            Medication = "Amoxicilline 500mg",
-            Dosage = "2x par jour pendant 7 jours"
+            Medication = "Amoxicillin 500mg",
+            Dosage = "2x daily for 7 days"
         };
 
         _response = await _client.PostAsJsonAsync(
@@ -120,15 +120,15 @@ internal class RbacSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"le systeme retourne 403")]
-    public void ThenLeSystemeRetourne403()
+    [Then(@"the system returns 403")]
+    public void ThenTheSystemReturns403()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden,
             $"Expected 403 Forbidden but got {(int)_response.StatusCode} {_response.StatusCode}");
     }
 
-    [Then(@"le systeme accepte la requete")]
-    public void ThenLeSystemeAccepteLaRequete()
+    [Then(@"the system accepts the request")]
+    public void ThenTheSystemAcceptsTheRequest()
     {
         // 200, 201 or 422 (validation error) are all acceptable — the authz check passed
         var statusCode = (int)_response.StatusCode;
@@ -198,7 +198,7 @@ internal class RbacSteps
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicId;
 
-        var record = MedicalRecord.Create(clinicId, patientId, "Diagnostic test", "Traitement test", "Dr. Omar", DateTime.UtcNow);
+        var record = MedicalRecord.Create(clinicId, patientId, "Test diagnostic", "Test treatment", "Dr. Omar", DateTime.UtcNow);
         record.IsSuccess.Should().BeTrue();
         db.MedicalRecords.Add(record.Value);
         await db.SaveChangesAsync();

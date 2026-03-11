@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const backendRes = await fetch(`${BACKEND_URL}/api/auth/refresh`, {
+    const backendRes = await fetch(`${BACKEND_URL}/api/v1/auth/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refreshToken }),

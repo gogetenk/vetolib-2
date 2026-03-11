@@ -38,7 +38,7 @@ interface PatientCardProps {
 
 export function PatientCard({ patient }: PatientCardProps) {
   return (
-    <Card data-testid={`patient-card-${patient.id}`} className="hover:shadow-md transition-shadow">
+    <Card data-testid={`patient-card-${patient.id}`}>
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-4">
           {/* Species icon + name */}

@@ -5,10 +5,10 @@ import type { NextRequest } from "next/server";
  * Middleware to protect dashboard routes.
  * Redirects to /login if no auth token cookie is present.
  *
- * Public routes: /login, /api/auth/*
+ * Public routes: /login, /api/v1/auth/*
  */
 
-const publicPaths = ["/login", "/api/auth"];
+const publicPaths = ["/login", "/api/v1/auth"];
 
 // Routes that are public for any locale prefix (e.g. /en/portal, /ar/portal)
 const publicPatterns = [/\/portal\//];

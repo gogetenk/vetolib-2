@@ -18,13 +18,14 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.Preferences;
 
 [Binding]
-[Scope(Feature = "Preferences Integration — cross-module opt-in/opt-out")]
+[Scope(Feature = "Preferences Integration -- cross-module opt-in/opt-out")]
 internal class PreferencesIntegrationSteps
 {
     private readonly ScenarioContext _ctx;
     private HttpClient _client = null!;
     private TestWebApplicationFactory _factory = null!;
     private HttpResponseMessage _response = null!;
+    private string? _errorBody;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -75,8 +76,14 @@ internal class PreferencesIntegrationSteps
         _ctx.Set(clinicId, "CurrentClinicId");
         _ctx.Set(email, "CurrentUserEmail");
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login", new LoginRequest(email, password));
-        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login failed for {email}");
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login", new LoginRequest(email, password));
+
+        if (!loginResponse.IsSuccessStatusCode)
+        {
+            var loginError = await loginResponse.Content.ReadAsStringAsync();
+            loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login failed for {email}: {loginError}");
+            return;
+        }
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
         _client.DefaultRequestHeaders.Authorization =
@@ -164,7 +171,7 @@ internal class PreferencesIntegrationSteps
     public async Task WhenVetRequestsAITriage(string symptoms)
     {
         var body = new { symptoms, species = "dog" };
-        _response = await _client.PostAsJsonAsync("/api/ai/triage", body);
+        _response = await _client.PostAsJsonAsync("/api/v1/ai/triage", body);
         _ctx.Set(_response, "LastResponse");
     }
 
@@ -173,7 +180,7 @@ internal class PreferencesIntegrationSteps
     {
         // Use a random appointment ID — we expect disabled preference error before the lookup
         var appointmentId = Guid.NewGuid();
-        _response = await _client.GetAsync($"/api/ai/no-show-prediction/{appointmentId}");
+        _response = await _client.GetAsync($"/api/v1/ai/no-show-prediction/{appointmentId}");
         _ctx.Set(_response, "LastResponse");
     }
 
@@ -188,7 +195,7 @@ internal class PreferencesIntegrationSteps
             drugCatalogEntryId = Guid.NewGuid(),
             dosageAmount = (decimal?)null
         };
-        _response = await _client.PostAsJsonAsync("/api/ai/check-interactions", body);
+        _response = await _client.PostAsJsonAsync("/api/v1/ai/check-interactions", body);
         _ctx.Set(_response, "LastResponse");
     }
 
@@ -210,12 +217,16 @@ internal class PreferencesIntegrationSteps
     }
 
     [Then(@"the triage response is successful or AI service unavailable")]
-    public void ThenTriageResponseIsSuccessfulOrUnavailable()
+    public async Task ThenTriageResponseIsSuccessfulOrUnavailable()
     {
         // Accept 200 (triage ran) or 503 (no AI service in test env) — but NOT 422 (disabled)
         var acceptedStatuses = new[] { HttpStatusCode.OK, HttpStatusCode.ServiceUnavailable };
+        if (!acceptedStatuses.Contains(_response.StatusCode))
+        {
+            _errorBody = await _response.Content.ReadAsStringAsync();
+        }
         acceptedStatuses.Should().Contain(_response.StatusCode,
-            $"Expected 200 or 503 but got {(int)_response.StatusCode}");
+            $"Expected 200 or 503 but got {(int)_response.StatusCode}. Body: {_errorBody}");
     }
 
     [Then(@"the response indicates AI triage is disabled with error ""(.*)""")]
@@ -260,7 +271,9 @@ internal class PreferencesIntegrationSteps
             if (ids.Count > 0) return ids.Values.First();
         }
 
-        var clinicId = SharedSteps.GenerateGuidFromString("preferences-test-clinic");
+        // MUST use the fixed TestClinicGuid — EF Core compiles the multi-tenant query filter
+        // once per model and bakes in the ClinicId value at model creation time.
+        var clinicId = TestClinicContext.TestClinicGuid;
         var dict = new Dictionary<string, Guid> { ["preferences-test-clinic"] = clinicId };
         _ctx.Set(dict, "ClinicIds");
 

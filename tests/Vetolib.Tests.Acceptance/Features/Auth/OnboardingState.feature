@@ -1,4 +1,5 @@
 @wip
+# language: en
 Feature: Onboarding State Management
   As a user
   I want my onboarding progress to be tracked server-side

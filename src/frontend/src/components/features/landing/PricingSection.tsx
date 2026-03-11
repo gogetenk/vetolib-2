@@ -73,6 +73,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               type="button"
               data-testid="pricing-toggle-monthly"
               onClick={() => setAnnual(false)}
+              aria-pressed={!annual}
               className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                 !annual
                   ? "bg-emerald-700 text-white shadow"
@@ -85,6 +86,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               type="button"
               data-testid="pricing-toggle-annual"
               onClick={() => setAnnual(true)}
+              aria-pressed={annual}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                 annual
                   ? "bg-emerald-700 text-white shadow"
@@ -249,7 +251,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
         {/* Footer notes */}
         <p className="mt-8 text-center text-sm text-gray-500">
           {m.trial_note}{" "}
-          <span className="text-gray-400">{m.vat_note}</span>
+          <span className="text-gray-500">{m.vat_note}</span>
         </p>
       </div>
     </section>

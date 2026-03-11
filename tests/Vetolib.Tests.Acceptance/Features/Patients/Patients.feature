@@ -6,8 +6,8 @@ Feature: Patient standalone CRUD
   So that I can maintain a complete patient database with UAE species
 
   Background:
-    Given une clinique "Desert Paws"
-    And je suis authentifié en tant que Vet
+    Given a clinic "Desert Paws"
+    And I am authenticated as Vet
 
   Scenario: Vet creates a patient with owner inline
     When I create a patient with name "Rocky", species "Dog", breed "Labrador", birth date "2021-05-10", owner name "Faisal Al-Kuwari", owner phone "+971 50 111 2222"
@@ -32,12 +32,12 @@ Feature: Patient standalone CRUD
     Then the patient owner phone is "+971 50 999 8888"
 
   Scenario: Receptionist cannot create patients
-    Given je suis authentifié en tant que Receptionist
+    Given I am authenticated as Receptionist
     When I create a patient with name "Buddy", species "Dog", breed "Poodle", birth date "2020-01-01", owner name "Owner Name", owner phone "+971 50 000 0000"
     Then the request is rejected with status 403
 
   Scenario: Tenant isolation on patients
-    Given une clinique "Al Barsha Vets"
+    Given a clinic "Al Barsha Vets"
     And a patient named "Buddy" exists in clinic "Al Barsha Vets"
     When I list patients as vet of clinic "Desert Paws"
     Then I cannot see "Buddy" in the patient list

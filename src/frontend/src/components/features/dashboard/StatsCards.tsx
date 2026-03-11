@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getDashboardStats, type DashboardStatsDto } from '@/lib/api/dashboard'
+import { ErrorState } from '@/components/ui/error-state'
+import { useTranslations } from 'next-intl'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
 
@@ -17,22 +19,33 @@ function formatAed(amount: number): string {
 }
 
 export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
+  const t = useTranslations('dashboard.stats')
   const [stats, setStats] = useState<DashboardStatsDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const load = () => {
+    setLoading(true)
+    setError(null)
     getDashboardStats()
       .then(setStats)
       .catch(() => setError('Failed to load stats'))
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    load()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (error) {
     return (
-      <div data-testid="stats-error" className="text-destructive text-sm">
-        {error}
-      </div>
+      <ErrorState
+        data-testid="stats-error"
+        title="Failed to load dashboard stats"
+        description="Could not retrieve clinic statistics."
+        onRetry={load}
+      />
     )
   }
 
@@ -50,7 +63,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
         <Card data-testid="stat-appointments-today">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              RDVs aujourd&apos;hui
+              {t('appointments_today')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -69,7 +82,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
         <Card data-testid="stat-pending-checkin">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              En attente check-in
+              {t('pending_checkin')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -82,7 +95,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
                 </p>
                 {(stats?.pendingCheckin ?? 0) > 0 && (
                   <Badge variant="destructive" data-testid="stat-pending-checkin-badge">
-                    urgent
+                    {t('urgent')}
                   </Badge>
                 )}
               </div>
@@ -95,7 +108,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
         <Card data-testid="stat-unpaid-invoices">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Factures impayées
+              {t('unpaid_invoices')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -114,7 +127,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
         <Card data-testid="stat-total-patients">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Patients total
+              {t('total_patients')}
             </CardTitle>
           </CardHeader>
           <CardContent>

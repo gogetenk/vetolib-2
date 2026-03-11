@@ -49,7 +49,7 @@ internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueInt
                 evt.OwnerEmail,
                 string.Join(", ", result.Errors));
 
-            // Throwing causes MassTransit to retry with exponential backoff
+            // Intentional throw: MassTransit retry policy will requeue on transient failures
             throw new InvalidOperationException($"Failed to send reminder email to {evt.OwnerEmail}");
         }
 

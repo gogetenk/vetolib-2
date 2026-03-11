@@ -33,6 +33,9 @@ internal class DashboardSteps
     // Recent activity
     private List<ActivityResponse>? _recentActivity;
 
+    // Analytics response
+    private DashboardAnalyticsResponse? _analytics;
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -53,18 +56,24 @@ internal class DashboardSteps
 
     // ─── GIVEN ──────────────────────────────────────────────────
 
-    [Given(@"une clinique ""(.*)""")]
-    public void GivenUneClinique(string clinicName)
+    [Given(@"a clinic ""(.*)""")]
+    public void GivenAClinic(string clinicName)
     {
         _clinicId = GenerateGuidFromString(clinicName);
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }
 
-    [Given(@"je suis authentifié en tant que ADMIN")]
-    public async Task GivenJeSuisAuthentifieEnTantQueAdmin()
+    [Given(@"I am authenticated as ADMIN")]
+    public async Task GivenIAmAuthenticatedAsAdmin()
     {
         await AuthenticateAs(UserRole.Admin, "admin@dashboard-test.ae", "AdminPass1!");
+    }
+
+    [Given(@"I am authenticated as RECEPTIONIST")]
+    public async Task GivenIAmAuthenticatedAsReceptionist()
+    {
+        await AuthenticateAs(UserRole.Receptionist, "receptionist@dashboard-test.ae", "RecepPass1!");
     }
 
     [Given(@"there are (\d+) appointments today")]
@@ -138,6 +147,28 @@ internal class DashboardSteps
         }
     }
 
+    [When(@"I request dashboard analytics")]
+    public async Task WhenIRequestDashboardAnalytics()
+    {
+        _lastResponse = await _client.GetAsync("/api/dashboard/analytics");
+        if (_lastResponse.IsSuccessStatusCode)
+        {
+            _analytics = await _lastResponse.Content.ReadFromJsonAsync<DashboardAnalyticsResponse>(JsonOptions);
+        }
+        else
+        {
+            _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+        }
+    }
+
+    [When(@"I request dashboard analytics without authentication")]
+    public async Task WhenIRequestDashboardAnalyticsWithoutAuthentication()
+    {
+        _client.DefaultRequestHeaders.Authorization = null;
+        _lastResponse = await _client.GetAsync("/api/dashboard/analytics");
+        _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+    }
+
     [When(@"I request recent activity")]
     public async Task WhenIRequestRecentActivity()
     {
@@ -153,6 +184,27 @@ internal class DashboardSteps
     }
 
     // ─── THEN ───────────────────────────────────────────────────
+
+    [Then(@"the response status is (\d+)")]
+    public void ThenTheResponseStatusIs(int expectedStatus)
+    {
+        _lastResponse.Should().NotBeNull();
+        ((int)_lastResponse!.StatusCode).Should().Be(expectedStatus);
+    }
+
+    [Then(@"the analytics include a revenue by month list")]
+    public void ThenTheAnalyticsIncludeARevenueByMonthList()
+    {
+        _analytics.Should().NotBeNull();
+        _analytics!.RevenueByMonth.Should().NotBeNull();
+    }
+
+    [Then(@"the analytics include an appointments by status list")]
+    public void ThenTheAnalyticsIncludeAnAppointmentsByStatusList()
+    {
+        _analytics.Should().NotBeNull();
+        _analytics!.AppointmentsByStatus.Should().NotBeNull();
+    }
 
     [Then(@"I see appointments today count")]
     public void ThenISeeAppointmentsTodayCount()
@@ -220,7 +272,7 @@ internal class DashboardSteps
             await authDb.SaveChangesAsync();
         }
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.IsSuccessStatusCode.Should().BeTrue($"Login for {email} failed");
 
@@ -260,4 +312,14 @@ internal class DashboardSteps
         string Message,
         string OccurredAt,
         string? RelatedId);
+
+    private record DashboardAnalyticsResponse(
+        IReadOnlyList<RevenueMonthResponse> RevenueByMonth,
+        decimal NoShowRate,
+        IReadOnlyList<SpeciesCountResponse> PatientsBySpecies,
+        IReadOnlyList<StatusCountResponse> AppointmentsByStatus);
+
+    private record RevenueMonthResponse(string Month, decimal Total, string Currency);
+    private record SpeciesCountResponse(string Species, int Count);
+    private record StatusCountResponse(string Status, int Count);
 }

@@ -18,7 +18,7 @@ internal class ListStockItemsHandler : IRequestHandler<ListStockItemsQuery, Resu
 
     public async Task<Result<List<StockItemDto>>> Handle(ListStockItemsQuery query, CancellationToken ct)
     {
-        var q = _context.StockItems.AsQueryable();
+        var q = _context.StockItems.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(query.Category) &&
             Enum.TryParse<StockItemCategory>(query.Category, ignoreCase: true, out var cat))

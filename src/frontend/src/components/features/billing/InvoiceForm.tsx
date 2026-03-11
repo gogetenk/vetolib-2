@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { formatAED } from '@/lib/utils'
 import { createInvoice } from '@/lib/api/billing'
 import type { CreateInvoiceLineItem } from '@/lib/api/billing'
@@ -186,6 +187,7 @@ export function InvoiceForm() {
                   <Input
                     data-testid={`item-description-${index}`}
                     placeholder="e.g. Consultation"
+                    aria-label={`Item ${index + 1} description`}
                     value={item.description}
                     onChange={(e) => updateItem(index, 'description', e.target.value)}
                     required
@@ -197,6 +199,7 @@ export function InvoiceForm() {
                     data-testid={`item-quantity-${index}`}
                     type="number"
                     min={1}
+                    aria-label={`Item ${index + 1} quantity`}
                     value={item.quantity}
                     onChange={(e) => updateItem(index, 'quantity', e.target.value)}
                     required
@@ -209,6 +212,7 @@ export function InvoiceForm() {
                     type="number"
                     min={0}
                     step={0.01}
+                    aria-label={`Item ${index + 1} unit price in AED`}
                     value={item.unitPrice}
                     onChange={(e) => updateItem(index, 'unitPrice', e.target.value)}
                     required
@@ -222,10 +226,11 @@ export function InvoiceForm() {
                     <button
                       type="button"
                       data-testid={`remove-item-${index}`}
+                      aria-label={`Remove item ${index + 1}`}
                       className="text-destructive text-lg leading-none"
                       onClick={() => removeItem(index)}
                     >
-                      ×
+                      <span aria-hidden="true">×</span>
                     </button>
                   )}
                 </div>
@@ -235,7 +240,7 @@ export function InvoiceForm() {
             {/* Totals */}
             <div className="mt-4 border-t pt-4 space-y-1 text-sm" data-testid="invoice-totals">
               <div className="flex justify-between">
-                <span>Subtotal HT</span>
+                <span>Subtotal (excl. VAT)</span>
                 <span data-testid="form-subtotal">{formatAED(subtotal)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
@@ -256,9 +261,9 @@ export function InvoiceForm() {
             <CardTitle>Notes (optional)</CardTitle>
           </CardHeader>
           <CardContent>
-            <textarea
+            <Textarea
               data-testid="invoice-notes"
-              className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-y"
+              className="resize-y"
               placeholder="Additional notes for the invoice..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

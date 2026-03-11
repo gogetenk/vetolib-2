@@ -26,49 +26,75 @@ internal class AddPrescriptionHandler : IRequestHandler<AddPrescriptionCommand, 
         if (cmd.UserRole is not ("Vet" or "Admin"))
             return Result<PrescriptionDto>.Forbidden();
 
-        var medicalRecord = await _context.MedicalRecords
-            .FirstOrDefaultAsync(r => r.Id == cmd.MedicalRecordId, ct);
-
+        var medicalRecord = await GetMedicalRecordAsync(cmd.MedicalRecordId, ct);
         if (medicalRecord is null)
             return Result<PrescriptionDto>.NotFound("Dossier médical introuvable");
 
-        // Check drug interactions when a catalog entry is specified
-        InteractionSeverity? highestCriticalSeverity = null;
-        if (cmd.DrugCatalogEntryId.HasValue)
-        {
-            var interactionQuery = new CheckInteractionsQuery(
-                cmd.PatientId,
-                cmd.DrugCatalogEntryId.Value,
-                cmd.DosageAmount,
-                cmd.ClinicId);
+        var interactionCheckResult = await CheckDrugInteractionsAsync(cmd, ct);
+        if (!interactionCheckResult.IsSuccess)
+            return Result<PrescriptionDto>.Error(interactionCheckResult.Errors.First());
 
-            var interactionResult = await _sender.Send(interactionQuery, ct);
+        var highestCriticalSeverity = interactionCheckResult.Value;
 
-            if (interactionResult.IsSuccess)
-            {
-                var criticalAlerts = interactionResult.Value.Alerts
-                    .Where(a => a.Severity == InteractionSeverity.Critical)
-                    .ToList();
+        var prescriptionResult = BuildPrescription(cmd);
+        if (!prescriptionResult.IsSuccess)
+            return Result<PrescriptionDto>.Invalid(prescriptionResult.ValidationErrors.ToList());
 
-                if (criticalAlerts.Count > 0)
-                {
-                    var justification = cmd.OverrideJustification?.Trim();
-                    if (string.IsNullOrWhiteSpace(justification) || justification.Length < 10)
-                    {
-                        return Result<PrescriptionDto>.Error(
-                            "Override justification required for critical alerts");
-                    }
+        var prescription = prescriptionResult.Value;
 
-                    // Override is valid — record the highest severity for the override trail
-                    highestCriticalSeverity = interactionResult.Value.Alerts
-                        .OrderBy(a => a.Severity)
-                        .Select(a => a.Severity)
-                        .First();
-                }
-            }
-        }
+        var applyOverrideResult = ApplyOverrideIfNeeded(prescription, cmd.OverrideJustification, highestCriticalSeverity);
+        if (!applyOverrideResult.IsSuccess)
+            return Result<PrescriptionDto>.Error(applyOverrideResult.Errors.First());
 
-        var prescriptionResult = Prescription.Create(
+        _context.Prescriptions.Add(prescription);
+        await _context.SaveChangesAsync(ct);
+
+        await PublishOverrideEventIfNeeded(prescription, cmd, ct);
+
+        return Result<PrescriptionDto>.Success(prescription.ToDto());
+    }
+
+    private async Task<MedicalRecord?> GetMedicalRecordAsync(Guid medicalRecordId, CancellationToken ct)
+        => await _context.MedicalRecords.FirstOrDefaultAsync(r => r.Id == medicalRecordId, ct);
+
+    private async Task<Result<InteractionSeverity?>> CheckDrugInteractionsAsync(AddPrescriptionCommand cmd, CancellationToken ct)
+    {
+        if (!cmd.DrugCatalogEntryId.HasValue)
+            return Result<InteractionSeverity?>.Success(null);
+
+        var interactionQuery = new CheckInteractionsQuery(
+            cmd.PatientId,
+            cmd.DrugCatalogEntryId.Value,
+            cmd.DosageAmount,
+            cmd.ClinicId);
+
+        var interactionResult = await _sender.Send(interactionQuery, ct);
+
+        if (!interactionResult.IsSuccess)
+            return Result<InteractionSeverity?>.Success(null);
+
+        var criticalAlerts = interactionResult.Value.Alerts
+            .Where(a => a.Severity == InteractionSeverity.Critical)
+            .ToList();
+
+        if (criticalAlerts.Count == 0)
+            return Result<InteractionSeverity?>.Success(null);
+
+        var justification = cmd.OverrideJustification?.Trim();
+        if (string.IsNullOrWhiteSpace(justification) || justification.Length < 10)
+            return Result<InteractionSeverity?>.Error("Override justification required for critical alerts");
+
+        // Override is valid — record the highest severity for the override trail
+        var highestSeverity = interactionResult.Value.Alerts
+            .OrderBy(a => a.Severity)
+            .Select(a => a.Severity)
+            .First();
+
+        return Result<InteractionSeverity?>.Success(highestSeverity);
+    }
+
+    private static Result<Prescription> BuildPrescription(AddPrescriptionCommand cmd)
+        => Prescription.Create(
             cmd.ClinicId,
             cmd.MedicalRecordId,
             cmd.Medication,
@@ -76,37 +102,28 @@ internal class AddPrescriptionHandler : IRequestHandler<AddPrescriptionCommand, 
             cmd.VetLicenseNumber,
             cmd.DrugCatalogEntryId);
 
-        if (!prescriptionResult.IsSuccess)
-            return Result<PrescriptionDto>.Invalid(prescriptionResult.ValidationErrors.ToList());
+    private static Result ApplyOverrideIfNeeded(Prescription prescription, string? overrideJustification, InteractionSeverity? highestCriticalSeverity)
+    {
+        if (!highestCriticalSeverity.HasValue || string.IsNullOrWhiteSpace(overrideJustification))
+            return Result.Success();
 
-        var prescription = prescriptionResult.Value;
+        return prescription.ApplyOverride(overrideJustification, highestCriticalSeverity.Value);
+    }
 
-        // Apply override stamp if critical alerts were present and justification provided
-        if (highestCriticalSeverity.HasValue && !string.IsNullOrWhiteSpace(cmd.OverrideJustification))
-        {
-            var overrideResult = prescription.ApplyOverride(cmd.OverrideJustification, highestCriticalSeverity.Value);
-            if (!overrideResult.IsSuccess)
-                return Result<PrescriptionDto>.Error(overrideResult.Errors.First());
-        }
+    private async Task PublishOverrideEventIfNeeded(Prescription prescription, AddPrescriptionCommand cmd, CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(prescription.OverrideJustification))
+            return;
 
-        _context.Prescriptions.Add(prescription);
-        await _context.SaveChangesAsync(ct);
-
-        // Publish audit event if an override was applied
-        if (!string.IsNullOrWhiteSpace(prescription.OverrideJustification))
-        {
-            await _publisher.Publish(new PrescriptionOverriddenEvent(
-                PrescriptionId: prescription.Id,
-                PatientId: cmd.PatientId,
-                ClinicId: cmd.ClinicId,
-                VetId: cmd.VetId,
-                VetLicenseNumber: cmd.VetLicenseNumber,
-                OverrideJustification: prescription.OverrideJustification,
-                OverrideSeverity: Enum.Parse<InteractionSeverity>(prescription.OverrideSeverity!),
-                DrugCatalogEntryId: cmd.DrugCatalogEntryId,
-                Timestamp: DateTime.UtcNow), ct);
-        }
-
-        return Result<PrescriptionDto>.Success(prescription.ToDto());
+        await _publisher.Publish(new PrescriptionOverriddenEvent(
+            PrescriptionId: prescription.Id,
+            PatientId: cmd.PatientId,
+            ClinicId: cmd.ClinicId,
+            VetId: cmd.VetId,
+            VetLicenseNumber: cmd.VetLicenseNumber,
+            OverrideJustification: prescription.OverrideJustification,
+            OverrideSeverity: Enum.Parse<InteractionSeverity>(prescription.OverrideSeverity!),
+            DrugCatalogEntryId: cmd.DrugCatalogEntryId,
+            Timestamp: DateTime.UtcNow), ct);
     }
 }

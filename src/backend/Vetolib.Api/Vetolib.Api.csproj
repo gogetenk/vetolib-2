@@ -8,10 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.*" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.2" />
     <PackageReference Include="MassTransit" Version="8.*" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.*" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.*" />
+    <PackageReference Include="Sentry.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Sentry.OpenTelemetry" Version="6.1.0" />
+    <PackageReference Include="Sentry.Serilog" Version="6.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.*" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.*" />
   </ItemGroup>

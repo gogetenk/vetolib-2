@@ -89,30 +89,24 @@ internal class ListConversationsHandler : IRequestHandler<ListConversationsQuery
         if (query.ToDate.HasValue)
             q = q.Where(c => c.CreatedAt <= query.ToDate.Value);
 
-        // Sort by priority (Critical > High > Normal > Low) then by LastMessageAt desc
-        var priorityOrder = new Dictionary<MessageCategory, int>
-        {
-            { MessageCategory.MedicalUrgency, 0 },
-            { MessageCategory.PostOperativeFollowUp, 1 },
-            { MessageCategory.MedicalQuestion, 2 },
-            { MessageCategory.AppointmentRequest, 2 },
-            { MessageCategory.Administrative, 3 },
-            { MessageCategory.Feedback, 3 },
-            { MessageCategory.Other, 3 }
-        };
-
-        var conversations = await q
+        // Sort by priority (MedicalUrgency=0 > PostOperativeFollowUp=1 > MedicalQuestion/AppointmentRequest=2 > rest=3)
+        // then by LastMessageAt desc — ORDER BY / OFFSET / FETCH executed SQL-side before materialisation
+        var page = await q
             .Include(c => c.Messages)
-            .ToListAsync(ct);
-
-        var sorted = conversations
-            .OrderBy(c => priorityOrder.TryGetValue(c.Category, out var p) ? p : 99)
+            .AsNoTracking()
+            .OrderBy(c =>
+                c.Category == MessageCategory.MedicalUrgency ? 0
+                : c.Category == MessageCategory.PostOperativeFollowUp ? 1
+                : c.Category == MessageCategory.MedicalQuestion || c.Category == MessageCategory.AppointmentRequest ? 2
+                : 3)
             .ThenByDescending(c => c.LastMessageAt ?? c.CreatedAt)
             .Skip((query.Page - 1) * query.PageSize)
             .Take(query.PageSize)
-            .Select(c => c.ToDto())
-            .ToList();
+            .ToListAsync(ct);
 
-        return Result<IReadOnlyList<ConversationDto>>.Success(sorted);
+        // ToDto() is a domain method — projected in-memory after SQL pagination
+        var dtos = page.Select(c => c.ToDto()).ToList();
+
+        return Result<IReadOnlyList<ConversationDto>>.Success(dtos);
     }
 }

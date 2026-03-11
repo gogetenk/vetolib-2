@@ -4,8 +4,8 @@ Feature: Dashboard statistics
   So that I can manage the clinic efficiently
 
   Background:
-    Given une clinique "Happy Paws"
-    And je suis authentifié en tant que ADMIN
+    Given a clinic "Happy Paws"
+    And I am authenticated as ADMIN
 
   Scenario: Admin sees all dashboard stats
     When I request dashboard stats
@@ -22,3 +22,18 @@ Feature: Dashboard statistics
   Scenario: Recent activity feed
     When I request recent activity
     Then I receive a recent activity list
+
+  Scenario: Admin sees analytics data
+    When I request dashboard analytics
+    Then the response status is 200
+    And the analytics include a revenue by month list
+    And the analytics include an appointments by status list
+
+  Scenario: Analytics endpoint requires authentication
+    When I request dashboard analytics without authentication
+    Then the response status is 401
+
+  Scenario: Non-admin cannot access analytics
+    Given I am authenticated as RECEPTIONIST
+    When I request dashboard analytics
+    Then the response status is 403

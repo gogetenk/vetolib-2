@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Vetolib.Auth.Application.Commands.ChangePassword;
 using Vetolib.Auth.Application.Commands.Login;
 using Vetolib.Auth.Application.Commands.Logout;
 using Vetolib.Auth.Application.Commands.RefreshToken;
@@ -17,18 +18,20 @@ internal static class AuthEndpoints
 {
     internal static IEndpointRouteBuilder MapAuthApiEndpoints(this IEndpointRouteBuilder app)
     {
-        var publicGroup = app.MapGroup("/api/auth")
+        var publicGroup = app.MapGroup("/api/v1/auth")
             .WithTags("Auth");
 
         publicGroup.MapPost("/login", Login)
             .WithName("Login")
-            .AllowAnonymous();
+            .AllowAnonymous()
+            .RequireRateLimiting("auth");
 
         publicGroup.MapPost("/refresh", Refresh)
             .WithName("RefreshToken")
-            .AllowAnonymous();
+            .AllowAnonymous()
+            .RequireRateLimiting("auth");
 
-        var authGroup = app.MapGroup("/api/auth")
+        var authGroup = app.MapGroup("/api/v1/auth")
             .WithTags("Auth")
             .RequireAuthorization();
 
@@ -37,6 +40,10 @@ internal static class AuthEndpoints
 
         authGroup.MapGet("/me", GetMe)
             .WithName("GetCurrentUser");
+
+        authGroup.MapPost("/change-password", ChangePassword)
+            .WithName("ChangePassword")
+            .RequireRateLimiting("auth");
 
         return app;
     }
@@ -77,5 +84,20 @@ internal static class AuthEndpoints
             return Result<UserDto>.Unauthorized().ToMinimalApiResult();
 
         return (await sender.Send(new GetCurrentUserQuery(userId))).ToMinimalApiResult();
+    }
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> ChangePassword(
+        ChangePasswordRequest request,
+        ClaimsPrincipal user,
+        ISender sender)
+    {
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            ?? user.FindFirst("sub")?.Value;
+
+        if (userIdClaim is null || !Guid.TryParse(userIdClaim, out var userId))
+            return Result.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new ChangePasswordCommand(userId, request.CurrentPassword, request.NewPassword)))
+            .ToMinimalApiResult();
     }
 }

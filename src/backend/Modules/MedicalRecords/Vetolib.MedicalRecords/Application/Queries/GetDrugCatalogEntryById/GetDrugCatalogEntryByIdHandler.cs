@@ -20,6 +20,7 @@ internal class GetDrugCatalogEntryByIdHandler : IRequestHandler<GetDrugCatalogEn
         CancellationToken cancellationToken)
     {
         var entry = await _context.DrugCatalogEntries
+            .AsNoTracking()
             .Include(d => d.SpeciesContraindications)
             .Include(d => d.Interactions)
             .Include(d => d.DosageGuidelines)

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Vetolib.Billing.Application.Commands.AddInvoiceItem;
 using Vetolib.Billing.Application.Commands.CreateInvoice;
 using Vetolib.Billing.Application.Commands.UpdateInvoiceStatus;
+using Vetolib.Billing.Application.Queries.GenerateInvoicePdf;
 using Vetolib.Billing.Application.Queries.GetInvoiceById;
 using Vetolib.Billing.Application.Queries.ListInvoices;
 using Vetolib.Billing.Contracts;
@@ -35,6 +36,9 @@ internal static class InvoiceEndpoints
 
         group.MapPost("/{id:guid}/items", AddInvoiceItem)
             .WithName("AddInvoiceItem");
+
+        group.MapGet("/{id:guid}/pdf", DownloadInvoicePdf)
+            .WithName("DownloadInvoicePdf");
 
         return app;
     }
@@ -74,4 +78,18 @@ internal static class InvoiceEndpoints
         ISender sender)
         => (await sender.Send(new AddInvoiceItemCommand(id, request.Description, request.UnitPrice)))
             .ToMinimalApiResult();
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> DownloadInvoicePdf(
+        Guid id,
+        ISender sender)
+    {
+        var result = await sender.Send(new GenerateInvoicePdfQuery(id));
+        if (!result.IsSuccess)
+            return result.ToMinimalApiResult();
+
+        return Results.File(
+            result.Value.PdfBytes,
+            contentType: "application/pdf",
+            fileDownloadName: $"invoice-{result.Value.InvoiceNumber}.pdf");
+    }
 }

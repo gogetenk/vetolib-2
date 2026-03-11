@@ -504,7 +504,7 @@ internal class DrugInteractionSteps
 
         // Use a fresh HTTP client for the other clinic
         var otherClient = _factory.CreateClient();
-        var loginResponse = await otherClient.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await otherClient.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(otherEmail, password));
         loginResponse.IsSuccessStatusCode.Should().BeTrue("Other clinic user should be able to log in");
 
@@ -544,7 +544,7 @@ internal class DrugInteractionSteps
         _currentRole.Should().Be("RECEPTIONIST");
 
         // Verify that calling the check-interactions endpoint returns 403
-        var checkTask = _client.PostAsJsonAsync("/api/ai/check-interactions",
+        var checkTask = _client.PostAsJsonAsync("/api/v1/ai/check-interactions",
             new { PatientId = _patientId, DrugCatalogEntryId = Guid.NewGuid(), DosageAmount = (decimal?)null });
         var checkResponse = checkTask.GetAwaiter().GetResult();
         checkResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -569,7 +569,7 @@ internal class DrugInteractionSteps
         // UI concern — for the API test we verify ASSISTANT cannot call VetOrAdmin endpoints
         _currentRole.Should().Be("ASSISTANT");
 
-        var checkTask = _client.PostAsJsonAsync("/api/ai/check-interactions",
+        var checkTask = _client.PostAsJsonAsync("/api/v1/ai/check-interactions",
             new { PatientId = _patientId, DrugCatalogEntryId = Guid.NewGuid(), DosageAmount = (decimal?)null });
         var checkResponse = checkTask.GetAwaiter().GetResult();
         checkResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden,
@@ -607,7 +607,7 @@ internal class DrugInteractionSteps
             await authDb.SaveChangesAsync();
         }
 
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login should succeed for {email}");
 
@@ -631,7 +631,7 @@ internal class DrugInteractionSteps
             return;
         }
 
-        var response = await _client.PostAsJsonAsync("/api/ai/check-interactions",
+        var response = await _client.PostAsJsonAsync("/api/v1/ai/check-interactions",
             new { PatientId = patientId, DrugCatalogEntryId = drugCatalogId, DosageAmount = dosageAmount });
 
         if (response.IsSuccessStatusCode)

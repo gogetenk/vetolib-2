@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createMedicalRecord } from '@/lib/api/medical-records'
 import { checkPrescriptionPreflight } from '@/lib/api/prescriptions'
@@ -273,13 +274,12 @@ export function MedicalRecordForm({
           {/* Anamnesis */}
           <div className="space-y-2">
             <Label htmlFor="anamnesis">Anamnesis</Label>
-            <textarea
+            <Textarea
               id="anamnesis"
               rows={4}
               placeholder="Patient history, owner observations..."
               data-testid="input-anamnesis"
               aria-invalid={!!errors.anamnesis}
-              className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               {...register('anamnesis')}
             />
             {errors.anamnesis && (
@@ -349,13 +349,12 @@ export function MedicalRecordForm({
           {/* Diagnosis */}
           <div className="space-y-2">
             <Label htmlFor="diagnosis">Diagnosis</Label>
-            <textarea
+            <Textarea
               id="diagnosis"
               rows={3}
               placeholder="Clinical findings and diagnosis..."
               data-testid="input-diagnosis"
               aria-invalid={!!errors.diagnosis}
-              className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               {...register('diagnosis')}
             />
             {errors.diagnosis && (
@@ -368,13 +367,12 @@ export function MedicalRecordForm({
           {/* Treatment */}
           <div className="space-y-2">
             <Label htmlFor="treatment">Treatment</Label>
-            <textarea
+            <Textarea
               id="treatment"
               rows={3}
               placeholder="Treatment plan, procedures performed..."
               data-testid="input-treatment"
               aria-invalid={!!errors.treatment}
-              className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               {...register('treatment')}
             />
             {errors.treatment && (

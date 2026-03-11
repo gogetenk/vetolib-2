@@ -8,6 +8,18 @@ namespace Vetolib.MedicalRecords.Infrastructure;
 /// Seeds the global drug catalog with common veterinary medications, vaccines, interactions,
 /// contraindications, and dosage guidelines. All entries have ClinicId = null (global).
 /// INN names are used (public domain). Descriptions are original.
+///
+/// Loading mechanism: runtime seed called once at startup via DbInitializer.SeedDrugCatalogAsync.
+/// This is NOT an EF Core HasData seed — it uses a manual idempotency guard (AnyAsync on ClinicId == null)
+/// so the data is inserted only once per database lifecycle.
+///
+/// IgnoreQueryFilters is intentional here: global catalog entries have ClinicId = null, which
+/// falls outside the tenant filter (WHERE ClinicId = @current). Without IgnoreQueryFilters the
+/// AnyAsync check would always return false and re-insert every restart.
+///
+/// Status (2026-03-10): SeedDrugCatalogAsync is defined in DbInitializer but NOT wired in Program.cs.
+/// The drug catalog is therefore not seeded automatically on startup. Wire it if/when needed by
+/// adding `await DbInitializer.SeedDrugCatalogAsync(app.Services);` after MigrateAllAsync in Program.cs.
 /// </summary>
 internal static class DrugCatalogSeedData
 {

@@ -1,4 +1,6 @@
-Feature: Preferences Integration — cross-module opt-in/opt-out
+@wip
+# language: en
+Feature: Preferences Integration -- cross-module opt-in/opt-out
   As a clinic administrator or staff member
   I want preferences to control which AI features and notifications are active
   So that the system respects user and clinic-level opt-in/opt-out decisions

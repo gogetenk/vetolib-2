@@ -36,30 +36,119 @@ internal class SharedSteps
 
     // ─── Shared clinic context ───────────────────────────────────
 
-    [Given(@"une clinique ""(.*)""")]
-    public void GivenUneClinique(string clinicName)
+    [Given(@"a clinic ""(.*)""")]
+    public void GivenAClinic(string clinicName)
     {
         var clinicIds = GetOrCreateClinicIds();
-        var clinicId = GenerateGuidFromString(clinicName);
+
+        // Always use the fixed TestClinicGuid so the EF Core compiled query filter
+        // (baked at model-creation time with the initial TestClinicContext.ClinicId value)
+        // matches the ClinicId used when inserting and querying test data.
+        var clinicId = TestClinicContext.TestClinicGuid;
         clinicIds[clinicName] = clinicId;
 
         var factory = _ctx.Get<TestWebApplicationFactory>();
         var testClinicContext = factory.Services.GetRequiredService<TestClinicContext>();
-        if (clinicIds.Count == 1)
-        {
-            testClinicContext.ClinicId = clinicId;
-        }
+        // Keep ClinicId at the fixed GUID — never change it from the baked-in value.
+        testClinicContext.ClinicId = TestClinicContext.TestClinicGuid;
 
         _ctx.Set(clinicIds, "ClinicIds");
     }
 
     // ─── Shared authentication ───────────────────────────────────
 
-    [Given(@"je suis authentifié en tant que (.*)")]
-    public async Task GivenJeSuisAuthentifie(string role)
+    [Given(@"I am authenticated as (.*)")]
+    public async Task GivenIAmAuthenticatedAs(string role)
+    {
+        await AuthenticateAsRole(role);
+    }
+
+    [Given(@"I am logged in as a VET")]
+    public async Task GivenIAmLoggedInAsVet()
+    {
+        await AuthenticateAsRole("VET");
+    }
+
+    [Given(@"I am logged in as a RECEPTIONIST")]
+    public async Task GivenIAmLoggedInAsReceptionist()
+    {
+        await AuthenticateAsRole("RECEPTIONIST");
+    }
+
+    [Given(@"I am logged in as an ASSISTANT")]
+    public async Task GivenIAmLoggedInAsAssistant()
+    {
+        await AuthenticateAsRole("ASSISTANT");
+    }
+
+    [Given(@"I am logged in as an ADMIN")]
+    public async Task GivenIAmLoggedInAsAdmin()
+    {
+        await AuthenticateAsRole("ADMIN");
+    }
+
+    // ─── Shared error assertion ──────────────────────────────────
+
+    [Then(@"the system rejects with code ""(.*)""")]
+    public void ThenTheSystemRejectsWithCode(string errorCode)
+    {
+        var response = _ctx.Get<HttpResponseMessage>("LastResponse");
+        response.IsSuccessStatusCode.Should().BeFalse();
+
+        switch (errorCode)
+        {
+            case "INSUFFICIENT_PERMISSIONS":
+                response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+                break;
+            case "VALIDATION_ERROR":
+                // Ardalis.Result serializes validation errors as a JSON array
+                // with fields "identifier", "errorMessage", "errorCode", "severity".
+                // There is no literal "VALIDATION_ERROR" string in the body.
+                response.StatusCode.Should().BeOneOf(
+                    new[] { HttpStatusCode.BadRequest, HttpStatusCode.UnprocessableEntity },
+                    $"Expected a 400/422 for code '{errorCode}' but got {(int)response.StatusCode}");
+                var validationBody = _ctx.ContainsKey("ErrorResponseBody")
+                    ? _ctx.Get<string>("ErrorResponseBody")
+                    : null;
+                if (validationBody != null)
+                    validationBody.Should().ContainAny(
+                        new[] { "errorMessage", "identifier", "errors" },
+                        "Expected validation error body with 'errorMessage' or 'identifier' field");
+                break;
+            default:
+                var body = _ctx.ContainsKey("ErrorResponseBody")
+                    ? _ctx.Get<string>("ErrorResponseBody")
+                    : null;
+                body.Should().NotBeNull();
+                body.Should().Contain(errorCode);
+                break;
+        }
+    }
+
+    // ─── Shared error message assertion ──────────────────────────
+
+    [Then(@"the error message is ""(.*)""")]
+    public void ThenTheErrorMessageIs(string expectedMessage)
+    {
+        var body = _ctx.ContainsKey("ErrorResponseBody")
+            ? _ctx.Get<string>("ErrorResponseBody")
+            : null;
+        body.Should().NotBeNull();
+        body.Should().Contain(expectedMessage);
+    }
+
+    // ─── Core authentication logic ──────────────────────────────
+
+    private async Task AuthenticateAsRole(string role)
     {
         var clinicIds = GetOrCreateClinicIds();
-        var clinicName = clinicIds.Keys.First();
+        var clinicName = clinicIds.Keys.FirstOrDefault() ?? "default-clinic";
+        if (!clinicIds.ContainsKey(clinicName))
+        {
+            var generatedId = GenerateGuidFromString(clinicName);
+            clinicIds[clinicName] = generatedId;
+            _ctx.Set(clinicIds, "ClinicIds");
+        }
         var clinicId = clinicIds[clinicName];
 
         var factory = _ctx.Get<TestWebApplicationFactory>();
@@ -81,6 +170,7 @@ internal class SharedSteps
             "VET" => UserRole.Vet,
             "RECEPTIONIST" => UserRole.Receptionist,
             "ADMIN" => UserRole.Admin,
+            "ASSISTANT" => UserRole.Assistant,
             _ => UserRole.Receptionist
         };
 
@@ -98,7 +188,7 @@ internal class SharedSteps
         }
 
         // Login to get JWT
-        var loginResponse = await client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK,
             $"Login should succeed for {email}");
@@ -108,29 +198,6 @@ internal class SharedSteps
             new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
 
         _ctx.Set(role, "CurrentRole");
-    }
-
-    // ─── Shared error assertion ──────────────────────────────────
-
-    [Then(@"le système refuse avec le code ""(.*)""")]
-    public void ThenLeSystemeRefuseAvecLeCode(string errorCode)
-    {
-        var response = _ctx.Get<HttpResponseMessage>("LastResponse");
-        response.IsSuccessStatusCode.Should().BeFalse();
-
-        switch (errorCode)
-        {
-            case "INSUFFICIENT_PERMISSIONS":
-                response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-                break;
-            default:
-                var body = _ctx.ContainsKey("ErrorResponseBody")
-                    ? _ctx.Get<string>("ErrorResponseBody")
-                    : null;
-                body.Should().NotBeNull();
-                body.Should().Contain(errorCode);
-                break;
-        }
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

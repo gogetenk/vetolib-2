@@ -114,7 +114,7 @@ internal class TeamManagementSteps
     [Given(@"""(.*)"" has been deactivated by admin")]
     public async Task GivenUserDeactivated(string email)
     {
-        _response = await _client.DeleteAsync($"/api/users/{await GetUserId(email)}");
+        _response = await _client.DeleteAsync($"/api/v1/users/{await GetUserId(email)}");
         _response.IsSuccessStatusCode.Should().BeTrue($"Deactivation should succeed for {email}");
     }
 
@@ -123,7 +123,7 @@ internal class TeamManagementSteps
     [When(@"I call GET \/api\/users")]
     public async Task WhenGetUsers()
     {
-        _response = await _client.GetAsync("/api/users");
+        _response = await _client.GetAsync("/api/v1/users");
         if (_response.IsSuccessStatusCode)
             _userList = await _response.Content.ReadFromJsonAsync<List<UserListItemDto>>(JsonOptions);
         else
@@ -135,7 +135,7 @@ internal class TeamManagementSteps
     {
         var role = Enum.Parse<UserRole>(roleName);
         var request = new InviteUserRequest(email, fullName, role);
-        _response = await _client.PostAsJsonAsync("/api/users/invite", request);
+        _response = await _client.PostAsJsonAsync("/api/v1/users/invite", request);
 
         if (_response.IsSuccessStatusCode)
             _inviteResponse = await _response.Content.ReadFromJsonAsync<InviteUserResponse>(JsonOptions);
@@ -149,7 +149,7 @@ internal class TeamManagementSteps
         var userId = await GetUserId(email);
         var newRole = Enum.Parse<UserRole>(newRoleName);
         var request = new ChangeRoleRequest(newRole);
-        _response = await _client.PatchAsJsonAsync($"/api/users/{userId}/role", request);
+        _response = await _client.PatchAsJsonAsync($"/api/v1/users/{userId}/role", request);
 
         if (!_response.IsSuccessStatusCode)
             _errorBody = await _response.Content.ReadAsStringAsync();
@@ -159,7 +159,7 @@ internal class TeamManagementSteps
     public async Task WhenDeactivateUser(string email)
     {
         var userId = await GetUserId(email);
-        _response = await _client.DeleteAsync($"/api/users/{userId}");
+        _response = await _client.DeleteAsync($"/api/v1/users/{userId}");
 
         if (!_response.IsSuccessStatusCode)
             _errorBody = await _response.Content.ReadAsStringAsync();
@@ -168,14 +168,14 @@ internal class TeamManagementSteps
     [When(@"I try to deactivate myself")]
     public async Task WhenDeactivateSelf()
     {
-        _response = await _client.DeleteAsync($"/api/users/{_adminUserId}");
+        _response = await _client.DeleteAsync($"/api/v1/users/{_adminUserId}");
         _errorBody = await _response.Content.ReadAsStringAsync();
     }
 
     [When(@"I call GET \/api\/users as a vet")]
     public async Task WhenGetUsersAsVet()
     {
-        _response = await _client.GetAsync("/api/users");
+        _response = await _client.GetAsync("/api/v1/users");
         _errorBody = await _response.Content.ReadAsStringAsync();
     }
 
@@ -184,7 +184,7 @@ internal class TeamManagementSteps
     {
         // Use a fresh client (unauthenticated)
         var freshClient = _factory.CreateClient();
-        _response = await freshClient.PostAsJsonAsync("/api/auth/login",
+        _response = await freshClient.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, "User1234!"));
         _errorBody = await _response.Content.ReadAsStringAsync();
     }
@@ -217,7 +217,7 @@ internal class TeamManagementSteps
     [Then(@"the new user appears in the team list")]
     public async Task ThenNewUserInList()
     {
-        var listResponse = await _client.GetAsync("/api/users");
+        var listResponse = await _client.GetAsync("/api/v1/users");
         listResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         var list = await listResponse.Content.ReadFromJsonAsync<List<UserListItemDto>>(JsonOptions);
         list.Should().NotBeNull();
@@ -282,7 +282,7 @@ internal class TeamManagementSteps
 
     private async Task LoginAs(string email, string password)
     {
-        var loginResponse = await _client.PostAsJsonAsync("/api/auth/login",
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
         loginResponse.EnsureSuccessStatusCode();
 

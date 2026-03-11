@@ -20,6 +20,7 @@ internal class CheckStockAvailabilityHandler : IRequestHandler<CheckStockAvailab
     {
         // Find stock items linked to this drug catalog entry
         var items = await _context.StockItems
+            .AsNoTracking()
             .Where(s => s.DrugCatalogEntryId == query.DrugCatalogEntryId)
             .ToListAsync(ct);
 
@@ -61,6 +62,7 @@ internal class CheckStockAvailabilityHandler : IRequestHandler<CheckStockAvailab
             return [];
 
         var alternatives = await _context.StockItems
+            .AsNoTracking()
             .Where(s => s.Category == category
                 && s.Quantity > 0
                 && !excludedIds.Contains(s.Id)
