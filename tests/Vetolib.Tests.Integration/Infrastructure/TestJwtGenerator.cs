@@ -12,10 +12,11 @@ namespace Vetolib.Tests.Integration.Infrastructure;
 /// </summary>
 public static class TestJwtGenerator
 {
-    // Must match Jwt:Key in appsettings.Development.json
-    private const string JwtKey = "super-secret-key-for-vetolib-jwt-token-generation-minimum-32-chars";
-    private const string JwtIssuer = "Vetolib";
-    private const string JwtAudience = "Vetolib";
+    // Fixed test key — the factory overrides Jwt:Key/Issuer/Audience with these values
+    // so generated tokens always match, regardless of user-secrets on the dev machine.
+    public const string JwtKey = "test-integration-jwt-key-for-tests-minimum-32-chars!!";
+    public const string JwtIssuer = "Vetolib";
+    public const string JwtAudience = "Vetolib";
 
     public static string GenerateToken(
         Guid userId,

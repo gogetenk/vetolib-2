@@ -1,4 +1,5 @@
 using MassTransit;
+using Microsoft.AspNetCore.RateLimiting;
 using Sentry.OpenTelemetry;
 using Sentry.Serilog;
 using Serilog;
@@ -62,7 +63,8 @@ builder.AddServiceDefaults();
 // DSN is empty by default (SDK disabled). Set Sentry__Dsn env var in production.
 builder.WebHost.UseSentry(options =>
 {
-    options.Dsn = builder.Configuration["Sentry:Dsn"] ?? "";
+    var sentryDsn = builder.Configuration["Sentry:Dsn"] ?? "";
+    options.Dsn = Uri.IsWellFormedUriString(sentryDsn, UriKind.Absolute) ? sentryDsn : "";
     options.Environment = builder.Environment.EnvironmentName;
     options.TracesSampleRate = builder.Environment.IsProduction() ? 0.3 : 1.0;
     options.SendDefaultPii = false;
@@ -174,6 +176,37 @@ builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb", settings => settings.Dis
 builder.Services.AddPreferencesModule(builder.Configuration);
 builder.AddNpgsqlDbContext<PreferencesDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
+// Rate limiting
+// "auth"   — 10 req/min per IP (login, refresh, change-password)
+// "signup" — 3 req/h per IP   (clinic self-registration)
+// "api"    — 100 req/min per IP (all other authenticated endpoints)
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddSlidingWindowLimiter("auth", opt =>
+    {
+        opt.PermitLimit = 10;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.SegmentsPerWindow = 6;
+        opt.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("signup", opt =>
+    {
+        opt.PermitLimit = 3;
+        opt.Window = TimeSpan.FromHours(1);
+        opt.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("api", opt =>
+    {
+        opt.PermitLimit = 100;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+});
+
 // JSON: accept string enum values in request bodies (e.g., "MedicalQuestion" instead of 2).
 // Also serializes enum responses as strings for consistency.
 // All step definitions that read enum-containing DTOs must use JsonStringEnumConverter too.
@@ -185,6 +218,7 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
