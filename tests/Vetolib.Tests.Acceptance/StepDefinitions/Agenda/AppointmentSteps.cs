@@ -97,36 +97,6 @@ internal class AppointmentSteps
         _animalOwners[animalName] = ownerName;
     }
 
-    [Given(@"I am authenticated as RECEPTIONIST")]
-    public async Task GivenIAmAuthenticatedAsReceptionist()
-    {
-        // Create a receptionist user and login
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var email = "recep@happypaws.ae";
-        var password = "SecurePass1";
-
-        var userResult = User.Create(_clinicId, email, password, UserRole.Receptionist);
-        userResult.IsSuccess.Should().BeTrue();
-
-        authDb.Users.Add(userResult.Value);
-        await authDb.SaveChangesAsync();
-
-        // Login
-        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, password));
-        if (!loginResponse.IsSuccessStatusCode)
-        {
-            var body = await loginResponse.Content.ReadAsStringAsync();
-            throw new Exception($"Login failed with {loginResponse.StatusCode}: {body}");
-        }
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
-    }
-
     [Given(@"an existing appointment for ""(.*)"" at ""(.*)""")]
     public async Task GivenAnExistingAppointmentForAt(string animalName, string time)
     {
@@ -233,6 +203,7 @@ internal class AppointmentSteps
             Reason: null);
 
         _response = await _client.PostAsJsonAsync("/api/appointments", request);
+        _ctx.Set(_response, "LastResponse");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -241,6 +212,7 @@ internal class AppointmentSteps
         else
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -249,10 +221,12 @@ internal class AppointmentSteps
     {
         var date = DateOnly.Parse(dateStr);
         _response = await _client.GetAsync($"/api/appointments?date={date:yyyy-MM-dd}");
+        _ctx.Set(_response, "LastResponse");
 
         if (!_response.IsSuccessStatusCode)
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -279,6 +253,8 @@ internal class AppointmentSteps
 
         _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"I try to create an appointment from ""(.*)"" to ""(.*)"" with ""(.*)""")]
@@ -304,6 +280,8 @@ internal class AppointmentSteps
 
         _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"I try to create an appointment at ""(.*)""")]
@@ -326,6 +304,8 @@ internal class AppointmentSteps
 
         _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When("I try to create an appointment on date {string} at {string}")]
@@ -687,45 +667,22 @@ internal class AppointmentSteps
 
     // ─── English steps for PATCH /status edge-case scenarios ─────
 
-    [Given(@"a clinic ""(.*)""")]
-    public void GivenAClinic(string clinicName)
-    {
-        _clinicId = TestClinicContext.TestClinicGuid;
-        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        testClinicContext.ClinicId = _clinicId;
-    }
-
-    [Given(@"I am authenticated as ADMIN")]
-    public async Task GivenIAmAuthenticatedAsAdmin()
-    {
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var email = "admin-status@happypaws.ae";
-        var password = "SecurePass1";
-
-        var userResult = User.Create(_clinicId, email, password, UserRole.Admin);
-        userResult.IsSuccess.Should().BeTrue();
-
-        authDb.Users.Add(userResult.Value);
-        await authDb.SaveChangesAsync();
-
-        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, password));
-        if (!loginResponse.IsSuccessStatusCode)
-        {
-            var body = await loginResponse.Content.ReadAsStringAsync();
-            throw new Exception($"Admin login failed with {loginResponse.StatusCode}: {body}");
-        }
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
-    }
-
     [Given(@"an existing appointment with status ""(.*)""")]
     public async Task GivenAnExistingAppointmentWithStatus(string status)
     {
+        // If _clinicId was not set by GivenAClinicWithHours, read from ScenarioContext (set by SharedSteps.GivenAClinic)
+        if (_clinicId == Guid.Empty)
+        {
+            if (_ctx.ContainsKey("ClinicIds"))
+            {
+                var clinicIds = _ctx.Get<Dictionary<string, Guid>>("ClinicIds");
+                if (clinicIds.Count > 0)
+                    _clinicId = clinicIds.Values.First();
+            }
+            if (_clinicId == Guid.Empty)
+                _clinicId = TestClinicContext.TestClinicGuid;
+        }
+
         // Create a vet if not yet set up
         if (_vetId == Guid.Empty)
         {

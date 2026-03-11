@@ -4,12 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
-using Vetolib.Auth.Application.Domain;
-using Vetolib.Auth.Contracts;
-using Vetolib.Auth.Infrastructure;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Tests.Acceptance.Support;
 
@@ -22,7 +17,6 @@ internal class AuditSteps
     private readonly ScenarioContext _ctx;
     private HttpClient _client = null!;
     private TestWebApplicationFactory _factory = null!;
-    private Guid _clinicId;
     private HttpResponseMessage? _lastResponse;
     private string? _errorResponseBody;
     private AuditLogResponse? _auditResponse;
@@ -46,28 +40,6 @@ internal class AuditSteps
     }
 
     // ─── GIVEN ──────────────────────────────────────────────────
-
-    [Given(@"a clinic ""(.*)""")]
-    public void GivenAClinic(string clinicName)
-    {
-        // MUST use the fixed TestClinicGuid — EF Core compiles the multi-tenant query filter
-        // once per model and bakes in the ClinicId value at model creation time.
-        _clinicId = TestClinicContext.TestClinicGuid;
-        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        testClinicContext.ClinicId = _clinicId;
-    }
-
-    [Given(@"I am authenticated as ADMIN")]
-    public async Task GivenIAmAuthenticatedAsAdmin()
-    {
-        await AuthenticateAs(UserRole.Admin, "admin@audit-test.ae", "AdminPass1!");
-    }
-
-    [Given(@"I am authenticated as VET")]
-    public async Task GivenIAmAuthenticatedAsVet()
-    {
-        await AuthenticateAs(UserRole.Vet, "vet@audit-test.ae", "VetPass1!", "AUDIT-VET-001");
-    }
 
     [Given(@"a patient was created")]
     public async Task GivenAPatientWasCreated()
@@ -150,37 +122,6 @@ internal class AuditSteps
     }
 
     // ─── Helpers ────────────────────────────────────────────────
-
-    private async Task AuthenticateAs(UserRole role, string email, string password, string? vetLicense = null)
-    {
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var existingUser = await authDb.Users.IgnoreQueryFilters()
-            .FirstOrDefaultAsync(u => u.Email == email.ToLowerInvariant());
-
-        if (existingUser is null)
-        {
-            var userResult = User.Create(_clinicId, email, password, role, vetLicense);
-            userResult.IsSuccess.Should().BeTrue($"User creation for {email} failed");
-            authDb.Users.Add(userResult.Value);
-            await authDb.SaveChangesAsync();
-        }
-
-        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, password));
-
-        if (!loginResponse.IsSuccessStatusCode)
-        {
-            var loginError = await loginResponse.Content.ReadAsStringAsync();
-            loginResponse.IsSuccessStatusCode.Should().BeTrue($"Login for {email} failed: {loginError}");
-            return;
-        }
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
-    }
 
     private static Guid GenerateGuidFromString(string input)
     {

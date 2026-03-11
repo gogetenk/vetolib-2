@@ -172,6 +172,7 @@ internal class LoginSteps
     {
         _response = await _client.PostAsJsonAsync("/api/v1/auth/login",
             new LoginRequest(email, password));
+        _ctx.Set(_response, "LastResponse");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -180,6 +181,7 @@ internal class LoginSteps
         else
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -192,6 +194,8 @@ internal class LoginSteps
                 new LoginRequest(email, "WrongPassword1!"));
         }
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"^I call POST /api/v1/auth/refresh with my refresh token$")]
@@ -277,6 +281,7 @@ internal class LoginSteps
                 : null);
 
         _response = await _client.PostAsJsonAsync("/api/v1/users", request);
+        _ctx.Set(_response, "LastResponse");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -285,6 +290,7 @@ internal class LoginSteps
         else
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -303,6 +309,8 @@ internal class LoginSteps
 
         _response = await _client.PostAsJsonAsync("/api/v1/users", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"I attempt to create a user with email ""(.*)"" and password ""(.*)""")]
@@ -311,6 +319,8 @@ internal class LoginSteps
         var request = new CreateUserRequest(email, password, UserRole.Receptionist, null);
         _response = await _client.PostAsJsonAsync("/api/v1/users", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     // ─── THEN Steps ──────────────────────────────────────────────

@@ -3,11 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
-using Vetolib.Auth.Application.Domain;
-using Vetolib.Auth.Contracts;
-using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Domain;
 using Vetolib.Billing.Infrastructure;
@@ -22,7 +18,6 @@ internal class FacturationSteps
     private readonly ScenarioContext _ctx;
     private HttpClient _client = null!;
     private TestWebApplicationFactory _factory = null!;
-    private Guid _clinicId;
     private Guid _animalId;
     private InvoiceDto? _currentInvoice;
     private HttpResponseMessage? _lastResponse;
@@ -48,45 +43,10 @@ internal class FacturationSteps
 
     // ─── GIVEN ──────────────────────────────────────────────────
 
-    [Given(@"a clinic ""(.*)""")]
-    public void GivenAClinic(string clinicName)
-    {
-        // Use the fixed TestClinicGuid so the multi-tenant query filter sees data
-        // created in the same scenario. Using GenerateGuidFromString would produce a
-        // ClinicId invisible to queries filtered by the current IClinicContext value.
-        _clinicId = TestClinicContext.TestClinicGuid;
-        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        testClinicContext.ClinicId = _clinicId;
-    }
-
     [Given(@"an animal ""(.*)"" in the clinic")]
     public void GivenAnAnimalInTheClinic(string animalName)
     {
         _animalId = GenerateGuidFromString(animalName);
-    }
-
-    [Given(@"I am authenticated as VET")]
-    public async Task GivenIAmAuthenticatedAsVet()
-    {
-        // Create a VET user and login
-        var email = "vet@happypaws.ae";
-        var password = "VetPass123!";
-
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var userResult = User.Create(_clinicId, email, password, UserRole.Vet, "VET-001");
-        userResult.IsSuccess.Should().BeTrue();
-        authDb.Users.Add(userResult.Value);
-        await authDb.SaveChangesAsync();
-
-        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, password));
-        loginResponse.EnsureSuccessStatusCode();
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
     }
 
     [Given(@"a ""(.*)"" invoice for ""(.*)""")]
@@ -181,6 +141,7 @@ internal class FacturationSteps
     {
         var request = new CreateInvoiceRequest(_animalId, itemDescription, price);
         _lastResponse = await _client.PostAsJsonAsync("/api/v1/invoices", request);
+        _ctx.Set(_lastResponse, "LastResponse");
 
         if (_lastResponse.IsSuccessStatusCode)
         {
@@ -189,6 +150,7 @@ internal class FacturationSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -198,6 +160,7 @@ internal class FacturationSteps
         var request = new AddInvoiceItemRequest(description, price);
         _lastResponse = await _client.PostAsJsonAsync(
             $"/api/v1/invoices/{_currentInvoice!.Id}/items", request);
+        _ctx.Set(_lastResponse, "LastResponse");
 
         if (_lastResponse.IsSuccessStatusCode)
         {
@@ -206,6 +169,7 @@ internal class FacturationSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -216,6 +180,7 @@ internal class FacturationSteps
         _lastResponse = await _client.PatchAsJsonAsync(
             $"/api/v1/invoices/{_currentInvoice!.Id}/status",
             new UpdateInvoiceStatusRequest(newStatus));
+        _ctx.Set(_lastResponse, "LastResponse");
 
         if (_lastResponse.IsSuccessStatusCode)
         {
@@ -224,6 +189,7 @@ internal class FacturationSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -234,6 +200,7 @@ internal class FacturationSteps
         _lastResponse = await _client.PatchAsJsonAsync(
             $"/api/v1/invoices/{_currentInvoice!.Id}/status",
             new UpdateInvoiceStatusRequest(newStatus));
+        _ctx.Set(_lastResponse, "LastResponse");
 
         if (_lastResponse.IsSuccessStatusCode)
         {
@@ -242,6 +209,7 @@ internal class FacturationSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -252,6 +220,8 @@ internal class FacturationSteps
         _lastResponse = await _client.PostAsJsonAsync(
             $"/api/v1/invoices/{_currentInvoice!.Id}/items", request);
         _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+        _ctx.Set(_lastResponse, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"I create a new invoice")]
@@ -259,6 +229,7 @@ internal class FacturationSteps
     {
         var request = new CreateInvoiceRequest(_animalId, "Service", 100m);
         _lastResponse = await _client.PostAsJsonAsync("/api/v1/invoices", request);
+        _ctx.Set(_lastResponse, "LastResponse");
 
         if (_lastResponse.IsSuccessStatusCode)
         {
@@ -267,6 +238,7 @@ internal class FacturationSteps
         else
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -274,9 +246,11 @@ internal class FacturationSteps
     public async Task WhenIDownloadThePdfOfThisInvoice()
     {
         _lastResponse = await _client.GetAsync($"/api/v1/invoices/{_currentInvoice!.Id}/pdf");
+        _ctx.Set(_lastResponse, "LastResponse");
         if (!_lastResponse.IsSuccessStatusCode)
         {
             _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -286,6 +260,8 @@ internal class FacturationSteps
         var randomId = Guid.NewGuid();
         _lastResponse = await _client.GetAsync($"/api/v1/invoices/{randomId}/pdf");
         _errorResponseBody = await _lastResponse.Content.ReadAsStringAsync();
+        _ctx.Set(_lastResponse, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     // ─── THEN ───────────────────────────────────────────────────
@@ -354,20 +330,6 @@ internal class FacturationSteps
         _currentInvoice!.DueDate.Should().NotBeNull();
         var expectedDate = DateTime.UtcNow.AddDays(30);
         _currentInvoice.DueDate!.Value.Should().BeCloseTo(expectedDate, TimeSpan.FromMinutes(5));
-    }
-
-    [Then(@"the system rejects with code ""(.*)""")]
-    public void ThenTheSystemRejectsWithCode(string errorCode)
-    {
-        _lastResponse!.IsSuccessStatusCode.Should().BeFalse();
-        _errorResponseBody.Should().NotBeNull();
-        _errorResponseBody.Should().Contain(errorCode);
-    }
-
-    [Then(@"the error message is ""(.*)""")]
-    public void ThenTheErrorMessageIs(string expectedMessage)
-    {
-        _errorResponseBody.Should().Contain(expectedMessage);
     }
 
     [Then(@"the number is ""(.*)""")]

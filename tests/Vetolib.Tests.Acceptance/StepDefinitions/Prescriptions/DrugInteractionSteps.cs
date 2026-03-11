@@ -32,8 +32,6 @@ internal class DrugInteractionSteps
     private InteractionCheckResult? _interactionResult;
     private HttpResponseMessage? _prescriptionResponse;
     private PrescriptionDto? _savedPrescription;
-    private string? _currentRole;
-
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -67,34 +65,6 @@ internal class DrugInteractionSteps
     }
 
     // ─── GIVEN steps ─────────────────────────────────────────────
-
-    [Given(@"I am logged in as a VET")]
-    public async Task GivenIAmLoggedInAsVet()
-    {
-        _currentRole = "VET";
-        await LoginAs("VET");
-    }
-
-    [Given(@"I am logged in as a RECEPTIONIST")]
-    public async Task GivenIAmLoggedInAsReceptionist()
-    {
-        _currentRole = "RECEPTIONIST";
-        await LoginAs("RECEPTIONIST");
-    }
-
-    [Given(@"I am logged in as an ASSISTANT")]
-    public async Task GivenIAmLoggedInAsAssistant()
-    {
-        _currentRole = "ASSISTANT";
-        await LoginAs("ASSISTANT");
-    }
-
-    [Given(@"I am logged in as an ADMIN")]
-    public async Task GivenIAmLoggedInAsAdmin()
-    {
-        _currentRole = "ADMIN";
-        await LoginAs("ADMIN");
-    }
 
     [Given(@"a patient ""(.*)"" of species ""(.*)"" exists in my clinic")]
     public async Task GivenPatientOfSpeciesExistsInMyClinic(string patientName, string speciesStr)
@@ -540,8 +510,9 @@ internal class DrugInteractionSteps
     public void ThenIShouldNotHaveAccessToPrescriptionCreation()
     {
         // RECEPTIONIST cannot access the VetOrAdmin policy endpoint
-        // We verify by checking the role stored
-        _currentRole.Should().Be("RECEPTIONIST");
+        // We verify by checking the role stored (set by SharedSteps.AuthenticateAsRole)
+        var currentRole = _ctx.ContainsKey("CurrentRole") ? _ctx.Get<string>("CurrentRole") : null;
+        currentRole.Should().Be("RECEPTIONIST");
 
         // Verify that calling the check-interactions endpoint returns 403
         var checkTask = _client.PostAsJsonAsync("/api/v1/ai/check-interactions",
@@ -567,7 +538,8 @@ internal class DrugInteractionSteps
     public void ThenIShouldNotSeeButton(string buttonLabel)
     {
         // UI concern — for the API test we verify ASSISTANT cannot call VetOrAdmin endpoints
-        _currentRole.Should().Be("ASSISTANT");
+        var currentRole = _ctx.ContainsKey("CurrentRole") ? _ctx.Get<string>("CurrentRole") : null;
+        currentRole.Should().Be("ASSISTANT");
 
         var checkTask = _client.PostAsJsonAsync("/api/v1/ai/check-interactions",
             new { PatientId = _patientId, DrugCatalogEntryId = Guid.NewGuid(), DosageAmount = (decimal?)null });
@@ -577,44 +549,6 @@ internal class DrugInteractionSteps
     }
 
     // ─── Private helpers ─────────────────────────────────────────
-
-    private async Task LoginAs(string role)
-    {
-        var email = $"{role.ToLowerInvariant()}-drugtest@test.com";
-        var password = "SecurePass1";
-
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var userRole = role.ToUpperInvariant() switch
-        {
-            "VET" => UserRole.Vet,
-            "RECEPTIONIST" => UserRole.Receptionist,
-            "ADMIN" => UserRole.Admin,
-            "ASSISTANT" => UserRole.Receptionist, // Receptionist maps to staff role
-            _ => UserRole.Receptionist
-        };
-
-        var vetLicense = userRole == UserRole.Vet ? "TEST-VET-DRUG-001" : null;
-        var userResult = User.Create(_clinicId, email, password, userRole, vetLicense);
-        userResult.IsSuccess.Should().BeTrue();
-
-        var existing = await authDb.Users.IgnoreQueryFilters()
-            .FirstOrDefaultAsync(u => u.Email == email);
-        if (existing is null)
-        {
-            authDb.Users.Add(userResult.Value);
-            await authDb.SaveChangesAsync();
-        }
-
-        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, password));
-        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login should succeed for {email}");
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
-    }
 
     private async Task RunInteractionCheck(string patientName, string drug, decimal? dosageAmount)
     {

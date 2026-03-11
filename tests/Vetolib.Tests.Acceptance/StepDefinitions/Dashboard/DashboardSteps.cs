@@ -20,7 +20,6 @@ internal class DashboardSteps
     private readonly ScenarioContext _ctx;
     private HttpClient _client = null!;
     private TestWebApplicationFactory _factory = null!;
-    private Guid _clinicId;
     private HttpResponseMessage? _lastResponse;
     private string? _errorResponseBody;
 
@@ -56,29 +55,12 @@ internal class DashboardSteps
 
     // ─── GIVEN ──────────────────────────────────────────────────
 
-    [Given(@"a clinic ""(.*)""")]
-    public void GivenAClinic(string clinicName)
-    {
-        _clinicId = TestClinicContext.TestClinicGuid;
-        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        testClinicContext.ClinicId = _clinicId;
-    }
-
-    [Given(@"I am authenticated as ADMIN")]
-    public async Task GivenIAmAuthenticatedAsAdmin()
-    {
-        await AuthenticateAs(UserRole.Admin, "admin@dashboard-test.ae", "AdminPass1!");
-    }
-
-    [Given(@"I am authenticated as RECEPTIONIST")]
-    public async Task GivenIAmAuthenticatedAsReceptionist()
-    {
-        await AuthenticateAs(UserRole.Receptionist, "receptionist@dashboard-test.ae", "RecepPass1!");
-    }
-
     [Given(@"there are (\d+) appointments today")]
     public async Task GivenThereAreAppointmentsToday(int count)
     {
+        // Read clinic ID from ScenarioContext (set by SharedSteps.GivenAClinic)
+        var clinicId = GetClinicId();
+
         // Create a vet user for the appointments
         var vetId = GenerateGuidFromString("dashboard-vet");
         using var scope = _factory.Services.CreateScope();
@@ -88,7 +70,7 @@ internal class DashboardSteps
         var existing = await authDb.Users.FindAsync(vetId);
         if (existing is null)
         {
-            var vetResult = User.Create(_clinicId, vetEmail, "VetPass1!", UserRole.Vet, "TEST-VET-DASH-001");
+            var vetResult = User.Create(clinicId, vetEmail, "VetPass1!", UserRole.Vet, "TEST-VET-DASH-001");
             vetResult.IsSuccess.Should().BeTrue();
             typeof(Vetolib.Shared.Kernel.BaseEntity).GetProperty("Id")!.SetValue(vetResult.Value, vetId);
             authDb.Users.Add(vetResult.Value);
@@ -257,28 +239,15 @@ internal class DashboardSteps
 
     // ─── Helpers ────────────────────────────────────────────────
 
-    private async Task AuthenticateAs(UserRole role, string email, string password)
+    private Guid GetClinicId()
     {
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var existingUser = await authDb.Users.FindAsync(GenerateGuidFromString(email));
-        if (existingUser is null)
+        if (_ctx.ContainsKey("ClinicIds"))
         {
-            var vetLicense = role == UserRole.Vet ? "TEST-VET-001" : null;
-            var userResult = User.Create(_clinicId, email, password, role, vetLicense);
-            userResult.IsSuccess.Should().BeTrue($"User creation for {email} failed");
-            authDb.Users.Add(userResult.Value);
-            await authDb.SaveChangesAsync();
+            var clinicIds = _ctx.Get<Dictionary<string, Guid>>("ClinicIds");
+            if (clinicIds.Count > 0)
+                return clinicIds.Values.First();
         }
-
-        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, password));
-        loginResponse.IsSuccessStatusCode.Should().BeTrue($"Login for {email} failed");
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
+        return TestClinicContext.TestClinicGuid;
     }
 
     private static Guid GenerateGuidFromString(string input)

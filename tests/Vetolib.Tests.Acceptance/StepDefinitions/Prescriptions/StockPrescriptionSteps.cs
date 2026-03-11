@@ -65,35 +65,6 @@ internal class StockPrescriptionSteps
 
     // ─── GIVEN steps ─────────────────────────────────────────────
 
-    [Given(@"I am logged in as a VET")]
-    public async Task GivenIAmLoggedInAsVet()
-    {
-        var email = "vet-stockrx@test.com";
-        var password = "SecurePass1";
-
-        using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-
-        var userResult = User.Create(_clinicId, email, password, UserRole.Vet, "TEST-VET-STOCKRX-001");
-        userResult.IsSuccess.Should().BeTrue();
-
-        var existing = await authDb.Users.IgnoreQueryFilters()
-            .FirstOrDefaultAsync(u => u.Email == email);
-        if (existing is null)
-        {
-            authDb.Users.Add(userResult.Value);
-            await authDb.SaveChangesAsync();
-        }
-
-        var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, password));
-        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login should succeed for {email}");
-
-        var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
-        _client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
-    }
-
     [Given(@"a patient ""(.*)"" of species ""(.*)"" exists in my clinic")]
     public async Task GivenPatientOfSpeciesExistsInMyClinic(string patientName, string species)
     {
