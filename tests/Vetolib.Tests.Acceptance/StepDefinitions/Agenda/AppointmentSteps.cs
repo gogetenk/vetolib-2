@@ -329,6 +329,8 @@ internal class AppointmentSteps
 
         _response = await _client.PostAsJsonAsync("/api/appointments", request);
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"I update the last appointment status to ""(.*)""")]
