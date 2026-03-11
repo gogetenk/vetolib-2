@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using System.Threading.RateLimiting;
 using Vetolib.Agenda.Infrastructure;
 using Vetolib.AI.Application.Services;
+using Vetolib.AI.Contracts;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
@@ -124,6 +125,15 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             foreach (var d in noShowDescriptors)
                 services.Remove(d);
             services.AddScoped<INoShowPredictionService, FakeNoShowPredictionService>();
+
+            // Replace IMessageTriageService with FakeMessageTriageService so that
+            // messaging triage acceptance tests get deterministic routing results.
+            var triageDescriptors = services
+                .Where(d => d.ServiceType == typeof(IMessageTriageService))
+                .ToList();
+            foreach (var d in triageDescriptors)
+                services.Remove(d);
+            services.AddScoped<IMessageTriageService, FakeMessageTriageService>();
 
             // Re-wire audit interceptors for MedicalRecordsDbContext so that the audit trail
             // is populated during acceptance tests (the descriptor removal above strips them).

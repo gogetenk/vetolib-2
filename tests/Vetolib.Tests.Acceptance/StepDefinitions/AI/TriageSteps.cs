@@ -374,8 +374,8 @@ internal class TriageSteps
             if (ids.Count > 0) return ids.Values.First();
         }
 
-        // Use deterministic Guid so EF Core compiled query filter is stable across scenarios.
-        var clinicId = SharedSteps.GenerateGuidFromString("ai-test-clinic");
+        // Use the fixed TestClinicGuid so the multi-tenant query filter sees triage data.
+        var clinicId = TestClinicContext.TestClinicGuid;
         var dict = new Dictionary<string, Guid> { ["ai-test-clinic"] = clinicId };
         _ctx.Set(dict, "ClinicIds");
 

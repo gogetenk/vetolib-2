@@ -33,17 +33,19 @@ internal class AddInternalNoteHandler : IRequestHandler<AddInternalNoteCommand, 
             senderUserId = parsedId;
 
         var conversation = await _context.Conversations
-            .Include(c => c.Messages)
             .FirstOrDefaultAsync(c => c.Id == cmd.ConversationId, ct);
 
         if (conversation is null)
             return Result<MessageDto>.NotFound();
 
+        // Create message via domain, add directly to DbSet to avoid
+        // EF Core collection tracking issue with Include(Messages).
         var messageResult = conversation.AddMessage(sender, senderUserId, cmd.Body, isInternalNote: true);
 
         if (!messageResult.IsSuccess)
             return Result<MessageDto>.Invalid(messageResult.ValidationErrors);
 
+        _context.Messages.Add(messageResult.Value);
         await _context.SaveChangesAsync(ct);
 
         return Result<MessageDto>.Success(messageResult.Value.ToDto());

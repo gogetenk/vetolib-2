@@ -28,7 +28,7 @@ public static class AuthModuleServiceRegistrar
         });
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(AuthModuleServiceRegistrar).Assembly);
+        services.AddValidatorsFromAssembly(typeof(AuthModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         // JWT Token Service
         services.AddScoped<IJwtTokenService, JwtTokenService>();

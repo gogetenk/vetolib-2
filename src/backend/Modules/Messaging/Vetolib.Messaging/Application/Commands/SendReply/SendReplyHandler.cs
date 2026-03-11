@@ -47,24 +47,26 @@ internal class SendReplyHandler : IRequestHandler<SendReplyCommand, Result<Messa
             senderUserId = parsedId;
 
         var conversation = await _context.Conversations
-            .Include(c => c.Messages)
             .FirstOrDefaultAsync(c => c.Id == cmd.ConversationId, ct);
 
         if (conversation is null)
             return Result<MessageDto>.NotFound();
 
+        // Create message via domain, add directly to DbSet to avoid
+        // EF Core collection tracking issue with Include(Messages).
         var messageResult = conversation.AddMessage(sender, senderUserId, cmd.Body, isInternalNote: false);
 
         if (!messageResult.IsSuccess)
             return Result<MessageDto>.Error(string.Join("; ", messageResult.Errors));
 
         var replyMessage = messageResult.Value;
+        _context.Messages.Add(replyMessage);
 
         // Find the last owner message to reference in the audit
-        var lastOwnerMessage = conversation.Messages
-            .Where(m => m.Sender == MessageSender.Owner)
+        var lastOwnerMessage = await _context.Messages
+            .Where(m => m.ConversationId == cmd.ConversationId && m.Sender == MessageSender.Owner)
             .OrderByDescending(m => m.SentAt)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync(ct);
 
         // Record ReplyAudit for AI suggestion effectiveness tracking
         if (lastOwnerMessage is not null)

@@ -48,14 +48,11 @@ internal class ChangePasswordSteps
     public void GivenAClinic(string clinicName)
     {
         var clinicIds = GetOrCreateClinicIds();
-        var clinicId = GenerateGuidFromString(clinicName);
+        var clinicId = TestClinicContext.TestClinicGuid;
         clinicIds[clinicName] = clinicId;
 
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
-        if (clinicIds.Count == 1)
-        {
-            testClinicContext.ClinicId = clinicId;
-        }
+        testClinicContext.ClinicId = clinicId;
 
         _ctx.Set(clinicIds, "ClinicIds");
     }
@@ -147,8 +144,8 @@ internal class ChangePasswordSteps
                 return clinicIds.Values.First();
         }
 
-        // Fallback: generate from "Happy Paws"
-        return GenerateGuidFromString("Happy Paws");
+        // Fallback: use the fixed TestClinicGuid for multi-tenant filter compatibility.
+        return TestClinicContext.TestClinicGuid;
     }
 
     private Dictionary<string, Guid> GetOrCreateClinicIds()

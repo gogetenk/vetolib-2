@@ -74,11 +74,11 @@ internal class GetTriageStatsHandler : IRequestHandler<GetTriageStatsQuery, Resu
             : 0.0;
 
         var stats = new TriageStatsDto(
-            avgResponseTime,
-            messagesByCategory,
-            accuracyPercent,
-            volumePerDay,
-            conversionRate);
+            AverageFirstResponseTime: avgResponseTime,
+            MessagesByCategory: messagesByCategory,
+            AiTriageAccuracy: accuracyPercent,
+            VolumePerDay: volumePerDay,
+            ConversionRateToAppointment: conversionRate);
 
         return Result<TriageStatsDto>.Success(stats);
     }

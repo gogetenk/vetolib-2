@@ -25,6 +25,7 @@ internal static class AppointmentEndpoints
             .WithTags("Appointments");
 
         group.MapPost("/", CreateAppointment)
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
             .WithName("CreateAppointment");
 
         group.MapGet("/", ListAppointments)
@@ -55,7 +56,8 @@ internal static class AppointmentEndpoints
             .RequireAuthorization()
             .WithTags("Appointments");
 
-        legacyGroup.MapPost("/", CreateAppointment);
+        legacyGroup.MapPost("/", CreateAppointment)
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"));
         legacyGroup.MapGet("/", ListAppointments);
         legacyGroup.MapPatch("/{id:guid}/transition", TransitionAppointment);
         legacyGroup.MapGet("/availability", GetAvailability);

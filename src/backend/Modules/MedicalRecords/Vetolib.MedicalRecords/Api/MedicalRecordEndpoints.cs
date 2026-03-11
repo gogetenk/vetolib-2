@@ -87,7 +87,7 @@ internal static class MedicalRecordEndpoints
         ISender sender)
     {
         var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role is not ("Vet" or "Admin"))
+        if (role is not "Vet")
             return Ardalis.Result.Result<PrescriptionDto>.Forbidden().ToMinimalApiResult();
 
         var vetLicense = user.FindFirst("vetLicense")?.Value ?? string.Empty;

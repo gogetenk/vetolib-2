@@ -59,7 +59,7 @@ internal class DashboardSteps
     [Given(@"a clinic ""(.*)""")]
     public void GivenAClinic(string clinicName)
     {
-        _clinicId = GenerateGuidFromString(clinicName);
+        _clinicId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }

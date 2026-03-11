@@ -23,7 +23,7 @@ public static class ModuleServiceRegistrar
         });
 
         // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
+        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         return services;
     }

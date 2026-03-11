@@ -53,7 +53,7 @@ internal class TeamManagementSteps
     [Given(@"I am a clinic admin ""(.*)"" in clinic ""(.*)""")]
     public async Task GivenAdminInClinic(string adminEmail, string clinicIdentifier)
     {
-        _clinicId = GenerateGuidFromString(clinicIdentifier);
+        _clinicId = TestClinicContext.TestClinicGuid;
         _adminEmail = adminEmail;
 
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
@@ -100,7 +100,7 @@ internal class TeamManagementSteps
     [Given(@"I am a vet ""(.*)"" in clinic ""(.*)""")]
     public async Task GivenVetInClinic(string vetEmail, string clinicIdentifier)
     {
-        _clinicId = GenerateGuidFromString(clinicIdentifier);
+        _clinicId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
 

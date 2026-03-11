@@ -59,7 +59,9 @@ internal class AppointmentSteps
     [Given(@"a clinic ""(.*)"" with hours 9am-6pm")]
     public void GivenAClinicWithHours(string clinicName)
     {
-        _clinicId = GenerateGuidFromString(clinicName);
+        // Use the fixed TestClinicGuid so the multi-tenant query filter sees data
+        // created in the same scenario (conflict checks, availability queries, etc.).
+        _clinicId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }
@@ -688,7 +690,7 @@ internal class AppointmentSteps
     [Given(@"a clinic ""(.*)""")]
     public void GivenAClinic(string clinicName)
     {
-        _clinicId = GenerateGuidFromString(clinicName);
+        _clinicId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _clinicId;
     }

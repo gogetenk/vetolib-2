@@ -41,15 +41,19 @@ internal class SharedSteps
     {
         var clinicIds = GetOrCreateClinicIds();
 
-        // Always use the fixed TestClinicGuid so the EF Core compiled query filter
-        // (baked at model-creation time with the initial TestClinicContext.ClinicId value)
-        // matches the ClinicId used when inserting and querying test data.
-        var clinicId = TestClinicContext.TestClinicGuid;
+        // The FIRST clinic registered in a scenario gets the fixed TestClinicGuid so that
+        // the EF Core compiled query filter (which reads IClinicContext.ClinicId at query time)
+        // matches data inserted under the "primary" test tenant.
+        // SUBSEQUENT clinics get unique GUIDs so that tenant-isolation scenarios can verify
+        // that data from one clinic is NOT visible to another.
+        var clinicId = clinicIds.Count == 0
+            ? TestClinicContext.TestClinicGuid
+            : GenerateGuidFromString(clinicName);
         clinicIds[clinicName] = clinicId;
 
         var factory = _ctx.Get<TestWebApplicationFactory>();
         var testClinicContext = factory.Services.GetRequiredService<TestClinicContext>();
-        // Keep ClinicId at the fixed GUID — never change it from the baked-in value.
+        // Point the current tenant context to the primary (first) clinic.
         testClinicContext.ClinicId = TestClinicContext.TestClinicGuid;
 
         _ctx.Set(clinicIds, "ClinicIds");
@@ -145,8 +149,9 @@ internal class SharedSteps
         var clinicName = clinicIds.Keys.FirstOrDefault() ?? "default-clinic";
         if (!clinicIds.ContainsKey(clinicName))
         {
-            var generatedId = GenerateGuidFromString(clinicName);
-            clinicIds[clinicName] = generatedId;
+            // Use the fixed TestClinicGuid for the default clinic to match the
+            // multi-tenant query filter — avoids data invisibility issues.
+            clinicIds[clinicName] = TestClinicContext.TestClinicGuid;
             _ctx.Set(clinicIds, "ClinicIds");
         }
         var clinicId = clinicIds[clinicName];
