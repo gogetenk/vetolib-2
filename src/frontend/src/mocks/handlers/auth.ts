@@ -52,7 +52,34 @@ function generateToken(payload: object): string {
   return `${header}.${body}.mock-signature`
 }
 
+interface RegisterClinicRequest {
+  clinicName: string
+  email: string
+  password: string
+  phone: string
+}
+
+// Track registered emails to simulate persistence within the session
+const registeredEmails: Set<string> = new Set(['taken@test.ae'])
+
 export const authHandlers = [
+  // POST /api/v1/auth/register-clinic
+  http.post('/api/v1/auth/register-clinic', async ({ request }) => {
+    await delay(300)
+    const body = await request.json() as RegisterClinicRequest
+    const { email } = body
+
+    if (registeredEmails.has(email)) {
+      return HttpResponse.json(
+        { code: 'EMAIL_TAKEN', title: 'Email already in use' },
+        { status: 409 }
+      )
+    }
+
+    registeredEmails.add(email)
+    return new HttpResponse(null, { status: 201 })
+  }),
+
   // POST /api/v1/auth/login
   http.post('/api/v1/auth/login', async ({ request }) => {
     await delay(200) // Realistic network delay
