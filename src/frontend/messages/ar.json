@@ -975,6 +975,47 @@
       "downloading": "جارٍ تحضير التنزيل...",
       "back": "العودة إلى المحادثات",
       "error": "فشل تصدير المحادثات. يرجى المحاولة مجدداً."
+    },
+    "booking": {
+      "appointments": {
+        "page_title": "مواعيدي",
+        "tab_upcoming": "القادمة",
+        "tab_past": "السابقة",
+        "loading": "جارٍ تحميل مواعيدك...",
+        "no_upcoming": "لا توجد لديك مواعيد قادمة.",
+        "no_past": "لا توجد لديك مواعيد سابقة.",
+        "book_new": "احجز موعداً جديداً",
+        "back": "العودة إلى مواعيدي",
+        "duration": "{minutes} دقيقة",
+        "cancel": "إلغاء الموعد",
+        "reschedule": "إعادة الجدولة",
+        "cancel_dialog_title": "إلغاء الموعد",
+        "cancel_dialog_description": "هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟ لا يمكن التراجع عن هذا الإجراء.",
+        "cancel_reason_label": "سبب الإلغاء (اختياري)",
+        "cancel_reason_placeholder": "مثال: تعارض في الجدول",
+        "cancel_confirm": "نعم، إلغاء الموعد",
+        "cancel_cancelling": "جارٍ الإلغاء...",
+        "cancel_success": "تم إلغاء الموعد بنجاح.",
+        "cancel_error": "فشل إلغاء الموعد. يرجى المحاولة مجدداً.",
+        "error_load": "فشل تحميل الموعد. يرجى المحاولة مجدداً.",
+        "read_only_notice": "هذا الموعد {status} ولا يمكن تعديله.",
+        "status": {
+          "Scheduled": "مجدول",
+          "CheckedIn": "تم التسجيل",
+          "Completed": "مكتمل",
+          "Cancelled": "ملغى",
+          "NoShow": "لم يحضر"
+        },
+        "fields": {
+          "pet": "الحيوان الأليف",
+          "type": "النوع",
+          "vet": "الطبيب البيطري",
+          "date_time": "التاريخ والوقت",
+          "duration": "المدة",
+          "status": "الحالة",
+          "notes": "ملاحظات"
+        }
+      }
     }
   },
   "onboarding": {

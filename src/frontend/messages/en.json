@@ -987,6 +987,47 @@
       "downloading": "Preparing download...",
       "back": "Back to conversations",
       "error": "Failed to export conversations. Please try again."
+    },
+    "booking": {
+      "appointments": {
+        "page_title": "My Appointments",
+        "tab_upcoming": "Upcoming",
+        "tab_past": "Past",
+        "loading": "Loading your appointments...",
+        "no_upcoming": "You have no upcoming appointments.",
+        "no_past": "You have no past appointments.",
+        "book_new": "Book a New Appointment",
+        "back": "Back to My Appointments",
+        "duration": "{minutes} min",
+        "cancel": "Cancel Appointment",
+        "reschedule": "Reschedule",
+        "cancel_dialog_title": "Cancel Appointment",
+        "cancel_dialog_description": "Are you sure you want to cancel this appointment? This action cannot be undone.",
+        "cancel_reason_label": "Reason for cancellation (optional)",
+        "cancel_reason_placeholder": "e.g. Schedule conflict",
+        "cancel_confirm": "Yes, Cancel Appointment",
+        "cancel_cancelling": "Cancelling...",
+        "cancel_success": "Appointment cancelled successfully.",
+        "cancel_error": "Failed to cancel appointment. Please try again.",
+        "error_load": "Failed to load appointment. Please try again.",
+        "read_only_notice": "This appointment is {status} and cannot be modified.",
+        "status": {
+          "Scheduled": "Scheduled",
+          "CheckedIn": "Checked In",
+          "Completed": "Completed",
+          "Cancelled": "Cancelled",
+          "NoShow": "No Show"
+        },
+        "fields": {
+          "pet": "Pet",
+          "type": "Type",
+          "vet": "Veterinarian",
+          "date_time": "Date & Time",
+          "duration": "Duration",
+          "status": "Status",
+          "notes": "Notes"
+        }
+      }
     }
   },
   "onboarding": {
