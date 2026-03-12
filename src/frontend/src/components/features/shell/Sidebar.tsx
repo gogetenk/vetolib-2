@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useRole } from "@/hooks/use-role";
 import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
+import { useLocale } from "next-intl";
 
 type UserRole = "VET" | "RECEPTIONIST" | "ASSISTANT" | "ADMIN" | string;
 
@@ -110,18 +111,20 @@ interface SidebarNavItemProps {
   item: NavItem;
   isActive: boolean;
   role: UserRole;
+  locale: string;
   onClick?: () => void;
   messagingUnreadCount?: number;
 }
 
-function SidebarNavItem({ item, isActive, role, onClick, messagingUnreadCount }: SidebarNavItemProps) {
+function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnreadCount }: SidebarNavItemProps) {
   const showBadge = item.badge && item.badgeForRoles?.includes(role);
   const isMessagesItem = item.href === "/messages";
+  const localizedHref = `/${locale}${item.href}`;
   const showUnreadBadge = isMessagesItem && messagingUnreadCount != null && messagingUnreadCount > 0;
 
   return (
     <Link
-      href={item.href}
+      href={localizedHref}
       data-testid={item.testId}
       onClick={onClick}
       className={cn(
@@ -158,10 +161,11 @@ function SidebarNavItem({ item, isActive, role, onClick, messagingUnreadCount }:
 interface SidebarContentProps {
   role: UserRole;
   pathname: string;
+  locale: string;
   onItemClick?: () => void;
 }
 
-function SidebarContent({ role, pathname, onItemClick }: SidebarContentProps) {
+function SidebarContent({ role, pathname, locale, onItemClick }: SidebarContentProps) {
   const { unreadCount } = useMessagingSseContext();
 
   const visibleMain = mainNavItems.filter(
@@ -182,8 +186,9 @@ function SidebarContent({ role, pathname, onItemClick }: SidebarContentProps) {
           <SidebarNavItem
             key={item.href}
             item={item}
-            isActive={pathname.startsWith(item.href)}
+            isActive={pathname.startsWith(`/${locale}${item.href}`)}
             role={role}
+            locale={locale}
             onClick={onItemClick}
             messagingUnreadCount={unreadCount}
           />
@@ -201,8 +206,9 @@ function SidebarContent({ role, pathname, onItemClick }: SidebarContentProps) {
             <SidebarNavItem
               key={item.href}
               item={item}
-              isActive={pathname.startsWith(item.href)}
+              isActive={pathname.startsWith(`/${locale}${item.href}`)}
               role={role}
+              locale={locale}
               onClick={onItemClick}
             />
           ))}
@@ -215,6 +221,7 @@ function SidebarContent({ role, pathname, onItemClick }: SidebarContentProps) {
 export function Sidebar() {
   const pathname = usePathname();
   const role = useRole();
+  const locale = useLocale();
 
   return (
     <aside
@@ -223,7 +230,7 @@ export function Sidebar() {
     >
       <div className="flex h-16 items-center border-b px-4">
         <Link
-          href="/appointments"
+          href={`/${locale}/appointments`}
           data-testid="sidebar-logo"
           className="flex items-center gap-2 font-bold text-lg text-primary"
         >
@@ -231,7 +238,7 @@ export function Sidebar() {
           <span>Vetolib</span>
         </Link>
       </div>
-      <SidebarContent role={role} pathname={pathname} />
+      <SidebarContent role={role} pathname={pathname} locale={locale} />
     </aside>
   );
 }
@@ -248,5 +255,6 @@ export function MobileSidebarContent({
   onItemClick: () => void;
 }) {
   const pathname = usePathname();
-  return <SidebarContent role={role} pathname={pathname} onItemClick={onItemClick} />;
+  const locale = useLocale();
+  return <SidebarContent role={role} pathname={pathname} locale={locale} onItemClick={onItemClick} />;
 }

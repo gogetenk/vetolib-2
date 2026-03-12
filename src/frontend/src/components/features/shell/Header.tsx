@@ -11,6 +11,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useRole } from "@/hooks/use-role";
+import { useLocale } from "next-intl";
 import { UserMenu } from "./UserMenu";
 import { MobileSidebarContent } from "./Sidebar";
 
@@ -34,6 +35,7 @@ function getInitialClinicName(): string {
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const role = useRole();
+  const locale = useLocale();
   const [clinicName] = useState<string>(getInitialClinicName);
 
   return (
@@ -55,7 +57,7 @@ export function Header() {
 
       {/* Logo */}
       <Link
-        href="/appointments"
+        href={`/${locale}/appointments`}
         data-testid="header-logo"
         className="flex items-center gap-2 font-bold text-lg text-primary"
       >

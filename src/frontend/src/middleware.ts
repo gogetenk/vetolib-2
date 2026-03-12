@@ -104,6 +104,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
   }
 
+  // Redirect paths without locale prefix to the default locale version
+  // e.g. /appointments → /en/appointments, /patients/123 → /en/patients/123
+  const segments = pathname.split("/");
+  const firstSegment = segments[1];
+  if (firstSegment && !SUPPORTED_LOCALES.includes(firstSegment as (typeof SUPPORTED_LOCALES)[number]) && !firstSegment.startsWith("api")) {
+    return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
+  }
+
   // Redirect authenticated users away from locale-prefixed login pages
   if (isPublicPath(pathname) && token) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
