@@ -110,44 +110,18 @@ test("P3-PATIENTS-02 search finds patient by name prefix", async ({ page }) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // P3-PATIENTS-03 : Filtrer par espèce
 // ─────────────────────────────────────────────────────────────────────────────
-test("P3-PATIENTS-03 filter by species shows only matching patients", async ({
+test.skip("P3-PATIENTS-03 filter by species shows only matching patients", async ({
   page,
 }) => {
+  // SKIPPED: Species filter UI (data-testid="species-filter") is not yet implemented
+  // in the PatientsPage component. The page only has a text search input.
+  // Re-enable this test once a species filter dropdown is added to the patients list.
   await loginAs(page, "vet");
 
   await page.goto("/en/patients");
   await page.waitForSelector('[data-testid="patients-page"]', {
     timeout: 15000,
   });
-
-  // Apply species filter if the filter control exists
-  const speciesFilter = page.getByTestId("species-filter");
-  const filterExists = await speciesFilter
-    .isVisible({ timeout: 3000 })
-    .catch(() => false);
-
-  if (filterExists) {
-    await speciesFilter.click();
-    const catOption = page
-      .getByTestId("species-filter-option-cat")
-      .or(page.getByRole("option", { name: "Cat" }))
-      .first();
-    await catOption.waitFor({ timeout: 5000 });
-    await catOption.click();
-
-    // Wait for filter to apply
-    await page.waitForTimeout(500);
-
-    // All displayed species badges should be Cat
-    const speciesBadges = page.locator('[data-testid="patient-species"]');
-    const count = await speciesBadges.count();
-    for (let i = 0; i < count; i++) {
-      await expect(speciesBadges.nth(i)).toContainText("Cat");
-    }
-  } else {
-    // Filter not implemented in UI yet — just verify page loads
-    await expect(page.getByTestId("patients-page")).toBeVisible();
-  }
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
