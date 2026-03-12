@@ -3,16 +3,14 @@
 import { Badge } from '@/components/ui/badge'
 import type { AppointmentStatus } from '@/lib/api/appointments'
 import { useTranslations } from 'next-intl'
+import { cn } from '@/lib/utils'
 
-const STATUS_VARIANTS: Record<
-  AppointmentStatus,
-  'default' | 'secondary' | 'destructive' | 'outline'
-> = {
-  SCHEDULED: 'secondary',
-  CHECKED_IN: 'default',
-  IN_PROGRESS: 'default',
-  COMPLETED: 'outline',
-  CANCELLED: 'destructive',
+const STATUS_STYLES: Record<AppointmentStatus, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; className?: string }> = {
+  SCHEDULED: { variant: 'outline', className: 'border-blue-300 text-blue-700 bg-blue-50' },
+  CHECKED_IN: { variant: 'secondary', className: 'border-amber-300 text-amber-700 bg-amber-50' },
+  IN_PROGRESS: { variant: 'default', className: 'border-green-300 text-green-700 bg-green-50' },
+  COMPLETED: { variant: 'outline', className: 'text-gray-600 bg-gray-50' },
+  CANCELLED: { variant: 'destructive' },
 }
 
 interface StatusBadgeProps {
@@ -21,9 +19,13 @@ interface StatusBadgeProps {
 
 export function StatusBadge({ status }: StatusBadgeProps) {
   const t = useTranslations('appointments.status')
-  const variant = STATUS_VARIANTS[status] ?? 'secondary'
+  const style = STATUS_STYLES[status] ?? { variant: 'secondary' as const }
   return (
-    <Badge variant={variant} data-testid={`status-badge-${status.toLowerCase()}`}>
+    <Badge
+      variant={style.variant}
+      className={cn(style.className)}
+      data-testid={`status-badge-${status.toLowerCase()}`}
+    >
       {t(status)}
     </Badge>
   )

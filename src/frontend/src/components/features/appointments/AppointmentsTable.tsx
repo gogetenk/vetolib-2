@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
-import { CalendarClock } from 'lucide-react'
+import { CalendarClock, Search } from 'lucide-react'
 import {
   useReactTable,
   getCoreRowModel,
@@ -31,9 +31,10 @@ import {
 } from '@/components/ui/table'
 import { StatusBadge } from './StatusBadge'
 import { EmptyState } from '@/components/features/onboarding/EmptyState'
+import { LtrText } from '@/components/ui/ltr-text'
 import { getAppointments } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentStatus } from '@/lib/api/appointments'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 const SPECIES_ICONS: Record<string, string> = {
   Dog: '🐕',
@@ -58,11 +59,13 @@ const PAGE_SIZE = 10
 export function AppointmentsTable() {
   const t = useTranslations('appointments')
   const tEmpty = useTranslations('onboarding.empty.appointments')
+  const locale = useLocale()
   const [appointments, setAppointments] = useState<AppointmentDto[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [page, setPage] = useState(1)
   const [statusFilter, setStatusFilter] = useState<AppointmentStatus | 'ALL'>('ALL')
   const [dateFilter, setDateFilter] = useState<string>('')
+  const [searchQuery, setSearchQuery] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -89,6 +92,16 @@ export function AppointmentsTable() {
     load()
   }, [load])
 
+  const filteredAppointments = useMemo(() => {
+    if (!searchQuery.trim()) return appointments
+    const q = searchQuery.toLowerCase()
+    return appointments.filter(
+      (a) =>
+        a.patientName.toLowerCase().includes(q) ||
+        a.ownerName.toLowerCase().includes(q)
+    )
+  }, [appointments, searchQuery])
+
   const columns: ColumnDef<AppointmentDto>[] = [
     {
       accessorKey: 'scheduledAt',
@@ -97,7 +110,7 @@ export function AppointmentsTable() {
         const val = getValue<string>()
         return (
           <span data-testid="cell-datetime">
-            {format(new Date(val), 'dd MMM yyyy HH:mm')}
+            <LtrText>{format(new Date(val), 'dd MMM yyyy HH:mm')}</LtrText>
           </span>
         )
       },
@@ -150,7 +163,7 @@ export function AppointmentsTable() {
   ]
 
   const table = useReactTable({
-    data: appointments,
+    data: filteredAppointments,
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -163,6 +176,16 @@ export function AppointmentsTable() {
     <div className="space-y-4">
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-center">
+        <div className="relative">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            data-testid="appointment-search"
+            placeholder={t('search_placeholder') ?? 'Search patient or owner...'}
+            className="w-64 pl-9"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
         <Select
           value={statusFilter}
           onValueChange={(val) => {
@@ -210,8 +233,60 @@ export function AppointmentsTable() {
         )}
       </div>
 
-      {/* Table */}
-      <div className="rounded-md border" data-testid="appointments-table">
+      {/* Mobile card layout */}
+      <div className="md:hidden space-y-3" data-testid="appointments-cards">
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="rounded-lg border bg-card p-4 space-y-2">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2" />
+              <Skeleton className="h-3 w-1/3" />
+            </div>
+          ))
+        ) : error ? (
+          <ErrorState
+            data-testid="appointments-error-mobile"
+            title={t('error_load')}
+            description={error}
+            onRetry={load}
+          />
+        ) : table.getRowModel().rows.length === 0 ? (
+          <EmptyState
+            icon={<CalendarClock className="h-16 w-16" />}
+            title={tEmpty('title')}
+            description={tEmpty('description')}
+            primaryCta={{ label: tEmpty('cta'), href: `/${locale}/appointments/new` }}
+            tip={tEmpty('tip')}
+            data-testid-prefix="appointments"
+          />
+        ) : (
+          table.getRowModel().rows.map((row) => (
+            <Link
+              key={row.id}
+              href={`/${locale}/appointments/${row.original.id}`}
+              data-testid={`appointment-card-${row.original.id}`}
+              className="block rounded-lg border bg-card p-4 hover:shadow-md transition-shadow min-h-[44px]"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium truncate">
+                    {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-0.5">{row.original.ownerName}</p>
+                </div>
+                <StatusBadge status={row.original.status} />
+              </div>
+              <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
+                <span><LtrText>{format(new Date(row.original.scheduledAt), 'dd MMM yyyy HH:mm')}</LtrText></span>
+                <span>{row.original.vetName}</span>
+              </div>
+            </Link>
+          ))
+        )}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block rounded-md border" data-testid="appointments-table">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -253,7 +328,7 @@ export function AppointmentsTable() {
                     icon={<CalendarClock className="h-16 w-16" />}
                     title={tEmpty('title')}
                     description={tEmpty('description')}
-                    primaryCta={{ label: tEmpty('cta'), href: '/appointments/new' }}
+                    primaryCta={{ label: tEmpty('cta'), href: `/${locale}/appointments/new` }}
                     tip={tEmpty('tip')}
                     data-testid-prefix="appointments"
                   />
@@ -272,7 +347,7 @@ export function AppointmentsTable() {
             )}
           </TableBody>
         </Table>
-      </div>
+      </div> {/* end hidden md:block */}
 
       {/* Pagination */}
       {totalPages > 1 && (

@@ -47,10 +47,22 @@ function isPublicPath(pathname: string): boolean {
     return true;
   }
 
-  // Locale-prefixed login: /en/login or /ar/login
+  // Locale-prefixed public pages: login, signup, and locale root (landing page)
   for (const locale of SUPPORTED_LOCALES) {
+    // Landing page: /en or /ar (exact match)
+    if (pathname === `/${locale}`) {
+      return true;
+    }
+
+    // Login: /en/login or /ar/login
     const loginPath = `/${locale}/login`;
     if (pathname === loginPath || pathname.startsWith(`${loginPath}/`)) {
+      return true;
+    }
+
+    // Signup: /en/signup or /ar/signup
+    const signupPath = `/${locale}/signup`;
+    if (pathname === signupPath || pathname.startsWith(`${signupPath}/`)) {
       return true;
     }
   }
@@ -90,6 +102,14 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
     }
     return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+  }
+
+  // Redirect paths without locale prefix to the default locale version
+  // e.g. /appointments → /en/appointments, /patients/123 → /en/patients/123
+  const segments = pathname.split("/");
+  const firstSegment = segments[1];
+  if (firstSegment && !SUPPORTED_LOCALES.includes(firstSegment as (typeof SUPPORTED_LOCALES)[number]) && !firstSegment.startsWith("api")) {
+    return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
   }
 
   // Redirect authenticated users away from locale-prefixed login pages

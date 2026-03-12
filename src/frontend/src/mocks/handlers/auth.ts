@@ -77,6 +77,16 @@ export const authHandlers = [
     }
 
     registeredEmails.add(email)
+
+    // Add user to MOCK_USERS so login works after signup
+    MOCK_USERS[email] = {
+      password: body.password,
+      clinicId: `clinic-${Date.now()}`,
+      clinicName: body.clinicName,
+      name: body.clinicName,
+      role: 'ADMIN',
+    }
+
     return new HttpResponse(null, { status: 201 })
   }),
 

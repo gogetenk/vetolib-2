@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
-import { Receipt } from 'lucide-react'
+import { Receipt, Search } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -24,10 +25,12 @@ import {
 import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { ErrorState } from '@/components/ui/error-state'
 import { Skeleton } from '@/components/ui/skeleton'
+import { LtrText } from '@/components/ui/ltr-text'
+import { cn } from '@/lib/utils'
 import { formatAED, formatDate } from '@/lib/utils'
 import { getInvoices } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus, PagedResult } from '@/lib/api/billing'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 const STATUS_OPTIONS: { value: InvoiceStatus | 'ALL'; label: string }[] = [
   { value: 'ALL', label: 'All statuses' },
@@ -37,15 +40,21 @@ const STATUS_OPTIONS: { value: InvoiceStatus | 'ALL'; label: string }[] = [
   { value: 'CANCELLED', label: 'Cancelled' },
 ]
 
+const INVOICE_STATUS_STYLES: Record<InvoiceStatus, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; className?: string }> = {
+  DRAFT: { variant: 'outline', className: 'text-gray-600 bg-gray-50' },
+  SENT: { variant: 'outline', className: 'border-blue-300 text-blue-700 bg-blue-50' },
+  PAID: { variant: 'default', className: 'border-green-300 text-green-700 bg-green-50' },
+  CANCELLED: { variant: 'destructive' },
+}
+
 function StatusBadge({ status }: { status: InvoiceStatus }) {
-  const variants: Record<InvoiceStatus, string> = {
-    DRAFT: 'secondary',
-    SENT: 'default',
-    PAID: 'outline',
-    CANCELLED: 'destructive',
-  }
+  const style = INVOICE_STATUS_STYLES[status] ?? { variant: 'secondary' as const }
   return (
-    <Badge variant={variants[status] as 'secondary' | 'default' | 'outline' | 'destructive'} data-testid={`invoice-status-${status.toLowerCase()}`}>
+    <Badge
+      variant={style.variant}
+      className={cn(style.className)}
+      data-testid={`invoice-status-${status.toLowerCase()}`}
+    >
       {status}
     </Badge>
   )
@@ -53,8 +62,10 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
 
 export function InvoiceTable() {
   const tEmpty = useTranslations('onboarding.empty.billing')
+  const locale = useLocale()
   const [data, setData] = useState<PagedResult<InvoiceDto> | null>(null)
   const [statusFilter, setStatusFilter] = useState<InvoiceStatus | 'ALL'>('ALL')
+  const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -75,7 +86,16 @@ export function InvoiceTable() {
     loadInvoices()
   }, [loadInvoices])
 
-  const invoices = data?.items ?? []
+  const allInvoices = data?.items ?? []
+  const invoices = useMemo(() => {
+    if (!searchQuery.trim()) return allInvoices
+    const q = searchQuery.toLowerCase()
+    return allInvoices.filter(
+      (inv) =>
+        inv.invoiceNumber.toLowerCase().includes(q) ||
+        inv.patientName.toLowerCase().includes(q)
+    )
+  }, [allInvoices, searchQuery])
   const grandTotal = invoices.reduce((sum, inv) => sum + inv.total, 0)
 
   return (
@@ -87,7 +107,17 @@ export function InvoiceTable() {
             <Button data-testid="new-invoice-btn">+ New Invoice</Button>
           </Link>
         </div>
-        <div className="flex gap-3 mt-2">
+        <div className="flex flex-wrap gap-3 mt-2">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              data-testid="invoice-search"
+              placeholder="Search invoice # or patient..."
+              className="w-64 pl-9"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
           <Select
             value={statusFilter}
             onValueChange={(val) => setStatusFilter(val as InvoiceStatus | 'ALL')}
@@ -123,7 +153,34 @@ export function InvoiceTable() {
         )}
         {!loading && !error && (
           <>
-            <Table data-testid="invoice-table">
+            {/* Mobile card layout */}
+            {invoices.length > 0 && (
+              <div className="md:hidden space-y-3" data-testid="invoice-cards">
+                {invoices.map((inv) => (
+                   <Link
+                    key={inv.id}
+                    href={`/${locale}/billing/${inv.id}`}
+                    data-testid={`invoice-card-${inv.id}`}
+                    className="block rounded-lg border bg-card p-4 hover:shadow-md transition-shadow min-h-[44px]"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-mono text-sm font-medium"><LtrText>{inv.invoiceNumber}</LtrText></p>
+                        <p className="text-sm text-muted-foreground mt-0.5">{inv.patientName}</p>
+                      </div>
+                      <StatusBadge status={inv.status} />
+                    </div>
+                    <div className="mt-2 flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground"><LtrText>{formatDate(inv.createdAt)}</LtrText></span>
+                      <span className="font-semibold"><LtrText>{formatAED(inv.total)}</LtrText></span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {/* Desktop table */}
+            <Table className="hidden md:table" data-testid="invoice-table">
               <TableHeader>
                 <TableRow>
                   <TableHead># Invoice</TableHead>
@@ -154,18 +211,18 @@ export function InvoiceTable() {
                 {invoices.map((inv) => (
                   <TableRow key={inv.id} data-testid={`invoice-row-${inv.id}`}>
                     <TableCell className="font-mono text-sm" data-testid="invoice-number">
-                      {inv.invoiceNumber}
+                      <LtrText>{inv.invoiceNumber}</LtrText>
                     </TableCell>
                     <TableCell data-testid="invoice-patient">{inv.patientName}</TableCell>
-                    <TableCell data-testid="invoice-date">{formatDate(inv.createdAt)}</TableCell>
+                    <TableCell data-testid="invoice-date"><LtrText>{formatDate(inv.createdAt)}</LtrText></TableCell>
                     <TableCell className="text-right" data-testid="invoice-subtotal">
-                      {formatAED(inv.subtotal)}
+                      <LtrText>{formatAED(inv.subtotal)}</LtrText>
                     </TableCell>
                     <TableCell className="text-right" data-testid="invoice-vat">
-                      {formatAED(inv.vatAmount)}
+                      <LtrText>{formatAED(inv.vatAmount)}</LtrText>
                     </TableCell>
                     <TableCell className="text-right font-semibold" data-testid="invoice-total">
-                      {formatAED(inv.total)}
+                      <LtrText>{formatAED(inv.total)}</LtrText>
                     </TableCell>
                     <TableCell>
                       <StatusBadge status={inv.status} />
@@ -183,12 +240,12 @@ export function InvoiceTable() {
             </Table>
             {invoices.length > 0 && (
               <div className="mt-4 flex justify-end border-t pt-3" data-testid="invoice-summary">
-                <div className="text-right space-y-1">
+                <div className="text-right space-y-1" dir="ltr">
                   <p className="text-sm text-muted-foreground">
                     {invoices.length} invoice{invoices.length !== 1 ? 's' : ''} — Total filtered:
                   </p>
                   <p className="text-lg font-bold" data-testid="invoice-grand-total">
-                    {formatAED(grandTotal)}
+                    <LtrText>{formatAED(grandTotal)}</LtrText>
                   </p>
                 </div>
               </div>

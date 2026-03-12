@@ -43,3 +43,7 @@ export async function createMedicalRecord(
 ): Promise<MedicalRecordDto> {
   return apiPost<MedicalRecordDto>(`/api/patients/${patientId}/medical-records`, data)
 }
+
+export async function getAllMedicalRecords(): Promise<MedicalRecordDto[]> {
+  return apiGet<MedicalRecordDto[]>('/api/medical-records')
+}

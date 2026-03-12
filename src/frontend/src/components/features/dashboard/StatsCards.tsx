@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getDashboardStats, type DashboardStatsDto } from '@/lib/api/dashboard'
 import { ErrorState } from '@/components/ui/error-state'
+import { LtrText } from '@/components/ui/ltr-text'
 import { useTranslations } from 'next-intl'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
@@ -24,19 +25,21 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const load = () => {
-    setLoading(true)
-    setError(null)
-    getDashboardStats()
-      .then(setStats)
-      .catch(() => setError('Failed to load stats'))
-      .finally(() => setLoading(false))
-  }
+  const load = useCallback(async () => {
+    try {
+      const result = await getDashboardStats()
+      setStats(result)
+      setError(null)
+    } catch {
+      setError('Failed to load stats')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load()
-  }, [])
+  }, [load])
 
   if (error) {
     return (
@@ -116,7 +119,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <Skeleton className="h-8 w-28" />
             ) : (
               <p className="text-2xl font-bold" data-testid="stat-unpaid-invoices-value">
-                {formatAed(stats?.unpaidInvoicesAed ?? 0)}
+                <LtrText>{formatAed(stats?.unpaidInvoicesAed ?? 0)}</LtrText>
               </p>
             )}
           </CardContent>

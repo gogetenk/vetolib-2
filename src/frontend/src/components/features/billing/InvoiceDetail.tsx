@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
@@ -25,6 +26,7 @@ import {
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ErrorState } from '@/components/ui/error-state'
+import { LtrText } from '@/components/ui/ltr-text'
 import { formatAED, formatDate } from '@/lib/utils'
 import {
   getInvoice,
@@ -36,6 +38,7 @@ import {
 } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus } from '@/lib/api/billing'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
+import { useDirection } from '@/hooks/use-direction'
 
 const STATUS_LABEL: Record<InvoiceStatus, string> = {
   DRAFT: 'Draft',
@@ -57,6 +60,9 @@ interface InvoiceDetailProps {
 
 export function InvoiceDetail({ id }: InvoiceDetailProps) {
   const router = useRouter()
+  const locale = useLocale()
+  const dir = useDirection()
+  const backArrow = dir === 'rtl' ? '\u2192' : '\u2190'
   const [invoice, setInvoice] = useState<InvoiceDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -249,16 +255,16 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground" data-testid="invoice-detail-date">
-                Created: {formatDate(invoice.createdAt)}
+                Created: <LtrText>{formatDate(invoice.createdAt)}</LtrText>
               </p>
               {invoice.dueDate && (
                 <p className="text-sm text-muted-foreground" data-testid="invoice-due-date">
-                  Due: {formatDate(invoice.dueDate)}
+                  Due: <LtrText>{formatDate(invoice.dueDate)}</LtrText>
                 </p>
               )}
               {invoice.paidAt && (
                 <p className="text-sm text-green-600 font-medium" data-testid="invoice-paid-date">
-                  Paid on: {formatDate(invoice.paidAt)}
+                  Paid on: <LtrText>{formatDate(invoice.paidAt)}</LtrText>
                 </p>
               )}
             </div>
@@ -266,7 +272,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             <div className="text-right text-sm text-muted-foreground">
               <p className="font-semibold text-foreground">Happy Paws Veterinary</p>
               <p>Dubai, UAE</p>
-              <p>+971 4 000 0000</p>
+              <LtrText as="p">+971 4 000 0000</LtrText>
             </div>
           </div>
         </CardHeader>
@@ -279,7 +285,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
         </CardHeader>
         <CardContent>
           <p className="font-medium" data-testid="invoice-owner-name">{invoice.ownerName}</p>
-          <p className="text-sm text-muted-foreground" data-testid="invoice-owner-phone">{invoice.ownerPhone}</p>
+          <p className="text-sm text-muted-foreground" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
           <p className="text-sm text-muted-foreground">Patient: <span className="text-foreground" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
         </CardContent>
       </Card>
@@ -304,8 +310,8 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
                 <TableRow key={item.id} data-testid={`detail-item-${item.id}`}>
                   <TableCell>{item.description}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
-                  <TableCell className="text-right">{formatAED(item.unitPrice)}</TableCell>
-                  <TableCell className="text-right">{formatAED(item.subtotal)}</TableCell>
+                  <TableCell className="text-right"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>
+                  <TableCell className="text-right"><LtrText>{formatAED(item.subtotal)}</LtrText></TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -315,15 +321,15 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
           <div className="mt-4 border-t pt-4 space-y-1 text-sm max-w-xs ml-auto" data-testid="detail-totals">
             <div className="flex justify-between">
               <span>Subtotal (excl. VAT)</span>
-              <span data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</span>
+              <LtrText data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
             </div>
             <div className="flex justify-between text-muted-foreground">
               <span>VAT (5%)</span>
-              <span data-testid="detail-vat">{formatAED(invoice.vatAmount)}</span>
+              <LtrText data-testid="detail-vat">{formatAED(invoice.vatAmount)}</LtrText>
             </div>
             <div className="flex justify-between font-bold text-base border-t pt-1">
               <span>Total AED</span>
-              <span data-testid="detail-total">{formatAED(invoice.total)}</span>
+              <LtrText data-testid="detail-total">{formatAED(invoice.total)}</LtrText>
             </div>
           </div>
         </CardContent>
@@ -343,9 +349,9 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
 
       {/* Actions */}
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
-        <Link href="/billing">
+        <Link href={`/${locale}/billing`}>
           <Button variant="outline" data-testid="back-to-billing-btn">
-            ← Back to Billing
+            {backArrow} Back to Billing
           </Button>
         </Link>
 

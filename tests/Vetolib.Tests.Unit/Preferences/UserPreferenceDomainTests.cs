@@ -130,4 +130,108 @@ public class UserPreferenceDomainTests
         dto.Key.Should().Be(PreferenceKey.AnalyticsPosthog);
         dto.Value.Should().Be("false");
     }
+
+    [Fact]
+    public void Create_WithWhitespaceValue_ReturnsInvalid()
+    {
+        var result = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "   ");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "value");
+    }
+
+    [Fact]
+    public void Create_AIDrugInteractions_SetToFalseCaseInsensitive_ReturnsInvalid()
+    {
+        var result = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.AIDrugInteractions, "FALSE");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "key");
+    }
+
+    [Fact]
+    public void Create_SetsUserIdAndClinicId()
+    {
+        var result = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "true");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.UserId.Should().Be(ValidUserId);
+        result.Value.ClinicId.Should().Be(ValidClinicId);
+    }
+
+    [Fact]
+    public void Create_WithMultipleErrors_ReturnsAllValidationErrors()
+    {
+        var result = UserPreference.Create(
+            Guid.Empty, Guid.Empty, PreferenceKey.AIDrugInteractions, "false");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "clinicId");
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "userId");
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "key");
+    }
+
+    [Fact]
+    public void Update_WithWhitespaceValue_ReturnsInvalid()
+    {
+        var pref = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "true").Value;
+
+        var result = pref.Update("   ");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "newValue");
+    }
+
+    [Fact]
+    public void Update_AIDrugInteractions_SetToFalseCaseInsensitive_ReturnsInvalid()
+    {
+        var pref = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.AIDrugInteractions, "true").Value;
+
+        var result = pref.Update("FALSE");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "newValue");
+    }
+
+    [Fact]
+    public void Update_SetsUpdatedAt()
+    {
+        var pref = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "true").Value;
+        var beforeUpdate = pref.UpdatedAt;
+
+        pref.Update("false");
+
+        pref.UpdatedAt.Should().BeAfter(beforeUpdate);
+    }
+
+    [Fact]
+    public void ToDto_ReturnsCorrectCategoryAndValue()
+    {
+        var pref = UserPreference.Create(
+            ValidClinicId, ValidUserId, PreferenceKey.CommunicationLanguage, "ar").Value;
+
+        var dto = pref.ToDto();
+
+        dto.Category.Should().Be(PreferenceCategory.Communication);
+        dto.Value.Should().Be("ar");
+        dto.Source.Should().Be(PreferenceSource.User);
+    }
+
+    [Theory]
+    [InlineData(PreferenceKey.BookingEnabled, PreferenceCategory.Booking)]
+    [InlineData(PreferenceKey.PrivacyMarketing, PreferenceCategory.Privacy)]
+    [InlineData(PreferenceKey.AINoShow, PreferenceCategory.AIFeatures)]
+    public void Create_AssignsCorrectCategory(PreferenceKey key, PreferenceCategory expectedCategory)
+    {
+        var result = UserPreference.Create(ValidClinicId, ValidUserId, key, "true");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Category.Should().Be(expectedCategory);
+    }
 }

@@ -224,6 +224,12 @@ export const patientHandlers = [
     return HttpResponse.json(patient)
   }),
 
+  // GET /api/medical-records (all records across patients)
+  http.get('/api/medical-records', async () => {
+    await delay(150)
+    return HttpResponse.json(MOCK_MEDICAL_RECORDS)
+  }),
+
   // GET /api/patients/:id/medical-records
   http.get('/api/patients/:id/medical-records', ({ params }) => {
     const records = MOCK_MEDICAL_RECORDS.filter(r => r.patientId === params.id)

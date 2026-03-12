@@ -26,6 +26,7 @@ import { toast } from "sonner"
 
 export function TemplatesPage() {
   const t = useTranslations("messaging_admin")
+  const tCategory = useTranslations("messaging.category")
   const [templates, setTemplates] = useState<ResponseTemplateDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [formOpen, setFormOpen] = useState(false)
@@ -126,7 +127,7 @@ export function TemplatesPage() {
                   <TableCell>
                     {tpl.category ? (
                       <Badge variant="secondary" data-testid={`template-category-${tpl.id}`}>
-                        {tpl.category}
+                        {tCategory(tpl.category)}
                       </Badge>
                     ) : (
                       <span className="text-muted-foreground text-sm">—</span>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import {
   BarChart,
   Bar,
@@ -50,13 +50,22 @@ export function AnalyticsSection() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const loadAnalytics = useCallback(async () => {
+    try {
+      const result = await getDashboardAnalytics()
+      setData(result)
+      setError(null)
+    } catch {
+      setError(t('error'))
+    } finally {
+      setLoading(false)
+    }
+  }, [t])
+
   useEffect(() => {
     trackEvent(AnalyticsEvents.ANALYTICS_SECTION_VIEWED)
-    getDashboardAnalytics()
-      .then(setData)
-      .catch(() => setError(t('error')))
-      .finally(() => setLoading(false))
-  }, [t])
+    loadAnalytics()
+  }, [loadAnalytics])
 
   if (error) {
     return (

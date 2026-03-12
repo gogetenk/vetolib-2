@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getRecentActivity, type ActivityDto, type ActivityType } from '@/lib/api/dashboard'
 import { ErrorState } from '@/components/ui/error-state'
+import { LtrText } from '@/components/ui/ltr-text'
 import { useTranslations } from 'next-intl'
 
 const ACTIVITY_ICONS: Record<ActivityType, string> = {
@@ -36,19 +37,21 @@ export function RecentActivity() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const load = () => {
-    setLoading(true)
-    setError(null)
-    getRecentActivity()
-      .then(setActivities)
-      .catch(() => setError('Failed to load recent activity'))
-      .finally(() => setLoading(false))
-  }
+  const load = useCallback(async () => {
+    try {
+      const result = await getRecentActivity()
+      setActivities(result)
+      setError(null)
+    } catch {
+      setError('Failed to load recent activity')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load()
-  }, [])
+  }, [load])
 
   return (
     <Card data-testid="recent-activity-card">
@@ -103,7 +106,7 @@ export function RecentActivity() {
                     data-testid={`activity-time-${activity.id}`}
                     title={new Date(activity.occurredAt).toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}
                   >
-                    {formatTime(activity.occurredAt)} · {formatRelativeTime(activity.occurredAt)}
+                    <LtrText>{formatTime(activity.occurredAt)}</LtrText> · {formatRelativeTime(activity.occurredAt)}
                   </p>
                 </div>
               </li>

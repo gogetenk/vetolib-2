@@ -19,6 +19,7 @@ import { FaqSection } from "@/components/features/landing/FaqSection";
 import { FeaturesSection } from "@/components/features/landing/FeaturesSection";
 import { FinalCtaSection } from "@/components/features/landing/FinalCtaSection";
 import { Footer } from "@/components/features/landing/Footer";
+import { NavLanguageSwitcher } from "@/components/features/landing/NavLanguageSwitcher";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -128,6 +129,7 @@ export default async function LandingPage({ params }: Props) {
             >
               {t("nav.faq")}
             </a>
+            <NavLanguageSwitcher locale={locale} />
             <Link href={loginHref} data-testid="nav-signin-link">
               <Button variant="outline" size="sm" data-testid="btn-nav-signin">
                 {t("nav.sign_in")}
@@ -145,6 +147,7 @@ export default async function LandingPage({ params }: Props) {
           </div>
           {/* Mobile sign-in */}
           <div className="flex items-center gap-2 md:hidden">
+            <NavLanguageSwitcher locale={locale} />
             <Link href={signupHref} data-testid="nav-mobile-cta">
               <Button
                 size="sm"

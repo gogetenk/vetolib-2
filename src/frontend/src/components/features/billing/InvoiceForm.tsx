@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { LtrText } from '@/components/ui/ltr-text'
 import { formatAED } from '@/lib/utils'
 import { createInvoice } from '@/lib/api/billing'
 import type { CreateInvoiceLineItem } from '@/lib/api/billing'
@@ -167,7 +168,7 @@ export function InvoiceForm() {
               <div className="rounded-md bg-muted px-3 py-2 text-sm" data-testid="selected-patient">
                 <p className="font-medium">{selectedPatient.name}</p>
                 <p className="text-muted-foreground">
-                  {t('owner_label')}: {selectedPatient.ownerName} — {selectedPatient.ownerPhone}
+                  {t('owner_label')}: {selectedPatient.ownerName} — <LtrText>{selectedPatient.ownerPhone}</LtrText>
                 </p>
                 <button
                   type="button"
@@ -241,7 +242,7 @@ export function InvoiceForm() {
                   />
                 </div>
                 <div className="col-span-1 text-right text-sm font-medium" data-testid={`item-subtotal-${index}`}>
-                  {formatAED(item.quantity * item.unitPrice)}
+                  <LtrText>{formatAED(item.quantity * item.unitPrice)}</LtrText>
                 </div>
                 <div className="col-span-1 flex justify-end">
                   {items.length > 1 && (
@@ -263,15 +264,15 @@ export function InvoiceForm() {
             <div className="mt-4 border-t pt-4 space-y-1 text-sm" data-testid="invoice-totals">
               <div className="flex justify-between">
                 <span>{t('subtotal_excl_vat')}</span>
-                <span data-testid="form-subtotal">{formatAED(subtotal)}</span>
+                <LtrText data-testid="form-subtotal">{formatAED(subtotal)}</LtrText>
               </div>
               <div className="flex justify-between text-muted-foreground">
                 <span>{t('vat_percent')}</span>
-                <span data-testid="form-vat">{formatAED(vatAmount)}</span>
+                <LtrText data-testid="form-vat">{formatAED(vatAmount)}</LtrText>
               </div>
               <div className="flex justify-between font-bold text-base border-t pt-1">
                 <span>{t('total_aed')}</span>
-                <span data-testid="form-total">{formatAED(total)}</span>
+                <LtrText data-testid="form-total">{formatAED(total)}</LtrText>
               </div>
             </div>
           </CardContent>
@@ -299,7 +300,7 @@ export function InvoiceForm() {
           </p>
         )}
 
-        <div className="flex gap-3 justify-end">
+        <div className="sticky bottom-0 bg-background py-3 border-t flex gap-3 justify-end">
           <Button
             type="button"
             variant="outline"

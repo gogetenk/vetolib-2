@@ -11,6 +11,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useRole } from "@/hooks/use-role";
+import { useLocale } from "next-intl";
 import { UserMenu } from "./UserMenu";
 import { MobileSidebarContent } from "./Sidebar";
 
@@ -34,6 +35,7 @@ function getInitialClinicName(): string {
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const role = useRole();
+  const locale = useLocale();
   const [clinicName] = useState<string>(getInitialClinicName);
 
   return (
@@ -46,7 +48,7 @@ export function Header() {
         variant="ghost"
         size="icon"
         data-testid="mobile-menu-trigger"
-        className="mr-2 md:hidden"
+        className="ltr:mr-2 rtl:ml-2 md:hidden"
         onClick={() => setMobileOpen(true)}
         aria-label="Open navigation menu"
       >
@@ -55,7 +57,7 @@ export function Header() {
 
       {/* Logo */}
       <Link
-        href="/appointments"
+        href={`/${locale}/appointments`}
         data-testid="header-logo"
         className="flex items-center gap-2 font-bold text-lg text-primary"
       >
@@ -67,12 +69,12 @@ export function Header() {
       {clinicName && (
         <span
           data-testid="clinic-name"
-          className="ml-4 text-sm font-medium text-muted-foreground mr-auto hidden sm:block"
+          className="ltr:ml-4 rtl:mr-4 text-sm font-medium text-muted-foreground ltr:mr-auto rtl:ml-auto hidden sm:block"
         >
           {clinicName}
         </span>
       )}
-      {!clinicName && <span className="mr-auto" />}
+      {!clinicName && <span className="ltr:mr-auto rtl:ml-auto" />}
 
       {/* User menu — right side */}
       <UserMenu />

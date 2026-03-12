@@ -246,4 +246,98 @@ public class SystemDefaultsTests
 
         SystemDefaults.HasDefault(unknownKey).Should().BeFalse();
     }
+
+    // ─── AI defaults ────────────────────────────────────────────────────────────
+
+    [Fact]
+    public void AITriage_DefaultIsTrue()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.AITriage);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
+    }
+
+    [Fact]
+    public void AINoShow_DefaultIsTrue()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.AINoShow);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
+    }
+
+    [Fact]
+    public void AIMessaging_DefaultIsTrue()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.AIMessaging);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
+    }
+
+    // ─── Communication defaults ─────────────────────────────────────────────────
+
+    [Fact]
+    public void CommunicationQuietHoursStart_DefaultIs2200()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.CommunicationQuietHoursStart);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("22:00");
+    }
+
+    [Fact]
+    public void CommunicationQuietHoursEnd_DefaultIs0700()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.CommunicationQuietHoursEnd);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("07:00");
+    }
+
+    [Fact]
+    public void CommunicationPreferredChannel_DefaultIsEmail()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.CommunicationPreferredChannel);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("Email");
+    }
+
+    // ─── Notification defaults ──────────────────────────────────────────────────
+
+    [Fact]
+    public void NotificationAppointmentReminder_DefaultIsTrue()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.NotificationAppointmentReminder);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
+    }
+
+    [Fact]
+    public void NotificationInvoice_DefaultIsTrue()
+    {
+        var result = SystemDefaults.GetDefault(PreferenceKey.NotificationInvoice);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("true");
+    }
+
+    // ─── All dictionary ─────────────────────────────────────────────────────────
+
+    [Fact]
+    public void All_ContainsEveryDefinedKey()
+    {
+        var allKeys = Enum.GetValues<PreferenceKey>();
+
+        foreach (var key in allKeys)
+        {
+            SystemDefaults.All.Should().ContainKey(key,
+                $"SystemDefaults.All must include PreferenceKey.{key}");
+        }
+    }
+
+    [Fact]
+    public void All_ValuesAreNotNullOrEmpty()
+    {
+        foreach (var kvp in SystemDefaults.All)
+        {
+            kvp.Value.Should().NotBeNullOrWhiteSpace(
+                $"SystemDefaults.All[{kvp.Key}] must have a non-empty value");
+        }
+    }
 }

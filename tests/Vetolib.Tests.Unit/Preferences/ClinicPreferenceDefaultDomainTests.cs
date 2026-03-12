@@ -131,4 +131,91 @@ public class ClinicPreferenceDefaultDomainTests
         dto.Source.Should().Be(PreferenceSource.Clinic);
         dto.Key.Should().Be(PreferenceKey.NotificationSms);
     }
+
+    [Fact]
+    public void Create_WithWhitespaceValue_ReturnsInvalid()
+    {
+        var result = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.AITriage, "   ");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "value");
+    }
+
+    [Fact]
+    public void Create_AIDrugInteractions_SetToFalseCaseInsensitive_ReturnsInvalid()
+    {
+        var result = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.AIDrugInteractions, "FALSE");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "key");
+    }
+
+    [Fact]
+    public void Create_AIDrugInteractions_SetToTrue_ReturnsSuccess()
+    {
+        var result = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.AIDrugInteractions, "true");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Value.Should().Be("true");
+    }
+
+    [Fact]
+    public void Create_SetsClinicId()
+    {
+        var result = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.NotificationEmail, "true");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ClinicId.Should().Be(ValidClinicId);
+    }
+
+    [Fact]
+    public void Create_WithMultipleErrors_ReturnsAllValidationErrors()
+    {
+        var result = ClinicPreferenceDefault.Create(
+            Guid.Empty, PreferenceKey.AIDrugInteractions, "false");
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "clinicId");
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "key");
+    }
+
+    [Fact]
+    public void Update_SetsUpdatedAt()
+    {
+        var pref = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.AnalyticsPosthog, "false").Value;
+        var beforeUpdate = pref.UpdatedAt;
+
+        pref.Update("true");
+
+        pref.UpdatedAt.Should().BeAfter(beforeUpdate);
+    }
+
+    [Fact]
+    public void ToDto_ReturnsCorrectCategoryAndValue()
+    {
+        var pref = ClinicPreferenceDefault.Create(
+            ValidClinicId, PreferenceKey.CommunicationLanguage, "ar").Value;
+
+        var dto = pref.ToDto();
+
+        dto.Category.Should().Be(PreferenceCategory.Communication);
+        dto.Value.Should().Be("ar");
+    }
+
+    [Theory]
+    [InlineData(PreferenceKey.BookingEnabled, PreferenceCategory.Booking)]
+    [InlineData(PreferenceKey.PrivacyMarketing, PreferenceCategory.Privacy)]
+    [InlineData(PreferenceKey.AINoShow, PreferenceCategory.AIFeatures)]
+    public void Create_AssignsCorrectCategory(PreferenceKey key, PreferenceCategory expectedCategory)
+    {
+        var result = ClinicPreferenceDefault.Create(ValidClinicId, key, "true");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Category.Should().Be(expectedCategory);
+    }
 }
