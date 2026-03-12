@@ -44,18 +44,19 @@ const SPECIES_ICONS: Record<string, string> = {
   Exotic: '🦎',
 }
 
-const STATUS_OPTIONS: { value: AppointmentStatus | 'ALL'; label: string }[] = [
-  { value: 'ALL', label: 'All Statuses' },
-  { value: 'SCHEDULED', label: 'Scheduled' },
-  { value: 'CHECKED_IN', label: 'Checked In' },
-  { value: 'IN_PROGRESS', label: 'In Progress' },
-  { value: 'COMPLETED', label: 'Completed' },
-  { value: 'CANCELLED', label: 'Cancelled' },
+const STATUS_KEYS: { value: AppointmentStatus | 'ALL'; key: string }[] = [
+  { value: 'ALL', key: 'all_statuses' },
+  { value: 'SCHEDULED', key: 'status.SCHEDULED' },
+  { value: 'CHECKED_IN', key: 'status.CHECKED_IN' },
+  { value: 'IN_PROGRESS', key: 'status.IN_PROGRESS' },
+  { value: 'COMPLETED', key: 'status.COMPLETED' },
+  { value: 'CANCELLED', key: 'status.CANCELLED' },
 ]
 
 const PAGE_SIZE = 10
 
 export function AppointmentsTable() {
+  const t = useTranslations('appointments')
   const tEmpty = useTranslations('onboarding.empty.appointments')
   const [appointments, setAppointments] = useState<AppointmentDto[]>([])
   const [totalCount, setTotalCount] = useState(0)
@@ -78,7 +79,7 @@ export function AppointmentsTable() {
       setAppointments(result.items)
       setTotalCount(result.totalCount)
     } catch {
-      setError('Failed to load appointments')
+      setError(t('error_load'))
     } finally {
       setIsLoading(false)
     }
@@ -91,7 +92,7 @@ export function AppointmentsTable() {
   const columns: ColumnDef<AppointmentDto>[] = [
     {
       accessorKey: 'scheduledAt',
-      header: 'Date / Time',
+      header: t('columns.datetime'),
       cell: ({ getValue }) => {
         const val = getValue<string>()
         return (
@@ -103,7 +104,7 @@ export function AppointmentsTable() {
     },
     {
       id: 'patient',
-      header: 'Patient',
+      header: t('columns.patient'),
       cell: ({ row }) => (
         <span data-testid="cell-patient">
           {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
@@ -112,28 +113,28 @@ export function AppointmentsTable() {
     },
     {
       accessorKey: 'ownerName',
-      header: 'Owner',
+      header: t('columns.owner'),
       cell: ({ getValue }) => (
         <span data-testid="cell-owner">{getValue<string>()}</span>
       ),
     },
     {
       accessorKey: 'vetName',
-      header: 'Veterinarian',
+      header: t('columns.vet'),
       cell: ({ getValue }) => (
         <span data-testid="cell-vet">{getValue<string>()}</span>
       ),
     },
     {
       accessorKey: 'status',
-      header: 'Status',
+      header: t('columns.status'),
       cell: ({ getValue }) => (
         <StatusBadge status={getValue<AppointmentStatus>()} />
       ),
     },
     {
       id: 'actions',
-      header: 'Actions',
+      header: t('columns.actions'),
       cell: ({ row }) => (
         <Link href={`/appointments/${row.original.id}`}>
           <Button
@@ -141,7 +142,7 @@ export function AppointmentsTable() {
             size="sm"
             data-testid={`btn-view-${row.original.id}`}
           >
-            View
+            {t('columns.view')}
           </Button>
         </Link>
       ),
@@ -170,16 +171,16 @@ export function AppointmentsTable() {
           }}
         >
           <SelectTrigger className="w-48" data-testid="status-filter" aria-label="Filter by status">
-            <SelectValue placeholder="All Statuses" />
+            <SelectValue placeholder={t('all_statuses')} />
           </SelectTrigger>
           <SelectContent>
-            {STATUS_OPTIONS.map((opt) => (
+            {STATUS_KEYS.map((opt) => (
               <SelectItem
                 key={opt.value}
                 value={opt.value}
                 data-testid={`status-option-${opt.value.toLowerCase()}`}
               >
-                {opt.label}
+                {t(opt.key)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -204,7 +205,7 @@ export function AppointmentsTable() {
             data-testid="btn-clear-date"
             onClick={() => setDateFilter('')}
           >
-            Clear date
+            {t('clear_date')}
           </Button>
         )}
       </div>
@@ -239,7 +240,7 @@ export function AppointmentsTable() {
                 <TableCell colSpan={columns.length} className="p-0">
                   <ErrorState
                     data-testid="appointments-error"
-                    title="Failed to load appointments"
+                    title={t('error_load')}
                     description={error}
                     onRetry={load}
                   />
@@ -277,7 +278,7 @@ export function AppointmentsTable() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between" data-testid="pagination">
           <p className="text-sm text-muted-foreground">
-            Page {page} of {totalPages} ({totalCount} total)
+            {t('page_of', { page, total: totalPages, count: totalCount })}
           </p>
           <div className="flex gap-2">
             <Button
@@ -287,7 +288,7 @@ export function AppointmentsTable() {
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
             >
-              Previous
+              {t('previous')}
             </Button>
             <Button
               variant="outline"
@@ -296,7 +297,7 @@ export function AppointmentsTable() {
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
             >
-              Next
+              {t('next')}
             </Button>
           </div>
         </div>

@@ -32,9 +32,6 @@ const ROLE_CATEGORIES: Record<string, MessageCategory[]> = {
     'Other',
   ],
   ASSISTANT: [
-    'MedicalUrgency',
-    'PostOperativeFollowUp',
-    'MedicalQuestion',
     'AppointmentRequest',
     'Administrative',
     'Feedback',

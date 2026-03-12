@@ -34,7 +34,7 @@ export function MessagingHoursPage() {
         setHours([...data].sort((a, b) => a.dayOfWeek - b.dayOfWeek))
       }
     } catch {
-      // Use defaults on error
+      toast.error(t("load_failed"))
     } finally {
       setIsLoading(false)
     }

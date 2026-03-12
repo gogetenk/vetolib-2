@@ -147,7 +147,7 @@ export function PortalLanding() {
           className="text-sm text-emerald-600 hover:text-emerald-800 hover:underline"
           data-testid="export-link"
         >
-          Download all my conversations
+          {t('download_all')}
         </Link>
       </div>
     </div>

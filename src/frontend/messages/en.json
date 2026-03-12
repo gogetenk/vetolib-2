@@ -49,6 +49,7 @@
         "account_locked": "Account locked. Try again in 15 minutes.",
         "connection_error": "Connection error. Please try again.",
         "email_required": "Please enter a valid email address",
+        "email_invalid": "Please enter a valid email address",
         "password_required": "Password is required"
       }
     }
@@ -134,11 +135,46 @@
         "error": "Failed to fetch suggestions"
       }
     },
+    "error_load": "Failed to load appointments",
     "detail": {
       "back": "Back to Appointments",
       "update_status": "Update Status",
       "confirm_action": "Confirm action",
-      "transition_to": "Transition to"
+      "transition_to": "Transition to",
+      "owner": "Owner",
+      "vet": "Veterinarian",
+      "datetime": "Date & Time",
+      "reason": "Reason",
+      "notes": "Notes",
+      "cancellation_reason": "Cancellation Reason",
+      "dialog_back": "Back",
+      "confirm": "Confirm",
+      "processing": "Processing...",
+      "cancel_reason_placeholder": "Enter cancellation reason",
+      "toast": {
+        "success": "Appointment updated successfully",
+        "failed": "Failed to update appointment"
+      },
+      "actions": {
+        "check_in": "Check In",
+        "check_in_title": "Check In Patient",
+        "check_in_description": "The patient has arrived and is ready to be checked in.",
+        "cancel": "Cancel",
+        "cancel_title": "Cancel Appointment",
+        "cancel_description": "Please provide a reason for cancellation.",
+        "start": "Start Consultation",
+        "start_title": "Start Consultation",
+        "start_description": "Begin the consultation for this appointment.",
+        "complete": "Complete",
+        "complete_title": "Complete Appointment",
+        "complete_description": "Mark this consultation as completed."
+      },
+      "error_not_found": "Appointment not found.",
+      "error_server_title": "Server Error",
+      "error_server_description": "Something went wrong on the server. Please try again later.",
+      "error_network_title": "Connection Error",
+      "error_network_description": "Unable to connect to the server. Please check your internet connection and try again.",
+      "retry": "Try again"
     },
     "status": {
       "SCHEDULED": "Scheduled",
@@ -355,7 +391,12 @@
     },
     "today": {
       "title": "Today's Schedule",
-      "view_all": "View all"
+      "view_all": "View all",
+      "error_load": "Failed to load today's appointments",
+      "checked_in_success": "Patient checked in",
+      "checked_in_failed": "Failed to check in patient",
+      "checking_in": "Checking in...",
+      "check_in": "Check In"
     },
     "recent_activity": {
       "title": "Recent Activity",
@@ -629,6 +670,7 @@
       "save": "Save Hours",
       "saving": "Saving...",
       "save_success": "Business hours saved.",
+      "load_failed": "Failed to load business hours.",
       "save_failed": "Failed to save business hours.",
       "outside_hours_note": "Messages sent outside these hours will receive an automatic acknowledgment.",
       "days": {
@@ -881,7 +923,8 @@
         "name": "Dr. Ahmed Al-Mansoori",
         "role": "Head Vet",
         "clinic": "Jumeirah Pet Care, Dubai"
-      }
+      },
+      "scroll_hint": "\u2190 Scroll to see more \u2192"
     },
     "faq": {
       "title": "Frequently Asked Questions",
@@ -974,7 +1017,8 @@
         "Closed": "Closed"
       },
       "unread": "{count} unread",
-      "last_message": "Last message: {date}"
+      "last_message": "Last message: {date}",
+      "download_all": "Download all my conversations"
     },
     "consent": {
       "title": "Messaging Terms & Conditions",
@@ -1026,6 +1070,7 @@
       }
     },
     "conversation": {
+      "not_found": "Conversation not found.",
       "title": "Conversation",
       "closed_notice": "This conversation is closed. Please start a new conversation if you need further assistance.",
       "reply_placeholder": "Type your reply...",
@@ -1057,7 +1102,8 @@
         "contactClinic": "Need to contact the clinic?",
         "loading": "Loading...",
         "myAppointmentsSubtitle": "View and manage your upcoming and past appointments",
-        "bookNewSubtitle": "Schedule a new visit for your pet"
+        "bookNewSubtitle": "Schedule a new visit for your pet",
+        "link_expired": "This link has expired. Please contact your clinic to receive a new one."
       },
       "wizard": {
         "step1Title": "Select Your Pet",
@@ -1130,6 +1176,10 @@
         "evening": "Evening",
         "noSlots": "No available slots for this date",
         "selectDate": "Select a date"
+      },
+      "recommendedSlots": {
+        "title": "Recommended slots",
+        "empty": "No suggestions available right now."
       },
       "confirmation": {
         "title": "Booking Confirmed!",

@@ -21,10 +21,12 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
   const [conversation, setConversation] = useState<PortalConversationDto | null>(null)
   const [messages, setMessages] = useState<PortalMessageDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [expired, setExpired] = useState(false)
   const [reply, setReply] = useState('')
   const [isSending, setIsSending] = useState(false)
   const [sendError, setSendError] = useState<string | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const tLanding = useTranslations('portal.landing')
 
   useEffect(() => {
     getPortalConversation(conversationId)
@@ -32,8 +34,11 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
         setConversation(conv)
         setMessages(conv.messages ?? [])
       })
-      .catch(() => {
-        // Handle 404/401 gracefully
+      .catch((err) => {
+        if (err instanceof ApiError && err.status === 401) {
+          setExpired(true)
+        }
+        // For 404 or other errors, conversation stays null → shows not_found
       })
       .finally(() => setIsLoading(false))
   }, [conversationId])
@@ -71,10 +76,18 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
     )
   }
 
+  if (expired) {
+    return (
+      <div className="text-center py-12 space-y-3" data-testid="conversation-expired">
+        <p className="text-gray-700">{tLanding('link_expired')}</p>
+      </div>
+    )
+  }
+
   if (!conversation) {
     return (
       <div className="text-center py-12 text-gray-500" data-testid="conversation-not-found">
-        <p>Conversation not found.</p>
+        <p>{t('not_found')}</p>
         <Button
           variant="ghost"
           onClick={() => router.push(`/${params.locale}/portal/${params.clinicSlug}`)}

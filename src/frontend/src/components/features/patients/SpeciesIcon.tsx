@@ -1,6 +1,6 @@
 'use client'
 
-import { Dog, Cat, Bird, Rabbit, Beef, PawPrint } from 'lucide-react'
+import { Dog, Cat, Bird, Rabbit, PawPrint } from 'lucide-react'
 import type { Species } from '@/lib/api/patients'
 
 interface SpeciesIconProps {
@@ -22,7 +22,7 @@ export function SpeciesIcon({ species, className = 'h-5 w-5', ...props }: Specie
     case 'Rabbit':
       return <Rabbit {...iconProps} />
     case 'Horse':
-      return <Beef {...iconProps} />
+      return <PawPrint {...iconProps} />
     case 'Camel':
       return <PawPrint {...iconProps} />
     default:

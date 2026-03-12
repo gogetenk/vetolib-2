@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useReducer } from 'react'
+import { useTranslations } from 'next-intl'
 import { Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { suggestSlots } from '@/lib/api/booking'
@@ -75,6 +76,8 @@ export function RecommendedSlots({
     }
   }
 
+  const t = useTranslations('portal.booking.recommendedSlots')
+
   const [{ suggestions, isLoading, hasError }, dispatch] = useReducer(fetchReducer, {
     suggestions: [],
     isLoading: true,
@@ -129,7 +132,7 @@ export function RecommendedSlots({
         className="text-xs text-gray-400 italic py-1"
         data-testid="recommended-slots-empty"
       >
-        No suggestions available right now.
+        {t('empty')}
       </div>
     )
   }
@@ -142,7 +145,7 @@ export function RecommendedSlots({
       {/* Section label */}
       <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-700">
         <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-        <span>Recommended slots</span>
+        <span>{t('title')}</span>
       </div>
 
       {/* Chips */}

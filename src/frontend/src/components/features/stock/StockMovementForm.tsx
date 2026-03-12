@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -53,6 +53,9 @@ interface StockMovementFormProps {
 export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockMovementFormProps) {
   const t = useTranslations('stock')
 
+  const currentQuantity = item?.quantity ?? 0
+  const schema = useMemo(() => buildSchema(currentQuantity), [currentQuantity])
+
   const {
     register,
     handleSubmit,
@@ -62,7 +65,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
     formState: { errors, isSubmitting },
   } = useForm<MovementFormValues>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(buildSchema(item?.quantity ?? 0)) as any,
+    resolver: zodResolver(schema) as any,
     defaultValues: { type: 'IN' },
   })
 

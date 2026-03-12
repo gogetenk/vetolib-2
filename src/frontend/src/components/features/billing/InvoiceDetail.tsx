@@ -358,11 +358,6 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             >
               Send
             </Button>
-            <Link href={`/billing/${invoice.id}/edit`}>
-              <Button variant="outline" data-testid="edit-invoice-btn">
-                Edit
-              </Button>
-            </Link>
             <Button
               variant="destructive"
               data-testid="delete-invoice-btn"

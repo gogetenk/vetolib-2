@@ -45,7 +45,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
   const t = useTranslations("messaging_admin")
 
   const [name, setName] = useState("")
-  const [category, setCategory] = useState<MessageCategory | "">("")
+  const [category, setCategory] = useState<MessageCategory | "" | "none">("")
   const [contentEn, setContentEn] = useState("")
   const [contentAr, setContentAr] = useState("")
   const [isSaving, setIsSaving] = useState(false)
@@ -81,7 +81,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
         name: name.trim(),
         contentEn: contentEn.trim(),
         contentAr: contentAr.trim(),
-        category: (category as MessageCategory) || null,
+        category: category === "" || category === "none" ? null : (category as MessageCategory),
       }
       let saved: ResponseTemplateDto
       if (initialData) {
@@ -131,7 +131,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
             <Label htmlFor="template-category">{t("templates.form.category")}</Label>
             <Select
               value={category}
-              onValueChange={(val) => setCategory(val as MessageCategory | "")}
+              onValueChange={(val) => setCategory(val as MessageCategory | "" | "none")}
             >
               <SelectTrigger
                 id="template-category"
