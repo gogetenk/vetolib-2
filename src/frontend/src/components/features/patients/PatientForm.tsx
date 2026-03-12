@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -22,31 +23,33 @@ import type { PatientDto, Species } from '@/lib/api/patients'
 import { SPECIES_LABELS, ALL_SPECIES } from './SpeciesIcon'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
-const patientSchema = z.object({
-  name: z.string().min(1, 'Animal name is required'),
-  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic'] as [Species, ...Species[]]),
-  breed: z.string().optional(),
-  dateOfBirth: z.string().min(1, 'Date of birth is required').refine(
-    (val) => {
-      const date = new Date(val)
-      return !isNaN(date.getTime()) && date <= new Date()
-    },
-    { message: 'Date of birth cannot be in the future' }
-  ),
-  gender: z.enum(['Male', 'Female', 'Unknown'] as ['Male', 'Female', 'Unknown']),
-  weightKg: z.preprocess(
-    (val) => (val === '' || val === null || val === undefined ? null : Number(val)),
-    z.number().positive('Weight must be greater than 0').nullable()
-  ),
-  ownerName: z.string().min(1, 'Owner name is required'),
-  ownerPhone: z.string().min(1, 'Owner phone is required').regex(
-    /^\+971\s\d{2}\s\d{3}\s\d{4}$/,
-    'Phone must follow UAE format: +971 XX XXX XXXX'
-  ),
-  ownerEmail: z.string().email('Invalid email').optional().or(z.literal('')),
-})
+function createPatientSchema(t: (key: string) => string) {
+  return z.object({
+    name: z.string().min(1, t('errors.name_required')),
+    species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic'] as [Species, ...Species[]]),
+    breed: z.string().optional(),
+    dateOfBirth: z.string().min(1, t('errors.date_of_birth_required')).refine(
+      (val) => {
+        const date = new Date(val)
+        return !isNaN(date.getTime()) && date <= new Date()
+      },
+      { message: t('errors.date_of_birth_future') }
+    ),
+    gender: z.enum(['Male', 'Female', 'Unknown'] as ['Male', 'Female', 'Unknown']),
+    weightKg: z.preprocess(
+      (val) => (val === '' || val === null || val === undefined ? null : Number(val)),
+      z.number().positive(t('errors.weight_positive')).nullable()
+    ),
+    ownerName: z.string().min(1, t('errors.owner_name_required')),
+    ownerPhone: z.string().min(1, t('errors.owner_phone_required')).regex(
+      /^\+971\s\d{2}\s\d{3}\s\d{4}$/,
+      t('errors.owner_phone_format')
+    ),
+    ownerEmail: z.string().email(t('errors.owner_email_invalid')).optional().or(z.literal('')),
+  })
+}
 
-type PatientFormValues = z.infer<typeof patientSchema>
+type PatientFormValues = z.infer<ReturnType<typeof createPatientSchema>>
 
 interface PatientFormProps {
   /** When provided, the form is in edit mode */
@@ -56,7 +59,9 @@ interface PatientFormProps {
 
 export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   const router = useRouter()
+  const t = useTranslations('patients.form')
   const [serverError, setServerError] = useState<string | null>(null)
+  const patientSchema = useMemo(() => createPatientSchema(t), [t])
 
   const isEdit = !!patient
 
@@ -109,14 +114,14 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
       let result: PatientDto
       if (isEdit && patient) {
         result = await updatePatient(patient.id, payload)
-        toast.success('Patient updated successfully')
+        toast.success(t('toast_updated'))
       } else {
         result = await createPatient(payload)
         trackEvent(AnalyticsEvents.PATIENT_CREATED, {
           species: data.species,
           has_microchip: "false",
         })
-        toast.success('Patient created successfully')
+        toast.success(t('toast_created'))
       }
 
       if (onSuccess) {
@@ -125,7 +130,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         router.push(`/patients/${result.id}`)
       }
     } catch {
-      setServerError('Failed to save patient. Please try again.')
+      setServerError(t('error_save_failed'))
     }
   }
 
@@ -134,7 +139,9 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   return (
     <Card data-testid="patient-form">
       <CardHeader>
-        <CardTitle>{isEdit ? `Edit Patient — ${patient!.name}` : 'New Patient'}</CardTitle>
+        <CardTitle>
+          {isEdit ? t('edit_title', { name: patient!.name }) : t('title')}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -146,12 +153,12 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
           {/* Animal Name */}
           <div className="space-y-1">
             <Label htmlFor="name">
-              Animal Name <span className="text-destructive">*</span>
+              {t('patient_name')} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="name"
               data-testid="input-patient-name"
-              placeholder="e.g. Max"
+              placeholder={t('patient_name_placeholder')}
               {...register('name')}
             />
             {errors.name && (
@@ -165,7 +172,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             {/* Species */}
             <div className="space-y-1">
               <Label htmlFor="species">
-                Species <span className="text-destructive">*</span>
+                {t('species')} <span className="text-destructive">*</span>
               </Label>
               <Select
                 value={selectedSpecies}
@@ -173,7 +180,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 data-testid="select-species"
               >
                 <SelectTrigger data-testid="select-species-trigger">
-                  <SelectValue placeholder="Select species">
+                  <SelectValue placeholder={t('select_species')}>
                     {selectedSpecies ? SPECIES_LABELS[selectedSpecies] : null}
                   </SelectValue>
                 </SelectTrigger>
@@ -194,11 +201,11 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
             {/* Breed */}
             <div className="space-y-1">
-              <Label htmlFor="breed">Breed</Label>
+              <Label htmlFor="breed">{t('breed')}</Label>
               <Input
                 id="breed"
                 data-testid="input-breed"
-                placeholder="e.g. Golden Retriever"
+                placeholder={t('breed_placeholder')}
                 {...register('breed')}
               />
             </div>
@@ -206,7 +213,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             {/* Date of Birth */}
             <div className="space-y-1">
               <Label htmlFor="dateOfBirth">
-                Date of Birth <span className="text-destructive">*</span>
+                {t('date_of_birth')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="dateOfBirth"
@@ -224,7 +231,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
             {/* Gender */}
             <div className="space-y-1">
-              <Label htmlFor="gender">Sex</Label>
+              <Label htmlFor="gender">{t('gender')}</Label>
               <Select
                 value={selectedGender}
                 onValueChange={(val) =>
@@ -233,14 +240,14 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 data-testid="select-gender"
               >
                 <SelectTrigger data-testid="select-gender-trigger">
-                  <SelectValue placeholder="Select sex">
+                  <SelectValue placeholder={t('select_gender')}>
                     {selectedGender ?? null}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Male" data-testid="gender-option-male">Male</SelectItem>
-                  <SelectItem value="Female" data-testid="gender-option-female">Female</SelectItem>
-                  <SelectItem value="Unknown" data-testid="gender-option-unknown">Unknown</SelectItem>
+                  <SelectItem value="Male" data-testid="gender-option-male">{t('gender_male')}</SelectItem>
+                  <SelectItem value="Female" data-testid="gender-option-female">{t('gender_female')}</SelectItem>
+                  <SelectItem value="Unknown" data-testid="gender-option-unknown">{t('gender_unknown')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -248,8 +255,8 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             {/* Weight */}
             <div className="space-y-1">
               <Label htmlFor="weightKg">
-                Weight (kg){' '}
-                <span className="text-muted-foreground font-normal">(optional)</span>
+                {t('weight')}{' '}
+                <span className="text-muted-foreground font-normal">{t('weight_optional')}</span>
               </Label>
               <Input
                 id="weightKg"
@@ -257,10 +264,10 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 step="0.1"
                 min="0"
                 data-testid="patient-weight-input"
-                placeholder="e.g. 32.5"
+                placeholder={t('weight_placeholder')}
                 {...register('weightKg')}
               />
-              <p className="text-xs text-muted-foreground">Optional — used for dosage calculations</p>
+              <p className="text-xs text-muted-foreground">{t('weight_hint')}</p>
               {errors.weightKg && (
                 <p className="text-xs text-destructive" data-testid="error-weight">
                   {errors.weightKg.message}
@@ -270,18 +277,18 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
           </div>
 
           <hr className="border-border" />
-          <p className="text-sm font-medium text-muted-foreground">Owner Information</p>
+          <p className="text-sm font-medium text-muted-foreground">{t('owner_information')}</p>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Owner Name */}
             <div className="space-y-1 md:col-span-2">
               <Label htmlFor="ownerName">
-                Full Name <span className="text-destructive">*</span>
+                {t('owner_name')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="ownerName"
                 data-testid="input-owner-name"
-                placeholder="e.g. Ahmed Al-Mansoori"
+                placeholder={t('owner_name_placeholder')}
                 {...register('ownerName')}
               />
               {errors.ownerName && (
@@ -294,13 +301,13 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             {/* Owner Phone */}
             <div className="space-y-1">
               <Label htmlFor="ownerPhone">
-                Phone <span className="text-destructive">*</span>
+                {t('owner_phone')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="ownerPhone"
                 type="tel"
                 data-testid="input-owner-phone"
-                placeholder="+971 50 123 4567"
+                placeholder={t('owner_phone_placeholder')}
                 {...register('ownerPhone')}
               />
               {errors.ownerPhone && (
@@ -313,13 +320,13 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             {/* Owner Email */}
             <div className="space-y-1">
               <Label htmlFor="ownerEmail">
-                Email <span className="text-muted-foreground">(optional)</span>
+                {t('owner_email')} <span className="text-muted-foreground">{t('owner_email_optional')}</span>
               </Label>
               <Input
                 id="ownerEmail"
                 type="email"
                 data-testid="input-owner-email"
-                placeholder="owner@email.ae"
+                placeholder={t('owner_email_placeholder')}
                 {...register('ownerEmail')}
               />
               {errors.ownerEmail && (
@@ -349,14 +356,14 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 }
               }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting}
               data-testid="btn-save-patient"
             >
-              {isSubmitting ? 'Saving...' : 'Save Patient'}
+              {isSubmitting ? t('saving') : t('save_patient')}
             </Button>
           </div>
         </form>
