@@ -157,4 +157,94 @@ public class PreferenceCheckerTests : IDisposable
         key.Should().Be($"pref:{clinicId}:{userId}:{PreferenceKey.NotificationEmail}");
         key.Should().Contain("NotificationEmail");
     }
+
+    [Fact]
+    public void BuildCacheKey_DifferentKeys_ProduceDifferentCacheKeys()
+    {
+        var key1 = PreferenceChecker.BuildCacheKey(ClinicId, UserId, PreferenceKey.NotificationEmail);
+        var key2 = PreferenceChecker.BuildCacheKey(ClinicId, UserId, PreferenceKey.NotificationPush);
+
+        key1.Should().NotBe(key2);
+    }
+
+    [Fact]
+    public void BuildCacheKey_DifferentUsers_ProduceDifferentCacheKeys()
+    {
+        var otherUserId = new Guid("33333333-3333-3333-3333-333333333333");
+        var key1 = PreferenceChecker.BuildCacheKey(ClinicId, UserId, PreferenceKey.NotificationEmail);
+        var key2 = PreferenceChecker.BuildCacheKey(ClinicId, otherUserId, PreferenceKey.NotificationEmail);
+
+        key1.Should().NotBe(key2);
+    }
+
+    [Fact]
+    public async Task GetValueAsync_ClinicPrefForDifferentKey_ReturnsSystemDefaultForRequestedKey()
+    {
+        // Clinic has a pref for NotificationEmail, but we query NotificationPush
+        var clinicPref = ClinicPreferenceDefault.Create(ClinicId, PreferenceKey.NotificationEmail, "false").Value;
+        _context.ClinicPreferenceDefaults.Add(clinicPref);
+        await _context.SaveChangesAsync();
+
+        var result = await _checker.GetValueAsync(UserId, PreferenceKey.NotificationPush);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false"); // system default for NotificationPush
+    }
+
+    [Fact]
+    public async Task GetValueAsync_UserPrefOverridesClinicPref_ForSameKey()
+    {
+        // Clinic says "false", user says "true" — user wins
+        var clinicPref = ClinicPreferenceDefault.Create(ClinicId, PreferenceKey.AnalyticsPosthog, "true").Value;
+        _context.ClinicPreferenceDefaults.Add(clinicPref);
+        var userPref = UserPreference.Create(ClinicId, UserId, PreferenceKey.AnalyticsPosthog, "false").Value;
+        _context.UserPreferences.Add(userPref);
+        await _context.SaveChangesAsync();
+
+        var result = await _checker.GetValueAsync(UserId, PreferenceKey.AnalyticsPosthog);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
+    }
+
+    [Fact]
+    public async Task GetValueAsync_BookingKey_ReturnsSystemDefault()
+    {
+        var result = await _checker.GetValueAsync(UserId, PreferenceKey.BookingMaxAdvanceDays);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("28");
+    }
+
+    [Fact]
+    public async Task IsTrueAsync_WithUserPrefSetToFalse_ReturnsFalse()
+    {
+        var userPref = UserPreference.Create(ClinicId, UserId, PreferenceKey.NotificationEmail, "false").Value;
+        _context.UserPreferences.Add(userPref);
+        await _context.SaveChangesAsync();
+
+        var result = await _checker.IsTrueAsync(UserId, PreferenceKey.NotificationEmail);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Invalidate_AfterClinicPrefAdded_ReturnsFreshValue()
+    {
+        // Populate cache with system default
+        await _checker.GetValueAsync(UserId, PreferenceKey.NotificationEmail);
+
+        // Add clinic pref that overrides the default
+        var clinicPref = ClinicPreferenceDefault.Create(ClinicId, PreferenceKey.NotificationEmail, "false").Value;
+        _context.ClinicPreferenceDefaults.Add(clinicPref);
+        await _context.SaveChangesAsync();
+
+        // Invalidate cache
+        _checker.Invalidate(ClinicId, UserId, PreferenceKey.NotificationEmail);
+
+        // Should now return the clinic pref value
+        var result = await _checker.GetValueAsync(UserId, PreferenceKey.NotificationEmail);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be("false");
+    }
 }
