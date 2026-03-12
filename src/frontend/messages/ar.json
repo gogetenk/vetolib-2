@@ -743,7 +743,37 @@
     "filterByVet": "تصفية حسب الطبيب",
     "moreAppointments": "+{count} المزيد",
     "noAppointments": "لا مواعيد",
-    "close": "إغلاق"
+    "close": "إغلاق",
+    "closedSlot": "العيادة مغلقة في هذا الوقت",
+    "quickCreate": {
+      "title": "موعد جديد",
+      "submit": "إنشاء",
+      "cancel": "إلغاء",
+      "fullForm": "فتح النموذج الكامل",
+      "success": "تم إنشاء موعد لـ {name} في {time}",
+      "patient": "اسم الحيوان",
+      "owner": "اسم المالك",
+      "type": "نوع الاستشارة",
+      "vet": "الطبيب البيطري",
+      "reason": "السبب",
+      "time": "الوقت"
+    },
+    "detail": {
+      "title": "تفاصيل الموعد",
+      "viewFull": "عرض التفاصيل الكاملة",
+      "patient": "الحيوان",
+      "owner": "المالك",
+      "phone": "الهاتف",
+      "type": "النوع",
+      "vet": "الطبيب البيطري",
+      "duration": "المدة",
+      "date": "التاريخ",
+      "time": "الوقت",
+      "status": "الحالة",
+      "reason": "السبب",
+      "notes": "الملاحظات",
+      "minutes": "{count} دقيقة"
+    }
   },
   "common": {
     "save": "حفظ",
