@@ -199,7 +199,7 @@ test.describe("Team management — non-ADMIN access control", () => {
     await page.waitForLoadState("networkidle")
 
     // Should redirect to /appointments
-    await expect(page).toHaveURL(/\/appointments/)
+    await expect(page).toHaveURL(/\/(en|ar)\/appointments/)
   })
 
   test("RECEPTIONIST is redirected away from /settings/team", async ({ page }) => {
@@ -208,7 +208,7 @@ test.describe("Team management — non-ADMIN access control", () => {
     await page.waitForLoadState("networkidle")
 
     // Should redirect to /appointments
-    await expect(page).toHaveURL(/\/appointments/)
+    await expect(page).toHaveURL(/\/(en|ar)\/appointments/)
   })
 
   test("VET does not see Team link in sidebar", async ({ page }) => {
