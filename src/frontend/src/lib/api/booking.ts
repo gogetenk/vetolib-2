@@ -1,4 +1,11 @@
 import { apiGet } from './client'
+import { portalFetch } from './portal'
+import type {
+  BookingAppointmentDto,
+  CreateBookingAppointmentRequest,
+  CancelBookingAppointmentRequest,
+  RescheduleBookingAppointmentRequest,
+} from './booking-types'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -60,4 +67,45 @@ export async function suggestSlots(
   if (params.reason) searchParams.set('reason', params.reason)
   if (params.durationMinutes) searchParams.set('durationMinutes', String(params.durationMinutes))
   return apiGet<SlotSuggestionDto[]>(`/api/v1/booking/suggest?${searchParams.toString()}`)
+}
+
+// ─── Portal Booking (MagicLink auth) ──────────────────────────────────────────
+
+const PORTAL_BOOKING_BASE = '/api/v1/portal/booking'
+
+export function listBookingAppointments(): Promise<BookingAppointmentDto[]> {
+  return portalFetch<BookingAppointmentDto[]>(`${PORTAL_BOOKING_BASE}/appointments`)
+}
+
+export function getBookingAppointment(id: string): Promise<BookingAppointmentDto> {
+  return portalFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}`)
+}
+
+export function createBookingAppointment(
+  request: CreateBookingAppointmentRequest
+): Promise<BookingAppointmentDto> {
+  return portalFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments`, {
+    method: 'POST',
+    body: JSON.stringify(request),
+  })
+}
+
+export function cancelBookingAppointment(
+  id: string,
+  request: CancelBookingAppointmentRequest
+): Promise<void> {
+  return portalFetch<void>(`${PORTAL_BOOKING_BASE}/appointments/${id}/cancel`, {
+    method: 'POST',
+    body: JSON.stringify(request),
+  })
+}
+
+export function rescheduleBookingAppointment(
+  id: string,
+  request: RescheduleBookingAppointmentRequest
+): Promise<BookingAppointmentDto> {
+  return portalFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}/reschedule`, {
+    method: 'POST',
+    body: JSON.stringify(request),
+  })
 }
