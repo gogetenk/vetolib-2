@@ -13,4 +13,7 @@ public record AppointmentDto(
     int DurationMinutes,
     TimeOnly EndTime,
     AppointmentStatus Status,
-    string? Reason);
+    string? Reason,
+    BookingSource Source,
+    int RescheduleCount,
+    Guid? OriginalAppointmentId);

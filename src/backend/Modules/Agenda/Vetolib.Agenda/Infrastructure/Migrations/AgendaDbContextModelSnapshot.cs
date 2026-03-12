@@ -190,6 +190,53 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                     b.ToTable("outbox_state", "agenda");
                 });
 
+            modelBuilder.Entity("Vetolib.Agenda.Application.Domain.ConsultationType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DurationMinutes")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("RequiresVetSelection")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("SortOrder")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId", "Name")
+                        .IsUnique()
+                        .HasFilter("is_active = true");
+
+                    b.ToTable("consultation_types", "agenda");
+                });
+
             modelBuilder.Entity("Vetolib.Agenda.Application.Domain.Appointment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -219,6 +266,9 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time without time zone");
 
+                    b.Property<Guid?>("OriginalAppointmentId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("OwnerEmail")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -236,6 +286,18 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("RescheduleCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasDefaultValue("Staff");
 
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time without time zone");

@@ -20,6 +20,9 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public AppointmentStatus Status { get; private set; }
     public string? Reason { get; private set; }
     public bool ReminderSent { get; private set; }
+    public BookingSource Source { get; private set; } = BookingSource.Staff;
+    public int RescheduleCount { get; private set; }
+    public Guid? OriginalAppointmentId { get; private set; }
 
     private Appointment() { } // EF Core constructor
 
@@ -33,7 +36,8 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         DateOnly date,
         TimeOnly startTime,
         int durationMinutes,
-        string? reason)
+        string? reason,
+        BookingSource source = BookingSource.Staff)
     {
         var errors = new List<ValidationError>();
 
@@ -76,7 +80,8 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
             DurationMinutes = durationMinutes,
             EndTime = endTime,
             Status = AppointmentStatus.Scheduled,
-            Reason = reason
+            Reason = reason,
+            Source = source
         };
 
         return Result<Appointment>.Success(appointment);
@@ -167,6 +172,14 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
+    public Result IncrementReschedule(Guid newAppointmentId, int maxReschedules)
+    {
+        if (RescheduleCount >= maxReschedules)
+            return Result.Error("RESCHEDULE_LIMIT_REACHED:Maximum number of reschedules reached");
+        RescheduleCount++;
+        return Result.Success();
+    }
+
     public bool OverlapsWith(TimeOnly otherStart, TimeOnly otherEnd)
     {
         return StartTime < otherEnd && EndTime > otherStart;
@@ -187,6 +200,9 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
             DurationMinutes,
             EndTime,
             Status,
-            Reason);
+            Reason,
+            Source,
+            RescheduleCount,
+            OriginalAppointmentId);
     }
 }
