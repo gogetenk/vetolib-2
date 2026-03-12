@@ -153,11 +153,11 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
               </div>
               <div className="mt-2 flex items-center gap-4 text-sm">
                 <span className={item.isLowStock ? 'font-semibold text-destructive' : 'text-muted-foreground'}>
-                  {item.quantity} {item.unit}
+                  <LtrText>{item.quantity} {item.unit}</LtrText>
                 </span>
                 {item.expiryDate && (
                   <span className={item.isExpiringSoon ? 'font-semibold text-orange-600' : 'text-muted-foreground'}>
-                    {item.expiryDate}
+                    <LtrText>{item.expiryDate}</LtrText>
                   </span>
                 )}
               </div>

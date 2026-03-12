@@ -99,7 +99,9 @@ async function apiFetch<T>(
   // Handle 204 No Content or 201 Created with empty body
   if (res.status === 204 || res.status === 201) {
     const text = await res.text();
-    if (!text) return undefined as T;
+    if (!text.trim()) return undefined as T;
+    const contentType = res.headers.get('content-type') ?? '';
+    if (!contentType.includes('application/json')) return undefined as T;
     return JSON.parse(text);
   }
 

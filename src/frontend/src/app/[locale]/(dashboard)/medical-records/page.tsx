@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useMemo } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Search } from 'lucide-react'
@@ -22,6 +22,7 @@ function formatDate(dateStr: string): string {
 
 export default function MedicalRecordsPage() {
   const t = useTranslations('medical_records')
+  const locale = useLocale()
   const [records, setRecords] = useState<MedicalRecordDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -91,7 +92,7 @@ export default function MedicalRecordsPage() {
                   <div>
                     <CardTitle className="text-sm font-semibold">
                       <Link
-                        href={`/patients/${record.patientId}`}
+                        href={`/${locale}/patients/${record.patientId}`}
                         className="hover:underline"
                         data-testid={`record-patient-link-${record.id}`}
                       >

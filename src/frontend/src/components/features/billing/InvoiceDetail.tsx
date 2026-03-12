@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
@@ -59,6 +60,7 @@ interface InvoiceDetailProps {
 
 export function InvoiceDetail({ id }: InvoiceDetailProps) {
   const router = useRouter()
+  const locale = useLocale()
   const dir = useDirection()
   const backArrow = dir === 'rtl' ? '\u2192' : '\u2190'
   const [invoice, setInvoice] = useState<InvoiceDto | null>(null)
@@ -347,7 +349,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
 
       {/* Actions */}
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
-        <Link href="/billing">
+        <Link href={`/${locale}/billing`}>
           <Button variant="outline" data-testid="back-to-billing-btn">
             {backArrow} Back to Billing
           </Button>
