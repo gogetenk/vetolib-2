@@ -94,7 +94,7 @@ export function StepConsultationType({
         <p className="text-sm font-medium text-gray-700 mb-2">{t('typeLabel')}</p>
         <div
           className="grid grid-cols-1 sm:grid-cols-2 gap-3"
-          role="list"
+          role="listbox"
           aria-label="Select consultation type"
           data-testid="consultation-type-grid"
         >
@@ -105,10 +105,10 @@ export function StepConsultationType({
               <button
                 key={type.id}
                 type="button"
-                role="listitem"
+                role="option"
                 onClick={() => onTypeSelect(type)}
                 data-testid={`consultation-type-card-${type.id}`}
-                aria-pressed={isSelected}
+                aria-selected={isSelected}
                 aria-label={`${type.name} — ${type.durationMinutes} minutes`}
                 className={cn(
                   'relative flex flex-col items-start gap-1 rounded-xl border-2 p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',

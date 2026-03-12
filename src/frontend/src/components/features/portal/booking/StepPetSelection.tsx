@@ -90,7 +90,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
     <div
       className="grid grid-cols-1 sm:grid-cols-2 gap-3"
       data-testid="step-pet-selection"
-      role="list"
+      role="listbox"
       aria-label={t('selectPet')}
     >
       {pets.map((pet) => {
@@ -100,10 +100,10 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
           <button
             key={pet.id}
             type="button"
-            role="listitem"
+            role="option"
             onClick={() => onSelect(pet)}
             data-testid={`pet-card-${pet.id}`}
-            aria-pressed={isSelected}
+            aria-selected={isSelected}
             aria-label={`${pet.name}, ${pet.species}, ${pet.breed}, ${pet.ageYears} year${pet.ageYears !== 1 ? 's' : ''} old`}
             className={cn(
               'relative flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer } from 'react'
 import { useTranslations } from 'next-intl'
 import { getWeekSlots } from '@/lib/api/booking'
 import { WeekNavigator } from './WeekNavigator'
@@ -46,41 +46,66 @@ export function StepSlotSelection({
   onSlotSelect,
 }: StepSlotSelectionProps) {
   const t = useTranslations('portal.booking.wizard.slotSection')
-  const [weekStart, setWeekStart] = useState<string>(getCurrentWeekStart())
-  const [selectedDay, setSelectedDay] = useState<string | null>(null)
-  const [weekDays, setWeekDays] = useState<BookingDay[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
+
+  type SlotState = {
+    weekStart: string
+    selectedDay: string | null
+    weekDays: BookingDay[]
+    isLoading: boolean
+    hasError: boolean
+  }
+  type SlotAction =
+    | { type: 'CHANGE_WEEK'; weekStart: string }
+    | { type: 'SELECT_DAY'; day: string }
+    | { type: 'FETCH_SUCCESS'; days: BookingDay[] }
+    | { type: 'FETCH_ERROR' }
+    | { type: 'FETCH_START' }
+
+  function slotReducer(state: SlotState, action: SlotAction): SlotState {
+    switch (action.type) {
+      case 'CHANGE_WEEK':
+        return { ...state, weekStart: action.weekStart, selectedDay: null, isLoading: true, hasError: false }
+      case 'FETCH_START':
+        return { ...state, isLoading: true, hasError: false }
+      case 'SELECT_DAY':
+        return { ...state, selectedDay: action.day }
+      case 'FETCH_SUCCESS':
+        return { ...state, weekDays: action.days, isLoading: false }
+      case 'FETCH_ERROR':
+        return { ...state, hasError: true, isLoading: false }
+    }
+  }
+
+  const [state, dispatch] = useReducer(slotReducer, {
+    weekStart: getCurrentWeekStart(),
+    selectedDay: null,
+    weekDays: [],
+    isLoading: true,
+    hasError: false,
+  })
+
+  const { weekStart, selectedDay, weekDays, isLoading, hasError } = state
 
   useEffect(() => {
     let cancelled = false
-    setIsLoading(true)
-    setHasError(false)
 
     getWeekSlots({ weekStart, vetId: vetId ?? undefined })
       .then((days) => {
-        if (cancelled) return
-        setWeekDays(days)
-        setIsLoading(false)
+        if (!cancelled) dispatch({ type: 'FETCH_SUCCESS', days })
       })
       .catch(() => {
-        if (!cancelled) {
-          setHasError(true)
-          setIsLoading(false)
-        }
+        if (!cancelled) dispatch({ type: 'FETCH_ERROR' })
       })
 
     return () => { cancelled = true }
   }, [weekStart, vetId])
 
-  // When week changes, clear selected day unless it's still in range
   function handleWeekChange(newWeekStart: string) {
-    setWeekStart(newWeekStart)
-    setSelectedDay(null)
+    dispatch({ type: 'CHANGE_WEEK', weekStart: newWeekStart })
   }
 
   function handleDaySelect(day: string) {
-    setSelectedDay(day)
+    dispatch({ type: 'SELECT_DAY', day })
   }
 
   // Get slots for the selected day
