@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { StepPetSelection } from './StepPetSelection'
 import { StepConsultationType } from './StepConsultationType'
@@ -37,11 +38,11 @@ interface WizardState {
 
 // ─── Step indicator ──────────────────────────────────────────────────────────
 
-const STEPS: { step: WizardStep; label: string }[] = [
-  { step: 1, label: 'Pet' },
-  { step: 2, label: 'Type' },
-  { step: 3, label: 'Slot' },
-  { step: 4, label: 'Confirm' },
+const STEP_KEYS: { step: WizardStep; key: string }[] = [
+  { step: 1, key: 'stepPet' },
+  { step: 2, key: 'stepType' },
+  { step: 3, key: 'stepSlot' },
+  { step: 4, key: 'stepConfirm' },
 ]
 
 function StepIndicator({
@@ -51,10 +52,12 @@ function StepIndicator({
   currentStep: WizardStep
   onStepClick: (step: WizardStep) => void
 }) {
+  const t = useTranslations('portal.booking.wizard')
   return (
     <nav aria-label="Booking wizard steps" data-testid="wizard-stepper">
       <ol className="flex items-center gap-0">
-        {STEPS.map(({ step, label }, idx) => {
+        {STEP_KEYS.map(({ step, key }, idx) => {
+          const label = t(key)
           const isDone = currentStep > step
           const isCurrent = currentStep === step
           const isClickable = step < currentStep
@@ -102,7 +105,7 @@ function StepIndicator({
                 {label}
               </span>
 
-              {idx < STEPS.length - 1 && (
+              {idx < STEP_KEYS.length - 1 && (
                 <div
                   className={cn(
                     'flex-1 h-0.5 mx-1',
@@ -121,16 +124,17 @@ function StepIndicator({
 
 // ─── Step titles ──────────────────────────────────────────────────────────────
 
-const STEP_TITLES: Record<WizardStep, string> = {
-  1: 'Select Your Pet',
-  2: 'Consultation Details',
-  3: 'Choose Date & Time',
-  4: 'Confirm Booking',
+const STEP_TITLE_KEYS: Record<WizardStep, string> = {
+  1: 'step1Title',
+  2: 'step2Title',
+  3: 'step3Title',
+  4: 'step4Title',
 }
 
 // ─── BookingWizard ────────────────────────────────────────────────────────────
 
 export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
+  const t = useTranslations('portal.booking.wizard')
   const [state, setState] = useState<WizardState>({
     currentStep: 1,
     selectedPet: null,
@@ -236,7 +240,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
       <StepIndicator currentStep={state.currentStep} onStepClick={goToStep} />
 
       <h2 className="text-lg font-semibold text-gray-900" data-testid="wizard-step-title">
-        {STEP_TITLES[state.currentStep]}
+        {t(STEP_TITLE_KEYS[state.currentStep])}
       </h2>
 
       <div data-testid="wizard-step-content">
@@ -285,7 +289,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
               aria-label="Go to previous step"
               className="flex-1 sm:flex-none sm:w-28 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
-              Back
+              {t('back')}
             </button>
           )}
 
@@ -308,7 +312,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
                 : 'bg-gray-300 cursor-not-allowed'
             )}
           >
-            {state.currentStep === 3 ? 'Review' : 'Next'}
+            {state.currentStep === 3 ? t('review') : t('next')}
           </button>
         </div>
       )}

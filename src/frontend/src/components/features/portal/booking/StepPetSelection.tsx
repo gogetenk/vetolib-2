@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { PawPrint, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { listPortalPets } from '@/lib/api/booking'
@@ -16,6 +17,7 @@ interface StepPetSelectionProps {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionProps) {
+  const t = useTranslations('portal.booking.wizard.petSection')
   const [pets, setPets] = useState<BookingPetDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
@@ -68,7 +70,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
         className="text-sm text-red-600 text-center py-8"
         data-testid="step-pet-selection-error"
       >
-        Failed to load your pets. Please try again.
+        {t('loadError')}
       </div>
     )
   }
@@ -79,7 +81,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
         className="text-sm text-gray-500 text-center py-8"
         data-testid="step-pet-selection-empty"
       >
-        No pets found on your account. Please contact the clinic.
+        {t('noPets')}
       </div>
     )
   }
@@ -89,7 +91,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
       className="grid grid-cols-1 sm:grid-cols-2 gap-3"
       data-testid="step-pet-selection"
       role="list"
-      aria-label="Select a pet"
+      aria-label={t('selectPet')}
     >
       {pets.map((pet) => {
         const isSelected = selectedPetId === pet.id

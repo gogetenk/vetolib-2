@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Clock, ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { listPortalConsultationTypes, listPortalVeterinarians } from '@/lib/api/booking'
@@ -30,6 +31,7 @@ export function StepConsultationType({
   onReasonChange,
   onVetsCached,
 }: StepConsultationTypeProps) {
+  const t = useTranslations('portal.booking.wizard.consultationSection')
   const [types, setTypes] = useState<ConsultationTypeDto[]>([])
   const [vets, setVets] = useState<VeterinarianDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -80,7 +82,7 @@ export function StepConsultationType({
         className="text-sm text-red-600 text-center py-8"
         data-testid="step-consultation-type-error"
       >
-        Failed to load consultation types. Please try again.
+        {t('loadError')}
       </div>
     )
   }
@@ -89,7 +91,7 @@ export function StepConsultationType({
     <div className="space-y-6" data-testid="step-consultation-type">
       {/* Consultation type cards */}
       <div>
-        <p className="text-sm font-medium text-gray-700 mb-2">Consultation type</p>
+        <p className="text-sm font-medium text-gray-700 mb-2">{t('typeLabel')}</p>
         <div
           className="grid grid-cols-1 sm:grid-cols-2 gap-3"
           role="list"
@@ -152,8 +154,8 @@ export function StepConsultationType({
           htmlFor="vet-preference"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Preferred veterinarian{' '}
-          <span className="font-normal text-gray-400">(optional)</span>
+          {t('vetLabel')}{' '}
+          <span className="font-normal text-gray-400">{t('vetOptional')}</span>
         </label>
         <div className="relative">
           <select
@@ -164,7 +166,7 @@ export function StepConsultationType({
             aria-label="Select a preferred veterinarian"
             className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2.5 pr-9 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
           >
-            <option value="">No preference — any available vet</option>
+            <option value="">{t('vetNoPreference')}</option>
             {vets.map((vet) => (
               <option key={vet.id} value={vet.id} data-testid={`vet-option-${vet.id}`}>
                 {vet.name}
@@ -184,14 +186,14 @@ export function StepConsultationType({
           htmlFor="consultation-reason"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Reason for visit{' '}
-          <span className="font-normal text-gray-400">(optional)</span>
+          {t('reasonLabel')}{' '}
+          <span className="font-normal text-gray-400">{t('reasonOptional')}</span>
         </label>
         <textarea
           id="consultation-reason"
           value={reason}
           onChange={(e) => onReasonChange(e.target.value)}
-          placeholder="Briefly describe the reason for your visit, any symptoms, or concerns..."
+          placeholder={t('reasonPlaceholder')}
           rows={3}
           maxLength={500}
           data-testid="consultation-reason-textarea"

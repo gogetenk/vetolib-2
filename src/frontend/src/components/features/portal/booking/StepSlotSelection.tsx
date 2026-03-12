@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { getWeekSlots } from '@/lib/api/booking'
 import { WeekNavigator } from './WeekNavigator'
 import { SlotGrid } from './SlotGrid'
@@ -44,6 +45,7 @@ export function StepSlotSelection({
   reason,
   onSlotSelect,
 }: StepSlotSelectionProps) {
+  const t = useTranslations('portal.booking.wizard.slotSection')
   const [weekStart, setWeekStart] = useState<string>(getCurrentWeekStart())
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
   const [weekDays, setWeekDays] = useState<BookingDay[]>([])
@@ -104,7 +106,7 @@ export function StepSlotSelection({
       {/* Recommended slots */}
       <div data-testid="recommended-slots-section">
         <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
-          Suggested slots
+          {t('suggestedTitle')}
         </p>
         <RecommendedSlots
           fromDate={today}
@@ -121,7 +123,7 @@ export function StepSlotSelection({
           <div className="w-full border-t border-gray-200" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-2 text-gray-400">or browse by date</span>
+          <span className="bg-white px-2 text-gray-400">{t('browseTitle')}</span>
         </div>
       </div>
 
@@ -140,7 +142,7 @@ export function StepSlotSelection({
           className="flex items-center justify-center py-10 text-sm text-gray-400"
           data-testid="slot-selection-prompt"
         >
-          Select a day above to see available times
+          {t('selectDayPrompt')}
         </div>
       ) : isLoading ? (
         <div
@@ -161,19 +163,19 @@ export function StepSlotSelection({
           className="text-sm text-red-600 text-center py-6"
           data-testid="slot-grid-error"
         >
-          Failed to load slots. Please try again.
+          {t('loadError')}
         </div>
       ) : dayData?.closed ? (
         <div
           className="text-sm text-gray-500 text-center py-6"
           data-testid="slot-grid-closed"
         >
-          The clinic is closed on this day.
+          {t('clinicClosed')}
         </div>
       ) : (
         <div data-testid="slot-grid-section">
           <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
-            Available times
+            {t('availableTimesTitle')}
           </p>
           <SlotGrid
             slots={slotsForDay}

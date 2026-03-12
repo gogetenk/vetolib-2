@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { CheckCircle2, CalendarDays, Clock, Download } from 'lucide-react'
 import type { BookingAppointmentDto, BookingPetDto, ConsultationTypeDto } from '@/lib/api/booking'
 
@@ -24,6 +25,11 @@ function formatDateTime(isoStr: string): { date: string; time: string } {
   return { date, time }
 }
 
+/** Escape a string for iCal (RFC 5545) */
+function icalEscape(str: string): string {
+  return str.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n')
+}
+
 /** Generate an iCal string for the appointment */
 function generateIcal(
   appointment: BookingAppointmentDto,
@@ -39,8 +45,8 @@ function generateIcal(
   }
 
   const uid = `booking-${appointment.id}@vetolib.ae`
-  const summary = `Vet Appointment — ${pet.name} (${consultationType.name})`
-  const description = `Pet: ${pet.name}\\nConsultation: ${consultationType.name}\\nVet: ${vetName}${appointment.reason ? `\\nReason: ${appointment.reason}` : ''}`
+  const summary = icalEscape(`Vet Appointment — ${pet.name} (${consultationType.name})`)
+  const description = icalEscape(`Pet: ${pet.name}\nConsultation: ${consultationType.name}\nVet: ${vetName}${appointment.reason ? `\nReason: ${appointment.reason}` : ''}`)
 
   return [
     'BEGIN:VCALENDAR',
@@ -82,6 +88,7 @@ export function BookingSuccess({
   clinicSlug,
 }: BookingSuccessProps) {
   const router = useRouter()
+  const t = useTranslations('portal.booking.wizard.success')
   const [secondsLeft, setSecondsLeft] = useState(Math.round(REDIRECT_DELAY_MS / 1000))
 
   const { date, time } = formatDateTime(appointment.slotStartsAt)
@@ -135,10 +142,10 @@ export function BookingSuccess({
           className="text-2xl font-bold text-gray-900"
           data-testid="booking-success-title"
         >
-          Booking Confirmed!
+          {t('title')}
         </h2>
         <p className="mt-1 text-sm text-gray-500" data-testid="booking-success-subtitle">
-          Your appointment has been scheduled
+          {t('subtitle')}
         </p>
       </div>
 
@@ -150,7 +157,7 @@ export function BookingSuccess({
         <div className="flex items-center gap-3">
           <CalendarDays className="h-4 w-4 text-emerald-600 shrink-0" aria-hidden="true" />
           <div>
-            <p className="text-xs text-gray-500">Date</p>
+            <p className="text-xs text-gray-500">{t('dateLabel')}</p>
             <p className="text-sm font-medium text-gray-900" data-testid="success-date">
               {date}
             </p>
@@ -159,7 +166,7 @@ export function BookingSuccess({
         <div className="flex items-center gap-3">
           <Clock className="h-4 w-4 text-emerald-600 shrink-0" aria-hidden="true" />
           <div>
-            <p className="text-xs text-gray-500">Time</p>
+            <p className="text-xs text-gray-500">{t('timeLabel')}</p>
             <p className="text-sm font-medium text-gray-900" data-testid="success-time">
               {time}
             </p>
@@ -181,7 +188,7 @@ export function BookingSuccess({
         className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 w-full sm:w-auto justify-center"
       >
         <Download className="h-4 w-4" aria-hidden="true" />
-        Add to Calendar (.ics)
+        {t('addToCalendar')}
       </button>
 
       {/* Auto-redirect notice */}
@@ -190,7 +197,7 @@ export function BookingSuccess({
         aria-live="polite"
         data-testid="booking-success-redirect-notice"
       >
-        Redirecting to My Appointments in {secondsLeft}s…
+        {t('redirectNotice', { n: secondsLeft })}
       </p>
 
       {/* Manual link */}
@@ -201,7 +208,7 @@ export function BookingSuccess({
         aria-label="Go to My Appointments now"
         className="text-sm text-emerald-600 hover:text-emerald-700 underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
       >
-        Go to My Appointments now
+        {t('goNow')}
       </button>
     </div>
   )
