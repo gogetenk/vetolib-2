@@ -17,46 +17,97 @@ function mockAppointment(
   return {
     id: `apt-0000-0000-0000-00000000000${seq}`,
     clinicId: CLINIC_ID,
+    consultationType: 'General Checkup',
+    durationMinutes: 30,
     ...overrides,
   }
+}
+
+// Helper: get current week dates (Sun-Sat) relative to today
+function getCurrentWeekDate(dayOffset: number, hour: number, minute: number = 0): string {
+  const now = new Date()
+  const sunday = new Date(now)
+  sunday.setDate(now.getDate() - now.getDay())
+  sunday.setHours(hour, minute, 0, 0)
+  sunday.setDate(sunday.getDate() + dayOffset)
+  return sunday.toISOString()
 }
 
 const MOCK_APPOINTMENTS: AppointmentDto[] = [
   mockAppointment(1, {
     patientName: 'Max', species: 'Dog', ownerName: 'Ahmed Al-Rashid', ownerPhone: '+971 50 123 4567',
     vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'SCHEDULED',
-    scheduledAt: new Date('2026-03-12T09:00:00+04:00').toISOString(),
+    scheduledAt: getCurrentWeekDate(0, 9, 0), // Sunday 9:00
     reason: 'Annual vaccination', notes: 'Owner requested morning slot',
+    consultationType: 'Vaccination', durationMinutes: 30,
   }),
   mockAppointment(2, {
     patientName: 'Luna', species: 'Cat', ownerName: 'Fatima Hassan', ownerPhone: '+971 55 987 6543',
     vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'CHECKED_IN',
-    scheduledAt: new Date('2026-03-11T10:30:00+04:00').toISOString(),
+    scheduledAt: getCurrentWeekDate(1, 10, 30), // Monday 10:30
     reason: 'Skin condition follow-up',
+    consultationType: 'Dermatology', durationMinutes: 45,
   }),
   mockAppointment(3, {
     patientName: 'Rocky', species: 'Dog', ownerName: 'Mohammed Al-Zaabi', ownerPhone: '+971 54 321 0987',
     vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'IN_PROGRESS',
-    scheduledAt: new Date('2026-03-11T11:00:00+04:00').toISOString(),
+    scheduledAt: getCurrentWeekDate(1, 14, 0), // Monday 14:00
     reason: 'Post-surgery check', notes: 'Please prepare examination room 2',
+    consultationType: 'Follow-up', durationMinutes: 30,
   }),
   mockAppointment(4, {
     patientName: 'Mango', species: 'Bird', ownerName: 'Noura Al-Ketbi', ownerPhone: '+971 56 456 7890',
     vetId: MOCK_VETS[2].id, vetName: MOCK_VETS[2].name, status: 'COMPLETED',
-    scheduledAt: new Date('2026-03-10T08:30:00+04:00').toISOString(),
+    scheduledAt: getCurrentWeekDate(2, 8, 30), // Tuesday 8:30
     reason: 'Feather loss examination',
+    consultationType: 'Exotic Animal', durationMinutes: 60,
   }),
   mockAppointment(5, {
     patientName: 'Oreo', species: 'Rabbit', ownerName: 'Saeed Al-Hamdan', ownerPhone: '+971 50 789 0123',
     vetId: MOCK_VETS[3].id, vetName: MOCK_VETS[3].name, status: 'CANCELLED',
-    scheduledAt: new Date('2026-03-09T14:00:00+04:00').toISOString(),
+    scheduledAt: getCurrentWeekDate(3, 14, 0), // Wednesday 14:00
     reason: 'Routine check', cancellationReason: 'Owner request -- travel',
+    consultationType: 'General Checkup', durationMinutes: 30,
   }),
   mockAppointment(6, {
     patientName: 'Sultan', species: 'Horse', ownerName: 'Hamdan Al-Maktoum', ownerPhone: '+971 52 111 2233',
     vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'SCHEDULED',
-    scheduledAt: new Date('2026-03-13T07:00:00+04:00').toISOString(),
+    scheduledAt: getCurrentWeekDate(4, 7, 0), // Thursday 7:00
     reason: 'Dental examination', notes: 'Large animal -- book extended slot',
+    consultationType: 'Dental', durationMinutes: 90,
+  }),
+  // Additional appointments for richer calendar view
+  mockAppointment(7, {
+    id: 'apt-0000-0000-0000-000000000007',
+    patientName: 'Cleo', species: 'Cat', ownerName: 'Mariam Al-Suwaidi', ownerPhone: '+971 55 222 3344',
+    vetId: MOCK_VETS[2].id, vetName: MOCK_VETS[2].name, status: 'SCHEDULED',
+    scheduledAt: getCurrentWeekDate(0, 11, 0), // Sunday 11:00
+    reason: 'Emergency vomiting',
+    consultationType: 'Emergency', durationMinutes: 45,
+  }),
+  mockAppointment(8, {
+    id: 'apt-0000-0000-0000-000000000008',
+    patientName: 'Buddy', species: 'Dog', ownerName: 'Rashid Al-Mualla', ownerPhone: '+971 50 444 5566',
+    vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'SCHEDULED',
+    scheduledAt: getCurrentWeekDate(2, 15, 30), // Tuesday 15:30
+    reason: 'Teeth cleaning',
+    consultationType: 'Grooming', durationMinutes: 60,
+  }),
+  mockAppointment(9, {
+    id: 'apt-0000-0000-0000-000000000009',
+    patientName: 'Simba', species: 'Cat', ownerName: 'Aisha Al-Falasi', ownerPhone: '+971 56 777 8899',
+    vetId: MOCK_VETS[3].id, vetName: MOCK_VETS[3].name, status: 'SCHEDULED',
+    scheduledAt: getCurrentWeekDate(3, 9, 0), // Wednesday 9:00
+    reason: 'Blood work and X-ray',
+    consultationType: 'Laboratory / Diagnostics', durationMinutes: 60,
+  }),
+  mockAppointment(10, {
+    id: 'apt-0000-0000-0000-00000000000a',
+    patientName: 'Kira', species: 'Dog', ownerName: 'Yousef Al-Hashimi', ownerPhone: '+971 54 111 2233',
+    vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'SCHEDULED',
+    scheduledAt: getCurrentWeekDate(4, 10, 0), // Thursday 10:00
+    reason: 'Spay surgery',
+    consultationType: 'Surgery', durationMinutes: 120,
   }),
 ]
 
@@ -139,6 +190,8 @@ export const appointmentHandlers = [
       reason: body.reason,
       notes: body.notes,
       clinicId: CLINIC_ID,
+      consultationType: 'General Checkup',
+      durationMinutes: 30,
     }
 
     MOCK_APPOINTMENTS.push(newAppointment)

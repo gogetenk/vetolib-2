@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { AppointmentsTable } from '@/components/features/appointments/AppointmentsTable'
+import { WeekCalendar } from '@/components/features/calendar/WeekCalendar'
 import { getTranslations } from 'next-intl/server'
 
 export default async function AppointmentsPage() {
   const t = await getTranslations('appointments')
 
   return (
-    <div className="space-y-6" data-testid="appointments-page">
+    <div className="space-y-4" data-testid="appointments-page">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold" data-testid="appointments-title">
           {t('title')}
@@ -18,7 +18,7 @@ export default async function AppointmentsPage() {
           </Button>
         </Link>
       </div>
-      <AppointmentsTable />
+      <WeekCalendar />
     </div>
   )
 }

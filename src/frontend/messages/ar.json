@@ -707,6 +707,19 @@
     "deleting": "جارٍ الحذف...",
     "common_loading": "جارٍ التحميل..."
   },
+  "calendar": {
+    "today": "اليوم",
+    "prev": "السابق",
+    "next": "التالي",
+    "views": {
+      "day": "يوم",
+      "week": "أسبوع",
+      "month": "شهر"
+    },
+    "allVets": "جميع الأطباء",
+    "filterByVet": "تصفية حسب الطبيب",
+    "comingSoon": "قريباً"
+  },
   "common": {
     "save": "حفظ",
     "cancel": "إلغاء",

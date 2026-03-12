@@ -25,6 +25,8 @@ export interface AppointmentDto {
   notes?: string
   cancellationReason?: string
   clinicId: string
+  consultationType?: string
+  durationMinutes?: number
 }
 
 export interface PagedResult<T> {

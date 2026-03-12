@@ -719,6 +719,19 @@
       "toggle_label": "Allow anonymous usage analytics"
     }
   },
+  "calendar": {
+    "today": "Today",
+    "prev": "Previous",
+    "next": "Next",
+    "views": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month"
+    },
+    "allVets": "All vets",
+    "filterByVet": "Filter by vet",
+    "comingSoon": "Coming soon"
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
