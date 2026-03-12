@@ -34,7 +34,7 @@ import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { LtrText } from '@/components/ui/ltr-text'
 import { getAppointments } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentStatus } from '@/lib/api/appointments'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 const SPECIES_ICONS: Record<string, string> = {
   Dog: '🐕',
@@ -59,6 +59,7 @@ const PAGE_SIZE = 10
 export function AppointmentsTable() {
   const t = useTranslations('appointments')
   const tEmpty = useTranslations('onboarding.empty.appointments')
+  const locale = useLocale()
   const [appointments, setAppointments] = useState<AppointmentDto[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [page, setPage] = useState(1)
@@ -254,7 +255,7 @@ export function AppointmentsTable() {
             icon={<CalendarClock className="h-16 w-16" />}
             title={tEmpty('title')}
             description={tEmpty('description')}
-            primaryCta={{ label: tEmpty('cta'), href: '/appointments/new' }}
+            primaryCta={{ label: tEmpty('cta'), href: `/${locale}/appointments/new` }}
             tip={tEmpty('tip')}
             data-testid-prefix="appointments"
           />
@@ -262,7 +263,7 @@ export function AppointmentsTable() {
           table.getRowModel().rows.map((row) => (
             <Link
               key={row.id}
-              href={`/appointments/${row.original.id}`}
+              href={`/${locale}/appointments/${row.original.id}`}
               data-testid={`appointment-card-${row.original.id}`}
               className="block rounded-lg border bg-card p-4 hover:shadow-md transition-shadow min-h-[44px]"
             >
@@ -276,7 +277,7 @@ export function AppointmentsTable() {
                 <StatusBadge status={row.original.status} />
               </div>
               <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
-                <span>{format(new Date(row.original.scheduledAt), 'dd MMM yyyy HH:mm')}</span>
+                <span><LtrText>{format(new Date(row.original.scheduledAt), 'dd MMM yyyy HH:mm')}</LtrText></span>
                 <span>{row.original.vetName}</span>
               </div>
             </Link>
@@ -327,7 +328,7 @@ export function AppointmentsTable() {
                     icon={<CalendarClock className="h-16 w-16" />}
                     title={tEmpty('title')}
                     description={tEmpty('description')}
-                    primaryCta={{ label: tEmpty('cta'), href: '/appointments/new' }}
+                    primaryCta={{ label: tEmpty('cta'), href: `/${locale}/appointments/new` }}
                     tip={tEmpty('tip')}
                     data-testid-prefix="appointments"
                   />

@@ -30,7 +30,7 @@ import { cn } from '@/lib/utils'
 import { formatAED, formatDate } from '@/lib/utils'
 import { getInvoices } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus, PagedResult } from '@/lib/api/billing'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 const STATUS_OPTIONS: { value: InvoiceStatus | 'ALL'; label: string }[] = [
   { value: 'ALL', label: 'All statuses' },
@@ -62,6 +62,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
 
 export function InvoiceTable() {
   const tEmpty = useTranslations('onboarding.empty.billing')
+  const locale = useLocale()
   const [data, setData] = useState<PagedResult<InvoiceDto> | null>(null)
   const [statusFilter, setStatusFilter] = useState<InvoiceStatus | 'ALL'>('ALL')
   const [searchQuery, setSearchQuery] = useState('')
@@ -156,22 +157,22 @@ export function InvoiceTable() {
             {invoices.length > 0 && (
               <div className="md:hidden space-y-3" data-testid="invoice-cards">
                 {invoices.map((inv) => (
-                  <Link
+                   <Link
                     key={inv.id}
-                    href={`/billing/${inv.id}`}
+                    href={`/${locale}/billing/${inv.id}`}
                     data-testid={`invoice-card-${inv.id}`}
                     className="block rounded-lg border bg-card p-4 hover:shadow-md transition-shadow min-h-[44px]"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <p className="font-mono text-sm font-medium">{inv.invoiceNumber}</p>
+                        <p className="font-mono text-sm font-medium"><LtrText>{inv.invoiceNumber}</LtrText></p>
                         <p className="text-sm text-muted-foreground mt-0.5">{inv.patientName}</p>
                       </div>
                       <StatusBadge status={inv.status} />
                     </div>
                     <div className="mt-2 flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">{formatDate(inv.createdAt)}</span>
-                      <span className="font-semibold">{formatAED(inv.total)}</span>
+                      <span className="text-muted-foreground"><LtrText>{formatDate(inv.createdAt)}</LtrText></span>
+                      <span className="font-semibold"><LtrText>{formatAED(inv.total)}</LtrText></span>
                     </div>
                   </Link>
                 ))}

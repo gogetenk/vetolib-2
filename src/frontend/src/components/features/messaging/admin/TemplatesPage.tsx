@@ -23,10 +23,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
-import { formatCategory } from "@/lib/format-category"
 
 export function TemplatesPage() {
   const t = useTranslations("messaging_admin")
+  const tCategory = useTranslations("messaging.category")
   const [templates, setTemplates] = useState<ResponseTemplateDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [formOpen, setFormOpen] = useState(false)
@@ -127,7 +127,7 @@ export function TemplatesPage() {
                   <TableCell>
                     {tpl.category ? (
                       <Badge variant="secondary" data-testid={`template-category-${tpl.id}`}>
-                        {formatCategory(tpl.category)}
+                        {tCategory(tpl.category)}
                       </Badge>
                     ) : (
                       <span className="text-muted-foreground text-sm">—</span>

@@ -6,6 +6,7 @@ import { useRouter, useParams } from 'next/navigation'
 import { CalendarDays, ListChecks, Clock } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { LtrText } from '@/components/ui/ltr-text'
 import { format } from 'date-fns'
 
 interface NextAppointment {
@@ -54,10 +55,10 @@ export function BookingLanding() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-medium text-emerald-700 uppercase tracking-wide">
-                {t('landing.nextAppointment') ?? 'Next Appointment'}
+                {t('landing.nextAppointment')}
               </p>
               <p className="text-sm font-semibold text-gray-900 mt-0.5">
-                {format(new Date(nextAppointment.scheduledAt), 'EEEE, dd MMM yyyy - HH:mm')}
+                <LtrText>{format(new Date(nextAppointment.scheduledAt), 'EEEE, dd MMM yyyy - HH:mm')}</LtrText>
               </p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-sm text-gray-700">{nextAppointment.petName}</span>

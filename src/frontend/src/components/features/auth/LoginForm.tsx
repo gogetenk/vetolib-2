@@ -139,10 +139,9 @@ export function LoginForm() {
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">{t("password")}</Label>
                 <Link
-                  href={`/${locale}/login`}
+                  href={`/${locale}/forgot-password`}
                   className="text-xs text-emerald-700 hover:underline"
                   data-testid="forgot-password-link"
-                  tabIndex={-1}
                 >
                   {t("forgot_password")}
                 </Link>
@@ -161,10 +160,10 @@ export function LoginForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   data-testid="password-toggle"
                   aria-label={showPassword ? t("hide_password") : t("show_password")}
-                  tabIndex={-1}
+                  aria-pressed={showPassword}
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
