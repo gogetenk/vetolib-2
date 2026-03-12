@@ -111,7 +111,6 @@
       "errors": {
         "species_required": "Species is required",
         "patient_name_required": "Patient name is required",
-        "species_required": "Species is required",
         "owner_name_required": "Owner name is required",
         "owner_phone_required": "Owner phone is required",
         "vet_required": "Vet is required",
@@ -283,7 +282,22 @@
   "medical_records": {
     "title": "Medical Records",
     "records": "Records",
-    "coming_soon": "Medical records management coming soon."
+    "coming_soon": "Medical records management coming soon.",
+    "search_placeholder": "Search by patient, diagnosis, or vet...",
+    "no_records": "No medical records found.",
+    "columns": {
+      "date": "Date",
+      "patient": "Patient",
+      "reason": "Reason",
+      "diagnosis": "Diagnosis",
+      "vet": "Veterinarian",
+      "weight": "Weight",
+      "temperature": "Temp",
+      "heart_rate": "HR"
+    },
+    "errors": {
+      "load_failed": "Failed to load medical records."
+    }
   },
   "billing": {
     "title": "Billing",
@@ -924,7 +938,7 @@
         "role": "Head Vet",
         "clinic": "Jumeirah Pet Care, Dubai"
       },
-      "scroll_hint": "\u2190 Scroll to see more \u2192"
+      "scroll_hint": "← Scroll to see more →"
     },
     "faq": {
       "title": "Frequently Asked Questions",
@@ -1327,6 +1341,28 @@
         "description": "Your day is clear — or maybe it's time to book the first one?",
         "cta": "Go to Appointments"
       }
+    }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "subtitle": "Manage your notification, display, and privacy preferences.",
+    "source": {
+      "user_override": "Custom",
+      "clinic_default": "Clinic default",
+      "system_default": "System default"
+    },
+    "admin_only_hint": "Admin only",
+    "errors": {
+      "load_failed": "Failed to load preferences.",
+      "update_failed": "Failed to update preference.",
+      "revoke_failed": "Failed to revoke consent."
+    },
+    "consent": {
+      "title": "Consent Management",
+      "description": "Manage data processing consents for analytics and third-party integrations.",
+      "revoked": "Analytics consent revoked successfully.",
+      "revoking": "Revoking...",
+      "revoke_analytics": "Revoke Analytics Consent"
     }
   }
 }

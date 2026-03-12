@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getRecentActivity, type ActivityDto, type ActivityType } from '@/lib/api/dashboard'
@@ -36,19 +36,18 @@ export function RecentActivity() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true)
     setError(null)
     getRecentActivity()
       .then(setActivities)
       .catch(() => setError('Failed to load recent activity'))
       .finally(() => setLoading(false))
-  }
+  }, [])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     load()
-  }, [])
+  }, [load])
 
   return (
     <Card data-testid="recent-activity-card">
