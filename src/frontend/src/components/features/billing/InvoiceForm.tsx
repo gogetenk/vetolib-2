@@ -300,7 +300,7 @@ export function InvoiceForm() {
           </p>
         )}
 
-        <div className="flex gap-3 justify-end">
+        <div className="sticky bottom-0 bg-background py-3 border-t flex gap-3 justify-end">
           <Button
             type="button"
             variant="outline"

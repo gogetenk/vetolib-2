@@ -128,7 +128,9 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
               <p className="text-sm font-medium text-muted-foreground">{t('owner')}</p>
               <p data-testid="detail-owner-name">{appointment.ownerName}</p>
               <p className="text-sm text-muted-foreground" data-testid="detail-owner-phone">
-                <LtrText>{appointment.ownerPhone}</LtrText>
+                <a href={`tel:${appointment.ownerPhone}`} className="text-primary hover:underline">
+                  <LtrText>{appointment.ownerPhone}</LtrText>
+                </a>
               </p>
             </div>
             <div>

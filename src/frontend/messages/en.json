@@ -22,6 +22,8 @@
       "strength_min": "8+ characters",
       "strength_upper": "1 uppercase letter",
       "strength_number": "1 number",
+      "show_password": "Show password",
+      "hide_password": "Hide password",
       "welcome_toast": "Welcome! Your 14-day free trial has started.",
       "errors": {
         "clinic_name_required": "Clinic name is required",
@@ -44,6 +46,11 @@
       "veterinary_management": "Veterinary Management",
       "email_placeholder": "vet@clinic-dubai.com",
       "password_placeholder": "Enter your password",
+      "forgot_password": "Forgot password?",
+      "no_account": "Don't have an account?",
+      "sign_up_link": "Sign Up",
+      "show_password": "Show password",
+      "hide_password": "Hide password",
       "errors": {
         "invalid_credentials": "Invalid email or password",
         "account_locked": "Account locked. Try again in 15 minutes.",
@@ -72,6 +79,7 @@
     "new": "New Appointment",
     "all_statuses": "All Statuses",
     "clear_date": "Clear date",
+    "search_placeholder": "Search patient or owner...",
     "loading": "Loading...",
     "no_appointments": "No appointments found",
     "page_of": "Page {page} of {total} ({count} total)",
@@ -451,6 +459,7 @@
     "title": "Stock",
     "add_item": "Add Item",
     "no_items": "No stock items found.",
+    "search_placeholder": "Search item name...",
     "columns": {
       "name": "Name",
       "category": "Category",
@@ -1018,6 +1027,12 @@
     "header": {
       "language": "Language"
     },
+    "nav": {
+      "conversations": "Conversations",
+      "appointments": "Appointments",
+      "my_pets": "My Pets",
+      "profile": "Profile"
+    },
     "landing": {
       "your_conversations": "Your Conversations",
       "new_message": "New Message",
@@ -1040,7 +1055,9 @@
       "terms_body": "By using this messaging portal, you agree that:\n\n• Messages are monitored by clinic staff during business hours (Sunday–Thursday 08:00–20:00, Friday 08:00–12:00).\n• This service is not a substitute for emergency veterinary care. In case of a life-threatening situation, contact an emergency clinic immediately.\n• You may receive up to 5 messages per day through this portal.\n• Messages and attachments are stored securely and used only to provide veterinary care.\n• You may request an export of your conversations at any time.",
       "accept_label": "I accept the messaging terms and conditions",
       "continue": "Continue",
-      "must_accept": "You must accept the terms to continue."
+      "must_accept": "You must accept the terms to continue.",
+      "emergency_title": "Emergency?",
+      "emergency_body": "If your pet is experiencing a medical emergency, please call the clinic directly instead of using this messaging service."
     },
     "new_message": {
       "title": "New Message",
@@ -1115,6 +1132,7 @@
         "noUpcoming": "No upcoming appointments",
         "contactClinic": "Need to contact the clinic?",
         "loading": "Loading...",
+        "nextAppointment": "Next Appointment",
         "myAppointmentsSubtitle": "View and manage your upcoming and past appointments",
         "bookNewSubtitle": "Schedule a new visit for your pet",
         "link_expired": "This link has expired. Please contact your clinic to receive a new one."

@@ -343,7 +343,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             </p>
           )}
 
-          <div className="flex gap-3 justify-end">
+          <div className="sticky bottom-0 bg-background py-3 border-t flex gap-3 justify-end -mx-6 px-6">
             <Button
               type="button"
               variant="outline"

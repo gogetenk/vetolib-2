@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
-import { Pencil, ArrowLeftRight } from 'lucide-react'
+import { Pencil, ArrowLeftRight, Search } from 'lucide-react'
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -33,13 +34,17 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
   const t = useTranslations('stock')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const filtered = items.filter(item => {
-    if (categoryFilter !== 'all' && item.category !== categoryFilter) return false
-    if (statusFilter === 'low-stock' && !item.isLowStock) return false
-    if (statusFilter === 'expiring-soon' && !item.isExpiringSoon) return false
-    return true
-  })
+  const filtered = useMemo(() => {
+    return items.filter(item => {
+      if (categoryFilter !== 'all' && item.category !== categoryFilter) return false
+      if (statusFilter === 'low-stock' && !item.isLowStock) return false
+      if (statusFilter === 'expiring-soon' && !item.isExpiringSoon) return false
+      if (searchQuery.trim() && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false
+      return true
+    })
+  }, [items, categoryFilter, statusFilter, searchQuery])
 
   function getStatusBadge(item: StockItemDto) {
     if (item.isLowStock) {
@@ -72,6 +77,16 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
     <div className="space-y-4" data-testid="stock-table-container">
       {/* Filters */}
       <div className="flex flex-wrap gap-3" data-testid="stock-filters">
+        <div className="relative">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            data-testid="stock-search"
+            placeholder={t('search_placeholder') ?? 'Search item name...'}
+            className="w-56 pl-9"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
         <Select
           value={categoryFilter}
           onValueChange={(v) => setCategoryFilter(v ?? 'all')}
@@ -118,7 +133,64 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
         </Select>
       </div>
 
-      {/* Table */}
+      {/* Mobile card layout */}
+      {filtered.length > 0 && (
+        <div className="md:hidden space-y-3" data-testid="stock-cards">
+          {filtered.map(item => (
+            <div
+              key={item.id}
+              className="rounded-lg border bg-card p-4 min-h-[44px]"
+              data-testid={`stock-card-${item.id}`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium">{item.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t(`categories.${item.category.toLowerCase()}`)}
+                  </p>
+                </div>
+                {getStatusBadge(item)}
+              </div>
+              <div className="mt-2 flex items-center gap-4 text-sm">
+                <span className={item.isLowStock ? 'font-semibold text-destructive' : 'text-muted-foreground'}>
+                  {item.quantity} {item.unit}
+                </span>
+                {item.expiryDate && (
+                  <span className={item.isExpiringSoon ? 'font-semibold text-orange-600' : 'text-muted-foreground'}>
+                    {item.expiryDate}
+                  </span>
+                )}
+              </div>
+              <div className="mt-3 flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onEdit(item)}
+                  data-testid={`btn-edit-card-${item.id}`}
+                  aria-label={t('actions.edit')}
+                  className="min-h-[44px]"
+                >
+                  <Pencil className="h-3.5 w-3.5 me-1" />
+                  {t('actions.edit')}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onMovement(item)}
+                  data-testid={`btn-movement-card-${item.id}`}
+                  aria-label={t('actions.movement')}
+                  className="min-h-[44px]"
+                >
+                  <ArrowLeftRight className="h-3.5 w-3.5 me-1" />
+                  {t('actions.movement')}
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Desktop table */}
       {filtered.length === 0 ? (
         <p
           className="py-12 text-center text-sm text-muted-foreground"
@@ -127,7 +199,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           {t('no_items')}
         </p>
       ) : (
-        <div className="rounded-md border" data-testid="stock-table">
+        <div className="hidden md:block rounded-md border" data-testid="stock-table">
           <Table>
             <TableHeader>
               <TableRow>

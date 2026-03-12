@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
+import { AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { recordConsent } from '@/lib/api/portal'
 
@@ -44,6 +45,21 @@ export function ConsentScreen() {
         <p className="mt-1 text-sm text-gray-600">{t('intro')}</p>
       </div>
 
+      {/* Emergency warning */}
+      <div
+        className="flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 p-4"
+        data-testid="consent-emergency-warning"
+        role="alert"
+      >
+        <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+        <div className="text-sm text-amber-800">
+          <p className="font-semibold">{t('emergency_title') ?? 'Emergency?'}</p>
+          <p className="mt-0.5">
+            {t('emergency_body') ?? 'If your pet is experiencing a medical emergency, please call the clinic directly instead of using this messaging service.'}
+          </p>
+        </div>
+      </div>
+
       <div className="bg-white rounded-lg border border-gray-200 p-4 text-sm text-gray-700 whitespace-pre-line leading-relaxed">
         {t('terms_body')}
       </div>
@@ -77,7 +93,7 @@ export function ConsentScreen() {
 
       <Button
         onClick={handleContinue}
-        disabled={isSubmitting}
+        disabled={!accepted || isSubmitting}
         data-testid="accept-consent-btn"
         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
       >
