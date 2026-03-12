@@ -173,7 +173,8 @@
       "error_server_title": "Server Error",
       "error_server_description": "Something went wrong on the server. Please try again later.",
       "error_network_title": "Connection Error",
-      "error_network_description": "Unable to connect to the server. Please check your internet connection and try again."
+      "error_network_description": "Unable to connect to the server. Please check your internet connection and try again.",
+      "retry": "Try again"
     },
     "status": {
       "SCHEDULED": "Scheduled",

@@ -173,7 +173,8 @@
       "error_server_title": "خطأ في الخادم",
       "error_server_description": "حدث خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.",
       "error_network_title": "خطأ في الاتصال",
-      "error_network_description": "تعذّر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى."
+      "error_network_description": "تعذّر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.",
+      "retry": "حاول مرة أخرى"
     },
     "status": {
       "SCHEDULED": "مجدول",
