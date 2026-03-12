@@ -1,22 +1,39 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { usePathname, useRouter } from 'next/navigation'
-import { Globe } from 'lucide-react'
+import { usePathname, useRouter, useParams } from 'next/navigation'
+import { Globe, MessageCircle, CalendarDays, PawPrint, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 interface PortalLayoutProps {
   children: React.ReactNode
   clinicName?: string
 }
 
+interface NavItem {
+  labelKey: string
+  icon: React.ReactNode
+  path: string
+}
+
 export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: PortalLayoutProps) {
   const t = useTranslations('portal.header')
+  const tNav = useTranslations('portal.nav')
   const pathname = usePathname()
   const router = useRouter()
+  const params = useParams<{ locale: string; clinicSlug: string }>()
+
+  const basePath = `/${params.locale}/portal/${params.clinicSlug}`
+
+  const navItems: NavItem[] = [
+    { labelKey: 'conversations', icon: <MessageCircle className="h-5 w-5" />, path: basePath },
+    { labelKey: 'appointments', icon: <CalendarDays className="h-5 w-5" />, path: `${basePath}/book` },
+    { labelKey: 'my_pets', icon: <PawPrint className="h-5 w-5" />, path: `${basePath}/pets` },
+    { labelKey: 'profile', icon: <User className="h-5 w-5" />, path: `${basePath}/profile` },
+  ]
 
   function toggleLanguage() {
-    // Switch between /en/portal/... and /ar/portal/...
     if (pathname.startsWith('/ar/')) {
       router.push(pathname.replace('/ar/', '/en/'))
     } else {
@@ -25,6 +42,13 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
   }
 
   const isAr = pathname.startsWith('/ar/')
+
+  function isActive(itemPath: string) {
+    if (itemPath === basePath) {
+      return pathname === basePath || pathname.startsWith(`${basePath}/conversations`)
+    }
+    return pathname.startsWith(itemPath)
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -53,15 +77,65 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
           className="flex items-center gap-1 text-gray-600"
         >
           <Globe className="h-4 w-4" />
-          <span className="text-xs">{isAr ? 'English' : 'عربي'}</span>
+          <span className="text-xs">{isAr ? 'English' : '\u0639\u0631\u0628\u064a'}</span>
           <span className="sr-only">{t('language')}</span>
         </Button>
       </header>
 
-      {/* Main content */}
-      <main className="flex-1 px-4 py-6 max-w-2xl mx-auto w-full">
-        {children}
-      </main>
+      <div className="flex flex-1">
+        {/* Desktop sidebar navigation */}
+        <aside
+          className="hidden md:flex flex-col w-56 bg-white border-e border-gray-200 py-4 px-2"
+          data-testid="portal-sidebar"
+        >
+          <nav className="space-y-1">
+            {navItems.map((item) => (
+              <button
+                key={item.labelKey}
+                onClick={() => router.push(item.path)}
+                data-testid={`portal-nav-${item.labelKey}`}
+                className={cn(
+                  'flex items-center gap-3 w-full rounded-lg px-3 py-2.5 text-sm font-medium transition-colors min-h-[44px]',
+                  isActive(item.path)
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                )}
+              >
+                {item.icon}
+                {tNav(item.labelKey)}
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Main content */}
+        <main className="flex-1 px-4 py-6 max-w-2xl mx-auto w-full pb-20 md:pb-6">
+          {children}
+        </main>
+      </div>
+
+      {/* Mobile bottom tab bar */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-10 flex justify-around py-1"
+        data-testid="portal-bottom-tabs"
+      >
+        {navItems.map((item) => (
+          <button
+            key={item.labelKey}
+            onClick={() => router.push(item.path)}
+            data-testid={`portal-tab-${item.labelKey}`}
+            className={cn(
+              'flex flex-col items-center gap-0.5 py-2 px-3 min-w-[64px] min-h-[44px] text-xs transition-colors',
+              isActive(item.path)
+                ? 'text-emerald-600'
+                : 'text-gray-500'
+            )}
+          >
+            {item.icon}
+            <span className="truncate">{tNav(item.labelKey)}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   )
 }

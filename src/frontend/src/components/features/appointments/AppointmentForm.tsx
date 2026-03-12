@@ -115,7 +115,7 @@ export function AppointmentForm() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Patient Name */}
             <div className="space-y-1">
-              <Label htmlFor="patientName">{t('patient_name')}</Label>
+              <Label htmlFor="patientName">{t('patient_name')} <span className="text-destructive">*</span></Label>
               <Input
                 id="patientName"
                 data-testid="input-patient-name"
@@ -131,7 +131,7 @@ export function AppointmentForm() {
 
             {/* Species */}
             <div className="space-y-1">
-              <Label htmlFor="species">{t('species')}</Label>
+              <Label htmlFor="species">{t('species')} <span className="text-destructive">*</span></Label>
               <Select
                 onValueChange={(val) => setValue('species', val as Species)}
                 data-testid="select-species"
@@ -156,7 +156,7 @@ export function AppointmentForm() {
 
             {/* Owner Name */}
             <div className="space-y-1">
-              <Label htmlFor="ownerName">{t('owner_name')}</Label>
+              <Label htmlFor="ownerName">{t('owner_name')} <span className="text-destructive">*</span></Label>
               <Input
                 id="ownerName"
                 data-testid="input-owner-name"
@@ -172,7 +172,7 @@ export function AppointmentForm() {
 
             {/* Owner Phone */}
             <div className="space-y-1">
-              <Label htmlFor="ownerPhone">{t('owner_phone')}</Label>
+              <Label htmlFor="ownerPhone">{t('owner_phone')} <span className="text-destructive">*</span></Label>
               <Input
                 id="ownerPhone"
                 data-testid="input-owner-phone"
@@ -188,7 +188,7 @@ export function AppointmentForm() {
 
             {/* Vet */}
             <div className="space-y-1">
-              <Label htmlFor="vetId">{t('vet')}</Label>
+              <Label htmlFor="vetId">{t('vet')} <span className="text-destructive">*</span></Label>
               <Select
                 onValueChange={(val) => setValue('vetId', val as string)}
                 data-testid="select-vet"
@@ -213,7 +213,7 @@ export function AppointmentForm() {
 
             {/* Date */}
             <div className="space-y-1">
-              <Label htmlFor="date">{t('date')}</Label>
+              <Label htmlFor="date">{t('date')} <span className="text-destructive">*</span></Label>
               <Input
                 id="date"
                 type="date"
@@ -230,7 +230,7 @@ export function AppointmentForm() {
 
             {/* Time */}
             <div className="space-y-1">
-              <Label htmlFor="time">{t('time_slot')}</Label>
+              <Label htmlFor="time">{t('time_slot')} <span className="text-destructive">*</span></Label>
               <Select
                 onValueChange={(val) => setValue('time', val as string)}
                 data-testid="select-time"
@@ -256,7 +256,7 @@ export function AppointmentForm() {
 
           {/* Reason */}
           <div className="space-y-1">
-            <Label htmlFor="reason">{t('reason')}</Label>
+            <Label htmlFor="reason">{t('reason')} <span className="text-destructive">*</span></Label>
             <Textarea
               id="reason"
               data-testid="textarea-reason"
@@ -283,7 +283,7 @@ export function AppointmentForm() {
             />
           </div>
 
-          <div className="flex gap-3 justify-end">
+          <div className="sticky bottom-0 bg-background py-3 border-t flex gap-3 justify-end -mx-6 px-6">
             <Button
               type="button"
               variant="outline"

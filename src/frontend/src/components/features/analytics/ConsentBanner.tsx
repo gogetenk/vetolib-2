@@ -33,30 +33,34 @@ export function ConsentBanner() {
   if (!visible) return null
 
   return (
-    <div
-      data-testid="consent-banner"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background shadow-lg"
-    >
-      <div className="container mx-auto flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-muted-foreground">{t('message')}</p>
-        <div className="flex shrink-0 gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            data-testid="consent-decline"
-            onClick={handleDecline}
-          >
-            {t('decline')}
-          </Button>
-          <Button
-            size="sm"
-            data-testid="consent-accept"
-            onClick={handleAccept}
-          >
-            {t('accept')}
-          </Button>
+    <>
+      {/* Spacer to prevent content overlap when banner is visible */}
+      <div className="h-20 sm:h-16" aria-hidden="true" />
+      <div
+        data-testid="consent-banner"
+        className="fixed bottom-0 left-0 right-0 z-[9999] border-t bg-background shadow-lg"
+      >
+        <div className="container mx-auto flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-muted-foreground">{t('message')}</p>
+          <div className="flex shrink-0 gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              data-testid="consent-decline"
+              onClick={handleDecline}
+            >
+              {t('decline')}
+            </Button>
+            <Button
+              size="sm"
+              data-testid="consent-accept"
+              onClick={handleAccept}
+            >
+              {t('accept')}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
