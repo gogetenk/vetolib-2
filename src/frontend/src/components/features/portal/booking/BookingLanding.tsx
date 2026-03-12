@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
 import { CalendarDays, ListChecks, Clock } from 'lucide-react'
@@ -19,21 +19,17 @@ export function BookingLanding() {
   const t = useTranslations('portal.booking')
   const router = useRouter()
   const params = useParams<{ locale: string; clinicSlug: string }>()
-  const [nextAppointment, setNextAppointment] = useState<NextAppointment | null>(null)
-
-  const base = `/${params.locale}/portal/${params.clinicSlug}/book`
-
-  // Try to load next upcoming appointment from session storage or API mock
-  useEffect(() => {
+  const [nextAppointment] = useState<NextAppointment | null>(() => {
+    if (typeof window === 'undefined') return null
     try {
       const stored = sessionStorage.getItem('portal_next_appointment')
-      if (stored) {
-        setNextAppointment(JSON.parse(stored))
-      }
+      return stored ? JSON.parse(stored) : null
     } catch {
-      // Ignore parse errors
+      return null
     }
-  }, [])
+  })
+
+  const base = `/${params.locale}/portal/${params.clinicSlug}/book`
 
   return (
     <div className="space-y-6" data-testid="booking-landing">

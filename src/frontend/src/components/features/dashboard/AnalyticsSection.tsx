@@ -50,13 +50,16 @@ export function AnalyticsSection() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const loadAnalytics = useCallback(() => {
-    setLoading(true)
-    setError(null)
-    getDashboardAnalytics()
-      .then(setData)
-      .catch(() => setError(t('error')))
-      .finally(() => setLoading(false))
+  const loadAnalytics = useCallback(async () => {
+    try {
+      const result = await getDashboardAnalytics()
+      setData(result)
+      setError(null)
+    } catch {
+      setError(t('error'))
+    } finally {
+      setLoading(false)
+    }
   }, [t])
 
   useEffect(() => {

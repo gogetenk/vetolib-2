@@ -37,13 +37,16 @@ export function RecentActivity() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const load = useCallback(() => {
-    setLoading(true)
-    setError(null)
-    getRecentActivity()
-      .then(setActivities)
-      .catch(() => setError('Failed to load recent activity'))
-      .finally(() => setLoading(false))
+  const load = useCallback(async () => {
+    try {
+      const result = await getRecentActivity()
+      setActivities(result)
+      setError(null)
+    } catch {
+      setError('Failed to load recent activity')
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => {

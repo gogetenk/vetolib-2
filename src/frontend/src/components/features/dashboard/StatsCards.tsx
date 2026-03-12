@@ -25,13 +25,16 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const load = useCallback(() => {
-    setLoading(true)
-    setError(null)
-    getDashboardStats()
-      .then(setStats)
-      .catch(() => setError('Failed to load stats'))
-      .finally(() => setLoading(false))
+  const load = useCallback(async () => {
+    try {
+      const result = await getDashboardStats()
+      setStats(result)
+      setError(null)
+    } catch {
+      setError('Failed to load stats')
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => {
