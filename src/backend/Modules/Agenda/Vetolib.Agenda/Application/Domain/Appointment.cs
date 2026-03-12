@@ -177,6 +177,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         if (RescheduleCount >= maxReschedules)
             return Result.Error("RESCHEDULE_LIMIT_REACHED:Maximum number of reschedules reached");
         RescheduleCount++;
+        OriginalAppointmentId = newAppointmentId;
         return Result.Success();
     }
 
