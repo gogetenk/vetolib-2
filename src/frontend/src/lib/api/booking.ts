@@ -123,7 +123,7 @@ export function listPortalVeterinarians(): Promise<VeterinarianDto[]> {
   return portalFetch<VeterinarianDto[]>(`${PORTAL_BOOKING_BASE}/veterinarians`)
 }
 
-export function listPortalPets(): Promise<BookingPetDto[]> {
+export function listPortalBookingPets(): Promise<BookingPetDto[]> {
   return portalFetch<BookingPetDto[]>(`${PORTAL_BOOKING_BASE}/pets`)
 }
 

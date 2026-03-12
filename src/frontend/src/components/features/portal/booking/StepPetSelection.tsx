@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { PawPrint, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { listPortalPets } from '@/lib/api/booking'
+import { listPortalBookingPets } from '@/lib/api/booking'
 import type { BookingPetDto } from '@/lib/api/booking'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -25,7 +25,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
   useEffect(() => {
     let cancelled = false
 
-    listPortalPets()
+    listPortalBookingPets()
       .then((data) => {
         if (cancelled) return
         setPets(data)

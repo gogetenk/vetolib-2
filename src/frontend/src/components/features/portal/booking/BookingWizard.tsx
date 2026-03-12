@@ -203,7 +203,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
     const vetName =
       state.selectedVet?.name ||
       state.selectedSlot?.vetName ||
-      'Assigned Vet'
+      t('assignedVet')
 
     return (
       <BookingSuccess

@@ -88,6 +88,7 @@ export function StepSlotSelection({
 
   useEffect(() => {
     let cancelled = false
+    dispatch({ type: 'FETCH_START' })
 
     getWeekSlots({ weekStart, vetId: vetId ?? undefined })
       .then((days) => {

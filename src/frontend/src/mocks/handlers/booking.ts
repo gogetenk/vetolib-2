@@ -250,9 +250,9 @@ export const bookingHandlers = [
 
     const body = await request.json() as CreateBookingAppointmentRequest
 
-    if (!body.petId || !body.consultationTypeId || !body.slotStartsAt) {
+    if (!body.petId || !body.consultationTypeId || !body.slotStartsAt || !body.slotEndsAt) {
       return HttpResponse.json(
-        { title: 'petId, consultationTypeId, and slotStartsAt are required.' },
+        { title: 'petId, consultationTypeId, slotStartsAt, and slotEndsAt are required.' },
         { status: 422 }
       )
     }

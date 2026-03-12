@@ -1016,6 +1016,7 @@
         "stepType": "Type",
         "stepSlot": "Slot",
         "stepConfirm": "Confirm",
+        "assignedVet": "Assigned Vet",
         "petSection": {
           "selectPet": "Select a pet",
           "noPets": "No pets found on your account. Please contact the clinic.",
