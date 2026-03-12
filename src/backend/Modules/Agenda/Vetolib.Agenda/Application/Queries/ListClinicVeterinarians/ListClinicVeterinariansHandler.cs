@@ -22,7 +22,7 @@ internal class ListClinicVeterinariansHandler
         var result = await _vetReader.GetVeterinariansForClinic(query.ClinicId, ct);
 
         if (!result.IsSuccess)
-            return Result<List<ClinicVeterinarianDto>>.Error(string.Join("; ", result.Errors));
+            return Result<List<ClinicVeterinarianDto>>.Error(new ErrorList(result.Errors));
 
         var dtos = result.Value
             .Select(v => new ClinicVeterinarianDto(v.Id, v.Name))

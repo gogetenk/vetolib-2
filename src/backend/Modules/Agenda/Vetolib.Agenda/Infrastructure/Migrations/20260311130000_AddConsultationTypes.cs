@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Vetolib.Agenda.Infrastructure.Migrations
 {
     /// <summary>
-    /// Adds the consultation_types table with default seed data for UAE veterinary clinic.
+    /// Adds the consultation_types table with a partial unique index on (ClinicId, Name).
     /// </summary>
     public partial class AddConsultationTypes : Migration
     {

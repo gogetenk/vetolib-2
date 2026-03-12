@@ -23,6 +23,15 @@ internal class UpdateConsultationTypeHandler : IRequestHandler<UpdateConsultatio
         if (consultationType is null)
             return Result<ConsultationTypeDto>.NotFound($"ConsultationType '{cmd.Id}' not found.");
 
+        if (cmd.Name is not null && cmd.Name != consultationType.Name)
+        {
+            var duplicateExists = await _context.ConsultationTypes
+                .AnyAsync(c => c.Id != cmd.Id && c.Name == cmd.Name && c.IsActive, ct);
+
+            if (duplicateExists)
+                return Result<ConsultationTypeDto>.Conflict($"An active consultation type named '{cmd.Name}' already exists.");
+        }
+
         var updateResult = consultationType.Update(cmd.Name, cmd.DurationMinutes, cmd.SortOrder, cmd.RequiresVetSelection);
         if (!updateResult.IsSuccess)
             return updateResult.Map(_ => (ConsultationTypeDto)null!);

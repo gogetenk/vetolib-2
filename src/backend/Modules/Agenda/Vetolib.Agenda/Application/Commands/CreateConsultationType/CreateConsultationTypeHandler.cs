@@ -1,5 +1,6 @@
 using Ardalis.Result;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Vetolib.Agenda.Application.Domain;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Agenda.Infrastructure;
@@ -17,6 +18,12 @@ internal class CreateConsultationTypeHandler : IRequestHandler<CreateConsultatio
 
     public async Task<Result<ConsultationTypeDto>> Handle(CreateConsultationTypeCommand cmd, CancellationToken ct)
     {
+        var duplicateExists = await _context.ConsultationTypes
+            .AnyAsync(c => c.Name == cmd.Name && c.IsActive, ct);
+
+        if (duplicateExists)
+            return Result<ConsultationTypeDto>.Conflict($"An active consultation type named '{cmd.Name}' already exists.");
+
         var createResult = ConsultationType.Create(
             cmd.ClinicId,
             cmd.Name,
