@@ -90,11 +90,11 @@ test("P4-MEDICAL-01 vet can add a medical record to a patient", async ({
     if (await weightInput.isVisible({ timeout: 2000 }).catch(() => false)) {
       await weightInput.fill("4.5");
     }
-    await page.getByTestId("btn-save-record").click();
+    await page.getByTestId("save-record-btn").click();
 
     // Success — record appears in the list
     await expect(
-      page.locator('[data-testid^="medical-record-item-"]').first()
+      page.locator('[data-testid^="medical-record-"]').first()
     ).toBeVisible({ timeout: 10000 });
   } else {
     // Direct API test — verify the endpoint accepts medical records
