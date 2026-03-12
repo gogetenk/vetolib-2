@@ -1,7 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useLocale } from 'next-intl'
 import { getConsultationColor } from './consultation-colors'
 import { START_HOUR } from './TimeColumn'
 import type { CalendarAppointment } from './types'
@@ -26,11 +24,10 @@ const STATUS_COLORS: Record<AppointmentStatus, string> = {
 
 interface AppointmentBlockProps {
   appointment: CalendarAppointment
+  onClick?: () => void
 }
 
-export function AppointmentBlock({ appointment }: AppointmentBlockProps) {
-  const router = useRouter()
-  const locale = useLocale()
+export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps) {
   const color = getConsultationColor(appointment.consultationType)
 
   const scheduledDate = new Date(appointment.scheduledAt)
@@ -43,8 +40,9 @@ export function AppointmentBlock({ appointment }: AppointmentBlockProps) {
 
   const emoji = SPECIES_EMOJI[appointment.species] ?? '\uD83D\uDC3E'
 
-  function handleClick() {
-    router.push(`/${locale}/appointments/${appointment.id}`)
+  function handleClick(e: React.MouseEvent) {
+    e.stopPropagation()
+    onClick?.()
   }
 
   return (
@@ -58,7 +56,7 @@ export function AppointmentBlock({ appointment }: AppointmentBlockProps) {
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault()
-          handleClick()
+          onClick?.()
         }
       }}
     >

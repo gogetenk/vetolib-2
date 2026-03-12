@@ -35,7 +35,7 @@ interface WeekCalendarBodyProps {
 export function WeekCalendarBody({ weekStart, appointments }: WeekCalendarBodyProps) {
   const locale = useLocale()
   const isRtl = locale === 'ar'
-  const [visibleStartIndex, setVisibleStartIndex] = useState(0)
+  const [visibleStartIndex] = useState(0)
   const [columnCount, setColumnCount] = useState(7)
 
   useEffect(() => {

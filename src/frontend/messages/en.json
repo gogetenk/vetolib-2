@@ -755,7 +755,37 @@
     "filterByVet": "Filter by vet",
     "moreAppointments": "+{count} more",
     "noAppointments": "No appointments",
-    "close": "Close"
+    "close": "Close",
+    "closedSlot": "Clinic is closed at this time",
+    "quickCreate": {
+      "title": "New Appointment",
+      "submit": "Create",
+      "cancel": "Cancel",
+      "fullForm": "Open full form",
+      "success": "Appointment created for {name} at {time}",
+      "patient": "Patient Name",
+      "owner": "Owner Name",
+      "type": "Consultation Type",
+      "vet": "Veterinarian",
+      "reason": "Reason",
+      "time": "Time"
+    },
+    "detail": {
+      "title": "Appointment Detail",
+      "viewFull": "View full details",
+      "patient": "Patient",
+      "owner": "Owner",
+      "phone": "Phone",
+      "type": "Type",
+      "vet": "Veterinarian",
+      "duration": "Duration",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "reason": "Reason",
+      "notes": "Notes",
+      "minutes": "{count} min"
+    }
   },
   "common": {
     "save": "Save",
