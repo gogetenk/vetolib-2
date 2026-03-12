@@ -34,8 +34,8 @@ internal class ConsultationTypeConfiguration : IEntityTypeConfiguration<Consulta
             .IsRequired()
             .HasDefaultValue(false);
 
-        // Partial unique index: only active types must have unique names per clinic
-        // CRITICAL: Npgsql uses PascalCase column names with double quotes, NOT snake_case
+        // Partial unique index on (ClinicId, Name) for active types only
+        // Npgsql uses PascalCase column names with double quotes, NOT snake_case
         builder.HasIndex(c => new { c.ClinicId, c.Name })
             .IsUnique()
             .HasFilter("\"IsActive\" = true");
