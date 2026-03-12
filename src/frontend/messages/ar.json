@@ -718,7 +718,9 @@
     },
     "allVets": "جميع الأطباء",
     "filterByVet": "تصفية حسب الطبيب",
-    "comingSoon": "قريباً"
+    "moreAppointments": "+{count} المزيد",
+    "noAppointments": "لا مواعيد",
+    "close": "إغلاق"
   },
   "common": {
     "save": "حفظ",

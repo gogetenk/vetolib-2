@@ -730,7 +730,9 @@
     },
     "allVets": "All vets",
     "filterByVet": "Filter by vet",
-    "comingSoon": "Coming soon"
+    "moreAppointments": "+{count} more",
+    "noAppointments": "No appointments",
+    "close": "Close"
   },
   "common": {
     "save": "Save",

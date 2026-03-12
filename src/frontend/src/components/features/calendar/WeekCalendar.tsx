@@ -177,11 +177,12 @@ export function WeekCalendar() {
   return (
     <div className="flex flex-col" data-testid="calendar-week-view">
       <CalendarHeader
-        weekLabel={weekLabel}
+        dateLabel={weekLabel}
         onPrev={goToPrev}
         onNext={goToNext}
         onToday={goToToday}
         activeView={activeView}
+        onViewChange={() => {}}
         vets={vets}
         selectedVetIds={selectedVetIds}
         onVetFilterChange={setSelectedVetIds}
