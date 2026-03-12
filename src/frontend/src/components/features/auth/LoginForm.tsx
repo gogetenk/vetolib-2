@@ -17,17 +17,27 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login, type LoginError } from "@/lib/api/auth"
 import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
+import { useTranslations, useLocale } from "next-intl"
 
-const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(1, "Password is required"),
-})
+function buildLoginSchema(t: (key: string) => string) {
+  return z.object({
+    email: z.string().email(t("errors.email_invalid")),
+    password: z.string().min(1, t("errors.password_required")),
+  })
+}
 
-type LoginFormValues = z.infer<typeof loginSchema>
+type LoginFormValues = {
+  email: string
+  password: string
+}
 
 export function LoginForm() {
   const router = useRouter()
+  const t = useTranslations("auth.login")
+  const locale = useLocale()
   const [serverError, setServerError] = useState<string | null>(null)
+
+  const loginSchema = buildLoginSchema(t)
 
   const {
     register,
@@ -41,15 +51,15 @@ export function LoginForm() {
     setServerError(null)
     try {
       await login(data.email, data.password)
-      router.push("/appointments")
+      router.push(`/${locale}/appointments`)
     } catch (err) {
       const loginErr = err as LoginError
       if (loginErr.code === "ACCOUNT_LOCKED") {
-        setServerError("Account locked. Try again in 15 minutes.")
+        setServerError(t("errors.account_locked"))
       } else if (loginErr.code === "INVALID_CREDENTIALS") {
-        setServerError("Invalid email or password")
+        setServerError(t("errors.invalid_credentials"))
       } else {
-        setServerError("Connection error. Please try again.")
+        setServerError(t("errors.connection_error"))
       }
     }
   }
@@ -83,16 +93,16 @@ export function LoginForm() {
     <Card data-testid="login-card">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Vetolib</CardTitle>
-        <CardDescription>Veterinary Management</CardDescription>
+        <CardDescription>{t("veterinary_management")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("email")}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="vet@clinic-dubai.com"
+              placeholder={t("email_placeholder")}
               data-testid="email-input"
               disabled={isSubmitting}
               aria-invalid={!!errors.email}
@@ -100,11 +110,11 @@ export function LoginForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("password")}</Label>
             <Input
               id="password"
               type="password"
-              placeholder="Enter your password"
+              placeholder={t("password_placeholder")}
               data-testid="password-input"
               disabled={isSubmitting}
               aria-invalid={!!errors.password}
@@ -117,7 +127,7 @@ export function LoginForm() {
             data-testid="signin-button"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Signing in..." : "Sign In"}
+            {isSubmitting ? t("signing_in") : t("submit")}
           </Button>
           {displayError && (
             <p

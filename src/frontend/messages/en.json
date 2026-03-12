@@ -49,6 +49,7 @@
         "account_locked": "Account locked. Try again in 15 minutes.",
         "connection_error": "Connection error. Please try again.",
         "email_required": "Please enter a valid email address",
+        "email_invalid": "Please enter a valid email address",
         "password_required": "Password is required"
       }
     }
@@ -881,7 +882,8 @@
         "name": "Dr. Ahmed Al-Mansoori",
         "role": "Head Vet",
         "clinic": "Jumeirah Pet Care, Dubai"
-      }
+      },
+      "scroll_hint": "\u2190 Scroll to see more \u2192"
     },
     "faq": {
       "title": "Frequently Asked Questions",

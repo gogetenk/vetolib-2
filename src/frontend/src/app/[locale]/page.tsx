@@ -532,7 +532,7 @@ export default async function LandingPage({ params }: Props) {
 
             {/* Mobile carousel hint — subtle scroll indicator */}
             <p className="mt-6 text-center text-xs text-gray-400 sm:hidden">
-              ← Scroll to see more →
+              {t("testimonials.scroll_hint")}
             </p>
           </div>
         </section>
