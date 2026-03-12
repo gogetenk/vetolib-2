@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 import { ConversationDetailPage } from '@/components/features/messaging/ConversationDetailPage'
 
-export const metadata: Metadata = {
-  title: 'Conversation — Vetolib',
+interface PageProps {
+  params: Promise<{ id: string; locale: string }>
 }
 
-interface PageProps {
-  params: Promise<{ id: string }>
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Conversation — Vetolib',
+  }
 }
 
 export default async function Page({ params }: PageProps) {

@@ -47,10 +47,22 @@ function isPublicPath(pathname: string): boolean {
     return true;
   }
 
-  // Locale-prefixed login: /en/login or /ar/login
+  // Locale-prefixed public pages: login, signup, and locale root (landing page)
   for (const locale of SUPPORTED_LOCALES) {
+    // Landing page: /en or /ar (exact match)
+    if (pathname === `/${locale}`) {
+      return true;
+    }
+
+    // Login: /en/login or /ar/login
     const loginPath = `/${locale}/login`;
     if (pathname === loginPath || pathname.startsWith(`${loginPath}/`)) {
+      return true;
+    }
+
+    // Signup: /en/signup or /ar/signup
+    const signupPath = `/${locale}/signup`;
+    if (pathname === signupPath || pathname.startsWith(`${signupPath}/`)) {
       return true;
     }
   }

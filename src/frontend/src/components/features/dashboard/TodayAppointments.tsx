@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -58,18 +58,18 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
 
   const canCheckIn = role === 'ADMIN' || role === 'RECEPTIONIST'
 
-  const loadAppointments = () => {
+  const loadAppointments = useCallback(() => {
     setLoading(true)
     setError(null)
     getTodayAppointments()
       .then(setAppointments)
       .catch(() => setError(t('error_load')))
       .finally(() => setLoading(false))
-  }
+  }, [t])
 
   useEffect(() => {
     loadAppointments()
-  }, [])
+  }, [loadAppointments])
 
   async function handleCheckIn(id: string) {
     setCheckingIn(id)

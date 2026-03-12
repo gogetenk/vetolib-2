@@ -127,7 +127,7 @@ export function TriageStatsPage() {
         <h3 className="text-sm font-semibold mb-4">{t("by_category")}</h3>
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={categoryData} margin={{ top: 4, right: 16, bottom: 40, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis
               dataKey="name"
               tick={{ fontSize: 11 }}
@@ -153,7 +153,7 @@ export function TriageStatsPage() {
         <h3 className="text-sm font-semibold mb-4">{t("volume_per_day")}</h3>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={volumeData} margin={{ top: 4, right: 16, bottom: 8, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis dataKey="date" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} />
             <Tooltip
@@ -162,7 +162,7 @@ export function TriageStatsPage() {
             <Line
               type="monotone"
               dataKey="count"
-              stroke="hsl(var(--primary))"
+              stroke="#3b82f6"
               strokeWidth={2}
               dot={{ r: 3 }}
               activeDot={{ r: 5 }}
