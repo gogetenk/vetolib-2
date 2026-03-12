@@ -2,7 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ArrowLeft } from 'lucide-react'
+import { useDirection } from '@/hooks/use-direction'
 import type { SafeAlternative } from '@/lib/api/types'
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -18,6 +19,9 @@ export function AlternativeSuggestions({
   alternatives,
   onSelect,
 }: AlternativeSuggestionsProps) {
+  const dir = useDirection()
+  const DirectionalArrow = dir === 'rtl' ? ArrowLeft : ArrowRight
+
   if (alternatives.length === 0) return null
 
   return (
@@ -57,7 +61,7 @@ export function AlternativeSuggestions({
               onClick={() => onSelect(alt)}
               className="shrink-0 border-green-300 text-green-800 hover:bg-green-100 dark:border-green-700 dark:text-green-200"
             >
-              <ArrowRight className="h-3.5 w-3.5 mr-1" />
+              <DirectionalArrow className="h-3.5 w-3.5 ltr:mr-1 rtl:ml-1" />
               Use this instead
             </Button>
           </li>

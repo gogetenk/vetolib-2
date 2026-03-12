@@ -24,6 +24,7 @@ import {
 import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { ErrorState } from '@/components/ui/error-state'
 import { Skeleton } from '@/components/ui/skeleton'
+import { LtrText } from '@/components/ui/ltr-text'
 import { formatAED, formatDate } from '@/lib/utils'
 import { getInvoices } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus, PagedResult } from '@/lib/api/billing'
@@ -154,18 +155,18 @@ export function InvoiceTable() {
                 {invoices.map((inv) => (
                   <TableRow key={inv.id} data-testid={`invoice-row-${inv.id}`}>
                     <TableCell className="font-mono text-sm" data-testid="invoice-number">
-                      {inv.invoiceNumber}
+                      <LtrText>{inv.invoiceNumber}</LtrText>
                     </TableCell>
                     <TableCell data-testid="invoice-patient">{inv.patientName}</TableCell>
-                    <TableCell data-testid="invoice-date">{formatDate(inv.createdAt)}</TableCell>
+                    <TableCell data-testid="invoice-date"><LtrText>{formatDate(inv.createdAt)}</LtrText></TableCell>
                     <TableCell className="text-right" data-testid="invoice-subtotal">
-                      {formatAED(inv.subtotal)}
+                      <LtrText>{formatAED(inv.subtotal)}</LtrText>
                     </TableCell>
                     <TableCell className="text-right" data-testid="invoice-vat">
-                      {formatAED(inv.vatAmount)}
+                      <LtrText>{formatAED(inv.vatAmount)}</LtrText>
                     </TableCell>
                     <TableCell className="text-right font-semibold" data-testid="invoice-total">
-                      {formatAED(inv.total)}
+                      <LtrText>{formatAED(inv.total)}</LtrText>
                     </TableCell>
                     <TableCell>
                       <StatusBadge status={inv.status} />
@@ -183,12 +184,12 @@ export function InvoiceTable() {
             </Table>
             {invoices.length > 0 && (
               <div className="mt-4 flex justify-end border-t pt-3" data-testid="invoice-summary">
-                <div className="text-right space-y-1">
+                <div className="text-right space-y-1" dir="ltr">
                   <p className="text-sm text-muted-foreground">
                     {invoices.length} invoice{invoices.length !== 1 ? 's' : ''} — Total filtered:
                   </p>
                   <p className="text-lg font-bold" data-testid="invoice-grand-total">
-                    {formatAED(grandTotal)}
+                    <LtrText>{formatAED(grandTotal)}</LtrText>
                   </p>
                 </div>
               </div>

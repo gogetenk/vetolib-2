@@ -5,6 +5,7 @@ import { Dog, Cat, Bird, Rabbit, PawPrint } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { LtrText } from '@/components/ui/ltr-text'
 import type { PatientDto, Species } from '@/lib/api/patients'
 
 function SpeciesIcon({ species }: { species: Species }) {
@@ -75,17 +76,17 @@ export function PatientCard({ patient }: PatientCardProps) {
             <span className="font-medium text-foreground">Owner:</span> {patient.ownerName}
           </p>
           <p data-testid={`patient-owner-phone-${patient.id}`}>
-            {patient.ownerPhone}
+            <LtrText>{patient.ownerPhone}</LtrText>
           </p>
         </div>
 
         {/* Visit info */}
         <div className="mt-3 flex flex-wrap gap-4 text-xs text-muted-foreground">
           <span data-testid={`patient-last-visit-${patient.id}`}>
-            Last visit: {formatDate(patient.lastVisitDate)}
+            Last visit: <LtrText>{formatDate(patient.lastVisitDate)}</LtrText>
           </span>
           <span data-testid={`patient-next-appt-${patient.id}`}>
-            Next appt: {formatDate(patient.nextAppointmentDate)}
+            Next appt: <LtrText>{formatDate(patient.nextAppointmentDate)}</LtrText>
           </span>
         </div>
 

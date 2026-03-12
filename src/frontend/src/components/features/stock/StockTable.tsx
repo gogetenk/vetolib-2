@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { LtrText } from '@/components/ui/ltr-text'
 import type { StockItemDto, StockCategory } from '@/lib/api/stock'
 
 interface StockTableProps {
@@ -152,12 +153,12 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
                     {t(`categories.${item.category.toLowerCase()}`)}
                   </TableCell>
                   <TableCell data-testid={`stock-quantity-${item.id}`}>
-                    <span className={item.isLowStock ? 'font-semibold text-destructive' : ''}>
+                    <LtrText className={item.isLowStock ? 'font-semibold text-destructive' : ''}>
                       {item.quantity} {item.unit}
-                    </span>
+                    </LtrText>
                   </TableCell>
                   <TableCell data-testid={`stock-threshold-${item.id}`}>
-                    {item.threshold} {item.unit}
+                    <LtrText>{item.threshold} {item.unit}</LtrText>
                   </TableCell>
                   <TableCell data-testid={`stock-expiry-${item.id}`}>
                     {item.expiryDate ? (
