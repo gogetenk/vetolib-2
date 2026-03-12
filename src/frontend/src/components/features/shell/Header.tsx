@@ -46,7 +46,7 @@ export function Header() {
         variant="ghost"
         size="icon"
         data-testid="mobile-menu-trigger"
-        className="mr-2 md:hidden"
+        className="ltr:mr-2 rtl:ml-2 md:hidden"
         onClick={() => setMobileOpen(true)}
         aria-label="Open navigation menu"
       >
@@ -67,12 +67,12 @@ export function Header() {
       {clinicName && (
         <span
           data-testid="clinic-name"
-          className="ml-4 text-sm font-medium text-muted-foreground mr-auto hidden sm:block"
+          className="ltr:ml-4 rtl:mr-4 text-sm font-medium text-muted-foreground ltr:mr-auto rtl:ml-auto hidden sm:block"
         >
           {clinicName}
         </span>
       )}
-      {!clinicName && <span className="mr-auto" />}
+      {!clinicName && <span className="ltr:mr-auto rtl:ml-auto" />}
 
       {/* User menu — right side */}
       <UserMenu />

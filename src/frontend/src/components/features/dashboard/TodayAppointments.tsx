@@ -16,6 +16,8 @@ import { apiPatch } from '@/lib/api/client'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { ErrorState } from '@/components/ui/error-state'
+import { LtrText } from '@/components/ui/ltr-text'
+import { useDirection } from '@/hooks/use-direction'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
 
@@ -44,6 +46,8 @@ function formatTime(isoDate: string): string {
 
 export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   const router = useRouter()
+  const dir = useDirection()
+  const arrow = dir === 'rtl' ? '\u2190' : '\u2192'
   const t = useTranslations('dashboard.today')
   const tStatus = useTranslations('appointments.status')
   const tEmpty = useTranslations('onboarding.empty.dashboard_today')
@@ -92,7 +96,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
           className="text-sm text-muted-foreground hover:underline"
           data-testid="today-appointments-view-all"
         >
-          {t('view_all')} →
+          {t('view_all')} {arrow}
         </Link>
       </CardHeader>
       <CardContent className="p-0">
@@ -125,7 +129,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
               className="text-sm text-primary hover:underline mt-1 inline-block"
               data-testid="empty-state-cta-dashboard-today"
             >
-              {tEmpty('cta')} →
+              {tEmpty('cta')} {arrow}
             </Link>
           </div>
         ) : (
@@ -137,12 +141,12 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                 className="flex items-center justify-between px-4 py-3 hover:bg-muted/30 transition-colors"
               >
                 <div className="flex items-center gap-4 min-w-0">
-                  <span
+                  <LtrText
                     className="text-sm font-mono text-muted-foreground w-12 shrink-0"
                     data-testid={`appointment-time-${appt.id}`}
                   >
                     {formatTime(appt.scheduledAt)}
-                  </span>
+                  </LtrText>
                   <Link
                     href={`/appointments/${appt.id}`}
                     className="hover:underline truncate"

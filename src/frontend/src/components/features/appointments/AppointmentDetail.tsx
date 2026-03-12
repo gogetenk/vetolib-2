@@ -16,6 +16,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { StatusBadge } from './StatusBadge'
+import { LtrText } from '@/components/ui/ltr-text'
 import { transitionAppointment, cancelAppointment } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentAction } from '@/lib/api/appointments'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
@@ -127,7 +128,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
               <p className="text-sm font-medium text-muted-foreground">{t('owner')}</p>
               <p data-testid="detail-owner-name">{appointment.ownerName}</p>
               <p className="text-sm text-muted-foreground" data-testid="detail-owner-phone">
-                {appointment.ownerPhone}
+                <LtrText>{appointment.ownerPhone}</LtrText>
               </p>
             </div>
             <div>
@@ -137,7 +138,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
             <div>
               <p className="text-sm font-medium text-muted-foreground">{t('datetime')}</p>
               <p data-testid="detail-datetime">
-                {format(new Date(appointment.scheduledAt), 'dd MMM yyyy HH:mm')}
+                <LtrText>{format(new Date(appointment.scheduledAt), 'dd MMM yyyy HH:mm')}</LtrText>
               </p>
             </div>
             <div>

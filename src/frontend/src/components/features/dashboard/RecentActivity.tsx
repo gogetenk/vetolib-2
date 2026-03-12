@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getRecentActivity, type ActivityDto, type ActivityType } from '@/lib/api/dashboard'
 import { ErrorState } from '@/components/ui/error-state'
+import { LtrText } from '@/components/ui/ltr-text'
 import { useTranslations } from 'next-intl'
 
 const ACTIVITY_ICONS: Record<ActivityType, string> = {
@@ -103,7 +104,7 @@ export function RecentActivity() {
                     data-testid={`activity-time-${activity.id}`}
                     title={new Date(activity.occurredAt).toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}
                   >
-                    {formatTime(activity.occurredAt)} · {formatRelativeTime(activity.occurredAt)}
+                    <LtrText>{formatTime(activity.occurredAt)}</LtrText> · {formatRelativeTime(activity.occurredAt)}
                   </p>
                 </div>
               </li>

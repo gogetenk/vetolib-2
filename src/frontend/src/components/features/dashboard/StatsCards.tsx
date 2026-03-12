@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getDashboardStats, type DashboardStatsDto } from '@/lib/api/dashboard'
 import { ErrorState } from '@/components/ui/error-state'
+import { LtrText } from '@/components/ui/ltr-text'
 import { useTranslations } from 'next-intl'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
@@ -116,7 +117,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <Skeleton className="h-8 w-28" />
             ) : (
               <p className="text-2xl font-bold" data-testid="stat-unpaid-invoices-value">
-                {formatAed(stats?.unpaidInvoicesAed ?? 0)}
+                <LtrText>{formatAed(stats?.unpaidInvoicesAed ?? 0)}</LtrText>
               </p>
             )}
           </CardContent>

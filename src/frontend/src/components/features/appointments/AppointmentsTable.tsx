@@ -31,6 +31,7 @@ import {
 } from '@/components/ui/table'
 import { StatusBadge } from './StatusBadge'
 import { EmptyState } from '@/components/features/onboarding/EmptyState'
+import { LtrText } from '@/components/ui/ltr-text'
 import { getAppointments } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentStatus } from '@/lib/api/appointments'
 import { useTranslations } from 'next-intl'
@@ -97,7 +98,7 @@ export function AppointmentsTable() {
         const val = getValue<string>()
         return (
           <span data-testid="cell-datetime">
-            {format(new Date(val), 'dd MMM yyyy HH:mm')}
+            <LtrText>{format(new Date(val), 'dd MMM yyyy HH:mm')}</LtrText>
           </span>
         )
       },
