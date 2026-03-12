@@ -629,6 +629,7 @@
       "save": "Save Hours",
       "saving": "Saving...",
       "save_success": "Business hours saved.",
+      "load_failed": "Failed to load business hours.",
       "save_failed": "Failed to save business hours.",
       "outside_hours_note": "Messages sent outside these hours will receive an automatic acknowledgment.",
       "days": {
