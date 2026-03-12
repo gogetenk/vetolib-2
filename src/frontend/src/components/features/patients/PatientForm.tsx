@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -23,31 +23,33 @@ import type { PatientDto, Species } from '@/lib/api/patients'
 import { SPECIES_LABELS, ALL_SPECIES } from './SpeciesIcon'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
-const patientSchema = z.object({
-  name: z.string().min(1, 'Animal name is required'),
-  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic'] as [Species, ...Species[]]),
-  breed: z.string().optional(),
-  dateOfBirth: z.string().min(1, 'Date of birth is required').refine(
-    (val) => {
-      const date = new Date(val)
-      return !isNaN(date.getTime()) && date <= new Date()
-    },
-    { message: 'Date of birth cannot be in the future' }
-  ),
-  gender: z.enum(['Male', 'Female', 'Unknown'] as ['Male', 'Female', 'Unknown']),
-  weightKg: z.preprocess(
-    (val) => (val === '' || val === null || val === undefined ? null : Number(val)),
-    z.number().positive('Weight must be greater than 0').nullable()
-  ),
-  ownerName: z.string().min(1, 'Owner name is required'),
-  ownerPhone: z.string().min(1, 'Owner phone is required').regex(
-    /^\+971\s\d{2}\s\d{3}\s\d{4}$/,
-    'Phone must follow UAE format: +971 XX XXX XXXX'
-  ),
-  ownerEmail: z.string().email('Invalid email').optional().or(z.literal('')),
-})
+function createPatientSchema(t: (key: string) => string) {
+  return z.object({
+    name: z.string().min(1, t('errors.name_required')),
+    species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic'] as [Species, ...Species[]]),
+    breed: z.string().optional(),
+    dateOfBirth: z.string().min(1, t('errors.date_of_birth_required')).refine(
+      (val) => {
+        const date = new Date(val)
+        return !isNaN(date.getTime()) && date <= new Date()
+      },
+      { message: t('errors.date_of_birth_future') }
+    ),
+    gender: z.enum(['Male', 'Female', 'Unknown'] as ['Male', 'Female', 'Unknown']),
+    weightKg: z.preprocess(
+      (val) => (val === '' || val === null || val === undefined ? null : Number(val)),
+      z.number().positive(t('errors.weight_positive')).nullable()
+    ),
+    ownerName: z.string().min(1, t('errors.owner_name_required')),
+    ownerPhone: z.string().min(1, t('errors.owner_phone_required')).regex(
+      /^\+971\s\d{2}\s\d{3}\s\d{4}$/,
+      t('errors.owner_phone_format')
+    ),
+    ownerEmail: z.string().email(t('errors.owner_email_invalid')).optional().or(z.literal('')),
+  })
+}
 
-type PatientFormValues = z.infer<typeof patientSchema>
+type PatientFormValues = z.infer<ReturnType<typeof createPatientSchema>>
 
 interface PatientFormProps {
   /** When provided, the form is in edit mode */
@@ -59,6 +61,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   const router = useRouter()
   const t = useTranslations('patients.form')
   const [serverError, setServerError] = useState<string | null>(null)
+  const patientSchema = useMemo(() => createPatientSchema(t), [t])
 
   const isEdit = !!patient
 

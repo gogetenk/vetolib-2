@@ -189,7 +189,7 @@ export function InvoiceForm() {
                   <Input
                     data-testid={`item-description-${index}`}
                     placeholder={t('description_placeholder')}
-                    aria-label={`Item ${index + 1} description`}
+                    aria-label={t('item_description_aria', { index: index + 1 })}
                     value={item.description}
                     onChange={(e) => updateItem(index, 'description', e.target.value)}
                     required
@@ -201,7 +201,7 @@ export function InvoiceForm() {
                     data-testid={`item-quantity-${index}`}
                     type="number"
                     min={1}
-                    aria-label={`Item ${index + 1} quantity`}
+                    aria-label={t('item_quantity_aria', { index: index + 1 })}
                     value={item.quantity}
                     onChange={(e) => updateItem(index, 'quantity', e.target.value)}
                     required
@@ -214,7 +214,7 @@ export function InvoiceForm() {
                     type="number"
                     min={0}
                     step={0.01}
-                    aria-label={`Item ${index + 1} unit price in AED`}
+                    aria-label={t('item_unit_price_aria', { index: index + 1 })}
                     value={item.unitPrice}
                     onChange={(e) => updateItem(index, 'unitPrice', e.target.value)}
                     required
@@ -228,7 +228,7 @@ export function InvoiceForm() {
                     <button
                       type="button"
                       data-testid={`remove-item-${index}`}
-                      aria-label={`Remove item ${index + 1}`}
+                      aria-label={t('item_remove_aria', { index: index + 1 })}
                       className="text-destructive text-lg leading-none"
                       onClick={() => removeItem(index)}
                     >

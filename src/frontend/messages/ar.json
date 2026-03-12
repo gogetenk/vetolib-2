@@ -336,7 +336,11 @@
         "select_patient": "يرجى اختيار الحيوان",
         "add_item_description": "يرجى إضافة بند واحد على الأقل مع وصف",
         "create_failed": "فشل إنشاء الفاتورة. يرجى المحاولة مرة أخرى."
-      }
+      },
+      "item_description_aria": "وصف البند {index}",
+      "item_quantity_aria": "كمية البند {index}",
+      "item_unit_price_aria": "سعر الوحدة للبند {index} بالدرهم",
+      "item_remove_aria": "حذف البند {index}"
     }
   },
   "dashboard": {

@@ -336,7 +336,11 @@
         "select_patient": "Please select a patient",
         "add_item_description": "Please add at least one item with a description",
         "create_failed": "Failed to create invoice. Please try again."
-      }
+      },
+      "item_description_aria": "Item {index} description",
+      "item_quantity_aria": "Item {index} quantity",
+      "item_unit_price_aria": "Item {index} unit price in AED",
+      "item_remove_aria": "Remove item {index}"
     }
   },
   "dashboard": {
