@@ -134,11 +134,45 @@
         "error": "فشل جلب الاقتراحات"
       }
     },
+    "error_load": "فشل تحميل المواعيد",
     "detail": {
       "back": "العودة إلى المواعيد",
       "update_status": "تحديث الحالة",
       "confirm_action": "تأكيد الإجراء",
-      "transition_to": "الانتقال إلى"
+      "transition_to": "الانتقال إلى",
+      "owner": "المالك",
+      "vet": "الطبيب البيطري",
+      "datetime": "التاريخ والوقت",
+      "reason": "السبب",
+      "notes": "ملاحظات",
+      "cancellation_reason": "سبب الإلغاء",
+      "dialog_back": "رجوع",
+      "confirm": "تأكيد",
+      "processing": "جارٍ المعالجة...",
+      "cancel_reason_placeholder": "أدخل سبب الإلغاء",
+      "toast": {
+        "success": "تم تحديث الموعد بنجاح",
+        "failed": "فشل تحديث الموعد"
+      },
+      "actions": {
+        "check_in": "تسجيل الوصول",
+        "check_in_title": "تسجيل وصول المريض",
+        "check_in_description": "وصل المريض وهو جاهز لتسجيل الوصول.",
+        "cancel": "إلغاء",
+        "cancel_title": "إلغاء الموعد",
+        "cancel_description": "يرجى تقديم سبب للإلغاء.",
+        "start": "بدء الفحص",
+        "start_title": "بدء الفحص",
+        "start_description": "بدء الفحص لهذا الموعد.",
+        "complete": "إكمال",
+        "complete_title": "إكمال الموعد",
+        "complete_description": "تحديد هذا الفحص كمكتمل."
+      },
+      "error_not_found": "الموعد غير موجود.",
+      "error_server_title": "خطأ في الخادم",
+      "error_server_description": "حدث خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.",
+      "error_network_title": "خطأ في الاتصال",
+      "error_network_description": "تعذّر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى."
     },
     "status": {
       "SCHEDULED": "مجدول",
@@ -296,7 +330,12 @@
     },
     "today": {
       "title": "جدول اليوم",
-      "view_all": "عرض الكل"
+      "view_all": "عرض الكل",
+      "error_load": "فشل تحميل مواعيد اليوم",
+      "checked_in_success": "تم تسجيل وصول المريض",
+      "checked_in_failed": "فشل تسجيل وصول المريض",
+      "checking_in": "جارٍ تسجيل الوصول...",
+      "check_in": "تسجيل الوصول"
     },
     "recent_activity": {
       "title": "النشاط الأخير",
