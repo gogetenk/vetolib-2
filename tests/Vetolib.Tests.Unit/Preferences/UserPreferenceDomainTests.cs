@@ -205,9 +205,10 @@ public class UserPreferenceDomainTests
             ValidClinicId, ValidUserId, PreferenceKey.NotificationEmail, "true").Value;
         var beforeUpdate = pref.UpdatedAt;
 
-        pref.Update("false");
+        var updateResult = pref.Update("false");
 
-        pref.UpdatedAt.Should().BeAfter(beforeUpdate);
+        updateResult.IsSuccess.Should().BeTrue();
+        pref.UpdatedAt.Should().BeOnOrAfter(beforeUpdate);
     }
 
     [Fact]

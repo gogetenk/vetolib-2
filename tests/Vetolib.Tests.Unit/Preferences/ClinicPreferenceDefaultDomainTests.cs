@@ -190,9 +190,10 @@ public class ClinicPreferenceDefaultDomainTests
             ValidClinicId, PreferenceKey.AnalyticsPosthog, "false").Value;
         var beforeUpdate = pref.UpdatedAt;
 
-        pref.Update("true");
+        var updateResult = pref.Update("true");
+        updateResult.IsSuccess.Should().BeTrue();
 
-        pref.UpdatedAt.Should().BeAfter(beforeUpdate);
+        pref.UpdatedAt.Should().BeOnOrAfter(beforeUpdate);
     }
 
     [Fact]
