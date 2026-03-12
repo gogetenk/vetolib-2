@@ -193,6 +193,7 @@ public class ClinicPreferenceDefaultDomainTests
         var updateResult = pref.Update("true");
         updateResult.IsSuccess.Should().BeTrue();
 
+        pref.Value.Should().Be("true");
         pref.UpdatedAt.Should().BeOnOrAfter(beforeUpdate);
     }
 

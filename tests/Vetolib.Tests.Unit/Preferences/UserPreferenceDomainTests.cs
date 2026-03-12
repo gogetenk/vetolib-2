@@ -208,6 +208,7 @@ public class UserPreferenceDomainTests
         var updateResult = pref.Update("false");
 
         updateResult.IsSuccess.Should().BeTrue();
+        pref.Value.Should().Be("false");
         pref.UpdatedAt.Should().BeOnOrAfter(beforeUpdate);
     }
 
