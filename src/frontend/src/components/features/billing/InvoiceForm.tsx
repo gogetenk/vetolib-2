@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { formatAED } from '@/lib/utils'
 import { createInvoice } from '@/lib/api/billing'
 import type { CreateInvoiceLineItem } from '@/lib/api/billing'
+import { getPatients } from '@/lib/api/patients'
+import type { PatientDto } from '@/lib/api/patients'
 import { trackEvent, AnalyticsEvents, bucketAed } from '@/lib/analytics'
 
 interface LineItem {
@@ -19,16 +21,17 @@ interface LineItem {
   unitPrice: number
 }
 
-const MOCK_PATIENTS = [
-  { id: 'pat-0000-0000-0000-000000000001', name: 'Max', ownerName: 'Ahmed Al-Rashid', ownerPhone: '+971 50 123 4567' },
-  { id: 'pat-0000-0000-0000-000000000002', name: 'Luna', ownerName: 'Fatima Hassan', ownerPhone: '+971 55 987 6543' },
-  { id: 'pat-0000-0000-0000-000000000003', name: 'Rocky', ownerName: 'Mohammed Al-Zaabi', ownerPhone: '+971 54 321 0987' },
-  { id: 'pat-0000-0000-0000-000000000004', name: 'Bella', ownerName: 'Sara Al-Mansoori', ownerPhone: '+971 52 456 7890' },
-]
+interface PatientOption {
+  id: string
+  name: string
+  ownerName: string
+  ownerPhone: string
+}
 
 export function InvoiceForm() {
   const router = useRouter()
   const t = useTranslations('billing.form')
+  const [patients, setPatients] = useState<PatientOption[]>([])
   const [selectedPatientId, setSelectedPatientId] = useState('')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItem[]>([
@@ -38,9 +41,26 @@ export function InvoiceForm() {
   const [error, setError] = useState<string | null>(null)
   const [patientSearch, setPatientSearch] = useState('')
 
-  const selectedPatient = MOCK_PATIENTS.find((p) => p.id === selectedPatientId)
+  useEffect(() => {
+    getPatients({ pageSize: 100 })
+      .then((result) => {
+        setPatients(
+          result.items.map((p: PatientDto) => ({
+            id: p.id,
+            name: p.name,
+            ownerName: p.ownerName,
+            ownerPhone: p.ownerPhone,
+          }))
+        )
+      })
+      .catch(() => {
+        // Silently fail — patient list will be empty
+      })
+  }, [])
 
-  const filteredPatients = MOCK_PATIENTS.filter((p) =>
+  const selectedPatient = patients.find((p) => p.id === selectedPatientId)
+
+  const filteredPatients = patients.filter((p) =>
     p.name.toLowerCase().includes(patientSearch.toLowerCase()) ||
     p.ownerName.toLowerCase().includes(patientSearch.toLowerCase())
   )
