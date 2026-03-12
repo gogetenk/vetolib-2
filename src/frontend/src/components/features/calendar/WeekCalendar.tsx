@@ -1,13 +1,16 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { CalendarHeader } from './CalendarHeader'
 import { TimeColumn, START_HOUR, END_HOUR } from './TimeColumn'
 import { AppointmentBlock } from './AppointmentBlock'
+import { QuickAppointmentForm } from './QuickAppointmentForm'
+import { AppointmentDetailSheet } from './AppointmentDetailSheet'
 import type { CalendarAppointment, CalendarDay, CalendarView } from './types'
 import type { VetDto } from '@/lib/api/appointments'
 import { getAppointments, getVets } from '@/lib/api/appointments'
+import { PlusIcon } from 'lucide-react'
 
 // UAE: week starts on Sunday (0), weekend is Friday (5) and Saturday (6)
 function getWeekStart(date: Date): Date {
@@ -46,8 +49,14 @@ function buildWeekDays(weekStart: Date): CalendarDay[] {
   return days
 }
 
+interface SelectedSlot {
+  date: Date
+  time: string // HH:mm
+}
+
 export function WeekCalendar() {
   const locale = useLocale()
+  const t = useTranslations('calendar')
   const isRtl = locale === 'ar'
 
   const [weekStart, setWeekStart] = useState(() => getWeekStart(new Date()))
@@ -56,6 +65,15 @@ export function WeekCalendar() {
   const [selectedVetIds, setSelectedVetIds] = useState<string[]>([])
   const [activeView] = useState<CalendarView>('week')
   const [visibleStartIndex, setVisibleStartIndex] = useState(0)
+
+  // Quick create state
+  const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null)
+
+  // Detail sheet state
+  const [selectedAppointment, setSelectedAppointment] = useState<CalendarAppointment | null>(null)
+
+  // Hover state for empty slot
+  const [hoveredSlot, setHoveredSlot] = useState<string | null>(null)
 
   // Responsive: determine how many columns to show
   const [columnCount, setColumnCount] = useState(7)
@@ -93,23 +111,23 @@ export function WeekCalendar() {
 
   const weekLabel = useMemo(() => formatWeekLabel(weekStart, weekEnd, locale), [weekStart, weekEnd, locale])
 
-  // Fetch appointments and vets
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [aptsResult, vetsResult] = await Promise.all([
-          getAppointments({ pageSize: 100 }),
-          getVets(),
-        ])
-        // Cast to CalendarAppointment (MSW provides enriched data)
-        setAppointments(aptsResult.items as CalendarAppointment[])
-        setVets(vetsResult)
-      } catch {
-        // Silently handle fetch errors for now
-      }
+  // Fetch data with refetch capability
+  const fetchData = useCallback(async () => {
+    try {
+      const [aptsResult, vetsResult] = await Promise.all([
+        getAppointments({ pageSize: 100 }),
+        getVets(),
+      ])
+      setAppointments(aptsResult.items as CalendarAppointment[])
+      setVets(vetsResult)
+    } catch {
+      // Silently handle fetch errors for now
     }
+  }, [])
+
+  useEffect(() => {
     fetchData()
-  }, [weekStart])
+  }, [weekStart, fetchData])
 
   // Filter appointments for this week and selected vets
   const filteredAppointments = useMemo(() => {
@@ -174,6 +192,31 @@ export function WeekCalendar() {
     [locale]
   )
 
+  function handleSlotClick(day: CalendarDay, hour: number, isTopHalf: boolean) {
+    // Don't allow clicks on weekends
+    if (day.isWeekend) return
+
+    // Don't allow clicks on off-hours (before 8 or after 17)
+    if (hour < 8 || hour >= 18) return
+
+    const minutes = isTopHalf ? 0 : 30
+    const time = `${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+
+    setSelectedSlot({ date: day.date, time })
+  }
+
+  function handleAppointmentClick(apt: CalendarAppointment) {
+    setSelectedAppointment(apt)
+  }
+
+  function getSlotKey(dayIndex: number, hour: number, half: 'top' | 'bottom') {
+    return `${dayIndex}-${hour}-${half}`
+  }
+
+  function isOffHours(hour: number): boolean {
+    return hour < 8 || hour >= 18
+  }
+
   return (
     <div className="flex flex-col" data-testid="calendar-week-view">
       <CalendarHeader
@@ -225,21 +268,78 @@ export function WeekCalendar() {
 
                 {/* Time slots */}
                 <div className="relative" style={{ height: `${totalHours * 64}px` }}>
-                  {/* Hour lines */}
+                  {/* Hour lines with clickable slots */}
                   {Array.from({ length: totalHours }, (_, i) => {
                     const hour = START_HOUR + i
-                    const isOffHours = hour < 8 || hour >= 18
+                    const offHours = isOffHours(hour)
+                    const isClickable = !day.isWeekend && !offHours
+
+                    const topHalfKey = getSlotKey(day.dayIndex, hour, 'top')
+                    const bottomHalfKey = getSlotKey(day.dayIndex, hour, 'bottom')
+                    const isTopHovered = hoveredSlot === topHalfKey
+                    const isBottomHovered = hoveredSlot === bottomHalfKey
+
                     return (
                       <div
                         key={i}
-                        className={`h-16 border-b border-border/50 ${isOffHours ? 'bg-muted/30' : ''}`}
-                      />
+                        className={`h-16 border-b border-border/50 ${offHours ? 'bg-muted/30' : ''} ${
+                          day.isWeekend ? 'cursor-not-allowed' : ''
+                        }`}
+                      >
+                        {/* Top half (XX:00 - XX:30) */}
+                        <div
+                          className={`h-8 relative ${
+                            isClickable
+                              ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors'
+                              : offHours
+                              ? 'cursor-not-allowed'
+                              : ''
+                          } ${isTopHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                          onClick={() => isClickable && handleSlotClick(day, hour, true)}
+                          onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
+                          onMouseLeave={() => setHoveredSlot(null)}
+                          data-testid={isClickable ? `calendar-slot-${day.dayIndex}-${hour}-00` : undefined}
+                          title={!isClickable && offHours ? t('closedSlot') : undefined}
+                        >
+                          {isTopHovered && isClickable && (
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <PlusIcon className="size-4 text-blue-400" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Bottom half (XX:30 - XX+1:00) */}
+                        <div
+                          className={`h-8 relative ${
+                            isClickable
+                              ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors'
+                              : offHours
+                              ? 'cursor-not-allowed'
+                              : ''
+                          } ${isBottomHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                          onClick={() => isClickable && handleSlotClick(day, hour, false)}
+                          onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
+                          onMouseLeave={() => setHoveredSlot(null)}
+                          data-testid={isClickable ? `calendar-slot-${day.dayIndex}-${hour}-30` : undefined}
+                          title={!isClickable && offHours ? t('closedSlot') : undefined}
+                        >
+                          {isBottomHovered && isClickable && (
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <PlusIcon className="size-4 text-blue-400" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     )
                   })}
 
                   {/* Appointment blocks */}
                   {dayApts.map((apt) => (
-                    <AppointmentBlock key={apt.id} appointment={apt} />
+                    <AppointmentBlock
+                      key={apt.id}
+                      appointment={apt}
+                      onClick={() => handleAppointmentClick(apt)}
+                    />
                   ))}
                 </div>
               </div>
@@ -247,6 +347,30 @@ export function WeekCalendar() {
           })}
         </div>
       </div>
+
+      {/* Quick create dialog */}
+      {selectedSlot && (
+        <QuickAppointmentForm
+          open={!!selectedSlot}
+          onOpenChange={(open) => {
+            if (!open) setSelectedSlot(null)
+          }}
+          date={selectedSlot.date}
+          time={selectedSlot.time}
+          vets={vets}
+          onCreated={fetchData}
+        />
+      )}
+
+      {/* Appointment detail sheet */}
+      <AppointmentDetailSheet
+        open={!!selectedAppointment}
+        onOpenChange={(open) => {
+          if (!open) setSelectedAppointment(null)
+        }}
+        appointment={selectedAppointment}
+        onUpdated={fetchData}
+      />
     </div>
   )
 }
