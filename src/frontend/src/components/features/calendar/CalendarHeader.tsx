@@ -3,32 +3,28 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import type { CalendarView } from './types'
 import type { VetDto } from '@/lib/api/appointments'
 
 interface CalendarHeaderProps {
-  weekLabel: string
+  dateLabel: string
   onPrev: () => void
   onNext: () => void
   onToday: () => void
   activeView: CalendarView
+  onViewChange: (view: CalendarView) => void
   vets: VetDto[]
   selectedVetIds: string[]
   onVetFilterChange: (vetIds: string[]) => void
 }
 
 export function CalendarHeader({
-  weekLabel,
+  dateLabel,
   onPrev,
   onNext,
   onToday,
   activeView,
+  onViewChange,
   vets,
   selectedVetIds,
   onVetFilterChange,
@@ -37,10 +33,10 @@ export function CalendarHeader({
   const locale = useLocale()
   const isRtl = locale === 'ar'
 
-  const views: { key: CalendarView; label: string; enabled: boolean }[] = [
-    { key: 'day', label: t('views.day'), enabled: false },
-    { key: 'week', label: t('views.week'), enabled: true },
-    { key: 'month', label: t('views.month'), enabled: false },
+  const views: { key: CalendarView; label: string; testId: string }[] = [
+    { key: 'day', label: t('views.day'), testId: 'calendar-view-day-btn' },
+    { key: 'week', label: t('views.week'), testId: 'calendar-view-week-btn' },
+    { key: 'month', label: t('views.month'), testId: 'calendar-view-month-btn' },
   ]
 
   function handleVetToggle(vetId: string) {
@@ -81,38 +77,27 @@ export function CalendarHeader({
         >
           {isRtl ? <ChevronLeft className="size-4" /> : <ChevronRight className="size-4" />}
         </Button>
-        <span className="text-sm font-semibold ms-2">{weekLabel}</span>
+        <span className="text-sm font-semibold ms-2">{dateLabel}</span>
       </div>
 
       {/* View toggle + Vet filter */}
       <div className="flex items-center gap-3">
         {/* View toggle */}
         <div className="flex rounded-lg border border-border overflow-hidden" data-testid="calendar-view-toggle">
-          <TooltipProvider>
-            {views.map((view) =>
-              view.enabled ? (
-                <button
-                  key={view.key}
-                  className={`px-3 py-1 text-xs font-medium transition-colors ${
-                    activeView === view.key
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-background text-muted-foreground hover:bg-muted'
-                  }`}
-                >
-                  {view.label}
-                </button>
-              ) : (
-                <Tooltip key={view.key}>
-                  <TooltipTrigger
-                    className="px-3 py-1 text-xs font-medium text-muted-foreground/50 cursor-not-allowed bg-background"
-                  >
-                    {view.label}
-                  </TooltipTrigger>
-                  <TooltipContent>{t('comingSoon')}</TooltipContent>
-                </Tooltip>
-              )
-            )}
-          </TooltipProvider>
+          {views.map((view) => (
+            <button
+              key={view.key}
+              data-testid={view.testId}
+              className={`px-3 py-1 text-xs font-medium transition-colors ${
+                activeView === view.key
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-background text-muted-foreground hover:bg-muted'
+              }`}
+              onClick={() => onViewChange(view.key)}
+            >
+              {view.label}
+            </button>
+          ))}
         </div>
 
         {/* Vet filter dropdown */}

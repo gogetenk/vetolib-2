@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { WeekCalendar } from '@/components/features/calendar/WeekCalendar'
+import { CalendarContainer } from '@/components/features/calendar/CalendarContainer'
 import { getTranslations } from 'next-intl/server'
 
 export default async function AppointmentsPage() {
@@ -18,7 +18,7 @@ export default async function AppointmentsPage() {
           </Button>
         </Link>
       </div>
-      <WeekCalendar />
+      <CalendarContainer />
     </div>
   )
 }
