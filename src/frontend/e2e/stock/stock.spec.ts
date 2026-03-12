@@ -64,17 +64,17 @@ test.describe('Stock page — VET', () => {
 
   test('shows stock table with rows', async ({ page }) => {
     const rows = page.locator('[data-testid^="stock-row-"]')
-    await expect(rows).toHaveCount(8)
+    await expect(rows).toHaveCount(6)
   })
 
-  test('shows low-stock badge for Amoxicillin (qty 5 < threshold 20)', async ({ page }) => {
-    const amoxicillinRow = page.locator('[data-testid="stock-row-stock-0000-0000-0000-000000000001"]')
-    await expect(amoxicillinRow).toBeVisible()
+  test('shows low-stock badge for Meloxicam (qty 5 < threshold 20)', async ({ page }) => {
+    const meloxicamRow = page.locator('[data-testid="stock-row-stock-0000-0000-0000-000000000001"]')
+    await expect(meloxicamRow).toBeVisible()
     await expect(page.getByTestId('badge-low-stock-stock-0000-0000-0000-000000000001')).toBeVisible()
   })
 
-  test('shows expiring badge for Rabies Vaccine (expiry < 30 days from 2026-03-09)', async ({ page }) => {
-    await expect(page.getByTestId('badge-expiring-stock-0000-0000-0000-000000000002')).toBeVisible()
+  test('shows expiring badge for Ketamine (expiry 2026-04-30)', async ({ page }) => {
+    await expect(page.getByTestId('badge-expiring-stock-0000-0000-0000-000000000003')).toBeVisible()
   })
 
   test('shows alerts banner with low-stock items', async ({ page }) => {
@@ -107,8 +107,8 @@ test.describe('Stock filters', () => {
     await page.getByTestId('filter-status-trigger').click()
     await page.getByTestId('filter-status-low-stock').click()
     const rows = page.locator('[data-testid^="stock-row-"]')
-    // Low stock: Amoxicillin, FVRCP Vaccine, Diphenhydramine = 3
-    await expect(rows).toHaveCount(3)
+    // Low stock: Meloxicam (qty 5 <= threshold 20), Surgical Gloves (qty 12 <= threshold 15) = 2
+    await expect(rows).toHaveCount(2)
   })
 })
 
@@ -137,7 +137,7 @@ test.describe('Add stock item', () => {
     // Dialog should close and new item appear
     await expect(page.getByTestId('stock-item-dialog')).not.toBeVisible()
     const rows = page.locator('[data-testid^="stock-row-"]')
-    await expect(rows).toHaveCount(9)
+    await expect(rows).toHaveCount(7)
   })
 
   test('shows validation error when name is empty', async ({ page }) => {
@@ -151,7 +151,7 @@ test.describe('Add stock item', () => {
     await page.getByTestId('btn-cancel-stock-item').click()
     await expect(page.getByTestId('stock-item-dialog')).not.toBeVisible()
     const rows = page.locator('[data-testid^="stock-row-"]')
-    await expect(rows).toHaveCount(8)
+    await expect(rows).toHaveCount(6)
   })
 })
 
@@ -167,16 +167,16 @@ test.describe('Edit stock item', () => {
   test('opens edit dialog with prefilled values', async ({ page }) => {
     await page.getByTestId('btn-edit-stock-0000-0000-0000-000000000001').click()
     await expect(page.getByTestId('stock-item-dialog')).toBeVisible()
-    // Amoxicillin name should be prefilled
-    await expect(page.getByTestId('input-stock-name')).toHaveValue('Amoxicillin 250mg')
+    // Meloxicam name should be prefilled
+    await expect(page.getByTestId('input-stock-name')).toHaveValue('Meloxicam 1.5mg/ml')
   })
 
   test('updates item name and saves', async ({ page }) => {
     await page.getByTestId('btn-edit-stock-0000-0000-0000-000000000001').click()
-    await page.getByTestId('input-stock-name').fill('Amoxicillin 500mg')
+    await page.getByTestId('input-stock-name').fill('Meloxicam 3mg/ml')
     await page.getByTestId('btn-save-stock-item').click()
     await expect(page.getByTestId('stock-item-dialog')).not.toBeVisible()
-    await expect(page.getByTestId('stock-name-stock-0000-0000-0000-000000000001')).toContainText('Amoxicillin 500mg')
+    await expect(page.getByTestId('stock-name-stock-0000-0000-0000-000000000001')).toContainText('Meloxicam 3mg/ml')
   })
 })
 
@@ -189,7 +189,7 @@ test.describe('Stock movement', () => {
     await page.waitForSelector('[data-testid="stock-table"]', { timeout: 10000 })
   })
 
-  test('opens movement dialog for Meloxicam', async ({ page }) => {
+  test('opens movement dialog for Ketamine', async ({ page }) => {
     await page.getByTestId('btn-movement-stock-0000-0000-0000-000000000003').click()
     await expect(page.getByTestId('stock-movement-dialog')).toBeVisible()
     await expect(page.getByTestId('movement-current-qty')).toBeVisible()
@@ -202,23 +202,23 @@ test.describe('Stock movement', () => {
     await page.getByTestId('input-movement-reason').fill('Monthly restock')
     await page.getByTestId('btn-save-movement').click()
     await expect(page.getByTestId('stock-movement-dialog')).not.toBeVisible()
-    // Meloxicam quantity was 80, +20 = 100
-    await expect(page.getByTestId('stock-quantity-stock-0000-0000-0000-000000000003')).toContainText('100')
+    // Ketamine quantity was 8, +20 = 28
+    await expect(page.getByTestId('stock-quantity-stock-0000-0000-0000-000000000003')).toContainText('28')
   })
 
   test('records OUT movement', async ({ page }) => {
     await page.getByTestId('btn-movement-stock-0000-0000-0000-000000000003').click()
     await page.getByTestId('select-movement-type-trigger').click()
     await page.getByTestId('movement-type-out').click()
-    await page.getByTestId('input-movement-quantity').fill('10')
+    await page.getByTestId('input-movement-quantity').fill('3')
     await page.getByTestId('btn-save-movement').click()
     await expect(page.getByTestId('stock-movement-dialog')).not.toBeVisible()
-    // 80 - 10 = 70
-    await expect(page.getByTestId('stock-quantity-stock-0000-0000-0000-000000000003')).toContainText('70')
+    // 8 - 3 = 5
+    await expect(page.getByTestId('stock-quantity-stock-0000-0000-0000-000000000003')).toContainText('5')
   })
 
   test('shows validation error when OUT exceeds current stock', async ({ page }) => {
-    // Amoxicillin has only 5 units
+    // Meloxicam has only 5 units
     await page.getByTestId('btn-movement-stock-0000-0000-0000-000000000001').click()
     await page.getByTestId('select-movement-type-trigger').click()
     await page.getByTestId('movement-type-out').click()
