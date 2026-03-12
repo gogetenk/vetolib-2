@@ -1,4 +1,36 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(dotnet:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(mkdir:*)",
+      "Bash(echo:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(touch:*)",
+      "Bash(chmod:*)",
+      "Bash(date:*)",
+      "Bash(wc:*)",
+      "Bash(gh:*)",
+      "Bash(for pr:*)"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(ssh:*)",
+      "Bash(docker:*)",
+      "Bash(kubectl:*)",
+      "Bash(aws:*)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -29,37 +61,6 @@
           }
         ]
       }
-    ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(git:*)",
-      "Bash(dotnet:*)",
-      "Bash(npm:*)",
-      "Bash(npx:*)",
-      "Bash(node:*)",
-      "Bash(ls:*)",
-      "Bash(cat:*)",
-      "Bash(find:*)",
-      "Bash(mv:*)",
-      "Bash(cp:*)",
-      "Bash(mkdir:*)",
-      "Bash(echo:*)",
-      "Bash(grep:*)",
-      "Bash(sed:*)",
-      "Bash(touch:*)",
-      "Bash(chmod:*)",
-      "Bash(date:*)",
-      "Bash(wc:*)",
-      "Bash(gh:*)"
-    ],
-    "deny": [
-      "Bash(curl:*)",
-      "Bash(wget:*)",
-      "Bash(ssh:*)",
-      "Bash(docker:*)",
-      "Bash(kubectl:*)",
-      "Bash(aws:*)"
     ]
   },
   "dangerouslySkipPermissions": true

@@ -1,5 +1,7 @@
 import { http, HttpResponse, delay } from 'msw'
 import type { BookingDay, BookingSlot, SlotSuggestionDto } from '@/lib/api/booking'
+import type { BookingAppointmentDto } from '@/lib/api/booking-types'
+import { getMockOwnerAppointments } from '@/mocks/data/booking'
 
 const MOCK_VETS = [
   { id: 'vet-0000-0000-0000-000000000001', name: 'Dr. Sarah Johnson' },
@@ -86,6 +88,22 @@ function buildWeekDays(weekStart: string, vetId?: string): BookingDay[] {
 }
 
 const BASE = '/api/v1/booking'
+const PORTAL_BASE = '/api/v1/portal/booking'
+
+// In-memory store for portal appointments (supports mutations during a session)
+let portalAppointments: BookingAppointmentDto[] = getMockOwnerAppointments()
+
+function checkPortalAuth(request: Request): { error: Response | null } {
+  const authHeader = request.headers.get('Authorization')
+  if (!authHeader || !authHeader.startsWith('MagicLink ')) {
+    return { error: HttpResponse.json({ title: 'Unauthorized' }, { status: 401 }) as unknown as Response }
+  }
+  const token = authHeader.replace('MagicLink ', '')
+  if (token === 'expired-magic-token') {
+    return { error: HttpResponse.json({ title: 'Token expired' }, { status: 401 }) as unknown as Response }
+  }
+  return { error: null }
+}
 
 export const bookingHandlers = [
   // GET /api/v1/booking/slots?weekStart=YYYY-MM-DD
@@ -152,5 +170,96 @@ export const bookingHandlers = [
     }
 
     return HttpResponse.json(suggestions)
+  }),
+
+  // ─── Portal Booking Appointments ─────────────────────────────────────────────
+
+  // GET /api/v1/portal/booking/appointments
+  http.get(`${PORTAL_BASE}/appointments`, async ({ request }) => {
+    await delay(200)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    return HttpResponse.json(portalAppointments)
+  }),
+
+  // GET /api/v1/portal/booking/appointments/:id
+  http.get(`${PORTAL_BASE}/appointments/:id`, async ({ request, params }) => {
+    await delay(150)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    const appt = portalAppointments.find(a => a.id === params.id)
+    if (!appt) return HttpResponse.json({ title: 'Appointment not found' }, { status: 404 })
+    return HttpResponse.json(appt)
+  }),
+
+  // POST /api/v1/portal/booking/appointments
+  http.post(`${PORTAL_BASE}/appointments`, async ({ request }) => {
+    await delay(300)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    const body = await request.json() as {
+      consultationTypeId: string
+      veterinarianId: string
+      petName: string
+      scheduledAt: string
+      notes: string | null
+    }
+    const newAppt: BookingAppointmentDto = {
+      id: `appt-new-${Date.now()}`,
+      consultationTypeId: body.consultationTypeId,
+      consultationTypeName: 'General Checkup',
+      veterinarianId: body.veterinarianId,
+      veterinarianName: 'Dr. Sarah Johnson',
+      petName: body.petName,
+      scheduledAt: body.scheduledAt,
+      durationMinutes: 30,
+      status: 'Scheduled',
+      notes: body.notes,
+      clinicName: 'Desert Paws Veterinary Clinic',
+      clinicAddress: 'Al Wasl Road, Jumeirah, Dubai, UAE',
+    }
+    portalAppointments = [newAppt, ...portalAppointments]
+    return HttpResponse.json(newAppt, { status: 201 })
+  }),
+
+  // POST /api/v1/portal/booking/appointments/:id/cancel
+  http.post(`${PORTAL_BASE}/appointments/:id/cancel`, async ({ request, params }) => {
+    await delay(250)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    const appt = portalAppointments.find(a => a.id === params.id)
+    if (!appt) return HttpResponse.json({ title: 'Appointment not found' }, { status: 404 })
+    if (appt.status !== 'Scheduled') {
+      return HttpResponse.json({ title: 'Only scheduled appointments can be cancelled' }, { status: 422 })
+    }
+    // 24h rule check
+    const scheduledAt = new Date(appt.scheduledAt)
+    const now = new Date()
+    const hoursUntil = (scheduledAt.getTime() - now.getTime()) / (1000 * 60 * 60)
+    if (hoursUntil < 24) {
+      return HttpResponse.json({ title: 'Cannot cancel within 24 hours of appointment' }, { status: 422 })
+    }
+    portalAppointments = portalAppointments.map(a =>
+      a.id === params.id ? { ...a, status: 'Cancelled' as const } : a
+    )
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // POST /api/v1/portal/booking/appointments/:id/reschedule
+  http.post(`${PORTAL_BASE}/appointments/:id/reschedule`, async ({ request, params }) => {
+    await delay(300)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    const appt = portalAppointments.find(a => a.id === params.id)
+    if (!appt) return HttpResponse.json({ title: 'Appointment not found' }, { status: 404 })
+    if (appt.status !== 'Scheduled') {
+      return HttpResponse.json({ title: 'Only scheduled appointments can be rescheduled' }, { status: 422 })
+    }
+    const body = await request.json() as { newScheduledAt: string }
+    const updated = { ...appt, scheduledAt: body.newScheduledAt }
+    portalAppointments = portalAppointments.map(a =>
+      a.id === params.id ? updated : a
+    )
+    return HttpResponse.json(updated)
   }),
 ]
