@@ -977,7 +977,8 @@
         "Closed": "Closed"
       },
       "unread": "{count} unread",
-      "last_message": "Last message: {date}"
+      "last_message": "Last message: {date}",
+      "download_all": "Download all my conversations"
     },
     "consent": {
       "title": "Messaging Terms & Conditions",
@@ -1029,6 +1030,7 @@
       }
     },
     "conversation": {
+      "not_found": "Conversation not found.",
       "title": "Conversation",
       "closed_notice": "This conversation is closed. Please start a new conversation if you need further assistance.",
       "reply_placeholder": "Type your reply...",
@@ -1060,7 +1062,8 @@
         "contactClinic": "Need to contact the clinic?",
         "loading": "Loading...",
         "myAppointmentsSubtitle": "View and manage your upcoming and past appointments",
-        "bookNewSubtitle": "Schedule a new visit for your pet"
+        "bookNewSubtitle": "Schedule a new visit for your pet",
+        "link_expired": "This link has expired. Please contact your clinic to receive a new one."
       },
       "wizard": {
         "step1Title": "Select Your Pet",
@@ -1133,6 +1136,10 @@
         "evening": "Evening",
         "noSlots": "No available slots for this date",
         "selectDate": "Select a date"
+      },
+      "recommendedSlots": {
+        "title": "Recommended slots",
+        "empty": "No suggestions available right now."
       },
       "confirmation": {
         "title": "Booking Confirmed!",

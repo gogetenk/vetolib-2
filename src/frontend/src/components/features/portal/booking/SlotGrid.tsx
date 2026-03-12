@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { BookingSlot } from '@/lib/api/booking'
@@ -38,13 +39,15 @@ export function SlotGrid({
   onSelect,
   hideVetName = false,
 }: SlotGridProps) {
+  const t = useTranslations('portal.booking.slotGrid')
+
   if (slots.length === 0) {
     return (
       <div
         className="flex flex-col items-center justify-center py-12 text-gray-400"
         data-testid="slot-grid-empty"
       >
-        <span className="text-sm font-medium">No available slots for this day</span>
+        <span className="text-sm font-medium">{t('noSlots')}</span>
       </div>
     )
   }
