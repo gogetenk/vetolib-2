@@ -1,8 +1,7 @@
 import { apiGet } from './client'
 import { portalFetch } from './portal'
 import type {
-  BookingAppointmentDto,
-  CreateBookingAppointmentRequest,
+  BookingAppointmentDto as OwnerAppointmentDto,
   CancelBookingAppointmentRequest,
   RescheduleBookingAppointmentRequest,
 } from './booking-types'
@@ -31,6 +30,49 @@ export interface SlotSuggestionDto {
   startsAt: string
   endsAt: string
   score: number
+}
+
+// ─── Portal booking types ─────────────────────────────────────────────────────
+
+export interface ConsultationTypeDto {
+  id: string
+  name: string
+  durationMinutes: number
+  description: string
+}
+
+export interface VeterinarianDto {
+  id: string
+  name: string
+  specialties: string[]
+}
+
+export interface BookingPetDto {
+  id: string
+  name: string
+  species: string
+  breed: string
+  ageYears: number
+}
+
+export interface CreateBookingAppointmentRequest {
+  petId: string
+  consultationTypeId: string
+  vetId: string | null
+  slotStartsAt: string
+  slotEndsAt: string
+  reason?: string
+}
+
+export interface BookingAppointmentDto {
+  id: string
+  petId: string
+  consultationTypeId: string
+  vetId: string | null
+  slotStartsAt: string
+  slotEndsAt: string
+  reason?: string
+  createdAt: string
 }
 
 export interface SuggestSlotsParams {
@@ -69,16 +111,28 @@ export async function suggestSlots(
   return apiGet<SlotSuggestionDto[]>(`/api/v1/booking/suggest?${searchParams.toString()}`)
 }
 
-// ─── Portal Booking (MagicLink auth) ──────────────────────────────────────────
+// ─── Portal booking API functions ─────────────────────────────────────────────
 
 const PORTAL_BOOKING_BASE = '/api/v1/portal/booking'
 
-export function listBookingAppointments(): Promise<BookingAppointmentDto[]> {
-  return portalFetch<BookingAppointmentDto[]>(`${PORTAL_BOOKING_BASE}/appointments`)
+export function listPortalConsultationTypes(): Promise<ConsultationTypeDto[]> {
+  return portalFetch<ConsultationTypeDto[]>(`${PORTAL_BOOKING_BASE}/consultation-types`)
 }
 
-export function getBookingAppointment(id: string): Promise<BookingAppointmentDto> {
-  return portalFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}`)
+export function listPortalVeterinarians(): Promise<VeterinarianDto[]> {
+  return portalFetch<VeterinarianDto[]>(`${PORTAL_BOOKING_BASE}/veterinarians`)
+}
+
+export function listPortalBookingPets(): Promise<BookingPetDto[]> {
+  return portalFetch<BookingPetDto[]>(`${PORTAL_BOOKING_BASE}/pets`)
+}
+
+export function listBookingAppointments(): Promise<OwnerAppointmentDto[]> {
+  return portalFetch<OwnerAppointmentDto[]>(`${PORTAL_BOOKING_BASE}/appointments`)
+}
+
+export function getBookingAppointment(id: string): Promise<OwnerAppointmentDto> {
+  return portalFetch<OwnerAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}`)
 }
 
 export function createBookingAppointment(
@@ -103,8 +157,8 @@ export function cancelBookingAppointment(
 export function rescheduleBookingAppointment(
   id: string,
   request: RescheduleBookingAppointmentRequest
-): Promise<BookingAppointmentDto> {
-  return portalFetch<BookingAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}/reschedule`, {
+): Promise<OwnerAppointmentDto> {
+  return portalFetch<OwnerAppointmentDto>(`${PORTAL_BOOKING_BASE}/appointments/${id}/reschedule`, {
     method: 'POST',
     body: JSON.stringify(request),
   })

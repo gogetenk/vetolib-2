@@ -1048,14 +1048,69 @@
         "bookNewSubtitle": "جدّل زيارة جديدة لحيوانك الأليف"
       },
       "wizard": {
-        "step1Title": "اختر نوع الاستشارة",
-        "step2Title": "اختر التاريخ والوقت",
-        "step3Title": "اختر حيوانك الأليف",
+        "step1Title": "اختر حيوانك الأليف",
+        "step2Title": "تفاصيل الاستشارة",
+        "step3Title": "اختر التاريخ والوقت",
         "step4Title": "تأكيد الحجز",
         "next": "التالي",
+        "review": "مراجعة",
         "back": "السابق",
         "confirm": "تأكيد الحجز",
-        "cancel": "إلغاء"
+        "confirming": "جارٍ التأكيد...",
+        "cancel": "إلغاء",
+        "stepLabel": "الخطوة {current} من {total}",
+        "stepPet": "الحيوان",
+        "stepType": "النوع",
+        "stepSlot": "الموعد",
+        "stepConfirm": "تأكيد",
+        "assignedVet": "الطبيب البيطري المعين",
+        "petSection": {
+          "selectPet": "اختر حيواناً أليفاً",
+          "noPets": "لا توجد حيوانات أليفة في حسابك. يرجى التواصل مع العيادة.",
+          "loadError": "فشل تحميل حيواناتك الأليفة. يرجى المحاولة مرة أخرى.",
+          "yearsOld": "{n} سنة",
+          "yearsOldPlural": "{n} سنوات"
+        },
+        "consultationSection": {
+          "typeLabel": "نوع الاستشارة",
+          "vetLabel": "الطبيب البيطري المفضل",
+          "vetOptional": "(اختياري)",
+          "vetNoPreference": "بدون تفضيل — أي طبيب متاح",
+          "reasonLabel": "سبب الزيارة",
+          "reasonOptional": "(اختياري)",
+          "reasonPlaceholder": "صف باختصار سبب زيارتك والأعراض أو المخاوف إن وجدت...",
+          "loadError": "فشل تحميل أنواع الاستشارات. يرجى المحاولة مرة أخرى.",
+          "durationMinutes": "{n} دقيقة"
+        },
+        "slotSection": {
+          "suggestedTitle": "أوقات مقترحة",
+          "browseTitle": "أو تصفح حسب التاريخ",
+          "selectDayPrompt": "اختر يوماً أعلاه لرؤية الأوقات المتاحة",
+          "availableTimesTitle": "الأوقات المتاحة",
+          "clinicClosed": "العيادة مغلقة في هذا اليوم.",
+          "loadError": "فشل تحميل الأوقات المتاحة. يرجى المحاولة مرة أخرى."
+        },
+        "confirmationSection": {
+          "summaryTitle": "ملخص الحجز",
+          "petLabel": "الحيوان الأليف",
+          "typeLabel": "نوع الاستشارة",
+          "vetLabel": "الطبيب البيطري",
+          "dateLabel": "التاريخ",
+          "timeLabel": "الوقت",
+          "reasonLabel": "السبب",
+          "termsText": "أؤكد أن المعلومات أعلاه دقيقة وأوافق على شروط الموعد. يجب الإلغاء قبل 24 ساعة على الأقل.",
+          "termsLinkText": "شروط الموعد",
+          "submitError": "فشل حجز موعدك. يرجى المحاولة مرة أخرى."
+        },
+        "success": {
+          "title": "تم تأكيد الحجز!",
+          "subtitle": "تم جدولة موعدك بنجاح",
+          "dateLabel": "التاريخ",
+          "timeLabel": "الوقت",
+          "addToCalendar": "أضف إلى التقويم (.ics)",
+          "redirectNotice": "سيتم التحويل إلى مواعيدي خلال {n} ثوانٍ...",
+          "goNow": "الذهاب إلى مواعيدي الآن"
+        }
       },
       "slotGrid": {
         "morning": "الصباح",

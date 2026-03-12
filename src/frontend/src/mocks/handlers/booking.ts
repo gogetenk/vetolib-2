@@ -1,5 +1,6 @@
 import { http, HttpResponse, delay } from 'msw'
 import type { BookingDay, BookingSlot, SlotSuggestionDto } from '@/lib/api/booking'
+import type { ConsultationTypeDto, VeterinarianDto, BookingPetDto, CreateBookingAppointmentRequest } from '@/lib/api/booking'
 import type { BookingAppointmentDto } from '@/lib/api/booking-types'
 import { getMockOwnerAppointments } from '@/mocks/data/booking'
 
@@ -87,11 +88,34 @@ function buildWeekDays(weekStart: string, vetId?: string): BookingDay[] {
   return days
 }
 
-const BASE = '/api/v1/booking'
-const PORTAL_BASE = '/api/v1/portal/booking'
+// ─── Portal booking mock data ──────────────────────────────────────────────────
+
+const MOCK_CONSULTATION_TYPES: ConsultationTypeDto[] = [
+  { id: 'ct-001', name: 'General Checkup', durationMinutes: 30, description: 'Routine wellness examination' },
+  { id: 'ct-002', name: 'Vaccination', durationMinutes: 20, description: 'Annual vaccine boosters' },
+  { id: 'ct-003', name: 'Dental Care', durationMinutes: 60, description: 'Dental cleaning and examination' },
+  { id: 'ct-004', name: 'Emergency', durationMinutes: 30, description: 'Urgent medical attention' },
+  { id: 'ct-005', name: 'Lab Tests', durationMinutes: 15, description: 'Blood work and diagnostic tests' },
+  { id: 'ct-006', name: 'Surgery Consultation', durationMinutes: 45, description: 'Pre- or post-surgical evaluation' },
+]
+
+const MOCK_VETERINARIANS: VeterinarianDto[] = [
+  { id: 'vet-0000-0000-0000-000000000001', name: 'Dr. Sarah Johnson', specialties: ['Small Animals', 'Surgery'] },
+  { id: 'vet-0000-0000-0000-000000000002', name: 'Dr. Omar Al-Rashid', specialties: ['Exotic Animals', 'Dermatology'] },
+  { id: 'vet-0000-0000-0000-000000000003', name: 'Dr. Layla Al-Mansoori', specialties: ['Dentistry', 'Internal Medicine'] },
+]
+
+const MOCK_BOOKING_PETS: BookingPetDto[] = [
+  { id: 'pet-0001', name: 'Zayed', species: 'Dog', breed: 'Labrador Retriever', ageYears: 3 },
+  { id: 'pet-0002', name: 'Lulu', species: 'Cat', breed: 'Persian', ageYears: 5 },
+  { id: 'pet-0003', name: 'Falcon', species: 'Bird', breed: 'Falcon — Saker', ageYears: 2 },
+]
 
 // In-memory store for portal appointments (supports mutations during a session)
 let portalAppointments: BookingAppointmentDto[] = getMockOwnerAppointments()
+
+const BASE = '/api/v1/booking'
+const PORTAL_BASE = '/api/v1/portal/booking'
 
 function checkPortalAuth(request: Request): { error: Response | null } {
   const authHeader = request.headers.get('Authorization')
@@ -172,6 +196,32 @@ export const bookingHandlers = [
     return HttpResponse.json(suggestions)
   }),
 
+  // ─── Portal booking wizard endpoints ────────────────────────────────────────
+
+  // GET /api/v1/portal/booking/consultation-types
+  http.get(`${PORTAL_BASE}/consultation-types`, async ({ request }) => {
+    await delay(150)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    return HttpResponse.json(MOCK_CONSULTATION_TYPES)
+  }),
+
+  // GET /api/v1/portal/booking/veterinarians
+  http.get(`${PORTAL_BASE}/veterinarians`, async ({ request }) => {
+    await delay(150)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    return HttpResponse.json(MOCK_VETERINARIANS)
+  }),
+
+  // GET /api/v1/portal/booking/pets
+  http.get(`${PORTAL_BASE}/pets`, async ({ request }) => {
+    await delay(150)
+    const authCheck = checkPortalAuth(request)
+    if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
+    return HttpResponse.json(MOCK_BOOKING_PETS)
+  }),
+
   // ─── Portal Booking Appointments ─────────────────────────────────────────────
 
   // GET /api/v1/portal/booking/appointments
@@ -194,27 +244,30 @@ export const bookingHandlers = [
 
   // POST /api/v1/portal/booking/appointments
   http.post(`${PORTAL_BASE}/appointments`, async ({ request }) => {
-    await delay(300)
+    await delay(400)
     const authCheck = checkPortalAuth(request)
     if (authCheck.error) return authCheck.error as unknown as ReturnType<typeof HttpResponse.json>
-    const body = await request.json() as {
-      consultationTypeId: string
-      veterinarianId: string
-      petName: string
-      scheduledAt: string
-      notes: string | null
+
+    const body = await request.json() as CreateBookingAppointmentRequest
+
+    if (!body.petId || !body.consultationTypeId || !body.slotStartsAt || !body.slotEndsAt) {
+      return HttpResponse.json(
+        { title: 'petId, consultationTypeId, slotStartsAt, and slotEndsAt are required.' },
+        { status: 422 }
+      )
     }
+
     const newAppt: BookingAppointmentDto = {
       id: `appt-new-${Date.now()}`,
       consultationTypeId: body.consultationTypeId,
-      consultationTypeName: 'General Checkup',
-      veterinarianId: body.veterinarianId,
-      veterinarianName: 'Dr. Sarah Johnson',
-      petName: body.petName,
-      scheduledAt: body.scheduledAt,
+      consultationTypeName: MOCK_CONSULTATION_TYPES.find(c => c.id === body.consultationTypeId)?.name ?? 'General Checkup',
+      veterinarianId: body.vetId ?? 'vet-0000-0000-0000-000000000001',
+      veterinarianName: MOCK_VETS.find(v => v.id === body.vetId)?.name ?? 'Dr. Sarah Johnson',
+      petName: MOCK_BOOKING_PETS.find(p => p.id === body.petId)?.name ?? 'Unknown Pet',
+      scheduledAt: body.slotStartsAt,
       durationMinutes: 30,
       status: 'Scheduled',
-      notes: body.notes,
+      notes: body.reason ?? null,
       clinicName: 'Desert Paws Veterinary Clinic',
       clinicAddress: 'Al Wasl Road, Jumeirah, Dubai, UAE',
     }

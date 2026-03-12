@@ -1060,14 +1060,69 @@
         "bookNewSubtitle": "Schedule a new visit for your pet"
       },
       "wizard": {
-        "step1Title": "Select Consultation Type",
-        "step2Title": "Choose Date & Time",
-        "step3Title": "Select Your Pet",
+        "step1Title": "Select Your Pet",
+        "step2Title": "Consultation Details",
+        "step3Title": "Choose Date & Time",
         "step4Title": "Confirm Booking",
         "next": "Next",
+        "review": "Review",
         "back": "Back",
         "confirm": "Confirm Booking",
-        "cancel": "Cancel"
+        "confirming": "Confirming...",
+        "cancel": "Cancel",
+        "stepLabel": "Step {current} of {total}",
+        "stepPet": "Pet",
+        "stepType": "Type",
+        "stepSlot": "Slot",
+        "stepConfirm": "Confirm",
+        "assignedVet": "Assigned Vet",
+        "petSection": {
+          "selectPet": "Select a pet",
+          "noPets": "No pets found on your account. Please contact the clinic.",
+          "loadError": "Failed to load your pets. Please try again.",
+          "yearsOld": "{n} year old",
+          "yearsOldPlural": "{n} years old"
+        },
+        "consultationSection": {
+          "typeLabel": "Consultation type",
+          "vetLabel": "Preferred veterinarian",
+          "vetOptional": "(optional)",
+          "vetNoPreference": "No preference — any available vet",
+          "reasonLabel": "Reason for visit",
+          "reasonOptional": "(optional)",
+          "reasonPlaceholder": "Briefly describe the reason for your visit, any symptoms, or concerns...",
+          "loadError": "Failed to load consultation types. Please try again.",
+          "durationMinutes": "{n} min"
+        },
+        "slotSection": {
+          "suggestedTitle": "Suggested slots",
+          "browseTitle": "or browse by date",
+          "selectDayPrompt": "Select a day above to see available times",
+          "availableTimesTitle": "Available times",
+          "clinicClosed": "The clinic is closed on this day.",
+          "loadError": "Failed to load slots. Please try again."
+        },
+        "confirmationSection": {
+          "summaryTitle": "Booking Summary",
+          "petLabel": "Pet",
+          "typeLabel": "Consultation Type",
+          "vetLabel": "Veterinarian",
+          "dateLabel": "Date",
+          "timeLabel": "Time",
+          "reasonLabel": "Reason",
+          "termsText": "I confirm that the information above is accurate and I agree to the appointment terms. Cancellations must be made at least 24 hours in advance.",
+          "termsLinkText": "appointment terms",
+          "submitError": "Failed to book your appointment. Please try again."
+        },
+        "success": {
+          "title": "Booking Confirmed!",
+          "subtitle": "Your appointment has been scheduled",
+          "dateLabel": "Date",
+          "timeLabel": "Time",
+          "addToCalendar": "Add to Calendar (.ics)",
+          "redirectNotice": "Redirecting to My Appointments in {n}s…",
+          "goNow": "Go to My Appointments now"
+        }
       },
       "slotGrid": {
         "morning": "Morning",
