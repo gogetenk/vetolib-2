@@ -31,7 +31,7 @@ export function clearPortalToken(): void {
 
 // ─── Portal fetch (uses MagicLink header) ─────────────────────────────────────
 
-async function portalFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
+export async function portalFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getPortalToken()
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
 import { CalendarDays, ChevronRight, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -30,16 +30,17 @@ function AppointmentCard({
   onClick: () => void
 }) {
   const t = useTranslations('portal.booking.myAppointments')
+  const locale = useLocale()
 
   const date = new Date(appt.scheduledAt)
-  const formattedDate = date.toLocaleDateString('en-AE', {
+  const formattedDate = date.toLocaleDateString(locale, {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
     year: 'numeric',
     timeZone: 'Asia/Dubai',
   })
-  const formattedTime = date.toLocaleTimeString('en-AE', {
+  const formattedTime = date.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'Asia/Dubai',
@@ -99,6 +100,7 @@ export function MyAppointments() {
   const [appointments, setAppointments] = useState<BookingAppointmentDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [expired, setExpired] = useState(false)
+  const [error, setError] = useState(false)
   const [activeTab, setActiveTab] = useState<Tab>('upcoming')
 
   const base = `/${params.locale}/portal/${params.clinicSlug}/book`
@@ -109,6 +111,8 @@ export function MyAppointments() {
       .catch((err) => {
         if (err instanceof ApiError && err.status === 401) {
           setExpired(true)
+        } else {
+          setError(true)
         }
       })
       .finally(() => setIsLoading(false))
@@ -129,6 +133,14 @@ export function MyAppointments() {
     return (
       <div className="text-center py-12 space-y-3" data-testid="my-appointments-expired">
         <p className="text-gray-700">{t('landing.link_expired')}</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 space-y-3" data-testid="my-appointments-error">
+        <p className="text-gray-700">{t('myAppointments.loadError')}</p>
       </div>
     )
   }

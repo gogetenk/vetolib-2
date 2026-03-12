@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowLeft, CalendarDays, Clock, User, MapPin, FileText, XCircle, Calendar } from 'lucide-react'
 import { toast } from 'sonner'
@@ -41,6 +41,7 @@ interface Props {
 
 export function AppointmentDetail({ appointmentId }: Props) {
   const t = useTranslations('portal.booking')
+  const locale = useLocale()
   const router = useRouter()
   const params = useParams<{ locale: string; clinicSlug: string }>()
   const [appt, setAppt] = useState<BookingAppointmentDto | null>(null)
@@ -59,6 +60,9 @@ export function AppointmentDetail({ appointmentId }: Props) {
         if (err instanceof ApiError) {
           if (err.status === 401) setExpired(true)
           else if (err.status === 404) setNotFound(true)
+          else setNotFound(true)
+        } else {
+          setNotFound(true)
         }
       })
       .finally(() => setIsLoading(false))
@@ -114,14 +118,14 @@ export function AppointmentDetail({ appointmentId }: Props) {
   }
 
   const scheduledDate = new Date(appt.scheduledAt)
-  const formattedDate = scheduledDate.toLocaleDateString('en-AE', {
+  const formattedDate = scheduledDate.toLocaleDateString(locale, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
     year: 'numeric',
     timeZone: 'Asia/Dubai',
   })
-  const formattedTime = scheduledDate.toLocaleTimeString('en-AE', {
+  const formattedTime = scheduledDate.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'Asia/Dubai',

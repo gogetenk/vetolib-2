@@ -1053,6 +1053,7 @@
         "rescheduleSuccess": "Appointment rescheduled successfully",
         "rescheduleComingSoon": "Rescheduling will be available soon.",
         "noAppointments": "No appointments found",
+        "loadError": "Unable to load appointments. Please try again later.",
         "backButton": "Back",
         "notFound": "Appointment not found.",
         "timeLabel": "Time",

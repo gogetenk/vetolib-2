@@ -57,10 +57,8 @@ export function BookingLanding() {
 
         {/* Book New Appointment card — visual only, no action yet */}
         <div
-          role="button"
-          tabIndex={0}
           data-testid="booking-new-appointment-card"
-          className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 opacity-80"
+          className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 shadow-sm opacity-60 cursor-not-allowed"
           aria-disabled="true"
         >
           <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-50">

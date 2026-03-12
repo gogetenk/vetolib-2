@@ -1041,6 +1041,7 @@
         "rescheduleSuccess": "تمت إعادة جدولة الموعد بنجاح",
         "rescheduleComingSoon": "ستتوفر إعادة الجدولة قريباً.",
         "noAppointments": "لا توجد مواعيد",
+        "loadError": "تعذر تحميل المواعيد. يرجى المحاولة مرة أخرى لاحقًا.",
         "backButton": "رجوع",
         "notFound": "الموعد غير موجود.",
         "timeLabel": "الوقت",
