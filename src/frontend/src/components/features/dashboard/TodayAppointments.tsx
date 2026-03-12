@@ -23,14 +23,6 @@ interface TodayAppointmentsProps {
   role?: UserRole
 }
 
-const STATUS_LABELS: Record<AppointmentStatus, string> = {
-  SCHEDULED: 'Scheduled',
-  CHECKED_IN: 'Checked In',
-  IN_PROGRESS: 'In Progress',
-  COMPLETED: 'Completed',
-  CANCELLED: 'Cancelled',
-}
-
 const STATUS_VARIANTS: Record<
   AppointmentStatus,
   'default' | 'secondary' | 'destructive' | 'outline'
@@ -53,6 +45,7 @@ function formatTime(isoDate: string): string {
 export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   const router = useRouter()
   const t = useTranslations('dashboard.today')
+  const tStatus = useTranslations('appointments.status')
   const tEmpty = useTranslations('onboarding.empty.dashboard_today')
   const [appointments, setAppointments] = useState<TodayAppointmentDto[]>([])
   const [loading, setLoading] = useState(true)
@@ -66,7 +59,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
     setError(null)
     getTodayAppointments()
       .then(setAppointments)
-      .catch(() => setError('Failed to load today appointments'))
+      .catch(() => setError(t('error_load')))
       .finally(() => setLoading(false))
   }
 
@@ -81,10 +74,10 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
       setAppointments((prev) =>
         prev.map((a) => (a.id === id ? { ...a, status: 'CHECKED_IN' } : a))
       )
-      toast.success('Patient checked in')
+      toast.success(t('checked_in_success'))
       router.refresh()
     } catch {
-      toast.error('Failed to check in patient')
+      toast.error(t('checked_in_failed'))
     } finally {
       setCheckingIn(null)
     }
@@ -112,7 +105,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
         ) : error ? (
           <ErrorState
             data-testid="today-appointments-error"
-            title="Failed to load appointments"
+            title={t('error_load')}
             description={error}
             onRetry={loadAppointments}
           />
@@ -172,7 +165,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                     variant={STATUS_VARIANTS[appt.status]}
                     data-testid={`appointment-status-${appt.id}`}
                   >
-                    {STATUS_LABELS[appt.status]}
+                    {tStatus(appt.status)}
                   </Badge>
                   {canCheckIn && appt.status === 'SCHEDULED' && (
                     <Button
@@ -183,7 +176,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       onClick={() => handleCheckIn(appt.id)}
                       data-testid={`checkin-btn-${appt.id}`}
                     >
-                      {checkingIn === appt.id ? 'Checking in...' : 'Check In'}
+                      {checkingIn === appt.id ? t('checking_in') : t('check_in')}
                     </Button>
                   )}
                 </div>

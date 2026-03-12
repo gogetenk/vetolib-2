@@ -135,11 +135,45 @@
         "error": "Failed to fetch suggestions"
       }
     },
+    "error_load": "Failed to load appointments",
     "detail": {
       "back": "Back to Appointments",
       "update_status": "Update Status",
       "confirm_action": "Confirm action",
-      "transition_to": "Transition to"
+      "transition_to": "Transition to",
+      "owner": "Owner",
+      "vet": "Veterinarian",
+      "datetime": "Date & Time",
+      "reason": "Reason",
+      "notes": "Notes",
+      "cancellation_reason": "Cancellation Reason",
+      "dialog_back": "Back",
+      "confirm": "Confirm",
+      "processing": "Processing...",
+      "cancel_reason_placeholder": "Enter cancellation reason",
+      "toast": {
+        "success": "Appointment updated successfully",
+        "failed": "Failed to update appointment"
+      },
+      "actions": {
+        "check_in": "Check In",
+        "check_in_title": "Check In Patient",
+        "check_in_description": "The patient has arrived and is ready to be checked in.",
+        "cancel": "Cancel",
+        "cancel_title": "Cancel Appointment",
+        "cancel_description": "Please provide a reason for cancellation.",
+        "start": "Start Consultation",
+        "start_title": "Start Consultation",
+        "start_description": "Begin the consultation for this appointment.",
+        "complete": "Complete",
+        "complete_title": "Complete Appointment",
+        "complete_description": "Mark this consultation as completed."
+      },
+      "error_not_found": "Appointment not found.",
+      "error_server_title": "Server Error",
+      "error_server_description": "Something went wrong on the server. Please try again later.",
+      "error_network_title": "Connection Error",
+      "error_network_description": "Unable to connect to the server. Please check your internet connection and try again."
     },
     "status": {
       "SCHEDULED": "Scheduled",
@@ -356,7 +390,12 @@
     },
     "today": {
       "title": "Today's Schedule",
-      "view_all": "View all"
+      "view_all": "View all",
+      "error_load": "Failed to load today's appointments",
+      "checked_in_success": "Patient checked in",
+      "checked_in_failed": "Failed to check in patient",
+      "checking_in": "Checking in...",
+      "check_in": "Check In"
     },
     "recent_activity": {
       "title": "Recent Activity",

@@ -22,6 +22,7 @@ import { createAppointment, getVets } from '@/lib/api/appointments'
 import type { VetDto, Species } from '@/lib/api/appointments'
 import { ApiError } from '@/lib/api/client'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
+import { useTranslations } from 'next-intl'
 
 const SPECIES_OPTIONS: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic']
 
@@ -48,6 +49,7 @@ type FormValues = z.infer<typeof schema>
 
 export function AppointmentForm() {
   const router = useRouter()
+  const t = useTranslations('appointments.form')
   const [vets, setVets] = useState<VetDto[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -63,7 +65,7 @@ export function AppointmentForm() {
   useEffect(() => {
     trackEvent(AnalyticsEvents.APPOINTMENT_FORM_OPENED)
     getVets().then(setVets).catch(() => {
-      toast.error('Failed to load vets')
+      toast.error(t('toast.load_vets_failed'))
     })
   }, [])
 
@@ -85,14 +87,14 @@ export function AppointmentForm() {
         species: values.species,
         has_notes: String(Boolean(values.notes)),
       })
-      toast.success('Appointment created successfully')
+      toast.success(t('toast.created'))
       router.push('/appointments')
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
         const body = err.body as { title?: string }
-        toast.error(body?.title ?? 'This time slot is not available')
+        toast.error(body?.title ?? t('toast.slot_unavailable'))
       } else {
-        toast.error('Failed to create appointment')
+        toast.error(t('toast.failed'))
       }
     } finally {
       setIsSubmitting(false)
@@ -102,7 +104,7 @@ export function AppointmentForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New Appointment</CardTitle>
+        <CardTitle>{t('title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -113,12 +115,12 @@ export function AppointmentForm() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Patient Name */}
             <div className="space-y-1">
-              <Label htmlFor="patientName">Patient Name</Label>
+              <Label htmlFor="patientName">{t('patient_name')}</Label>
               <Input
                 id="patientName"
                 data-testid="input-patient-name"
                 {...register('patientName')}
-                placeholder="e.g. Max"
+                placeholder={t('patient_name_placeholder')}
               />
               {errors.patientName && (
                 <p className="text-sm text-destructive" data-testid="error-patient-name">
@@ -129,13 +131,13 @@ export function AppointmentForm() {
 
             {/* Species */}
             <div className="space-y-1">
-              <Label htmlFor="species">Species</Label>
+              <Label htmlFor="species">{t('species')}</Label>
               <Select
                 onValueChange={(val) => setValue('species', val as Species)}
                 data-testid="select-species"
               >
                 <SelectTrigger data-testid="select-species-trigger">
-                  <SelectValue placeholder="Select species" />
+                  <SelectValue placeholder={t('select_species')} />
                 </SelectTrigger>
                 <SelectContent>
                   {SPECIES_OPTIONS.map((s) => (
@@ -154,12 +156,12 @@ export function AppointmentForm() {
 
             {/* Owner Name */}
             <div className="space-y-1">
-              <Label htmlFor="ownerName">Owner Name</Label>
+              <Label htmlFor="ownerName">{t('owner_name')}</Label>
               <Input
                 id="ownerName"
                 data-testid="input-owner-name"
                 {...register('ownerName')}
-                placeholder="e.g. Khalid Al-Mansoori"
+                placeholder={t('owner_name_placeholder')}
               />
               {errors.ownerName && (
                 <p className="text-sm text-destructive" data-testid="error-owner-name">
@@ -170,12 +172,12 @@ export function AppointmentForm() {
 
             {/* Owner Phone */}
             <div className="space-y-1">
-              <Label htmlFor="ownerPhone">Owner Phone</Label>
+              <Label htmlFor="ownerPhone">{t('owner_phone')}</Label>
               <Input
                 id="ownerPhone"
                 data-testid="input-owner-phone"
                 {...register('ownerPhone')}
-                placeholder="+971 50 123 4567"
+                placeholder={t('owner_phone_placeholder')}
               />
               {errors.ownerPhone && (
                 <p className="text-sm text-destructive" data-testid="error-owner-phone">
@@ -186,13 +188,13 @@ export function AppointmentForm() {
 
             {/* Vet */}
             <div className="space-y-1">
-              <Label htmlFor="vetId">Veterinarian</Label>
+              <Label htmlFor="vetId">{t('vet')}</Label>
               <Select
                 onValueChange={(val) => setValue('vetId', val as string)}
                 data-testid="select-vet"
               >
                 <SelectTrigger data-testid="select-vet-trigger">
-                  <SelectValue placeholder="Select vet" />
+                  <SelectValue placeholder={t('select_vet')} />
                 </SelectTrigger>
                 <SelectContent>
                   {vets.map((v) => (
@@ -211,7 +213,7 @@ export function AppointmentForm() {
 
             {/* Date */}
             <div className="space-y-1">
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date">{t('date')}</Label>
               <Input
                 id="date"
                 type="date"
@@ -228,13 +230,13 @@ export function AppointmentForm() {
 
             {/* Time */}
             <div className="space-y-1">
-              <Label htmlFor="time">Time Slot</Label>
+              <Label htmlFor="time">{t('time_slot')}</Label>
               <Select
                 onValueChange={(val) => setValue('time', val as string)}
                 data-testid="select-time"
               >
                 <SelectTrigger data-testid="select-time-trigger">
-                  <SelectValue placeholder="Select time" />
+                  <SelectValue placeholder={t('select_time')} />
                 </SelectTrigger>
                 <SelectContent>
                   {TIME_SLOTS.map((t) => (
@@ -254,12 +256,12 @@ export function AppointmentForm() {
 
           {/* Reason */}
           <div className="space-y-1">
-            <Label htmlFor="reason">Reason for Visit</Label>
+            <Label htmlFor="reason">{t('reason')}</Label>
             <Textarea
               id="reason"
               data-testid="textarea-reason"
               {...register('reason')}
-              placeholder="Describe the reason for the appointment"
+              placeholder={t('reason_placeholder')}
               rows={3}
             />
             {errors.reason && (
@@ -271,12 +273,12 @@ export function AppointmentForm() {
 
           {/* Notes */}
           <div className="space-y-1">
-            <Label htmlFor="notes">Notes (optional)</Label>
+            <Label htmlFor="notes">{t('notes')}</Label>
             <Textarea
               id="notes"
               data-testid="textarea-notes"
               {...register('notes')}
-              placeholder="Any additional notes"
+              placeholder={t('notes_placeholder')}
               rows={2}
             />
           </div>
@@ -288,14 +290,14 @@ export function AppointmentForm() {
               data-testid="btn-cancel-form"
               onClick={() => router.push('/appointments')}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               type="submit"
               data-testid="btn-save"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Saving...' : 'Save'}
+              {isSubmitting ? t('saving') : t('save')}
             </Button>
           </div>
         </form>

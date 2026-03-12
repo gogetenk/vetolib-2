@@ -19,12 +19,13 @@ import { StatusBadge } from './StatusBadge'
 import { transitionAppointment, cancelAppointment } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentAction } from '@/lib/api/appointments'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
+import { useTranslations } from 'next-intl'
 
 interface TransitionConfig {
   action: AppointmentAction
-  label: string
-  confirmTitle: string
-  confirmDescription: string
+  labelKey: string
+  confirmTitleKey: string
+  confirmDescriptionKey: string
   requiresReason?: boolean
   variant?: 'default' | 'destructive' | 'outline'
 }
@@ -33,16 +34,16 @@ const TRANSITIONS: Record<string, TransitionConfig[]> = {
   SCHEDULED: [
     {
       action: 'CHECK_IN',
-      label: 'Check In',
-      confirmTitle: 'Check In Patient',
-      confirmDescription: 'The patient has arrived and is ready to be checked in.',
+      labelKey: 'actions.check_in',
+      confirmTitleKey: 'actions.check_in_title',
+      confirmDescriptionKey: 'actions.check_in_description',
       variant: 'default',
     },
     {
       action: 'CANCEL',
-      label: 'Cancel',
-      confirmTitle: 'Cancel Appointment',
-      confirmDescription: 'Please provide a reason for cancellation.',
+      labelKey: 'actions.cancel',
+      confirmTitleKey: 'actions.cancel_title',
+      confirmDescriptionKey: 'actions.cancel_description',
       requiresReason: true,
       variant: 'destructive',
     },
@@ -50,18 +51,18 @@ const TRANSITIONS: Record<string, TransitionConfig[]> = {
   CHECKED_IN: [
     {
       action: 'START',
-      label: 'Start Consultation',
-      confirmTitle: 'Start Consultation',
-      confirmDescription: 'Begin the consultation for this appointment.',
+      labelKey: 'actions.start',
+      confirmTitleKey: 'actions.start_title',
+      confirmDescriptionKey: 'actions.start_description',
       variant: 'default',
     },
   ],
   IN_PROGRESS: [
     {
       action: 'COMPLETE',
-      label: 'Complete',
-      confirmTitle: 'Complete Appointment',
-      confirmDescription: 'Mark this consultation as completed.',
+      labelKey: 'actions.complete',
+      confirmTitleKey: 'actions.complete_title',
+      confirmDescriptionKey: 'actions.complete_description',
       variant: 'default',
     },
   ],
@@ -74,6 +75,7 @@ interface AppointmentDetailProps {
 }
 
 export function AppointmentDetail({ appointment: initial }: AppointmentDetailProps) {
+  const t = useTranslations('appointments.detail')
   const [appointment, setAppointment] = useState<AppointmentDto>(initial)
   const [pendingAction, setPendingAction] = useState<TransitionConfig | null>(null)
   const [cancelReason, setCancelReason] = useState('')
@@ -97,11 +99,11 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
         to_status: updated.status,
       })
       setAppointment(updated)
-      toast.success(`Appointment ${pendingAction.label.toLowerCase()}d successfully`)
+      toast.success(t('toast.success'))
       setPendingAction(null)
       setCancelReason('')
     } catch {
-      toast.error(`Failed to ${pendingAction.label.toLowerCase()} appointment`)
+      toast.error(t('toast.failed'))
     } finally {
       setIsProcessing(false)
     }
@@ -122,35 +124,35 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Owner</p>
+              <p className="text-sm font-medium text-muted-foreground">{t('owner')}</p>
               <p data-testid="detail-owner-name">{appointment.ownerName}</p>
               <p className="text-sm text-muted-foreground" data-testid="detail-owner-phone">
                 {appointment.ownerPhone}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Veterinarian</p>
+              <p className="text-sm font-medium text-muted-foreground">{t('vet')}</p>
               <p data-testid="detail-vet-name">{appointment.vetName}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Date & Time</p>
+              <p className="text-sm font-medium text-muted-foreground">{t('datetime')}</p>
               <p data-testid="detail-datetime">
                 {format(new Date(appointment.scheduledAt), 'dd MMM yyyy HH:mm')}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Reason</p>
+              <p className="text-sm font-medium text-muted-foreground">{t('reason')}</p>
               <p data-testid="detail-reason">{appointment.reason}</p>
             </div>
             {appointment.notes && (
               <div className="md:col-span-2">
-                <p className="text-sm font-medium text-muted-foreground">Notes</p>
+                <p className="text-sm font-medium text-muted-foreground">{t('notes')}</p>
                 <p data-testid="detail-notes">{appointment.notes}</p>
               </div>
             )}
             {appointment.cancellationReason && (
               <div className="md:col-span-2">
-                <p className="text-sm font-medium text-muted-foreground">Cancellation Reason</p>
+                <p className="text-sm font-medium text-muted-foreground">{t('cancellation_reason')}</p>
                 <p
                   className="text-destructive"
                   data-testid="detail-cancellation-reason"
@@ -164,14 +166,14 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
           {/* Transition buttons */}
           {transitions.length > 0 && (
             <div className="flex gap-3 pt-4 border-t" data-testid="transition-actions">
-              {transitions.map((t) => (
+              {transitions.map((tr) => (
                 <Button
-                  key={t.action}
-                  variant={t.variant ?? 'default'}
-                  data-testid={`btn-action-${t.action.toLowerCase().replace('_', '-')}`}
-                  onClick={() => setPendingAction(t)}
+                  key={tr.action}
+                  variant={tr.variant ?? 'default'}
+                  data-testid={`btn-action-${tr.action.toLowerCase().replace('_', '-')}`}
+                  onClick={() => setPendingAction(tr)}
                 >
-                  {t.label}
+                  {t(tr.labelKey)}
                 </Button>
               ))}
             </div>
@@ -193,22 +195,22 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
         <DialogContent data-testid="confirm-dialog">
           <DialogHeader>
             <DialogTitle data-testid="confirm-dialog-title">
-              {pendingAction?.confirmTitle}
+              {pendingAction ? t(pendingAction.confirmTitleKey) : ''}
             </DialogTitle>
             <DialogDescription data-testid="confirm-dialog-description">
-              {pendingAction?.confirmDescription}
+              {pendingAction ? t(pendingAction.confirmDescriptionKey) : ''}
             </DialogDescription>
           </DialogHeader>
 
           {pendingAction?.requiresReason && (
             <div className="space-y-2">
-              <Label htmlFor="cancel-reason">Reason</Label>
+              <Label htmlFor="cancel-reason">{t('reason')}</Label>
               <Textarea
                 id="cancel-reason"
                 data-testid="input-cancel-reason"
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
-                placeholder="Enter cancellation reason"
+                placeholder={t('cancel_reason_placeholder')}
                 rows={3}
               />
             </div>
@@ -223,7 +225,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
                 setCancelReason('')
               }}
             >
-              Back
+              {t('dialog_back')}
             </Button>
             <Button
               variant={pendingAction?.variant ?? 'default'}
@@ -234,7 +236,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
                 (pendingAction?.requiresReason === true && cancelReason.trim() === '')
               }
             >
-              {isProcessing ? 'Processing...' : 'Confirm'}
+              {isProcessing ? t('processing') : t('confirm')}
             </Button>
           </DialogFooter>
         </DialogContent>

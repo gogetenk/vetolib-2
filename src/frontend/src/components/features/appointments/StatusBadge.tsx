@@ -1,15 +1,18 @@
+'use client'
+
 import { Badge } from '@/components/ui/badge'
 import type { AppointmentStatus } from '@/lib/api/appointments'
+import { useTranslations } from 'next-intl'
 
-const STATUS_CONFIG: Record<
+const STATUS_VARIANTS: Record<
   AppointmentStatus,
-  { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }
+  'default' | 'secondary' | 'destructive' | 'outline'
 > = {
-  SCHEDULED: { label: 'Scheduled', variant: 'secondary' },
-  CHECKED_IN: { label: 'Checked In', variant: 'default' },
-  IN_PROGRESS: { label: 'In Progress', variant: 'default' },
-  COMPLETED: { label: 'Completed', variant: 'outline' },
-  CANCELLED: { label: 'Cancelled', variant: 'destructive' },
+  SCHEDULED: 'secondary',
+  CHECKED_IN: 'default',
+  IN_PROGRESS: 'default',
+  COMPLETED: 'outline',
+  CANCELLED: 'destructive',
 }
 
 interface StatusBadgeProps {
@@ -17,10 +20,11 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const config = STATUS_CONFIG[status] ?? { label: status, variant: 'secondary' as const }
+  const t = useTranslations('appointments.status')
+  const variant = STATUS_VARIANTS[status] ?? 'secondary'
   return (
-    <Badge variant={config.variant} data-testid={`status-badge-${status.toLowerCase()}`}>
-      {config.label}
+    <Badge variant={variant} data-testid={`status-badge-${status.toLowerCase()}`}>
+      {t(status)}
     </Badge>
   )
 }
