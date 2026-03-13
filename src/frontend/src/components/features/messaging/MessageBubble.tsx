@@ -173,7 +173,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           {message.senderName && (
             <p className="text-xs text-muted-foreground mb-1 ml-1">{message.senderName}</p>
           )}
-          <div className="bg-gray-100 rounded-lg px-4 py-3 text-sm text-gray-900">
+          <div className="bg-stone-100 rounded-lg px-4 py-3 text-sm text-stone-900">
             {message.body}
             {message.attachments.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-2">

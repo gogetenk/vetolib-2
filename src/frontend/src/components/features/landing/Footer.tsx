@@ -88,14 +88,14 @@ export function Footer({ locale, messages: m }: Props) {
   ];
 
   return (
-    <footer data-testid="section-footer" className="border-t border-gray-100 bg-gray-50">
+    <footer data-testid="section-footer" className="border-t border-stone-100 bg-stone-50">
       <ScrollReveal direction="fade-up">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         {/* 4-column grid */}
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-stone-500">
                 {col.title}
               </h3>
               <ul className="mt-4 space-y-2">
@@ -103,7 +103,7 @@ export function Footer({ locale, messages: m }: Props) {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-gray-600 transition-colors hover:text-emerald-700"
+                      className="text-sm text-stone-600 transition-colors hover:text-emerald-700"
                     >
                       {link.label}
                     </a>
@@ -115,12 +115,12 @@ export function Footer({ locale, messages: m }: Props) {
         </div>
 
         {/* Contact + bottom bar */}
-        <div className="mt-10 border-t border-gray-200 pt-8">
+        <div className="mt-10 border-t border-stone-200 pt-8">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
             {/* Brand + copyright */}
             <div>
               <p className="text-sm font-bold text-emerald-700">Vetolib</p>
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="mt-1 text-xs text-stone-400">
                 &copy; 2026 Vetolib. {m.tagline}
               </p>
             </div>
@@ -128,7 +128,7 @@ export function Footer({ locale, messages: m }: Props) {
             {/* Contact emails */}
             <div
               data-testid="footer-contact"
-              className="flex flex-col gap-1 text-xs text-gray-500"
+              className="flex flex-col gap-1 text-xs text-stone-500"
             >
               <a
                 href={`mailto:${m.contact_hello}`}
@@ -147,7 +147,7 @@ export function Footer({ locale, messages: m }: Props) {
             {/* Language switcher */}
             <div
               data-testid="footer-lang-switcher"
-              className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5"
+              className="flex items-center gap-2 rounded-full border border-stone-200 bg-white px-3 py-1.5"
             >
               <Link
                 href={`/en`}
@@ -155,19 +155,19 @@ export function Footer({ locale, messages: m }: Props) {
                 className={`text-xs font-medium transition-colors ${
                   locale === "en"
                     ? "text-emerald-700"
-                    : "text-gray-400 hover:text-emerald-700"
+                    : "text-stone-400 hover:text-emerald-700"
                 }`}
               >
                 EN
               </Link>
-              <span className="text-gray-200">|</span>
+              <span className="text-stone-200">|</span>
               <Link
                 href={`/ar`}
                 data-testid="footer-lang-ar"
                 className={`text-xs font-medium transition-colors ${
                   locale === "ar"
                     ? "text-emerald-700"
-                    : "text-gray-400 hover:text-emerald-700"
+                    : "text-stone-400 hover:text-emerald-700"
                 }`}
               >
                 AR

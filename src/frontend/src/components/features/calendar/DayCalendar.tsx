@@ -24,7 +24,7 @@ const STATUS_COLORS: Record<AppointmentStatus, string> = {
   SCHEDULED: 'bg-blue-500',
   CHECKED_IN: 'bg-yellow-500',
   IN_PROGRESS: 'bg-green-500',
-  COMPLETED: 'bg-gray-400',
+  COMPLETED: 'bg-stone-400',
   CANCELLED: 'bg-red-500',
 }
 

@@ -51,10 +51,10 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-stone-50 flex flex-col">
       {/* Portal header */}
       <header
-        className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm"
+        className="bg-white border-b border-stone-200 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm"
         data-testid="portal-header"
       >
         <div className="flex items-center gap-2">
@@ -64,7 +64,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
           >
             {clinicName.charAt(0)}
           </div>
-          <span className="font-semibold text-gray-900 text-sm sm:text-base" data-testid="portal-clinic-name">
+          <span className="font-semibold text-stone-900 text-sm sm:text-base" data-testid="portal-clinic-name">
             {clinicName}
           </span>
         </div>
@@ -74,7 +74,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
           size="sm"
           onClick={toggleLanguage}
           data-testid="portal-language-toggle"
-          className="flex items-center gap-1 text-gray-600"
+          className="flex items-center gap-1 text-stone-600"
         >
           <Globe className="h-4 w-4" />
           <span className="text-xs">{isAr ? 'English' : '\u0639\u0631\u0628\u064a'}</span>
@@ -85,7 +85,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
       <div className="flex flex-1">
         {/* Desktop sidebar navigation */}
         <aside
-          className="hidden md:flex flex-col w-56 bg-white border-e border-gray-200 py-4 px-2"
+          className="hidden md:flex flex-col w-56 bg-white border-e border-stone-200 py-4 px-2"
           data-testid="portal-sidebar"
         >
           <nav className="space-y-1">
@@ -98,7 +98,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
                   'flex items-center gap-3 w-full rounded-lg px-3 py-2.5 text-sm font-medium transition-colors min-h-[44px]',
                   isActive(item.path)
                     ? 'bg-emerald-50 text-emerald-700'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900'
                 )}
               >
                 {item.icon}
@@ -116,7 +116,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
 
       {/* Mobile bottom tab bar */}
       <nav
-        className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-10 flex justify-around py-1"
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 z-10 flex justify-around py-1"
         data-testid="portal-bottom-tabs"
       >
         {navItems.map((item) => (
@@ -128,7 +128,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
               'flex flex-col items-center gap-0.5 py-2 px-3 min-w-[64px] min-h-[44px] text-xs transition-colors',
               isActive(item.path)
                 ? 'text-emerald-600'
-                : 'text-gray-500'
+                : 'text-stone-500'
             )}
           >
             {item.icon}

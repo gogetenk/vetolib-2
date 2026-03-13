@@ -76,18 +76,18 @@ export function MessagingHoursPage() {
       ) : (
         <div className="rounded-md border overflow-hidden" data-testid="hours-table">
           <table className="w-full">
-            <thead className="bg-muted/40">
+            <thead className="bg-stone-50">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground w-32">
+                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500 w-32">
                   {t("col_day")}
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
+                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500">
                   {t("col_status")}
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
+                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500">
                   {t("col_open")}
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
+                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500">
                   {t("col_close")}
                 </th>
               </tr>

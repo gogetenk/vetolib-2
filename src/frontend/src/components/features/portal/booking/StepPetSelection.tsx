@@ -56,14 +56,14 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
         {[1, 2].map((i) => (
           <div
             key={i}
-            className="flex items-center gap-4 rounded-xl border-2 border-gray-100 p-4"
+            className="flex items-center gap-4 rounded-xl border-2 border-stone-100 p-4"
             data-testid={`pet-card-skeleton-${i}`}
           >
-            <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse" />
+            <div className="h-12 w-12 rounded-full bg-stone-200 animate-pulse" />
             <div className="flex-1 space-y-2">
-              <div className="h-4 w-24 rounded bg-gray-200 animate-pulse" />
-              <div className="h-3 w-32 rounded bg-gray-200 animate-pulse" />
-              <div className="h-3 w-16 rounded bg-gray-200 animate-pulse" />
+              <div className="h-4 w-24 rounded bg-stone-200 animate-pulse" />
+              <div className="h-3 w-32 rounded bg-stone-200 animate-pulse" />
+              <div className="h-3 w-16 rounded bg-stone-200 animate-pulse" />
             </div>
           </div>
         ))}
@@ -85,7 +85,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
   if (pets.length === 0) {
     return (
       <div
-        className="text-sm text-gray-500 text-center py-8"
+        className="text-sm text-stone-500 text-center py-8"
         data-testid="step-pet-selection-empty"
       >
         {t('noPets')}
@@ -116,37 +116,37 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
               'relative flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',
               isSelected
                 ? 'border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]'
-                : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/30 hover:shadow-sm'
+                : 'border-stone-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/30 hover:shadow-sm'
             )}
           >
             {/* Icon */}
             <div
               className={cn(
                 'flex h-12 w-12 shrink-0 items-center justify-center rounded-full',
-                isSelected ? 'bg-emerald-100' : 'bg-gray-100'
+                isSelected ? 'bg-emerald-100' : 'bg-stone-100'
               )}
               aria-hidden="true"
             >
               <PawPrint
-                className={cn('h-6 w-6', isSelected ? 'text-emerald-600' : 'text-gray-500')}
+                className={cn('h-6 w-6', isSelected ? 'text-emerald-600' : 'text-stone-500')}
               />
             </div>
 
             {/* Info */}
             <div className="min-w-0 flex-1">
               <p
-                className={cn('font-semibold truncate', isSelected ? 'text-emerald-800' : 'text-gray-900')}
+                className={cn('font-semibold truncate', isSelected ? 'text-emerald-800' : 'text-stone-900')}
                 data-testid={`pet-card-name-${pet.id}`}
               >
                 {pet.name}
               </p>
               <p
-                className="text-xs text-gray-500 truncate mt-0.5"
+                className="text-xs text-stone-500 truncate mt-0.5"
                 data-testid={`pet-card-details-${pet.id}`}
               >
                 {pet.species} · {pet.breed}
               </p>
-              <p className="text-xs text-gray-400 mt-0.5" data-testid={`pet-card-age-${pet.id}`}>
+              <p className="text-xs text-stone-400 mt-0.5" data-testid={`pet-card-age-${pet.id}`}>
                 {pet.ageYears} year{pet.ageYears !== 1 ? 's' : ''} old
               </p>
             </div>

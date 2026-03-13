@@ -13,8 +13,8 @@ import type { PortalConversationDto, ConversationStatus } from '@/lib/api/messag
 const STATUS_COLORS: Record<ConversationStatus, string> = {
   Open: 'bg-emerald-100 text-emerald-800',
   InProgress: 'bg-blue-100 text-blue-800',
-  Resolved: 'bg-gray-100 text-gray-600',
-  Closed: 'bg-gray-100 text-gray-500',
+  Resolved: 'bg-stone-100 text-stone-600',
+  Closed: 'bg-stone-100 text-stone-500',
 }
 
 export function PortalLanding() {
@@ -51,8 +51,8 @@ export function PortalLanding() {
         className="text-center py-12 space-y-3"
         data-testid="portal-expired"
       >
-        <MessageCircle className="w-12 h-12 text-gray-400 mx-auto" />
-        <p className="text-gray-700 font-medium" data-testid="expired-message">
+        <MessageCircle className="w-12 h-12 text-stone-400 mx-auto" />
+        <p className="text-stone-700 font-medium" data-testid="expired-message">
           {t('link_expired')}
         </p>
       </div>
@@ -63,7 +63,7 @@ export function PortalLanding() {
     <div className="space-y-5" data-testid="portal-landing">
       {/* Header row */}
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-900" data-testid="portal-landing-title">
+        <h1 className="text-xl font-bold text-stone-900" data-testid="portal-landing-title">
           {t('your_conversations')}
         </h1>
         <Button
@@ -81,13 +81,13 @@ export function PortalLanding() {
       {isLoading ? (
         <div className="space-y-3" data-testid="portal-loading">
           {[1, 2].map((i) => (
-            <div key={i} className="h-20 rounded-lg bg-gray-200 animate-pulse" />
+            <div key={i} className="h-20 rounded-lg bg-stone-200 animate-pulse" />
           ))}
-          <p className="text-sm text-gray-500 text-center">{t('loading')}</p>
+          <p className="text-sm text-stone-500 text-center">{t('loading')}</p>
         </div>
       ) : conversations.length === 0 ? (
-        <div className="text-center py-12 text-gray-500" data-testid="portal-empty">
-          <MessageCircle className="w-10 h-10 mx-auto mb-2 text-gray-300" />
+        <div className="text-center py-12 text-stone-500" data-testid="portal-empty">
+          <MessageCircle className="w-10 h-10 mx-auto mb-2 text-stone-300" />
           <p className="text-sm">{t('no_conversations')}</p>
         </div>
       ) : (
@@ -97,7 +97,7 @@ export function PortalLanding() {
               <Link
                 href={`/${params.locale}/portal/${params.clinicSlug}/conversations/${conv.id}`}
                 data-testid={`conversation-item-${conv.id}`}
-                className="flex items-center gap-3 bg-white rounded-lg border border-gray-200 px-4 py-3 hover:border-emerald-300 hover:shadow-sm transition-all"
+                className="flex items-center gap-3 bg-white rounded-lg border border-stone-200 px-4 py-3 hover:border-emerald-300 hover:shadow-sm transition-all"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -117,12 +117,12 @@ export function PortalLanding() {
                     )}
                   </div>
                   <p
-                    className="text-sm font-medium text-gray-900 truncate"
+                    className="text-sm font-medium text-stone-900 truncate"
                     data-testid={`conv-subject-${conv.id}`}
                   >
                     {conv.subject}
                   </p>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="text-xs text-stone-500 mt-0.5">
                     {t('last_message', {
                       date: new Date(conv.lastMessageAt).toLocaleDateString('en-AE', {
                         day: 'numeric',
@@ -133,7 +133,7 @@ export function PortalLanding() {
                     })}
                   </p>
                 </div>
-                <ChevronRight className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                <ChevronRight className="h-4 w-4 text-stone-400 flex-shrink-0" />
               </Link>
             </li>
           ))}
@@ -141,7 +141,7 @@ export function PortalLanding() {
       )}
 
       {/* Export link */}
-      <div className="text-center pt-4 border-t border-gray-100">
+      <div className="text-center pt-4 border-t border-stone-100">
         <Link
           href={`/${params.locale}/portal/${params.clinicSlug}/export`}
           className="text-sm text-emerald-600 hover:text-emerald-800 hover:underline"

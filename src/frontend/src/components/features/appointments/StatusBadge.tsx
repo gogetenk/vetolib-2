@@ -9,7 +9,7 @@ const STATUS_STYLES: Record<AppointmentStatus, { variant: 'default' | 'secondary
   SCHEDULED: { variant: 'outline', className: 'border-blue-300 text-blue-700 bg-blue-50' },
   CHECKED_IN: { variant: 'secondary', className: 'border-amber-300 text-amber-700 bg-amber-50' },
   IN_PROGRESS: { variant: 'default', className: 'border-green-300 text-green-700 bg-green-50' },
-  COMPLETED: { variant: 'outline', className: 'text-gray-600 bg-gray-50' },
+  COMPLETED: { variant: 'outline', className: 'text-stone-600 bg-stone-50' },
   CANCELLED: { variant: 'destructive' },
 }
 

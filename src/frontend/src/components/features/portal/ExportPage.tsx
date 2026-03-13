@@ -49,10 +49,10 @@ export function ExportPage() {
 
       {/* Title + description */}
       <div>
-        <h1 className="text-xl font-bold text-gray-900" data-testid="export-title">
+        <h1 className="text-xl font-bold text-stone-900" data-testid="export-title">
           {t('title')}
         </h1>
-        <p className="mt-1 text-sm text-gray-600" data-testid="export-description">
+        <p className="mt-1 text-sm text-stone-600" data-testid="export-description">
           {t('description')}
         </p>
       </div>

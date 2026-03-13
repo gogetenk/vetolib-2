@@ -288,11 +288,11 @@ export function AppointmentsTable() {
       {/* Desktop table */}
       <div className="hidden md:block rounded-md border" data-testid="appointments-table">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-stone-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="text-xs font-medium uppercase tracking-wide text-stone-500">
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -336,7 +336,7 @@ export function AppointmentsTable() {
               </TableRow>
             ) : (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-testid={`appointment-row-${row.original.id}`}>
+                <TableRow key={row.id} data-testid={`appointment-row-${row.original.id}`} className="hover:bg-stone-50">
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
