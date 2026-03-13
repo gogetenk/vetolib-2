@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
-import { Loader2, Check } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -62,7 +62,6 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   const router = useRouter()
   const t = useTranslations('patients.form')
   const [serverError, setServerError] = useState<string | null>(null)
-  const [saveSuccess, setSaveSuccess] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const patientSchema = useMemo(() => createPatientSchema(t), [t])
 

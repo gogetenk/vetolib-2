@@ -32,6 +32,7 @@ export function ReplyComposer({
   const [text, setText] = useState('')
   const [sendSuccess, setSendSuccess] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const sendSuccessTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // When an AI suggestion is selected, prefill the textarea.
   // We intentionally sync external prop → state here; onPrefillConsumed resets the prop.
@@ -44,6 +45,13 @@ export function ReplyComposer({
     }
   }, [prefillText, onPrefillConsumed])
 
+  // Cleanup timeout on unmount to avoid setting state on unmounted component
+  useEffect(() => {
+    return () => {
+      if (sendSuccessTimeout.current) clearTimeout(sendSuccessTimeout.current)
+    }
+  }, [])
+
   const charCount = text.length
   const isOverLimit = charCount > MAX_CHARS
   const isEmpty = text.trim().length === 0
@@ -52,8 +60,9 @@ export function ReplyComposer({
     if (isEmpty || isOverLimit || isSending) return
     await onSendReply(text.trim())
     setText('')
+    if (sendSuccessTimeout.current) clearTimeout(sendSuccessTimeout.current)
     setSendSuccess(true)
-    setTimeout(() => setSendSuccess(false), 1500)
+    sendSuccessTimeout.current = setTimeout(() => setSendSuccess(false), 1500)
   }
 
   const handleAddNote = async () => {

@@ -59,7 +59,8 @@ export function CalendarContainer() {
   // View transition state
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [navDirection, setNavDirection] = useState<'left' | 'right' | null>(null)
-  const prevViewRef = useRef<CalendarView>(activeView)
+  const navTransitionTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const viewTransitionTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Quick create state (BUG-3 fix)
   const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null)
@@ -102,6 +103,14 @@ export function CalendarContainer() {
     fetchData()
   }, [fetchData])
 
+  // Cleanup transition timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (navTransitionTimeout.current) clearTimeout(navTransitionTimeout.current)
+      if (viewTransitionTimeout.current) clearTimeout(viewTransitionTimeout.current)
+    }
+  }, [])
+
   // Filter by selected vets
   const filteredAppointments = useMemo(() => {
     if (selectedVetIds.length === 0) return appointments
@@ -132,7 +141,8 @@ export function CalendarContainer() {
   const goToPrev = useCallback(() => {
     setNavDirection('right')
     setIsTransitioning(true)
-    setTimeout(() => {
+    if (navTransitionTimeout.current) clearTimeout(navTransitionTimeout.current)
+    navTransitionTimeout.current = setTimeout(() => {
       setCurrentDate((prev) => {
         const d = new Date(prev)
         switch (activeView) {
@@ -156,7 +166,8 @@ export function CalendarContainer() {
   const goToNext = useCallback(() => {
     setNavDirection('left')
     setIsTransitioning(true)
-    setTimeout(() => {
+    if (navTransitionTimeout.current) clearTimeout(navTransitionTimeout.current)
+    navTransitionTimeout.current = setTimeout(() => {
       setCurrentDate((prev) => {
         const d = new Date(prev)
         switch (activeView) {
@@ -184,9 +195,9 @@ export function CalendarContainer() {
   const handleViewChange = useCallback((view: CalendarView) => {
     if (isMobile && view !== 'day') return
     if (view === activeView) return
-    prevViewRef.current = activeView
     setIsTransitioning(true)
-    setTimeout(() => {
+    if (viewTransitionTimeout.current) clearTimeout(viewTransitionTimeout.current)
+    viewTransitionTimeout.current = setTimeout(() => {
       setActiveView(view)
       setIsTransitioning(false)
     }, 150)

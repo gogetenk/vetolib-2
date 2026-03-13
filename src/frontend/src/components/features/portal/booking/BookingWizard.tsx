@@ -152,7 +152,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
   // Track direction for slide animation
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('left')
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const transitionTimeout = useRef<NodeJS.Timeout | null>(null)
+  const transitionTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Stable cached vet list — populated when step 2 mounts; used for name resolution
   const [cachedVets, setCachedVets] = useState<VeterinarianDto[]>([])
@@ -167,7 +167,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
     transitionTimeout.current = setTimeout(() => {
       setState((s) => ({ ...s, currentStep: step }))
       setIsTransitioning(false)
-    }, 200)
+    }, 300)
   }
 
   // Clean up timeout on unmount
