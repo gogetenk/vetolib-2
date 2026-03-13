@@ -207,13 +207,35 @@ export const billingHandlers = [
   http.get('/api/invoices/:id/pdf', ({ params }) => {
     const invoice = MOCK_INVOICES.find((inv) => inv.id === params.id)
     if (!invoice) return new HttpResponse(null, { status: 404 })
-    // Return a tiny placeholder PDF blob
-    const pdfContent = `%PDF-1.4 mock invoice ${invoice.invoiceNumber}`
-    return new HttpResponse(pdfContent, {
+
+    // Minimal structurally valid PDF 1.4 document
+    // PDF viewers require proper cross-reference table and trailer
+    const pdfContent = [
+      '%PDF-1.4',
+      '1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj',
+      '2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj',
+      '3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<<>>>>endobj',
+      'xref',
+      '0 4',
+      '0000000000 65535 f ',
+      '0000000009 00000 n ',
+      '0000000058 00000 n ',
+      '0000000115 00000 n ',
+      'trailer<</Size 4/Root 1 0 R>>',
+      'startxref',
+      '206',
+      '%%EOF',
+    ].join('\n')
+
+    const encoder = new TextEncoder()
+    const pdfBytes = encoder.encode(pdfContent)
+
+    return new HttpResponse(pdfBytes, {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${invoice.invoiceNumber}.pdf"`,
+        'Content-Length': String(pdfBytes.byteLength),
       },
     })
   }),
