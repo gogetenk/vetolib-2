@@ -88,7 +88,10 @@ export function UserMenu() {
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
           "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium",
-          "hover:bg-accent hover:text-accent-foreground transition-colors",
+          "transition-all duration-200 ease-in-out",
+          "hover:bg-accent hover:text-accent-foreground",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1",
+          "active:scale-[0.98]",
           open && "bg-accent text-accent-foreground"
         )}
         aria-expanded={open}
@@ -98,7 +101,7 @@ export function UserMenu() {
         {/* Avatar */}
         <span
           data-testid="user-avatar"
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold select-none"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold select-none transition-transform duration-200 ease-in-out hover:scale-105"
         >
           {userInfo.initials}
         </span>
@@ -112,7 +115,7 @@ export function UserMenu() {
         </span>
         <ChevronDown
           className={cn(
-            "h-4 w-4 text-muted-foreground transition-transform",
+            "h-4 w-4 text-muted-foreground transition-transform duration-200 ease-in-out",
             open && "rotate-180"
           )}
         />
@@ -122,9 +125,10 @@ export function UserMenu() {
         <div
           data-testid="user-menu-dropdown"
           className={cn(
-            "absolute right-0 top-full z-50 mt-1 w-52",
-            "rounded-md border bg-popover text-popover-foreground shadow-md",
-            "p-1"
+            "absolute ltr:right-0 rtl:left-0 top-full z-50 mt-1 w-52",
+            "rounded-md border bg-popover text-popover-foreground shadow-lg",
+            "p-1",
+            "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200"
           )}
           role="menu"
         >
@@ -148,21 +152,21 @@ export function UserMenu() {
           <Link
             href="/settings"
             data-testid="user-menu-settings"
-            className="flex items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
             role="menuitem"
             onClick={() => setOpen(false)}
           >
-            <Settings className="h-4 w-4" />
+            <Settings className="h-4 w-4 transition-transform duration-200 ease-in-out group-hover:rotate-45" />
             Settings
           </Link>
 
           <button
             data-testid="user-menu-signout"
             onClick={handleSignOut}
-            className="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
+            className="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-sm text-destructive transition-all duration-200 ease-in-out hover:bg-destructive/10 hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive/50"
             role="menuitem"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="h-4 w-4 transition-transform duration-200 ease-in-out" />
             Sign Out
           </button>
         </div>

@@ -20,6 +20,9 @@ import { FeaturesSection } from "@/components/features/landing/FeaturesSection";
 import { FinalCtaSection } from "@/components/features/landing/FinalCtaSection";
 import { Footer } from "@/components/features/landing/Footer";
 import { NavLanguageSwitcher } from "@/components/features/landing/NavLanguageSwitcher";
+import { ScrollReveal } from "@/components/features/landing/ScrollReveal";
+import { HeroStagger, HeroDashboardReveal } from "@/components/features/landing/HeroAnimations";
+import { AnimatedStat } from "@/components/features/landing/AnimatedStat";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -95,7 +98,7 @@ export default async function LandingPage({ params }: Props) {
   }));
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white scroll-smooth">
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
@@ -103,7 +106,7 @@ export default async function LandingPage({ params }: Props) {
       />
 
       {/* ── Nav ────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md transition-all duration-300">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold tracking-tight text-emerald-700">
@@ -113,32 +116,35 @@ export default async function LandingPage({ params }: Props) {
           <div className="hidden items-center gap-6 md:flex">
             <a
               href="#features"
-              className="text-sm font-medium text-gray-600 transition-colors hover:text-emerald-700"
+              className="text-sm font-medium text-gray-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-features"
             >
               {t("nav.features")}
             </a>
             <a
               href="#pricing"
-              className="text-sm font-medium text-gray-600 transition-colors hover:text-emerald-700"
+              className="text-sm font-medium text-gray-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-pricing"
             >
               {t("nav.pricing")}
             </a>
             <a
               href="#faq"
-              className="text-sm font-medium text-gray-600 transition-colors hover:text-emerald-700"
+              className="text-sm font-medium text-gray-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-faq"
             >
               {t("nav.faq")}
             </a>
             <NavLanguageSwitcher locale={locale} />
             <Link href={loginHref} data-testid="nav-signin-link">
-              <Button variant="outline" size="sm" data-testid="btn-nav-signin">
+              <Button variant="outline" size="sm" className="transition-all duration-200 hover:scale-[1.02]" data-testid="btn-nav-signin">
                 {t("nav.sign_in")}
               </Button>
             </Link>
             <Link href={signupHref} data-testid="nav-cta-start-trial">
               <Button
                 size="sm"
-                className="bg-emerald-700 text-white hover:bg-emerald-800"
+                className="bg-emerald-700 text-white transition-all duration-200 hover:bg-emerald-800 hover:shadow-md hover:shadow-emerald-700/20 hover:scale-[1.02]"
                 data-testid="btn-nav-start-trial"
               >
                 {t("hero.cta_primary")}
@@ -171,51 +177,59 @@ export default async function LandingPage({ params }: Props) {
             <div className="grid items-center gap-12 lg:grid-cols-2">
               {/* Text side */}
               <div className="text-center lg:text-start">
-                <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
-                  {t("hero.headline")}
-                </h1>
-                <p className="mt-6 text-lg leading-relaxed text-gray-600">
-                  {t("hero.subtitle")}
-                </p>
-                <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                  <Link href={signupHref} data-testid="hero-cta-start-trial">
-                    <Button
-                      size="lg"
-                      className="w-full bg-emerald-700 px-8 text-base font-semibold text-white hover:bg-emerald-800 sm:w-auto"
-                      data-testid="btn-hero-start-trial"
+                <HeroStagger index={0}>
+                  <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                    {t("hero.headline")}
+                  </h1>
+                </HeroStagger>
+                <HeroStagger index={1}>
+                  <p className="mt-6 text-lg leading-relaxed text-gray-600">
+                    {t("hero.subtitle")}
+                  </p>
+                </HeroStagger>
+                <HeroStagger index={2}>
+                  <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                    <Link href={signupHref} data-testid="hero-cta-start-trial">
+                      <Button
+                        size="lg"
+                        className="group/cta relative w-full overflow-hidden bg-emerald-700 px-8 text-base font-semibold text-white transition-all duration-300 hover:bg-emerald-800 hover:shadow-lg hover:shadow-emerald-700/25 hover:scale-[1.02] sm:w-auto"
+                        data-testid="btn-hero-start-trial"
+                      >
+                        {t("hero.cta_primary")}
+                      </Button>
+                    </Link>
+                    <a
+                      href="mailto:hello@vetolib.ae?subject=Demo%20Request"
+                      data-testid="hero-cta-book-demo"
                     >
-                      {t("hero.cta_primary")}
-                    </Button>
-                  </Link>
-                  <a
-                    href="mailto:hello@vetolib.ae?subject=Demo%20Request"
-                    data-testid="hero-cta-book-demo"
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="w-full border-emerald-700 px-8 text-base font-semibold text-emerald-700 transition-all duration-300 hover:bg-emerald-50 hover:scale-[1.02] sm:w-auto"
+                        data-testid="btn-hero-book-demo"
+                      >
+                        {t("hero.cta_secondary")}
+                      </Button>
+                    </a>
+                  </div>
+                </HeroStagger>
+                <HeroStagger index={3}>
+                  <p
+                    data-testid="hero-trust-badge"
+                    className="mt-5 flex items-center justify-center gap-1.5 text-sm text-gray-500 lg:justify-start"
                   >
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="w-full border-emerald-700 px-8 text-base font-semibold text-emerald-700 hover:bg-emerald-50 sm:w-auto"
-                      data-testid="btn-hero-book-demo"
-                    >
-                      {t("hero.cta_secondary")}
-                    </Button>
-                  </a>
-                </div>
-                <p
-                  data-testid="hero-trust-badge"
-                  className="mt-5 flex items-center justify-center gap-1.5 text-sm text-gray-500 lg:justify-start"
-                >
-                  <ShieldCheck
-                    className="h-4 w-4 shrink-0 text-emerald-600"
-                    aria-hidden="true"
-                  />
-                  {t("hero.trust_badge")}
-                </p>
+                    <ShieldCheck
+                      className="h-4 w-4 shrink-0 text-emerald-600"
+                      aria-hidden="true"
+                    />
+                    {t("hero.trust_badge")}
+                  </p>
+                </HeroStagger>
               </div>
 
               {/* Visual side */}
-              <div className="flex justify-center lg:justify-end">
-                <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-gray-200 shadow-2xl">
+              <HeroDashboardReveal className="flex justify-center lg:justify-end">
+                <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-gray-200 shadow-2xl transition-shadow duration-500 hover:shadow-3xl">
                   <Image
                     src="/dashboard-placeholder.svg"
                     alt={t("hero.image_alt")}
@@ -226,7 +240,7 @@ export default async function LandingPage({ params }: Props) {
                     unoptimized
                   />
                 </div>
-              </div>
+              </HeroDashboardReveal>
             </div>
           </div>
         </section>
@@ -238,19 +252,23 @@ export default async function LandingPage({ params }: Props) {
         >
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-              {SOCIAL_PROOF_KEYS.map(({ stat, label }) => (
-                <div
-                  key={stat}
-                  className="flex flex-col items-center text-center"
-                  data-testid={`social-proof-${stat}`}
-                >
-                  <dt className="text-2xl font-extrabold text-emerald-700 sm:text-3xl">
-                    {t(`social_proof.${stat}`)}
-                  </dt>
-                  <dd className="mt-1 text-sm font-medium text-gray-500">
-                    {t(`social_proof.${label}`)}
-                  </dd>
-                </div>
+              {SOCIAL_PROOF_KEYS.map(({ stat, label }, index) => (
+                <ScrollReveal key={stat} delay={index * 100} direction="fade-up">
+                  <div
+                    className="flex flex-col items-center text-center"
+                    data-testid={`social-proof-${stat}`}
+                  >
+                    <dt className="text-2xl font-extrabold text-emerald-700 sm:text-3xl">
+                      <AnimatedStat
+                        value={t(`social_proof.${stat}`)}
+                        delay={index * 150}
+                      />
+                    </dt>
+                    <dd className="mt-1 text-sm font-medium text-gray-500">
+                      {t(`social_proof.${label}`)}
+                    </dd>
+                  </div>
+                </ScrollReveal>
               ))}
             </dl>
           </div>
@@ -263,36 +281,39 @@ export default async function LandingPage({ params }: Props) {
           className="bg-white py-20 sm:py-28"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
-                {t("features.title")}
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                {t("features.subtitle")}
-              </p>
-            </div>
+            <ScrollReveal direction="fade-up">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                  {t("features.title")}
+                </h2>
+                <p className="mt-4 text-lg text-gray-600">
+                  {t("features.subtitle")}
+                </p>
+              </div>
+            </ScrollReveal>
 
             <div className="mt-16 grid gap-6 sm:grid-cols-2">
               {FEATURE_KEYS.map((key, i) => {
                 const Icon = FEATURE_ICONS[i];
                 return (
-                  <Card
-                    key={key}
-                    className="group border border-gray-100 shadow-sm transition-shadow hover:shadow-md"
-                    data-testid={`feature-card-${key}`}
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition-colors group-hover:bg-emerald-100">
-                        <Icon className="h-6 w-6" aria-hidden="true" />
-                      </div>
-                      <h3 className="mt-4 text-base font-semibold text-gray-900">
-                        {t(`features.${key}.title`)}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                        {t(`features.${key}.description`)}
-                      </p>
-                    </CardContent>
-                  </Card>
+                  <ScrollReveal key={key} delay={i * 100} direction="fade-up">
+                    <Card
+                      className="group border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                      data-testid={`feature-card-${key}`}
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110">
+                          <Icon className="h-6 w-6" aria-hidden="true" />
+                        </div>
+                        <h3 className="mt-4 text-base font-semibold text-gray-900">
+                          {t(`features.${key}.title`)}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                          {t(`features.${key}.description`)}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </ScrollReveal>
                 );
               })}
             </div>
@@ -335,14 +356,16 @@ export default async function LandingPage({ params }: Props) {
           className="bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-20 sm:py-28"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
-                {t("how_it_works.title")}
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                {t("how_it_works.subtitle")}
-              </p>
-            </div>
+            <ScrollReveal direction="fade-up">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                  {t("how_it_works.title")}
+                </h2>
+                <p className="mt-4 text-lg text-gray-600">
+                  {t("how_it_works.subtitle")}
+                </p>
+              </div>
+            </ScrollReveal>
 
             {/* Steps */}
             <div className="relative mt-16">
@@ -368,43 +391,46 @@ export default async function LandingPage({ params }: Props) {
                       Icon: Building2,
                     },
                   ] as const
-                ).map(({ key, Icon }) => (
-                  <li
-                    key={key}
-                    data-testid={`how-it-works-${key}`}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-4 border-emerald-100 bg-white shadow-md">
-                      <Icon
-                        className="h-8 w-8 text-emerald-700"
-                        aria-hidden="true"
-                      />
-                      <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-700 text-xs font-bold text-white">
-                        {t(`how_it_works.${key}.number`)}
-                      </span>
-                    </div>
-                    <h3 className="mt-6 text-base font-semibold text-gray-900">
-                      {t(`how_it_works.${key}.title`)}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                      {t(`how_it_works.${key}.description`)}
-                    </p>
-                  </li>
+                ).map(({ key, Icon }, stepIndex) => (
+                  <ScrollReveal key={key} delay={stepIndex * 200} direction="fade-up">
+                    <li
+                      data-testid={`how-it-works-${key}`}
+                      className="flex flex-col items-center text-center"
+                    >
+                      <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-4 border-emerald-100 bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                        <Icon
+                          className="h-8 w-8 text-emerald-700"
+                          aria-hidden="true"
+                        />
+                        <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-700 text-xs font-bold text-white">
+                          {t(`how_it_works.${key}.number`)}
+                        </span>
+                      </div>
+                      <h3 className="mt-6 text-base font-semibold text-gray-900">
+                        {t(`how_it_works.${key}.title`)}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                        {t(`how_it_works.${key}.description`)}
+                      </p>
+                    </li>
+                  </ScrollReveal>
                 ))}
               </ol>
             </div>
 
-            <div className="mt-14 text-center">
-              <Link href={signupHref} data-testid="how-it-works-cta">
-                <Button
-                  size="lg"
-                  className="bg-emerald-700 px-10 text-base font-semibold text-white hover:bg-emerald-800"
-                  data-testid="btn-how-it-works-start-trial"
-                >
-                  {t("how_it_works.cta")}
-                </Button>
-              </Link>
-            </div>
+            <ScrollReveal direction="fade-up" delay={600}>
+              <div className="mt-14 text-center">
+                <Link href={signupHref} data-testid="how-it-works-cta">
+                  <Button
+                    size="lg"
+                    className="bg-emerald-700 px-10 text-base font-semibold text-white transition-all duration-300 hover:bg-emerald-800 hover:shadow-lg hover:shadow-emerald-700/25 hover:scale-[1.02]"
+                    data-testid="btn-how-it-works-start-trial"
+                  >
+                    {t("how_it_works.cta")}
+                  </Button>
+                </Link>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -486,50 +512,53 @@ export default async function LandingPage({ params }: Props) {
           className="bg-white py-20 sm:py-28"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
-                {t("testimonials.title")}
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                {t("testimonials.subtitle")}
-              </p>
-            </div>
+            <ScrollReveal direction="fade-up">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                  {t("testimonials.title")}
+                </h2>
+                <p className="mt-4 text-lg text-gray-600">
+                  {t("testimonials.subtitle")}
+                </p>
+              </div>
+            </ScrollReveal>
 
             {/* Cards — 3 columns desktop, vertical stack mobile */}
             <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {(["quote1", "quote2", "quote3"] as const).map((key) => (
-                <figure
-                  key={key}
-                  data-testid={`testimonial-${key}`}
-                  className="flex flex-col rounded-2xl border border-gray-100 bg-gray-50 p-6 shadow-sm"
-                >
-                  <Quote
-                    className="h-8 w-8 text-emerald-200"
-                    aria-hidden="true"
-                  />
-                  <blockquote className="mt-4 flex-1">
-                    <p className="text-sm leading-relaxed text-gray-700">
-                      &ldquo;{t(`testimonials.${key}.text`)}&rdquo;
-                    </p>
-                  </blockquote>
-                  <figcaption className="mt-6 flex items-center gap-3 border-t border-gray-100 pt-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">
-                      {t(`testimonials.${key}.name`)
-                        .split(" ")
-                        .slice(-1)[0]
-                        .charAt(0)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">
-                        {t(`testimonials.${key}.name`)}
+              {(["quote1", "quote2", "quote3"] as const).map((key, idx) => (
+                <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
+                  <figure
+                    data-testid={`testimonial-${key}`}
+                    className="flex flex-col rounded-2xl border border-gray-100 bg-gray-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                  >
+                    <Quote
+                      className="h-8 w-8 text-emerald-200"
+                      aria-hidden="true"
+                    />
+                    <blockquote className="mt-4 flex-1">
+                      <p className="text-sm leading-relaxed text-gray-700">
+                        &ldquo;{t(`testimonials.${key}.text`)}&rdquo;
                       </p>
-                      <p className="text-xs text-gray-500">
-                        {t(`testimonials.${key}.role`)} &bull;{" "}
-                        {t(`testimonials.${key}.clinic`)}
-                      </p>
-                    </div>
-                  </figcaption>
-                </figure>
+                    </blockquote>
+                    <figcaption className="mt-6 flex items-center gap-3 border-t border-gray-100 pt-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">
+                        {t(`testimonials.${key}.name`)
+                          .split(" ")
+                          .slice(-1)[0]
+                          .charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {t(`testimonials.${key}.name`)}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {t(`testimonials.${key}.role`)} &bull;{" "}
+                          {t(`testimonials.${key}.clinic`)}
+                        </p>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </ScrollReveal>
               ))}
             </div>
 

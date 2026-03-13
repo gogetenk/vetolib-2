@@ -111,19 +111,24 @@ export function StepConsultationType({
                 aria-selected={isSelected}
                 aria-label={`${type.name} — ${type.durationMinutes} minutes`}
                 className={cn(
-                  'relative flex flex-col items-start gap-1 rounded-xl border-2 p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',
+                  'relative flex flex-col items-start gap-1 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',
                   isSelected
-                    ? 'border-emerald-500 bg-emerald-50 shadow-sm'
-                    : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/30'
+                    ? 'border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]'
+                    : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/30 hover:shadow-sm'
                 )}
               >
-                {isSelected && (
-                  <Check
-                    className="absolute top-2 right-2 h-4 w-4 text-emerald-600"
-                    data-testid={`consultation-type-check-${type.id}`}
-                    aria-hidden="true"
-                  />
-                )}
+                <div
+                  className={cn(
+                    'absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full transition-all duration-300',
+                    isSelected
+                      ? 'bg-emerald-500 scale-100 opacity-100'
+                      : 'bg-transparent scale-0 opacity-0'
+                  )}
+                  data-testid={isSelected ? `consultation-type-check-${type.id}` : undefined}
+                  aria-hidden="true"
+                >
+                  <Check className="h-3 w-3 text-white" />
+                </div>
                 <p
                   className={cn('font-semibold text-sm', isSelected ? 'text-emerald-800' : 'text-gray-900')}
                   data-testid={`consultation-type-name-${type.id}`}

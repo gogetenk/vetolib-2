@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -52,6 +53,8 @@ export function AppointmentForm() {
   const t = useTranslations('appointments.form')
   const [vets, setVets] = useState<VetDto[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [hasShake, setHasShake] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const {
     register,
@@ -61,6 +64,16 @@ export function AppointmentForm() {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   })
+
+  // Shake form on validation errors
+  const errorCount = Object.keys(errors).length
+  useEffect(() => {
+    if (errorCount > 0) {
+      setHasShake(true)
+      const timer = setTimeout(() => setHasShake(false), 500)
+      return () => clearTimeout(timer)
+    }
+  }, [errorCount])
 
   useEffect(() => {
     trackEvent(AnalyticsEvents.APPOINTMENT_FORM_OPENED)
@@ -108,8 +121,9 @@ export function AppointmentForm() {
       </CardHeader>
       <CardContent>
         <form
+          ref={formRef}
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4"
+          className={`space-y-4 ${hasShake ? 'animate-shake' : ''}`}
           data-testid="appointment-form"
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -123,7 +137,7 @@ export function AppointmentForm() {
                 placeholder={t('patient_name_placeholder')}
               />
               {errors.patientName && (
-                <p className="text-sm text-destructive" data-testid="error-patient-name">
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-patient-name">
                   {errors.patientName.message}
                 </p>
               )}
@@ -148,7 +162,7 @@ export function AppointmentForm() {
                 </SelectContent>
               </Select>
               {errors.species && (
-                <p className="text-sm text-destructive" data-testid="error-species">
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-species">
                   {errors.species.message}
                 </p>
               )}
@@ -164,7 +178,7 @@ export function AppointmentForm() {
                 placeholder={t('owner_name_placeholder')}
               />
               {errors.ownerName && (
-                <p className="text-sm text-destructive" data-testid="error-owner-name">
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-owner-name">
                   {errors.ownerName.message}
                 </p>
               )}
@@ -180,7 +194,7 @@ export function AppointmentForm() {
                 placeholder={t('owner_phone_placeholder')}
               />
               {errors.ownerPhone && (
-                <p className="text-sm text-destructive" data-testid="error-owner-phone">
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-owner-phone">
                   {errors.ownerPhone.message}
                 </p>
               )}
@@ -205,7 +219,7 @@ export function AppointmentForm() {
                 </SelectContent>
               </Select>
               {errors.vetId && (
-                <p className="text-sm text-destructive" data-testid="error-vet">
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-vet">
                   {errors.vetId.message}
                 </p>
               )}
@@ -222,7 +236,7 @@ export function AppointmentForm() {
                 min={new Date().toISOString().split('T')[0]}
               />
               {errors.date && (
-                <p className="text-sm text-destructive" data-testid="error-date">
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-date">
                   {errors.date.message}
                 </p>
               )}
@@ -247,7 +261,7 @@ export function AppointmentForm() {
                 </SelectContent>
               </Select>
               {errors.time && (
-                <p className="text-sm text-destructive" data-testid="error-time">
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-time">
                   {errors.time.message}
                 </p>
               )}
@@ -265,7 +279,7 @@ export function AppointmentForm() {
               rows={3}
             />
             {errors.reason && (
-              <p className="text-sm text-destructive" data-testid="error-reason">
+              <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-reason">
                 {errors.reason.message}
               </p>
             )}
@@ -297,6 +311,7 @@ export function AppointmentForm() {
               data-testid="btn-save"
               disabled={isSubmitting}
             >
+              {isSubmitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
               {isSubmitting ? t('saving') : t('save')}
             </Button>
           </div>

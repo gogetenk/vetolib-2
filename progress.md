@@ -2,6 +2,40 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
+## 2026-03-12 -- Forge cycle (QA calendar validation)
+
+- TODO: 2 (post-MVP) | WIP: 0 | DONE: 193
+- Agents actifs : aucun (factory idle)
+- PRs en review : 0
+- Questions PO : 10 ouvertes
+- develop CI : GREEN
+- Cleaned 6 stale todo-sonar-coverage-* duplicates (already done)
+
+### QA Calendar Validation (browser automation)
+
+6 screenshots captured via Playwright MCP for PO validation.
+
+| View | Status |
+|---|---|
+| Week view (EN) | PASS -- colors per consultation type, today highlighted, weekends greyed |
+| Day view (EN) | PASS -- detailed cards, red "now" indicator |
+| Month view (EN) | PASS -- compact pills, clickable days |
+| Vet filter | PASS -- 4 vets dropdown |
+| RTL layout (AR) | PASS (layout mirrored) / BUG (i18n text still English) |
+| Navigation | PASS -- Prev/Today/Next + Day/Week/Month toggle |
+
+### QA Bugs Found
+
+| Bug | Severity | Description |
+|---|---|---|
+| BUG-1 | MEDIUM | AR page shows English text, sidebar links hardcoded to /en/ |
+| BUG-2 | LOW | Appointment click does nothing in CalendarContainer (onClick not wired) |
+| BUG-3 | LOW | Empty slots not clickable (quick create not ported to CalendarContainer) |
+
+### Prochaine action
+
+Factory idle. 2 post-MVP tasks remaining. QA report at `src/frontend/e2e/screenshots/qa-calendar/QA-REPORT.md` ready for PO validation.
+
 ## Audit archi -- 2026-03-11 (BDD step binding audit)
 
 - Violations critiques : 3 (taches refacto creees)

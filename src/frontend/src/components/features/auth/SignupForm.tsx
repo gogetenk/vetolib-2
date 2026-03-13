@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -56,6 +56,7 @@ export function SignupForm() {
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [shakeForm, setShakeForm] = useState(false)
 
   const signupSchema = buildSignupSchema(t)
 
@@ -101,34 +102,46 @@ export function SignupForm() {
       } else {
         setServerError(t("errors.connection_error"))
       }
+      // Trigger shake animation on error
+      setShakeForm(true)
+      setTimeout(() => setShakeForm(false), 500)
     }
   }
 
+  const handleInvalidSubmit = () => {
+    setShakeForm(true)
+    setTimeout(() => setShakeForm(false), 500)
+  }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-auth-card-in">
       <div className="flex justify-end">
         <LanguageSwitcher />
       </div>
-      <Card data-testid="signup-card">
+      <Card data-testid="signup-card" className="shadow-lg">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Vetolib</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight">Vetolib</CardTitle>
           <CardDescription>{t("subtitle")}</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Server error displayed above the form */}
           {serverError && (
             <div
-              className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+              className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 animate-auth-error-slide"
               data-testid="server-error"
               role="alert"
             >
               {serverError}
             </div>
           )}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+          <form
+            onSubmit={handleSubmit(onSubmit, handleInvalidSubmit)}
+            className={`space-y-4 ${shakeForm ? "animate-auth-shake" : ""}`}
+            noValidate
+          >
             {/* Clinic Name */}
             <div className="space-y-2">
-              <Label htmlFor="clinicName">{t("clinic_name")}</Label>
+              <Label htmlFor="clinicName" className="transition-colors duration-200">{t("clinic_name")}</Label>
               <Input
                 id="clinicName"
                 type="text"
@@ -136,12 +149,12 @@ export function SignupForm() {
                 data-testid="clinic-name-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.clinicName}
-                className={errors.clinicName ? "border-red-500 focus-visible:ring-red-500" : ""}
+                className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.clinicName ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("clinicName")}
               />
               {errors.clinicName && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="clinic-name-error"
                   role="alert"
                 >
@@ -152,7 +165,7 @@ export function SignupForm() {
 
             {/* Email */}
             <div className="space-y-2">
-              <Label htmlFor="email">{t("email")}</Label>
+              <Label htmlFor="email" className="transition-colors duration-200">{t("email")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -160,12 +173,12 @@ export function SignupForm() {
                 data-testid="email-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.email}
-                className={errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}
+                className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("email")}
               />
               {errors.email && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="email-error"
                   role="alert"
                 >
@@ -176,7 +189,7 @@ export function SignupForm() {
 
             {/* Phone */}
             <div className="space-y-2">
-              <Label htmlFor="phone">{t("phone")}</Label>
+              <Label htmlFor="phone" className="transition-colors duration-200">{t("phone")}</Label>
               <Input
                 id="phone"
                 type="tel"
@@ -184,12 +197,12 @@ export function SignupForm() {
                 data-testid="phone-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.phone}
-                className={errors.phone ? "border-red-500 focus-visible:ring-red-500" : ""}
+                className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.phone ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("phone")}
               />
               {errors.phone && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="phone-error"
                   role="alert"
                 >
@@ -200,7 +213,7 @@ export function SignupForm() {
 
             {/* Password */}
             <div className="space-y-2">
-              <Label htmlFor="password">{t("password")}</Label>
+              <Label htmlFor="password" className="transition-colors duration-200">{t("password")}</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -209,33 +222,35 @@ export function SignupForm() {
                   data-testid="password-input"
                   disabled={isSubmitting}
                   aria-invalid={!!errors.password}
-                  className={`pr-10 ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                  className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("password")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200 hover:text-gray-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   data-testid="password-toggle"
                   aria-label={showPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showPassword}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  <span className="inline-block transition-transform duration-200">
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </span>
                 </button>
               </div>
               {/* Password strength indicator */}
               {passwordValue.length > 0 && (
-                <div data-testid="password-strength">
+                <div data-testid="password-strength" className="animate-auth-error-slide">
                   {/* Strength bar */}
                   <div className="mb-2 flex gap-1">
                     {[1, 2, 3].map((level) => (
                       <div
                         key={level}
-                        className={`h-1.5 flex-1 rounded-full transition-colors ${
+                        className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
                           strengthScore >= level
                             ? strengthScore === 1
                               ? "bg-red-400"
@@ -250,19 +265,19 @@ export function SignupForm() {
                   </div>
                   <ul className="space-y-1 text-xs">
                     <li
-                      className={passwordStrength.hasMin ? "text-emerald-600" : "text-gray-500"}
+                      className={`transition-colors duration-200 ${passwordStrength.hasMin ? "text-emerald-600" : "text-gray-500"}`}
                       data-testid="strength-min"
                     >
                       {passwordStrength.hasMin ? "\u2713" : "\u25CB"} {t("strength_min")}
                     </li>
                     <li
-                      className={passwordStrength.hasUpper ? "text-emerald-600" : "text-gray-500"}
+                      className={`transition-colors duration-200 ${passwordStrength.hasUpper ? "text-emerald-600" : "text-gray-500"}`}
                       data-testid="strength-upper"
                     >
                       {passwordStrength.hasUpper ? "\u2713" : "\u25CB"} {t("strength_upper")}
                     </li>
                     <li
-                      className={passwordStrength.hasNumber ? "text-emerald-600" : "text-gray-500"}
+                      className={`transition-colors duration-200 ${passwordStrength.hasNumber ? "text-emerald-600" : "text-gray-500"}`}
                       data-testid="strength-number"
                     >
                       {passwordStrength.hasNumber ? "\u2713" : "\u25CB"} {t("strength_number")}
@@ -272,7 +287,7 @@ export function SignupForm() {
               )}
               {errors.password && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="password-error"
                   role="alert"
                 >
@@ -283,7 +298,7 @@ export function SignupForm() {
 
             {/* Confirm Password */}
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">{t("confirm_password")}</Label>
+              <Label htmlFor="confirmPassword" className="transition-colors duration-200">{t("confirm_password")}</Label>
               <div className="relative">
                 <Input
                   id="confirmPassword"
@@ -292,27 +307,29 @@ export function SignupForm() {
                   data-testid="confirm-password-input"
                   disabled={isSubmitting}
                   aria-invalid={!!errors.confirmPassword}
-                  className={`pr-10 ${errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                  className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("confirmPassword")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200 hover:text-gray-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   data-testid="confirm-password-toggle"
                   aria-label={showConfirmPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showConfirmPassword}
                 >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  <span className="inline-block transition-transform duration-200">
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </span>
                 </button>
               </div>
               {errors.confirmPassword && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="confirm-password-error"
                   role="alert"
                 >
@@ -324,11 +341,18 @@ export function SignupForm() {
             {/* Submit */}
             <Button
               type="submit"
-              className="w-full bg-emerald-700 text-white hover:bg-emerald-800"
+              className="w-full bg-emerald-700 text-white hover:bg-emerald-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
               data-testid="signup-submit-button"
               disabled={isSubmitting}
             >
-              {isSubmitting ? t("submitting") : t("submit")}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span className="ml-2">{t("submitting")}</span>
+                </>
+              ) : (
+                t("submit")
+              )}
             </Button>
           </form>
 
@@ -337,7 +361,7 @@ export function SignupForm() {
             {t("already_have_account")}{" "}
             <Link
               href={`/${locale}/login`}
-              className="font-medium text-emerald-700 hover:underline"
+              className="auth-link-underline font-medium text-emerald-700 transition-colors duration-200 hover:text-emerald-800"
               data-testid="signin-link"
             >
               {t("sign_in")}

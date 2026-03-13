@@ -1,11 +1,13 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocale } from 'next-intl'
 import { CalendarHeader } from './CalendarHeader'
 import { DayCalendarBody } from './DayCalendar'
 import { WeekCalendarBody } from './WeekCalendarBody'
 import { MonthCalendarBody } from './MonthCalendar'
+import { QuickAppointmentForm } from './QuickAppointmentForm'
+import { AppointmentDetailSheet } from './AppointmentDetailSheet'
 import type { CalendarAppointment, CalendarView } from './types'
 import type { VetDto } from '@/lib/api/appointments'
 import { getAppointments, getVets } from '@/lib/api/appointments'
@@ -38,6 +40,11 @@ function formatMonthLabel(year: number, month: number, locale: string): string {
   return new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }).format(new Date(year, month, 1))
 }
 
+interface SelectedSlot {
+  date: Date
+  time: string // HH:mm
+}
+
 export function CalendarContainer() {
   const locale = useLocale()
 
@@ -47,6 +54,18 @@ export function CalendarContainer() {
   const [vets, setVets] = useState<VetDto[]>([])
   const [selectedVetIds, setSelectedVetIds] = useState<string[]>([])
   const [isMobile, setIsMobile] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // View transition state
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [navDirection, setNavDirection] = useState<'left' | 'right' | null>(null)
+  const prevViewRef = useRef<CalendarView>(activeView)
+
+  // Quick create state (BUG-3 fix)
+  const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null)
+
+  // Detail sheet state (BUG-2 fix)
+  const [selectedAppointment, setSelectedAppointment] = useState<CalendarAppointment | null>(null)
 
   // Responsive: force day view on mobile
   useEffect(() => {
@@ -63,21 +82,25 @@ export function CalendarContainer() {
   }, [activeView])
 
   // Fetch data
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [aptsResult, vetsResult] = await Promise.all([
-          getAppointments({ pageSize: 100 }),
-          getVets(),
-        ])
-        setAppointments(aptsResult.items as CalendarAppointment[])
-        setVets(vetsResult)
-      } catch {
-        // Silently handle
-      }
+  const fetchData = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const [aptsResult, vetsResult] = await Promise.all([
+        getAppointments({ pageSize: 100 }),
+        getVets(),
+      ])
+      setAppointments(aptsResult.items as CalendarAppointment[])
+      setVets(vetsResult)
+    } catch {
+      // Silently handle
+    } finally {
+      setIsLoading(false)
     }
-    fetchData()
   }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   // Filter by selected vets
   const filteredAppointments = useMemo(() => {
@@ -105,41 +128,53 @@ export function CalendarContainer() {
     }
   }, [activeView, currentDate, weekStart, weekEnd, locale])
 
-  // Navigation
+  // Navigation with slide animation
   const goToPrev = useCallback(() => {
-    setCurrentDate((prev) => {
-      const d = new Date(prev)
-      switch (activeView) {
-        case 'day':
-          d.setDate(d.getDate() - 1)
-          break
-        case 'week':
-          d.setDate(d.getDate() - 7)
-          break
-        case 'month':
-          d.setMonth(d.getMonth() - 1)
-          break
-      }
-      return d
-    })
+    setNavDirection('right')
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setCurrentDate((prev) => {
+        const d = new Date(prev)
+        switch (activeView) {
+          case 'day':
+            d.setDate(d.getDate() - 1)
+            break
+          case 'week':
+            d.setDate(d.getDate() - 7)
+            break
+          case 'month':
+            d.setMonth(d.getMonth() - 1)
+            break
+        }
+        return d
+      })
+      setIsTransitioning(false)
+      setNavDirection(null)
+    }, 150)
   }, [activeView])
 
   const goToNext = useCallback(() => {
-    setCurrentDate((prev) => {
-      const d = new Date(prev)
-      switch (activeView) {
-        case 'day':
-          d.setDate(d.getDate() + 1)
-          break
-        case 'week':
-          d.setDate(d.getDate() + 7)
-          break
-        case 'month':
-          d.setMonth(d.getMonth() + 1)
-          break
-      }
-      return d
-    })
+    setNavDirection('left')
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setCurrentDate((prev) => {
+        const d = new Date(prev)
+        switch (activeView) {
+          case 'day':
+            d.setDate(d.getDate() + 1)
+            break
+          case 'week':
+            d.setDate(d.getDate() + 7)
+            break
+          case 'month':
+            d.setMonth(d.getMonth() + 1)
+            break
+        }
+        return d
+      })
+      setIsTransitioning(false)
+      setNavDirection(null)
+    }, 150)
   }, [activeView])
 
   const goToToday = useCallback(() => {
@@ -147,14 +182,40 @@ export function CalendarContainer() {
   }, [])
 
   const handleViewChange = useCallback((view: CalendarView) => {
-    if (isMobile && view !== 'day') return // Block non-day views on mobile
-    setActiveView(view)
-  }, [isMobile])
+    if (isMobile && view !== 'day') return
+    if (view === activeView) return
+    prevViewRef.current = activeView
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setActiveView(view)
+      setIsTransitioning(false)
+    }, 150)
+  }, [isMobile, activeView])
 
   const handleDayClickFromMonth = useCallback((date: Date) => {
     setCurrentDate(date)
     setActiveView('day')
   }, [])
+
+  // BUG-2: Handle appointment click to open detail sheet
+  const handleAppointmentClick = useCallback((apt: CalendarAppointment) => {
+    setSelectedAppointment(apt)
+  }, [])
+
+  // BUG-3: Handle slot click to open quick create
+  const handleSlotClick = useCallback((date: Date, time: string) => {
+    setSelectedSlot({ date, time })
+  }, [])
+
+  // Transition classes for navigation slide
+  const getTransitionClasses = () => {
+    if (isTransitioning) {
+      if (navDirection === 'left') return 'opacity-0 -translate-x-4'
+      if (navDirection === 'right') return 'opacity-0 translate-x-4'
+      return 'opacity-0 scale-[0.98]'
+    }
+    return 'opacity-100 translate-x-0 scale-100'
+  }
 
   return (
     <div className="flex flex-col" data-testid="calendar-container">
@@ -170,28 +231,89 @@ export function CalendarContainer() {
         onVetFilterChange={setSelectedVetIds}
       />
 
-      {activeView === 'day' && (
-        <DayCalendarBody
-          date={currentDate}
-          appointments={filteredAppointments}
+      {/* Loading skeleton */}
+      {isLoading && (
+        <div className="animate-in fade-in duration-300" data-testid="calendar-loading-skeleton">
+          <div className="flex border border-border rounded-lg bg-background overflow-hidden">
+            <div className="flex-shrink-0 w-16 border-e border-border">
+              {Array.from({ length: 8 }, (_, i) => (
+                <div key={i} className="h-16 border-b border-border/50 p-2">
+                  <div className="h-3 w-10 bg-muted animate-pulse rounded" />
+                </div>
+              ))}
+            </div>
+            <div className="flex-1 grid grid-cols-5 gap-0">
+              {Array.from({ length: 40 }, (_, i) => (
+                <div key={i} className="h-16 border-b border-e border-border/50 p-1">
+                  {i % 7 === 0 && (
+                    <div className="h-8 bg-muted animate-pulse rounded-md mx-0.5" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Calendar views with transition */}
+      {!isLoading && (
+        <div
+          className={`transition-all duration-200 ease-in-out ${getTransitionClasses()}`}
+          data-testid="calendar-view-container"
+        >
+          {activeView === 'day' && (
+            <DayCalendarBody
+              date={currentDate}
+              appointments={filteredAppointments}
+              onAppointmentClick={handleAppointmentClick}
+              onSlotClick={handleSlotClick}
+            />
+          )}
+
+          {activeView === 'week' && (
+            <WeekCalendarBody
+              weekStart={weekStart}
+              appointments={filteredAppointments}
+              onAppointmentClick={handleAppointmentClick}
+              onSlotClick={handleSlotClick}
+            />
+          )}
+
+          {activeView === 'month' && (
+            <MonthCalendarBody
+              year={currentDate.getFullYear()}
+              month={currentDate.getMonth()}
+              appointments={filteredAppointments}
+              onDayClick={handleDayClickFromMonth}
+              onAppointmentClick={handleAppointmentClick}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Quick create dialog (BUG-3 fix: integrated at container level) */}
+      {selectedSlot && (
+        <QuickAppointmentForm
+          open={!!selectedSlot}
+          onOpenChange={(open) => {
+            if (!open) setSelectedSlot(null)
+          }}
+          date={selectedSlot.date}
+          time={selectedSlot.time}
+          vets={vets}
+          onCreated={fetchData}
         />
       )}
 
-      {activeView === 'week' && (
-        <WeekCalendarBody
-          weekStart={weekStart}
-          appointments={filteredAppointments}
-        />
-      )}
-
-      {activeView === 'month' && (
-        <MonthCalendarBody
-          year={currentDate.getFullYear()}
-          month={currentDate.getMonth()}
-          appointments={filteredAppointments}
-          onDayClick={handleDayClickFromMonth}
-        />
-      )}
+      {/* Appointment detail sheet (BUG-2 fix: integrated at container level) */}
+      <AppointmentDetailSheet
+        open={!!selectedAppointment}
+        onOpenChange={(open) => {
+          if (!open) setSelectedAppointment(null)
+        }}
+        appointment={selectedAppointment}
+        onUpdated={fetchData}
+      />
     </div>
   )
 }

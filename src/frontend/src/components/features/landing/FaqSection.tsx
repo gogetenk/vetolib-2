@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { trackEvent, AnalyticsEvents } from "@/lib/analytics";
+import { ScrollReveal } from "./ScrollReveal";
 
 interface FaqItem {
   question: string;
@@ -63,52 +64,60 @@ export function FaqSection({ title, subtitle, items }: Props) {
       className="bg-white py-20 sm:py-28"
     >
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
-            {title}
-          </h2>
-          <p className="mt-4 text-lg text-gray-600">{subtitle}</p>
-        </div>
+        <ScrollReveal direction="fade-up">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+              {title}
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">{subtitle}</p>
+          </div>
+        </ScrollReveal>
 
-        <div className="mt-12 divide-y divide-gray-100 rounded-2xl border border-gray-100 shadow-sm">
-          {items.map((item, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div
-                key={index}
-                data-testid={`faq-${index}`}
-              >
-                <button
-                  type="button"
-                  data-testid={`faq-${index}-trigger`}
-                  aria-expanded={isOpen}
-                  onClick={() => toggle(index)}
-                  className="flex w-full items-center justify-between px-6 py-5 text-start"
+        <ScrollReveal direction="fade-up" delay={200}>
+          <div className="mt-12 divide-y divide-gray-100 rounded-2xl border border-gray-100 shadow-sm">
+            {items.map((item, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div
+                  key={index}
+                  data-testid={`faq-${index}`}
                 >
-                  <span className="text-sm font-semibold text-gray-900 sm:text-base">
-                    {item.question}
-                  </span>
-                  <ChevronDown
-                    className={`ms-4 h-5 w-5 shrink-0 text-gray-400 transition-transform duration-200 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                    aria-hidden="true"
-                  />
-                </button>
-                {isOpen && (
+                  <button
+                    type="button"
+                    data-testid={`faq-${index}-trigger`}
+                    aria-expanded={isOpen}
+                    onClick={() => toggle(index)}
+                    className="flex w-full items-center justify-between px-6 py-5 text-start transition-colors duration-200 hover:bg-gray-50/50"
+                  >
+                    <span className="text-sm font-semibold text-gray-900 sm:text-base">
+                      {item.question}
+                    </span>
+                    <ChevronDown
+                      className={`ms-4 h-5 w-5 shrink-0 text-gray-400 transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </button>
                   <div
                     data-testid={`faq-${index}-content`}
-                    className="px-6 pb-5"
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
                   >
-                    <p className="text-sm leading-relaxed text-gray-600">
-                      {item.answer}
-                    </p>
+                    <div className="overflow-hidden">
+                      <div className="px-6 pb-5">
+                        <p className="text-sm leading-relaxed text-gray-600">
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                </div>
+              );
+            })}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

@@ -41,27 +41,27 @@ export function Header() {
   return (
     <header
       data-testid="dashboard-header"
-      className="flex h-16 items-center border-b bg-background px-4 sm:px-6"
+      className="flex h-16 items-center border-b bg-background px-4 sm:px-6 transition-colors duration-200 ease-in-out"
     >
       {/* Hamburger — mobile only */}
       <Button
         variant="ghost"
         size="icon"
         data-testid="mobile-menu-trigger"
-        className="ltr:mr-2 rtl:ml-2 md:hidden"
+        className="ltr:mr-2 rtl:ml-2 md:hidden transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95"
         onClick={() => setMobileOpen(true)}
         aria-label="Open navigation menu"
       >
-        <Menu className="h-5 w-5" />
+        <Menu className="h-5 w-5 transition-transform duration-200 ease-in-out" />
       </Button>
 
       {/* Logo */}
       <Link
         href={`/${locale}/appointments`}
         data-testid="header-logo"
-        className="flex items-center gap-2 font-bold text-lg text-primary"
+        className="group/logo flex items-center gap-2 font-bold text-lg text-primary transition-all duration-200 ease-in-out hover:opacity-80"
       >
-        <PawPrint className="h-6 w-6" />
+        <PawPrint className="h-6 w-6 transition-transform duration-200 ease-in-out group-hover/logo:rotate-[-8deg] group-hover/logo:scale-110" />
         <span>Vetolib</span>
       </Link>
 
@@ -69,7 +69,7 @@ export function Header() {
       {clinicName && (
         <span
           data-testid="clinic-name"
-          className="ltr:ml-4 rtl:mr-4 text-sm font-medium text-muted-foreground ltr:mr-auto rtl:ml-auto hidden sm:block"
+          className="ltr:ml-4 rtl:mr-4 text-sm font-medium text-muted-foreground ltr:mr-auto rtl:ml-auto hidden sm:block transition-colors duration-200 ease-in-out"
         >
           {clinicName}
         </span>

@@ -38,7 +38,7 @@ export function ConsentBanner() {
       <div className="h-20 sm:h-16" aria-hidden="true" />
       <div
         data-testid="consent-banner"
-        className="fixed bottom-0 left-0 right-0 z-[9999] border-t bg-background shadow-lg"
+        className="fixed bottom-0 left-0 right-0 z-[9999] border-t bg-background shadow-lg animate-in slide-in-from-bottom-full fade-in-0 duration-300 ease-out"
       >
         <div className="container mx-auto flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-muted-foreground">{t('message')}</p>
@@ -48,6 +48,7 @@ export function ConsentBanner() {
               size="sm"
               data-testid="consent-decline"
               onClick={handleDecline}
+              className="transition-all duration-200 ease-in-out hover:scale-[1.02] active:scale-[0.98]"
             >
               {t('decline')}
             </Button>
@@ -55,6 +56,7 @@ export function ConsentBanner() {
               size="sm"
               data-testid="consent-accept"
               onClick={handleAccept}
+              className="transition-all duration-200 ease-in-out hover:scale-[1.02] active:scale-[0.98]"
             >
               {t('accept')}
             </Button>

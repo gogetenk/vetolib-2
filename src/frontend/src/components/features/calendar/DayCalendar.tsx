@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
+import { PlusIcon } from 'lucide-react'
 import { getConsultationColor } from './consultation-colors'
 import { START_HOUR, END_HOUR } from './TimeColumn'
 import type { CalendarAppointment } from './types'
@@ -37,7 +37,6 @@ interface LayoutedAppointment {
 function computeOverlapLayout(appointments: CalendarAppointment[]): LayoutedAppointment[] {
   if (appointments.length === 0) return []
 
-  // Sort by start time, then by duration (longer first)
   const sorted = [...appointments].sort((a, b) => {
     const aTime = new Date(a.scheduledAt).getTime()
     const bTime = new Date(b.scheduledAt).getTime()
@@ -45,7 +44,6 @@ function computeOverlapLayout(appointments: CalendarAppointment[]): LayoutedAppo
     return (b.durationMinutes ?? 30) - (a.durationMinutes ?? 30)
   })
 
-  // Assign columns using a greedy algorithm
   const columns: { end: number; items: CalendarAppointment[] }[] = []
   const aptColumnMap = new Map<string, number>()
 
@@ -69,14 +67,12 @@ function computeOverlapLayout(appointments: CalendarAppointment[]): LayoutedAppo
     }
   }
 
-  // For each appointment, find the max columns among overlapping group
   const result: LayoutedAppointment[] = []
   for (const apt of sorted) {
     const col = aptColumnMap.get(apt.id) ?? 0
     const aptStart = new Date(apt.scheduledAt).getTime()
     const aptEnd = aptStart + (apt.durationMinutes ?? 30) * 60000
 
-    // Count how many columns overlap with this appointment's time range
     let maxCols = 0
     for (const column of columns) {
       const hasOverlap = column.items.some((other) => {
@@ -100,16 +96,18 @@ function computeOverlapLayout(appointments: CalendarAppointment[]): LayoutedAppo
 interface DayCalendarBodyProps {
   date: Date
   appointments: CalendarAppointment[]
+  onAppointmentClick?: (apt: CalendarAppointment) => void
+  onSlotClick?: (date: Date, time: string) => void
 }
 
-export function DayCalendarBody({ date, appointments }: DayCalendarBodyProps) {
-  const router = useRouter()
+export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlotClick }: DayCalendarBodyProps) {
   const locale = useLocale()
   const t = useTranslations('calendar')
   const isRtl = locale === 'ar'
   const containerRef = useRef<HTMLDivElement>(null)
 
   const totalHours = END_HOUR - START_HOUR + 1
+  const [hoveredSlot, setHoveredSlot] = useState<string | null>(null)
 
   // Auto-scroll to current hour on mount
   useEffect(() => {
@@ -169,8 +167,19 @@ export function DayCalendarBody({ date, appointments }: DayCalendarBodyProps) {
     [locale]
   )
 
-  function handleAppointmentClick(aptId: string) {
-    router.push(`/${locale}/appointments/${aptId}`)
+  function isOffHours(hour: number): boolean {
+    return hour < 8 || hour >= 18
+  }
+
+  function handleSlotClick(hour: number, isTopHalf: boolean) {
+    if (isOffHours(hour)) return
+    const minutes = isTopHalf ? 0 : 30
+    const time = `${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+    onSlotClick?.(date, time)
+  }
+
+  function getSlotKey(hour: number, half: 'top' | 'bottom') {
+    return `day-${hour}-${half}`
   }
 
   return (
@@ -196,22 +205,60 @@ export function DayCalendarBody({ date, appointments }: DayCalendarBodyProps) {
       {/* Day column */}
       <div className={`flex-1 min-w-0 ${isRtl ? 'text-right' : ''}`}>
         <div className="relative" style={{ height: `${totalHours * HOUR_HEIGHT}px` }}>
-          {/* Hour lines with 15-min sub-lines */}
+          {/* Hour lines with clickable slots */}
           {Array.from({ length: totalHours }, (_, i) => {
             const hour = START_HOUR + i
-            const isOffHours = hour < 8 || hour >= 18
+            const offHours = isOffHours(hour)
+            const isClickable = !offHours
+
+            const topHalfKey = getSlotKey(hour, 'top')
+            const bottomHalfKey = getSlotKey(hour, 'bottom')
+            const isTopHovered = hoveredSlot === topHalfKey
+            const isBottomHovered = hoveredSlot === bottomHalfKey
+
             return (
-              <div key={i} className={`h-16 border-b border-border/50 ${isOffHours ? 'bg-muted/30' : ''}`}>
-                {/* 15-min sub-lines */}
-                <div className="h-4 border-b border-border/20" />
-                <div className="h-4 border-b border-border/30" />
-                <div className="h-4 border-b border-border/20" />
-                <div className="h-4" />
+              <div key={i} className={`h-16 border-b border-border/50 ${offHours ? 'bg-muted/30' : ''}`}>
+                {/* Top half */}
+                <div
+                  className={`h-8 relative transition-colors duration-200 ease-in-out border-b border-border/20 ${
+                    isClickable
+                      ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                      : 'cursor-not-allowed'
+                  } ${isTopHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                  onClick={() => isClickable && handleSlotClick(hour, true)}
+                  onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
+                  onMouseLeave={() => setHoveredSlot(null)}
+                  data-testid={isClickable ? `calendar-day-slot-${hour}-00` : undefined}
+                >
+                  {isTopHovered && isClickable && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
+                      <PlusIcon className="size-4 text-blue-400" />
+                    </div>
+                  )}
+                </div>
+                {/* Bottom half */}
+                <div
+                  className={`h-8 relative transition-colors duration-200 ease-in-out ${
+                    isClickable
+                      ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                      : 'cursor-not-allowed'
+                  } ${isBottomHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                  onClick={() => isClickable && handleSlotClick(hour, false)}
+                  onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
+                  onMouseLeave={() => setHoveredSlot(null)}
+                  data-testid={isClickable ? `calendar-day-slot-${hour}-30` : undefined}
+                >
+                  {isBottomHovered && isClickable && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
+                      <PlusIcon className="size-4 text-blue-400" />
+                    </div>
+                  )}
+                </div>
               </div>
             )
           })}
 
-          {/* Now indicator */}
+          {/* Now indicator with pulse */}
           {nowOffset !== null && (
             <div
               className="absolute left-0 right-0 z-20 pointer-events-none"
@@ -219,8 +266,8 @@ export function DayCalendarBody({ date, appointments }: DayCalendarBodyProps) {
               data-testid="calendar-now-indicator"
             >
               <div className="flex items-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500 -ms-1" />
-                <div className="flex-1 h-0.5 bg-red-500" />
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500 -ms-1 animate-pulse shadow-sm shadow-red-500/50" />
+                <div className="flex-1 h-0.5 bg-red-500/80" />
               </div>
             </div>
           )}
@@ -241,26 +288,26 @@ export function DayCalendarBody({ date, appointments }: DayCalendarBodyProps) {
               <div
                 key={apt.id}
                 data-testid={`appointment-block-${apt.id}`}
-                className={`absolute rounded-md border-s-[3px] ${color.bg} ${color.border} px-2 py-1 cursor-pointer overflow-hidden transition-shadow hover:shadow-md z-10`}
+                className={`absolute rounded-md border-s-[3px] ${color.bg} ${color.border} px-2 py-1 cursor-pointer overflow-hidden transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-0.5 hover:z-30 active:scale-[0.98] z-10`}
                 style={{
                   top: `${topPx}px`,
                   height: `${Math.max(heightPx, 24)}px`,
                   [isRtl ? 'right' : 'left']: `${leftPercent}%`,
                   width: `calc(${widthPercent}% - 4px)`,
                 }}
-                onClick={() => handleAppointmentClick(apt.id)}
+                onClick={() => onAppointmentClick?.(apt)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
-                    handleAppointmentClick(apt.id)
+                    onAppointmentClick?.(apt)
                   }
                 }}
               >
                 {/* Line 1: patient + species + owner */}
                 <div className="flex items-center gap-1">
-                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${STATUS_COLORS[apt.status]}`} />
+                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${STATUS_COLORS[apt.status]} transition-colors duration-200`} />
                   <span className={`text-xs font-medium truncate ${color.text}`}>
                     {emoji} {apt.patientName}
                   </span>
@@ -289,9 +336,9 @@ export function DayCalendarBody({ date, appointments }: DayCalendarBodyProps) {
             )
           })}
 
-          {/* No appointments message */}
+          {/* No appointments message with fade-in */}
           {dayAppointments.length === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center animate-in fade-in duration-500">
               <p className="text-sm text-muted-foreground">{t('noAppointments')}</p>
             </div>
           )}

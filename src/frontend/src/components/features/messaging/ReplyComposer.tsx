@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Send, StickyNote, Paperclip } from 'lucide-react'
+import { Send, StickyNote, Paperclip, Loader2, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
@@ -30,6 +30,7 @@ export function ReplyComposer({
 }: ReplyComposerProps) {
   const t = useTranslations('messaging')
   const [text, setText] = useState('')
+  const [sendSuccess, setSendSuccess] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // When an AI suggestion is selected, prefill the textarea.
@@ -51,6 +52,8 @@ export function ReplyComposer({
     if (isEmpty || isOverLimit || isSending) return
     await onSendReply(text.trim())
     setText('')
+    setSendSuccess(true)
+    setTimeout(() => setSendSuccess(false), 1500)
   }
 
   const handleAddNote = async () => {
@@ -138,14 +141,20 @@ export function ReplyComposer({
             disabled={isSending || isEmpty || isOverLimit}
             onClick={handleSend}
           >
-            <Send className="h-4 w-4 mr-1.5" aria-hidden />
-            {isSending ? t('sending') : t('send_reply')}
+            {isSending ? (
+              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />
+            ) : sendSuccess ? (
+              <Check className="h-4 w-4 mr-1.5 animate-success-check text-green-200" aria-hidden />
+            ) : (
+              <Send className="h-4 w-4 mr-1.5" aria-hidden />
+            )}
+            {isSending ? t('sending') : sendSuccess ? t('send_reply') : t('send_reply')}
           </Button>
         </div>
       </div>
 
       {isOverLimit && (
-        <p className="text-xs text-red-500 mt-1" role="alert" data-testid="char-limit-warning">
+        <p className="text-xs text-red-500 mt-1 animate-slide-up-fade" role="alert" data-testid="char-limit-warning">
           {t('char_limit_exceeded')}
         </p>
       )}

@@ -124,12 +124,12 @@ export function BookingSuccess({
 
   return (
     <div
-      className="flex flex-col items-center text-center gap-6 py-4"
+      className="flex flex-col items-center text-center gap-6 py-4 animate-[fadeIn_0.5s_ease-out]"
       data-testid="booking-success"
     >
       {/* Success icon */}
       <div
-        className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100"
+        className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 animate-[bounceIn_0.6s_ease-out]"
         data-testid="booking-success-icon"
         aria-hidden="true"
       >
@@ -137,7 +137,7 @@ export function BookingSuccess({
       </div>
 
       {/* Title */}
-      <div>
+      <div className="animate-[fadeIn_0.5s_ease-out_0.3s_both]">
         <h2
           className="text-2xl font-bold text-gray-900"
           data-testid="booking-success-title"
@@ -151,7 +151,7 @@ export function BookingSuccess({
 
       {/* Appointment summary */}
       <div
-        className="w-full rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-left space-y-3"
+        className="w-full rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-left space-y-3 animate-[fadeIn_0.5s_ease-out_0.5s_both]"
         data-testid="booking-success-details"
       >
         <div className="flex items-center gap-3">

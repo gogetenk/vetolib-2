@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -148,7 +149,7 @@ export function InvoiceForm() {
                       key={p.id}
                       type="button"
                       data-testid={`patient-option-${p.id}`}
-                      className="w-full px-3 py-2 text-left text-sm hover:bg-accent"
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-accent transition-colors duration-150"
                       onClick={() => {
                         setSelectedPatientId(p.id)
                         setPatientSearch(p.name)
@@ -295,7 +296,7 @@ export function InvoiceForm() {
         </Card>
 
         {error && (
-          <p className="text-sm text-destructive" data-testid="form-error">
+          <p className="text-sm text-destructive animate-slide-up-fade" data-testid="form-error">
             {error}
           </p>
         )}
@@ -314,6 +315,7 @@ export function InvoiceForm() {
             data-testid="submit-invoice-btn"
             disabled={submitting}
           >
+            {submitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
             {submitting ? t('creating') : t('create_invoice')}
           </Button>
         </div>

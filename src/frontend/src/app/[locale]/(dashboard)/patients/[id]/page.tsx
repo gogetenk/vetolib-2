@@ -72,7 +72,7 @@ function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
         <div
           key={vac.id}
           data-testid={`vaccination-${vac.id}`}
-          className="grid grid-cols-4 gap-4 text-sm px-3 py-3 rounded-md hover:bg-muted/50"
+          className="grid grid-cols-4 gap-4 text-sm px-3 py-3 rounded-md hover:bg-muted/50 transition-colors duration-150 ease-in-out"
         >
           <span className="font-medium" data-testid={`vaccination-name-${vac.id}`}>{vac.name}</span>
           <span data-testid={`vaccination-date-${vac.id}`}>{formatDate(vac.administeredDate)}</span>
@@ -117,7 +117,7 @@ function PrescriptionsTab({
             <div
               key={presc.id}
               data-testid={`prescription-${presc.id}`}
-              className="flex items-start justify-between gap-4 rounded-md border p-4"
+              className="flex items-start justify-between gap-4 rounded-md border p-4 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
             >
               <div>
                 <p className="font-medium text-sm" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
@@ -203,15 +203,15 @@ export default function PatientDetailPage() {
   }
 
   return (
-    <div className="space-y-6" data-testid="patient-detail-page">
+    <div className="space-y-6 animate-in fade-in duration-300" data-testid="patient-detail-page">
       <Button
         render={<Link href="../patients" />}
         variant="ghost"
         size="sm"
         data-testid="back-to-patients-btn"
-        className="-ms-2"
+        className="-ms-2 group/back"
       >
-        <ArrowLeft className="h-4 w-4 me-1" />
+        <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
         {t('title')}
       </Button>
 
@@ -336,12 +336,12 @@ export default function PatientDetailPage() {
 
         <div className="mt-4">
           {activeTab === 'medical-records' && (
-            <div id="panel-medical-records" role="tabpanel" aria-labelledby="tab-medical-records" data-testid="tabpanel-medical-records">
+            <div id="panel-medical-records" role="tabpanel" aria-labelledby="tab-medical-records" data-testid="tabpanel-medical-records" className="animate-in fade-in duration-200">
               <MedicalRecordsList records={records} isLoading={isLoadingRecords} />
             </div>
           )}
           {activeTab === 'prescriptions' && (
-            <div id="panel-prescriptions" role="tabpanel" aria-labelledby="tab-prescriptions" data-testid="tabpanel-prescriptions">
+            <div id="panel-prescriptions" role="tabpanel" aria-labelledby="tab-prescriptions" data-testid="tabpanel-prescriptions" className="animate-in fade-in duration-200">
               <PrescriptionsTab
                 prescriptions={prescriptions}
                 patientId={id}
@@ -350,7 +350,7 @@ export default function PatientDetailPage() {
             </div>
           )}
           {activeTab === 'vaccinations' && (
-            <div id="panel-vaccinations" role="tabpanel" aria-labelledby="tab-vaccinations" data-testid="tabpanel-vaccinations">
+            <div id="panel-vaccinations" role="tabpanel" aria-labelledby="tab-vaccinations" data-testid="tabpanel-vaccinations" className="animate-in fade-in duration-200">
               <VaccinationsTab vaccinations={vaccinations} />
             </div>
           )}

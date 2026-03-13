@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
+import { PlusIcon } from 'lucide-react'
 import { TimeColumn, START_HOUR, END_HOUR } from './TimeColumn'
 import { AppointmentBlock } from './AppointmentBlock'
 import type { CalendarAppointment, CalendarDay } from './types'
@@ -30,13 +31,17 @@ function buildWeekDays(weekStart: Date): CalendarDay[] {
 interface WeekCalendarBodyProps {
   weekStart: Date
   appointments: CalendarAppointment[]
+  onAppointmentClick?: (apt: CalendarAppointment) => void
+  onSlotClick?: (date: Date, time: string) => void
 }
 
-export function WeekCalendarBody({ weekStart, appointments }: WeekCalendarBodyProps) {
+export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, onSlotClick }: WeekCalendarBodyProps) {
   const locale = useLocale()
+  const t = useTranslations('calendar')
   const isRtl = locale === 'ar'
   const [visibleStartIndex] = useState(0)
   const [columnCount, setColumnCount] = useState(7)
+  const [hoveredSlot, setHoveredSlot] = useState<string | null>(null)
 
   useEffect(() => {
     function handleResize() {
@@ -97,6 +102,22 @@ export function WeekCalendarBody({ weekStart, appointments }: WeekCalendarBodyPr
     [locale]
   )
 
+  function getSlotKey(dayIndex: number, hour: number, half: 'top' | 'bottom') {
+    return `${dayIndex}-${hour}-${half}`
+  }
+
+  function isOffHours(hour: number): boolean {
+    return hour < 8 || hour >= 18
+  }
+
+  function handleSlotClick(day: CalendarDay, hour: number, isTopHalf: boolean) {
+    if (day.isWeekend) return
+    if (isOffHours(hour)) return
+    const minutes = isTopHalf ? 0 : 30
+    const time = `${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+    onSlotClick?.(day.date, time)
+  }
+
   return (
     <div className="flex overflow-x-auto border border-border rounded-lg bg-background" data-testid="calendar-week-view">
       <TimeColumn />
@@ -112,8 +133,9 @@ export function WeekCalendarBody({ weekStart, appointments }: WeekCalendarBodyPr
               }`}
               data-testid={`calendar-day-column-${day.dayIndex}`}
             >
+              {/* Day header */}
               <div
-                className={`h-12 flex flex-col items-center justify-center border-b border-border ${
+                className={`h-12 flex flex-col items-center justify-center border-b border-border transition-colors duration-200 ${
                   day.isToday ? 'bg-primary/10' : ''
                 }`}
               >
@@ -123,7 +145,7 @@ export function WeekCalendarBody({ weekStart, appointments }: WeekCalendarBodyPr
                 <span
                   className={`text-sm font-semibold ${
                     day.isToday
-                      ? 'bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center'
+                      ? 'bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center animate-pulse'
                       : ''
                   }`}
                 >
@@ -131,21 +153,89 @@ export function WeekCalendarBody({ weekStart, appointments }: WeekCalendarBodyPr
                 </span>
               </div>
 
+              {/* Time slots */}
               <div className="relative" style={{ height: `${totalHours * 64}px` }}>
                 {Array.from({ length: totalHours }, (_, i) => {
                   const hour = START_HOUR + i
-                  const isOffHours = hour < 8 || hour >= 18
+                  const offHours = isOffHours(hour)
+                  const isClickable = !day.isWeekend && !offHours
+
+                  const topHalfKey = getSlotKey(day.dayIndex, hour, 'top')
+                  const bottomHalfKey = getSlotKey(day.dayIndex, hour, 'bottom')
+                  const isTopHovered = hoveredSlot === topHalfKey
+                  const isBottomHovered = hoveredSlot === bottomHalfKey
+
                   return (
                     <div
                       key={i}
-                      className={`h-16 border-b border-border/50 ${isOffHours ? 'bg-muted/30' : ''}`}
-                    />
+                      className={`h-16 border-b border-border/50 ${offHours ? 'bg-muted/30' : ''} ${
+                        day.isWeekend ? 'cursor-not-allowed' : ''
+                      }`}
+                    >
+                      {/* Top half (XX:00 - XX:30) */}
+                      <div
+                        className={`h-8 relative transition-colors duration-200 ease-in-out ${
+                          isClickable
+                            ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                            : offHours
+                            ? 'cursor-not-allowed'
+                            : ''
+                        } ${isTopHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                        onClick={() => isClickable && handleSlotClick(day, hour, true)}
+                        onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
+                        onMouseLeave={() => setHoveredSlot(null)}
+                        data-testid={isClickable ? `calendar-slot-${day.dayIndex}-${hour}-00` : undefined}
+                        title={!isClickable && offHours ? t('closedSlot') : undefined}
+                      >
+                        {isTopHovered && isClickable && (
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
+                            <PlusIcon className="size-4 text-blue-400" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Bottom half (XX:30 - XX+1:00) */}
+                      <div
+                        className={`h-8 relative transition-colors duration-200 ease-in-out ${
+                          isClickable
+                            ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                            : offHours
+                            ? 'cursor-not-allowed'
+                            : ''
+                        } ${isBottomHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                        onClick={() => isClickable && handleSlotClick(day, hour, false)}
+                        onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
+                        onMouseLeave={() => setHoveredSlot(null)}
+                        data-testid={isClickable ? `calendar-slot-${day.dayIndex}-${hour}-30` : undefined}
+                        title={!isClickable && offHours ? t('closedSlot') : undefined}
+                      >
+                        {isBottomHovered && isClickable && (
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
+                            <PlusIcon className="size-4 text-blue-400" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   )
                 })}
 
+                {/* Appointment blocks */}
                 {dayApts.map((apt) => (
-                  <AppointmentBlock key={apt.id} appointment={apt} />
+                  <AppointmentBlock
+                    key={apt.id}
+                    appointment={apt}
+                    onClick={() => onAppointmentClick?.(apt)}
+                  />
                 ))}
+
+                {/* No appointments message */}
+                {dayApts.length === 0 && !day.isWeekend && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <p className="text-xs text-muted-foreground/50 animate-in fade-in duration-500">
+                      {t('noAppointments')}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )
