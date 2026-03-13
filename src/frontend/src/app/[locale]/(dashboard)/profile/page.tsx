@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useMemo } from "react"
 import { User, Mail, Shield } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
 import { getStoredUser } from "@/lib/api/auth"
 import { useRole } from "@/hooks/use-role"
 
@@ -16,29 +15,17 @@ interface ProfileInfo {
 
 export default function ProfilePage() {
   const role = useRole()
-  const [profile, setProfile] = useState<ProfileInfo | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
+  const profile = useMemo<ProfileInfo | null>(() => {
     const user = getStoredUser()
     if (user) {
-      setProfile({
+      return {
         name: user.name,
         email: user.email,
         clinicName: user.clinicName,
-      })
+      }
     }
-    setIsLoading(false)
+    return null
   }, [])
-
-  if (isLoading) {
-    return (
-      <div className="space-y-4" data-testid="profile-page">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-48 w-full rounded-lg" />
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-6" data-testid="profile-page">
