@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { StepPetSelection } from './StepPetSelection'
@@ -72,16 +72,16 @@ function StepIndicator({
                 aria-current={isCurrent ? 'step' : undefined}
                 aria-label={`Step ${step}: ${label}${isDone ? ' (completed)' : isCurrent ? ' (current)' : ''}`}
                 className={cn(
-                  'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1',
+                  'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1',
                   isDone
-                    ? 'bg-emerald-600 text-white cursor-pointer hover:bg-emerald-700'
+                    ? 'bg-emerald-600 text-white cursor-pointer hover:bg-emerald-700 scale-100'
                     : isCurrent
-                    ? 'bg-emerald-600 text-white cursor-default shadow-md'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    ? 'bg-emerald-600 text-white cursor-default shadow-md ring-4 ring-emerald-100 scale-110'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed scale-100'
                 )}
               >
                 {isDone ? (
-                  <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4 animate-[scale-in_0.3s_ease-out]" aria-hidden="true">
                     <path
                       d="M3 8l3.5 3.5L13 5"
                       stroke="currentColor"
@@ -97,7 +97,7 @@ function StepIndicator({
 
               <span
                 className={cn(
-                  'ml-1 mr-2 hidden sm:block text-xs font-medium whitespace-nowrap',
+                  'ml-1 mr-2 hidden sm:block text-xs font-medium whitespace-nowrap transition-colors duration-300',
                   isCurrent ? 'text-emerald-700' : isDone ? 'text-gray-600' : 'text-gray-400'
                 )}
                 aria-hidden="true"
@@ -107,12 +107,16 @@ function StepIndicator({
 
               {idx < STEP_KEYS.length - 1 && (
                 <div
-                  className={cn(
-                    'flex-1 h-0.5 mx-1',
-                    currentStep > step ? 'bg-emerald-400' : 'bg-gray-200'
-                  )}
+                  className="flex-1 h-0.5 mx-1 bg-gray-200 rounded-full overflow-hidden"
                   aria-hidden="true"
-                />
+                >
+                  <div
+                    className={cn(
+                      'h-full rounded-full transition-all duration-500 ease-out',
+                      currentStep > step ? 'w-full bg-emerald-400' : 'w-0 bg-emerald-400'
+                    )}
+                  />
+                </div>
               )}
             </li>
           )
@@ -145,12 +149,33 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
     createdAppointment: null,
   })
 
+  // Track direction for slide animation
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('left')
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const transitionTimeout = useRef<NodeJS.Timeout | null>(null)
+
   // Stable cached vet list — populated when step 2 mounts; used for name resolution
   const [cachedVets, setCachedVets] = useState<VeterinarianDto[]>([])
 
   function goToStep(step: WizardStep) {
-    setState((s) => ({ ...s, currentStep: step }))
+    const direction = step > state.currentStep ? 'left' : 'right'
+    setSlideDirection(direction)
+    setIsTransitioning(true)
+
+    if (transitionTimeout.current) clearTimeout(transitionTimeout.current)
+
+    transitionTimeout.current = setTimeout(() => {
+      setState((s) => ({ ...s, currentStep: step }))
+      setIsTransitioning(false)
+    }, 200)
   }
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (transitionTimeout.current) clearTimeout(transitionTimeout.current)
+    }
+  }, [])
 
   function handleNext() {
     if (state.currentStep < 4) {
@@ -243,7 +268,17 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
         {t(STEP_TITLE_KEYS[state.currentStep])}
       </h2>
 
-      <div data-testid="wizard-step-content">
+      <div
+        data-testid="wizard-step-content"
+        className={cn(
+          'transition-all duration-300 ease-out',
+          isTransitioning
+            ? slideDirection === 'left'
+              ? 'opacity-0 -translate-x-4'
+              : 'opacity-0 translate-x-4'
+            : 'opacity-100 translate-x-0'
+        )}
+      >
         {state.currentStep === 1 && (
           <StepPetSelection
             selectedPetId={state.selectedPet?.id ?? null}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ScrollReveal } from "./ScrollReveal";
 
 interface FooterColumn {
   title: string;
@@ -88,6 +89,7 @@ export function Footer({ locale, messages: m }: Props) {
 
   return (
     <footer data-testid="section-footer" className="border-t border-gray-100 bg-gray-50">
+      <ScrollReveal direction="fade-up">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         {/* 4-column grid */}
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -174,6 +176,7 @@ export function Footer({ locale, messages: m }: Props) {
           </div>
         </div>
       </div>
+      </ScrollReveal>
     </footer>
   );
 }

@@ -56,9 +56,16 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
         {[1, 2].map((i) => (
           <div
             key={i}
-            className="h-24 rounded-xl bg-gray-200 animate-pulse"
+            className="flex items-center gap-4 rounded-xl border-2 border-gray-100 p-4"
             data-testid={`pet-card-skeleton-${i}`}
-          />
+          >
+            <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse" />
+            <div className="flex-1 space-y-2">
+              <div className="h-4 w-24 rounded bg-gray-200 animate-pulse" />
+              <div className="h-3 w-32 rounded bg-gray-200 animate-pulse" />
+              <div className="h-3 w-16 rounded bg-gray-200 animate-pulse" />
+            </div>
+          </div>
         ))}
       </div>
     )
@@ -106,10 +113,10 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
             aria-selected={isSelected}
             aria-label={`${pet.name}, ${pet.species}, ${pet.breed}, ${pet.ageYears} year${pet.ageYears !== 1 ? 's' : ''} old`}
             className={cn(
-              'relative flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',
+              'relative flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',
               isSelected
-                ? 'border-emerald-500 bg-emerald-50 shadow-sm'
-                : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/30'
+                ? 'border-emerald-500 bg-emerald-50 shadow-md scale-[1.02]'
+                : 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/30 hover:shadow-sm'
             )}
           >
             {/* Icon */}
@@ -145,13 +152,18 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
             </div>
 
             {/* Selected check */}
-            {isSelected && (
-              <Check
-                className="absolute top-2 right-2 h-4 w-4 text-emerald-600"
-                data-testid={`pet-card-check-${pet.id}`}
-                aria-hidden="true"
-              />
-            )}
+            <div
+              className={cn(
+                'absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full transition-all duration-300',
+                isSelected
+                  ? 'bg-emerald-500 scale-100 opacity-100'
+                  : 'bg-transparent scale-0 opacity-0'
+              )}
+              data-testid={isSelected ? `pet-card-check-${pet.id}` : undefined}
+              aria-hidden="true"
+            >
+              <Check className="h-3 w-3 text-white" />
+            </div>
           </button>
         )
       })}

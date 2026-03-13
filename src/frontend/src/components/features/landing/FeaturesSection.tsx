@@ -6,6 +6,7 @@ import {
   Globe,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { ScrollReveal } from "./ScrollReveal";
 
 interface FeatureCard {
   key: string;
@@ -78,53 +79,56 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
       className="bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2
-            data-testid="new-features-title"
-            className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
-          >
-            {title}
-          </h2>
-          <p className="mt-4 text-lg text-gray-600">{subtitle}</p>
-        </div>
+        <ScrollReveal direction="fade-up">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2
+              data-testid="new-features-title"
+              className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
+            >
+              {title}
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">{subtitle}</p>
+          </div>
+        </ScrollReveal>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map(({ key, icon: Icon, title: cardTitle, description, badge }) => (
-            <Card
-              key={key}
-              data-testid={`new-feature-card-${key}`}
-              className={`group relative border shadow-sm transition-shadow hover:shadow-md ${
-                key === "health_passport"
-                  ? "border-emerald-200 bg-white lg:col-span-1"
-                  : "border-gray-100 bg-white"
-              }`}
-            >
-              <CardContent className="p-6">
-                {badge && (
-                  <span
-                    data-testid={`new-feature-badge-${key}`}
-                    className="mb-3 inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800"
+          {features.map(({ key, icon: Icon, title: cardTitle, description, badge }, idx) => (
+            <ScrollReveal key={key} delay={idx * 100} direction="fade-up">
+              <Card
+                data-testid={`new-feature-card-${key}`}
+                className={`group relative border shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                  key === "health_passport"
+                    ? "border-emerald-200 bg-white lg:col-span-1"
+                    : "border-gray-100 bg-white"
+                }`}
+              >
+                <CardContent className="p-6">
+                  {badge && (
+                    <span
+                      data-testid={`new-feature-badge-${key}`}
+                      className="mb-3 inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800"
+                    >
+                      {badge}
+                    </span>
+                  )}
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110 ${
+                      key === "health_passport"
+                        ? "bg-emerald-100 text-emerald-700"
+                        : "bg-emerald-50 text-emerald-700"
+                    }`}
                   >
-                    {badge}
-                  </span>
-                )}
-                <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-xl transition-colors group-hover:bg-emerald-100 ${
-                    key === "health_passport"
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "bg-emerald-50 text-emerald-700"
-                  }`}
-                >
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </div>
-                <h3 className="mt-4 text-base font-semibold text-gray-900">
-                  {cardTitle}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                  {description}
-                </p>
-              </CardContent>
-            </Card>
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                  </div>
+                  <h3 className="mt-4 text-base font-semibold text-gray-900">
+                    {cardTitle}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                    {description}
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
       </div>

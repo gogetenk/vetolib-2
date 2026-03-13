@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ScrollReveal } from "./ScrollReveal";
 
 interface PricingMessages {
   title: string;
@@ -61,6 +62,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
+        <ScrollReveal direction="fade-up">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
             {m.title}
@@ -102,13 +104,15 @@ export function PricingSection({ messages: m, loginHref }: Props) {
             </button>
           </div>
         </div>
+        </ScrollReveal>
 
         {/* Plans grid */}
         <div className="mt-12 grid gap-8 lg:grid-cols-3">
           {/* Starter */}
+          <ScrollReveal direction="fade-up" delay={0}>
           <Card
             data-testid="pricing-plan-starter"
-            className="flex flex-col border border-gray-200 shadow-sm"
+            className="flex flex-col border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
           >
             <CardHeader className="p-6 pb-0">
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
@@ -147,11 +151,13 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               </Link>
             </CardContent>
           </Card>
+          </ScrollReveal>
 
           {/* Pro — highlighted */}
+          <ScrollReveal direction="fade-up" delay={150}>
           <Card
             data-testid="pricing-plan-pro"
-            className="relative flex flex-col border-2 border-emerald-700 shadow-lg"
+            className="relative flex flex-col border-2 border-emerald-700 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
           >
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
               <Badge className="bg-emerald-700 px-4 py-1 text-xs font-semibold text-white">
@@ -194,11 +200,13 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               </Link>
             </CardContent>
           </Card>
+          </ScrollReveal>
 
           {/* Enterprise */}
+          <ScrollReveal direction="fade-up" delay={300}>
           <Card
             data-testid="pricing-plan-enterprise"
-            className="flex flex-col border border-gray-200 shadow-sm"
+            className="flex flex-col border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
           >
             <CardHeader className="p-6 pb-0">
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
@@ -246,6 +254,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               </a>
             </CardContent>
           </Card>
+          </ScrollReveal>
         </div>
 
         {/* Footer notes */}
