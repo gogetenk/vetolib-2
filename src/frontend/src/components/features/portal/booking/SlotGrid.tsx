@@ -72,13 +72,13 @@ export function SlotGrid({
             aria-label={`${formatSlotTime(slot.startsAt)}${!hideVetName ? ` with ${slot.vetName}` : ''} — ${isAvailable ? 'available' : 'unavailable'}`}
             className={cn(
               // Base — touch-friendly minimum 44x44px
-              'relative flex flex-col items-center justify-center rounded-lg px-1 py-2 min-h-[44px] text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1',
+              'relative flex flex-col items-center justify-center rounded-lg px-1 py-2 min-h-[44px] text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1',
               isAvailable
                 ? isSelected
                   ? // Selected state
-                    'bg-emerald-50 border-2 border-emerald-500 text-emerald-700 shadow-sm'
+                    'bg-emerald-50 border-2 border-emerald-500 text-emerald-700 shadow-md scale-[1.05]'
                   : // Available unselected
-                    'bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-400 cursor-pointer'
+                    'bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-400 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
                 : // Unavailable
                   'bg-gray-100 border border-gray-200 text-gray-400 cursor-not-allowed opacity-60'
             )}
