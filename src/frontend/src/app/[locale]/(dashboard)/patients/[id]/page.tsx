@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { MedicalRecordsList } from '@/components/features/patients/MedicalRecordsList'
-import { SpeciesIcon } from '@/components/features/patients/SpeciesIcon'
+import { SpeciesIcon, getSpeciesColor } from '@/components/features/patients/SpeciesIcon'
 import { PatientForm } from '@/components/features/patients/PatientForm'
 import { getPatient, getPatientVaccinations, getPatientPrescriptions } from '@/lib/api/patients'
 import type { PatientDto, VaccinationDto, PrescriptionDto } from '@/lib/api/patients'
@@ -206,7 +206,7 @@ export default function PatientDetailPage() {
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300" data-testid="patient-detail-page">
+    <div className="space-y-4 animate-in fade-in duration-300" data-testid="patient-detail-page">
       <Link href="../patients">
         <Button
           variant="ghost"
@@ -219,98 +219,107 @@ export default function PatientDetailPage() {
         </Button>
       </Link>
 
-      <div
-        className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
-        data-testid="patient-header"
-      >
-        <div className="flex items-center gap-4">
+      {(() => {
+        const speciesColor = getSpeciesColor(patient.species)
+        return (
           <div
-            className="flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground"
-            data-testid="patient-species-avatar"
-            aria-label={patient.species}
+            className={`bg-white rounded-xl shadow-sm border border-s-4 ${speciesColor.border} p-4`}
+            data-testid="patient-header"
           >
-            <SpeciesIcon species={patient.species} className="h-8 w-8" />
-          </div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              {/* Left: species icon + pet info */}
+              <div className="flex items-start gap-4">
+                <div
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${speciesColor.bg} ${speciesColor.text}`}
+                  data-testid="patient-species-avatar"
+                  aria-label={patient.species}
+                >
+                  <SpeciesIcon species={patient.species} className="h-6 w-6" />
+                </div>
 
-          <div>
-            <h1
-              className="text-2xl font-bold"
-              data-testid="patient-detail-name"
-            >
-              {patient.name}
-            </h1>
-            <p
-              className="text-muted-foreground"
-              data-testid="patient-detail-species"
-            >
-              {patient.species} &bull; {patient.breed} &bull;{' '}
-              <span data-testid="patient-detail-age">{calculateAge(patient.dateOfBirth)}</span>
-              {' '}&bull; {patient.gender}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1" data-testid="patient-weight-display">
-              <span className="font-medium text-foreground">Weight: </span>
-              {patient.weightKg != null ? `${patient.weightKg} kg` : 'Not recorded'}
-            </p>
-            <div className="mt-2 flex flex-col gap-1 text-sm text-muted-foreground">
-              <span data-testid="patient-detail-owner">
-                <span className="font-medium text-foreground">Owner: </span>
-                {patient.ownerName}
-              </span>
-              <span className="flex items-center gap-1" data-testid="patient-detail-phone">
-                <Phone className="h-3.5 w-3.5" />
-                {patient.ownerPhone}
-              </span>
-              <span className="flex items-center gap-1" data-testid="patient-detail-email">
-                <Mail className="h-3.5 w-3.5" />
-                {patient.ownerEmail}
-              </span>
+                <div>
+                  <h1
+                    className="text-xl font-bold text-stone-900"
+                    data-testid="patient-detail-name"
+                  >
+                    {patient.name}
+                  </h1>
+                  <p
+                    className="text-sm text-stone-500"
+                    data-testid="patient-detail-species"
+                  >
+                    {patient.species} &bull; {patient.breed} &bull;{' '}
+                    <span data-testid="patient-detail-age">{calculateAge(patient.dateOfBirth)}</span>
+                    {' '}&bull; {patient.gender}
+                  </p>
+                  <p className="text-xs text-stone-400 mt-0.5" data-testid="patient-weight-display">
+                    Weight: {patient.weightKg != null ? `${patient.weightKg} kg` : 'Not recorded'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: owner info */}
+              <div className="flex flex-col gap-1 text-sm text-stone-600 sm:text-end" data-testid="patient-owner-section">
+                <span className="font-medium text-stone-800" data-testid="patient-detail-owner">
+                  {patient.ownerName}
+                </span>
+                <span className="flex items-center gap-1 sm:justify-end text-stone-500" data-testid="patient-detail-phone">
+                  <Phone className="h-3.5 w-3.5" />
+                  {patient.ownerPhone}
+                </span>
+                <span className="flex items-center gap-1 sm:justify-end text-stone-500" data-testid="patient-detail-email">
+                  <Mail className="h-3.5 w-3.5" />
+                  {patient.ownerEmail}
+                </span>
+              </div>
+            </div>
+
+            {/* Actions row */}
+            <div className="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
+              {canWrite && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    data-testid="edit-patient-btn"
+                    onClick={() => setIsEditOpen(true)}
+                  >
+                    <Pencil className="h-4 w-4 me-1" />
+                    Edit
+                  </Button>
+                  <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
+                    <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
+                      <SheetHeader>
+                        <SheetTitle>Edit Patient</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-4">
+                        <PatientForm
+                          patient={patient}
+                          onSuccess={(updated) => {
+                            setPatient(updated)
+                            setIsEditOpen(false)
+                          }}
+                        />
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                </>
+              )}
+
+              {role === 'VET' && (
+                <Link href={`patients/${id}/records/new`}>
+                  <Button
+                    size="sm"
+                    data-testid="new-medical-record-btn"
+                  >
+                    New Medical Record
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {canWrite && (
-            <>
-              <Button
-                variant="outline"
-                data-testid="edit-patient-btn"
-                onClick={() => setIsEditOpen(true)}
-              >
-                <Pencil className="h-4 w-4 me-1" />
-                Edit
-              </Button>
-              <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
-                <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
-                  <SheetHeader>
-                    <SheetTitle>Edit Patient</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-4">
-                    <PatientForm
-                      patient={patient}
-                      onSuccess={(updated) => {
-                        setPatient(updated)
-                        setIsEditOpen(false)
-                      }}
-                    />
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </>
-          )}
-
-          {role === 'VET' && (
-            <Link href={`patients/${id}/records/new`}>
-              <Button
-                data-testid="new-medical-record-btn"
-              >
-                New Medical Record
-              </Button>
-            </Link>
-          )}
-        </div>
-      </div>
-
-      <Separator />
+        )
+      })()}
 
       <div data-testid="patient-tabs">
         <div

@@ -30,14 +30,39 @@ export function SpeciesIcon({ species, className = 'h-5 w-5', ...props }: Specie
   }
 }
 
+export interface SpeciesColorSet {
+  border: string
+  bg: string
+  text: string
+}
+
+export function getSpeciesColor(species: Species): SpeciesColorSet {
+  switch (species) {
+    case 'Dog':
+      return { border: 'border-amber-500', bg: 'bg-amber-50', text: 'text-amber-600' }
+    case 'Cat':
+      return { border: 'border-purple-500', bg: 'bg-purple-50', text: 'text-purple-600' }
+    case 'Bird':
+      return { border: 'border-sky-500', bg: 'bg-sky-50', text: 'text-sky-600' }
+    case 'Rabbit':
+      return { border: 'border-pink-500', bg: 'bg-pink-50', text: 'text-pink-600' }
+    case 'Horse':
+      return { border: 'border-teal-500', bg: 'bg-teal-50', text: 'text-teal-600' }
+    case 'Camel':
+      return { border: 'border-orange-500', bg: 'bg-orange-50', text: 'text-orange-600' }
+    default:
+      return { border: 'border-stone-400', bg: 'bg-stone-50', text: 'text-stone-500' }
+  }
+}
+
 export const SPECIES_LABELS: Record<Species, string> = {
-  Dog: '🐕 Dog',
-  Cat: '🐈 Cat',
-  Bird: '🐦 Bird',
-  Rabbit: '🐇 Rabbit',
-  Horse: '🐴 Horse',
-  Camel: '🐪 Camel',
-  Exotic: '⭐ Exotic',
+  Dog: 'Dog',
+  Cat: 'Cat',
+  Bird: 'Bird',
+  Rabbit: 'Rabbit',
+  Horse: 'Horse',
+  Camel: 'Camel',
+  Exotic: 'Exotic',
 }
 
 export const ALL_SPECIES: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic']

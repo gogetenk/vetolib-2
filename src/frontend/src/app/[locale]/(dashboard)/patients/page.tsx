@@ -91,15 +91,20 @@ export default function PatientsPage() {
         )}
       </div>
 
-      <div>
+      <div className="space-y-2">
         <Input
           type="search"
           placeholder={t('search_placeholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           data-testid="search-input"
-          className="max-w-sm transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
+          className="w-full transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
         />
+        {!isLoading && !error && patients.length > 0 && (
+          <p className="text-sm text-stone-500" data-testid="patients-count">
+            {patients.length} {patients.length === 1 ? 'patient' : 'patients'}
+          </p>
+        )}
       </div>
 
       {isLoading ? (
