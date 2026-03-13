@@ -79,14 +79,14 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
   if (expired) {
     return (
       <div className="text-center py-12 space-y-3" data-testid="conversation-expired">
-        <p className="text-gray-700">{tLanding('link_expired')}</p>
+        <p className="text-stone-700">{tLanding('link_expired')}</p>
       </div>
     )
   }
 
   if (!conversation) {
     return (
-      <div className="text-center py-12 text-gray-500" data-testid="conversation-not-found">
+      <div className="text-center py-12 text-stone-500" data-testid="conversation-not-found">
         <p>{t('not_found')}</p>
         <Button
           variant="ghost"
@@ -116,10 +116,10 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
       </div>
 
       <div>
-        <h1 className="text-lg font-bold text-gray-900" data-testid="conversation-subject">
+        <h1 className="text-lg font-bold text-stone-900" data-testid="conversation-subject">
           {conversation.subject}
         </h1>
-        <p className="text-xs text-gray-500 mt-0.5">
+        <p className="text-xs text-stone-500 mt-0.5">
           {new Date(conversation.createdAt).toLocaleDateString('en-AE', {
             day: 'numeric',
             month: 'long',
@@ -143,7 +143,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
                 className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
                   isOwner
                     ? 'bg-emerald-600 text-white rounded-br-sm'
-                    : 'bg-white border border-gray-200 text-gray-900 rounded-bl-sm'
+                    : 'bg-white border border-stone-200 text-stone-900 rounded-bl-sm'
                 }`}
               >
                 {!isOwner && (
@@ -152,7 +152,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{msg.body}</p>
-                <p className={`text-xs mt-1 ${isOwner ? 'text-emerald-100' : 'text-gray-400'}`}>
+                <p className={`text-xs mt-1 ${isOwner ? 'text-emerald-100' : 'text-stone-400'}`}>
                   {new Date(msg.sentAt).toLocaleTimeString('en-AE', {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -169,7 +169,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
       {/* Closed notice or reply box */}
       {isClosed ? (
         <div
-          className="rounded-lg bg-gray-100 border border-gray-200 px-4 py-3 text-sm text-gray-600 text-center"
+          className="rounded-lg bg-stone-100 border border-stone-200 px-4 py-3 text-sm text-stone-600 text-center"
           data-testid="conversation-closed-notice"
         >
           {t('closed_notice')}
@@ -188,7 +188,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
               placeholder={t('reply_placeholder')}
               rows={3}
               data-testid="reply-input"
-              className="flex-1 block rounded-xl border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+              className="flex-1 block rounded-xl border border-stone-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
                   handleSendReply()

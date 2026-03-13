@@ -112,17 +112,17 @@ export function TemplatesPage() {
       ) : (
         <div className="rounded-md border" data-testid="templates-table">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-stone-50">
               <TableRow>
-                <TableHead>{t("templates.col_name")}</TableHead>
-                <TableHead>{t("templates.col_category")}</TableHead>
-                <TableHead>{t("templates.col_updated")}</TableHead>
-                <TableHead className="text-right">{t("templates.col_actions")}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">{t("templates.col_name")}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">{t("templates.col_category")}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">{t("templates.col_updated")}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">{t("templates.col_actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {templates.map((tpl) => (
-                <TableRow key={tpl.id} data-testid={`template-row-${tpl.id}`}>
+                <TableRow key={tpl.id} data-testid={`template-row-${tpl.id}`} className="hover:bg-stone-50">
                   <TableCell className="font-medium">{tpl.name}</TableCell>
                   <TableCell>
                     {tpl.category ? (

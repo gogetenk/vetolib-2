@@ -99,10 +99,10 @@ export function NewMessageForm() {
     return (
       <div className="flex flex-col items-center text-center gap-4 py-12" data-testid="message-success">
         <CheckCircle className="w-14 h-14 text-emerald-600" />
-        <h2 className="text-lg font-semibold text-gray-900" data-testid="success-title">
+        <h2 className="text-lg font-semibold text-stone-900" data-testid="success-title">
           {t('success_title')}
         </h2>
-        <p className="text-sm text-gray-600 max-w-sm" data-testid="success-body">
+        <p className="text-sm text-stone-600 max-w-sm" data-testid="success-body">
           {t('success_body')}
         </p>
         <Button
@@ -118,7 +118,7 @@ export function NewMessageForm() {
 
   return (
     <div className="space-y-5" data-testid="new-message-form">
-      <h1 className="text-xl font-bold text-gray-900" data-testid="new-message-title">
+      <h1 className="text-xl font-bold text-stone-900" data-testid="new-message-title">
         {t('title')}
       </h1>
 
@@ -138,7 +138,7 @@ export function NewMessageForm() {
 
       {/* Subject */}
       <div className="flex flex-col gap-1">
-        <label htmlFor="message-subject" className="text-sm font-medium text-gray-700">
+        <label htmlFor="message-subject" className="text-sm font-medium text-stone-700">
           {t('subject_label')}
         </label>
         <Input
@@ -161,7 +161,7 @@ export function NewMessageForm() {
 
       {/* Message textarea */}
       <div className="flex flex-col gap-1">
-        <label htmlFor="message-body" className="text-sm font-medium text-gray-700">
+        <label htmlFor="message-body" className="text-sm font-medium text-stone-700">
           {t('message_label')}
         </label>
         <textarea
@@ -179,7 +179,7 @@ export function NewMessageForm() {
               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
               : messageError
               ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-              : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500'
+              : 'border-stone-300 focus:border-emerald-500 focus:ring-emerald-500'
           }`}
         />
         <div className="flex justify-between items-center">
@@ -189,7 +189,7 @@ export function NewMessageForm() {
             </p>
           )}
           <p
-            className={`text-xs ms-auto ${isOverLimit ? 'text-red-600 font-semibold' : 'text-gray-500'}`}
+            className={`text-xs ms-auto ${isOverLimit ? 'text-red-600 font-semibold' : 'text-stone-500'}`}
             data-testid="char-counter"
           >
             {isOverLimit

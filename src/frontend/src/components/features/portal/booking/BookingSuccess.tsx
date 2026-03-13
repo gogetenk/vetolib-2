@@ -139,12 +139,12 @@ export function BookingSuccess({
       {/* Title */}
       <div className="animate-[fadeIn_0.5s_ease-out_0.3s_both]">
         <h2
-          className="text-2xl font-bold text-gray-900"
+          className="text-2xl font-bold text-stone-900"
           data-testid="booking-success-title"
         >
           {t('title')}
         </h2>
-        <p className="mt-1 text-sm text-gray-500" data-testid="booking-success-subtitle">
+        <p className="mt-1 text-sm text-stone-500" data-testid="booking-success-subtitle">
           {t('subtitle')}
         </p>
       </div>
@@ -157,8 +157,8 @@ export function BookingSuccess({
         <div className="flex items-center gap-3">
           <CalendarDays className="h-4 w-4 text-emerald-600 shrink-0" aria-hidden="true" />
           <div>
-            <p className="text-xs text-gray-500">{t('dateLabel')}</p>
-            <p className="text-sm font-medium text-gray-900" data-testid="success-date">
+            <p className="text-xs text-stone-500">{t('dateLabel')}</p>
+            <p className="text-sm font-medium text-stone-900" data-testid="success-date">
               {date}
             </p>
           </div>
@@ -166,13 +166,13 @@ export function BookingSuccess({
         <div className="flex items-center gap-3">
           <Clock className="h-4 w-4 text-emerald-600 shrink-0" aria-hidden="true" />
           <div>
-            <p className="text-xs text-gray-500">{t('timeLabel')}</p>
-            <p className="text-sm font-medium text-gray-900" data-testid="success-time">
+            <p className="text-xs text-stone-500">{t('timeLabel')}</p>
+            <p className="text-sm font-medium text-stone-900" data-testid="success-time">
               {time}
             </p>
           </div>
         </div>
-        <p className="text-xs text-gray-600 border-t border-emerald-200 pt-3">
+        <p className="text-xs text-stone-600 border-t border-emerald-200 pt-3">
           <span className="font-medium">{pet.name}</span> will see{' '}
           <span className="font-medium">{vetName}</span> for{' '}
           <span className="font-medium">{consultationType.name}</span>
@@ -185,7 +185,7 @@ export function BookingSuccess({
         onClick={handleDownloadIcal}
         data-testid="download-ical-btn"
         aria-label="Download appointment to calendar"
-        className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 w-full sm:w-auto justify-center"
+        className="flex items-center gap-2 rounded-lg border border-stone-300 px-4 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 w-full sm:w-auto justify-center"
       >
         <Download className="h-4 w-4" aria-hidden="true" />
         {t('addToCalendar')}
@@ -193,7 +193,7 @@ export function BookingSuccess({
 
       {/* Auto-redirect notice */}
       <p
-        className="text-xs text-gray-400"
+        className="text-xs text-stone-400"
         aria-live="polite"
         data-testid="booking-success-redirect-notice"
       >

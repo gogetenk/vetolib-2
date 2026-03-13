@@ -165,15 +165,15 @@ export function WeekNavigator({
           className={cn(
             'flex items-center justify-center w-9 h-9 rounded-full transition-colors',
             isPrevDisabled
-              ? 'text-gray-300 cursor-not-allowed'
-              : 'text-gray-600 hover:bg-gray-100 cursor-pointer'
+              ? 'text-stone-300 cursor-not-allowed'
+              : 'text-stone-600 hover:bg-stone-100 cursor-pointer'
           )}
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
 
         <span
-          className="text-sm font-semibold text-gray-700"
+          className="text-sm font-semibold text-stone-700"
           data-testid="week-range-label"
         >
           {formatWeekRange(weekStart)}
@@ -188,8 +188,8 @@ export function WeekNavigator({
           className={cn(
             'flex items-center justify-center w-9 h-9 rounded-full transition-colors',
             isNextDisabled
-              ? 'text-gray-300 cursor-not-allowed'
-              : 'text-gray-600 hover:bg-gray-100 cursor-pointer'
+              ? 'text-stone-300 cursor-not-allowed'
+              : 'text-stone-600 hover:bg-stone-100 cursor-pointer'
           )}
         >
           <ChevronRight className="h-5 w-5" />
@@ -231,8 +231,8 @@ export function WeekNavigator({
                   : isToday && !isDisabled
                   ? 'bg-emerald-50 border border-emerald-300 text-emerald-700'
                   : isDisabled
-                  ? 'bg-gray-50 text-gray-400'
-                  : 'hover:bg-gray-100 text-gray-700'
+                  ? 'bg-stone-50 text-stone-400'
+                  : 'hover:bg-stone-100 text-stone-700'
               )}
             >
               <span className="text-[10px] font-medium uppercase tracking-wide leading-none">

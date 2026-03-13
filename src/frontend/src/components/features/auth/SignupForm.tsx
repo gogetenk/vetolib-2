@@ -228,7 +228,7 @@ export function SignupForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200 hover:text-gray-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 transition-all duration-200 hover:text-stone-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   data-testid="password-toggle"
                   aria-label={showPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showPassword}
@@ -257,7 +257,7 @@ export function SignupForm() {
                               : strengthScore === 2
                                 ? "bg-yellow-400"
                                 : "bg-emerald-500"
-                            : "bg-gray-200"
+                            : "bg-stone-200"
                         }`}
                         data-testid={`strength-bar-${level}`}
                       />
@@ -265,19 +265,19 @@ export function SignupForm() {
                   </div>
                   <ul className="space-y-1 text-xs">
                     <li
-                      className={`transition-colors duration-200 ${passwordStrength.hasMin ? "text-emerald-600" : "text-gray-500"}`}
+                      className={`transition-colors duration-200 ${passwordStrength.hasMin ? "text-emerald-600" : "text-stone-500"}`}
                       data-testid="strength-min"
                     >
                       {passwordStrength.hasMin ? "\u2713" : "\u25CB"} {t("strength_min")}
                     </li>
                     <li
-                      className={`transition-colors duration-200 ${passwordStrength.hasUpper ? "text-emerald-600" : "text-gray-500"}`}
+                      className={`transition-colors duration-200 ${passwordStrength.hasUpper ? "text-emerald-600" : "text-stone-500"}`}
                       data-testid="strength-upper"
                     >
                       {passwordStrength.hasUpper ? "\u2713" : "\u25CB"} {t("strength_upper")}
                     </li>
                     <li
-                      className={`transition-colors duration-200 ${passwordStrength.hasNumber ? "text-emerald-600" : "text-gray-500"}`}
+                      className={`transition-colors duration-200 ${passwordStrength.hasNumber ? "text-emerald-600" : "text-stone-500"}`}
                       data-testid="strength-number"
                     >
                       {passwordStrength.hasNumber ? "\u2713" : "\u25CB"} {t("strength_number")}
@@ -313,7 +313,7 @@ export function SignupForm() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200 hover:text-gray-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 transition-all duration-200 hover:text-stone-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   data-testid="confirm-password-toggle"
                   aria-label={showConfirmPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showConfirmPassword}
@@ -357,7 +357,7 @@ export function SignupForm() {
           </form>
 
           {/* Link to login */}
-          <p className="mt-4 text-center text-sm text-gray-500">
+          <p className="mt-4 text-center text-sm text-stone-500">
             {t("already_have_account")}{" "}
             <Link
               href={`/${locale}/login`}

@@ -14,7 +14,7 @@ export function PetSelector({ pets, value, onChange }: PetSelectorProps) {
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor="pet-selector" className="text-sm font-medium text-gray-700">
+      <label htmlFor="pet-selector" className="text-sm font-medium text-stone-700">
         {t('pet_label')}
       </label>
       <select
@@ -22,7 +22,7 @@ export function PetSelector({ pets, value, onChange }: PetSelectorProps) {
         data-testid="pet-selector"
         value={value ?? ''}
         onChange={(e) => onChange(e.target.value === '' ? null : e.target.value)}
-        className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+        className="block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
       >
         <option value="">{t('no_pet')}</option>
         {pets.map((pet) => (

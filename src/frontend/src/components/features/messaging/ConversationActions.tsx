@@ -90,7 +90,7 @@ export function ConversationActions({
                 type="button"
                 role="menuitem"
                 data-testid="transfer-btn"
-                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50"
+                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-stone-50"
                 onClick={() => { setTransferOpen(true); setOpen(false) }}
               >
                 <ArrowRightLeft className="h-4 w-4 text-blue-600" />
@@ -102,7 +102,7 @@ export function ConversationActions({
                 type="button"
                 role="menuitem"
                 data-testid="convert-appointment-btn"
-                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50"
+                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-stone-50"
                 onClick={() => { onConvertToAppointment(); setOpen(false) }}
               >
                 <CalendarPlus className="h-4 w-4 text-blue-600" />
@@ -115,7 +115,7 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="resolve-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-stone-50"
                   onClick={() => { void onStatusChange('Resolved'); setOpen(false) }}
                 >
                   <CheckCircle className="h-4 w-4 text-green-600" />
@@ -129,10 +129,10 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="close-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-stone-50"
                   onClick={() => { void onStatusChange('Closed'); setOpen(false) }}
                 >
-                  <Archive className="h-4 w-4 text-gray-600" />
+                  <Archive className="h-4 w-4 text-stone-600" />
                   {t('action_close')}
                 </button>
               )}
@@ -143,7 +143,7 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="reopen-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-stone-50"
                   onClick={() => { void onStatusChange('Open'); setOpen(false) }}
                 >
                   <RotateCcw className="h-4 w-4 text-blue-600" />
@@ -156,7 +156,7 @@ export function ConversationActions({
                 type="button"
                 role="menuitem"
                 data-testid="mark-spam-btn"
-                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50 text-red-600"
+                className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-stone-50 text-red-600"
                 onClick={() => { void onMarkSpam(); setOpen(false) }}
               >
                 <AlertTriangle className="h-4 w-4" />
@@ -169,10 +169,10 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="reassign-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-50"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-stone-50"
                   onClick={() => { setTransferOpen(true); setOpen(false) }}
                 >
-                  <UserCog className="h-4 w-4 text-gray-600" />
+                  <UserCog className="h-4 w-4 text-stone-600" />
                   {t('action_reassign')}
                 </button>
               )}

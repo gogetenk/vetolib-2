@@ -39,10 +39,10 @@ export function ConsentScreen() {
   return (
     <div className="space-y-6" data-testid="consent-screen">
       <div>
-        <h1 className="text-xl font-bold text-gray-900" data-testid="consent-title">
+        <h1 className="text-xl font-bold text-stone-900" data-testid="consent-title">
           {t('title')}
         </h1>
-        <p className="mt-1 text-sm text-gray-600">{t('intro')}</p>
+        <p className="mt-1 text-sm text-stone-600">{t('intro')}</p>
       </div>
 
       {/* Emergency warning */}
@@ -60,7 +60,7 @@ export function ConsentScreen() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-4 text-sm text-gray-700 whitespace-pre-line leading-relaxed">
+      <div className="bg-white rounded-lg border border-stone-200 p-4 text-sm text-stone-700 whitespace-pre-line leading-relaxed">
         {t('terms_body')}
       </div>
 
@@ -74,11 +74,11 @@ export function ConsentScreen() {
             if (error) setError(null)
           }}
           data-testid="consent-checkbox"
-          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+          className="mt-0.5 h-4 w-4 rounded border-stone-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
         />
         <label
           htmlFor="consent-checkbox"
-          className="text-sm text-gray-700 cursor-pointer select-none"
+          className="text-sm text-stone-700 cursor-pointer select-none"
           data-testid="consent-label"
         >
           {t('accept_label')}
