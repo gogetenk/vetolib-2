@@ -24,15 +24,15 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   return (
     <div
       data-testid="language-switcher"
-      className={`flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 ${className ?? ""}`}
+      className={`flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 shadow-sm transition-shadow duration-200 hover:shadow-md ${className ?? ""}`}
     >
       <Link
         href={getLocalePath("en")}
         data-testid="lang-switch-en"
-        className={`text-xs font-medium transition-colors ${
+        className={`text-xs font-medium transition-all duration-200 ${
           locale === "en"
-            ? "text-emerald-700"
-            : "text-gray-400 hover:text-emerald-700"
+            ? "text-emerald-700 scale-105"
+            : "text-gray-400 hover:text-emerald-700 hover:scale-105"
         }`}
       >
         EN
@@ -41,10 +41,10 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
       <Link
         href={getLocalePath("ar")}
         data-testid="lang-switch-ar"
-        className={`text-xs font-medium transition-colors ${
+        className={`text-xs font-medium transition-all duration-200 ${
           locale === "ar"
-            ? "text-emerald-700"
-            : "text-gray-400 hover:text-emerald-700"
+            ? "text-emerald-700 scale-105"
+            : "text-gray-400 hover:text-emerald-700 hover:scale-105"
         }`}
       >
         AR
