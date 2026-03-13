@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Receipt, Search } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -40,29 +40,29 @@ const STATUS_OPTIONS: { value: InvoiceStatus | 'ALL'; label: string }[] = [
   { value: 'CANCELLED', label: 'Cancelled' },
 ]
 
-const INVOICE_STATUS_STYLES: Record<InvoiceStatus, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; className?: string }> = {
-  DRAFT: { variant: 'outline', className: 'text-gray-600 bg-gray-50' },
-  SENT: { variant: 'outline', className: 'border-blue-300 text-blue-700 bg-blue-50' },
-  PAID: { variant: 'default', className: 'border-green-300 text-green-700 bg-green-50' },
-  CANCELLED: { variant: 'destructive' },
+const INVOICE_STATUS_STYLES: Record<InvoiceStatus, string> = {
+  DRAFT: 'bg-amber-100 text-amber-700',
+  SENT: 'bg-blue-100 text-blue-700',
+  PAID: 'bg-emerald-100 text-emerald-700',
+  CANCELLED: 'bg-stone-100 text-stone-500',
 }
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
-  const style = INVOICE_STATUS_STYLES[status] ?? { variant: 'secondary' as const }
+  const style = INVOICE_STATUS_STYLES[status] ?? 'bg-stone-100 text-stone-500'
   return (
-    <Badge
-      variant={style.variant}
-      className={cn('transition-colors duration-200 ease-in-out', style.className)}
+    <span
+      className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', style)}
       data-testid={`invoice-status-${status.toLowerCase()}`}
     >
       {status}
-    </Badge>
+    </span>
   )
 }
 
 export function InvoiceTable() {
   const tEmpty = useTranslations('onboarding.empty.billing')
   const locale = useLocale()
+  const router = useRouter()
   const [data, setData] = useState<PagedResult<InvoiceDto> | null>(null)
   const [statusFilter, setStatusFilter] = useState<InvoiceStatus | 'ALL'>('ALL')
   const [searchQuery, setSearchQuery] = useState('')
@@ -102,14 +102,14 @@ export function InvoiceTable() {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Invoices</CardTitle>
-          <Link href="/billing/new">
-            <Button data-testid="new-invoice-btn">+ New Invoice</Button>
+          <CardTitle className="text-stone-800">Invoices</CardTitle>
+          <Link href={`/${locale}/billing/new`}>
+            <Button className="bg-emerald-700 text-white hover:bg-emerald-800" data-testid="new-invoice-btn">+ New Invoice</Button>
           </Link>
         </div>
         <div className="flex flex-wrap gap-3 mt-2">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-stone-400" />
             <Input
               data-testid="invoice-search"
               placeholder="Search invoice # or patient..."
@@ -161,18 +161,18 @@ export function InvoiceTable() {
                     key={inv.id}
                     href={`/${locale}/billing/${inv.id}`}
                     data-testid={`invoice-card-${inv.id}`}
-                    className="block rounded-lg border bg-card p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-in-out min-h-[44px]"
+                    className="block rounded-lg border bg-card p-4 hover:bg-stone-50 transition-colors duration-200 ease-in-out cursor-pointer min-h-[44px]"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <p className="font-mono text-sm font-medium"><LtrText>{inv.invoiceNumber}</LtrText></p>
-                        <p className="text-sm text-muted-foreground mt-0.5">{inv.patientName}</p>
+                        <p className="font-mono text-sm font-medium text-stone-800"><LtrText>{inv.invoiceNumber}</LtrText></p>
+                        <p className="text-sm text-stone-500 mt-0.5">{inv.patientName}</p>
                       </div>
                       <StatusBadge status={inv.status} />
                     </div>
                     <div className="mt-2 flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground"><LtrText>{formatDate(inv.createdAt)}</LtrText></span>
-                      <span className="font-semibold"><LtrText>{formatAED(inv.total)}</LtrText></span>
+                      <span className="text-stone-500"><LtrText>{formatDate(inv.createdAt)}</LtrText></span>
+                      <span className="font-semibold text-stone-800 tabular-nums"><LtrText>{formatAED(inv.total)}</LtrText></span>
                     </div>
                   </Link>
                 ))}
@@ -181,27 +181,26 @@ export function InvoiceTable() {
 
             {/* Desktop table */}
             <Table className="hidden md:table" data-testid="invoice-table">
-              <TableHeader className="sticky top-0 z-10 bg-background shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
-                <TableRow>
-                  <TableHead># Invoice</TableHead>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Subtotal (excl. VAT)</TableHead>
-                  <TableHead className="text-right">VAT (5%)</TableHead>
-                  <TableHead className="text-right">Total AED</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
+              <TableHeader>
+                <TableRow className="bg-stone-50">
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500"># Invoice</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Patient</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Date</TableHead>
+                  <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Subtotal (excl. VAT)</TableHead>
+                  <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">VAT (5%)</TableHead>
+                  <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Total AED</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {invoices.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={8} className="p-0">
+                    <TableCell colSpan={7} className="p-0">
                       <EmptyState
                         icon={<Receipt className="h-16 w-16" />}
                         title={tEmpty('title')}
                         description={tEmpty('description')}
-                        primaryCta={{ label: tEmpty('cta'), href: '/billing/new' }}
+                        primaryCta={{ label: tEmpty('cta'), href: `/${locale}/billing/new` }}
                         tip={tEmpty('tip')}
                         data-testid-prefix="billing"
                       />
@@ -209,30 +208,28 @@ export function InvoiceTable() {
                   </TableRow>
                 )}
                 {invoices.map((inv) => (
-                  <TableRow key={inv.id} data-testid={`invoice-row-${inv.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-muted/50">
-                    <TableCell className="font-mono text-sm" data-testid="invoice-number">
+                  <TableRow
+                    key={inv.id}
+                    data-testid={`invoice-row-${inv.id}`}
+                    className="hover:bg-stone-50 cursor-pointer transition-colors"
+                    onClick={() => router.push(`/${locale}/billing/${inv.id}`)}
+                  >
+                    <TableCell className="font-mono text-sm text-stone-800" data-testid="invoice-number">
                       <LtrText>{inv.invoiceNumber}</LtrText>
                     </TableCell>
-                    <TableCell data-testid="invoice-patient">{inv.patientName}</TableCell>
-                    <TableCell data-testid="invoice-date"><LtrText>{formatDate(inv.createdAt)}</LtrText></TableCell>
-                    <TableCell className="text-right" data-testid="invoice-subtotal">
+                    <TableCell className="text-stone-700" data-testid="invoice-patient">{inv.patientName}</TableCell>
+                    <TableCell className="text-stone-500" data-testid="invoice-date"><LtrText>{formatDate(inv.createdAt)}</LtrText></TableCell>
+                    <TableCell className="text-end tabular-nums text-stone-700" data-testid="invoice-subtotal">
                       <LtrText>{formatAED(inv.subtotal)}</LtrText>
                     </TableCell>
-                    <TableCell className="text-right" data-testid="invoice-vat">
+                    <TableCell className="text-end tabular-nums text-stone-500" data-testid="invoice-vat">
                       <LtrText>{formatAED(inv.vatAmount)}</LtrText>
                     </TableCell>
-                    <TableCell className="text-right font-semibold" data-testid="invoice-total">
+                    <TableCell className="text-end tabular-nums font-semibold text-stone-800" data-testid="invoice-total">
                       <LtrText>{formatAED(inv.total)}</LtrText>
                     </TableCell>
                     <TableCell>
                       <StatusBadge status={inv.status} />
-                    </TableCell>
-                    <TableCell>
-                      <Link href={`/${locale}/billing/${inv.id}`} className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
-                        <Button variant="outline" size="sm" data-testid={`view-invoice-${inv.id}`}>
-                          View
-                        </Button>
-                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -241,10 +238,10 @@ export function InvoiceTable() {
             {invoices.length > 0 && (
               <div className="mt-4 flex justify-end border-t pt-3" data-testid="invoice-summary">
                 <div className="text-right space-y-1" dir="ltr">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-stone-500">
                     {invoices.length} invoice{invoices.length !== 1 ? 's' : ''} — Total filtered:
                   </p>
-                  <p className="text-lg font-bold" data-testid="invoice-grand-total">
+                  <p className="text-lg font-bold text-stone-800" data-testid="invoice-grand-total">
                     <LtrText>{formatAED(grandTotal)}</LtrText>
                   </p>
                 </div>
