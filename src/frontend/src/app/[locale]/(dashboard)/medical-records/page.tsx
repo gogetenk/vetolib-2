@@ -64,7 +64,7 @@ export default function MedicalRecordsPage() {
           placeholder={t('search_placeholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-10"
+          className="pl-10 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
           data-testid="medical-records-search"
         />
       </div>
@@ -72,21 +72,21 @@ export default function MedicalRecordsPage() {
       {isLoading ? (
         <div className="space-y-3">
           {[1, 2, 3, 4].map((i) => (
-            <Skeleton key={i} className="h-24 w-full rounded-lg" />
+            <Skeleton key={i} className="h-24 w-full rounded-lg" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
           ))}
         </div>
       ) : filtered.length === 0 ? (
         <Card>
           <CardContent className="py-8 text-center">
-            <p className="text-sm text-muted-foreground" data-testid="medical-records-empty">
+            <p className="text-sm text-muted-foreground animate-in fade-in duration-300" data-testid="medical-records-empty">
               {t('no_records')}
             </p>
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-3" data-testid="medical-records-list">
+        <div className="space-y-3 animate-in fade-in duration-300" data-testid="medical-records-list">
           {filtered.map((record) => (
-            <Card key={record.id} data-testid={`medical-record-${record.id}`}>
+            <Card key={record.id} data-testid={`medical-record-${record.id}`} className="transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
               <CardHeader className="pb-2">
                 <div className="flex items-start justify-between gap-2 flex-wrap">
                   <div>

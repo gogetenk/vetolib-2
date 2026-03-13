@@ -115,7 +115,7 @@ export default function StockPage() {
           data-testid="stock-loading"
         >
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-12 rounded-md bg-muted animate-pulse" />
+            <div key={i} className="h-12 rounded-md bg-muted animate-pulse" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
           ))}
         </div>
       ) : (

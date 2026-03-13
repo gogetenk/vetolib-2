@@ -209,9 +209,9 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
   if (loading) {
     return (
       <div className="space-y-6" data-testid="invoice-detail-loading">
-        <Skeleton className="h-32 w-full rounded-lg" />
-        <Skeleton className="h-24 w-full rounded-lg" />
-        <Skeleton className="h-48 w-full rounded-lg" />
+        <Skeleton className="h-32 w-full rounded-lg" style={{ animationDelay: '0ms' }} />
+        <Skeleton className="h-24 w-full rounded-lg" style={{ animationDelay: '100ms' }} />
+        <Skeleton className="h-48 w-full rounded-lg" style={{ animationDelay: '200ms' }} />
       </div>
     )
   }
@@ -231,7 +231,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
 
   return (
     <>
-    <div className="space-y-6" data-testid="invoice-detail">
+    <div className="space-y-6 animate-in fade-in duration-300" data-testid="invoice-detail">
       {/* Visually hidden alert for test accessibility — action errors are shown via toast */}
       {lastActionError && (
         <span
@@ -307,7 +307,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             </TableHeader>
             <TableBody>
               {invoice.items.map((item) => (
-                <TableRow key={item.id} data-testid={`detail-item-${item.id}`}>
+                <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="transition-colors duration-150 ease-in-out hover:bg-muted/50">
                   <TableCell>{item.description}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
                   <TableCell className="text-right"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>
@@ -350,8 +350,8 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Actions */}
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
         <Link href={`/${locale}/billing`}>
-          <Button variant="outline" data-testid="back-to-billing-btn">
-            {backArrow} Back to Billing
+          <Button variant="outline" data-testid="back-to-billing-btn" className="group/back">
+            <span className="inline-block transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5">{backArrow}</span> Back to Billing
           </Button>
         </Link>
 

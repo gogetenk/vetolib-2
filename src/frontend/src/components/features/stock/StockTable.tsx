@@ -49,7 +49,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
   function getStatusBadge(item: StockItemDto) {
     if (item.isLowStock) {
       return (
-        <Badge variant="destructive" data-testid={`badge-low-stock-${item.id}`}>
+        <Badge variant="destructive" className="transition-colors duration-200 ease-in-out" data-testid={`badge-low-stock-${item.id}`}>
           {t('status.low_stock')}
         </Badge>
       )
@@ -57,7 +57,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
     if (item.isExpiringSoon) {
       return (
         <Badge
-          className="border-orange-300 bg-orange-100 text-orange-700"
+          className="border-orange-300 bg-orange-100 text-orange-700 transition-colors duration-200 ease-in-out"
           data-testid={`badge-expiring-${item.id}`}
         >
           {t('status.expiring_soon')}
@@ -65,7 +65,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
       )
     }
     return (
-      <Badge variant="secondary" data-testid={`badge-ok-${item.id}`}>
+      <Badge variant="secondary" className="transition-colors duration-200 ease-in-out" data-testid={`badge-ok-${item.id}`}>
         {t('status.ok')}
       </Badge>
     )
@@ -82,7 +82,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           <Input
             data-testid="stock-search"
             placeholder={t('search_placeholder') ?? 'Search item name...'}
-            className="w-56 pl-9"
+            className="w-56 pl-9 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -139,7 +139,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           {filtered.map(item => (
             <div
               key={item.id}
-              className="rounded-lg border bg-card p-4 min-h-[44px]"
+              className="rounded-lg border bg-card p-4 min-h-[44px] transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
               data-testid={`stock-card-${item.id}`}
             >
               <div className="flex items-start justify-between gap-2">
@@ -193,7 +193,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
       {/* Desktop table */}
       {filtered.length === 0 ? (
         <p
-          className="py-12 text-center text-sm text-muted-foreground"
+          className="py-12 text-center text-sm text-muted-foreground animate-in fade-in duration-300"
           data-testid="stock-empty"
         >
           {t('no_items')}
@@ -201,7 +201,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
       ) : (
         <div className="hidden md:block rounded-md border" data-testid="stock-table">
           <Table>
-            <TableHeader>
+            <TableHeader className="sticky top-0 z-10 bg-background shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
               <TableRow>
                 <TableHead data-testid="th-name">{t('columns.name')}</TableHead>
                 <TableHead data-testid="th-category">{t('columns.category')}</TableHead>
@@ -214,7 +214,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
             </TableHeader>
             <TableBody>
               {filtered.map(item => (
-                <TableRow key={item.id} data-testid={`stock-row-${item.id}`}>
+                <TableRow key={item.id} data-testid={`stock-row-${item.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-muted/50">
                   <TableCell
                     className="font-medium"
                     data-testid={`stock-name-${item.id}`}
@@ -245,7 +245,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
                     {getStatusBadge(item)}
                   </TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                       <Button
                         size="sm"
                         variant="outline"
