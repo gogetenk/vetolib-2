@@ -32,10 +32,7 @@ export function AnimatedStat({
 
     // Parse the numeric part from the value
     const match = value.match(/^([^\d]*)([\d,.]+)(.*)$/)
-    if (!match) {
-      setDisplayValue(value)
-      return
-    }
+    if (!match) return
 
     const [, prefix, numStr, suffix] = match
     const cleanNum = numStr.replace(/,/g, '')
