@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -27,6 +26,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { ErrorState } from '@/components/ui/error-state'
 import { LtrText } from '@/components/ui/ltr-text'
+import { cn } from '@/lib/utils'
 import { formatAED, formatDate } from '@/lib/utils'
 import {
   getInvoice,
@@ -40,18 +40,23 @@ import type { InvoiceDto, InvoiceStatus } from '@/lib/api/billing'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 import { useDirection } from '@/hooks/use-direction'
 
-const STATUS_LABEL: Record<InvoiceStatus, string> = {
-  DRAFT: 'Draft',
-  SENT: 'Sent',
-  PAID: 'Paid',
-  CANCELLED: 'Cancelled',
+const STATUS_BADGE_STYLES: Record<InvoiceStatus, string> = {
+  DRAFT: 'bg-amber-100 text-amber-700',
+  SENT: 'bg-blue-100 text-blue-700',
+  PAID: 'bg-emerald-100 text-emerald-700',
+  CANCELLED: 'bg-stone-100 text-stone-500',
 }
 
-const STATUS_VARIANT: Record<InvoiceStatus, 'secondary' | 'default' | 'outline' | 'destructive'> = {
-  DRAFT: 'secondary',
-  SENT: 'default',
-  PAID: 'outline',
-  CANCELLED: 'destructive',
+function StatusBadge({ status }: { status: InvoiceStatus }) {
+  const style = STATUS_BADGE_STYLES[status] ?? 'bg-stone-100 text-stone-500'
+  return (
+    <span
+      className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', style)}
+      data-testid="invoice-detail-status"
+    >
+      {status}
+    </span>
+  )
 }
 
 interface InvoiceDetailProps {
@@ -176,7 +181,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
     setActionLoading(true)
     try {
       await deleteInvoice(invoice.id)
-      router.push('/billing')
+      router.push(`/${locale}/billing`)
     } catch {
       const msg = 'Failed to delete invoice'
       setLastActionError(msg)
@@ -208,7 +213,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
 
   if (loading) {
     return (
-      <div className="space-y-6" data-testid="invoice-detail-loading">
+      <div className="space-y-3" data-testid="invoice-detail-loading">
         <Skeleton className="h-32 w-full rounded-lg" style={{ animationDelay: '0ms' }} />
         <Skeleton className="h-24 w-full rounded-lg" style={{ animationDelay: '100ms' }} />
         <Skeleton className="h-48 w-full rounded-lg" style={{ animationDelay: '200ms' }} />
@@ -231,7 +236,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
 
   return (
     <>
-    <div className="space-y-6 animate-in fade-in duration-300" data-testid="invoice-detail">
+    <div className="space-y-3 animate-in fade-in duration-300" data-testid="invoice-detail">
       {/* Visually hidden alert for test accessibility — action errors are shown via toast */}
       {lastActionError && (
         <span
@@ -243,93 +248,90 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
         </span>
       )}
 
-      {/* Header */}
+      {/* Header — single row: invoice number (left), status (center), date (right) */}
       <Card>
         <CardHeader>
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="flex items-center gap-3 mb-1">
-                <CardTitle data-testid="invoice-detail-number">{invoice.invoiceNumber}</CardTitle>
-                <Badge variant={STATUS_VARIANT[invoice.status]} data-testid="invoice-detail-status">
-                  {STATUS_LABEL[invoice.status]}
-                </Badge>
-              </div>
-              <p className="text-sm text-muted-foreground" data-testid="invoice-detail-date">
-                Created: <LtrText>{formatDate(invoice.createdAt)}</LtrText>
-              </p>
+          <div className="flex items-center justify-between" data-testid="invoice-detail-header">
+            <span className="text-lg font-semibold text-stone-800" data-testid="invoice-detail-number">
+              {invoice.invoiceNumber}
+            </span>
+            <StatusBadge status={invoice.status} />
+            <div className="text-sm text-stone-500 text-right" data-testid="invoice-detail-date">
+              <LtrText>{formatDate(invoice.createdAt)}</LtrText>
               {invoice.dueDate && (
-                <p className="text-sm text-muted-foreground" data-testid="invoice-due-date">
+                <p className="text-stone-400" data-testid="invoice-due-date">
                   Due: <LtrText>{formatDate(invoice.dueDate)}</LtrText>
                 </p>
               )}
               {invoice.paidAt && (
-                <p className="text-sm text-green-600 font-medium" data-testid="invoice-paid-date">
-                  Paid on: <LtrText>{formatDate(invoice.paidAt)}</LtrText>
+                <p className="text-emerald-600 font-medium" data-testid="invoice-paid-date">
+                  Paid: <LtrText>{formatDate(invoice.paidAt)}</LtrText>
                 </p>
               )}
-            </div>
-            {/* Clinic placeholder */}
-            <div className="text-right text-sm text-muted-foreground">
-              <p className="font-semibold text-foreground">Happy Paws Veterinary</p>
-              <p>Dubai, UAE</p>
-              <LtrText as="p">+971 4 000 0000</LtrText>
             </div>
           </div>
         </CardHeader>
       </Card>
 
-      {/* Client Info */}
+      {/* Client Info + Clinic */}
       <Card>
-        <CardHeader>
-          <CardTitle>Client</CardTitle>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-stone-800">Client</CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="font-medium" data-testid="invoice-owner-name">{invoice.ownerName}</p>
-          <p className="text-sm text-muted-foreground" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
-          <p className="text-sm text-muted-foreground">Patient: <span className="text-foreground" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
+        <CardContent className="flex justify-between">
+          <div>
+            <p className="font-medium text-stone-800" data-testid="invoice-owner-name">{invoice.ownerName}</p>
+            <p className="text-sm text-stone-500" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
+            <p className="text-sm text-stone-500">Patient: <span className="text-stone-700" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
+          </div>
+          <div className="text-right text-sm text-stone-500">
+            <p className="font-semibold text-stone-700">Happy Paws Veterinary</p>
+            <p>Dubai, UAE</p>
+            <LtrText as="p">+971 4 000 0000</LtrText>
+          </div>
         </CardContent>
       </Card>
 
       {/* Line Items */}
       <Card>
-        <CardHeader>
-          <CardTitle>Items</CardTitle>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-stone-800">Items</CardTitle>
         </CardHeader>
         <CardContent>
           <Table data-testid="invoice-items-table">
             <TableHeader>
-              <TableRow>
-                <TableHead>Description</TableHead>
-                <TableHead className="text-right">Qty</TableHead>
-                <TableHead className="text-right">Unit Price</TableHead>
-                <TableHead className="text-right">Subtotal</TableHead>
+              <TableRow className="bg-stone-50">
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Description</TableHead>
+                <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Qty</TableHead>
+                <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Unit Price</TableHead>
+                <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Subtotal</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {invoice.items.map((item) => (
-                <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="transition-colors duration-150 ease-in-out hover:bg-muted/50">
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell className="text-right">{item.quantity}</TableCell>
-                  <TableCell className="text-right"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>
-                  <TableCell className="text-right"><LtrText>{formatAED(item.subtotal)}</LtrText></TableCell>
+                <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="hover:bg-stone-50 transition-colors">
+                  <TableCell className="text-stone-700">{item.description}</TableCell>
+                  <TableCell className="text-end tabular-nums text-stone-700">{item.quantity}</TableCell>
+                  <TableCell className="text-end tabular-nums text-stone-500"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>
+                  <TableCell className="text-end tabular-nums text-stone-800"><LtrText>{formatAED(item.subtotal)}</LtrText></TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
 
           {/* Totals */}
-          <div className="mt-4 border-t pt-4 space-y-1 text-sm max-w-xs ml-auto" data-testid="detail-totals">
+          <div className="mt-3 border-t-2 border-stone-300 pt-3 space-y-1 text-sm max-w-xs ml-auto" data-testid="detail-totals">
             <div className="flex justify-between">
-              <span>Subtotal (excl. VAT)</span>
-              <LtrText data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
+              <span className="text-stone-500">Subtotal (excl. VAT)</span>
+              <LtrText className="text-stone-700 tabular-nums" data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
             </div>
-            <div className="flex justify-between text-muted-foreground">
-              <span>VAT (5%)</span>
-              <LtrText data-testid="detail-vat">{formatAED(invoice.vatAmount)}</LtrText>
+            <div className="flex justify-between">
+              <span className="text-stone-400">VAT (5%)</span>
+              <LtrText className="text-stone-500 tabular-nums" data-testid="detail-vat">{formatAED(invoice.vatAmount)}</LtrText>
             </div>
-            <div className="flex justify-between font-bold text-base border-t pt-1">
-              <span>Total AED</span>
-              <LtrText data-testid="detail-total">{formatAED(invoice.total)}</LtrText>
+            <div className="flex justify-between text-lg font-bold border-t-2 border-stone-300 pt-2">
+              <span className="text-stone-800">Total AED</span>
+              <LtrText className="text-stone-900 tabular-nums" data-testid="detail-total">{formatAED(invoice.total)}</LtrText>
             </div>
           </div>
         </CardContent>
@@ -338,11 +340,11 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Notes */}
       {invoice.notes && (
         <Card>
-          <CardHeader>
-            <CardTitle>Notes</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-stone-800">Notes</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm" data-testid="invoice-notes">{invoice.notes}</p>
+            <p className="text-sm text-stone-600" data-testid="invoice-notes">{invoice.notes}</p>
           </CardContent>
         </Card>
       )}
@@ -350,7 +352,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Actions */}
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
         <Link href={`/${locale}/billing`}>
-          <Button variant="outline" data-testid="back-to-billing-btn" className="group/back">
+          <Button variant="outline" data-testid="back-to-billing-btn" className="group/back text-stone-600">
             <span className="inline-block transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5">{backArrow}</span> Back to Billing
           </Button>
         </Link>
@@ -361,6 +363,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="send-invoice-btn"
               onClick={handleSend}
               disabled={actionLoading}
+              className="bg-emerald-700 text-white hover:bg-emerald-800"
             >
               Send
             </Button>
@@ -381,6 +384,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="mark-paid-btn"
               onClick={handleMarkPaid}
               disabled={actionLoading}
+              className="bg-emerald-700 text-white hover:bg-emerald-800"
             >
               Mark as Paid
             </Button>
@@ -389,6 +393,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="cancel-invoice-btn"
               onClick={handleCancel}
               disabled={actionLoading}
+              className="text-stone-600"
             >
               Cancel
             </Button>
@@ -401,6 +406,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             data-testid="download-pdf-btn"
             onClick={handleDownloadPdf}
             disabled={actionLoading}
+            className="text-stone-600"
           >
             Download PDF
           </Button>
@@ -411,8 +417,8 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
     <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
       <DialogContent data-testid="delete-confirm-dialog">
         <DialogHeader>
-          <DialogTitle>Delete Invoice</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-stone-800">Delete Invoice</DialogTitle>
+          <DialogDescription className="text-stone-500">
             This action cannot be undone. The invoice will be permanently deleted.
           </DialogDescription>
         </DialogHeader>
@@ -421,6 +427,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             variant="outline"
             data-testid="delete-confirm-cancel"
             onClick={() => setDeleteDialogOpen(false)}
+            className="text-stone-600"
           >
             Cancel
           </Button>
