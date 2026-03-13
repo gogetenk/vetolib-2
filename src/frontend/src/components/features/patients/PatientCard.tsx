@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useLocale } from 'next-intl'
 import { Dog, Cat, Bird, Rabbit, PawPrint } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -38,6 +39,7 @@ interface PatientCardProps {
 }
 
 export function PatientCard({ patient }: PatientCardProps) {
+  const locale = useLocale()
   return (
     <Card data-testid={`patient-card-${patient.id}`} className="group transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
       <CardContent className="p-4">
@@ -93,7 +95,7 @@ export function PatientCard({ patient }: PatientCardProps) {
         {/* Action */}
         <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
           <Button
-            render={<Link href={`/patients/${patient.id}`} />}
+            render={<Link href={`/${locale}/patients/${patient.id}`} />}
             variant="outline"
             size="sm"
             data-testid={`view-record-btn-${patient.id}`}

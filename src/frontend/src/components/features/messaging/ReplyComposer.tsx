@@ -32,6 +32,14 @@ export function ReplyComposer({
   const [text, setText] = useState('')
   const [sendSuccess, setSendSuccess] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const sendSuccessTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Clean up send success timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (sendSuccessTimeout.current) clearTimeout(sendSuccessTimeout.current)
+    }
+  }, [])
 
   // When an AI suggestion is selected, prefill the textarea.
   // We intentionally sync external prop → state here; onPrefillConsumed resets the prop.
@@ -53,7 +61,8 @@ export function ReplyComposer({
     await onSendReply(text.trim())
     setText('')
     setSendSuccess(true)
-    setTimeout(() => setSendSuccess(false), 1500)
+    if (sendSuccessTimeout.current) clearTimeout(sendSuccessTimeout.current)
+    sendSuccessTimeout.current = setTimeout(() => setSendSuccess(false), 1500)
   }
 
   const handleAddNote = async () => {
