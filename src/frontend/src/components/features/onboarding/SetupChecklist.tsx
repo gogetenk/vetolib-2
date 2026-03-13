@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { X } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -43,18 +43,13 @@ interface SetupChecklistProps {
 export function SetupChecklist({ role }: SetupChecklistProps) {
   const t = useTranslations('onboarding.checklist')
   const { state, loading, completeStep, dismissChecklist } = useOnboarding()
-  const [localDismissed, setLocalDismissed] = useState(false)
-
-  // Check localStorage on mount
-  useEffect(() => {
+  const [localDismissed, setLocalDismissed] = useState(() => {
     try {
-      if (localStorage.getItem(STORAGE_KEY) === 'true') {
-        setLocalDismissed(true)
-      }
+      return localStorage.getItem(STORAGE_KEY) === 'true'
     } catch {
-      // localStorage unavailable — ignore
+      return false
     }
-  }, [])
+  })
 
   if (loading || !state) return null
   if (!state.checklistVisible) return null
