@@ -409,7 +409,8 @@
       "pending_checkin": "في انتظار تسجيل الوصول",
       "urgent": "عاجل",
       "unpaid_invoices": "الفواتير غير المدفوعة",
-      "total_patients": "إجمالي الحيوانات"
+      "total_patients": "إجمالي الحيوانات",
+      "todays_revenue": "إيرادات اليوم"
     },
     "today": {
       "title": "جدول اليوم",

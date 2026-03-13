@@ -21,13 +21,13 @@ function VetIllustration() {
       className="shrink-0 opacity-80"
     >
       {/* Paw print outline */}
-      <circle cx="40" cy="45" r="18" fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" />
-      <circle cx="28" cy="28" r="7" fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" />
-      <circle cx="40" cy="23" r="7" fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" />
-      <circle cx="52" cy="28" r="7" fill="#dbeafe" stroke="#3b82f6" strokeWidth="2" />
+      <circle cx="40" cy="45" r="18" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
+      <circle cx="28" cy="28" r="7" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
+      <circle cx="40" cy="23" r="7" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
+      <circle cx="52" cy="28" r="7" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
       {/* Cross / medical symbol */}
-      <rect x="36" y="38" width="8" height="14" rx="2" fill="#3b82f6" />
-      <rect x="33" y="41" width="14" height="8" rx="2" fill="#3b82f6" />
+      <rect x="36" y="38" width="8" height="14" rx="2" fill="#10b981" />
+      <rect x="33" y="41" width="14" height="8" rx="2" fill="#10b981" />
     </svg>
   )
 }
@@ -97,7 +97,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
       data-testid="welcome-banner"
       role="banner"
       className={[
-        'relative flex items-center gap-4 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-5 shadow-sm',
+        'relative flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm',
         'transition-opacity duration-200',
         animatingOut ? 'opacity-0' : 'opacity-100',
       ].join(' ')}
@@ -109,7 +109,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <p
           data-testid="welcome-banner-greeting"
-          className="text-base font-semibold text-gray-900"
+          className="text-base font-semibold text-stone-900"
         >
           {t(`${roleKey}.greeting`, { clinicName: clinicName ?? '' })}
         </p>
@@ -130,7 +130,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
         data-testid="welcome-banner-dismiss"
         aria-label="Dismiss welcome banner"
         onClick={handleDismiss}
-        className="absolute end-3 top-3 rounded-full p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+        className="absolute end-3 top-3 rounded-full p-1 text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
       >
         <X className="h-4 w-4" />
       </button>

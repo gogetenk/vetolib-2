@@ -409,7 +409,8 @@
       "pending_checkin": "Pending Check-in",
       "urgent": "Urgent",
       "unpaid_invoices": "Unpaid Invoices",
-      "total_patients": "Total Patients"
+      "total_patients": "Total Patients",
+      "todays_revenue": "Today's Revenue"
     },
     "today": {
       "title": "Today's Schedule",

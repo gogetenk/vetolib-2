@@ -27,6 +27,7 @@ const MOCK_TODAY_APPOINTMENTS: TodayAppointmentDto[] = [
     vetId: 'vet-0000-0000-0000-000000000001',
     status: 'CHECKED_IN',
     scheduledAt: `${todayStr}T09:00:00+04:00`,
+    consultationType: 'GENERAL',
   },
   {
     id: 'appt-0000-0000-0000-000000000002',
@@ -37,6 +38,7 @@ const MOCK_TODAY_APPOINTMENTS: TodayAppointmentDto[] = [
     vetId: 'vet-0000-0000-0000-000000000002',
     status: 'SCHEDULED',
     scheduledAt: `${todayStr}T10:30:00+04:00`,
+    consultationType: 'VACCINATION',
   },
   {
     id: 'appt-0000-0000-0000-000000000003',
@@ -47,6 +49,7 @@ const MOCK_TODAY_APPOINTMENTS: TodayAppointmentDto[] = [
     vetId: 'vet-0000-0000-0000-000000000001',
     status: 'SCHEDULED',
     scheduledAt: `${todayStr}T11:00:00+04:00`,
+    consultationType: 'SURGERY',
   },
   {
     id: 'appt-0000-0000-0000-000000000004',
@@ -57,6 +60,7 @@ const MOCK_TODAY_APPOINTMENTS: TodayAppointmentDto[] = [
     vetId: 'vet-0000-0000-0000-000000000002',
     status: 'SCHEDULED',
     scheduledAt: `${todayStr}T12:00:00+04:00`,
+    consultationType: 'FOLLOWUP',
   },
   {
     id: 'appt-0000-0000-0000-000000000005',
@@ -67,6 +71,7 @@ const MOCK_TODAY_APPOINTMENTS: TodayAppointmentDto[] = [
     vetId: 'vet-0000-0000-0000-000000000001',
     status: 'IN_PROGRESS',
     scheduledAt: `${todayStr}T13:30:00+04:00`,
+    consultationType: 'EMERGENCY',
   },
 ]
 
@@ -140,6 +145,13 @@ const MOCK_RECENT_ACTIVITY: ActivityDto[] = [
     message: 'Appointment created -- Bella, 12:00 (Dr. Ahmed Khalil)',
     occurredAt: new Date(Date.now() - 600 * 60_000).toISOString(),
     relatedId: 'appt-0000-0000-0000-000000000004',
+  },
+  {
+    id: 'act-011',
+    type: 'MESSAGE',
+    message: 'New message from Ahmed Al-Rashid regarding Max',
+    occurredAt: new Date(Date.now() - 660 * 60_000).toISOString(),
+    relatedId: null,
   },
 ]
 

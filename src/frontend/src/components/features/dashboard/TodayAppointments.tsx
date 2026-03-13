@@ -11,6 +11,7 @@ import {
   getTodayAppointments,
   type TodayAppointmentDto,
   type AppointmentStatus,
+  type ConsultationType,
 } from '@/lib/api/dashboard'
 import { apiPatch } from '@/lib/api/client'
 import { toast } from 'sonner'
@@ -34,6 +35,15 @@ const STATUS_VARIANTS: Record<
   IN_PROGRESS: 'default',
   COMPLETED: 'outline',
   CANCELLED: 'destructive',
+}
+
+const CONSULTATION_TYPE_COLORS: Record<ConsultationType, { dot: string; badge: string; text: string }> = {
+  GENERAL: { dot: 'bg-blue-400', badge: 'bg-blue-100 text-blue-700', text: 'General' },
+  VACCINATION: { dot: 'bg-emerald-400', badge: 'bg-emerald-100 text-emerald-700', text: 'Vaccination' },
+  SURGERY: { dot: 'bg-red-400', badge: 'bg-red-100 text-red-700', text: 'Surgery' },
+  EMERGENCY: { dot: 'bg-rose-500', badge: 'bg-rose-100 text-rose-700', text: 'Emergency' },
+  FOLLOWUP: { dot: 'bg-violet-400', badge: 'bg-violet-100 text-violet-700', text: 'Follow-up' },
+  GROOMING: { dot: 'bg-amber-400', badge: 'bg-amber-100 text-amber-700', text: 'Grooming' },
 }
 
 function formatTime(isoDate: string): string {
@@ -90,10 +100,10 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   return (
     <Card data-testid="today-appointments-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-base font-semibold">{t('title')}</CardTitle>
+        <CardTitle className="text-base font-semibold text-stone-900">{t('title')}</CardTitle>
         <Link
           href="/appointments"
-          className="text-sm text-muted-foreground hover:underline"
+          className="text-sm text-stone-500 hover:underline"
           data-testid="today-appointments-view-all"
         >
           {t('view_all')} {arrow}
@@ -118,10 +128,10 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
             data-testid="empty-state-dashboard-today"
             className="p-6 flex flex-col gap-2"
           >
-            <p className="text-sm font-medium text-foreground">
+            <p className="text-sm font-medium text-stone-900">
               {tEmpty('title')}
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-stone-500">
               {tEmpty('description')}
             </p>
             <Link
@@ -134,58 +144,81 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
           </div>
         ) : (
           <ul data-testid="today-appointments-list" className="divide-y">
-            {appointments.map((appt) => (
-              <li
-                key={appt.id}
-                data-testid={`today-appointment-row-${appt.id}`}
-                className="flex items-center justify-between px-4 py-3 hover:bg-muted/30 transition-colors"
-              >
-                <div className="flex items-center gap-4 min-w-0">
-                  <LtrText
-                    className="text-sm font-mono text-muted-foreground w-12 shrink-0"
-                    data-testid={`appointment-time-${appt.id}`}
-                  >
-                    {formatTime(appt.scheduledAt)}
-                  </LtrText>
-                  <Link
-                    href={`/appointments/${appt.id}`}
-                    className="hover:underline truncate"
-                    data-testid={`appointment-link-${appt.id}`}
-                  >
-                    <span className="font-medium">{appt.patientName}</span>
-                    <span className="text-muted-foreground ml-1 text-sm">
-                      ({appt.species})
-                    </span>
-                  </Link>
-                  <span
-                    className="text-sm text-muted-foreground hidden sm:inline truncate"
-                    data-testid={`appointment-vet-${appt.id}`}
-                  >
-                    {appt.vetName}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <Badge
-                    variant={STATUS_VARIANTS[appt.status]}
-                    data-testid={`appointment-status-${appt.id}`}
-                  >
-                    {tStatus(appt.status)}
-                  </Badge>
-                  {canCheckIn && appt.status === 'SCHEDULED' && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled={checkingIn === appt.id}
-                      aria-busy={checkingIn === appt.id}
-                      onClick={() => handleCheckIn(appt.id)}
-                      data-testid={`checkin-btn-${appt.id}`}
+            {appointments.map((appt) => {
+              const typeConfig = appt.consultationType
+                ? CONSULTATION_TYPE_COLORS[appt.consultationType]
+                : null
+
+              return (
+                <li
+                  key={appt.id}
+                  data-testid={`today-appointment-row-${appt.id}`}
+                  className="flex items-center justify-between px-4 py-3 hover:bg-muted/30 transition-colors"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    {/* Colored dot for consultation type */}
+                    {typeConfig && (
+                      <span
+                        className={`h-2.5 w-2.5 rounded-full shrink-0 ${typeConfig.dot}`}
+                        data-testid={`appointment-type-dot-${appt.id}`}
+                        aria-hidden="true"
+                      />
+                    )}
+                    <LtrText
+                      className="text-sm font-mono text-stone-500 w-12 shrink-0"
+                      data-testid={`appointment-time-${appt.id}`}
                     >
-                      {checkingIn === appt.id ? t('checking_in') : t('check_in')}
-                    </Button>
-                  )}
-                </div>
-              </li>
-            ))}
+                      {formatTime(appt.scheduledAt)}
+                    </LtrText>
+                    <Link
+                      href={`/appointments/${appt.id}`}
+                      className="hover:underline truncate"
+                      data-testid={`appointment-link-${appt.id}`}
+                    >
+                      <span className="font-medium text-stone-900">{appt.patientName}</span>
+                      <span className="text-stone-500 ml-1 text-sm">
+                        ({appt.species})
+                      </span>
+                    </Link>
+                    {/* Consultation type badge */}
+                    {typeConfig && (
+                      <span
+                        className={`text-xs px-1.5 py-0.5 rounded-full font-medium shrink-0 hidden sm:inline-block ${typeConfig.badge}`}
+                        data-testid={`appointment-type-badge-${appt.id}`}
+                      >
+                        {typeConfig.text}
+                      </span>
+                    )}
+                    <span
+                      className="text-sm text-stone-500 hidden md:inline truncate"
+                      data-testid={`appointment-vet-${appt.id}`}
+                    >
+                      {appt.vetName}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Badge
+                      variant={STATUS_VARIANTS[appt.status]}
+                      data-testid={`appointment-status-${appt.id}`}
+                    >
+                      {tStatus(appt.status)}
+                    </Badge>
+                    {canCheckIn && appt.status === 'SCHEDULED' && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={checkingIn === appt.id}
+                        aria-busy={checkingIn === appt.id}
+                        onClick={() => handleCheckIn(appt.id)}
+                        data-testid={`checkin-btn-${appt.id}`}
+                      >
+                        {checkingIn === appt.id ? t('checking_in') : t('check_in')}
+                      </Button>
+                    )}
+                  </div>
+                </li>
+              )
+            })}
           </ul>
         )}
       </CardContent>
