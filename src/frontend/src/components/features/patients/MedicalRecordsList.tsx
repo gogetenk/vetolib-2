@@ -1,9 +1,8 @@
 'use client'
 
+import { Syringe, Stethoscope, Scissors, AlertTriangle, FileText } from 'lucide-react'
 import type { MedicalRecordDto } from '@/lib/api/medical-records'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 
 function formatDateTime(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-AE', {
@@ -14,71 +13,113 @@ function formatDateTime(dateStr: string): string {
   })
 }
 
+type RecordType = 'vaccination' | 'surgery' | 'emergency' | 'checkup' | 'other'
+
+function inferRecordType(reason: string): RecordType {
+  const lower = reason.toLowerCase()
+  if (lower.includes('vaccin') || lower.includes('immuniz')) return 'vaccination'
+  if (lower.includes('surg') || lower.includes('operat') || lower.includes('spay') || lower.includes('neuter')) return 'surgery'
+  if (lower.includes('emerg') || lower.includes('injur') || lower.includes('trauma') || lower.includes('wound') || lower.includes('accident')) return 'emergency'
+  if (lower.includes('check') || lower.includes('routine') || lower.includes('exam') || lower.includes('annual') || lower.includes('wellness')) return 'checkup'
+  return 'other'
+}
+
+function getRecordAccent(type: RecordType): string {
+  switch (type) {
+    case 'vaccination': return 'border-emerald-400'
+    case 'surgery': return 'border-rose-400'
+    case 'emergency': return 'border-amber-400'
+    case 'checkup': return 'border-blue-400'
+    default: return 'border-stone-300'
+  }
+}
+
+function RecordTypeIcon({ type, className }: { type: RecordType; className?: string }) {
+  const cls = className ?? 'h-4 w-4'
+  switch (type) {
+    case 'vaccination': return <Syringe className={cls} data-testid="record-icon-vaccination" />
+    case 'surgery': return <Scissors className={cls} data-testid="record-icon-surgery" />
+    case 'emergency': return <AlertTriangle className={cls} data-testid="record-icon-emergency" />
+    case 'checkup': return <Stethoscope className={cls} data-testid="record-icon-checkup" />
+    default: return <FileText className={cls} data-testid="record-icon-other" />
+  }
+}
+
 interface MedicalRecordsListProps {
   records: MedicalRecordDto[]
   isLoading?: boolean
 }
 
 function MedicalRecordItem({ record }: { record: MedicalRecordDto }) {
+  const recordType = inferRecordType(record.reason)
+  const accentClass = getRecordAccent(recordType)
+
   return (
     <Card
       data-testid={`medical-record-${record.id}`}
-      className="mb-3 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
+      className={`mb-3 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md border-s-4 ${accentClass}`}
     >
       <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-2 flex-wrap">
+        {/* Title row with icon + date below */}
+        <div className="flex items-start justify-between gap-2">
           <div>
+            <div className="flex items-center gap-1.5">
+              <RecordTypeIcon type={recordType} className="h-4 w-4 text-stone-500" />
+              <p
+                className="font-semibold text-sm text-stone-800"
+                data-testid={`record-reason-${record.id}`}
+              >
+                {record.reason}
+              </p>
+            </div>
             <p
-              className="font-semibold text-sm"
-              data-testid={`record-reason-${record.id}`}
+              className="text-xs text-stone-400 mt-0.5"
+              data-testid={`record-date-${record.id}`}
             >
-              {record.reason}
+              {formatDateTime(record.visitDate)}
             </p>
             <p
-              className="text-xs text-muted-foreground mt-0.5"
+              className="text-xs text-stone-400"
               data-testid={`record-vet-${record.id}`}
             >
               {record.vetName}
             </p>
           </div>
-          <Badge
-            variant="outline"
-            data-testid={`record-date-${record.id}`}
-          >
-            {formatDateTime(record.visitDate)}
-          </Badge>
         </div>
 
-        <Separator className="my-3" />
-
-        <div className="grid grid-cols-3 gap-3 text-xs mb-3">
+        {/* Vitals row (S8) */}
+        <div
+          className="bg-stone-50 rounded-lg px-3 py-2 mt-3 grid grid-cols-3 gap-3"
+          data-testid={`record-vitals-${record.id}`}
+        >
           <div data-testid={`record-weight-${record.id}`}>
-            <span className="text-muted-foreground block">Weight</span>
-            <span className="font-medium">{record.weight} kg</span>
+            <span className="text-xs font-medium uppercase tracking-wide text-stone-400 block">Weight</span>
+            <span className="text-sm font-medium text-stone-700">{record.weight} kg</span>
           </div>
           <div data-testid={`record-temp-${record.id}`}>
-            <span className="text-muted-foreground block">Temperature</span>
-            <span className="font-medium">{record.temperature}°C</span>
+            <span className="text-xs font-medium uppercase tracking-wide text-stone-400 block">Temperature</span>
+            <span className="text-sm font-medium text-stone-700">{record.temperature}&deg;C</span>
           </div>
           <div data-testid={`record-hr-${record.id}`}>
-            <span className="text-muted-foreground block">Heart Rate</span>
-            <span className="font-medium">{record.heartRate} bpm</span>
+            <span className="text-xs font-medium uppercase tracking-wide text-stone-400 block">Heart Rate</span>
+            <span className="text-sm font-medium text-stone-700">{record.heartRate} bpm</span>
           </div>
         </div>
 
-        <div className="space-y-2 text-sm">
+        {/* Diagnosis + treatment */}
+        <div className="space-y-1.5 text-sm mt-3">
           <div data-testid={`record-diagnosis-${record.id}`}>
-            <span className="font-medium">Diagnosis: </span>
-            <span className="text-muted-foreground">{record.diagnosis}</span>
+            <span className="font-medium text-stone-700">Diagnosis: </span>
+            <span className="text-stone-500">{record.diagnosis}</span>
           </div>
           <div data-testid={`record-treatment-${record.id}`}>
-            <span className="font-medium">Treatment: </span>
-            <span className="text-muted-foreground">{record.treatment}</span>
+            <span className="font-medium text-stone-700">Treatment: </span>
+            <span className="text-stone-500">{record.treatment}</span>
           </div>
           {record.prescription && (
             <div data-testid={`record-prescription-${record.id}`}>
-              <span className="font-medium">Prescription: </span>
-              <span className="text-muted-foreground">{record.prescription}</span>
+              <span className="font-medium text-stone-700">Prescription: </span>
+              <span className="text-stone-500">{record.prescription}</span>
             </div>
           )}
         </div>
@@ -101,7 +142,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
   if (records.length === 0) {
     return (
       <p
-        className="text-muted-foreground text-sm py-8 text-center animate-in fade-in duration-300"
+        className="text-stone-400 text-sm py-8 text-center animate-in fade-in duration-300"
         data-testid="medical-records-empty"
       >
         No medical records found.
