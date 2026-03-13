@@ -9,9 +9,17 @@ import { LtrText } from '@/components/ui/ltr-text'
 import { useTranslations } from 'next-intl'
 
 const ACTIVITY_ICONS: Record<ActivityType, string> = {
-  APPOINTMENT: '📅',
-  MEDICAL: '💊',
-  BILLING: '💰',
+  APPOINTMENT: '\uD83D\uDCC5',
+  MEDICAL: '\uD83D\uDC8A',
+  BILLING: '\uD83D\uDCB0',
+  MESSAGE: '\uD83D\uDCAC',
+}
+
+const ACTIVITY_BORDER_COLORS: Record<ActivityType, string> = {
+  APPOINTMENT: 'border-s-blue-400',
+  MEDICAL: 'border-s-emerald-400',
+  BILLING: 'border-s-amber-400',
+  MESSAGE: 'border-s-violet-400',
 }
 
 function formatRelativeTime(isoDate: string): string {
@@ -56,7 +64,7 @@ export function RecentActivity() {
   return (
     <Card data-testid="recent-activity-card">
       <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">{t('title')}</CardTitle>
+        <CardTitle className="text-base font-semibold text-stone-900">{t('title')}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         {loading ? (
@@ -74,7 +82,7 @@ export function RecentActivity() {
           />
         ) : activities.length === 0 ? (
           <p
-            className="p-4 text-sm text-muted-foreground"
+            className="p-4 text-sm text-stone-500"
             data-testid="recent-activity-empty"
           >
             {t('empty')}
@@ -85,7 +93,7 @@ export function RecentActivity() {
               <li
                 key={activity.id}
                 data-testid={`activity-item-${activity.id}`}
-                className="flex items-start gap-3 px-4 py-3"
+                className={`flex items-start gap-3 px-4 py-3 border-s-2 ${ACTIVITY_BORDER_COLORS[activity.type]}`}
               >
                 <span
                   className="text-base mt-0.5 shrink-0"
@@ -96,13 +104,13 @@ export function RecentActivity() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <p
-                    className="text-sm truncate"
+                    className="text-sm text-stone-700 truncate"
                     data-testid={`activity-message-${activity.id}`}
                   >
                     {activity.message}
                   </p>
                   <p
-                    className="text-xs text-muted-foreground mt-0.5"
+                    className="text-xs text-stone-400 mt-0.5"
                     data-testid={`activity-time-${activity.id}`}
                     title={new Date(activity.occurredAt).toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}
                   >

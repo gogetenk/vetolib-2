@@ -7,7 +7,15 @@ export type AppointmentStatus =
   | 'COMPLETED'
   | 'CANCELLED'
 
-export type ActivityType = 'APPOINTMENT' | 'MEDICAL' | 'BILLING'
+export type ConsultationType =
+  | 'GENERAL'
+  | 'VACCINATION'
+  | 'SURGERY'
+  | 'EMERGENCY'
+  | 'FOLLOWUP'
+  | 'GROOMING'
+
+export type ActivityType = 'APPOINTMENT' | 'MEDICAL' | 'BILLING' | 'MESSAGE'
 
 export interface DashboardStatsDto {
   appointmentsToday: number
@@ -25,6 +33,7 @@ export interface TodayAppointmentDto {
   vetId: string
   status: AppointmentStatus
   scheduledAt: string
+  consultationType?: ConsultationType
 }
 
 export interface ActivityDto {
