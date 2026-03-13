@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogOut, Settings, ChevronDown } from "lucide-react";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { clearSession } from "@/lib/auth";
 
@@ -56,6 +57,7 @@ function getInitialUserInfo(): UserInfo {
 
 export function UserMenu() {
   const router = useRouter();
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [userInfo] = useState<UserInfo>(getInitialUserInfo);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -78,7 +80,7 @@ export function UserMenu() {
     // Also clear cookie used by middleware
     document.cookie =
       "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push("/login");
+    router.push(`/${locale}/login`);
   }
 
   return (
@@ -150,9 +152,9 @@ export function UserMenu() {
           <div className="my-1 h-px bg-border" />
 
           <Link
-            href="/settings"
+            href={`/${locale}/settings`}
             data-testid="user-menu-settings"
-            className="flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+            className="group flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
             role="menuitem"
             onClick={() => setOpen(false)}
           >

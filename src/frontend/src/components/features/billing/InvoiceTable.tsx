@@ -228,7 +228,7 @@ export function InvoiceTable() {
                       <StatusBadge status={inv.status} />
                     </TableCell>
                     <TableCell>
-                      <Link href={`/billing/${inv.id}`} className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
+                      <Link href={`/${locale}/billing/${inv.id}`} className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                         <Button variant="outline" size="sm" data-testid={`view-invoice-${inv.id}`}>
                           View
                         </Button>
