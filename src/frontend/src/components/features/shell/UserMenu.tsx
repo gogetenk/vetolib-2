@@ -80,7 +80,7 @@ export function UserMenu() {
     // Also clear cookie used by middleware
     document.cookie =
       "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push("/login");
+    router.push(`/${locale}/login`);
   }
 
   return (

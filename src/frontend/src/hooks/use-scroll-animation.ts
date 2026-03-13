@@ -31,7 +31,7 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
           observer.unobserve(element)
         }
       },
-      { threshold: threshold ?? 0.1, ...(rootMargin !== undefined && { rootMargin }), ...(root !== undefined && { root }) }
+      { threshold: threshold ?? 0.1, ...(rootMargin !== undefined ? { rootMargin } : {}), ...(root !== undefined ? { root } : {}) }
     )
 
     observer.observe(element)
