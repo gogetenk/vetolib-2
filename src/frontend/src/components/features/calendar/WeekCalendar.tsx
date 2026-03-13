@@ -265,7 +265,7 @@ export function WeekCalendar() {
               >
                 {/* Day header */}
                 <div
-                  className={`h-12 flex flex-col items-center justify-center border-b border-border ${
+                  className={`h-12 flex flex-col items-center justify-center border-b border-border transition-colors duration-200 ${
                     day.isToday ? 'bg-primary/10' : ''
                   }`}
                 >
@@ -275,7 +275,7 @@ export function WeekCalendar() {
                   <span
                     className={`text-sm font-semibold ${
                       day.isToday
-                        ? 'bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center'
+                        ? 'bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center animate-pulse'
                         : ''
                     }`}
                   >
@@ -305,9 +305,9 @@ export function WeekCalendar() {
                       >
                         {/* Top half (XX:00 - XX:30) */}
                         <div
-                          className={`h-8 relative ${
+                          className={`h-8 relative transition-colors duration-200 ease-in-out ${
                             isClickable
-                              ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors'
+                              ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
                               : offHours
                               ? 'cursor-not-allowed'
                               : ''
@@ -319,7 +319,7 @@ export function WeekCalendar() {
                           title={!isClickable && offHours ? t('closedSlot') : undefined}
                         >
                           {isTopHovered && isClickable && (
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
                               <PlusIcon className="size-4 text-blue-400" />
                             </div>
                           )}
@@ -327,9 +327,9 @@ export function WeekCalendar() {
 
                         {/* Bottom half (XX:30 - XX+1:00) */}
                         <div
-                          className={`h-8 relative ${
+                          className={`h-8 relative transition-colors duration-200 ease-in-out ${
                             isClickable
-                              ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors'
+                              ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
                               : offHours
                               ? 'cursor-not-allowed'
                               : ''
@@ -341,7 +341,7 @@ export function WeekCalendar() {
                           title={!isClickable && offHours ? t('closedSlot') : undefined}
                         >
                           {isBottomHovered && isClickable && (
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
                               <PlusIcon className="size-4 text-blue-400" />
                             </div>
                           )}

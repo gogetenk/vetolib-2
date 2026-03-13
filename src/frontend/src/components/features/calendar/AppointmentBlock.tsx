@@ -48,7 +48,7 @@ export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps
   return (
     <div
       data-testid={`appointment-block-${appointment.id}`}
-      className={`absolute inset-x-0.5 rounded-md border-s-[3px] ${color.bg} ${color.border} px-1.5 py-0.5 cursor-pointer overflow-hidden transition-shadow hover:shadow-md`}
+      className={`absolute inset-x-0.5 rounded-md border-s-[3px] ${color.bg} ${color.border} px-1.5 py-0.5 cursor-pointer overflow-hidden transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-0.5 hover:z-20 active:scale-[0.98]`}
       style={{ top: `${topPx}px`, height: `${Math.max(heightPx, 24)}px` }}
       onClick={handleClick}
       role="button"
@@ -61,7 +61,7 @@ export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps
       }}
     >
       <div className="flex items-center gap-1">
-        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${STATUS_COLORS[appointment.status]}`} />
+        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${STATUS_COLORS[appointment.status]} transition-colors duration-200`} />
         <span className={`text-xs font-medium truncate ${color.text}`}>
           {emoji} {appointment.patientName}
         </span>
