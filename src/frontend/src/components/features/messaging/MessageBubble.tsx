@@ -114,7 +114,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
   if (isSystem) {
     return (
       <div
-        className="flex justify-center my-2"
+        className="flex justify-center my-2 animate-slide-up-fade"
         data-testid={`message-${message.id}`}
         data-sender="system"
       >
@@ -129,7 +129,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
   if (isInternalNote) {
     return (
       <div
-        className="flex justify-end my-2"
+        className="flex justify-end my-2 animate-slide-up-fade"
         data-testid={`message-${message.id}`}
         data-sender="internal-note"
       >
@@ -165,7 +165,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
   if (isOwner) {
     return (
       <div
-        className="flex justify-start my-2"
+        className="flex justify-start my-2 animate-slide-up-fade"
         data-testid={`message-${message.id}`}
         data-sender="owner"
       >
@@ -200,7 +200,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
   // Staff / Vet message: right-aligned, colored background
   return (
     <div
-      className="flex justify-end my-2"
+      className="flex justify-end my-2 animate-slide-up-fade"
       data-testid={`message-${message.id}`}
       data-sender={message.sender.toLowerCase()}
     >

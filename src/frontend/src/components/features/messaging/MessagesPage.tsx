@@ -163,6 +163,7 @@ export function MessagesPage() {
           {totalUnread > 0 && (
             <Badge
               data-testid="unread-total-badge"
+              data-pulse
               className="bg-primary text-primary-foreground"
             >
               {totalUnread}
