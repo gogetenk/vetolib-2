@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -40,6 +40,8 @@ export function LoginForm() {
   const locale = useLocale()
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
+  const [shakeForm, setShakeForm] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const loginSchema = buildLoginSchema(t)
 
@@ -65,7 +67,15 @@ export function LoginForm() {
       } else {
         setServerError(t("errors.connection_error"))
       }
+      // Trigger shake animation on error
+      setShakeForm(true)
+      setTimeout(() => setShakeForm(false), 500)
     }
+  }
+
+  const handleInvalidSubmit = () => {
+    setShakeForm(true)
+    setTimeout(() => setShakeForm(false), 500)
   }
 
   const emailError = errors.email?.message
@@ -92,29 +102,37 @@ export function LoginForm() {
   }, [passwordError])
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-auth-card-in">
       <div className="flex justify-end">
         <LanguageSwitcher />
       </div>
-      <Card data-testid="login-card">
+      <Card
+        data-testid="login-card"
+        className="shadow-lg"
+      >
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Vetolib</CardTitle>
-          <CardDescription>{t("veterinary_management")}</CardDescription>
+          <CardTitle className="text-2xl font-bold tracking-tight">Vetolib</CardTitle>
+          <CardDescription className="text-muted-foreground">{t("veterinary_management")}</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Server error displayed above the form */}
           {serverError && (
             <div
-              className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+              className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 animate-auth-error-slide"
               data-testid="server-error"
               role="alert"
             >
               {serverError}
             </div>
           )}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit(onSubmit, handleInvalidSubmit)}
+            className={`space-y-4 ${shakeForm ? "animate-auth-shake" : ""}`}
+            noValidate
+          >
             <div className="space-y-2">
-              <Label htmlFor="email">{t("email")}</Label>
+              <Label htmlFor="email" className="transition-colors duration-200">{t("email")}</Label>
               <Input
                 id="email"
                 type="email"
@@ -122,12 +140,12 @@ export function LoginForm() {
                 data-testid="email-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.email}
-                className={errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}
+                className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("email")}
               />
               {errors.email && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="email-error"
                   role="alert"
                 >
@@ -137,10 +155,10 @@ export function LoginForm() {
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">{t("password")}</Label>
+                <Label htmlFor="password" className="transition-colors duration-200">{t("password")}</Label>
                 <Link
                   href={`/${locale}/forgot-password`}
-                  className="text-xs text-emerald-700 hover:underline"
+                  className="auth-link-underline text-xs text-emerald-700 transition-colors duration-200 hover:text-emerald-800"
                   data-testid="forgot-password-link"
                 >
                   {t("forgot_password")}
@@ -154,27 +172,29 @@ export function LoginForm() {
                   data-testid="password-input"
                   disabled={isSubmitting}
                   aria-invalid={!!errors.password}
-                  className={`pr-10 ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                  className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("password")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-200 hover:text-gray-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   data-testid="password-toggle"
                   aria-label={showPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showPassword}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  <span className="inline-block transition-transform duration-200">
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </span>
                 </button>
               </div>
               {errors.password && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="password-error"
                   role="alert"
                 >
@@ -184,11 +204,18 @@ export function LoginForm() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-emerald-700 text-white hover:bg-emerald-800"
+              className="w-full bg-emerald-700 text-white hover:bg-emerald-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
               data-testid="signin-button"
               disabled={isSubmitting}
             >
-              {isSubmitting ? t("signing_in") : t("submit")}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span className="ml-2">{t("signing_in")}</span>
+                </>
+              ) : (
+                t("submit")
+              )}
             </Button>
             {/* Removed old single displayError — now field-level + server error above */}
           </form>
@@ -196,7 +223,7 @@ export function LoginForm() {
             {t("no_account")}{" "}
             <Link
               href={`/${locale}/signup`}
-              className="font-medium text-emerald-700 hover:underline"
+              className="auth-link-underline font-medium text-emerald-700 transition-colors duration-200 hover:text-emerald-800"
               data-testid="signup-link"
             >
               {t("sign_up_link")}
