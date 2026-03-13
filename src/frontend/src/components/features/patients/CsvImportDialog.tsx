@@ -218,16 +218,16 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
               <p className="mb-2 text-sm font-medium">{t('preview_label')}</p>
               <div className="overflow-x-auto rounded-lg border">
                 <table className="w-full text-xs">
-                  <thead className="bg-muted">
+                  <thead className="bg-stone-50">
                     <tr>
                       {previewHeaders.map(h => (
-                        <th key={h} className="px-3 py-2 text-left font-medium">{h}</th>
+                        <th key={h} className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wide text-stone-500">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {preview.map((row, i) => (
-                      <tr key={i} className="border-t">
+                      <tr key={i} className="border-t hover:bg-stone-50">
                         {previewHeaders.map(h => (
                           <td key={h} className="px-3 py-2 text-muted-foreground">{row[h]}</td>
                         ))}

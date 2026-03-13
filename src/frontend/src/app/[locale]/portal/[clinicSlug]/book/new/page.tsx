@@ -13,8 +13,8 @@ export default async function BookNewAppointmentPage({ params }: Props) {
     <div className="mx-auto max-w-lg px-4 py-8">
       {/* Page header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">{t('landing.title')}</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-stone-900">{t('landing.title')}</h1>
+        <p className="mt-1 text-sm text-stone-500">
           {t('landing.subtitle')}
         </p>
       </div>

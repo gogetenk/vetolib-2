@@ -297,17 +297,17 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
         </CardHeader>
         <CardContent>
           <Table data-testid="invoice-items-table">
-            <TableHeader>
+            <TableHeader className="bg-stone-50">
               <TableRow>
-                <TableHead>Description</TableHead>
-                <TableHead className="text-right">Qty</TableHead>
-                <TableHead className="text-right">Unit Price</TableHead>
-                <TableHead className="text-right">Subtotal</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Description</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">Qty</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">Unit Price</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">Subtotal</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {invoice.items.map((item) => (
-                <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="transition-colors duration-150 ease-in-out hover:bg-muted/50">
+                <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="transition-colors duration-150 ease-in-out hover:bg-stone-50">
                   <TableCell>{item.description}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
                   <TableCell className="text-right"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>

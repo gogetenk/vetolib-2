@@ -43,7 +43,7 @@ export function ChecklistItem({ step, onComplete }: ChecklistItemProps) {
           'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300',
           step.completed
             ? 'scale-110 border-green-500 bg-green-500 opacity-100'
-            : 'border-gray-300 bg-white opacity-100 group-hover:border-primary',
+            : 'border-stone-300 bg-white opacity-100 group-hover:border-primary',
         ].join(' ')}
         aria-hidden="true"
       >

@@ -16,7 +16,7 @@ export function ChecklistComplete() {
         aria-hidden="true"
       />
       <div className="space-y-1">
-        <p className="text-base font-semibold text-gray-900">
+        <p className="text-base font-semibold text-stone-900">
           {t('completed_title')}
         </p>
         <p className="text-sm text-muted-foreground">

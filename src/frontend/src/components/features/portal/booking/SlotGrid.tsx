@@ -44,7 +44,7 @@ export function SlotGrid({
   if (slots.length === 0) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-12 text-gray-400"
+        className="flex flex-col items-center justify-center py-12 text-stone-400"
         data-testid="slot-grid-empty"
       >
         <span className="text-sm font-medium">{t('noSlots')}</span>
@@ -80,7 +80,7 @@ export function SlotGrid({
                   : // Available unselected
                     'bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-400 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
                 : // Unavailable
-                  'bg-gray-100 border border-gray-200 text-gray-400 cursor-not-allowed opacity-60'
+                  'bg-stone-100 border border-stone-200 text-stone-400 cursor-not-allowed opacity-60'
             )}
           >
             {/* Check icon for selected slot */}
@@ -100,7 +100,7 @@ export function SlotGrid({
             {/* Vet name — shown only when no vet preference set */}
             {!hideVetName && (
               <span
-                className="mt-0.5 text-[10px] leading-tight text-center text-gray-500 truncate w-full text-center"
+                className="mt-0.5 text-[10px] leading-tight text-center text-stone-500 truncate w-full text-center"
                 data-testid={`slot-vet-${slot.startsAt}`}
               >
                 {slot.vetName.replace('Dr. ', '')}

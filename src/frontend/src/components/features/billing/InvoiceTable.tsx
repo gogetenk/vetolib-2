@@ -41,7 +41,7 @@ const STATUS_OPTIONS: { value: InvoiceStatus | 'ALL'; label: string }[] = [
 ]
 
 const INVOICE_STATUS_STYLES: Record<InvoiceStatus, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; className?: string }> = {
-  DRAFT: { variant: 'outline', className: 'text-gray-600 bg-gray-50' },
+  DRAFT: { variant: 'outline', className: 'text-stone-600 bg-stone-50' },
   SENT: { variant: 'outline', className: 'border-blue-300 text-blue-700 bg-blue-50' },
   PAID: { variant: 'default', className: 'border-green-300 text-green-700 bg-green-50' },
   CANCELLED: { variant: 'destructive' },
@@ -181,16 +181,16 @@ export function InvoiceTable() {
 
             {/* Desktop table */}
             <Table className="hidden md:table" data-testid="invoice-table">
-              <TableHeader className="sticky top-0 z-10 bg-background shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
+              <TableHeader className="sticky top-0 z-10 bg-stone-50 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
                 <TableRow>
-                  <TableHead># Invoice</TableHead>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Subtotal (excl. VAT)</TableHead>
-                  <TableHead className="text-right">VAT (5%)</TableHead>
-                  <TableHead className="text-right">Total AED</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500"># Invoice</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Patient</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Date</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">Subtotal (excl. VAT)</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">VAT (5%)</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">Total AED</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Status</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -209,7 +209,7 @@ export function InvoiceTable() {
                   </TableRow>
                 )}
                 {invoices.map((inv) => (
-                  <TableRow key={inv.id} data-testid={`invoice-row-${inv.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-muted/50">
+                  <TableRow key={inv.id} data-testid={`invoice-row-${inv.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-stone-50">
                     <TableCell className="font-mono text-sm" data-testid="invoice-number">
                       <LtrText>{inv.invoiceNumber}</LtrText>
                     </TableCell>

@@ -83,11 +83,11 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
           <div className="mx-auto max-w-2xl text-center">
             <h2
               data-testid="new-features-title"
-              className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
+              className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl"
             >
               {title}
             </h2>
-            <p className="mt-4 text-lg text-gray-600">{subtitle}</p>
+            <p className="mt-4 text-lg text-stone-600">{subtitle}</p>
           </div>
         </ScrollReveal>
 
@@ -99,7 +99,7 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
                 className={`group relative border shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
                   key === "health_passport"
                     ? "border-emerald-200 bg-white lg:col-span-1"
-                    : "border-gray-100 bg-white"
+                    : "border-stone-100 bg-white"
                 }`}
               >
                 <CardContent className="p-6">
@@ -120,10 +120,10 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
                   >
                     <Icon className="h-6 w-6" aria-hidden="true" />
                   </div>
-                  <h3 className="mt-4 text-base font-semibold text-gray-900">
+                  <h3 className="mt-4 text-base font-semibold text-stone-900">
                     {cardTitle}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                  <p className="mt-2 text-sm leading-relaxed text-stone-600">
                     {description}
                   </p>
                 </CardContent>

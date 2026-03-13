@@ -67,18 +67,18 @@ export function TeamTable({
   return (
     <>
       <Table data-testid="team-table">
-        <TableHeader>
+        <TableHeader className="bg-stone-50">
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Status</TableHead>
-            {isAdmin && <TableHead className="text-right">Actions</TableHead>}
+            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Name</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Email</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Role</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Status</TableHead>
+            {isAdmin && <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">Actions</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
           {users.map((user) => (
-            <TableRow key={user.id} data-testid={`user-row-${user.id}`}>
+            <TableRow key={user.id} data-testid={`user-row-${user.id}`} className="hover:bg-stone-50">
               <TableCell data-testid={`user-name-${user.id}`}>
                 {user.fullName}
               </TableCell>
@@ -101,7 +101,7 @@ export function TeamTable({
                   className={
                     user.isActive
                       ? "bg-green-100 text-green-700 border-green-200"
-                      : "bg-gray-100 text-gray-500 border-gray-200"
+                      : "bg-stone-100 text-stone-500 border-stone-200"
                   }
                 >
                   {user.isActive ? "Active" : "Inactive"}

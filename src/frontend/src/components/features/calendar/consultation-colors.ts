@@ -18,9 +18,9 @@ export const CONSULTATION_COLORS: Record<string, ConsultationColor> = {
 }
 
 const FALLBACK_COLOR: ConsultationColor = {
-  bg: 'bg-gray-100',
+  bg: 'bg-stone-100',
   border: 'border-l-gray-400',
-  text: 'text-gray-700',
+  text: 'text-stone-700',
 }
 
 export function getConsultationColor(consultationType: string): ConsultationColor {

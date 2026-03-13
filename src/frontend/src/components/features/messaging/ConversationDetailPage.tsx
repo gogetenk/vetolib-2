@@ -33,7 +33,7 @@ const STATUS_COLOR: Record<ConversationStatus, string> = {
   Open: 'bg-blue-100 text-blue-700',
   InProgress: 'bg-yellow-100 text-yellow-700',
   Resolved: 'bg-green-100 text-green-700',
-  Closed: 'bg-gray-100 text-gray-600',
+  Closed: 'bg-stone-100 text-stone-600',
 }
 
 const CATEGORY_COLOR: Record<string, string> = {
@@ -41,9 +41,9 @@ const CATEGORY_COLOR: Record<string, string> = {
   PostOperativeFollowUp: 'bg-orange-100 text-orange-700 border-orange-200',
   MedicalQuestion: 'bg-blue-100 text-blue-700 border-blue-200',
   AppointmentRequest: 'bg-green-100 text-green-700 border-green-200',
-  Administrative: 'bg-gray-100 text-gray-700 border-gray-200',
+  Administrative: 'bg-stone-100 text-stone-700 border-stone-200',
   Feedback: 'bg-purple-100 text-purple-700 border-purple-200',
-  Other: 'bg-gray-100 text-gray-600 border-gray-200',
+  Other: 'bg-stone-100 text-stone-600 border-stone-200',
 }
 
 interface ConversationDetailPageProps {

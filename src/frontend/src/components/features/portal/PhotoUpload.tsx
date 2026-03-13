@@ -63,16 +63,16 @@ export function PhotoUpload({ photos, onChange, onError, error }: PhotoUploadPro
 
   return (
     <div className="flex flex-col gap-2" data-testid="photo-upload">
-      <label className="text-sm font-medium text-gray-700">
+      <label className="text-sm font-medium text-stone-700">
         {t('photos_label')}
       </label>
-      <p className="text-xs text-gray-500">{t('photos_hint')}</p>
+      <p className="text-xs text-stone-500">{t('photos_hint')}</p>
 
       {/* Preview grid */}
       {photos.length > 0 && (
         <div className="flex flex-wrap gap-2" data-testid="photo-previews">
           {photos.map((photo, idx) => (
-            <div key={idx} className="relative w-20 h-20 rounded-md overflow-hidden border border-gray-200">
+            <div key={idx} className="relative w-20 h-20 rounded-md overflow-hidden border border-stone-200">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={photo.previewUrl}
