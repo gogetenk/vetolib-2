@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
+import { Loader2, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -61,9 +62,13 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   const router = useRouter()
   const t = useTranslations('patients.form')
   const [serverError, setServerError] = useState<string | null>(null)
+  const [saveSuccess, setSaveSuccess] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
   const patientSchema = useMemo(() => createPatientSchema(t), [t])
 
   const isEdit = !!patient
+
+  const [hasShake, setHasShake] = useState(false)
 
   const {
     register,
@@ -91,6 +96,16 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
           weightKg: null,
         },
   })
+
+  // Shake form on validation errors
+  const errorCount = Object.keys(errors).length
+  useEffect(() => {
+    if (errorCount > 0) {
+      setHasShake(true)
+      const timer = setTimeout(() => setHasShake(false), 500)
+      return () => clearTimeout(timer)
+    }
+  }, [errorCount])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const selectedSpecies = watch('species')
@@ -145,8 +160,9 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
       </CardHeader>
       <CardContent>
         <form
+          ref={formRef}
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6"
+          className={`space-y-6 ${hasShake ? 'animate-shake' : ''}`}
           data-testid="patient-form-body"
           noValidate
         >
@@ -162,7 +178,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
               {...register('name')}
             />
             {errors.name && (
-              <p className="text-xs text-destructive" data-testid="error-patient-name">
+              <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-patient-name">
                 {errors.name.message}
               </p>
             )}
@@ -193,7 +209,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 </SelectContent>
               </Select>
               {errors.species && (
-                <p className="text-xs text-destructive" data-testid="error-species">
+                <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-species">
                   {errors.species.message}
                 </p>
               )}
@@ -223,7 +239,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 {...register('dateOfBirth')}
               />
               {errors.dateOfBirth && (
-                <p className="text-xs text-destructive" data-testid="error-date-of-birth">
+                <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-date-of-birth">
                   {errors.dateOfBirth.message}
                 </p>
               )}
@@ -269,7 +285,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
               />
               <p className="text-xs text-muted-foreground">{t('weight_hint')}</p>
               {errors.weightKg && (
-                <p className="text-xs text-destructive" data-testid="error-weight">
+                <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-weight">
                   {errors.weightKg.message}
                 </p>
               )}
@@ -292,7 +308,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 {...register('ownerName')}
               />
               {errors.ownerName && (
-                <p className="text-xs text-destructive" data-testid="error-owner-name">
+                <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-owner-name">
                   {errors.ownerName.message}
                 </p>
               )}
@@ -311,7 +327,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 {...register('ownerPhone')}
               />
               {errors.ownerPhone && (
-                <p className="text-xs text-destructive" data-testid="error-owner-phone">
+                <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-owner-phone">
                   {errors.ownerPhone.message}
                 </p>
               )}
@@ -330,7 +346,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 {...register('ownerEmail')}
               />
               {errors.ownerEmail && (
-                <p className="text-xs text-destructive" data-testid="error-owner-email">
+                <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-owner-email">
                   {errors.ownerEmail.message}
                 </p>
               )}
@@ -338,7 +354,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
           </div>
 
           {serverError && (
-            <p className="text-sm text-destructive" data-testid="error-server" role="alert">
+            <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-server" role="alert">
               {serverError}
             </p>
           )}
@@ -363,6 +379,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
               disabled={isSubmitting}
               data-testid="btn-save-patient"
             >
+              {isSubmitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
               {isSubmitting ? t('saving') : t('save_patient')}
             </Button>
           </div>

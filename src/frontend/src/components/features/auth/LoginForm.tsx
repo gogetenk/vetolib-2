@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -105,7 +105,7 @@ export function LoginForm() {
           {/* Server error displayed above the form */}
           {serverError && (
             <div
-              className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+              className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 animate-slide-up-fade"
               data-testid="server-error"
               role="alert"
             >
@@ -127,7 +127,7 @@ export function LoginForm() {
               />
               {errors.email && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-slide-up-fade"
                   data-testid="email-error"
                   role="alert"
                 >
@@ -160,7 +160,7 @@ export function LoginForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   data-testid="password-toggle"
                   aria-label={showPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showPassword}
@@ -174,7 +174,7 @@ export function LoginForm() {
               </div>
               {errors.password && (
                 <p
-                  className="text-sm text-red-600"
+                  className="text-sm text-red-600 animate-slide-up-fade"
                   data-testid="password-error"
                   role="alert"
                 >
@@ -188,6 +188,7 @@ export function LoginForm() {
               data-testid="signin-button"
               disabled={isSubmitting}
             >
+              {isSubmitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
               {isSubmitting ? t("signing_in") : t("submit")}
             </Button>
             {/* Removed old single displayError — now field-level + server error above */}

@@ -53,8 +53,9 @@ export function ConversationListItem({
       data-testid={`conversation-item-${conversation.id}`}
       onClick={onClick}
       className={cn(
-        'w-full text-left px-4 py-3 border-b transition-colors hover:bg-muted/50',
-        isSelected && 'bg-primary/5 border-l-2 border-l-primary',
+        'w-full text-left px-4 py-3 border-b transition-all duration-200 ease-in-out hover:bg-muted/50',
+        isSelected && 'bg-primary/5 border-l-2 border-l-primary shadow-sm',
+        !isSelected && 'border-l-2 border-l-transparent',
         isUrgency && !isSelected && 'bg-red-50/60',
       )}
     >
@@ -64,7 +65,7 @@ export function ConversationListItem({
           {conversation.unreadCount > 0 && (
             <span
               data-testid={`unread-dot-${conversation.id}`}
-              className="flex-shrink-0 h-2 w-2 rounded-full bg-primary"
+              className="flex-shrink-0 h-2 w-2 rounded-full bg-primary animate-pulse-badge"
             />
           )}
           <span className="font-medium text-sm truncate">{conversation.ownerName}</span>
@@ -99,7 +100,7 @@ export function ConversationListItem({
         {conversation.unreadCount > 0 && (
           <span
             data-testid={`unread-count-${conversation.id}`}
-            className="ml-auto flex-shrink-0 h-5 min-w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center px-1"
+            className="ml-auto flex-shrink-0 h-5 min-w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center px-1 animate-pulse-badge"
           >
             {conversation.unreadCount}
           </span>

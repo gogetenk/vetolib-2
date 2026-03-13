@@ -124,21 +124,26 @@ export default function PreferencesPage() {
 
       {/* Category sections */}
       <div className="space-y-4">
-        {categories.map((category) => (
-          <PreferenceCategorySection
+        {categories.map((category, index) => (
+          <div
             key={category.key}
-            category={category}
-            isAdminUser={isAdmin}
-            onToggle={handleToggle}
-            onUpdate={handleUpdate}
-            defaultOpen={true}
-          />
+            className="animate-stagger-fade-in"
+            style={{ animationDelay: `${index * 80}ms`, opacity: 0 }}
+          >
+            <PreferenceCategorySection
+              category={category}
+              isAdminUser={isAdmin}
+              onToggle={handleToggle}
+              onUpdate={handleUpdate}
+              defaultOpen={true}
+            />
+          </div>
         ))}
       </div>
 
       {/* Consent management (only visible to Admins) */}
       {isAdmin && (
-        <div className="border rounded-lg p-4 space-y-2" data-testid="consent-management-section">
+        <div className="border rounded-lg p-4 space-y-2 transition-all duration-200 ease-in-out" data-testid="consent-management-section">
           <h3 className="text-sm font-semibold">{t('consent.title')}</h3>
           <p className="text-xs text-muted-foreground">{t('consent.description')}</p>
           <Button

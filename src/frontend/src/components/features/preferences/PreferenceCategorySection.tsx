@@ -27,7 +27,7 @@ export function PreferenceCategorySection({
 
   return (
     <div
-      className="border rounded-lg overflow-hidden"
+      className="border rounded-lg overflow-hidden transition-all duration-200 ease-in-out"
       data-testid={`pref-section-${category.key}`}
     >
       {/* Header */}
