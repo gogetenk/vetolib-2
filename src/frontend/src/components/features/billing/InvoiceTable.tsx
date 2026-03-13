@@ -52,7 +52,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
   return (
     <Badge
       variant={style.variant}
-      className={cn(style.className)}
+      className={cn('transition-colors duration-200 ease-in-out', style.className)}
       data-testid={`invoice-status-${status.toLowerCase()}`}
     >
       {status}
@@ -113,7 +113,7 @@ export function InvoiceTable() {
             <Input
               data-testid="invoice-search"
               placeholder="Search invoice # or patient..."
-              className="w-64 pl-9"
+              className="w-64 pl-9 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -139,7 +139,7 @@ export function InvoiceTable() {
         {loading && (
           <div data-testid="invoices-loading" className="space-y-3 py-2">
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-10 w-full" />
+              <Skeleton key={i} className="h-10 w-full" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
             ))}
           </div>
         )}
@@ -161,7 +161,7 @@ export function InvoiceTable() {
                     key={inv.id}
                     href={`/${locale}/billing/${inv.id}`}
                     data-testid={`invoice-card-${inv.id}`}
-                    className="block rounded-lg border bg-card p-4 hover:shadow-md transition-shadow min-h-[44px]"
+                    className="block rounded-lg border bg-card p-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-in-out min-h-[44px]"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
@@ -181,7 +181,7 @@ export function InvoiceTable() {
 
             {/* Desktop table */}
             <Table className="hidden md:table" data-testid="invoice-table">
-              <TableHeader>
+              <TableHeader className="sticky top-0 z-10 bg-background shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
                 <TableRow>
                   <TableHead># Invoice</TableHead>
                   <TableHead>Patient</TableHead>
@@ -209,7 +209,7 @@ export function InvoiceTable() {
                   </TableRow>
                 )}
                 {invoices.map((inv) => (
-                  <TableRow key={inv.id} data-testid={`invoice-row-${inv.id}`}>
+                  <TableRow key={inv.id} data-testid={`invoice-row-${inv.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-muted/50">
                     <TableCell className="font-mono text-sm" data-testid="invoice-number">
                       <LtrText>{inv.invoiceNumber}</LtrText>
                     </TableCell>
@@ -228,7 +228,7 @@ export function InvoiceTable() {
                       <StatusBadge status={inv.status} />
                     </TableCell>
                     <TableCell>
-                      <Link href={`/billing/${inv.id}`}>
+                      <Link href={`/billing/${inv.id}`} className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                         <Button variant="outline" size="sm" data-testid={`view-invoice-${inv.id}`}>
                           View
                         </Button>

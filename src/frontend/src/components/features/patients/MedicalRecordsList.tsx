@@ -23,7 +23,7 @@ function MedicalRecordItem({ record }: { record: MedicalRecordDto }) {
   return (
     <Card
       data-testid={`medical-record-${record.id}`}
-      className="mb-3"
+      className="mb-3 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
     >
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-2 flex-wrap">
@@ -92,7 +92,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
     return (
       <div data-testid="medical-records-loading" className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-32 rounded-lg bg-muted animate-pulse" />
+          <div key={i} className="h-32 rounded-lg bg-muted animate-pulse" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
         ))}
       </div>
     )
@@ -101,7 +101,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
   if (records.length === 0) {
     return (
       <p
-        className="text-muted-foreground text-sm py-8 text-center"
+        className="text-muted-foreground text-sm py-8 text-center animate-in fade-in duration-300"
         data-testid="medical-records-empty"
       >
         No medical records found.
@@ -110,7 +110,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
   }
 
   return (
-    <div data-testid="medical-records-list">
+    <div data-testid="medical-records-list" className="animate-in fade-in duration-300">
       {records.map((record) => (
         <MedicalRecordItem key={record.id} record={record} />
       ))}

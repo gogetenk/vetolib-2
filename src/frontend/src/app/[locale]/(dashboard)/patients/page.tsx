@@ -97,7 +97,7 @@ export default function PatientsPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           data-testid="search-input"
-          className="max-w-sm"
+          className="max-w-sm transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
         />
       </div>
 
@@ -107,7 +107,11 @@ export default function PatientsPage() {
           className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
         >
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-48 rounded-lg bg-muted animate-pulse" />
+            <div
+              key={i}
+              className="h-48 rounded-lg bg-muted animate-pulse"
+              style={{ animationDelay: `${(i - 1) * 100}ms` }}
+            />
           ))}
         </div>
       ) : error ? (
@@ -138,7 +142,7 @@ export default function PatientsPage() {
       ) : (
         <div
           data-testid="patients-table"
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-300"
         >
           {patients.map((patient) => (
             <PatientCard key={patient.id} patient={patient} />

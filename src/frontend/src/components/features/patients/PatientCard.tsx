@@ -39,7 +39,7 @@ interface PatientCardProps {
 
 export function PatientCard({ patient }: PatientCardProps) {
   return (
-    <Card data-testid={`patient-card-${patient.id}`}>
+    <Card data-testid={`patient-card-${patient.id}`} className="group transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md">
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-4">
           {/* Species icon + name */}
@@ -91,7 +91,7 @@ export function PatientCard({ patient }: PatientCardProps) {
         </div>
 
         {/* Action */}
-        <div className="mt-4">
+        <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
           <Button
             render={<Link href={`/patients/${patient.id}`} />}
             variant="outline"
