@@ -61,6 +61,13 @@ Pour chaque fichier `todo-*.md` :
 Lance AUTANT d'agents que de tâches prêtes. Il n'y a pas de limite arbitraire.
 Le front et le back se font EN PARALLÈLE sur la même feature :
 
+**Détection d'overlap de fichiers (ajout v3.3 — post-mortem 2026-03-13) :**
+
+Avant de dispatcher N agents en parallèle, vérifier que leurs scopes de fichiers ne se chevauchent pas.
+- Si deux tâches touchent les mêmes composants (ex: billing redesign + tables foundation) → les séquencer, pas les paralléliser.
+- Sinon les conflits en cascade font perdre plus de temps que le gain de parallélisme.
+- Règle pratique : si overlap > 30% des fichiers estimés → séquencer.
+
 ```
 Tâche front avec [MSW: oui] → prête IMMÉDIATEMENT (pas de dépendance backend)
 Tâche back-auth-001         → prête dès que scaffold-000 done
@@ -86,7 +93,22 @@ Pour chaque PR ouverte créée par un agent :
 gh pr checks <num>
 ```
 
-- Si tous les checks sont GREEN → merger la PR (`gh pr merge <num> --squash --delete-branch`)
+**5a. Vérifier les commentaires Copilot AVANT de merger (obligatoire)**
+
+```bash
+# Lire les review comments (Copilot, SonarCloud, humains)
+gh api repos/{owner}/{repo}/pulls/{num}/reviews
+gh api repos/{owner}/{repo}/pulls/{num}/comments
+```
+
+- Si Copilot a laissé des suggestions pertinentes → **ne PAS merger**
+- Signaler à l'utilisateur : "PR #{num} a des suggestions Copilot. Clique 'Apply all suggestions' sur GitHub."
+- Copilot crée un commit directement sur la branche — attendre que CI repasse GREEN après ce commit
+- Si les suggestions ne sont pas pertinentes (faux positifs) → merger normalement
+
+**5b. Merger si tout est OK**
+
+- Si tous les checks sont GREEN ET Copilot traité → merger la PR (`gh pr merge <num> --squash --delete-branch`)
 - Si SonarCloud FAIL mais CI GREEN → vérifier si c'est un problème d'exclusions ou de vrais tests manquants
 - Si CI FAIL → lire les logs, créer une tâche fix, dispatcher un agent
 - **Après chaque merge : vérifier develop CI dans les 2 minutes**
@@ -96,6 +118,27 @@ gh pr checks <num>
 sleep 30
 gh run list --branch develop --limit 1
 # Si FAILURE → STOP et fixer immédiatement
+```
+
+**5c. Résolution de conflits — merge-based, pas rebase**
+
+Si une PR a des conflits avec develop :
+```bash
+# ✅ CORRECT — merge origin/develop dans la branche
+git merge origin/develop    # résoudre conflits, commit, push normal
+
+# ❌ INTERDIT — rebase (nécessite force-push, bloqué par repo rules)
+git rebase origin/develop   # INTERDIT
+```
+
+**5d. Nettoyage worktrees après merge**
+
+Après chaque merge, nettoyer les worktrees orphelins :
+```bash
+git worktree prune
+# Lister les worktrees restants qui référencent des branches mergées
+git worktree list
+# Les worktrees sans branche active peuvent être supprimés
 ```
 
 ### 6. Mettre à jour progress.md

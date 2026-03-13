@@ -108,8 +108,9 @@ dotnet test tests/Vetolib.Tests.Unit/ --no-build -c Release  # DOIT passer
 dotnet test tests/Vetolib.Tests.Integration/ --no-build -c Release --filter "Category!=wip"  # DOIT passer
 ```
 
-**Frontend** — exécuter dans cet ordre :
+**Frontend** — exécuter dans cet ordre, STOPPER au premier échec :
 ```bash
+cd src/frontend && npm run lint    # 0 errors (warnings OK) — attrape react-hooks, a11y, etc.
 cd src/frontend && npm run build   # 0 erreurs TypeScript
 ```
 
@@ -133,6 +134,23 @@ Séquence obligatoire :
 2. Exécuter les tests (voir 3b)
 3. Si GREEN → commit + push dans la minute
 4. Ne JAMAIS faire autre chose entre le GREEN et le commit (pas de /forge, pas de dispatch)
+```
+
+### 3e. Merge-based sync, pas rebase (ajout v3.3 — post-mortem 2026-03-13)
+
+**Quand une PR a des conflits avec develop, utiliser `git merge origin/develop` au lieu de `git rebase`.**
+
+Le repo GitHub interdit le force-push sur toutes les branches. Un rebase nécessite un force-push → bloqué → obligation de créer une nouvelle branche + nouvelle PR. C'est du gaspillage.
+
+```bash
+# ✅ CORRECT — merge-based sync
+git fetch origin develop
+git merge origin/develop    # résoudre les conflits, commit merge
+git push                    # push normal, pas de force-push
+
+# ❌ INTERDIT — rebase + force-push
+git rebase origin/develop   # crée un historique divergent
+git push --force-with-lease # BLOQUÉ par les repo rules
 ```
 
 ### 3d. Hygiène des PRs (ajout v3.2)
