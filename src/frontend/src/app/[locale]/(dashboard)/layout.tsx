@@ -16,7 +16,7 @@ export default function DashboardLayout({
           <Header />
           <div className="flex flex-1">
             <Sidebar />
-            <main className="flex-1 p-6" data-testid="dashboard-main">
+            <main className="flex-1 p-6 animate-in fade-in-0 duration-300 ease-out" data-testid="dashboard-main">
               {children}
             </main>
           </div>
