@@ -94,14 +94,15 @@ export function PatientCard({ patient }: PatientCardProps) {
 
         {/* Action */}
         <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
-          <Button
-            render={<Link href={`/${locale}/patients/${patient.id}`} />}
-            variant="outline"
-            size="sm"
-            data-testid={`view-record-btn-${patient.id}`}
-          >
-            View Record
-          </Button>
+          <Link href={`/${locale}/patients/${patient.id}`}>
+            <Button
+              variant="outline"
+              size="sm"
+              data-testid={`view-record-btn-${patient.id}`}
+            >
+              View Record
+            </Button>
+          </Link>
         </div>
       </CardContent>
     </Card>

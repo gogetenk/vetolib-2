@@ -79,13 +79,14 @@ export default function PatientsPage() {
               <Upload className="h-4 w-4 me-1" />
               {t('import_csv')}
             </Button>
-            <Button
-              render={<Link href="patients/new" />}
-              data-testid="add-patient-btn"
-            >
-              <Plus className="h-4 w-4 me-1" />
-              {t('add_patient')}
-            </Button>
+            <Link href="patients/new">
+              <Button
+                data-testid="add-patient-btn"
+              >
+                <Plus className="h-4 w-4 me-1" />
+                {t('add_patient')}
+              </Button>
+            </Link>
           </div>
         )}
       </div>

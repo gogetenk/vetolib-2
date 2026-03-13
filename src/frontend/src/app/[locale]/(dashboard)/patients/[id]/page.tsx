@@ -97,13 +97,14 @@ function PrescriptionsTab({
     <div className="space-y-4">
       {canPrescribe && (
         <div className="flex justify-end">
-          <Button
-            render={<Link href={`patients/${patientId}/records/new`} />}
-            size="sm"
-            data-testid="new-prescription-btn"
-          >
-            New Prescription
-          </Button>
+          <Link href={`patients/${patientId}/records/new`}>
+            <Button
+              size="sm"
+              data-testid="new-prescription-btn"
+            >
+              New Prescription
+            </Button>
+          </Link>
         </div>
       )}
 
@@ -195,25 +196,28 @@ export default function PatientDetailPage() {
     return (
       <div data-testid="patient-not-found" className="py-12 text-center">
         <p className="text-muted-foreground">Patient not found.</p>
-        <Button render={<Link href="../patients" />} variant="outline" className="mt-4" data-testid="back-to-patients-fallback-btn">
-          {t('title')}
-        </Button>
+        <Link href="../patients">
+          <Button variant="outline" className="mt-4" data-testid="back-to-patients-fallback-btn">
+            {t('title')}
+          </Button>
+        </Link>
       </div>
     )
   }
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300" data-testid="patient-detail-page">
-      <Button
-        render={<Link href="../patients" />}
-        variant="ghost"
-        size="sm"
-        data-testid="back-to-patients-btn"
-        className="-ms-2 group/back"
-      >
-        <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
-        {t('title')}
-      </Button>
+      <Link href="../patients">
+        <Button
+          variant="ghost"
+          size="sm"
+          data-testid="back-to-patients-btn"
+          className="-ms-2 group/back"
+        >
+          <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
+          {t('title')}
+        </Button>
+      </Link>
 
       <div
         className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
@@ -295,12 +299,13 @@ export default function PatientDetailPage() {
           )}
 
           {role === 'VET' && (
-            <Button
-              render={<Link href={`patients/${id}/records/new`} />}
-              data-testid="new-medical-record-btn"
-            >
-              New Medical Record
-            </Button>
+            <Link href={`patients/${id}/records/new`}>
+              <Button
+                data-testid="new-medical-record-btn"
+              >
+                New Medical Record
+              </Button>
+            </Link>
           )}
         </div>
       </div>

@@ -14,16 +14,17 @@ export default async function AppointmentDetailPage({ params }: Props) {
 
   return (
     <div className="space-y-6" data-testid="appointment-detail-page">
-      <Button
-        render={<Link href="../appointments" />}
-        variant="ghost"
-        size="sm"
-        data-testid="back-to-appointments-btn"
-        className="-ms-2"
-      >
-        <ArrowLeft className="h-4 w-4 me-1" />
-        {t('title')}
-      </Button>
+      <Link href="../appointments">
+        <Button
+          variant="ghost"
+          size="sm"
+          data-testid="back-to-appointments-btn"
+          className="-ms-2"
+        >
+          <ArrowLeft className="h-4 w-4 me-1" />
+          {t('title')}
+        </Button>
+      </Link>
       <AppointmentDetailLoader id={id} />
     </div>
   )
