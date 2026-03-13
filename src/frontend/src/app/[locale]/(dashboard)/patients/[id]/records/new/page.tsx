@@ -43,25 +43,28 @@ export default function NewMedicalRecordPage() {
     return (
       <div data-testid="new-record-patient-not-found" className="py-12 text-center">
         <p className="text-muted-foreground">Patient not found.</p>
-        <Button render={<Link href="../../.." />} variant="outline" className="mt-4" data-testid="back-to-patients-fallback-btn">
-          Back to Patients
-        </Button>
+        <Link href="../../..">
+          <Button variant="outline" className="mt-4" data-testid="back-to-patients-fallback-btn">
+            Back to Patients
+          </Button>
+        </Link>
       </div>
     )
   }
 
   return (
     <div className="space-y-6" data-testid="new-medical-record-page">
-      <Button
-        render={<Link href={`../../${id}`} />}
-        variant="ghost"
-        size="sm"
-        data-testid="back-to-patient-btn"
-        className="-ms-2"
-      >
-        <ArrowLeft className="h-4 w-4 me-1" />
-        {patient.name}&apos;s record
-      </Button>
+      <Link href={`../../${id}`}>
+        <Button
+          variant="ghost"
+          size="sm"
+          data-testid="back-to-patient-btn"
+          className="-ms-2"
+        >
+          <ArrowLeft className="h-4 w-4 me-1" />
+          {patient.name}&apos;s record
+        </Button>
+      </Link>
 
       <MedicalRecordForm
         patientId={id}

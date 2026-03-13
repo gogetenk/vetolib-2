@@ -9,16 +9,17 @@ export default async function NewPatientPage() {
 
   return (
     <div className="space-y-6" data-testid="new-patient-page">
-      <Button
-        render={<Link href="../patients" />}
-        variant="ghost"
-        size="sm"
-        data-testid="back-to-patients-btn"
-        className="-ms-2"
-      >
-        <ArrowLeft className="h-4 w-4 me-1" />
-        {t('title')}
-      </Button>
+      <Link href="../patients">
+        <Button
+          variant="ghost"
+          size="sm"
+          data-testid="back-to-patients-btn"
+          className="-ms-2"
+        >
+          <ArrowLeft className="h-4 w-4 me-1" />
+          {t('title')}
+        </Button>
+      </Link>
 
       <div>
         <h1 className="text-2xl font-bold" data-testid="new-patient-title">
