@@ -58,19 +58,19 @@ export function PricingSection({ messages: m, loginHref }: Props) {
     <section
       id="pricing"
       data-testid="section-pricing"
-      className="bg-gray-50 py-20 sm:py-28"
+      className="bg-stone-50 py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <ScrollReveal direction="fade-up">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+          <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
             {m.title}
           </h2>
-          <p className="mt-4 text-lg text-gray-600">{m.subtitle}</p>
+          <p className="mt-4 text-lg text-stone-600">{m.subtitle}</p>
 
           {/* Toggle */}
-          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-gray-200 bg-white p-1 shadow-sm">
+          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-stone-200 bg-white p-1 shadow-sm">
             <button
               type="button"
               data-testid="pricing-toggle-monthly"
@@ -79,7 +79,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                 !annual
                   ? "bg-emerald-700 text-white shadow"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-stone-600 hover:text-stone-900"
               }`}
             >
               {m.toggle_monthly}
@@ -92,7 +92,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                 annual
                   ? "bg-emerald-700 text-white shadow"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-stone-600 hover:text-stone-900"
               }`}
             >
               {m.toggle_annual}
@@ -112,21 +112,21 @@ export function PricingSection({ messages: m, loginHref }: Props) {
           <ScrollReveal direction="fade-up" delay={0}>
           <Card
             data-testid="pricing-plan-starter"
-            className="flex flex-col border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            className="flex flex-col border border-stone-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
           >
             <CardHeader className="p-6 pb-0">
-              <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+              <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">
                 {m.starter.name}
               </p>
               <div className="mt-3 flex items-end gap-1">
-                <span className="text-4xl font-extrabold text-gray-900">
+                <span className="text-4xl font-extrabold text-stone-900">
                   {annual ? m.starter.price_annual : m.starter.price_monthly}
                 </span>
-                <span className="mb-1 text-sm text-gray-500">
+                <span className="mb-1 text-sm text-stone-500">
                   {m.starter.per_month}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-gray-600">{m.starter.description}</p>
+              <p className="mt-2 text-sm text-stone-600">{m.starter.description}</p>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col p-6">
               <ul className="flex-1 space-y-3">
@@ -136,7 +136,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                       className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"
                       aria-hidden="true"
                     />
-                    <span className="text-sm text-gray-700">{feature}</span>
+                    <span className="text-sm text-stone-700">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -169,14 +169,14 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                 {m.pro.name}
               </p>
               <div className="mt-3 flex items-end gap-1">
-                <span className="text-4xl font-extrabold text-gray-900">
+                <span className="text-4xl font-extrabold text-stone-900">
                   {annual ? m.pro.price_annual : m.pro.price_monthly}
                 </span>
-                <span className="mb-1 text-sm text-gray-500">
+                <span className="mb-1 text-sm text-stone-500">
                   {m.pro.per_month}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-gray-600">{m.pro.description}</p>
+              <p className="mt-2 text-sm text-stone-600">{m.pro.description}</p>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col p-6">
               <ul className="flex-1 space-y-3">
@@ -186,7 +186,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                       className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"
                       aria-hidden="true"
                     />
-                    <span className="text-sm text-gray-700">{feature}</span>
+                    <span className="text-sm text-stone-700">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -206,24 +206,24 @@ export function PricingSection({ messages: m, loginHref }: Props) {
           <ScrollReveal direction="fade-up" delay={300}>
           <Card
             data-testid="pricing-plan-enterprise"
-            className="flex flex-col border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            className="flex flex-col border border-stone-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
           >
             <CardHeader className="p-6 pb-0">
-              <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+              <p className="text-sm font-semibold uppercase tracking-wide text-stone-500">
                 {m.enterprise.name}
               </p>
               <div className="mt-3 flex items-end gap-1">
-                <span className="text-sm font-medium text-gray-500">
+                <span className="text-sm font-medium text-stone-500">
                   {m.enterprise.from}
                 </span>
-                <span className="text-4xl font-extrabold text-gray-900">
+                <span className="text-4xl font-extrabold text-stone-900">
                   {m.enterprise.price}
                 </span>
-                <span className="mb-1 text-sm text-gray-500">
+                <span className="mb-1 text-sm text-stone-500">
                   {m.enterprise.per_month}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-stone-600">
                 {m.enterprise.description}
               </p>
             </CardHeader>
@@ -235,7 +235,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                       className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"
                       aria-hidden="true"
                     />
-                    <span className="text-sm text-gray-700">{feature}</span>
+                    <span className="text-sm text-stone-700">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -246,7 +246,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
               >
                 <Button
                   variant="outline"
-                  className="w-full border-gray-300 font-semibold text-gray-700 hover:bg-gray-50"
+                  className="w-full border-stone-300 font-semibold text-stone-700 hover:bg-stone-50"
                   data-testid="btn-pricing-enterprise"
                 >
                   {m.enterprise.cta}
@@ -258,9 +258,9 @@ export function PricingSection({ messages: m, loginHref }: Props) {
         </div>
 
         {/* Footer notes */}
-        <p className="mt-8 text-center text-sm text-gray-500">
+        <p className="mt-8 text-center text-sm text-stone-500">
           {m.trial_note}{" "}
-          <span className="text-gray-500">{m.vat_note}</span>
+          <span className="text-stone-500">{m.vat_note}</span>
         </p>
       </div>
     </section>

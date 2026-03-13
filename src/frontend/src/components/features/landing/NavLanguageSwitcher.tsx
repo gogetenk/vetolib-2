@@ -8,7 +8,7 @@ export function NavLanguageSwitcher({ locale }: Props) {
   return (
     <div
       data-testid="nav-language-switcher"
-      className="relative flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1"
+      className="relative flex items-center gap-1 rounded-full border border-stone-200 bg-white p-1"
     >
       {/* Sliding background indicator */}
       <div
@@ -23,7 +23,7 @@ export function NavLanguageSwitcher({ locale }: Props) {
         className={`relative z-10 rounded-full px-2.5 py-1 text-xs font-medium transition-colors duration-300 ${
           locale === "en"
             ? "text-emerald-700"
-            : "text-gray-400 hover:text-emerald-700"
+            : "text-stone-400 hover:text-emerald-700"
         }`}
       >
         EN
@@ -34,7 +34,7 @@ export function NavLanguageSwitcher({ locale }: Props) {
         className={`relative z-10 rounded-full px-2.5 py-1 text-xs font-medium transition-colors duration-300 ${
           locale === "ar"
             ? "text-emerald-700"
-            : "text-gray-400 hover:text-emerald-700"
+            : "text-stone-400 hover:text-emerald-700"
         }`}
       >
         AR

@@ -77,7 +77,7 @@ function StepIndicator({
                     ? 'bg-emerald-600 text-white cursor-pointer hover:bg-emerald-700 scale-100'
                     : isCurrent
                     ? 'bg-emerald-600 text-white cursor-default shadow-md ring-4 ring-emerald-100 scale-110'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed scale-100'
+                    : 'bg-stone-200 text-stone-400 cursor-not-allowed scale-100'
                 )}
               >
                 {isDone ? (
@@ -98,7 +98,7 @@ function StepIndicator({
               <span
                 className={cn(
                   'ml-1 mr-2 hidden sm:block text-xs font-medium whitespace-nowrap transition-colors duration-300',
-                  isCurrent ? 'text-emerald-700' : isDone ? 'text-gray-600' : 'text-gray-400'
+                  isCurrent ? 'text-emerald-700' : isDone ? 'text-stone-600' : 'text-stone-400'
                 )}
                 aria-hidden="true"
               >
@@ -107,7 +107,7 @@ function StepIndicator({
 
               {idx < STEP_KEYS.length - 1 && (
                 <div
-                  className="flex-1 h-0.5 mx-1 bg-gray-200 rounded-full overflow-hidden"
+                  className="flex-1 h-0.5 mx-1 bg-stone-200 rounded-full overflow-hidden"
                   aria-hidden="true"
                 >
                   <div
@@ -264,7 +264,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
     <div className="space-y-6" data-testid="booking-wizard">
       <StepIndicator currentStep={state.currentStep} onStepClick={goToStep} />
 
-      <h2 className="text-lg font-semibold text-gray-900" data-testid="wizard-step-title">
+      <h2 className="text-lg font-semibold text-stone-900" data-testid="wizard-step-title">
         {t(STEP_TITLE_KEYS[state.currentStep])}
       </h2>
 
@@ -322,7 +322,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
               onClick={handleBack}
               data-testid="wizard-back-btn"
               aria-label="Go to previous step"
-              className="flex-1 sm:flex-none sm:w-28 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              className="flex-1 sm:flex-none sm:w-28 rounded-lg border border-stone-300 px-4 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               {t('back')}
             </button>
@@ -344,7 +344,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
               (state.currentStep === 2 && canProceedStep2) ||
               (state.currentStep === 3 && canProceedStep3)
                 ? 'bg-emerald-600 hover:bg-emerald-700 cursor-pointer shadow-sm'
-                : 'bg-gray-300 cursor-not-allowed'
+                : 'bg-stone-300 cursor-not-allowed'
             )}
           >
             {state.currentStep === 3 ? t('review') : t('next')}

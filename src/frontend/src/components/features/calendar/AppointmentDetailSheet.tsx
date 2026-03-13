@@ -52,7 +52,7 @@ const STATUS_BADGE_VARIANT: Record<AppointmentStatus, string> = {
   SCHEDULED: 'bg-blue-100 text-blue-700',
   CHECKED_IN: 'bg-yellow-100 text-yellow-700',
   IN_PROGRESS: 'bg-green-100 text-green-700',
-  COMPLETED: 'bg-gray-100 text-gray-700',
+  COMPLETED: 'bg-stone-100 text-stone-700',
   CANCELLED: 'bg-red-100 text-red-700',
 }
 

@@ -106,7 +106,7 @@ export default async function LandingPage({ params }: Props) {
       />
 
       {/* ── Nav ────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md transition-all duration-300">
+      <header className="sticky top-0 z-50 border-b border-stone-100 bg-white/80 backdrop-blur-md transition-all duration-300">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold tracking-tight text-emerald-700">
@@ -116,21 +116,21 @@ export default async function LandingPage({ params }: Props) {
           <div className="hidden items-center gap-6 md:flex">
             <a
               href="#features"
-              className="text-sm font-medium text-gray-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-features"
             >
               {t("nav.features")}
             </a>
             <a
               href="#pricing"
-              className="text-sm font-medium text-gray-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-pricing"
             >
               {t("nav.pricing")}
             </a>
             <a
               href="#faq"
-              className="text-sm font-medium text-gray-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-faq"
             >
               {t("nav.faq")}
@@ -178,12 +178,12 @@ export default async function LandingPage({ params }: Props) {
               {/* Text side */}
               <div className="text-center lg:text-start">
                 <HeroStagger index={0}>
-                  <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                  <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
                     {t("hero.headline")}
                   </h1>
                 </HeroStagger>
                 <HeroStagger index={1}>
-                  <p className="mt-6 text-lg leading-relaxed text-gray-600">
+                  <p className="mt-6 text-lg leading-relaxed text-stone-600">
                     {t("hero.subtitle")}
                   </p>
                 </HeroStagger>
@@ -216,7 +216,7 @@ export default async function LandingPage({ params }: Props) {
                 <HeroStagger index={3}>
                   <p
                     data-testid="hero-trust-badge"
-                    className="mt-5 flex items-center justify-center gap-1.5 text-sm text-gray-500 lg:justify-start"
+                    className="mt-5 flex items-center justify-center gap-1.5 text-sm text-stone-500 lg:justify-start"
                   >
                     <ShieldCheck
                       className="h-4 w-4 shrink-0 text-emerald-600"
@@ -229,7 +229,7 @@ export default async function LandingPage({ params }: Props) {
 
               {/* Visual side */}
               <HeroDashboardReveal className="flex justify-center lg:justify-end">
-                <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-gray-200 shadow-2xl transition-shadow duration-500 hover:shadow-3xl">
+                <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-stone-200 shadow-2xl transition-shadow duration-500 hover:shadow-3xl">
                   <Image
                     src="/dashboard-placeholder.svg"
                     alt={t("hero.image_alt")}
@@ -248,7 +248,7 @@ export default async function LandingPage({ params }: Props) {
         {/* ── Social Proof Bar ───────────────────────────────────────── */}
         <section
           data-testid="section-social-proof"
-          className="border-y border-gray-100 bg-gray-50"
+          className="border-y border-stone-100 bg-stone-50"
         >
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
@@ -264,7 +264,7 @@ export default async function LandingPage({ params }: Props) {
                         delay={index * 150}
                       />
                     </dt>
-                    <dd className="mt-1 text-sm font-medium text-gray-500">
+                    <dd className="mt-1 text-sm font-medium text-stone-500">
                       {t(`social_proof.${label}`)}
                     </dd>
                   </div>
@@ -283,10 +283,10 @@ export default async function LandingPage({ params }: Props) {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <ScrollReveal direction="fade-up">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
                   {t("features.title")}
                 </h2>
-                <p className="mt-4 text-lg text-gray-600">
+                <p className="mt-4 text-lg text-stone-600">
                   {t("features.subtitle")}
                 </p>
               </div>
@@ -298,17 +298,17 @@ export default async function LandingPage({ params }: Props) {
                 return (
                   <ScrollReveal key={key} delay={i * 100} direction="fade-up">
                     <Card
-                      className="group border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                      className="group border border-stone-100 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
                       data-testid={`feature-card-${key}`}
                     >
                       <CardContent className="p-6">
                         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110">
                           <Icon className="h-6 w-6" aria-hidden="true" />
                         </div>
-                        <h3 className="mt-4 text-base font-semibold text-gray-900">
+                        <h3 className="mt-4 text-base font-semibold text-stone-900">
                           {t(`features.${key}.title`)}
                         </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                        <p className="mt-2 text-sm leading-relaxed text-stone-600">
                           {t(`features.${key}.description`)}
                         </p>
                       </CardContent>
@@ -358,10 +358,10 @@ export default async function LandingPage({ params }: Props) {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <ScrollReveal direction="fade-up">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
                   {t("how_it_works.title")}
                 </h2>
-                <p className="mt-4 text-lg text-gray-600">
+                <p className="mt-4 text-lg text-stone-600">
                   {t("how_it_works.subtitle")}
                 </p>
               </div>
@@ -406,10 +406,10 @@ export default async function LandingPage({ params }: Props) {
                           {t(`how_it_works.${key}.number`)}
                         </span>
                       </div>
-                      <h3 className="mt-6 text-base font-semibold text-gray-900">
+                      <h3 className="mt-6 text-base font-semibold text-stone-900">
                         {t(`how_it_works.${key}.title`)}
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                      <p className="mt-2 text-sm leading-relaxed text-stone-600">
                         {t(`how_it_works.${key}.description`)}
                       </p>
                     </li>
@@ -514,10 +514,10 @@ export default async function LandingPage({ params }: Props) {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <ScrollReveal direction="fade-up">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
                   {t("testimonials.title")}
                 </h2>
-                <p className="mt-4 text-lg text-gray-600">
+                <p className="mt-4 text-lg text-stone-600">
                   {t("testimonials.subtitle")}
                 </p>
               </div>
@@ -529,18 +529,18 @@ export default async function LandingPage({ params }: Props) {
                 <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
                   <figure
                     data-testid={`testimonial-${key}`}
-                    className="flex flex-col rounded-2xl border border-gray-100 bg-gray-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                    className="flex flex-col rounded-2xl border border-stone-100 bg-stone-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
                   >
                     <Quote
                       className="h-8 w-8 text-emerald-200"
                       aria-hidden="true"
                     />
                     <blockquote className="mt-4 flex-1">
-                      <p className="text-sm leading-relaxed text-gray-700">
+                      <p className="text-sm leading-relaxed text-stone-700">
                         &ldquo;{t(`testimonials.${key}.text`)}&rdquo;
                       </p>
                     </blockquote>
-                    <figcaption className="mt-6 flex items-center gap-3 border-t border-gray-100 pt-4">
+                    <figcaption className="mt-6 flex items-center gap-3 border-t border-stone-100 pt-4">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">
                         {t(`testimonials.${key}.name`)
                           .split(" ")
@@ -548,10 +548,10 @@ export default async function LandingPage({ params }: Props) {
                           .charAt(0)}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">
+                        <p className="text-sm font-semibold text-stone-900">
                           {t(`testimonials.${key}.name`)}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-stone-500">
                           {t(`testimonials.${key}.role`)} &bull;{" "}
                           {t(`testimonials.${key}.clinic`)}
                         </p>
@@ -563,7 +563,7 @@ export default async function LandingPage({ params }: Props) {
             </div>
 
             {/* Mobile carousel hint — subtle scroll indicator */}
-            <p className="mt-6 text-center text-xs text-gray-400 sm:hidden">
+            <p className="mt-6 text-center text-xs text-stone-400 sm:hidden">
               {t("testimonials.scroll_hint")}
             </p>
           </div>

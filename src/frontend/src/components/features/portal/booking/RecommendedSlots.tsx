@@ -117,7 +117,7 @@ export function RecommendedSlots({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="h-9 w-44 rounded-full bg-gray-200 animate-pulse"
+            className="h-9 w-44 rounded-full bg-stone-200 animate-pulse"
             data-testid={`recommended-slot-skeleton-${i}`}
           />
         ))}
@@ -129,7 +129,7 @@ export function RecommendedSlots({
   if (hasError || suggestions.length === 0) {
     return (
       <div
-        className="text-xs text-gray-400 italic py-1"
+        className="text-xs text-stone-400 italic py-1"
         data-testid="recommended-slots-empty"
       >
         {t('empty')}
@@ -178,7 +178,7 @@ export function RecommendedSlots({
               </span>
               {/* Date + time */}
               <span
-                className={cn('leading-none', isSelected ? 'text-emerald-100' : 'text-gray-500')}
+                className={cn('leading-none', isSelected ? 'text-emerald-100' : 'text-stone-500')}
                 data-testid={`recommended-slot-datetime-${idx}`}
               >
                 {formatSuggestionLabel(slot)}

@@ -201,20 +201,20 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
       ) : (
         <div className="hidden md:block rounded-md border" data-testid="stock-table">
           <Table>
-            <TableHeader className="sticky top-0 z-10 bg-background shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
+            <TableHeader className="sticky top-0 z-10 bg-stone-50 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
               <TableRow>
-                <TableHead data-testid="th-name">{t('columns.name')}</TableHead>
-                <TableHead data-testid="th-category">{t('columns.category')}</TableHead>
-                <TableHead data-testid="th-quantity">{t('columns.quantity')}</TableHead>
-                <TableHead data-testid="th-threshold">{t('columns.threshold')}</TableHead>
-                <TableHead data-testid="th-expiry">{t('columns.expiry')}</TableHead>
-                <TableHead data-testid="th-status">{t('columns.status')}</TableHead>
-                <TableHead data-testid="th-actions">{t('columns.actions')}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-name">{t('columns.name')}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-category">{t('columns.category')}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-quantity">{t('columns.quantity')}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-threshold">{t('columns.threshold')}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-expiry">{t('columns.expiry')}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-status">{t('columns.status')}</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-actions">{t('columns.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map(item => (
-                <TableRow key={item.id} data-testid={`stock-row-${item.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-muted/50">
+                <TableRow key={item.id} data-testid={`stock-row-${item.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-stone-50">
                   <TableCell
                     className="font-medium"
                     data-testid={`stock-name-${item.id}`}
