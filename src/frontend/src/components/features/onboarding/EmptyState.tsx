@@ -37,7 +37,7 @@ export function EmptyState({
     <Button
       data-testid={`empty-state-cta-${prefix}`}
       onClick={primaryCta.onClick}
-      {...(primaryCta.href && !primaryCta.onClick ? {} : {})}
+      className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
     >
       {primaryCta.label}
     </Button>
@@ -56,8 +56,8 @@ export function EmptyState({
       </div>
 
       <div className="space-y-2 max-w-sm">
-        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
-        <p className="text-muted-foreground text-sm">{description}</p>
+        <h2 className="text-[18px] font-bold tracking-tight text-[#061e44]">{title}</h2>
+        <p className="text-muted-foreground text-[13px]">{description}</p>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
@@ -75,6 +75,7 @@ export function EmptyState({
               <Button
                 variant="outline"
                 data-testid={secondaryCta['data-testid'] ?? `empty-state-cta-secondary-${prefix}`}
+                className="border-border/80 hover:bg-[#f4f6f9] rounded-xl font-semibold"
               >
                 {secondaryCta.label}
               </Button>
@@ -84,6 +85,7 @@ export function EmptyState({
               variant="outline"
               onClick={secondaryCta.onClick}
               data-testid={secondaryCta['data-testid'] ?? `empty-state-cta-secondary-${prefix}`}
+              className="border-border/80 hover:bg-[#f4f6f9] rounded-xl font-semibold"
             >
               {secondaryCta.label}
             </Button>
@@ -94,7 +96,7 @@ export function EmptyState({
       {tip && (
         <p
           data-testid={`empty-state-tip-${prefix}`}
-          className="text-sm text-muted-foreground italic max-w-sm mt-1"
+          className="text-[13px] text-muted-foreground italic max-w-sm mt-1"
         >
           {tip}
         </p>

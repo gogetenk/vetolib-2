@@ -16,10 +16,10 @@ export function ChecklistComplete() {
         aria-hidden="true"
       />
       <div className="space-y-1">
-        <p className="text-base font-semibold text-[#061e44]">
+        <p className="text-[15px] font-bold text-[#061e44]">
           {t('completed_title')}
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-[13px] text-muted-foreground">
           {t('completed_body')}
         </p>
       </div>

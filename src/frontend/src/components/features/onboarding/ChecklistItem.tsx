@@ -29,10 +29,10 @@ export function ChecklistItem({ step, onComplete }: ChecklistItemProps) {
       data-testid={`checklist-item-${step.id}`}
       onClick={handleClick}
       className={[
-        'group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-start transition-colors',
+        'group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start transition-colors',
         step.completed
           ? 'cursor-default text-muted-foreground hover:bg-transparent'
-          : 'hover:bg-accent',
+          : 'hover:bg-[#f4f6f9]',
       ].join(' ')}
       aria-disabled={step.completed}
     >
@@ -43,7 +43,7 @@ export function ChecklistItem({ step, onComplete }: ChecklistItemProps) {
           'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300',
           step.completed
             ? 'scale-110 border-green-500 bg-green-500 opacity-100'
-            : 'border-stone-300 bg-white opacity-100 group-hover:border-primary',
+            : 'border-border/80 bg-white opacity-100 group-hover:border-[#303ef5]',
         ].join(' ')}
         aria-hidden="true"
       >
@@ -57,7 +57,7 @@ export function ChecklistItem({ step, onComplete }: ChecklistItemProps) {
       {/* Label */}
       <span
         className={[
-          'flex-1 text-sm font-medium transition-all',
+          'flex-1 text-[13px] font-medium transition-all',
           step.completed ? 'line-through opacity-60' : '',
         ].join(' ')}
       >
