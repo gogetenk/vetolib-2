@@ -72,12 +72,12 @@ function StepIndicator({
                 aria-current={isCurrent ? 'step' : undefined}
                 aria-label={`Step ${step}: ${label}${isDone ? ' (completed)' : isCurrent ? ' (current)' : ''}`}
                 className={cn(
-                  'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1',
+                  'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1',
                   isDone
-                    ? 'bg-emerald-600 text-white cursor-pointer hover:bg-emerald-700 scale-100'
+                    ? 'bg-[#303ef5] text-white cursor-pointer hover:bg-[#2530c4] scale-100'
                     : isCurrent
-                    ? 'bg-emerald-600 text-white cursor-default shadow-md ring-4 ring-emerald-100 scale-110'
-                    : 'bg-stone-200 text-stone-400 cursor-not-allowed scale-100'
+                    ? 'bg-[#303ef5] text-white cursor-default shadow-md ring-4 ring-[#eef2fd] scale-110'
+                    : 'bg-muted text-muted-foreground/60 cursor-not-allowed scale-100'
                 )}
               >
                 {isDone ? (
@@ -98,7 +98,7 @@ function StepIndicator({
               <span
                 className={cn(
                   'ml-1 mr-2 hidden sm:block text-xs font-medium whitespace-nowrap transition-colors duration-300',
-                  isCurrent ? 'text-emerald-700' : isDone ? 'text-stone-600' : 'text-stone-400'
+                  isCurrent ? 'text-[#303ef5]' : isDone ? 'text-muted-foreground' : 'text-muted-foreground/60'
                 )}
                 aria-hidden="true"
               >
@@ -107,13 +107,13 @@ function StepIndicator({
 
               {idx < STEP_KEYS.length - 1 && (
                 <div
-                  className="flex-1 h-0.5 mx-1 bg-stone-200 rounded-full overflow-hidden"
+                  className="flex-1 h-0.5 mx-1 bg-muted rounded-full overflow-hidden"
                   aria-hidden="true"
                 >
                   <div
                     className={cn(
                       'h-full rounded-full transition-all duration-500 ease-out',
-                      currentStep > step ? 'w-full bg-emerald-400' : 'w-0 bg-emerald-400'
+                      currentStep > step ? 'w-full bg-[#303ef5]/60' : 'w-0 bg-[#303ef5]/60'
                     )}
                   />
                 </div>
@@ -264,7 +264,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
     <div className="space-y-6" data-testid="booking-wizard">
       <StepIndicator currentStep={state.currentStep} onStepClick={goToStep} />
 
-      <h2 className="text-lg font-semibold text-stone-900" data-testid="wizard-step-title">
+      <h2 className="text-lg font-semibold text-[#061e44]" data-testid="wizard-step-title">
         {t(STEP_TITLE_KEYS[state.currentStep])}
       </h2>
 
@@ -322,7 +322,7 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
               onClick={handleBack}
               data-testid="wizard-back-btn"
               aria-label="Go to previous step"
-              className="flex-1 sm:flex-none sm:w-28 rounded-lg border border-stone-300 px-4 py-2.5 text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              className="flex-1 sm:flex-none sm:w-28 rounded-xl border border-border/80 px-4 py-2.5 text-sm font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]"
             >
               {t('back')}
             </button>
@@ -339,12 +339,12 @@ export function BookingWizard({ locale, clinicSlug }: BookingWizardProps) {
             data-testid="wizard-next-btn"
             aria-label={state.currentStep === 3 ? 'Review booking' : 'Go to next step'}
             className={cn(
-              'flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1',
+              'flex-1 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1',
               (state.currentStep === 1 && canProceedStep1) ||
               (state.currentStep === 2 && canProceedStep2) ||
               (state.currentStep === 3 && canProceedStep3)
-                ? 'bg-emerald-600 hover:bg-emerald-700 cursor-pointer shadow-sm'
-                : 'bg-stone-300 cursor-not-allowed'
+                ? 'bg-[#303ef5] hover:bg-[#2530c4] cursor-pointer shadow-sm'
+                : 'bg-muted-foreground/30 cursor-not-allowed'
             )}
           >
             {state.currentStep === 3 ? t('review') : t('next')}

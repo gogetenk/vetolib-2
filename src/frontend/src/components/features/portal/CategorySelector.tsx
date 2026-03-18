@@ -24,7 +24,7 @@ export function CategorySelector({ value, onChange, error }: CategorySelectorPro
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor="category-selector" className="text-sm font-medium text-stone-700">
+      <label htmlFor="category-selector" className="text-sm font-medium text-[#061e44]">
         {t('category_label')}
       </label>
       <select
@@ -35,7 +35,7 @@ export function CategorySelector({ value, onChange, error }: CategorySelectorPro
         className={`block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 ${
           error
             ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-            : 'border-stone-300 focus:border-emerald-500 focus:ring-emerald-500'
+            : 'border-border/80 focus:border-[#303ef5] focus:ring-[#303ef5]'
         }`}
       >
         <option value="" disabled>

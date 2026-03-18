@@ -51,20 +51,20 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col">
+    <div className="min-h-screen bg-[#f4f6f9] flex flex-col">
       {/* Portal header */}
       <header
-        className="bg-white border-b border-stone-200 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm"
+        className="bg-white border-b border-border/80 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm"
         data-testid="portal-header"
       >
         <div className="flex items-center gap-2">
           <div
-            className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+            className="w-8 h-8 rounded-full bg-[#303ef5] flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
             aria-hidden="true"
           >
             {clinicName.charAt(0)}
           </div>
-          <span className="font-semibold text-stone-900 text-sm sm:text-base" data-testid="portal-clinic-name">
+          <span className="font-semibold text-[#061e44] text-sm sm:text-base" data-testid="portal-clinic-name">
             {clinicName}
           </span>
         </div>
@@ -74,7 +74,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
           size="sm"
           onClick={toggleLanguage}
           data-testid="portal-language-toggle"
-          className="flex items-center gap-1 text-stone-600"
+          className="flex items-center gap-1 text-muted-foreground hover:text-[#061e44]"
         >
           <Globe className="h-4 w-4" />
           <span className="text-xs">{isAr ? 'English' : '\u0639\u0631\u0628\u064a'}</span>
@@ -85,7 +85,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
       <div className="flex flex-1">
         {/* Desktop sidebar navigation */}
         <aside
-          className="hidden md:flex flex-col w-56 bg-white border-e border-stone-200 py-4 px-2"
+          className="hidden md:flex flex-col w-56 bg-white border-e border-border/80 py-4 px-2"
           data-testid="portal-sidebar"
         >
           <nav className="space-y-1">
@@ -95,10 +95,10 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
                 onClick={() => router.push(item.path)}
                 data-testid={`portal-nav-${item.labelKey}`}
                 className={cn(
-                  'flex items-center gap-3 w-full rounded-lg px-3 py-2.5 text-sm font-medium transition-colors min-h-[44px]',
+                  'flex items-center gap-3 w-full rounded-xl px-3 py-2.5 text-[13px] font-semibold transition-all duration-200 min-h-[44px]',
                   isActive(item.path)
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900'
+                    ? 'bg-[#eef2fd] text-[#303ef5]'
+                    : 'text-muted-foreground hover:bg-[#f4f6f9] hover:text-[#061e44]'
                 )}
               >
                 {item.icon}
@@ -116,7 +116,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
 
       {/* Mobile bottom tab bar */}
       <nav
-        className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 z-10 flex justify-around py-1"
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border/80 z-10 flex justify-around py-1"
         data-testid="portal-bottom-tabs"
       >
         {navItems.map((item) => (
@@ -125,10 +125,10 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
             onClick={() => router.push(item.path)}
             data-testid={`portal-tab-${item.labelKey}`}
             className={cn(
-              'flex flex-col items-center gap-0.5 py-2 px-3 min-w-[64px] min-h-[44px] text-xs transition-colors',
+              'flex flex-col items-center gap-0.5 py-2 px-3 min-w-[64px] min-h-[44px] text-xs font-medium transition-colors',
               isActive(item.path)
-                ? 'text-emerald-600'
-                : 'text-stone-500'
+                ? 'text-[#303ef5]'
+                : 'text-muted-foreground'
             )}
           >
             {item.icon}

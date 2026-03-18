@@ -22,7 +22,7 @@ import type { BookingAppointmentDto, BookingAppointmentStatus } from '@/lib/api/
 const STATUS_STYLES: Record<BookingAppointmentStatus, string> = {
   Scheduled: 'bg-blue-100 text-blue-800',
   CheckedIn: 'bg-emerald-100 text-emerald-800',
-  Completed: 'bg-stone-100 text-stone-700',
+  Completed: 'bg-[#f4f6f9] text-muted-foreground',
   Cancelled: 'bg-red-100 text-red-700',
   NoShow: 'bg-orange-100 text-orange-700',
 }
@@ -86,9 +86,9 @@ export function AppointmentDetail({ appointmentId }: Props) {
   if (isLoading) {
     return (
       <div className="space-y-4" data-testid="appointment-detail-loading">
-        <div className="h-8 w-32 rounded bg-stone-100 animate-pulse" />
-        <div className="h-40 rounded-xl bg-stone-100 animate-pulse" />
-        <div className="h-20 rounded-xl bg-stone-100 animate-pulse" />
+        <div className="h-8 w-32 rounded bg-muted animate-pulse" />
+        <div className="h-40 rounded-xl bg-muted animate-pulse" />
+        <div className="h-20 rounded-xl bg-muted animate-pulse" />
       </div>
     )
   }
@@ -96,7 +96,7 @@ export function AppointmentDetail({ appointmentId }: Props) {
   if (expired) {
     return (
       <div className="text-center py-12" data-testid="appointment-detail-expired">
-        <p className="text-stone-700">{t('landing.link_expired')}</p>
+        <p className="text-[#061e44]">{t('landing.link_expired')}</p>
       </div>
     )
   }
@@ -104,7 +104,7 @@ export function AppointmentDetail({ appointmentId }: Props) {
   if (notFound || !appt) {
     return (
       <div className="text-center py-12" data-testid="appointment-detail-not-found">
-        <p className="text-stone-700">{t('myAppointments.notFound')}</p>
+        <p className="text-[#061e44]">{t('myAppointments.notFound')}</p>
         <Button
           variant="ghost"
           data-testid="appointment-detail-back-not-found"
@@ -141,7 +141,7 @@ export function AppointmentDetail({ appointmentId }: Props) {
         variant="ghost"
         size="sm"
         data-testid="appointment-detail-back-btn"
-        className="text-stone-600 hover:text-stone-900 -ms-2"
+        className="text-muted-foreground hover:text-[#061e44] -ms-2"
         onClick={() => router.push(`${base}/appointments`)}
       >
         <ArrowLeft className="h-4 w-4 me-1" />
@@ -150,7 +150,7 @@ export function AppointmentDetail({ appointmentId }: Props) {
 
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
-        <h1 className="text-xl font-bold text-stone-900" data-testid="appointment-detail-title">
+        <h1 className="text-[22px] font-bold text-[#061e44]" data-testid="appointment-detail-title">
           {appt.consultationTypeName}
         </h1>
         <span
@@ -162,55 +162,55 @@ export function AppointmentDetail({ appointmentId }: Props) {
       </div>
 
       {/* Detail card */}
-      <div className="rounded-xl border border-stone-200 bg-white p-5 space-y-4">
+      <div className="rounded-xl border border-border/80 bg-white p-5 space-y-4 shadow-sm">
         <div className="flex items-start gap-3">
-          <CalendarDays className="w-5 h-5 text-stone-400 mt-0.5 flex-shrink-0" />
+          <CalendarDays className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">{t('confirmation.date')}</p>
-            <p className="text-sm font-medium text-stone-900" data-testid="appointment-detail-date">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{t('confirmation.date')}</p>
+            <p className="text-[14px] font-medium text-[#061e44]" data-testid="appointment-detail-date">
               {formattedDate}
             </p>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <Clock className="w-5 h-5 text-stone-400 mt-0.5 flex-shrink-0" />
+          <Clock className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">{t('myAppointments.timeLabel')}</p>
-            <p className="text-sm font-medium text-stone-900" data-testid="appointment-detail-time">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{t('myAppointments.timeLabel')}</p>
+            <p className="text-[14px] font-medium text-[#061e44]" data-testid="appointment-detail-time">
               {formattedTime} &middot; {appt.durationMinutes} min
             </p>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <User className="w-5 h-5 text-stone-400 mt-0.5 flex-shrink-0" />
+          <User className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">{t('myAppointments.vetLabel')}</p>
-            <p className="text-sm font-medium text-stone-900" data-testid="appointment-detail-vet">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{t('myAppointments.vetLabel')}</p>
+            <p className="text-[14px] font-medium text-[#061e44]" data-testid="appointment-detail-vet">
               {appt.veterinarianName}
             </p>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <User className="w-5 h-5 text-stone-400 mt-0.5 flex-shrink-0" />
+          <User className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">{t('myAppointments.petLabel')}</p>
-            <p className="text-sm font-medium text-stone-900" data-testid="appointment-detail-pet">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{t('myAppointments.petLabel')}</p>
+            <p className="text-[14px] font-medium text-[#061e44]" data-testid="appointment-detail-pet">
               {appt.petName}
             </p>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <MapPin className="w-5 h-5 text-stone-400 mt-0.5 flex-shrink-0" />
+          <MapPin className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">{t('myAppointments.clinicLabel')}</p>
-            <p className="text-sm font-medium text-stone-900" data-testid="appointment-detail-clinic">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{t('myAppointments.clinicLabel')}</p>
+            <p className="text-[14px] font-medium text-[#061e44]" data-testid="appointment-detail-clinic">
               {appt.clinicName}
             </p>
-            <p className="text-xs text-stone-500" data-testid="appointment-detail-address">
+            <p className="text-xs text-muted-foreground" data-testid="appointment-detail-address">
               {appt.clinicAddress}
             </p>
           </div>
@@ -218,10 +218,10 @@ export function AppointmentDetail({ appointmentId }: Props) {
 
         {appt.notes && (
           <div className="flex items-start gap-3">
-            <FileText className="w-5 h-5 text-stone-400 mt-0.5 flex-shrink-0" />
+            <FileText className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-xs text-stone-500 uppercase tracking-wide font-medium">{t('myAppointments.notesLabel')}</p>
-              <p className="text-sm text-stone-700" data-testid="appointment-detail-notes">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">{t('myAppointments.notesLabel')}</p>
+              <p className="text-[13px] text-[#061e44]" data-testid="appointment-detail-notes">
                 {appt.notes}
               </p>
             </div>
@@ -235,7 +235,7 @@ export function AppointmentDetail({ appointmentId }: Props) {
           <Button
             variant="outline"
             data-testid="appointment-reschedule-btn"
-            className="flex-1 border-stone-300 text-stone-700 hover:border-emerald-400"
+            className="flex-1 border-border/80 text-[#061e44] hover:border-[#303ef5]/40 rounded-xl"
             onClick={() => {
               // Reschedule is a future action — placeholder navigation
               toast.info(t('myAppointments.rescheduleComingSoon'))
@@ -247,7 +247,7 @@ export function AppointmentDetail({ appointmentId }: Props) {
           <Button
             variant="outline"
             data-testid="appointment-cancel-btn"
-            className="flex-1 border-red-200 text-red-600 hover:bg-red-50 hover:border-red-400"
+            className="flex-1 border-red-200 text-red-600 hover:bg-red-50 hover:border-red-400 rounded-xl"
             onClick={() => setCancelDialogOpen(true)}
           >
             <XCircle className="h-4 w-4 me-2" />
