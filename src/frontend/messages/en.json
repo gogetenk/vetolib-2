@@ -1428,5 +1428,83 @@
       "revoking": "Revoking...",
       "revoke_analytics": "Revoke Analytics Consent"
     }
+  },
+  "drugs": {
+    "title": "Drug Catalog",
+    "add_drug": "Add Drug",
+    "no_drugs": "No drugs found matching your criteria.",
+    "search_placeholder": "Search by name or INN...",
+    "prescription_required": "Rx Required",
+    "has_contraindications": "Contraindications",
+    "interaction": "Interaction",
+    "columns": {
+      "name": "Name",
+      "inn_name": "INN Name",
+      "category": "Category",
+      "dosage": "Common Dosage",
+      "species": "Species",
+      "prescription": "Type",
+      "actions": "Actions"
+    },
+    "categories": {
+      "Antibiotic": "Antibiotic",
+      "Antiparasitic": "Antiparasitic",
+      "AntiInflammatory": "Anti-Inflammatory",
+      "Analgesic": "Analgesic",
+      "Vaccine": "Vaccine",
+      "Antifungal": "Antifungal",
+      "Cardiac": "Cardiac",
+      "Dermatological": "Dermatological",
+      "Ophthalmic": "Ophthalmic",
+      "Hormonal": "Hormonal",
+      "Other": "Other"
+    },
+    "filters": {
+      "all_categories": "All Categories",
+      "all_species": "All Species"
+    },
+    "actions": {
+      "view": "View"
+    },
+    "stats": {
+      "total": "Total Drugs",
+      "prescription": "Prescription",
+      "otc": "Over-the-Counter"
+    },
+    "detail": {
+      "loading": "Loading...",
+      "common_dosage": "Common Dosage",
+      "dosage_guidelines": "Dosage Guidelines by Species",
+      "species": "Species",
+      "dose_per_kg": "Dose per kg",
+      "frequency": "Frequency",
+      "max_duration": "Max Duration",
+      "days": "days",
+      "ongoing": "Ongoing",
+      "contraindications": "Contraindications"
+    },
+    "form": {
+      "add_title": "Add New Drug",
+      "add_description": "Add a new drug to the clinic catalog.",
+      "inn_name": "INN Name",
+      "inn_name_placeholder": "e.g. amoxicillin",
+      "display_name": "Display Name",
+      "display_name_placeholder": "e.g. Amoxicillin 250mg",
+      "category": "Category",
+      "common_dosage": "Common Dosage",
+      "common_dosage_placeholder": "e.g. 10-20 mg/kg twice daily for 5-7 days",
+      "requires_prescription": "Requires Prescription",
+      "cancel": "Cancel",
+      "submit": "Add Drug",
+      "submitting": "Adding..."
+    },
+    "success": {
+      "drug_added": "Drug added to catalog successfully."
+    },
+    "errors": {
+      "load_failed": "Failed to load drug catalog.",
+      "save_failed": "Failed to add drug.",
+      "not_found": "Drug not found."
+    }
   }
 }
