@@ -14,13 +14,13 @@ export default function MedicalRecordsPage() {
       <div className="flex min-h-[60vh] items-center justify-center py-16">
         <div className="flex flex-col items-center text-center">
           <div
-            className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#eef2fd]"
+            className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10"
             data-testid="medical-records-icon"
           >
-            <FileText className="h-8 w-8 text-[#303ef5]" />
+            <FileText className="h-8 w-8 text-primary" />
           </div>
           <h1
-            className="text-[22px] font-bold text-[#061e44]"
+            className="text-[22px] font-bold text-foreground"
             data-testid="medical-records-title"
           >
             Medical Records
@@ -34,7 +34,7 @@ export default function MedicalRecordsPage() {
           <Link href={`/${locale}/patients`}>
             <Button
               data-testid="go-to-patients-btn"
-              className="mt-6 bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-11 px-6 text-[14px] shadow-sm"
+              className="mt-6 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-11 px-6 text-[14px] shadow-sm"
             >
               Go to Patients
             </Button>

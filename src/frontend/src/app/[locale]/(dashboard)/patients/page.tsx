@@ -68,8 +68,8 @@ export default function PatientsPage() {
     <PageContainer data-testid="patients-page">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="patients-title">
-            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="patients-title">
+            <span className="w-1 h-5 bg-primary rounded-full"></span>
             {t('title')}
           </h1>
         </div>
@@ -79,7 +79,7 @@ export default function PatientsPage() {
               variant="outline"
               onClick={() => setShowImportDialog(true)}
               data-testid="import-csv-btn"
-              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
             >
               <Upload className="h-4 w-4 me-1.5" />
               {t('import_csv')}
@@ -87,7 +87,7 @@ export default function PatientsPage() {
             <Link href="patients/new">
               <Button
                 data-testid="add-patient-btn"
-                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
               >
                 <Plus className="h-4 w-4 me-1.5" />
                 {t('add_patient')}
@@ -104,7 +104,7 @@ export default function PatientsPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           data-testid="search-input"
-          className="w-full bg-white border-border/80 rounded-xl h-11 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md"
+          className="w-full bg-white border-border/80 rounded-xl h-11 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md"
         />
         {!isLoading && !error && patients.length > 0 && (
           <p className="text-[13px] text-muted-foreground font-medium" data-testid="patients-count">

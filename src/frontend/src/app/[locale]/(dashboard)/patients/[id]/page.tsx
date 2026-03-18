@@ -62,7 +62,7 @@ function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
   }
   return (
     <div data-testid="vaccinations-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
-      <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-[#061e44] uppercase tracking-wider px-4 py-3 bg-[#f4f6f9] border-b border-border/50">
+      <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
         <span>Vaccine</span>
         <span>Date Given</span>
         <span>Next Due</span>
@@ -72,9 +72,9 @@ function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
         <div
           key={vac.id}
           data-testid={`vaccination-${vac.id}`}
-          className="grid grid-cols-4 gap-4 text-[13px] px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
+          className="grid grid-cols-4 gap-4 text-[13px] px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
         >
-          <span className="font-semibold text-[#061e44]" data-testid={`vaccination-name-${vac.id}`}>{vac.name}</span>
+          <span className="font-semibold text-foreground" data-testid={`vaccination-name-${vac.id}`}>{vac.name}</span>
           <span className="text-muted-foreground" data-testid={`vaccination-date-${vac.id}`}>{formatDate(vac.administeredDate)}</span>
           <span className="text-muted-foreground" data-testid={`vaccination-next-due-${vac.id}`}>{formatDate(vac.nextDueDate)}</span>
           <span className="text-muted-foreground" data-testid={`vaccination-vet-${vac.id}`}>{vac.vetName}</span>
@@ -101,7 +101,7 @@ function PrescriptionsTab({
             <Button
               size="sm"
               data-testid="new-prescription-btn"
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
             >
               New Medical Record
             </Button>
@@ -115,7 +115,7 @@ function PrescriptionsTab({
         </p>
       ) : (
         <div data-testid="prescriptions-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
-          <div className="grid grid-cols-5 gap-4 text-[11px] font-bold text-[#061e44] uppercase tracking-wider px-4 py-3 bg-[#f4f6f9] border-b border-border/50">
+          <div className="grid grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
             <span>Medication</span>
             <span>Dosage</span>
             <span>Duration</span>
@@ -126,16 +126,16 @@ function PrescriptionsTab({
             <div
               key={presc.id}
               data-testid={`prescription-${presc.id}`}
-              className="grid grid-cols-5 gap-4 items-center px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
+              className="grid grid-cols-5 gap-4 items-center px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
             >
-              <p className="font-semibold text-[13px] text-[#061e44] truncate" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
+              <p className="font-semibold text-[13px] text-foreground truncate" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
               <p className="text-[13px] text-muted-foreground truncate">{presc.dosage}</p>
               <p className="text-[13px] text-muted-foreground truncate">{presc.duration}</p>
               <p className="text-[12px] text-muted-foreground truncate">{presc.vetName} &bull; {formatDate(presc.prescribedDate)}</p>
               <Badge
                 variant={presc.status === 'active' ? 'default' : 'secondary'}
                 data-testid={`presc-status-${presc.id}`}
-                className={presc.status === 'active' ? 'bg-[#303ef5] text-white rounded-md text-[10px] font-bold uppercase tracking-wider' : 'rounded-md text-[10px] font-bold uppercase tracking-wider'}
+                className={presc.status === 'active' ? 'bg-primary text-primary-foreground rounded-md text-[10px] font-bold uppercase tracking-wider' : 'rounded-md text-[10px] font-bold uppercase tracking-wider'}
               >
                 {presc.status}
               </Badge>
@@ -218,7 +218,7 @@ export default function PatientDetailPage() {
           variant="ghost"
           size="sm"
           data-testid="back-to-patients-btn"
-          className="-ms-2 group/back text-muted-foreground hover:text-[#061e44]"
+          className="-ms-2 group/back text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
           {t('title')}
@@ -245,7 +245,7 @@ export default function PatientDetailPage() {
                   </div>
                   <div>
                     <h1
-                      className="text-[22px] font-bold text-[#061e44]"
+                      className="text-[22px] font-bold text-foreground"
                       data-testid="patient-detail-name"
                     >
                       {patient.name}
@@ -272,7 +272,7 @@ export default function PatientDetailPage() {
                         variant="outline"
                         data-testid="edit-patient-btn"
                         onClick={() => setIsEditOpen(true)}
-                        className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                        className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
                       >
                         <Pencil className="h-4 w-4 me-1.5" />
                         Edit
@@ -300,7 +300,7 @@ export default function PatientDetailPage() {
                     <Link href={`/patients/${id}/records/new`}>
                       <Button
                         data-testid="new-medical-record-btn"
-                        className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
                       >
                         New Medical Record
                       </Button>
@@ -310,10 +310,10 @@ export default function PatientDetailPage() {
               </div>
 
               {/* Right: Owner info */}
-              <div className="md:w-[280px] bg-[#f4f6f9] p-6 md:p-8 border-t md:border-t-0 md:border-l border-border/50" data-testid="patient-owner-section">
-                <h3 className="text-[13px] font-bold text-[#061e44] mb-3">Owner</h3>
+              <div className="md:w-[280px] bg-muted p-6 md:p-8 border-t md:border-t-0 md:border-l border-border/50" data-testid="patient-owner-section">
+                <h3 className="text-[13px] font-bold text-foreground mb-3">Owner</h3>
                 <div className="space-y-3">
-                  <span className="text-[14px] font-semibold text-[#061e44] block" data-testid="patient-detail-owner">
+                  <span className="text-[14px] font-semibold text-foreground block" data-testid="patient-detail-owner">
                     {patient.ownerName}
                   </span>
                   <div className="flex items-center gap-2.5 text-[13px] text-muted-foreground" data-testid="patient-detail-phone">
@@ -349,8 +349,8 @@ export default function PatientDetailPage() {
               className={[
                 'px-5 py-3 text-[13px] font-semibold border-b-2 transition-colors',
                 activeTab === tab.id
-                  ? 'border-[#303ef5] text-[#303ef5]'
-                  : 'border-transparent text-muted-foreground hover:text-[#061e44] hover:border-border',
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border',
               ].join(' ')}
             >
               {tab.label}

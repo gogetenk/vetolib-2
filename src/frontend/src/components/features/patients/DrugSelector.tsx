@@ -168,7 +168,7 @@ export function DrugSelector({
     <div className="space-y-2" ref={containerRef}>
       {/* Label row */}
       <div className="flex items-center justify-between">
-        <Label htmlFor={isFreeText ? 'drug-selector-free-text-input' : 'drug-selector-input'} className="text-[13px] font-semibold text-[#061e44]">
+        <Label htmlFor={isFreeText ? 'drug-selector-free-text-input' : 'drug-selector-input'} className="text-[13px] font-semibold text-foreground">
           {displayLabel}
           {required && <span className="text-destructive ml-1">*</span>}
         </Label>
@@ -176,7 +176,7 @@ export function DrugSelector({
           type="button"
           data-testid="drug-selector-free-text-toggle"
           onClick={handleToggleFreeText}
-          className="text-[12px] text-[#303ef5] underline underline-offset-2 hover:text-[#2530c4] transition-colors font-medium"
+          className="text-[12px] text-primary underline underline-offset-2 hover:text-primary/90 transition-colors font-medium"
           aria-pressed={isFreeText}
         >
           {isFreeText ? t('use_catalog') : t('use_free_text')}
@@ -192,7 +192,7 @@ export function DrugSelector({
           onChange={handleFreeTextChange}
           placeholder={t('free_text_placeholder')}
           aria-label={t('free_text_label')}
-          className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+          className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
         />
       ) : (
         /* ── Catalog autocomplete mode ──────────────────────────── */
@@ -212,7 +212,7 @@ export function DrugSelector({
             aria-expanded={isOpen}
             aria-controls="drug-selector-listbox"
             aria-label={t('label')}
-            className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+            className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
           />
 
           {/* Skeleton rows while loading */}
@@ -246,10 +246,10 @@ export function DrugSelector({
                   onClick={() => handleSelect(drug)}
                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(drug) } }}
                   tabIndex={0}
-                  className="flex items-start justify-between px-3 py-2.5 cursor-pointer hover:bg-[#f4f6f9] transition-colors focus:outline-none focus:bg-[#f4f6f9] rounded-lg"
+                  className="flex items-start justify-between px-3 py-2.5 cursor-pointer hover:bg-muted transition-colors focus:outline-none focus:bg-muted rounded-lg"
                 >
                   <div className="flex flex-col min-w-0">
-                    <span className="font-semibold text-[13px] text-[#061e44] truncate">
+                    <span className="font-semibold text-[13px] text-foreground truncate">
                       {drug.displayName}
                     </span>
                     <span className="text-[12px] text-muted-foreground truncate">

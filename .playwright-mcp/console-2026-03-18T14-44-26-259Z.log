@@ -1,0 +1,84 @@
+[ 1689735ms] [ERROR] ./src/app/[locale]/(dashboard)/medical-records/page.tsx:20:1
+Parsing ecmascript source code failed
+  18 |             className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#eef2fd]"
+  19 |             data-testid="medical-records-icon"
+> 20 | =======
+     | ^^^^^^^
+> 21 |     <div className="flex min-h-[60vh] items-center justify-center py-16" data-testid="medical-records-page">
+     | ^^^^^^
+  22 |       <div className="flex flex-col items-center text-center">
+  23 |         <div
+  24 |           className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10"
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component Browser]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component SSR]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[ 1689736ms] [ERROR] ./src/app/[locale]/(dashboard)/medical-records/page.tsx:20:1
+Parsing ecmascript source code failed
+  18 |             className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#eef2fd]"
+  19 |             data-testid="medical-records-icon"
+> 20 | =======
+     | ^^^^^^^
+  21 |     <div className="flex min-h-[60vh] items-center justify-center py-16" data-testid="medical-records-page">
+  22 |       <div className="flex flex-col items-center text-center">
+  23 |         <div
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component Browser]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component SSR]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[ 1808767ms] [ERROR] ./src/app/[locale]/(dashboard)/medical-records/page.tsx:20:1
+Parsing ecmascript source code failed
+  18 |             className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#eef2fd]"
+  19 |             data-testid="medical-records-icon"
+> 20 | =======
+     | ^^^^^^^
+> 21 |     <div className="flex min-h-[60vh] items-center justify-center py-16" data-testid="medical-records-page">
+     | ^^^^^^
+  22 |       <div className="flex flex-col items-center text-center">
+  23 |         <div
+  24 |           className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10"
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component Browser]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component SSR]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[ 1808778ms] [ERROR] ./src/app/[locale]/(dashboard)/medical-records/page.tsx:20:1
+Parsing ecmascript source code failed
+  18 |             className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#eef2fd]"
+  19 |             data-testid="medical-records-icon"
+> 20 | =======
+     | ^^^^^^^
+  21 |     <div className="flex min-h-[60vh] items-center justify-center py-16" data-testid="medical-records-page">
+  22 |       <div className="flex flex-col items-center text-center">
+  23 |         <div
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component Browser]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Client Component SSR]
+    ./src/app/[locale]/(dashboard)/medical-records/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
