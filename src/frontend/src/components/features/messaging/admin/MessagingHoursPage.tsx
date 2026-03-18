@@ -66,8 +66,8 @@ export function MessagingHoursPage() {
   return (
     <PageContainer data-testid="messaging-hours-page">
       <div>
-        <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h2 className="text-[22px] font-bold text-foreground flex items-center gap-2">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t("title")}
         </h2>
         <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("subtitle")}</p>
@@ -80,18 +80,18 @@ export function MessagingHoursPage() {
       ) : (
         <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="hours-table">
           <table className="w-full">
-            <thead className="bg-[#f4f6f9]">
+            <thead className="bg-muted">
               <tr>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44] w-32">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground w-32">
                   {t("col_day")}
                 </th>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t("col_status")}
                 </th>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t("col_open")}
                 </th>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t("col_close")}
                 </th>
               </tr>
@@ -118,7 +118,7 @@ export function MessagingHoursPage() {
             data-testid="save-hours-btn"
             onClick={handleSave}
             disabled={isSaving || isLoading}
-            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-11 px-6 shadow-sm"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-11 px-6 shadow-sm"
           >
             {isSaving ? t("saving") : t("save")}
           </Button>

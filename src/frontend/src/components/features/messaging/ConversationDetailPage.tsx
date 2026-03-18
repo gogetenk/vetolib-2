@@ -33,7 +33,7 @@ const STATUS_COLOR: Record<ConversationStatus, string> = {
   Open: 'bg-blue-100 text-blue-700',
   InProgress: 'bg-yellow-100 text-yellow-700',
   Resolved: 'bg-green-100 text-green-700',
-  Closed: 'bg-[#f4f6f9] text-muted-foreground',
+  Closed: 'bg-muted text-muted-foreground',
 }
 
 const CATEGORY_COLOR: Record<string, string> = {
@@ -41,9 +41,9 @@ const CATEGORY_COLOR: Record<string, string> = {
   PostOperativeFollowUp: 'bg-orange-100 text-orange-700 border-orange-200',
   MedicalQuestion: 'bg-blue-100 text-blue-700 border-blue-200',
   AppointmentRequest: 'bg-green-100 text-green-700 border-green-200',
-  Administrative: 'bg-[#f4f6f9] text-[#061e44] border-border/50',
+  Administrative: 'bg-muted text-foreground border-border/50',
   Feedback: 'bg-purple-100 text-purple-700 border-purple-200',
-  Other: 'bg-[#f4f6f9] text-muted-foreground border-border/50',
+  Other: 'bg-muted text-muted-foreground border-border/50',
 }
 
 interface ConversationDetailPageProps {
@@ -219,7 +219,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
         <div className="flex-1 min-w-0">
           <h1
-            className="text-[18px] font-bold text-[#061e44] truncate"
+            className="text-[18px] font-bold text-foreground truncate"
             data-testid="conversation-subject"
           >
             {conversation.subject}
@@ -317,7 +317,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
         {/* Right: context + suggestions (desktop) */}
         <div
-          className="hidden lg:flex flex-col w-72 xl:w-80 border-l border-border/50 flex-shrink-0 overflow-y-auto bg-[#f4f6f9]"
+          className="hidden lg:flex flex-col w-72 xl:w-80 border-l border-border/50 flex-shrink-0 overflow-y-auto bg-muted"
           data-testid="right-panel"
         >
           {/* Patient context */}

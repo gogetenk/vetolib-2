@@ -42,7 +42,7 @@ const STATUS_COLOR: Record<ConversationStatus, string> = {
   Open: 'bg-blue-100 text-blue-700',
   InProgress: 'bg-yellow-100 text-yellow-700',
   Resolved: 'bg-green-100 text-green-700',
-  Closed: 'bg-[#f4f6f9] text-muted-foreground',
+  Closed: 'bg-muted text-muted-foreground',
 }
 
 const CATEGORY_COLOR: Record<MessageCategory, string> = {
@@ -50,9 +50,9 @@ const CATEGORY_COLOR: Record<MessageCategory, string> = {
   PostOperativeFollowUp: 'bg-orange-100 text-orange-700 border-orange-200',
   MedicalQuestion: 'bg-blue-100 text-blue-700 border-blue-200',
   AppointmentRequest: 'bg-green-100 text-green-700 border-green-200',
-  Administrative: 'bg-[#f4f6f9] text-[#061e44] border-border/50',
+  Administrative: 'bg-muted text-foreground border-border/50',
   Feedback: 'bg-purple-100 text-purple-700 border-purple-200',
-  Other: 'bg-[#f4f6f9] text-muted-foreground border-border/50',
+  Other: 'bg-muted text-muted-foreground border-border/50',
 }
 
 function formatDate(dateStr: string): string {
@@ -151,15 +151,15 @@ export function MessagesPage() {
     <div className="flex flex-col h-full p-6 lg:p-8" data-testid="messages-page">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="messages-title">
-            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="messages-title">
+            <span className="w-1 h-5 bg-primary rounded-full"></span>
             {t('title')}
           </h1>
           {totalUnread > 0 && (
             <Badge
               data-testid="unread-total-badge"
               data-pulse
-              className="bg-[#303ef5] text-white font-bold text-[12px] rounded-full h-6 min-w-6 flex items-center justify-center"
+              className="bg-primary text-primary-foreground font-bold text-[12px] rounded-full h-6 min-w-6 flex items-center justify-center"
             >
               {totalUnread}
             </Badge>
@@ -211,7 +211,7 @@ export function MessagesPage() {
               t={t}
             />
           ) : (
-            <div className="flex flex-1 items-center justify-center text-muted-foreground bg-[#f4f6f9]">
+            <div className="flex flex-1 items-center justify-center text-muted-foreground bg-muted">
               <p className="text-[14px] text-muted-foreground">{t('select_conversation')}</p>
             </div>
           )}
@@ -252,7 +252,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
 
         <div className="flex-1 min-w-0">
           <h2
-            className="text-[18px] font-bold text-[#061e44] truncate"
+            className="text-[18px] font-bold text-foreground truncate"
             data-testid="detail-subject"
           >
             {conversation.subject}
@@ -304,7 +304,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
                 size="sm"
                 data-testid={`btn-set-status-${s.toLowerCase()}`}
                 onClick={() => onStatusChange(conversation.id, s)}
-                className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted"
               >
                 {t(`status.${s}`)}
               </Button>
@@ -314,7 +314,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
       </div>
 
       {/* Metadata */}
-      <div className="px-4 py-3 border-b border-border/50 bg-[#f4f6f9] text-[12px] text-muted-foreground flex flex-wrap gap-4">
+      <div className="px-4 py-3 border-b border-border/50 bg-muted text-[12px] text-muted-foreground flex flex-wrap gap-4">
         <span data-testid="detail-created-at">
           {t('created')}: {formatDate(conversation.createdAt)}
         </span>

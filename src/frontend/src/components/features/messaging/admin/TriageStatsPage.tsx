@@ -92,8 +92,8 @@ export function TriageStatsPage() {
   return (
     <PageContainer data-testid="triage-stats-page">
       <div>
-        <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h2 className="text-[22px] font-bold text-foreground flex items-center gap-2">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t("title")}
         </h2>
         <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("subtitle")}</p>
@@ -129,7 +129,7 @@ export function TriageStatsPage() {
 
       {/* Messages by Category Bar Chart */}
       <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-category-chart">
-        <h3 className="text-[14px] font-bold text-[#061e44] mb-4">{t("by_category")}</h3>
+        <h3 className="text-[14px] font-bold text-foreground mb-4">{t("by_category")}</h3>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={categoryData} margin={{ top: 4, right: 16, bottom: 40, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" className="opacity-50" />
@@ -165,7 +165,7 @@ export function TriageStatsPage() {
 
       {/* Volume per day Line Chart */}
       <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-volume-chart">
-        <h3 className="text-[14px] font-bold text-[#061e44] mb-4">{t("volume_per_day")}</h3>
+        <h3 className="text-[14px] font-bold text-foreground mb-4">{t("volume_per_day")}</h3>
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={volumeData} margin={{ top: 4, right: 16, bottom: 8, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" className="opacity-50" />

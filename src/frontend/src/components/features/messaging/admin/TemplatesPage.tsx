@@ -94,13 +94,13 @@ export function TemplatesPage() {
     <PageContainer data-testid="templates-page">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
-            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          <h2 className="text-[22px] font-bold text-foreground flex items-center gap-2">
+            <span className="w-1 h-5 bg-primary rounded-full"></span>
             {t("templates.title")}
           </h2>
           <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("templates.subtitle")}</p>
         </div>
-        <Button data-testid="add-template-btn" onClick={handleAddClick} className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm">
+        <Button data-testid="add-template-btn" onClick={handleAddClick} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm">
           {t("templates.add")}
         </Button>
       </div>
@@ -117,17 +117,17 @@ export function TemplatesPage() {
         <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="templates-table">
           <Table>
             <TableHeader>
-              <TableRow className="bg-[#f4f6f9] hover:bg-[#f4f6f9] border-b border-border/50">
-                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-[#061e44]">{t("templates.col_name")}</TableHead>
-                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-[#061e44]">{t("templates.col_category")}</TableHead>
-                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-[#061e44]">{t("templates.col_updated")}</TableHead>
-                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-[#061e44] text-right">{t("templates.col_actions")}</TableHead>
+              <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
+                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground">{t("templates.col_name")}</TableHead>
+                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground">{t("templates.col_category")}</TableHead>
+                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground">{t("templates.col_updated")}</TableHead>
+                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground text-right">{t("templates.col_actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {templates.map((tpl) => (
-                <TableRow key={tpl.id} data-testid={`template-row-${tpl.id}`} className="hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
-                  <TableCell className="px-6 py-4 text-[14px] font-semibold text-[#061e44]">{tpl.name}</TableCell>
+                <TableRow key={tpl.id} data-testid={`template-row-${tpl.id}`} className="hover:bg-muted/50 border-border/30 transition-colors">
+                  <TableCell className="px-6 py-4 text-[14px] font-semibold text-foreground">{tpl.name}</TableCell>
                   <TableCell className="px-6 py-4">
                     {tpl.category ? (
                       <Badge variant="secondary" data-testid={`template-category-${tpl.id}`}>
@@ -147,7 +147,7 @@ export function TemplatesPage() {
                         size="sm"
                         data-testid={`edit-template-btn-${tpl.id}`}
                         onClick={() => handleEditClick(tpl)}
-                        className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                        className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted"
                       >
                         {t("templates.edit")}
                       </Button>
@@ -185,7 +185,7 @@ export function TemplatesPage() {
       >
         <DialogContent className="rounded-2xl" data-testid="delete-template-dialog">
           <DialogHeader>
-            <DialogTitle className="text-[18px] font-bold text-[#061e44]">{t("templates.delete_confirm_title")}</DialogTitle>
+            <DialogTitle className="text-[18px] font-bold text-foreground">{t("templates.delete_confirm_title")}</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
             {t("templates.delete_confirm_body", { name: deleteTarget?.name ?? "" })}
@@ -196,7 +196,7 @@ export function TemplatesPage() {
               data-testid="delete-template-cancel-btn"
               onClick={() => setDeleteTarget(null)}
               disabled={isDeleting}
-              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl font-semibold border-border/80 hover:bg-muted"
             >
               {t("cancel")}
             </Button>

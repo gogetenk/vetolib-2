@@ -103,7 +103,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl rounded-2xl" data-testid="template-form-dialog">
         <DialogHeader>
-          <DialogTitle className="text-[18px] font-bold text-[#061e44]">
+          <DialogTitle className="text-[18px] font-bold text-foreground">
             {isEdit ? t("templates.form.edit_title") : t("templates.form.add_title")}
           </DialogTitle>
         </DialogHeader>
@@ -111,14 +111,14 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
         <div className="space-y-4 py-2">
           {/* Name */}
           <div className="space-y-1">
-            <Label htmlFor="template-name" className="text-[13px] font-semibold text-[#061e44]">{t("templates.form.name")}</Label>
+            <Label htmlFor="template-name" className="text-[13px] font-semibold text-foreground">{t("templates.form.name")}</Label>
             <Input
               id="template-name"
               data-testid="template-name-input"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t("templates.form.name_placeholder")}
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
             {errors.name && (
               <p className="text-xs text-destructive" data-testid="template-name-error">
@@ -129,7 +129,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
 
           {/* Category */}
           <div className="space-y-1">
-            <Label htmlFor="template-category" className="text-[13px] font-semibold text-[#061e44]">{t("templates.form.category")}</Label>
+            <Label htmlFor="template-category" className="text-[13px] font-semibold text-foreground">{t("templates.form.category")}</Label>
             <Select
               value={category}
               onValueChange={(val) => setCategory(val as MessageCategory | "" | "none")}
@@ -154,7 +154,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
 
           {/* Content EN */}
           <div className="space-y-1">
-            <Label htmlFor="template-content-en" className="text-[13px] font-semibold text-[#061e44]">{t("templates.form.content_en")}</Label>
+            <Label htmlFor="template-content-en" className="text-[13px] font-semibold text-foreground">{t("templates.form.content_en")}</Label>
             <Textarea
               id="template-content-en"
               data-testid="template-content-en-input"
@@ -163,7 +163,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
               onChange={(e) => setContentEn(e.target.value)}
               placeholder={t("templates.form.content_en_placeholder")}
               dir="ltr"
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
             {errors.contentEn && (
               <p className="text-xs text-destructive" data-testid="template-content-en-error">
@@ -174,7 +174,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
 
           {/* Content AR */}
           <div className="space-y-1">
-            <Label htmlFor="template-content-ar" className="text-[13px] font-semibold text-[#061e44]">{t("templates.form.content_ar")}</Label>
+            <Label htmlFor="template-content-ar" className="text-[13px] font-semibold text-foreground">{t("templates.form.content_ar")}</Label>
             <Textarea
               id="template-content-ar"
               data-testid="template-content-ar-input"
@@ -183,7 +183,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
               onChange={(e) => setContentAr(e.target.value)}
               placeholder={t("templates.form.content_ar_placeholder")}
               dir="rtl"
-              className="font-arabic rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="font-arabic rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
             {errors.contentAr && (
               <p className="text-xs text-destructive" data-testid="template-content-ar-error">
@@ -199,7 +199,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
             data-testid="template-form-cancel-btn"
             onClick={() => onOpenChange(false)}
             disabled={isSaving}
-            className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+            className="rounded-xl font-semibold border-border/80 hover:bg-muted"
           >
             {t("cancel")}
           </Button>
@@ -207,7 +207,7 @@ export function TemplateFormDialog({ open, onOpenChange, initialData, onSaved }:
             data-testid="template-form-save-btn"
             onClick={handleSave}
             disabled={isSaving}
-            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
           >
             {isSaving ? t("saving") : t("save")}
           </Button>
