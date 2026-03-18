@@ -131,7 +131,7 @@ export function InvoiceForm() {
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <Label htmlFor="patient-search" className="text-[13px] font-semibold text-[#061e44]">{t('search_patient')}</Label>
+              <Label htmlFor="patient-search" className="text-[13px] font-semibold text-muted-foreground">{t('search_patient')}</Label>
               <Input
                 id="patient-search"
                 data-testid="patient-search-input"
@@ -150,7 +150,7 @@ export function InvoiceForm() {
                       key={p.id}
                       type="button"
                       data-testid={`patient-option-${p.id}`}
-                      className="w-full px-4 py-2.5 text-left text-[13px] hover:bg-[#f4f6f9] transition-colors duration-150 border-b border-border/20 last:border-b-0"
+                      className="w-full px-4 py-2.5 text-start text-[13px] hover:bg-[#f4f6f9] transition-colors duration-150 border-b border-border/20 last:border-b-0"
                       onClick={() => {
                         setSelectedPatientId(p.id)
                         setPatientSearch(p.name)
@@ -209,7 +209,7 @@ export function InvoiceForm() {
             {items.map((item, index) => (
               <div key={index} className="grid grid-cols-12 gap-2 items-end" data-testid={`line-item-${index}`}>
                 <div className="col-span-5">
-                  {index === 0 && <Label className="text-[13px] font-semibold text-[#061e44]">{t('description')}</Label>}
+                  {index === 0 && <Label className="text-[13px] font-semibold text-muted-foreground">{t('description')}</Label>}
                   <Input
                     data-testid={`item-description-${index}`}
                     placeholder={t('description_placeholder')}
@@ -221,7 +221,7 @@ export function InvoiceForm() {
                   />
                 </div>
                 <div className="col-span-2">
-                  {index === 0 && <Label className="text-[13px] font-semibold text-[#061e44]">{t('qty')}</Label>}
+                  {index === 0 && <Label className="text-[13px] font-semibold text-muted-foreground">{t('qty')}</Label>}
                   <Input
                     data-testid={`item-quantity-${index}`}
                     type="number"
@@ -234,7 +234,7 @@ export function InvoiceForm() {
                   />
                 </div>
                 <div className="col-span-3">
-                  {index === 0 && <Label className="text-[13px] font-semibold text-[#061e44]">{t('unit_price')}</Label>}
+                  {index === 0 && <Label className="text-[13px] font-semibold text-muted-foreground">{t('unit_price')}</Label>}
                   <Input
                     data-testid={`item-unit-price-${index}`}
                     type="number"
@@ -247,7 +247,7 @@ export function InvoiceForm() {
                     required
                   />
                 </div>
-                <div className="col-span-1 text-right text-[13px] font-semibold text-[#061e44]" data-testid={`item-subtotal-${index}`}>
+                <div className="col-span-1 text-end text-[13px] font-semibold text-[#061e44]" data-testid={`item-subtotal-${index}`}>
                   <LtrText>{formatAED(item.quantity * item.unitPrice)}</LtrText>
                 </div>
                 <div className="col-span-1 flex justify-end">
@@ -322,7 +322,7 @@ export function InvoiceForm() {
             disabled={submitting}
             className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-6 shadow-sm"
           >
-            {submitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
+            {submitting && <Loader2 className="h-4 w-4 me-1.5 animate-spin" aria-hidden />}
             {submitting ? t('creating') : t('create_invoice')}
           </Button>
         </div>
