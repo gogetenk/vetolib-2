@@ -153,7 +153,7 @@ export function DispenseToggle({
           {/* Partial confirmed notice */}
           {partialConfirmed && isInsufficient && (
             <p
-              className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1"
+              className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-1.5"
               data-testid="dispense-partial-confirmed-notice"
               role="status"
             >

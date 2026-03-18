@@ -32,9 +32,9 @@ export default function NewMedicalRecordPage() {
 
   if (isLoading) {
     return (
-      <div data-testid="new-record-loading" className="space-y-4">
-        <div className="h-8 w-32 rounded bg-muted animate-pulse" />
-        <div className="h-96 rounded-lg bg-muted animate-pulse" />
+      <div data-testid="new-record-loading" className="space-y-4 p-6 lg:p-8">
+        <div className="h-8 w-32 rounded-xl bg-muted animate-pulse" />
+        <div className="h-96 rounded-xl bg-muted animate-pulse" />
       </div>
     )
   }
@@ -65,6 +65,16 @@ export default function NewMedicalRecordPage() {
           {patient.name}&apos;s record
         </Button>
       </Link>
+
+      <div>
+        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="new-record-title">
+          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          New Medical Record
+        </h1>
+        <p className="text-[13px] text-muted-foreground mt-1 ml-3">
+          Record consultation details for {patient.name}.
+        </p>
+      </div>
 
       <MedicalRecordForm
         patientId={id}

@@ -131,7 +131,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl rounded-2xl" data-testid="csv-import-dialog">
+      <DialogContent className="max-w-2xl rounded-xl" data-testid="csv-import-dialog">
         <DialogHeader>
           <DialogTitle className="text-[18px] font-bold text-[#061e44]" data-testid="csv-import-title">{t('title')}</DialogTitle>
         </DialogHeader>
@@ -145,7 +145,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
               size="sm"
               onClick={handleDownloadTemplate}
               data-testid="download-template-btn"
-              className="rounded-lg border-border/80 text-[12px] font-semibold hover:bg-white"
+              className="rounded-xl border-border/80 text-[12px] font-semibold hover:bg-white"
             >
               <Download className="h-4 w-4 me-1" />
               {t('download_template')}
@@ -206,7 +206,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
           {error && (
             <div
               data-testid="csv-import-error"
-              className="flex items-center gap-2 rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive"
+              className="flex items-center gap-2 rounded-xl border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive"
             >
               <AlertCircle className="h-4 w-4 shrink-0" />
               {error}
@@ -217,7 +217,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
           {preview.length > 0 && !report && (
             <div data-testid="csv-preview">
               <p className="mb-2 text-sm font-medium">{t('preview_label')}</p>
-              <div className="overflow-x-auto rounded-lg border">
+              <div className="overflow-x-auto rounded-xl border border-border/80">
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="bg-[#f4f6f9]">
@@ -249,11 +249,11 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
                 <span className="font-medium text-sm">{t('import_complete')}</span>
               </div>
               <div className="grid grid-cols-2 gap-4 text-sm">
-                <div data-testid="report-imported" className="rounded-lg bg-green-50 p-3 text-center dark:bg-green-950/20">
+                <div data-testid="report-imported" className="rounded-xl bg-green-50 p-3 text-center dark:bg-green-950/20">
                   <p className="text-2xl font-bold text-green-600">{report.imported}</p>
                   <p className="text-xs text-muted-foreground">{t('imported')}</p>
                 </div>
-                <div data-testid="report-skipped" className="rounded-lg bg-amber-50 p-3 text-center dark:bg-amber-950/20">
+                <div data-testid="report-skipped" className="rounded-xl bg-amber-50 p-3 text-center dark:bg-amber-950/20">
                   <p className="text-2xl font-bold text-amber-600">{report.skipped}</p>
                   <p className="text-xs text-muted-foreground">{t('skipped')}</p>
                 </div>

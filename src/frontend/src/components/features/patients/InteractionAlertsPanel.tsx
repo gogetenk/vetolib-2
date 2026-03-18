@@ -55,8 +55,8 @@ export function InteractionAlertsPanel({
   if (isLoading) {
     return (
       <div className="space-y-2" data-testid="interaction-alerts-loading">
-        <Skeleton className="h-12 w-full rounded-md" />
-        <Skeleton className="h-12 w-full rounded-md" />
+        <Skeleton className="h-12 w-full rounded-xl" />
+        <Skeleton className="h-12 w-full rounded-xl" />
       </div>
     )
   }
