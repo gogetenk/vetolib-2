@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { StockTable } from '@/components/features/stock/StockTable'
 import { StockAlerts } from '@/components/features/stock/StockAlerts'
 import { StockItemForm } from '@/components/features/stock/StockItemForm'
@@ -91,7 +92,7 @@ export default function StockPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="stock-page">
+    <PageContainer data-testid="stock-page">
       <div className="flex items-center justify-between">
         <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="stock-title">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
@@ -163,6 +164,6 @@ export default function StockPage() {
         item={movementItem}
         onSubmit={handleMovementSubmit}
       />
-    </div>
+    </PageContainer>
   )
 }

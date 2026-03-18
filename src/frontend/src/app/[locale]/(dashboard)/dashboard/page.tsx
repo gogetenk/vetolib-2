@@ -7,6 +7,7 @@ import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
 import { AnalyticsSection } from '@/components/features/dashboard/AnalyticsSection'
 import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
 import { SetupChecklist } from '@/components/features/onboarding/SetupChecklist'
+import { PageContainer } from '@/components/ui/page-container'
 import { useRole } from '@/hooks/use-role'
 import { getStoredUser } from '@/lib/api/auth'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
@@ -77,7 +78,7 @@ export default function DashboardHomePage() {
   }, [])
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="dashboard-home">
+    <PageContainer data-testid="dashboard-home">
       <WelcomeBanner role={role} clinicName={clinicName} />
 
       <div className="flex flex-col gap-1" data-testid="dashboard-greeting">
@@ -99,6 +100,6 @@ export default function DashboardHomePage() {
       </div>
 
       <AnalyticsSection />
-    </div>
+    </PageContainer>
   )
 }

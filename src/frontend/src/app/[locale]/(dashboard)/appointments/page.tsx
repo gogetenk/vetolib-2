@@ -1,9 +1,10 @@
 import { CalendarContainer } from '@/components/features/calendar/CalendarContainer'
+import { PageContainer } from '@/components/ui/page-container'
 
 export default async function AppointmentsPage() {
   return (
-    <div className="h-full w-full flex flex-col p-6 lg:p-8" data-testid="appointments-page">
+    <PageContainer className="h-full w-full flex flex-col" data-testid="appointments-page">
       <CalendarContainer />
-    </div>
+    </PageContainer>
   )
 }

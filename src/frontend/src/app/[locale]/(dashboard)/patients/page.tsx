@@ -11,6 +11,7 @@ import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { ErrorState } from '@/components/ui/error-state'
 import { getPatients } from '@/lib/api/patients'
 import type { PatientDto } from '@/lib/api/patients'
+import { PageContainer } from '@/components/ui/page-container'
 import { useRole } from '@/hooks/use-role'
 import { useTranslations } from 'next-intl'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
@@ -64,7 +65,7 @@ export default function PatientsPage() {
   }, [searchQuery, fetchPatients])
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="patients-page">
+    <PageContainer data-testid="patients-page">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="patients-title">
@@ -168,6 +169,6 @@ export default function PatientsPage() {
           onImported={() => fetchPatients(searchQuery)}
         />
       )}
-    </div>
+    </PageContainer>
   )
 }
