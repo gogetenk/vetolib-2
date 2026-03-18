@@ -2,6 +2,7 @@ import { apiGet, apiPost, apiPatch } from './client'
 
 export type StockCategory = 'Medication' | 'Vaccine' | 'Supply'
 export type MovementType = 'IN' | 'OUT' | 'ADJUSTMENT'
+export type FullMovementType = 'INCOMING' | 'OUTGOING' | 'ADJUSTMENT' | 'LOSS' | 'RETURN'
 
 export interface StockItemDto {
   id: string
@@ -60,6 +61,28 @@ export interface StockMovementDto {
   createdAt: string
 }
 
+export interface StockMovementHistoryDto {
+  id: string
+  stockItemId: string
+  stockItemName: string
+  type: FullMovementType
+  quantity: number
+  previousQuantity: number
+  newQuantity: number
+  reason: string | null
+  performedBy: string
+  patientName: string | null
+  createdAt: string
+}
+
+export interface StockMovementFilters {
+  type?: FullMovementType
+  stockItemId?: string
+  dateFrom?: string
+  dateTo?: string
+  search?: string
+}
+
 export interface StockFilters {
   category?: StockCategory
   status?: 'low-stock' | 'expiring-soon'
@@ -83,6 +106,17 @@ export async function createStockItem(data: CreateStockItemRequest): Promise<Sto
 
 export async function updateStockItem(id: string, data: UpdateStockItemRequest): Promise<StockItemDto> {
   return apiPatch<StockItemDto>(`/api/v1/stock/${id}`, data)
+}
+
+export async function getStockMovements(filters?: StockMovementFilters): Promise<StockMovementHistoryDto[]> {
+  const params = new URLSearchParams()
+  if (filters?.type) params.set('type', filters.type)
+  if (filters?.stockItemId) params.set('stockItemId', filters.stockItemId)
+  if (filters?.dateFrom) params.set('dateFrom', filters.dateFrom)
+  if (filters?.dateTo) params.set('dateTo', filters.dateTo)
+  if (filters?.search) params.set('search', filters.search)
+  const query = params.toString()
+  return apiGet<StockMovementHistoryDto[]>(`/api/v1/stock/movements${query ? `?${query}` : ''}`)
 }
 
 export async function createStockMovement(

@@ -3,6 +3,8 @@ import type {
   StockItemDto,
   StockAlertDto,
   StockMovementDto,
+  StockMovementHistoryDto,
+  FullMovementType,
   CreateStockItemRequest,
   UpdateStockItemRequest,
   CreateStockMovementRequest,
@@ -87,7 +89,181 @@ const MOCK_STOCK_ITEMS: StockItemDto[] = [
 
 const MOCK_MOVEMENTS: StockMovementDto[] = []
 
+const MOCK_MOVEMENT_HISTORY: StockMovementHistoryDto[] = [
+  {
+    id: 'mov-0000-0000-0000-000000000001',
+    stockItemId: 'stock-0000-0000-0000-000000000001',
+    stockItemName: 'Meloxicam 1.5mg/ml',
+    type: 'INCOMING',
+    quantity: 50,
+    previousQuantity: 5,
+    newQuantity: 55,
+    reason: 'Monthly restock from Al Ain Pharma',
+    performedBy: 'Dr. Fatima Al Maktoum',
+    patientName: null,
+    createdAt: '2026-03-17T09:30:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000002',
+    stockItemId: 'stock-0000-0000-0000-000000000002',
+    stockItemName: 'Amoxicillin 250mg',
+    type: 'OUTGOING',
+    quantity: 10,
+    previousQuantity: 130,
+    newQuantity: 120,
+    reason: 'Prescribed for post-surgery infection prevention',
+    performedBy: 'Dr. Ahmed Hassan',
+    patientName: 'Buddy (Golden Retriever)',
+    createdAt: '2026-03-17T11:15:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000003',
+    stockItemId: 'stock-0000-0000-0000-000000000003',
+    stockItemName: 'Ketamine 100mg/ml',
+    type: 'OUTGOING',
+    quantity: 2,
+    previousQuantity: 10,
+    newQuantity: 8,
+    reason: 'Used for anesthesia during dental cleaning',
+    performedBy: 'Dr. Fatima Al Maktoum',
+    patientName: 'Simba (Maine Coon)',
+    createdAt: '2026-03-16T14:00:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000004',
+    stockItemId: 'stock-0000-0000-0000-000000000004',
+    stockItemName: 'Surgical Gloves (M)',
+    type: 'LOSS',
+    quantity: 3,
+    previousQuantity: 15,
+    newQuantity: 12,
+    reason: 'Damaged packaging — water leak in storage',
+    performedBy: 'Nurse Layla Osman',
+    patientName: null,
+    createdAt: '2026-03-16T08:45:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000005',
+    stockItemId: 'stock-0000-0000-0000-000000000005',
+    stockItemName: 'Syringes 5ml',
+    type: 'ADJUSTMENT',
+    quantity: 200,
+    previousQuantity: 180,
+    newQuantity: 200,
+    reason: 'Inventory recount correction',
+    performedBy: 'Dr. Ahmed Hassan',
+    patientName: null,
+    createdAt: '2026-03-15T16:30:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000006',
+    stockItemId: 'stock-0000-0000-0000-000000000006',
+    stockItemName: 'Rabies Vaccine',
+    type: 'OUTGOING',
+    quantity: 1,
+    previousQuantity: 25,
+    newQuantity: 24,
+    reason: 'Annual vaccination',
+    performedBy: 'Dr. Fatima Al Maktoum',
+    patientName: 'Rex (German Shepherd)',
+    createdAt: '2026-03-15T10:00:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000007',
+    stockItemId: 'stock-0000-0000-0000-000000000002',
+    stockItemName: 'Amoxicillin 250mg',
+    type: 'RETURN',
+    quantity: 20,
+    previousQuantity: 140,
+    newQuantity: 120,
+    reason: 'Return to supplier — wrong batch number',
+    performedBy: 'Nurse Layla Osman',
+    patientName: null,
+    createdAt: '2026-03-14T13:00:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000008',
+    stockItemId: 'stock-0000-0000-0000-000000000001',
+    stockItemName: 'Meloxicam 1.5mg/ml',
+    type: 'OUTGOING',
+    quantity: 3,
+    previousQuantity: 8,
+    newQuantity: 5,
+    reason: 'Pain management for arthritis',
+    performedBy: 'Dr. Ahmed Hassan',
+    patientName: 'Luna (Persian Cat)',
+    createdAt: '2026-03-14T09:20:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000009',
+    stockItemId: 'stock-0000-0000-0000-000000000003',
+    stockItemName: 'Ketamine 100mg/ml',
+    type: 'INCOMING',
+    quantity: 10,
+    previousQuantity: 0,
+    newQuantity: 10,
+    reason: 'Emergency restock from Dubai Vet Supplies',
+    performedBy: 'Nurse Layla Osman',
+    patientName: null,
+    createdAt: '2026-03-13T07:30:00Z',
+  },
+  {
+    id: 'mov-0000-0000-0000-000000000010',
+    stockItemId: 'stock-0000-0000-0000-000000000004',
+    stockItemName: 'Surgical Gloves (M)',
+    type: 'INCOMING',
+    quantity: 20,
+    previousQuantity: 0,
+    newQuantity: 20,
+    reason: 'Quarterly restock order',
+    performedBy: 'Nurse Layla Osman',
+    patientName: null,
+    createdAt: '2026-03-12T11:00:00Z',
+  },
+]
+
 export const stockHandlers = [
+  // GET /api/v1/stock/movements
+  http.get('/api/v1/stock/movements', ({ request }) => {
+    const url = new URL(request.url)
+    const type = url.searchParams.get('type') as FullMovementType | null
+    const stockItemId = url.searchParams.get('stockItemId')
+    const dateFrom = url.searchParams.get('dateFrom')
+    const dateTo = url.searchParams.get('dateTo')
+    const search = url.searchParams.get('search')
+
+    let movements = [...MOCK_MOVEMENT_HISTORY]
+
+    if (type) {
+      movements = movements.filter(m => m.type === type)
+    }
+    if (stockItemId) {
+      movements = movements.filter(m => m.stockItemId === stockItemId)
+    }
+    if (dateFrom) {
+      movements = movements.filter(m => m.createdAt >= dateFrom)
+    }
+    if (dateTo) {
+      const endDate = new Date(dateTo)
+      endDate.setDate(endDate.getDate() + 1)
+      movements = movements.filter(m => m.createdAt < endDate.toISOString())
+    }
+    if (search) {
+      const q = search.toLowerCase()
+      movements = movements.filter(m =>
+        m.stockItemName.toLowerCase().includes(q) ||
+        (m.reason?.toLowerCase().includes(q) ?? false) ||
+        m.performedBy.toLowerCase().includes(q) ||
+        (m.patientName?.toLowerCase().includes(q) ?? false)
+      )
+    }
+
+    // Sort by createdAt descending
+    movements.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+
+    return HttpResponse.json<StockMovementHistoryDto[]>(movements)
+  }),
+
   // GET /api/v1/stock
   http.get('/api/v1/stock', ({ request }) => {
     const url = new URL(request.url)

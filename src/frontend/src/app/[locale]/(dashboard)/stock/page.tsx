@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, History } from 'lucide-react'
+import Link from 'next/link'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
@@ -96,14 +97,26 @@ export default function StockPage() {
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
           {t('title')}
         </h1>
-        <Button
-          onClick={() => setShowAddForm(true)}
-          data-testid="btn-add-stock-item"
-          className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
-        >
-          <Plus className="me-1.5 h-4 w-4" />
-          {t('add_item')}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Link href="/stock/history">
+            <Button
+              variant="outline"
+              data-testid="btn-stock-history"
+              className="rounded-xl border-border/80 text-[13px] font-semibold hover:bg-[#f4f6f9] h-10 px-5"
+            >
+              <History className="me-1.5 h-4 w-4" />
+              {t('history_link')}
+            </Button>
+          </Link>
+          <Button
+            onClick={() => setShowAddForm(true)}
+            data-testid="btn-add-stock-item"
+            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+          >
+            <Plus className="me-1.5 h-4 w-4" />
+            {t('add_item')}
+          </Button>
+        </div>
       </div>
 
       {/* Alerts banner */}
