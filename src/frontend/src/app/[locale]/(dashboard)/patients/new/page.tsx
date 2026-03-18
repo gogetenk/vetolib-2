@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { PatientForm } from '@/components/features/patients/PatientForm'
 import { getTranslations } from 'next-intl/server'
 
@@ -8,7 +9,7 @@ export default async function NewPatientPage() {
   const t = await getTranslations('patients')
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto" data-testid="new-patient-page">
+    <PageContainer variant="narrow" data-testid="new-patient-page">
       <Link href="../patients">
         <Button
           variant="ghost"
@@ -32,6 +33,6 @@ export default async function NewPatientPage() {
       </div>
 
       <PatientForm />
-    </div>
+    </PageContainer>
   )
 }

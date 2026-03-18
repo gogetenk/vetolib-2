@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { InvoiceForm } from '@/components/features/billing/InvoiceForm'
 import { getTranslations } from 'next-intl/server'
 
@@ -8,7 +9,7 @@ export default async function NewInvoicePage() {
   const t = await getTranslations('billing')
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto animate-in fade-in duration-300" data-testid="new-invoice-page">
+    <PageContainer variant="narrow" data-testid="new-invoice-page">
       <Link href="../billing">
         <Button
           variant="ghost"
@@ -27,6 +28,6 @@ export default async function NewInvoicePage() {
       </h1>
 
       <InvoiceForm />
-    </div>
+    </PageContainer>
   )
 }

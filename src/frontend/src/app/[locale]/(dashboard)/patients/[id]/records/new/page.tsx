@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { MedicalRecordForm } from '@/components/features/patients/MedicalRecordForm'
 import { getPatient } from '@/lib/api/patients'
 import type { PatientDto } from '@/lib/api/patients'
@@ -53,7 +54,7 @@ export default function NewMedicalRecordPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto" data-testid="new-medical-record-page">
+    <PageContainer variant="narrow" data-testid="new-medical-record-page">
       <Link href={`../../${id}`}>
         <Button
           variant="ghost"
@@ -82,6 +83,6 @@ export default function NewMedicalRecordPage() {
         patientSpecies={patient.species}
         patientWeightKg={patient.weightKg}
       />
-    </div>
+    </PageContainer>
   )
 }
