@@ -225,8 +225,55 @@ const MOCK_DRUGS: DrugCatalogEntryDto[] = [
   },
 ]
 
+// Mutable list so POST can add entries at runtime
+const drugStore: DrugCatalogEntryDto[] = [...MOCK_DRUGS]
+
 export const drugHandlers = [
-  // GET /api/medical-records/drugs?search={term}
+  // GET /api/medical-records/drugs/catalog — full list for catalog page
+  http.get('/api/medical-records/drugs/catalog', async ({ request }) => {
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    const url = new URL(request.url)
+    const search = url.searchParams.get('search')?.toLowerCase().trim()
+    const category = url.searchParams.get('category')
+    const species = url.searchParams.get('species')?.toLowerCase().trim()
+
+    let results = [...drugStore]
+
+    if (search) {
+      results = results.filter(
+        d =>
+          d.innName.toLowerCase().includes(search) ||
+          d.displayName.toLowerCase().includes(search)
+      )
+    }
+
+    if (category && category !== 'all') {
+      results = results.filter(d => d.category === category)
+    }
+
+    if (species && species !== 'all') {
+      results = results.filter(d =>
+        d.dosageGuidelines.some(g => g.species.toLowerCase() === species)
+      )
+    }
+
+    return HttpResponse.json<DrugCatalogEntryDto[]>(results)
+  }),
+
+  // POST /api/medical-records/drugs/catalog — add a new drug
+  http.post('/api/medical-records/drugs/catalog', async ({ request }) => {
+    await new Promise(resolve => setTimeout(resolve, 150))
+    const body = await request.json() as Omit<DrugCatalogEntryDto, 'id'>
+    const newDrug: DrugCatalogEntryDto = {
+      ...body,
+      id: `drug-0000-0000-0000-${String(drugStore.length + 1).padStart(12, '0')}`,
+    }
+    drugStore.push(newDrug)
+    return HttpResponse.json<DrugCatalogEntryDto>(newDrug, { status: 201 })
+  }),
+
+  // GET /api/medical-records/drugs?search={term} — search (used by prescription)
   http.get('/api/medical-records/drugs', async ({ request }) => {
     await new Promise(resolve => setTimeout(resolve, 100))
 
@@ -237,7 +284,7 @@ export const drugHandlers = [
       return HttpResponse.json<DrugCatalogEntryDto[]>([])
     }
 
-    const results = MOCK_DRUGS.filter(
+    const results = drugStore.filter(
       d =>
         d.innName.toLowerCase().includes(search) ||
         d.displayName.toLowerCase().includes(search)

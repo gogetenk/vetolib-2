@@ -1428,5 +1428,83 @@
       "revoking": "جارٍ الإلغاء...",
       "revoke_analytics": "إلغاء موافقة التحليلات"
     }
+  },
+  "drugs": {
+    "title": "كتالوج الأدوية",
+    "add_drug": "إضافة دواء",
+    "no_drugs": "لم يتم العثور على أدوية مطابقة.",
+    "search_placeholder": "البحث بالاسم أو INN...",
+    "prescription_required": "يتطلب وصفة",
+    "has_contraindications": "موانع استعمال",
+    "interaction": "تفاعل",
+    "columns": {
+      "name": "الاسم",
+      "inn_name": "الاسم الدولي",
+      "category": "الفئة",
+      "dosage": "الجرعة الشائعة",
+      "species": "الأنواع",
+      "prescription": "النوع",
+      "actions": "الإجراءات"
+    },
+    "categories": {
+      "Antibiotic": "مضاد حيوي",
+      "Antiparasitic": "مضاد طفيليات",
+      "AntiInflammatory": "مضاد التهاب",
+      "Analgesic": "مسكن ألم",
+      "Vaccine": "لقاح",
+      "Antifungal": "مضاد فطريات",
+      "Cardiac": "قلبي",
+      "Dermatological": "جلدي",
+      "Ophthalmic": "عيني",
+      "Hormonal": "هرموني",
+      "Other": "أخرى"
+    },
+    "filters": {
+      "all_categories": "جميع الفئات",
+      "all_species": "جميع الأنواع"
+    },
+    "actions": {
+      "view": "عرض"
+    },
+    "stats": {
+      "total": "إجمالي الأدوية",
+      "prescription": "بوصفة طبية",
+      "otc": "بدون وصفة"
+    },
+    "detail": {
+      "loading": "جاري التحميل...",
+      "common_dosage": "الجرعة الشائعة",
+      "dosage_guidelines": "إرشادات الجرعات حسب النوع",
+      "species": "النوع",
+      "dose_per_kg": "الجرعة لكل كغ",
+      "frequency": "التكرار",
+      "max_duration": "المدة القصوى",
+      "days": "أيام",
+      "ongoing": "مستمر",
+      "contraindications": "موانع الاستعمال"
+    },
+    "form": {
+      "add_title": "إضافة دواء جديد",
+      "add_description": "إضافة دواء جديد إلى كتالوج العيادة.",
+      "inn_name": "الاسم الدولي",
+      "inn_name_placeholder": "مثال: amoxicillin",
+      "display_name": "اسم العرض",
+      "display_name_placeholder": "مثال: Amoxicillin 250mg",
+      "category": "الفئة",
+      "common_dosage": "الجرعة الشائعة",
+      "common_dosage_placeholder": "مثال: 10-20 ملغ/كغ مرتين يومياً لمدة 5-7 أيام",
+      "requires_prescription": "يتطلب وصفة طبية",
+      "cancel": "إلغاء",
+      "submit": "إضافة الدواء",
+      "submitting": "جاري الإضافة..."
+    },
+    "success": {
+      "drug_added": "تمت إضافة الدواء إلى الكتالوج بنجاح."
+    },
+    "errors": {
+      "load_failed": "فشل تحميل كتالوج الأدوية.",
+      "save_failed": "فشل إضافة الدواء.",
+      "not_found": "لم يتم العثور على الدواء."
+    }
   }
 }
