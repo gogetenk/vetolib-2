@@ -62,16 +62,16 @@ export function TriageStatsPage() {
 
   if (isLoading) {
     return (
-      <div data-testid="stats-loading" className="text-sm text-muted-foreground">
-        {t("loading")}
+      <div className="p-6 lg:p-8" data-testid="stats-loading">
+        <p className="text-[13px] text-muted-foreground">{t("loading")}</p>
       </div>
     )
   }
 
   if (error || !stats) {
     return (
-      <div data-testid="stats-error" className="text-sm text-destructive">
-        {t("load_failed")}
+      <div className="p-6 lg:p-8" data-testid="stats-error">
+        <p className="text-[13px] text-destructive">{t("load_failed")}</p>
       </div>
     )
   }
@@ -128,7 +128,7 @@ export function TriageStatsPage() {
 
       {/* Messages by Category Bar Chart */}
       <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-category-chart">
-        <h3 className="text-[14px] font-bold text-[#061e44] mb-6">{t("by_category")}</h3>
+        <h3 className="text-[14px] font-bold text-[#061e44] mb-4">{t("by_category")}</h3>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={categoryData} margin={{ top: 4, right: 16, bottom: 40, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" className="opacity-50" />
@@ -164,7 +164,7 @@ export function TriageStatsPage() {
 
       {/* Volume per day Line Chart */}
       <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-volume-chart">
-        <h3 className="text-[14px] font-bold text-[#061e44] mb-6">{t("volume_per_day")}</h3>
+        <h3 className="text-[14px] font-bold text-[#061e44] mb-4">{t("volume_per_day")}</h3>
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={volumeData} margin={{ top: 4, right: 16, bottom: 8, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" className="opacity-50" />

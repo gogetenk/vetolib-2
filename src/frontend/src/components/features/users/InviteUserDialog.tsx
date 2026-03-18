@@ -91,9 +91,9 @@ export function InviteUserDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent data-testid="invite-user-dialog">
+      <DialogContent className="rounded-2xl" data-testid="invite-user-dialog">
         <DialogHeader>
-          <DialogTitle>Invite Team Member</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-[#061e44]">Invite Team Member</DialogTitle>
           <DialogDescription>
             Send an invitation to a new team member. They will receive a temporary password.
           </DialogDescription>
@@ -104,7 +104,7 @@ export function InviteUserDialog({
           <div className="space-y-4">
             <div
               data-testid="temp-password-alert"
-              className="rounded-md border border-amber-200 bg-amber-50 p-4 space-y-3"
+              className="rounded-xl border border-amber-200 bg-amber-50 p-4 space-y-3"
             >
               <p className="text-sm font-semibold text-amber-800">
                 Invitation sent successfully!
@@ -124,6 +124,7 @@ export function InviteUserDialog({
                   size="sm"
                   data-testid="copy-password-btn"
                   onClick={handleCopy}
+                  className="rounded-xl font-semibold border-border/80"
                 >
                   {copied ? "Copied!" : "Copy"}
                 </Button>
@@ -133,6 +134,7 @@ export function InviteUserDialog({
               <Button
                 data-testid="invite-done-btn"
                 onClick={handleClose}
+                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
               >
                 Done
               </Button>
@@ -152,6 +154,7 @@ export function InviteUserDialog({
                   placeholder="colleague@desertpaws.ae"
                   data-testid="invite-email-input"
                   aria-invalid={!!errors.email}
+                  className="rounded-xl border-border/80 text-[13px]"
                   {...register("email")}
                 />
                 {errors.email && (
@@ -171,6 +174,7 @@ export function InviteUserDialog({
                   placeholder="Dr. Fatima Al-Zaabi"
                   data-testid="invite-fullname-input"
                   aria-invalid={!!errors.fullName}
+                  className="rounded-xl border-border/80 text-[13px]"
                   {...register("fullName")}
                 />
                 {errors.fullName && (
@@ -189,6 +193,7 @@ export function InviteUserDialog({
                     id="invite-role"
                     data-testid="invite-role-select"
                     aria-invalid={!!errors.role}
+                    className="rounded-xl border-border/80 text-[13px]"
                   >
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
@@ -213,6 +218,7 @@ export function InviteUserDialog({
                 data-testid="invite-cancel-btn"
                 onClick={handleClose}
                 disabled={isSubmitting}
+                className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
               >
                 Cancel
               </Button>
@@ -220,6 +226,7 @@ export function InviteUserDialog({
                 type="submit"
                 data-testid="invite-submit-btn"
                 disabled={isSubmitting}
+                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
               >
                 {isSubmitting ? "Sending..." : "Send Invite"}
               </Button>

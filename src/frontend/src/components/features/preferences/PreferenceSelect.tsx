@@ -39,7 +39,7 @@ export function PreferenceSelect({ item, isAdminUser, onUpdate }: PreferenceSele
     <div className="flex items-start justify-between gap-4 py-3">
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className={cn("text-sm font-medium", isReadOnly && "text-muted-foreground")}>
+          <span className={cn("text-[13px] font-semibold text-[#061e44]", isReadOnly && "text-muted-foreground")}>
             {item.label}
           </span>
           <Badge
@@ -60,7 +60,7 @@ export function PreferenceSelect({ item, isAdminUser, onUpdate }: PreferenceSele
           )}
         </div>
         {item.description && (
-          <p className="text-xs text-muted-foreground mt-0.5">{item.description}</p>
+          <p className="text-[12px] text-muted-foreground mt-0.5">{item.description}</p>
         )}
       </div>
 
@@ -72,7 +72,7 @@ export function PreferenceSelect({ item, isAdminUser, onUpdate }: PreferenceSele
         >
           <SelectTrigger
             data-testid={`pref-select-${item.key}`}
-            className="w-32 h-8 text-xs"
+            className="w-32 h-8 text-[12px] rounded-xl border-border/80"
           >
             <SelectValue />
           </SelectTrigger>
