@@ -129,17 +129,17 @@ export function BookingSuccess({
     >
       {/* Success icon */}
       <div
-        className="flex h-20 w-20 items-center justify-center rounded-full bg-[#eef2fd] animate-[bounceIn_0.6s_ease-out]"
+        className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 animate-[bounceIn_0.6s_ease-out]"
         data-testid="booking-success-icon"
         aria-hidden="true"
       >
-        <CheckCircle2 className="h-10 w-10 text-[#303ef5]" />
+        <CheckCircle2 className="h-10 w-10 text-primary" />
       </div>
 
       {/* Title */}
       <div className="animate-[fadeIn_0.5s_ease-out_0.3s_both]">
         <h2
-          className="text-2xl font-bold text-[#061e44]"
+          className="text-2xl font-bold text-foreground"
           data-testid="booking-success-title"
         >
           {t('title')}
@@ -151,28 +151,28 @@ export function BookingSuccess({
 
       {/* Appointment summary */}
       <div
-        className="w-full rounded-xl border border-[#303ef5]/20 bg-[#eef2fd]/50 p-5 text-left space-y-3 animate-[fadeIn_0.5s_ease-out_0.5s_both]"
+        className="w-full rounded-xl border border-primary/20 bg-primary/5 p-5 text-left space-y-3 animate-[fadeIn_0.5s_ease-out_0.5s_both]"
         data-testid="booking-success-details"
       >
         <div className="flex items-center gap-3">
-          <CalendarDays className="h-4 w-4 text-[#303ef5] shrink-0" aria-hidden="true" />
+          <CalendarDays className="h-4 w-4 text-primary shrink-0" aria-hidden="true" />
           <div>
             <p className="text-xs text-muted-foreground">{t('dateLabel')}</p>
-            <p className="text-sm font-medium text-[#061e44]" data-testid="success-date">
+            <p className="text-sm font-medium text-foreground" data-testid="success-date">
               {date}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Clock className="h-4 w-4 text-[#303ef5] shrink-0" aria-hidden="true" />
+          <Clock className="h-4 w-4 text-primary shrink-0" aria-hidden="true" />
           <div>
             <p className="text-xs text-muted-foreground">{t('timeLabel')}</p>
-            <p className="text-sm font-medium text-[#061e44]" data-testid="success-time">
+            <p className="text-sm font-medium text-foreground" data-testid="success-time">
               {time}
             </p>
           </div>
         </div>
-        <p className="text-xs text-muted-foreground border-t border-[#303ef5]/20 pt-3">
+        <p className="text-xs text-muted-foreground border-t border-primary/20 pt-3">
           <span className="font-medium">{pet.name}</span> will see{' '}
           <span className="font-medium">{vetName}</span> for{' '}
           <span className="font-medium">{consultationType.name}</span>
@@ -185,7 +185,7 @@ export function BookingSuccess({
         onClick={handleDownloadIcal}
         data-testid="download-ical-btn"
         aria-label="Download appointment to calendar"
-        className="flex items-center gap-2 rounded-xl border border-border/80 px-4 py-2.5 text-sm font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] w-full sm:w-auto justify-center"
+        className="flex items-center gap-2 rounded-xl border border-border/80 px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary w-full sm:w-auto justify-center"
       >
         <Download className="h-4 w-4" aria-hidden="true" />
         {t('addToCalendar')}
@@ -206,7 +206,7 @@ export function BookingSuccess({
         onClick={() => router.push(`/${locale}/portal/${clinicSlug}`)}
         data-testid="booking-success-portal-link"
         aria-label="Go to My Appointments now"
-        className="text-sm text-[#303ef5] hover:text-[#2530c4] underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] rounded"
+        className="text-sm text-primary hover:text-primary/90 underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
       >
         {t('goNow')}
       </button>

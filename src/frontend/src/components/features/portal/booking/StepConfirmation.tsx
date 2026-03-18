@@ -84,10 +84,10 @@ export function StepConfirmation({
     <div className="space-y-6" data-testid="step-confirmation">
       {/* Summary card */}
       <div
-        className="rounded-xl border border-border/80 bg-[#f4f6f9] overflow-hidden"
+        className="rounded-xl border border-border/80 bg-muted overflow-hidden"
         data-testid="booking-summary-card"
       >
-        <div className="bg-[#303ef5] px-5 py-3">
+        <div className="bg-primary px-5 py-3">
           <h3 className="text-sm font-semibold text-white">{t('summaryTitle')}</h3>
         </div>
         <dl className="divide-y divide-gray-200">
@@ -97,7 +97,7 @@ export function StepConfirmation({
             <div className="min-w-0 flex-1">
               <dt className="text-xs text-muted-foreground">{t('petLabel')}</dt>
               <dd
-                className="text-sm font-medium text-[#061e44] truncate"
+                className="text-sm font-medium text-foreground truncate"
                 data-testid="summary-pet-name"
               >
                 {pet.name} <span className="font-normal text-muted-foreground">({pet.species})</span>
@@ -111,7 +111,7 @@ export function StepConfirmation({
             <div className="min-w-0 flex-1">
               <dt className="text-xs text-muted-foreground">{t('typeLabel')}</dt>
               <dd
-                className="text-sm font-medium text-[#061e44]"
+                className="text-sm font-medium text-foreground"
                 data-testid="summary-consultation-type"
               >
                 {consultationType.name}
@@ -125,7 +125,7 @@ export function StepConfirmation({
             <div className="min-w-0 flex-1">
               <dt className="text-xs text-muted-foreground">{t('vetLabel')}</dt>
               <dd
-                className="text-sm font-medium text-[#061e44]"
+                className="text-sm font-medium text-foreground"
                 data-testid="summary-vet-name"
               >
                 {vetName}
@@ -139,7 +139,7 @@ export function StepConfirmation({
             <div className="min-w-0 flex-1">
               <dt className="text-xs text-muted-foreground">{t('dateLabel')}</dt>
               <dd
-                className="text-sm font-medium text-[#061e44]"
+                className="text-sm font-medium text-foreground"
                 data-testid="summary-date"
               >
                 {date}
@@ -153,7 +153,7 @@ export function StepConfirmation({
             <div className="min-w-0 flex-1">
               <dt className="text-xs text-muted-foreground">{t('timeLabel')}</dt>
               <dd
-                className="text-sm font-medium text-[#061e44]"
+                className="text-sm font-medium text-foreground"
                 data-testid="summary-time"
               >
                 {time} <span className="text-xs text-muted-foreground">({consultationType.durationMinutes} min)</span>
@@ -168,7 +168,7 @@ export function StepConfirmation({
               <div className="min-w-0 flex-1">
                 <dt className="text-xs text-muted-foreground">{t('reasonLabel')}</dt>
                 <dd
-                  className="text-sm text-[#061e44] mt-0.5"
+                  className="text-sm text-foreground mt-0.5"
                   data-testid="summary-reason"
                 >
                   {reason}
@@ -191,11 +191,11 @@ export function StepConfirmation({
           data-testid="terms-checkbox"
           aria-label="I agree to the appointment terms and conditions"
           className={cn(
-            'mt-0.5 h-4 w-4 shrink-0 rounded border-border/80 text-[#303ef5] focus:ring-[#303ef5] cursor-pointer',
-            'accent-[#303ef5]'
+            'mt-0.5 h-4 w-4 shrink-0 rounded border-border/80 text-primary focus:ring-primary cursor-pointer',
+            'accent-primary'
           )}
         />
-        <span className="text-sm text-muted-foreground group-hover:text-[#061e44] transition-colors">
+        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
           {t('termsText')}
         </span>
       </label>
@@ -219,7 +219,7 @@ export function StepConfirmation({
           disabled={isSubmitting}
           data-testid="confirmation-back-btn"
           aria-label="Go back to slot selection"
-          className="flex-1 rounded-xl border border-border/80 px-4 py-2.5 text-sm font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]"
+          className="flex-1 rounded-xl border border-border/80 px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           {tw('back')}
         </button>
@@ -231,9 +231,9 @@ export function StepConfirmation({
           aria-label="Confirm booking"
           aria-busy={isSubmitting}
           className={cn(
-            'flex-1 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1',
+            'flex-1 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1',
             termsAccepted && !isSubmitting
-              ? 'bg-[#303ef5] hover:bg-[#2530c4] cursor-pointer shadow-sm'
+              ? 'bg-primary hover:bg-primary/90 cursor-pointer shadow-sm'
               : 'bg-muted-foreground/30 cursor-not-allowed'
           )}
         >

@@ -36,7 +36,7 @@ export function BookingLanding() {
     <div className="space-y-6" data-testid="booking-landing">
       <div>
         <h1
-          className="text-[22px] font-bold text-[#061e44]"
+          className="text-[22px] font-bold text-foreground"
           data-testid="booking-landing-title"
         >
           {t('landing.title')}
@@ -48,20 +48,20 @@ export function BookingLanding() {
 
       {/* Next Appointment preview card */}
       {nextAppointment && (
-        <Card className="border-[#303ef5]/20 bg-[#eef2fd]/50 rounded-xl shadow-sm" data-testid="next-appointment-card">
+        <Card className="border-primary/20 bg-primary/5 rounded-xl shadow-sm" data-testid="next-appointment-card">
           <CardContent className="flex items-center gap-4 py-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#eef2fd]">
-              <Clock className="w-6 h-6 text-[#303ef5]" />
+            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+              <Clock className="w-6 h-6 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-[#303ef5] uppercase tracking-wide">
+              <p className="text-xs font-medium text-primary uppercase tracking-wide">
                 {t('landing.nextAppointment')}
               </p>
-              <p className="text-[14px] font-semibold text-[#061e44] mt-0.5">
+              <p className="text-[14px] font-semibold text-foreground mt-0.5">
                 <LtrText>{format(new Date(nextAppointment.scheduledAt), 'EEEE, dd MMM yyyy - HH:mm')}</LtrText>
               </p>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[13px] text-[#061e44]">{nextAppointment.petName}</span>
+                <span className="text-[13px] text-foreground">{nextAppointment.petName}</span>
                 <Badge variant="secondary" className="text-xs">{nextAppointment.consultationType}</Badge>
               </div>
             </div>
@@ -75,7 +75,7 @@ export function BookingLanding() {
           role="button"
           tabIndex={0}
           data-testid="booking-my-appointments-card"
-          className="flex flex-col gap-3 rounded-xl border border-border/80 bg-white p-6 shadow-sm hover:border-[#303ef5]/40 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30 min-h-[44px]"
+          className="flex flex-col gap-3 rounded-xl border border-border/80 bg-white p-6 shadow-sm hover:border-primary/40 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 min-h-[44px]"
           onClick={() => router.push(`${base}/appointments`)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -86,11 +86,11 @@ export function BookingLanding() {
             }
           }}
         >
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#eef2fd]">
-            <ListChecks className="w-7 h-7 text-[#303ef5]" />
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+            <ListChecks className="w-7 h-7 text-primary" />
           </div>
           <div>
-            <h2 className="text-[14px] font-semibold text-[#061e44]">
+            <h2 className="text-[14px] font-semibold text-foreground">
               {t('myAppointments.title')}
             </h2>
             <p className="text-[13px] text-muted-foreground mt-0.5">
@@ -105,11 +105,11 @@ export function BookingLanding() {
           className="flex flex-col gap-3 rounded-xl border border-border/80 bg-white p-6 shadow-sm opacity-60 cursor-not-allowed"
           aria-disabled="true"
         >
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#f4f6f9]">
-            <CalendarDays className="w-7 h-7 text-[#303ef5]" />
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-muted">
+            <CalendarDays className="w-7 h-7 text-primary" />
           </div>
           <div>
-            <h2 className="text-[14px] font-semibold text-[#061e44]">
+            <h2 className="text-[14px] font-semibold text-foreground">
               {t('wizard.step1Title')}
             </h2>
             <p className="text-[13px] text-muted-foreground mt-0.5">

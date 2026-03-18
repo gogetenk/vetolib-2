@@ -143,7 +143,7 @@ export function RecommendedSlots({
       data-testid="recommended-slots"
     >
       {/* Section label */}
-      <div className="flex items-center gap-1.5 text-xs font-medium text-[#2530c4]">
+      <div className="flex items-center gap-1.5 text-xs font-medium text-primary/90">
         <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
         <span>{t('title')}</span>
       </div>
@@ -163,10 +163,10 @@ export function RecommendedSlots({
               aria-label={`${slot.vetName} — ${formatSuggestionLabel(slot)}`}
               className={cn(
                 // Base chip — touch-friendly min height
-                'inline-flex flex-col items-start justify-center px-3 py-2 rounded-full border text-xs font-medium transition-all min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1 cursor-pointer',
+                'inline-flex flex-col items-start justify-center px-3 py-2 rounded-full border text-xs font-medium transition-all min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
                 isSelected
-                  ? 'bg-[#303ef5] border-[#303ef5] text-white shadow-sm'
-                  : 'bg-white border-[#303ef5]/20 text-[#2530c4] hover:bg-[#eef2fd]/50 hover:border-[#303ef5]/60'
+                  ? 'bg-primary border-primary text-white shadow-sm'
+                  : 'bg-white border-primary/20 text-primary/90 hover:bg-primary/5 hover:border-primary/60'
               )}
             >
               {/* Vet name */}
@@ -178,7 +178,7 @@ export function RecommendedSlots({
               </span>
               {/* Date + time */}
               <span
-                className={cn('leading-none', isSelected ? 'text-[#eef2fd]' : 'text-muted-foreground')}
+                className={cn('leading-none', isSelected ? 'text-primary/10' : 'text-muted-foreground')}
                 data-testid={`recommended-slot-datetime-${idx}`}
               >
                 {formatSuggestionLabel(slot)}

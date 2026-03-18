@@ -39,7 +39,7 @@ export function ConsentScreen() {
   return (
     <div className="space-y-6" data-testid="consent-screen">
       <div>
-        <h1 className="text-[22px] font-bold text-[#061e44]" data-testid="consent-title">
+        <h1 className="text-[22px] font-bold text-foreground" data-testid="consent-title">
           {t('title')}
         </h1>
         <p className="mt-1 text-[13px] text-muted-foreground">{t('intro')}</p>
@@ -60,7 +60,7 @@ export function ConsentScreen() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-border/80 p-4 text-[13px] text-[#061e44] whitespace-pre-line leading-relaxed shadow-sm">
+      <div className="bg-white rounded-xl border border-border/80 p-4 text-[13px] text-foreground whitespace-pre-line leading-relaxed shadow-sm">
         {t('terms_body')}
       </div>
 
@@ -74,11 +74,11 @@ export function ConsentScreen() {
             if (error) setError(null)
           }}
           data-testid="consent-checkbox"
-          className="mt-0.5 h-4 w-4 rounded border-border/80 text-[#303ef5] focus:ring-[#303ef5] cursor-pointer"
+          className="mt-0.5 h-4 w-4 rounded border-border/80 text-primary focus:ring-primary cursor-pointer"
         />
         <label
           htmlFor="consent-checkbox"
-          className="text-[13px] text-[#061e44] cursor-pointer select-none"
+          className="text-[13px] text-foreground cursor-pointer select-none"
           data-testid="consent-label"
         >
           {t('accept_label')}
@@ -95,7 +95,7 @@ export function ConsentScreen() {
         onClick={handleContinue}
         disabled={!accepted || isSubmitting}
         data-testid="accept-consent-btn"
-        className="w-full bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl shadow-sm"
       >
         {isSubmitting ? '...' : t('continue')}
       </Button>

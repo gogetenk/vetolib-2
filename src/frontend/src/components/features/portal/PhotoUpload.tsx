@@ -63,7 +63,7 @@ export function PhotoUpload({ photos, onChange, onError, error }: PhotoUploadPro
 
   return (
     <div className="flex flex-col gap-2" data-testid="photo-upload">
-      <label className="text-sm font-medium text-[#061e44]">
+      <label className="text-sm font-medium text-foreground">
         {t('photos_label')}
       </label>
       <p className="text-xs text-muted-foreground">{t('photos_hint')}</p>

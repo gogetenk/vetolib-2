@@ -113,29 +113,29 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
             aria-selected={isSelected}
             aria-label={`${pet.name}, ${pet.species}, ${pet.breed}, ${pet.ageYears} year${pet.ageYears !== 1 ? 's' : ''} old`}
             className={cn(
-              'relative flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1 cursor-pointer',
+              'relative flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
               isSelected
-                ? 'border-[#303ef5] bg-[#eef2fd]/50 shadow-md scale-[1.02]'
-                : 'border-border/80 bg-white hover:border-[#303ef5]/40 hover:bg-[#eef2fd]/50/30 hover:shadow-sm'
+                ? 'border-primary bg-primary/5 shadow-md scale-[1.02]'
+                : 'border-border/80 bg-white hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm'
             )}
           >
             {/* Icon */}
             <div
               className={cn(
                 'flex h-12 w-12 shrink-0 items-center justify-center rounded-full',
-                isSelected ? 'bg-[#eef2fd]' : 'bg-[#f4f6f9]'
+                isSelected ? 'bg-primary/10' : 'bg-muted'
               )}
               aria-hidden="true"
             >
               <PawPrint
-                className={cn('h-6 w-6', isSelected ? 'text-[#303ef5]' : 'text-muted-foreground')}
+                className={cn('h-6 w-6', isSelected ? 'text-primary' : 'text-muted-foreground')}
               />
             </div>
 
             {/* Info */}
             <div className="min-w-0 flex-1">
               <p
-                className={cn('font-semibold truncate', isSelected ? 'text-[#061e44]' : 'text-[#061e44]')}
+                className={cn('font-semibold truncate', isSelected ? 'text-foreground' : 'text-foreground')}
                 data-testid={`pet-card-name-${pet.id}`}
               >
                 {pet.name}
@@ -156,7 +156,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
               className={cn(
                 'absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full transition-all duration-300',
                 isSelected
-                  ? 'bg-[#303ef5] scale-100 opacity-100'
+                  ? 'bg-primary scale-100 opacity-100'
                   : 'bg-transparent scale-0 opacity-0'
               )}
               data-testid={isSelected ? `pet-card-check-${pet.id}` : undefined}
