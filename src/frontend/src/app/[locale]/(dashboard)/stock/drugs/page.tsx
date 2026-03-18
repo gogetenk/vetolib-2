@@ -6,6 +6,7 @@ import { Plus, ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { DrugCatalogTable } from '@/components/drugs/DrugCatalogTable'
 import { AddDrugDialog } from '@/components/drugs/AddDrugDialog'
 import { getDrugCatalog, createDrug } from '@/lib/api/drugs'
@@ -61,7 +62,7 @@ export default function DrugCatalogPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="drug-catalog-page">
+    <PageContainer data-testid="drug-catalog-page">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Button
@@ -138,6 +139,6 @@ export default function DrugCatalogPage() {
         onOpenChange={setShowAddDialog}
         onSubmit={handleAddDrug}
       />
-    </div>
+    </PageContainer>
   )
 }

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Settings, Users, MessageSquare } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { PageContainer } from "@/components/ui/page-container"
 
 const settingsLinks = [
   {
@@ -35,7 +36,7 @@ export default function SettingsIndexPage() {
   const localePrefix = pathname.replace(/\/settings$/, "")
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="settings-index-page">
+    <PageContainer data-testid="settings-index-page">
       <div>
         <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
@@ -72,6 +73,6 @@ export default function SettingsIndexPage() {
           </Link>
         ))}
       </div>
-    </div>
+    </PageContainer>
   )
 }

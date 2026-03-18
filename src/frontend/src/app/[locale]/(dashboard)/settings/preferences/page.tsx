@@ -11,6 +11,7 @@ import {
 } from "@/lib/api/preferences"
 import type { PreferenceCategoryDto } from "@/lib/api/preferences"
 import { PreferenceCategorySection } from "@/components/features/preferences/PreferenceCategorySection"
+import { PageContainer } from "@/components/ui/page-container"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -115,7 +116,7 @@ export default function PreferencesPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="preferences-page">
+    <PageContainer data-testid="preferences-page">
       <div>
         <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
@@ -160,6 +161,6 @@ export default function PreferencesPage() {
           </Button>
         </div>
       )}
-    </div>
+    </PageContainer>
   )
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Users } from "lucide-react"
+import { PageContainer } from "@/components/ui/page-container"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TeamTable } from "@/components/features/users/TeamTable"
@@ -83,7 +84,7 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="team-page">
+    <PageContainer data-testid="team-page">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
@@ -143,6 +144,6 @@ export default function TeamPage() {
         onOpenChange={setInviteOpen}
         onUserInvited={handleUserInvited}
       />
-    </div>
+    </PageContainer>
   )
 }

@@ -5,6 +5,7 @@ import { ArrowLeft, Download } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { PageContainer } from '@/components/ui/page-container'
 import { Button } from '@/components/ui/button'
 import { StockMovementTable } from '@/components/features/stock/StockMovementTable'
 import { StockMovementFilters } from '@/components/features/stock/StockMovementFilters'
@@ -99,7 +100,7 @@ export default function StockHistoryPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="stock-history-page">
+    <PageContainer data-testid="stock-history-page">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -165,6 +166,6 @@ export default function StockHistoryPage() {
       ) : (
         <StockMovementTable movements={filteredMovements} />
       )}
-    </div>
+    </PageContainer>
   )
 }
