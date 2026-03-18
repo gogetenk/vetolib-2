@@ -89,9 +89,10 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
           </DialogTitle>
         </DialogHeader>
 
-        <p className="text-[13px] text-muted-foreground" data-testid="movement-current-qty">
-          {t('movement.current_qty', { qty: item.quantity, unit: item.unit })}
-        </p>
+        <div className="rounded-xl bg-[#f4f6f9] border border-border/50 px-4 py-3 flex items-center justify-between" data-testid="movement-current-qty">
+          <span className="text-[13px] text-muted-foreground">{t('movement.current_qty', { qty: item.quantity, unit: item.unit })}</span>
+          <span className="text-[15px] font-bold text-[#061e44] tabular-nums">{item.quantity} {item.unit}</span>
+        </div>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -168,7 +169,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               variant="outline"
               data-testid="btn-cancel-movement"
               onClick={() => onOpenChange(false)}
-              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               {t('form.cancel')}
             </Button>
@@ -176,7 +177,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               type="submit"
               disabled={isSubmitting}
               data-testid="btn-save-movement"
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               {isSubmitting ? t('form.saving') : t('movement.confirm')}
             </Button>

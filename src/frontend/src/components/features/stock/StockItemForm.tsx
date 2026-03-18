@@ -95,6 +95,9 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
           <DialogTitle className="text-[18px] font-bold text-[#061e44]">
             {isEdit ? t('form.edit_title') : t('form.add_title')}
           </DialogTitle>
+          <p className="text-[13px] text-muted-foreground">
+            {isEdit ? 'Update the stock item details below.' : 'Fill in the details to add a new stock item.'}
+          </p>
         </DialogHeader>
 
         <form
@@ -237,7 +240,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
               variant="outline"
               data-testid="btn-cancel-stock-item"
               onClick={() => onOpenChange(false)}
-              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               {t('form.cancel')}
             </Button>
@@ -245,7 +248,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
               type="submit"
               disabled={isSubmitting}
               data-testid="btn-save-stock-item"
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               {isSubmitting ? t('form.saving') : t('form.save')}
             </Button>

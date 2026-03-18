@@ -60,7 +60,7 @@ function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
     )
   }
   return (
-    <div data-testid="vaccinations-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+    <div data-testid="vaccinations-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
       <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-[#061e44] uppercase tracking-wider px-4 py-3 bg-[#f4f6f9] border-b border-border/50">
         <span>Vaccine</span>
         <span>Date Given</span>
@@ -96,13 +96,13 @@ function PrescriptionsTab({
     <div className="space-y-4">
       {canPrescribe && (
         <div className="flex justify-end">
-          <Link href={`patients/${patientId}/records/new`}>
+          <Link href={`/patients/${patientId}/records/new`}>
             <Button
               size="sm"
               data-testid="new-prescription-btn"
               className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
             >
-              New Prescription
+              New Medical Record
             </Button>
           </Link>
         </div>
@@ -113,20 +113,24 @@ function PrescriptionsTab({
           No prescriptions found.
         </p>
       ) : (
-        <div data-testid="prescriptions-list" className="space-y-3">
+        <div data-testid="prescriptions-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
+          <div className="grid grid-cols-5 gap-4 text-[11px] font-bold text-[#061e44] uppercase tracking-wider px-4 py-3 bg-[#f4f6f9] border-b border-border/50">
+            <span>Medication</span>
+            <span>Dosage</span>
+            <span>Duration</span>
+            <span>Vet / Date</span>
+            <span>Status</span>
+          </div>
           {prescriptions.map((presc) => (
             <div
               key={presc.id}
               data-testid={`prescription-${presc.id}`}
-              className="flex items-start justify-between gap-4 bg-white border border-border/80 rounded-xl p-4 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
+              className="grid grid-cols-5 gap-4 items-center px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
             >
-              <div>
-                <p className="font-semibold text-[14px] text-[#061e44]" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
-                <p className="text-[12px] text-muted-foreground mt-1">
-                  {presc.dosage} &bull; {presc.duration}
-                </p>
-                <p className="text-[12px] text-muted-foreground">{presc.vetName} &bull; {formatDate(presc.prescribedDate)}</p>
-              </div>
+              <p className="font-semibold text-[13px] text-[#061e44] truncate" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
+              <p className="text-[13px] text-muted-foreground truncate">{presc.dosage}</p>
+              <p className="text-[13px] text-muted-foreground truncate">{presc.duration}</p>
+              <p className="text-[12px] text-muted-foreground truncate">{presc.vetName} &bull; {formatDate(presc.prescribedDate)}</p>
               <Badge
                 variant={presc.status === 'active' ? 'default' : 'secondary'}
                 data-testid={`presc-status-${presc.id}`}
@@ -292,7 +296,7 @@ export default function PatientDetailPage() {
                   )}
 
                   {role === 'VET' && (
-                    <Link href={`patients/${id}/records/new`}>
+                    <Link href={`/patients/${id}/records/new`}>
                       <Button
                         data-testid="new-medical-record-btn"
                         className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"

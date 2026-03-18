@@ -26,14 +26,14 @@ export function StockAlerts({ alerts }: StockAlertsProps) {
         >
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
           <div className="flex-1">
-            <p className="text-sm font-semibold text-destructive">
+            <p className="text-[13px] font-bold text-destructive">
               {t('alerts.low_stock_title', { count: lowStockAlerts.length })}
             </p>
             <ul className="mt-1 space-y-0.5">
               {lowStockAlerts.map(alert => (
                 <li
                   key={alert.id}
-                  className="text-xs text-destructive/80"
+                  className="text-[12px] text-destructive/80"
                   data-testid={`alert-low-stock-item-${alert.id}`}
                 >
                   {alert.name} — {t('alerts.qty_threshold', { qty: alert.quantity, threshold: alert.threshold })}
@@ -46,20 +46,20 @@ export function StockAlerts({ alerts }: StockAlertsProps) {
 
       {expiringAlerts.length > 0 && (
         <div
-          className="flex items-start gap-3 rounded-xl border border-orange-300 bg-orange-50 px-4 py-3"
+          className="flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3"
           data-testid="alert-expiring"
           role="alert"
         >
-          <Clock className="mt-0.5 h-4 w-4 shrink-0 text-orange-600" />
+          <Clock className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
           <div className="flex-1">
-            <p className="text-sm font-semibold text-orange-700">
+            <p className="text-[13px] font-bold text-amber-700">
               {t('alerts.expiring_title', { count: expiringAlerts.length })}
             </p>
             <ul className="mt-1 space-y-0.5">
               {expiringAlerts.map(alert => (
                 <li
                   key={alert.id}
-                  className="text-xs text-orange-600"
+                  className="text-[12px] text-amber-600"
                   data-testid={`alert-expiring-item-${alert.id}`}
                 >
                   {alert.name} — {t('alerts.expires_on', { date: alert.expiryDate ?? '' })}

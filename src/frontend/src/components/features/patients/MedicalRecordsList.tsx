@@ -2,7 +2,6 @@
 
 import { Syringe, Stethoscope, Scissors, AlertTriangle, FileText } from 'lucide-react'
 import type { MedicalRecordDto } from '@/lib/api/medical-records'
-import { Card, CardContent } from '@/components/ui/card'
 
 function formatDateTime(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-AE', {
@@ -24,13 +23,13 @@ function inferRecordType(reason: string): RecordType {
   return 'other'
 }
 
-function getRecordAccent(type: RecordType): string {
+function getAccentColor(type: RecordType): string {
   switch (type) {
-    case 'vaccination': return 'border-emerald-400'
-    case 'surgery': return 'border-rose-400'
-    case 'emergency': return 'border-amber-400'
-    case 'checkup': return 'border-blue-400'
-    default: return 'border-stone-300'
+    case 'vaccination': return 'bg-emerald-400'
+    case 'surgery': return 'bg-rose-400'
+    case 'emergency': return 'bg-amber-400'
+    case 'checkup': return 'bg-blue-400'
+    default: return 'bg-border'
   }
 }
 
@@ -50,81 +49,64 @@ interface MedicalRecordsListProps {
   isLoading?: boolean
 }
 
-function MedicalRecordItem({ record }: { record: MedicalRecordDto }) {
+function MedicalRecordRow({ record }: { record: MedicalRecordDto }) {
   const recordType = inferRecordType(record.reason)
-  const accentClass = getRecordAccent(recordType)
+  const accentColor = getAccentColor(recordType)
 
   return (
-    <Card
+    <div
       data-testid={`medical-record-${record.id}`}
-      className={`mb-3 bg-white border border-border/80 rounded-xl shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md border-s-4 ${accentClass}`}
+      className="relative border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
     >
-      <CardContent className="p-4">
-        {/* Title row with icon + date below */}
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <div className="flex items-center gap-1.5">
-              <RecordTypeIcon type={recordType} className="h-4 w-4 text-muted-foreground" />
-              <p
-                className="font-semibold text-[14px] text-[#061e44]"
-                data-testid={`record-reason-${record.id}`}
-              >
-                {record.reason}
-              </p>
-            </div>
+      {/* Accent bar */}
+      <div className={`absolute inset-y-0 start-0 w-1 ${accentColor}`} />
+
+      {/* Main row: 4 equal columns */}
+      <div className="grid grid-cols-4 gap-4 items-start ps-5 pe-4 py-3">
+        {/* Reason + vet */}
+        <div>
+          <div className="flex items-center gap-1.5">
+            <RecordTypeIcon type={recordType} className="h-4 w-4 text-muted-foreground shrink-0" />
             <p
-              className="text-[12px] text-muted-foreground mt-0.5"
-              data-testid={`record-date-${record.id}`}
+              className="font-semibold text-[13px] text-[#061e44] truncate"
+              data-testid={`record-reason-${record.id}`}
             >
-              {formatDateTime(record.visitDate)}
-            </p>
-            <p
-              className="text-[12px] text-muted-foreground"
-              data-testid={`record-vet-${record.id}`}
-            >
-              {record.vetName}
+              {record.reason}
             </p>
           </div>
+          <p
+            className="text-[12px] text-muted-foreground mt-0.5 ps-[22px]"
+            data-testid={`record-vet-${record.id}`}
+          >
+            {record.vetName}
+          </p>
         </div>
 
-        {/* Vitals row (S8) */}
-        <div
-          className="bg-[#f4f6f9] rounded-xl px-3 py-2 mt-3 grid grid-cols-3 gap-3"
-          data-testid={`record-vitals-${record.id}`}
+        {/* Date */}
+        <span
+          className="text-[13px] text-muted-foreground"
+          data-testid={`record-date-${record.id}`}
         >
-          <div data-testid={`record-weight-${record.id}`}>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">Weight</span>
-            <span className="text-[13px] font-semibold text-[#061e44]">{record.weight} kg</span>
-          </div>
-          <div data-testid={`record-temp-${record.id}`}>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">Temperature</span>
-            <span className="text-[13px] font-semibold text-[#061e44]">{record.temperature}&deg;C</span>
-          </div>
-          <div data-testid={`record-hr-${record.id}`}>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">Heart Rate</span>
-            <span className="text-[13px] font-semibold text-[#061e44]">{record.heartRate} bpm</span>
-          </div>
+          {formatDateTime(record.visitDate)}
+        </span>
+
+        {/* Vitals */}
+        <div className="text-[12px] space-y-0.5" data-testid={`record-vitals-${record.id}`}>
+          <span data-testid={`record-weight-${record.id}`} className="text-[#061e44] font-semibold block">{record.weight} kg</span>
+          <span data-testid={`record-temp-${record.id}`} className="text-[#061e44] font-semibold block">{record.temperature}&deg;C</span>
+          <span data-testid={`record-hr-${record.id}`} className="text-[#061e44] font-semibold block">{record.heartRate} bpm</span>
         </div>
 
         {/* Diagnosis + treatment */}
-        <div className="space-y-1.5 text-[13px] mt-3">
-          <div data-testid={`record-diagnosis-${record.id}`}>
-            <span className="font-semibold text-[#061e44]">Diagnosis: </span>
-            <span className="text-muted-foreground">{record.diagnosis}</span>
-          </div>
-          <div data-testid={`record-treatment-${record.id}`}>
-            <span className="font-semibold text-[#061e44]">Treatment: </span>
-            <span className="text-muted-foreground">{record.treatment}</span>
-          </div>
+        <div className="text-[13px] space-y-1">
+          <p data-testid={`record-diagnosis-${record.id}`} className="text-muted-foreground truncate">{record.diagnosis}</p>
+          <p data-testid={`record-treatment-${record.id}`} className="text-muted-foreground truncate">{record.treatment}</p>
           {record.prescription && (
-            <div data-testid={`record-prescription-${record.id}`}>
-              <span className="font-semibold text-[#061e44]">Prescription: </span>
-              <span className="text-muted-foreground">{record.prescription}</span>
-            </div>
+            <p data-testid={`record-prescription-${record.id}`} className="text-muted-foreground truncate">{record.prescription}</p>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
 
@@ -151,9 +133,16 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
   }
 
   return (
-    <div data-testid="medical-records-list" className="animate-in fade-in duration-300">
+    <div data-testid="medical-records-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full animate-in fade-in duration-300">
+      {/* Header row */}
+      <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-[#061e44] uppercase tracking-wider px-4 ps-5 py-3 bg-[#f4f6f9] border-b border-border/50">
+        <span>Reason</span>
+        <span>Date</span>
+        <span>Vitals</span>
+        <span>Diagnosis</span>
+      </div>
       {records.map((record) => (
-        <MedicalRecordItem key={record.id} record={record} />
+        <MedicalRecordRow key={record.id} record={record} />
       ))}
     </div>
   )
