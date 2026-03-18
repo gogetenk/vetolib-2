@@ -19,7 +19,7 @@ function PageContainer({
     <div
       data-testid="page-container"
       className={cn(
-        "p-6 lg:p-8 space-y-6 animate-in fade-in duration-300",
+        "p-6 lg:p-8 space-y-6 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300",
         variantClasses[variant],
         className
       )}
