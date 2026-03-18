@@ -208,7 +208,7 @@ export function AnalyticsSection() {
                       t('revenue_by_month'),
                     ]}
                   />
-                  <Bar dataKey="total" fill="#303ef5" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="total" fill="oklch(var(--primary))" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
