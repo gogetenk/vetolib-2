@@ -20,7 +20,7 @@ export default async function AppointmentDetailPage({ params }: Props) {
           variant="ghost"
           size="sm"
           data-testid="back-to-appointments-btn"
-          className="-ms-2 group/back text-muted-foreground hover:text-[#061e44]"
+          className="-ms-2 group/back text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
           {t('title')}

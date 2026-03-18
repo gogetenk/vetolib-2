@@ -74,7 +74,7 @@ export function CalendarHeader({
           {/* Vet filter dropdown (like Weda personnel filter) */}
           <div className="relative" ref={filterRef} data-testid="calendar-vet-filter">
             <button
-              className="flex items-center gap-2 rounded-full px-4 py-1.5 text-[13px] font-semibold text-[#061e44] hover:bg-[#f4f6f9] transition-all duration-200"
+              className="flex items-center gap-2 rounded-full px-4 py-1.5 text-[13px] font-semibold text-foreground hover:bg-muted transition-all duration-200"
               onClick={() => setIsFilterOpen((prev) => !prev)}
               data-testid="calendar-vet-filter-btn"
             >
@@ -85,7 +85,7 @@ export function CalendarHeader({
             {/* Dropdown */}
             <div className={`absolute left-0 top-full mt-2 z-50 min-w-56 rounded-xl border border-border/80 bg-white p-2 shadow-lg transition-all duration-200 origin-top-left ${isFilterOpen ? 'opacity-100 scale-y-100 translate-y-0' : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'}`}>
               <button
-                className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-[#f4f6f9] ${selectedVetIds.length === 0 ? 'font-semibold text-[#303ef5] bg-[#eef2fd]' : 'text-[#061e44]'}`}
+                className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-muted ${selectedVetIds.length === 0 ? 'font-semibold text-primary bg-primary/10' : 'text-foreground'}`}
                 onClick={() => onVetFilterChange([])}
               >
                 {t('allVets')}
@@ -93,7 +93,7 @@ export function CalendarHeader({
               {vets.map((vet) => (
                 <button
                   key={vet.id}
-                  className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-[#f4f6f9] mt-1 ${selectedVetIds.includes(vet.id) ? 'font-semibold text-[#303ef5] bg-[#eef2fd]' : 'text-[#061e44]'}`}
+                  className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-muted mt-1 ${selectedVetIds.includes(vet.id) ? 'font-semibold text-primary bg-primary/10' : 'text-foreground'}`}
                   onClick={() => handleVetToggle(vet.id)}
                 >
                   {vet.name}
@@ -101,7 +101,7 @@ export function CalendarHeader({
               ))}
             </div>
           </div>
-          <button className="px-4 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-[#061e44] transition-colors rounded-full hover:bg-[#f4f6f9]">
+          <button className="px-4 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted">
             Équipe
           </button>
         </div>
@@ -111,18 +111,18 @@ export function CalendarHeader({
       <div className="flex items-center justify-between px-2">
         {/* Left: Aujourd'hui */}
         <div className="flex-1 flex justify-start">
-          <Button variant="outline" onClick={onToday} className="rounded-full px-6 font-semibold bg-[#303ef5] text-white border-[#303ef5] hover:bg-[#2530c4] shadow-sm h-10">
+          <Button variant="outline" onClick={onToday} className="rounded-full px-6 font-semibold bg-primary text-primary-foreground border-primary hover:bg-primary/90 shadow-sm h-10">
             {t('today')}
           </Button>
         </div>
 
         {/* Center: Navigation & Date */}
         <div className="flex-1 flex justify-center items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={onPrev} className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
+          <Button variant="ghost" size="icon" onClick={onPrev} className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
             {isRtl ? <ChevronRight className="size-5" /> : <ChevronLeft className="size-5" />}
           </Button>
-          <span className="text-[15px] font-semibold min-w-[200px] text-center text-[#061e44]">{dateLabel}</span>
-          <Button variant="ghost" size="icon" onClick={onNext} className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
+          <span className="text-[15px] font-semibold min-w-[200px] text-center text-foreground">{dateLabel}</span>
+          <Button variant="ghost" size="icon" onClick={onNext} className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
             {isRtl ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
           </Button>
         </div>
@@ -136,8 +136,8 @@ export function CalendarHeader({
                 key={view.key}
                 className={`px-4 py-1.5 text-[13px] font-semibold rounded-full transition-all duration-200 h-full ${
                   activeView === view.key
-                    ? 'bg-[#303ef5] text-white shadow-sm'
-                    : 'text-muted-foreground hover:text-[#061e44] hover:bg-[#f4f6f9]'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                 }`}
                 onClick={() => onViewChange(view.key)}
               >
@@ -148,7 +148,7 @@ export function CalendarHeader({
 
           {/* New Appointment Button with Glow */}
           <Button 
-            className="rounded-full gap-2 px-6 h-10 font-semibold bg-[#303ef5] hover:bg-[#2530c4] text-white shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5 transition-all duration-200"
+            className="rounded-full gap-2 px-6 h-10 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5 transition-all duration-200"
             onClick={onNewAppointment}
           >
             <Plus className="size-4" />

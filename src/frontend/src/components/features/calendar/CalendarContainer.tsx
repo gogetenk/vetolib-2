@@ -254,7 +254,7 @@ export function CalendarContainer() {
             <div className="flex-shrink-0 w-16 border-e border-border/40">
               {Array.from({ length: 8 }, (_, i) => (
                 <div key={i} className="h-16 border-b border-border/30 p-2">
-                  <div className="h-3 w-10 bg-[#f4f6f9] animate-pulse rounded" />
+                  <div className="h-3 w-10 bg-muted animate-pulse rounded" />
                 </div>
               ))}
             </div>
@@ -262,7 +262,7 @@ export function CalendarContainer() {
               {Array.from({ length: 40 }, (_, i) => (
                 <div key={i} className="h-16 border-b border-e border-border/30 p-1">
                   {i % 7 === 0 && (
-                    <div className="h-8 bg-[#f4f6f9] animate-pulse rounded-lg mx-0.5" />
+                    <div className="h-8 bg-muted animate-pulse rounded-lg mx-0.5" />
                   )}
                 </div>
               ))}

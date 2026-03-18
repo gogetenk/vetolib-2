@@ -115,7 +115,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
       <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="appointment-detail">
         <CardHeader className="flex flex-row items-start justify-between">
           <div>
-            <CardTitle className="text-[18px] font-bold text-[#061e44]" data-testid="detail-patient-name">{appointment.patientName}</CardTitle>
+            <CardTitle className="text-[18px] font-bold text-foreground" data-testid="detail-patient-name">{appointment.patientName}</CardTitle>
             <p className="text-[13px] text-muted-foreground mt-1" data-testid="detail-species">
               {appointment.species}
             </p>
@@ -126,31 +126,31 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('owner')}</p>
-              <p className="text-[14px] text-[#061e44]" data-testid="detail-owner-name">{appointment.ownerName}</p>
+              <p className="text-[14px] text-foreground" data-testid="detail-owner-name">{appointment.ownerName}</p>
               <p className="text-[13px] text-muted-foreground" data-testid="detail-owner-phone">
-                <a href={`tel:${appointment.ownerPhone.replace(/\s+/g, '')}`} className="text-[#303ef5] hover:underline">
+                <a href={`tel:${appointment.ownerPhone.replace(/\s+/g, '')}`} className="text-primary hover:underline">
                   <LtrText>{appointment.ownerPhone}</LtrText>
                 </a>
               </p>
             </div>
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('vet')}</p>
-              <p className="text-[14px] text-[#061e44]" data-testid="detail-vet-name">{appointment.vetName}</p>
+              <p className="text-[14px] text-foreground" data-testid="detail-vet-name">{appointment.vetName}</p>
             </div>
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('datetime')}</p>
-              <p className="text-[14px] text-[#061e44]" data-testid="detail-datetime">
+              <p className="text-[14px] text-foreground" data-testid="detail-datetime">
                 <LtrText>{format(new Date(appointment.scheduledAt), 'dd MMM yyyy HH:mm')}</LtrText>
               </p>
             </div>
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('reason')}</p>
-              <p className="text-[14px] text-[#061e44]" data-testid="detail-reason">{appointment.reason}</p>
+              <p className="text-[14px] text-foreground" data-testid="detail-reason">{appointment.reason}</p>
             </div>
             {appointment.notes && (
               <div className="md:col-span-2">
                 <p className="text-[13px] font-semibold text-muted-foreground">{t('notes')}</p>
-                <p className="text-[14px] text-[#061e44]" data-testid="detail-notes">{appointment.notes}</p>
+                <p className="text-[14px] text-foreground" data-testid="detail-notes">{appointment.notes}</p>
               </div>
             )}
             {appointment.cancellationReason && (
@@ -197,7 +197,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
       >
         <DialogContent className="rounded-2xl" data-testid="confirm-dialog">
           <DialogHeader>
-            <DialogTitle className="text-[18px] font-bold text-[#061e44]" data-testid="confirm-dialog-title">
+            <DialogTitle className="text-[18px] font-bold text-foreground" data-testid="confirm-dialog-title">
               {pendingAction ? t(pendingAction.confirmTitleKey) : ''}
             </DialogTitle>
             <DialogDescription className="text-[13px]" data-testid="confirm-dialog-description">
@@ -207,7 +207,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
 
           {pendingAction?.requiresReason && (
             <div className="space-y-2">
-              <Label htmlFor="cancel-reason" className="text-[13px] font-semibold text-[#061e44]">{t('reason')}</Label>
+              <Label htmlFor="cancel-reason" className="text-[13px] font-semibold text-foreground">{t('reason')}</Label>
               <Textarea
                 id="cancel-reason"
                 data-testid="input-cancel-reason"
@@ -215,7 +215,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder={t('cancel_reason_placeholder')}
                 rows={3}
-                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               />
             </div>
           )}
@@ -228,7 +228,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
                 setPendingAction(null)
                 setCancelReason('')
               }}
-              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl font-semibold border-border/80 hover:bg-muted"
             >
               {t('dialog_back')}
             </Button>
@@ -240,7 +240,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
                 isProcessing ||
                 (pendingAction?.requiresReason === true && cancelReason.trim() === '')
               }
-              className={pendingAction?.variant === 'destructive' ? 'rounded-xl font-semibold' : 'bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm'}
+              className={pendingAction?.variant === 'destructive' ? 'rounded-xl font-semibold' : 'bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm'}
             >
               {isProcessing ? t('processing') : t('confirm')}
             </Button>

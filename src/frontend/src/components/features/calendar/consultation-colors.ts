@@ -7,7 +7,7 @@ export interface ConsultationColor {
 }
 
 export const CONSULTATION_COLORS: Record<string, ConsultationColor> = {
-  'General Checkup': { bg: 'bg-[#eef2fd]', border: 'border-s-[#303ef5]', text: 'text-[#061e44]', dot: 'bg-[#303ef5]', line: 'bg-[#303ef5]' },
+  'General Checkup': { bg: 'bg-primary/10', border: 'border-s-primary', text: 'text-foreground', dot: 'bg-primary', line: 'bg-primary' },
   'Vaccination': { bg: 'bg-[#e8f6f0]', border: 'border-s-[#22c55e]', text: 'text-[#02020a]', dot: 'bg-[#22c55e]', line: 'bg-[#22c55e]' },
   'Surgery': { bg: 'bg-[#fef2f2]', border: 'border-s-[#ef4444]', text: 'text-[#440000]', dot: 'bg-[#ef4444]', line: 'bg-[#ef4444]' },
   'Emergency': { bg: 'bg-[#fff7ed]', border: 'border-s-[#f97316]', text: 'text-[#02020a]', dot: 'bg-[#f97316]', line: 'bg-[#f97316]' },
@@ -20,7 +20,7 @@ export const CONSULTATION_COLORS: Record<string, ConsultationColor> = {
 }
 
 const FALLBACK_COLOR: ConsultationColor = {
-  bg: 'bg-[#f4f6f9]',
+  bg: 'bg-muted',
   border: 'border-s-[#9ca3af]',
   text: 'text-[#02020a]',
   dot: 'bg-[#9ca3af]',

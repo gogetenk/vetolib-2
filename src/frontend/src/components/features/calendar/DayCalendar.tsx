@@ -222,9 +222,9 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 <div
                   className={`h-8 relative transition-colors duration-200 ease-in-out border-b border-border/10 ${
                     isClickable
-                      ? 'cursor-pointer hover:bg-[#eef2fd]/60'
+                      ? 'cursor-pointer hover:bg-primary/10'
                       : 'cursor-not-allowed'
-                  } ${isTopHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
+                  } ${isTopHovered && isClickable ? 'bg-primary/10' : ''}`}
                   onClick={() => isClickable && handleSlotClick(hour, true)}
                   onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
                   onMouseLeave={() => setHoveredSlot(null)}
@@ -232,7 +232,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 >
                   {isTopHovered && isClickable && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                      <PlusIcon className="size-4 text-[#303ef5]/50" />
+                      <PlusIcon className="size-4 text-primary/50" />
                     </div>
                   )}
                 </div>
@@ -240,9 +240,9 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 <div
                   className={`h-8 relative transition-colors duration-200 ease-in-out ${
                     isClickable
-                      ? 'cursor-pointer hover:bg-[#eef2fd]/60'
+                      ? 'cursor-pointer hover:bg-primary/10'
                       : 'cursor-not-allowed'
-                  } ${isBottomHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
+                  } ${isBottomHovered && isClickable ? 'bg-primary/10' : ''}`}
                   onClick={() => isClickable && handleSlotClick(hour, false)}
                   onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
                   onMouseLeave={() => setHoveredSlot(null)}
@@ -250,7 +250,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 >
                   {isBottomHovered && isClickable && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                      <PlusIcon className="size-4 text-[#303ef5]/50" />
+                      <PlusIcon className="size-4 text-primary/50" />
                     </div>
                   )}
                 </div>
@@ -310,9 +310,9 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 
                 {/* Content */}
                 <div className="flex flex-col min-w-0 flex-1 justify-center ms-2 py-0.5">
-                  <span className="text-[12px] tracking-tight truncate text-[#061e44] leading-tight">
+                  <span className="text-[12px] tracking-tight truncate text-foreground leading-tight">
                     <span className="font-bold">{apt.ownerName.split(' ')[0].toUpperCase()}</span>{' '}
-                    <span className="font-medium text-[#061e44]/90">{apt.patientName}</span>
+                    <span className="font-medium text-foreground/90">{apt.patientName}</span>
                   </span>
                   
                   {heightPx >= 40 && (
@@ -325,7 +325,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
 
                 {apt.consultationType === 'Teleconsultation' && (
                   <div className="flex-shrink-0 ms-2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
-                    <div className="bg-white/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-[#061e44]">
+                    <div className="bg-white/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-foreground">
                       <Video className="w-3.5 h-3.5" />
                     </div>
                   </div>
