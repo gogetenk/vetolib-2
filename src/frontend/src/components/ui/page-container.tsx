@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils"
 type PageContainerVariant = "full" | "default" | "narrow"
 
 const variantClasses: Record<PageContainerVariant, string> = {
-  full: "",
-  default: "",
+  full: "max-w-screen-xl mx-auto",
+  default: "max-w-screen-xl mx-auto",
   narrow: "max-w-4xl mx-auto",
 }
 

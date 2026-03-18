@@ -14,7 +14,7 @@ export default function DashboardLayout({
         <div className="flex h-screen flex-col bg-background text-foreground overflow-hidden">
           <Header />
           <main
-            className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto h-full relative animate-in fade-in-0 duration-300 ease-out overflow-y-auto"
+            className="flex-1 flex flex-col w-full h-full relative animate-in fade-in-0 duration-300 ease-out overflow-y-auto"
             data-testid="dashboard-main"
           >
             {children}

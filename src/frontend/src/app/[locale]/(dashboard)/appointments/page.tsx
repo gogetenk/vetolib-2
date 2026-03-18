@@ -3,7 +3,7 @@ import { PageContainer } from '@/components/ui/page-container'
 
 export default async function AppointmentsPage() {
   return (
-    <PageContainer className="h-full w-full flex flex-col" data-testid="appointments-page">
+    <PageContainer className="h-full w-full flex flex-col !max-w-screen-2xl" data-testid="appointments-page">
       <CalendarContainer />
     </PageContainer>
   )
