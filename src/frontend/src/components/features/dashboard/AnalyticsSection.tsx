@@ -96,8 +96,8 @@ export function AnalyticsSection() {
       className="space-y-6"
       data-testid="analytics-section"
     >
-      <h2 className="text-[18px] font-bold text-[#061e44] flex items-center gap-2" data-testid="analytics-title">
-        <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+      <h2 className="text-[18px] font-bold text-foreground flex items-center gap-2" data-testid="analytics-title">
+        <span className="w-1 h-5 bg-primary rounded-full"></span>
         {t('title')}
       </h2>
 
@@ -114,7 +114,7 @@ export function AnalyticsSection() {
               <Skeleton className="h-10 w-24" />
             ) : (
               <p
-                className="text-4xl font-bold text-[#061e44]"
+                className="text-4xl font-bold text-foreground"
                 data-testid="analytics-no-show-value"
               >
                 {noShowRate.toFixed(1)}%

@@ -64,8 +64,8 @@ export function RecentActivity() {
   return (
     <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="recent-activity-card">
       <CardHeader className="pb-2">
-        <CardTitle className="text-[15px] font-bold text-[#061e44] flex items-center gap-2">
-          <span className="w-1 h-4 bg-[#303ef5] rounded-full"></span>
+        <CardTitle className="text-[15px] font-bold text-foreground flex items-center gap-2">
+          <span className="w-1 h-4 bg-primary rounded-full"></span>
           {t('title')}
         </CardTitle>
       </CardHeader>
@@ -107,7 +107,7 @@ export function RecentActivity() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <p
-                    className="text-[13px] text-[#061e44] font-medium truncate"
+                    className="text-[13px] text-foreground font-medium truncate"
                     data-testid={`activity-message-${activity.id}`}
                   >
                     {activity.message}

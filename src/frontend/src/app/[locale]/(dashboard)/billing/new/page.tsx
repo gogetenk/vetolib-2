@@ -15,15 +15,15 @@ export default async function NewInvoicePage() {
           variant="ghost"
           size="sm"
           data-testid="back-to-billing-btn"
-          className="-ms-2 group/back text-muted-foreground hover:text-[#061e44]"
+          className="-ms-2 group/back text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
           {t('title')}
         </Button>
       </Link>
 
-      <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="new-invoice-title">
-        <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+      <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="new-invoice-title">
+        <span className="w-1 h-5 bg-primary rounded-full"></span>
         {t('form.title')}
       </h1>
 

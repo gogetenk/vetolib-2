@@ -82,7 +82,7 @@ export default function DashboardHomePage() {
       <WelcomeBanner role={role} clinicName={clinicName} />
 
       <div className="flex flex-col gap-1" data-testid="dashboard-greeting">
-        <h1 className="text-[22px] font-bold text-[#061e44]" data-testid="dashboard-greeting-title">
+        <h1 className="text-[22px] font-bold text-foreground" data-testid="dashboard-greeting-title">
           {getGreeting(locale)}{userName ? `, ${userName}` : ''}
         </h1>
         <p className="text-[13px] text-muted-foreground font-medium capitalize" data-testid="dashboard-date">
