@@ -7,6 +7,7 @@ import { DayHoursRow } from "./DayHoursRow"
 import { getMessagingHours, updateMessagingHours } from "@/lib/api/messaging"
 import type { MessagingHoursDto } from "@/lib/api/messaging-types"
 import { toast } from "sonner"
+import { PageContainer } from "@/components/ui/page-container"
 
 // UAE default hours
 const UAE_DEFAULT_HOURS: MessagingHoursDto[] = [
@@ -63,7 +64,7 @@ export function MessagingHoursPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="messaging-hours-page">
+    <PageContainer data-testid="messaging-hours-page">
       <div>
         <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
@@ -123,6 +124,6 @@ export function MessagingHoursPage() {
           </Button>
         </div>
       </div>
-    </div>
+    </PageContainer>
   )
 }

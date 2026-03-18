@@ -14,6 +14,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts"
+import { PageContainer } from "@/components/ui/page-container"
 import { StatCard } from "./StatCard"
 import { getTriageStats } from "@/lib/api/messaging"
 import type { TriageStatsDto } from "@/lib/api/messaging-types"
@@ -62,17 +63,17 @@ export function TriageStatsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 lg:p-8" data-testid="stats-loading">
+      <PageContainer data-testid="stats-loading">
         <p className="text-[13px] text-muted-foreground">{t("loading")}</p>
-      </div>
+      </PageContainer>
     )
   }
 
   if (error || !stats) {
     return (
-      <div className="p-6 lg:p-8" data-testid="stats-error">
+      <PageContainer data-testid="stats-error">
         <p className="text-[13px] text-destructive">{t("load_failed")}</p>
-      </div>
+      </PageContainer>
     )
   }
 
@@ -89,7 +90,7 @@ export function TriageStatsPage() {
   }))
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="triage-stats-page">
+    <PageContainer data-testid="triage-stats-page">
       <div>
         <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
@@ -196,6 +197,6 @@ export function TriageStatsPage() {
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </div>
+    </PageContainer>
   )
 }

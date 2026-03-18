@@ -23,6 +23,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
+import { PageContainer } from "@/components/ui/page-container"
 
 export function TemplatesPage() {
   const t = useTranslations("messaging_admin")
@@ -90,7 +91,7 @@ export function TemplatesPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="templates-page">
+    <PageContainer data-testid="templates-page">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
@@ -211,6 +212,6 @@ export function TemplatesPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </PageContainer>
   )
 }
