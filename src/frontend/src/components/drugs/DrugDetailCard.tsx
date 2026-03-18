@@ -24,10 +24,10 @@ export function DrugDetailCard({ drug }: DrugDetailCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#061e44]" data-testid="drug-detail-name">
+          <h2 className="text-[18px] font-bold text-[#061e44]" data-testid="drug-detail-name">
             {drug.displayName}
           </h2>
-          <p className="text-sm text-muted-foreground italic" data-testid="drug-detail-inn">
+          <p className="text-[13px] text-muted-foreground italic" data-testid="drug-detail-inn">
             INN: {drug.innName}
           </p>
         </div>

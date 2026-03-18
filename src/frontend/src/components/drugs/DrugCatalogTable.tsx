@@ -124,7 +124,7 @@ export function DrugCatalogTable({
           <Input
             data-testid="drug-search"
             placeholder={t('search_placeholder')}
-            className="w-64 pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 focus:shadow-md transition-shadow"
+            className="w-64 pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md transition-shadow"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
           />
@@ -308,7 +308,7 @@ export function DrugCatalogTable({
                       onClick={() => onView(drug)}
                       data-testid={`btn-view-drug-${drug.id}`}
                       aria-label={`${t('actions.view')} ${drug.displayName}`}
-                      className="rounded-xl border-border/80 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                      className="rounded-xl border-border/80 hover:bg-[#f4f6f9] opacity-0 group-hover:opacity-100 transition-all duration-200"
                     >
                       <Eye className="h-3.5 w-3.5 me-1" />
                       {t('actions.view')}

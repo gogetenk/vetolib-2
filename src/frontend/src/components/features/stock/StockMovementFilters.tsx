@@ -88,7 +88,7 @@ export function StockMovementFilters({
       <Input
         type="date"
         data-testid="filter-date-from"
-        className="w-40 rounded-xl border-border/80 text-[13px] h-10"
+        className="w-40 rounded-xl border-border/80 text-[13px] h-10 focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
         value={dateFrom}
         onChange={(e) => onDateFromChange(e.target.value)}
         placeholder={t('date_from')}
@@ -98,7 +98,7 @@ export function StockMovementFilters({
       <Input
         type="date"
         data-testid="filter-date-to"
-        className="w-40 rounded-xl border-border/80 text-[13px] h-10"
+        className="w-40 rounded-xl border-border/80 text-[13px] h-10 focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
         value={dateTo}
         onChange={(e) => onDateToChange(e.target.value)}
         placeholder={t('date_to')}
