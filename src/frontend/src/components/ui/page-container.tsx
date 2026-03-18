@@ -6,7 +6,7 @@ type PageContainerVariant = "full" | "default" | "narrow"
 
 const variantClasses: Record<PageContainerVariant, string> = {
   full: "",
-  default: "max-w-6xl mx-auto",
+  default: "",
   narrow: "max-w-4xl mx-auto",
 }
 
