@@ -24,7 +24,7 @@ export function DrugDetailCard({ drug }: DrugDetailCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-[18px] font-bold text-[#061e44]" data-testid="drug-detail-name">
+          <h2 className="text-[18px] font-bold text-foreground" data-testid="drug-detail-name">
             {drug.displayName}
           </h2>
           <p className="text-[13px] text-muted-foreground italic" data-testid="drug-detail-inn">
@@ -66,10 +66,10 @@ export function DrugDetailCard({ drug }: DrugDetailCardProps) {
 
       {/* Common Dosage */}
       <div className="bg-white border border-border/80 rounded-xl p-4 shadow-sm" data-testid="drug-detail-dosage-section">
-        <h3 className="text-[13px] font-bold uppercase tracking-wider text-[#061e44] mb-2">
+        <h3 className="text-[13px] font-bold uppercase tracking-wider text-foreground mb-2">
           {t('detail.common_dosage')}
         </h3>
-        <p className="text-[14px] text-[#061e44]" data-testid="drug-detail-common-dosage">
+        <p className="text-[14px] text-foreground" data-testid="drug-detail-common-dosage">
           {drug.commonDosage}
         </p>
       </div>
@@ -78,31 +78,31 @@ export function DrugDetailCard({ drug }: DrugDetailCardProps) {
       {drug.dosageGuidelines.length > 0 && (
         <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="drug-detail-guidelines-section">
           <div className="px-4 pt-4 pb-2">
-            <h3 className="text-[13px] font-bold uppercase tracking-wider text-[#061e44]">
+            <h3 className="text-[13px] font-bold uppercase tracking-wider text-foreground">
               {t('detail.dosage_guidelines')}
             </h3>
           </div>
           <Table>
             <TableHeader>
-              <TableRow className="bg-[#f4f6f9] hover:bg-[#f4f6f9] border-b border-border/50">
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+              <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t('detail.species')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t('detail.dose_per_kg')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t('detail.frequency')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t('detail.max_duration')}
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {drug.dosageGuidelines.map((g) => (
-                <TableRow key={g.species} className="hover:bg-[#f4f6f9]/50 border-border/30" data-testid={`guideline-row-${g.species.toLowerCase()}`}>
-                  <TableCell className="text-[13px] font-semibold text-[#061e44]">{g.species}</TableCell>
+                <TableRow key={g.species} className="hover:bg-muted/50 border-border/30" data-testid={`guideline-row-${g.species.toLowerCase()}`}>
+                  <TableCell className="text-[13px] font-semibold text-foreground">{g.species}</TableCell>
                   <TableCell className="text-[13px] text-muted-foreground tabular-nums">
                     {g.dosePerKg} {g.unit}/kg
                   </TableCell>

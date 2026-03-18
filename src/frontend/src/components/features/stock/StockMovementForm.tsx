@@ -84,14 +84,14 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-2xl" data-testid="stock-movement-dialog">
         <DialogHeader>
-          <DialogTitle className="text-[18px] font-bold text-[#061e44]">
+          <DialogTitle className="text-[18px] font-bold text-foreground">
             {t('movement.title')} — {item.name}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="rounded-xl bg-[#f4f6f9] border border-border/50 px-4 py-3 flex items-center justify-between" data-testid="movement-current-qty">
+        <div className="rounded-xl bg-muted border border-border/50 px-4 py-3 flex items-center justify-between" data-testid="movement-current-qty">
           <span className="text-[13px] text-muted-foreground">{t('movement.current_qty', { qty: item.quantity, unit: item.unit })}</span>
-          <span className="text-[15px] font-bold text-[#061e44] tabular-nums">{item.quantity} {item.unit}</span>
+          <span className="text-[15px] font-bold text-foreground tabular-nums">{item.quantity} {item.unit}</span>
         </div>
 
         <form
@@ -102,7 +102,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
         >
           {/* Type */}
           <div className="space-y-1">
-            <Label htmlFor="movement-type" className="text-[13px] font-semibold text-[#061e44]">
+            <Label htmlFor="movement-type" className="text-[13px] font-semibold text-foreground">
               {t('movement.type')} <span className="text-destructive">*</span>
             </Label>
             <Select
@@ -130,7 +130,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
 
           {/* Quantity */}
           <div className="space-y-1">
-            <Label htmlFor="movement-quantity" className="text-[13px] font-semibold text-[#061e44]">
+            <Label htmlFor="movement-quantity" className="text-[13px] font-semibold text-foreground">
               {t('movement.quantity')} <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -138,7 +138,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               type="number"
               min={1}
               data-testid="input-movement-quantity"
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               {...register('quantity')}
             />
             {errors.quantity && (
@@ -150,7 +150,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
 
           {/* Reason */}
           <div className="space-y-1">
-            <Label htmlFor="movement-reason" className="text-[13px] font-semibold text-[#061e44]">
+            <Label htmlFor="movement-reason" className="text-[13px] font-semibold text-foreground">
               {t('movement.reason')}{' '}
               <span className="text-muted-foreground">{t('form.optional')}</span>
             </Label>
@@ -158,7 +158,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               id="movement-reason"
               data-testid="input-movement-reason"
               placeholder={t('movement.reason_placeholder')}
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               {...register('reason')}
             />
           </div>
@@ -169,7 +169,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               variant="outline"
               data-testid="btn-cancel-movement"
               onClick={() => onOpenChange(false)}
-              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
             >
               {t('form.cancel')}
             </Button>
@@ -177,7 +177,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               type="submit"
               disabled={isSubmitting}
               data-testid="btn-save-movement"
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               {isSubmitting ? t('form.saving') : t('movement.confirm')}
             </Button>

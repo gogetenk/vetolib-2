@@ -38,8 +38,8 @@ export default function SettingsIndexPage() {
   return (
     <PageContainer data-testid="settings-index-page">
       <div>
-        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           Settings
         </h1>
         <p className="text-[13px] text-muted-foreground mt-1 ml-3">
@@ -55,14 +55,14 @@ export default function SettingsIndexPage() {
             className="block group"
             data-testid={link.testId}
           >
-            <Card className="h-full bg-white border-border/80 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:border-[#303ef5]/30 cursor-pointer">
+            <Card className="h-full bg-white border-border/80 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:border-primary/30 cursor-pointer">
               <CardHeader>
                 <div className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#eef2fd] group-hover:bg-[#303ef5]/15 transition-colors">
-                    <link.icon className="h-5 w-5 text-[#303ef5]" />
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/15 transition-colors">
+                    <link.icon className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <CardTitle className="text-[15px] font-bold text-[#061e44]">{link.title}</CardTitle>
+                    <CardTitle className="text-[15px] font-bold text-foreground">{link.title}</CardTitle>
                     <CardDescription className="mt-1 text-[13px] text-muted-foreground">
                       {link.description}
                     </CardDescription>

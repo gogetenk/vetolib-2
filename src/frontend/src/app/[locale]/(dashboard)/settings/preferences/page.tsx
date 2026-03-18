@@ -118,8 +118,8 @@ export default function PreferencesPage() {
   return (
     <PageContainer data-testid="preferences-page">
       <div>
-        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t('title')}
         </h1>
         <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t('subtitle')}</p>
@@ -147,7 +147,7 @@ export default function PreferencesPage() {
       {/* Consent management (only visible to Admins) */}
       {isAdmin && (
         <div className="bg-white border border-border/80 rounded-xl shadow-sm p-5 space-y-3 transition-all duration-200 ease-in-out" data-testid="consent-management-section">
-          <h3 className="text-[13px] font-bold text-[#061e44]">{t('consent.title')}</h3>
+          <h3 className="text-[13px] font-bold text-foreground">{t('consent.title')}</h3>
           <p className="text-[12px] text-muted-foreground">{t('consent.description')}</p>
           <Button
             variant="destructive"

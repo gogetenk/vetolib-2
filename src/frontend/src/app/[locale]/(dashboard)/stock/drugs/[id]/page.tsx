@@ -44,12 +44,12 @@ export default function DrugDetailPage() {
           size="sm"
           onClick={() => router.push(`/${locale}/stock/drugs`)}
           data-testid="btn-back-to-catalog"
-          className="rounded-xl border-border/80 hover:bg-[#f4f6f9]"
+          className="rounded-xl border-border/80 hover:bg-muted"
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="drug-detail-title">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="drug-detail-title">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           {drug ? drug.displayName : t('detail.loading')}
         </h1>
       </div>

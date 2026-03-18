@@ -32,7 +32,7 @@ function roleBadgeClass(role: UserRole): string {
     case "ADMIN":
       return "bg-[#fef2f2] text-[#ef4444]"
     case "VET":
-      return "bg-[#eef2fd] text-[#303ef5]"
+      return "bg-primary/10 text-primary"
     case "ASSISTANT":
       return "bg-[#e8f6f0] text-[#22c55e]"
     case "RECEPTIONIST":
@@ -80,23 +80,23 @@ export function TeamTable({
       <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
         <Table data-testid="team-table">
           <TableHeader>
-            <TableRow className="bg-[#f4f6f9] hover:bg-[#f4f6f9] border-b border-border/50">
-              <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider">Collaborateurs</TableHead>
-              <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider">Niveau de visibilité</TableHead>
-              <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider text-center">Statut</TableHead>
-              {isAdmin && <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider text-right w-24"></TableHead>}
+            <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
+              <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider">Collaborateurs</TableHead>
+              <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider">Niveau de visibilité</TableHead>
+              <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider text-center">Statut</TableHead>
+              {isAdmin && <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider text-right w-24"></TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user.id} data-testid={`user-row-${user.id}`} className="hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
+              <TableRow key={user.id} data-testid={`user-row-${user.id}`} className="hover:bg-muted/50 border-border/30 transition-colors">
                 <TableCell className="px-6 py-4" data-testid={`user-name-${user.id}`}>
                   <div className="flex items-center gap-4">
                     <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold", roleBadgeClass(user.role))}>
                       {getInitials(user.fullName)}
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[14px] font-semibold text-[#061e44]">{user.fullName}</span>
+                      <span className="text-[14px] font-semibold text-foreground">{user.fullName}</span>
                       <span className="text-[12px] text-muted-foreground">{user.role.toLowerCase().replace('_', ' ')}</span>
                     </div>
                   </div>
@@ -111,7 +111,7 @@ export function TeamTable({
                     disabled={!isAdmin || user.email === currentUserEmail || deactivatingId === user.id}
                     className={cn(
                       "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                      user.isActive ? "bg-[#303ef5]" : "bg-muted-foreground/30",
+                      user.isActive ? "bg-primary" : "bg-muted-foreground/30",
                       (!isAdmin || user.email === currentUserEmail) && "cursor-not-allowed opacity-50"
                     )}
                     role="switch"
@@ -131,7 +131,7 @@ export function TeamTable({
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      className="rounded-full text-muted-foreground hover:text-[#303ef5] hover:bg-[#303ef5]/5"
+                      className="rounded-full text-muted-foreground hover:text-primary hover:bg-primary/5"
                       data-testid={`change-role-btn-${user.id}`}
                       onClick={() => setChangeRoleUser(user)}
                     >

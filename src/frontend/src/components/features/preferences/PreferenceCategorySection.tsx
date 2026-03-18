@@ -34,12 +34,12 @@ export function PreferenceCategorySection({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-[#f4f6f9] hover:bg-[#f4f6f9]/80 transition-colors text-left"
+        className="w-full flex items-center justify-between px-4 py-3 bg-muted hover:bg-muted/80 transition-colors text-left"
         data-testid={`pref-section-toggle-${category.key}`}
         aria-expanded={isOpen}
       >
         <div>
-          <h3 className="text-[14px] font-bold text-[#061e44]">{category.label}</h3>
+          <h3 className="text-[14px] font-bold text-foreground">{category.label}</h3>
           <p className="text-[12px] text-muted-foreground mt-0.5">{category.description}</p>
         </div>
         <ChevronDownIcon

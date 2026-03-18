@@ -109,15 +109,15 @@ export default function StockHistoryPage() {
             size="sm"
             onClick={() => router.push('/stock')}
             data-testid="btn-back-stock"
-            className="rounded-xl border-border/80 hover:bg-[#f4f6f9]"
+            className="rounded-xl border-border/80 hover:bg-muted"
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1
-            className="text-[22px] font-bold text-[#061e44] flex items-center gap-2"
+            className="text-[22px] font-bold text-foreground flex items-center gap-2"
             data-testid="stock-history-title"
           >
-            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+            <span className="w-1 h-5 bg-primary rounded-full"></span>
             {t('title')}
           </h1>
         </div>
@@ -125,7 +125,7 @@ export default function StockHistoryPage() {
           onClick={handleExportCsv}
           data-testid="btn-export-csv"
           variant="outline"
-          className="rounded-xl border-border/80 text-[13px] font-semibold hover:bg-[#f4f6f9]"
+          className="rounded-xl border-border/80 text-[13px] font-semibold hover:bg-muted"
           disabled={filteredMovements.length === 0}
         >
           <Download className="me-1.5 h-4 w-4" />
