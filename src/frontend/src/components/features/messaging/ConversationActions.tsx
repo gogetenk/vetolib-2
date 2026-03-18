@@ -228,7 +228,7 @@ export function ConversationActions({
                 onClick={() => setTransferOpen(false)}
                 data-testid="transfer-cancel-btn"
                 disabled={isTransferring}
-                className="rounded-lg font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
               >
                 {t('cancel')}
               </Button>
@@ -238,7 +238,7 @@ export function ConversationActions({
                 onClick={handleTransferConfirm}
                 data-testid="transfer-confirm-btn"
                 disabled={!selectedRole || isTransferring}
-                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-lg shadow-sm"
+                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
               >
                 {isTransferring ? t('transferring') : t('action_transfer')}
               </Button>

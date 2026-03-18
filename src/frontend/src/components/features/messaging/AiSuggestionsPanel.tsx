@@ -18,7 +18,7 @@ export function AiSuggestionsPanel({ suggestions, onSelect }: AiSuggestionsPanel
       data-testid="ai-suggestions-panel"
     >
       <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="h-4 w-4 text-[#6366f1]" aria-hidden />
+        <Sparkles className="h-4 w-4 text-[#303ef5]" aria-hidden />
         <h3 className="text-[13px] font-bold text-[#061e44]">
           {t('ai_suggestions_title')}
         </h3>
@@ -30,7 +30,7 @@ export function AiSuggestionsPanel({ suggestions, onSelect }: AiSuggestionsPanel
             key={index}
             type="button"
             data-testid={`ai-suggestion-${index}`}
-            className="w-full text-left rounded-xl border border-[#6366f1]/20 bg-[#6366f1]/5 px-3 py-2.5 text-[13px] text-[#061e44] hover:bg-[#6366f1]/10 hover:border-[#6366f1]/30 transition-colors focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30"
+            className="w-full text-left rounded-xl border border-[#303ef5]/20 bg-[#303ef5]/5 px-3 py-2.5 text-[13px] text-[#061e44] hover:bg-[#303ef5]/10 hover:border-[#303ef5]/30 transition-colors focus:outline-none focus:ring-2 focus:ring-[#303ef5]/30"
             dir={suggestion.language === 'ar' ? 'rtl' : 'ltr'}
             onClick={() => onSelect(suggestion.text)}
           >
@@ -41,7 +41,7 @@ export function AiSuggestionsPanel({ suggestions, onSelect }: AiSuggestionsPanel
 
       {/* AI disclaimer — constant, never LLM-generated */}
       <div
-        className="mt-3 flex items-start gap-2 rounded-md bg-amber-50 border border-amber-200 px-3 py-2"
+        className="mt-3 flex items-start gap-2 rounded-xl bg-amber-50 border border-amber-200 px-3 py-2"
         data-testid="ai-disclaimer"
         role="note"
       >

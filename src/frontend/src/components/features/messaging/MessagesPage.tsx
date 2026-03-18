@@ -252,7 +252,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
 
         <div className="flex-1 min-w-0">
           <h2
-            className="text-[15px] font-bold text-[#061e44] truncate"
+            className="text-[18px] font-bold text-[#061e44] truncate"
             data-testid="detail-subject"
           >
             {conversation.subject}
@@ -304,7 +304,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
                 size="sm"
                 data-testid={`btn-set-status-${s.toLowerCase()}`}
                 onClick={() => onStatusChange(conversation.id, s)}
-                className="rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
               >
                 {t(`status.${s}`)}
               </Button>
@@ -335,7 +335,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
 
       {/* Conversation body placeholder — messages are loaded in a separate task */}
       <div
-        className="flex-1 flex items-center justify-center text-sm text-muted-foreground p-8 text-center"
+        className="flex-1 flex items-center justify-center text-[14px] text-muted-foreground p-8 text-center"
         data-testid="detail-messages-placeholder"
       >
         <div>

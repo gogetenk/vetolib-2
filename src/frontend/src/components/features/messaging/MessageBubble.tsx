@@ -37,7 +37,7 @@ function AttachmentPreview({ attachment }: { attachment: MessageAttachmentDto })
       <button
         type="button"
         data-testid={`attachment-${attachment.id}`}
-        className="mt-2 rounded overflow-hidden border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+        className="mt-2 rounded-xl overflow-hidden border border-border/80 focus:outline-none focus:ring-2 focus:ring-[#303ef5]/20"
         onClick={() => isImage && setLightboxOpen(true)}
         aria-label={`View attachment: ${attachment.fileName}`}
       >

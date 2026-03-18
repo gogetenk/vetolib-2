@@ -42,7 +42,7 @@ export function MessageThread({
       )}
 
       {visibleMessages.length === 0 ? (
-        <div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+        <div className="flex-1 flex items-center justify-center text-[14px] text-muted-foreground">
           {t('no_messages')}
         </div>
       ) : (
