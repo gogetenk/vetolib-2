@@ -109,7 +109,7 @@ export function AppointmentsTable() {
       cell: ({ getValue }) => {
         const val = getValue<string>()
         return (
-          <span data-testid="cell-datetime">
+          <span data-testid="cell-datetime" className="text-[13px] text-[#061e44]">
             <LtrText>{format(new Date(val), 'dd MMM yyyy HH:mm')}</LtrText>
           </span>
         )
@@ -119,7 +119,7 @@ export function AppointmentsTable() {
       id: 'patient',
       header: t('columns.patient'),
       cell: ({ row }) => (
-        <span data-testid="cell-patient">
+        <span data-testid="cell-patient" className="text-[13px] font-medium text-[#061e44]">
           {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
         </span>
       ),
@@ -128,14 +128,14 @@ export function AppointmentsTable() {
       accessorKey: 'ownerName',
       header: t('columns.owner'),
       cell: ({ getValue }) => (
-        <span data-testid="cell-owner">{getValue<string>()}</span>
+        <span data-testid="cell-owner" className="text-[13px] text-[#061e44]">{getValue<string>()}</span>
       ),
     },
     {
       accessorKey: 'vetName',
       header: t('columns.vet'),
       cell: ({ getValue }) => (
-        <span data-testid="cell-vet">{getValue<string>()}</span>
+        <span data-testid="cell-vet" className="text-[13px] text-[#061e44]">{getValue<string>()}</span>
       ),
     },
     {
@@ -154,6 +154,7 @@ export function AppointmentsTable() {
             variant="outline"
             size="sm"
             data-testid={`btn-view-${row.original.id}`}
+            className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9] text-[13px]"
           >
             {t('columns.view')}
           </Button>
