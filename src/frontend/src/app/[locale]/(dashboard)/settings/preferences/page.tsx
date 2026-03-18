@@ -115,11 +115,13 @@ export default function PreferencesPage() {
   }
 
   return (
-    <div className="space-y-6" data-testid="preferences-page">
-      {/* Page header */}
+    <div className="p-6 lg:p-8 space-y-6" data-testid="preferences-page">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
-        <p className="text-sm text-muted-foreground mt-1">{t('subtitle')}</p>
+        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
+          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          {t('title')}
+        </h1>
+        <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t('subtitle')}</p>
       </div>
 
       {/* Category sections */}
@@ -143,15 +145,16 @@ export default function PreferencesPage() {
 
       {/* Consent management (only visible to Admins) */}
       {isAdmin && (
-        <div className="border rounded-lg p-4 space-y-2 transition-all duration-200 ease-in-out" data-testid="consent-management-section">
-          <h3 className="text-sm font-semibold">{t('consent.title')}</h3>
-          <p className="text-xs text-muted-foreground">{t('consent.description')}</p>
+        <div className="bg-white border border-border/80 rounded-xl shadow-sm p-5 space-y-3 transition-all duration-200 ease-in-out" data-testid="consent-management-section">
+          <h3 className="text-[13px] font-bold text-[#061e44]">{t('consent.title')}</h3>
+          <p className="text-[12px] text-muted-foreground">{t('consent.description')}</p>
           <Button
             variant="destructive"
             size="sm"
             onClick={handleRevokeAnalyticsConsent}
             disabled={isRevoking}
             data-testid="revoke-analytics-consent-btn"
+            className="rounded-xl h-10 px-5 font-semibold"
           >
             {isRevoking ? t('consent.revoking') : t('consent.revoke_analytics')}
           </Button>

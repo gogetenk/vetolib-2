@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { PlusIcon } from 'lucide-react'
+import { ChevronRight, PlusIcon, Video } from 'lucide-react'
 import { getConsultationColor } from './consultation-colors'
 import { START_HOUR, END_HOUR } from './TimeColumn'
 import type { CalendarAppointment } from './types'
@@ -185,16 +185,16 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
   return (
     <div
       ref={containerRef}
-      className="flex overflow-y-auto border border-border rounded-lg bg-background max-h-[calc(100vh-200px)]"
+      className="flex overflow-y-auto border border-border/60 rounded-xl bg-white shadow-sm max-h-[calc(100vh-200px)]"
       data-testid="calendar-day-view"
     >
       {/* Time column */}
-      <div className="flex-shrink-0 w-16 border-e border-border">
+      <div className="flex-shrink-0 w-16 border-e border-border/40">
         {Array.from({ length: totalHours }, (_, i) => {
           const hour = START_HOUR + i
           return (
-            <div key={i} className="h-16 relative border-b border-border/50">
-              <span className="absolute -top-2.5 end-2 text-xs text-muted-foreground">
+            <div key={i} className="h-16 relative border-b border-border/20">
+              <span className="absolute -top-2.5 end-2 text-[11px] font-semibold text-muted-foreground/70">
                 {String(hour).padStart(2, '0')}:00
               </span>
             </div>
@@ -217,14 +217,14 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
             const isBottomHovered = hoveredSlot === bottomHalfKey
 
             return (
-              <div key={i} className={`h-16 border-b border-border/50 ${offHours ? 'bg-muted/30' : ''}`}>
+              <div key={i} className={`h-16 border-b border-border/20 ${offHours ? 'bg-[#f9fafb]' : ''}`}>
                 {/* Top half */}
                 <div
-                  className={`h-8 relative transition-colors duration-200 ease-in-out border-b border-border/20 ${
+                  className={`h-8 relative transition-colors duration-200 ease-in-out border-b border-border/10 ${
                     isClickable
-                      ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                      ? 'cursor-pointer hover:bg-[#eef2fd]/60'
                       : 'cursor-not-allowed'
-                  } ${isTopHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                  } ${isTopHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
                   onClick={() => isClickable && handleSlotClick(hour, true)}
                   onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
                   onMouseLeave={() => setHoveredSlot(null)}
@@ -232,7 +232,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 >
                   {isTopHovered && isClickable && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                      <PlusIcon className="size-4 text-blue-400" />
+                      <PlusIcon className="size-4 text-[#303ef5]/50" />
                     </div>
                   )}
                 </div>
@@ -240,9 +240,9 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 <div
                   className={`h-8 relative transition-colors duration-200 ease-in-out ${
                     isClickable
-                      ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                      ? 'cursor-pointer hover:bg-[#eef2fd]/60'
                       : 'cursor-not-allowed'
-                  } ${isBottomHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                  } ${isBottomHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
                   onClick={() => isClickable && handleSlotClick(hour, false)}
                   onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
                   onMouseLeave={() => setHoveredSlot(null)}
@@ -250,7 +250,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 >
                   {isBottomHovered && isClickable && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                      <PlusIcon className="size-4 text-blue-400" />
+                      <PlusIcon className="size-4 text-[#303ef5]/50" />
                     </div>
                   )}
                 </div>
@@ -288,10 +288,10 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
               <div
                 key={apt.id}
                 data-testid={`appointment-block-${apt.id}`}
-                className={`absolute rounded-md border-s-[3px] ${color.bg} ${color.border} px-2 py-1 cursor-pointer overflow-hidden transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-0.5 hover:z-30 active:scale-[0.98] z-10`}
+                className={`absolute rounded-xl ${color.bg} p-1.5 cursor-pointer overflow-hidden transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-0.5 hover:z-30 active:scale-[0.98] z-10 flex group shadow-sm border border-black/5`}
                 style={{
                   top: `${topPx}px`,
-                  height: `${Math.max(heightPx, 24)}px`,
+                  height: `${Math.max(heightPx, 36)}px`,
                   [isRtl ? 'right' : 'left']: `${leftPercent}%`,
                   width: `calc(${widthPercent}% - 4px)`,
                 }}
@@ -305,32 +305,30 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                   }
                 }}
               >
-                {/* Line 1: patient + species + owner */}
-                <div className="flex items-center gap-1">
-                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${STATUS_COLORS[apt.status]} transition-colors duration-200`} />
-                  <span className={`text-xs font-medium truncate ${color.text}`}>
-                    {emoji} {apt.patientName}
+                {/* Inner vertical bar */}
+                <div className={`w-[2.5px] rounded-full my-0.5 flex-shrink-0 ${color.line}`} />
+                
+                {/* Content */}
+                <div className="flex flex-col min-w-0 flex-1 justify-center ms-2 py-0.5">
+                  <span className="text-[12px] tracking-tight truncate text-[#061e44] leading-tight">
+                    <span className="font-bold">{apt.ownerName.split(' ')[0].toUpperCase()}</span>{' '}
+                    <span className="font-medium text-[#061e44]/90">{apt.patientName}</span>
                   </span>
-                  <span className="text-[10px] text-muted-foreground truncate">
-                    — {apt.ownerName}
-                  </span>
-                </div>
-                {/* Line 2: type badge + vet + time */}
-                {heightPx >= 36 && (
-                  <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className={`inline-block text-[10px] font-medium ${color.text} px-1.5 py-0 rounded-full ${color.bg}`}>
+                  
+                  {heightPx >= 40 && (
+                    <span className="text-[11px] truncate text-slate-500 font-medium leading-tight mt-[1px]">
                       {apt.consultationType}
+                      {apt.reason && ` · ${apt.reason}`}
                     </span>
-                    <span className="text-[10px] text-muted-foreground truncate">
-                      {apt.vetName} · {timeFormatter.format(scheduledDate)}
-                    </span>
+                  )}
+                </div>
+
+                {apt.consultationType === 'Teleconsultation' && (
+                  <div className="flex-shrink-0 ms-2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
+                    <div className="bg-white/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-[#061e44]">
+                      <Video className="w-3.5 h-3.5" />
+                    </div>
                   </div>
-                )}
-                {/* Line 3: reason */}
-                {heightPx >= 52 && apt.reason && (
-                  <p className="text-[10px] text-muted-foreground truncate mt-0.5">
-                    {apt.reason}
-                  </p>
                 )}
               </div>
             )

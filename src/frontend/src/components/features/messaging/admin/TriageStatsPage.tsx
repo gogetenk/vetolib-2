@@ -18,14 +18,15 @@ import { StatCard } from "./StatCard"
 import { getTriageStats } from "@/lib/api/messaging"
 import type { TriageStatsDto } from "@/lib/api/messaging-types"
 
+// Using theme colors instead of hardcoded hex colors for better integration
 const CATEGORY_COLORS: Record<string, string> = {
-  MedicalUrgency: "#ef4444",
-  PostOperativeFollowUp: "#f97316",
-  MedicalQuestion: "#3b82f6",
-  AppointmentRequest: "#22c55e",
-  Administrative: "#a855f7",
-  Feedback: "#eab308",
-  Other: "#6b7280",
+  MedicalUrgency: "var(--color-chart-1)",
+  PostOperativeFollowUp: "var(--color-chart-2)",
+  MedicalQuestion: "var(--color-chart-3)",
+  AppointmentRequest: "var(--color-chart-4)",
+  Administrative: "var(--color-chart-5)",
+  Feedback: "var(--color-primary)",
+  Other: "var(--color-muted-foreground)",
 }
 
 function formatMinutes(minutes: number): string {
@@ -79,7 +80,7 @@ export function TriageStatsPage() {
     name: tCat(c.category),
     count: c.count,
     percentage: c.percentage,
-    color: CATEGORY_COLORS[c.category] ?? "#6b7280",
+    color: CATEGORY_COLORS[c.category] ?? "var(--color-muted-foreground)",
   }))
 
   const volumeData = stats.dailyVolume.map((d) => ({
@@ -88,14 +89,17 @@ export function TriageStatsPage() {
   }))
 
   return (
-    <div className="space-y-6" data-testid="triage-stats-page">
+    <div className="p-6 lg:p-8 space-y-6" data-testid="triage-stats-page">
       <div>
-        <h2 className="text-xl font-semibold">{t("title")}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
+        <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
+          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          {t("title")}
+        </h2>
+        <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("subtitle")}</p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="stats-cards">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" data-testid="stats-cards">
         <StatCard
           testId="stat-avg-response"
           title={t("avg_response_time")}
@@ -123,23 +127,33 @@ export function TriageStatsPage() {
       </div>
 
       {/* Messages by Category Bar Chart */}
-      <div className="rounded-md border p-4" data-testid="stats-category-chart">
-        <h3 className="text-sm font-semibold mb-4">{t("by_category")}</h3>
-        <ResponsiveContainer width="100%" height={240}>
+      <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-category-chart">
+        <h3 className="text-[14px] font-bold text-[#061e44] mb-6">{t("by_category")}</h3>
+        <ResponsiveContainer width="100%" height={280}>
           <BarChart data={categoryData} margin={{ top: 4, right: 16, bottom: 40, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" className="opacity-50" />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: 11 }}
+              tick={{ fill: "var(--color-muted-foreground)", fontSize: 12 }}
+              tickLine={false}
+              axisLine={false}
               angle={-25}
               textAnchor="end"
               interval={0}
+              dy={10}
             />
-            <YAxis tick={{ fontSize: 11 }} />
+            <YAxis 
+              tick={{ fill: "var(--color-muted-foreground)", fontSize: 12 }} 
+              tickLine={false} 
+              axisLine={false} 
+              dx={-10}
+            />
             <Tooltip
+              cursor={{ fill: "var(--color-muted)", opacity: 0.2 }}
+              contentStyle={{ borderRadius: "8px", border: "1px solid var(--color-border)", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
               formatter={(value) => [Number(value ?? 0), t("tooltip_count")]}
             />
-            <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+            <Bar dataKey="count" radius={[6, 6, 0, 0]} maxBarSize={50}>
               {categoryData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
@@ -149,23 +163,35 @@ export function TriageStatsPage() {
       </div>
 
       {/* Volume per day Line Chart */}
-      <div className="rounded-md border p-4" data-testid="stats-volume-chart">
-        <h3 className="text-sm font-semibold mb-4">{t("volume_per_day")}</h3>
-        <ResponsiveContainer width="100%" height={200}>
+      <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-volume-chart">
+        <h3 className="text-[14px] font-bold text-[#061e44] mb-6">{t("volume_per_day")}</h3>
+        <ResponsiveContainer width="100%" height={240}>
           <LineChart data={volumeData} margin={{ top: 4, right: 16, bottom: 8, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-            <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 11 }} />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" className="opacity-50" />
+            <XAxis 
+              dataKey="date" 
+              tick={{ fill: "var(--color-muted-foreground)", fontSize: 12 }}
+              tickLine={false}
+              axisLine={false}
+              dy={10}
+            />
+            <YAxis 
+              tick={{ fill: "var(--color-muted-foreground)", fontSize: 12 }}
+              tickLine={false}
+              axisLine={false}
+              dx={-10}
+            />
             <Tooltip
+              contentStyle={{ borderRadius: "8px", border: "1px solid var(--color-border)", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
               formatter={(value) => [Number(value ?? 0), t("tooltip_messages")]}
             />
             <Line
               type="monotone"
               dataKey="count"
-              stroke="var(--chart-1)"
-              strokeWidth={2}
-              dot={{ r: 3 }}
-              activeDot={{ r: 5 }}
+              stroke="var(--color-primary)"
+              strokeWidth={3}
+              dot={false}
+              activeDot={{ r: 6, fill: "var(--color-primary)", stroke: "var(--color-background)", strokeWidth: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>

@@ -128,19 +128,19 @@ function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnread
       data-testid={item.testId}
       onClick={onClick}
       className={cn(
-        "group/nav-item relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium",
+        "group/nav-item relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-semibold",
         "transition-all duration-200 ease-in-out",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30 focus-visible:ring-offset-1",
         isActive
-          ? "bg-primary/10 text-primary"
-          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          ? "bg-[#eef2fd] text-[#303ef5]"
+          : "text-muted-foreground hover:bg-[#f4f6f9] hover:text-[#061e44]"
       )}
       aria-current={isActive ? "page" : undefined}
     >
       {/* Active indicator bar */}
       <span
         className={cn(
-          "absolute ltr:left-0 rtl:right-0 top-1/2 -translate-y-1/2 h-6 w-[3px] rounded-full bg-primary",
+          "absolute ltr:left-0 rtl:right-0 top-1/2 -translate-y-1/2 h-6 w-[3px] rounded-full bg-[#303ef5]",
           "transition-all duration-200 ease-in-out",
           isActive
             ? "opacity-100 scale-y-100"
@@ -151,7 +151,7 @@ function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnread
       <span className={cn(
         "transition-transform duration-200 ease-in-out",
         "group-hover/nav-item:scale-110",
-        isActive && "text-primary"
+        isActive && "text-[#303ef5]"
       )}>
         {item.icon}
       </span>
@@ -159,7 +159,7 @@ function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnread
       {showUnreadBadge && (
         <Badge
           data-testid="nav-messages-unread-badge"
-          className="ltr:ml-auto rtl:mr-auto text-xs bg-destructive text-destructive-foreground animate-pulse"
+          className="ltr:ml-auto rtl:mr-auto text-[10px] font-bold bg-[#303ef5] text-white rounded-full h-5 min-w-5 flex items-center justify-center px-1 animate-pulse"
         >
           {messagingUnreadCount}
         </Badge>
@@ -245,19 +245,21 @@ export function Sidebar() {
   return (
     <aside
       data-testid="dashboard-sidebar"
-      className="hidden w-64 border-r bg-sidebar text-sidebar-foreground md:flex md:flex-col transition-all duration-200 ease-in-out"
+      className="hidden w-64 bg-sidebar text-sidebar-foreground md:flex md:flex-col transition-all duration-200 ease-in-out"
     >
-      <div className="flex h-16 items-center border-b px-4">
+      <div className="flex h-16 items-center px-6">
         <Link
           href={`/${locale}/appointments`}
           data-testid="sidebar-logo"
-          className="group/logo flex items-center gap-2 font-bold text-lg text-primary transition-all duration-200 ease-in-out hover:opacity-80"
+          className="group/logo flex items-center gap-2 font-bold text-xl text-[#303ef5] transition-all duration-200 ease-in-out hover:opacity-80"
         >
           <PawPrint className="h-6 w-6 transition-transform duration-200 ease-in-out group-hover/logo:rotate-[-8deg] group-hover/logo:scale-110" />
           <span>Vetolib</span>
         </Link>
       </div>
-      <SidebarContent role={role} pathname={pathname} locale={locale} />
+      <div className="flex-1 overflow-y-auto px-3">
+        <SidebarContent role={role} pathname={pathname} locale={locale} />
+      </div>
     </aside>
   );
 }

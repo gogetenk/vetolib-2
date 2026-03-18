@@ -41,17 +41,17 @@ import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 import { useDirection } from '@/hooks/use-direction'
 
 const STATUS_BADGE_STYLES: Record<InvoiceStatus, string> = {
-  DRAFT: 'bg-amber-100 text-amber-700',
-  SENT: 'bg-blue-100 text-blue-700',
-  PAID: 'bg-emerald-100 text-emerald-700',
-  CANCELLED: 'bg-stone-100 text-stone-500',
+  DRAFT: 'bg-amber-50 text-amber-700 border-amber-200',
+  SENT: 'bg-[#eef2fd] text-[#303ef5] border-[#303ef5]/30',
+  PAID: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  CANCELLED: 'bg-[#f4f6f9] text-muted-foreground border-border/50',
 }
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
-  const style = STATUS_BADGE_STYLES[status] ?? 'bg-stone-100 text-stone-500'
+  const style = STATUS_BADGE_STYLES[status] ?? 'bg-[#f4f6f9] text-muted-foreground border-border/50'
   return (
     <span
-      className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', style)}
+      className={cn('inline-flex items-center rounded-md px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border', style)}
       data-testid="invoice-detail-status"
     >
       {status}
@@ -249,22 +249,22 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       )}
 
       {/* Header — single row: invoice number (left), status (center), date (right) */}
-      <Card>
+      <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between" data-testid="invoice-detail-header">
-            <span className="text-lg font-semibold text-stone-800" data-testid="invoice-detail-number">
+            <span className="text-[16px] font-bold text-[#061e44]" data-testid="invoice-detail-number">
               {invoice.invoiceNumber}
             </span>
             <StatusBadge status={invoice.status} />
-            <div className="text-sm text-stone-500 text-right" data-testid="invoice-detail-date">
+            <div className="text-[13px] text-muted-foreground text-right" data-testid="invoice-detail-date">
               <LtrText>{formatDate(invoice.createdAt)}</LtrText>
               {invoice.dueDate && (
-                <p className="text-stone-400" data-testid="invoice-due-date">
+                <p className="text-muted-foreground/70" data-testid="invoice-due-date">
                   Due: <LtrText>{formatDate(invoice.dueDate)}</LtrText>
                 </p>
               )}
               {invoice.paidAt && (
-                <p className="text-emerald-600 font-medium" data-testid="invoice-paid-date">
+                <p className="text-emerald-600 font-semibold" data-testid="invoice-paid-date">
                   Paid: <LtrText>{formatDate(invoice.paidAt)}</LtrText>
                 </p>
               )}
@@ -274,18 +274,18 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       </Card>
 
       {/* Client Info + Clinic */}
-      <Card>
+      <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-stone-800">Client</CardTitle>
+          <CardTitle className="text-[15px] font-bold text-[#061e44]">Client</CardTitle>
         </CardHeader>
         <CardContent className="flex justify-between">
           <div>
-            <p className="font-medium text-stone-800" data-testid="invoice-owner-name">{invoice.ownerName}</p>
-            <p className="text-sm text-stone-500" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
-            <p className="text-sm text-stone-500">Patient: <span className="text-stone-700" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
+            <p className="font-semibold text-[14px] text-[#061e44]" data-testid="invoice-owner-name">{invoice.ownerName}</p>
+            <p className="text-[13px] text-muted-foreground" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
+            <p className="text-[13px] text-muted-foreground">Patient: <span className="font-semibold text-[#061e44]" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
           </div>
-          <div className="text-right text-sm text-stone-500">
-            <p className="font-semibold text-stone-700">Happy Paws Veterinary</p>
+          <div className="text-right text-[13px] text-muted-foreground">
+            <p className="font-semibold text-[#061e44]">Happy Paws Veterinary</p>
             <p>Dubai, UAE</p>
             <LtrText as="p">+971 4 000 0000</LtrText>
           </div>
@@ -293,45 +293,47 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       </Card>
 
       {/* Line Items */}
-      <Card>
+      <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-stone-800">Items</CardTitle>
+          <CardTitle className="text-[15px] font-bold text-[#061e44]">Items</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table data-testid="invoice-items-table">
-            <TableHeader>
-              <TableRow className="bg-stone-50">
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Description</TableHead>
-                <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Qty</TableHead>
-                <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Unit Price</TableHead>
-                <TableHead className="text-end text-xs font-medium uppercase tracking-wide text-stone-500">Subtotal</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {invoice.items.map((item) => (
-                <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="hover:bg-stone-50 transition-colors">
-                  <TableCell className="text-stone-700">{item.description}</TableCell>
-                  <TableCell className="text-end tabular-nums text-stone-700">{item.quantity}</TableCell>
-                  <TableCell className="text-end tabular-nums text-stone-500"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>
-                  <TableCell className="text-end tabular-nums text-stone-800"><LtrText>{formatAED(item.subtotal)}</LtrText></TableCell>
+          <div className="border border-border/80 rounded-xl overflow-hidden">
+            <Table data-testid="invoice-items-table">
+              <TableHeader>
+                <TableRow className="bg-[#f4f6f9]">
+                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Description</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Qty</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Unit Price</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Subtotal</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {invoice.items.map((item) => (
+                  <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
+                    <TableCell className="text-[13px] text-[#061e44]">{item.description}</TableCell>
+                    <TableCell className="text-end tabular-nums text-[13px] text-[#061e44]">{item.quantity}</TableCell>
+                    <TableCell className="text-end tabular-nums text-[13px] text-muted-foreground"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>
+                    <TableCell className="text-end tabular-nums text-[13px] font-semibold text-[#061e44]"><LtrText>{formatAED(item.subtotal)}</LtrText></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
           {/* Totals */}
-          <div className="mt-3 border-t-2 border-stone-300 pt-3 space-y-1 text-sm max-w-xs ml-auto" data-testid="detail-totals">
+          <div className="mt-4 rounded-xl bg-[#f4f6f9] border border-border/50 px-4 py-3 space-y-1.5 text-[13px] max-w-xs ml-auto" data-testid="detail-totals">
             <div className="flex justify-between">
-              <span className="text-stone-500">Subtotal (excl. VAT)</span>
-              <LtrText className="text-stone-700 tabular-nums" data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
+              <span className="text-muted-foreground">Subtotal (excl. VAT)</span>
+              <LtrText className="font-semibold text-[#061e44] tabular-nums" data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
             </div>
             <div className="flex justify-between">
-              <span className="text-stone-400">VAT (5%)</span>
-              <LtrText className="text-stone-500 tabular-nums" data-testid="detail-vat">{formatAED(invoice.vatAmount)}</LtrText>
+              <span className="text-muted-foreground">VAT (5%)</span>
+              <LtrText className="text-muted-foreground tabular-nums" data-testid="detail-vat">{formatAED(invoice.vatAmount)}</LtrText>
             </div>
-            <div className="flex justify-between text-lg font-bold border-t-2 border-stone-300 pt-2">
-              <span className="text-stone-800">Total AED</span>
-              <LtrText className="text-stone-900 tabular-nums" data-testid="detail-total">{formatAED(invoice.total)}</LtrText>
+            <div className="flex justify-between font-bold text-[15px] text-[#061e44] border-t border-border/50 pt-1.5">
+              <span>Total AED</span>
+              <LtrText className="tabular-nums" data-testid="detail-total">{formatAED(invoice.total)}</LtrText>
             </div>
           </div>
         </CardContent>
@@ -339,12 +341,12 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
 
       {/* Notes */}
       {invoice.notes && (
-        <Card>
+        <Card className="bg-white border-border/80 rounded-xl shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-stone-800">Notes</CardTitle>
+            <CardTitle className="text-[15px] font-bold text-[#061e44]">Notes</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-stone-600" data-testid="invoice-notes">{invoice.notes}</p>
+            <p className="text-[13px] text-muted-foreground" data-testid="invoice-notes">{invoice.notes}</p>
           </CardContent>
         </Card>
       )}
@@ -352,7 +354,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Actions */}
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
         <Link href={`/${locale}/billing`}>
-          <Button variant="outline" data-testid="back-to-billing-btn" className="group/back text-stone-600">
+          <Button variant="outline" data-testid="back-to-billing-btn" className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9] group/back">
             <span className="inline-block transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5">{backArrow}</span> Back to Billing
           </Button>
         </Link>
@@ -363,7 +365,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="send-invoice-btn"
               onClick={handleSend}
               disabled={actionLoading}
-              className="bg-emerald-700 text-white hover:bg-emerald-800"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               Send
             </Button>
@@ -372,6 +374,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="delete-invoice-btn"
               onClick={handleDelete}
               disabled={actionLoading}
+              className="rounded-xl h-10 px-5 font-semibold"
             >
               Delete
             </Button>
@@ -384,7 +387,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="mark-paid-btn"
               onClick={handleMarkPaid}
               disabled={actionLoading}
-              className="bg-emerald-700 text-white hover:bg-emerald-800"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               Mark as Paid
             </Button>
@@ -393,7 +396,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="cancel-invoice-btn"
               onClick={handleCancel}
               disabled={actionLoading}
-              className="text-stone-600"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               Cancel
             </Button>
@@ -406,7 +409,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             data-testid="download-pdf-btn"
             onClick={handleDownloadPdf}
             disabled={actionLoading}
-            className="text-stone-600"
+            className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
           >
             Download PDF
           </Button>
@@ -415,10 +418,10 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
     </div>
 
     <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-      <DialogContent data-testid="delete-confirm-dialog">
+      <DialogContent data-testid="delete-confirm-dialog" className="rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-stone-800">Delete Invoice</DialogTitle>
-          <DialogDescription className="text-stone-500">
+          <DialogTitle className="text-[#061e44] font-bold">Delete Invoice</DialogTitle>
+          <DialogDescription className="text-muted-foreground text-[13px]">
             This action cannot be undone. The invoice will be permanently deleted.
           </DialogDescription>
         </DialogHeader>
@@ -427,7 +430,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             variant="outline"
             data-testid="delete-confirm-cancel"
             onClick={() => setDeleteDialogOpen(false)}
-            className="text-stone-600"
+            className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
           >
             Cancel
           </Button>
@@ -436,6 +439,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             data-testid="delete-confirm-ok"
             onClick={handleDeleteConfirm}
             disabled={actionLoading}
+            className="rounded-xl h-10 px-5 font-semibold"
           >
             Delete
           </Button>

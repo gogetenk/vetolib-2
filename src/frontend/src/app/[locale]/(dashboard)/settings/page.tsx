@@ -35,10 +35,13 @@ export default function SettingsIndexPage() {
   const localePrefix = pathname.replace(/\/settings$/, "")
 
   return (
-    <div className="space-y-6" data-testid="settings-index-page">
+    <div className="p-6 lg:p-8 space-y-6" data-testid="settings-index-page">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
+          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          Settings
+        </h1>
+        <p className="text-[13px] text-muted-foreground mt-1 ml-3">
           Manage your clinic configuration and preferences.
         </p>
       </div>
@@ -48,18 +51,18 @@ export default function SettingsIndexPage() {
           <Link
             key={link.href}
             href={`${localePrefix}/${link.href}`}
-            className="block"
+            className="block group"
             data-testid={link.testId}
           >
-            <Card className="h-full transition-colors hover:bg-muted/50 cursor-pointer">
+            <Card className="h-full bg-white border-border/80 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:border-[#303ef5]/30 cursor-pointer">
               <CardHeader>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <link.icon className="h-5 w-5 text-primary" />
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#eef2fd] group-hover:bg-[#303ef5]/15 transition-colors">
+                    <link.icon className="h-5 w-5 text-[#303ef5]" />
                   </div>
                   <div>
-                    <CardTitle className="text-base">{link.title}</CardTitle>
-                    <CardDescription className="mt-1 text-sm">
+                    <CardTitle className="text-[15px] font-bold text-[#061e44]">{link.title}</CardTitle>
+                    <CardDescription className="mt-1 text-[13px] text-muted-foreground">
                       {link.description}
                     </CardDescription>
                   </div>

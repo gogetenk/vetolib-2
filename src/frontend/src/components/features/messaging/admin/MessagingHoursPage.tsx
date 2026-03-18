@@ -63,10 +63,13 @@ export function MessagingHoursPage() {
   }
 
   return (
-    <div className="space-y-6" data-testid="messaging-hours-page">
+    <div className="p-6 lg:p-8 space-y-6" data-testid="messaging-hours-page">
       <div>
-        <h2 className="text-xl font-semibold">{t("title")}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
+        <h2 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
+          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          {t("title")}
+        </h2>
+        <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("subtitle")}</p>
       </div>
 
       {isLoading ? (
@@ -74,20 +77,20 @@ export function MessagingHoursPage() {
           {t("loading")}
         </div>
       ) : (
-        <div className="rounded-md border overflow-hidden" data-testid="hours-table">
+        <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="hours-table">
           <table className="w-full">
-            <thead className="bg-stone-50">
+            <thead className="bg-[#f4f6f9]">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500 w-32">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44] w-32">
                   {t("col_day")}
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
                   {t("col_status")}
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
                   {t("col_open")}
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-stone-500">
+                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
                   {t("col_close")}
                 </th>
               </tr>
@@ -114,6 +117,7 @@ export function MessagingHoursPage() {
             data-testid="save-hours-btn"
             onClick={handleSave}
             disabled={isSaving || isLoading}
+            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-11 px-6 shadow-sm"
           >
             {isSaving ? t("saving") : t("save")}
           </Button>

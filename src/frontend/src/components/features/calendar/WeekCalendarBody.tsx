@@ -119,7 +119,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
   }
 
   return (
-    <div className="flex overflow-x-auto border border-border rounded-lg bg-background" data-testid="calendar-week-view">
+    <div className="flex overflow-x-auto border border-border/60 rounded-xl bg-white shadow-sm" data-testid="calendar-week-view">
       <TimeColumn />
 
       <div className={`flex flex-1 min-w-0 ${isRtl ? 'flex-row-reverse' : ''}`}>
@@ -128,25 +128,25 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
           return (
             <div
               key={day.date.toISOString()}
-              className={`flex-1 min-w-28 border-e border-border last:border-e-0 ${
-                day.isWeekend ? 'bg-muted/40' : ''
+              className={`flex-1 min-w-28 border-e border-border/30 last:border-e-0 ${
+                day.isWeekend ? 'bg-[#f9fafb]' : ''
               }`}
               data-testid={`calendar-day-column-${day.dayIndex}`}
             >
               {/* Day header */}
               <div
-                className={`h-12 flex flex-col items-center justify-center border-b border-border transition-colors duration-200 ${
-                  day.isToday ? 'bg-primary/10' : ''
+                className={`h-14 flex flex-col items-center justify-center border-b border-border/40 transition-colors duration-200 ${
+                  day.isToday ? 'bg-[#eef2fd]' : ''
                 }`}
               >
-                <span className="text-xs text-muted-foreground">
+                <span className={`text-[11px] font-semibold uppercase tracking-wider ${day.isToday ? 'text-[#303ef5]' : 'text-muted-foreground'}`}>
                   {dayNameFormatter.format(day.date)}
                 </span>
                 <span
-                  className={`text-sm font-semibold ${
+                  className={`mt-0.5 text-[15px] font-bold ${
                     day.isToday
-                      ? 'bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center animate-pulse'
-                      : ''
+                      ? 'bg-[#303ef5] text-white rounded-full w-7 h-7 flex items-center justify-center shadow-sm text-[13px]'
+                      : 'text-[#061e44]'
                   }`}
                 >
                   {dayNumberFormatter.format(day.date)}
@@ -168,7 +168,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                   return (
                     <div
                       key={i}
-                      className={`h-16 border-b border-border/50 ${offHours ? 'bg-muted/30' : ''} ${
+                      className={`h-16 border-b border-border/20 ${offHours ? 'bg-[#f9fafb]' : ''} ${
                         day.isWeekend ? 'cursor-not-allowed' : ''
                       }`}
                     >
@@ -176,11 +176,11 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       <div
                         className={`h-8 relative transition-colors duration-200 ease-in-out ${
                           isClickable
-                            ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                            ? 'cursor-pointer hover:bg-[#eef2fd]/60'
                             : offHours
                             ? 'cursor-not-allowed'
                             : ''
-                        } ${isTopHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                        } ${isTopHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
                         onClick={() => isClickable && handleSlotClick(day, hour, true)}
                         onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
                         onMouseLeave={() => setHoveredSlot(null)}
@@ -189,7 +189,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       >
                         {isTopHovered && isClickable && (
                           <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                            <PlusIcon className="size-4 text-blue-400" />
+                            <PlusIcon className="size-4 text-[#303ef5]/50" />
                           </div>
                         )}
                       </div>
@@ -198,11 +198,11 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       <div
                         className={`h-8 relative transition-colors duration-200 ease-in-out ${
                           isClickable
-                            ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
+                            ? 'cursor-pointer hover:bg-[#eef2fd]/60'
                             : offHours
                             ? 'cursor-not-allowed'
                             : ''
-                        } ${isBottomHovered && isClickable ? 'bg-blue-50 dark:bg-blue-950/20' : ''}`}
+                        } ${isBottomHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
                         onClick={() => isClickable && handleSlotClick(day, hour, false)}
                         onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
                         onMouseLeave={() => setHoveredSlot(null)}
@@ -211,7 +211,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       >
                         {isBottomHovered && isClickable && (
                           <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                            <PlusIcon className="size-4 text-blue-400" />
+                            <PlusIcon className="size-4 text-[#303ef5]/50" />
                           </div>
                         )}
                       </div>

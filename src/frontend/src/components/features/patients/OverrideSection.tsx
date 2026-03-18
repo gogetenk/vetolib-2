@@ -32,11 +32,11 @@ export function OverrideSection({
 
   return (
     <div
-      className="rounded-md border border-red-300 bg-red-50 p-4 space-y-3 dark:border-red-800 dark:bg-red-950"
+      className="rounded-xl border border-red-300 bg-red-50 p-4 space-y-3 dark:border-red-800 dark:bg-red-950"
       data-testid="override-section"
     >
       <div className="space-y-1">
-        <p className="text-sm font-semibold text-red-900 dark:text-red-200">
+        <p className="text-[13px] font-bold text-red-900 dark:text-red-200">
           Critical alert detected — clinical justification required
         </p>
         <p className="text-xs text-red-700 dark:text-red-400">
@@ -47,7 +47,7 @@ export function OverrideSection({
       <div className="space-y-2">
         <Label
           htmlFor="override-justification"
-          className="text-red-900 dark:text-red-200"
+          className="text-[13px] font-semibold text-red-900 dark:text-red-200"
         >
           Clinical justification
         </Label>
@@ -61,7 +61,7 @@ export function OverrideSection({
           aria-required="true"
           aria-invalid={!isValid && charCount > 0}
           aria-describedby="override-char-count"
-          className="border-red-300 focus-visible:ring-red-500/50 dark:border-red-700"
+          className="rounded-xl border-red-300 focus-visible:ring-red-500/50 dark:border-red-700 text-[13px]"
         />
         <p
           id="override-char-count"
@@ -78,7 +78,7 @@ export function OverrideSection({
         variant="destructive"
         disabled={!isValid || isSubmitting}
         onClick={onConfirm}
-        className="w-full sm:w-auto"
+        className="w-full sm:w-auto rounded-xl font-semibold"
       >
         {isSubmitting ? 'Saving...' : 'Override & Save Prescription'}
       </Button>

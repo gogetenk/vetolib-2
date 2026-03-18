@@ -48,13 +48,13 @@ export function PatientContextPanel({
   if (!patientId) {
     return (
       <div
-        className="p-4 border-b"
+        className="p-4 border-b border-border/50"
         data-testid="patient-context-panel"
         data-patient-linked="false"
       >
         <div className="flex items-center gap-2 mb-2">
-          <User className="h-4 w-4 text-muted-foreground" aria-hidden />
-          <h3 className="text-sm font-semibold text-muted-foreground">
+          <User className="h-4 w-4 text-[#3498db]" aria-hidden />
+          <h3 className="text-[13px] font-bold text-[#2e4053]">
             {t('patient_context_title')}
           </h3>
         </div>
@@ -67,7 +67,7 @@ export function PatientContextPanel({
 
   if (isLoading) {
     return (
-      <div className="p-4 border-b space-y-2" data-testid="patient-context-panel">
+      <div className="p-4 border-b border-border/50 space-y-2" data-testid="patient-context-panel">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-4 w-3/4" />
         <Skeleton className="h-4 w-1/2" />
@@ -77,20 +77,20 @@ export function PatientContextPanel({
 
   return (
     <div
-      className="p-4 border-b"
+      className="p-4 border-b border-border/50"
       data-testid="patient-context-panel"
       data-patient-linked="true"
     >
       <div className="flex items-center gap-2 mb-3">
-        <User className="h-4 w-4 text-blue-500" aria-hidden />
-        <h3 className="text-sm font-semibold">{t('patient_context_title')}</h3>
+        <User className="h-4 w-4 text-[#303ef5]" aria-hidden />
+        <h3 className="text-[13px] font-bold text-[#061e44]">{t('patient_context_title')}</h3>
       </div>
 
       {context ? (
         <div className="space-y-2 text-sm" data-testid="patient-context-details">
           {/* Pet name + species */}
           <div className="flex items-center justify-between">
-            <span className="font-medium" data-testid="patient-name">{context.patientName}</span>
+            <span className="font-bold text-[14px] text-[#061e44]" data-testid="patient-name">{context.patientName}</span>
             <Badge variant="outline" className="text-xs" data-testid="patient-species">
               {context.species}
             </Badge>

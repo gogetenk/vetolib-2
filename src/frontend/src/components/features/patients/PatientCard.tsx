@@ -3,15 +3,13 @@
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { LtrText } from '@/components/ui/ltr-text'
 import { SpeciesIcon, getSpeciesColor } from '@/components/features/patients/SpeciesIcon'
 import type { PatientDto } from '@/lib/api/patients'
 
 function formatDate(dateStr: string | null): string {
-  if (!dateStr) return '\u2014'
-  return new Date(dateStr).toLocaleDateString('en-AE', {
-    timeZone: 'Asia/Dubai',
+  if (!dateStr) return '—'
+  return new Date(dateStr).toLocaleDateString('en-GB', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -30,59 +28,55 @@ export function PatientCard({ patient }: PatientCardProps) {
     <Link
       href={`/${locale}/patients/${patient.id}`}
       data-testid={`patient-card-link-${patient.id}`}
-      className="block"
+      className="block outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
     >
       <Card
         data-testid={`patient-card-${patient.id}`}
-        className={`group transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md border-s-4 ${speciesColor.border} cursor-pointer`}
+        className={`group transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md bg-white border border-border/80 cursor-pointer overflow-hidden rounded-xl h-full flex flex-col`}
       >
-        <CardContent className="p-3">
-          <div className="flex items-start justify-between gap-3">
-            {/* Species icon + name */}
-            <div className="flex items-center gap-2.5">
+        <CardContent className="p-5 flex-1 flex flex-col">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="flex items-center gap-4">
               <div
-                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${speciesColor.bg} ${speciesColor.text}`}
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${speciesColor.bg} ${speciesColor.text}`}
                 data-testid={`patient-species-icon-${patient.id}`}
                 aria-label={patient.species}
               >
-                <SpeciesIcon species={patient.species} className="h-4.5 w-4.5" />
+                <SpeciesIcon species={patient.species} className="h-5 w-5" />
               </div>
-              <div className="min-w-0">
+              <div className="min-w-0 flex flex-col">
                 <p
-                  className="font-semibold text-sm text-stone-900 truncate"
+                  className="truncate text-[15px] font-bold text-[#061e44] leading-tight"
                   data-testid={`patient-name-${patient.id}`}
                 >
                   {patient.name}
                 </p>
-                <p className="text-xs text-stone-500" data-testid={`patient-breed-${patient.id}`}>
-                  {patient.species} &mdash; {patient.breed}
+                <p className="truncate text-[12px] text-muted-foreground font-medium mt-0.5" data-testid={`patient-breed-${patient.id}`}>
+                  {patient.species} — {patient.breed}
                 </p>
               </div>
             </div>
 
-            {/* Age badge */}
-            <Badge variant="secondary" className="shrink-0 text-xs" data-testid={`patient-age-${patient.id}`}>
+            <span className="shrink-0 text-[12px] font-bold text-[#303ef5] bg-[#eef2fd] px-2 py-0.5 rounded-md" data-testid={`patient-age-${patient.id}`}>
               {patient.ageYears}y {patient.gender}
-            </Badge>
+            </span>
           </div>
 
-          {/* Owner info */}
-          <div className="mt-2 space-y-0.5 text-xs text-stone-500">
-            <p data-testid={`patient-owner-${patient.id}`}>
-              <span className="font-medium text-stone-700">Owner:</span> {patient.ownerName}
+          <div className="space-y-1 mb-6 flex-1">
+            <p data-testid={`patient-owner-${patient.id}`} className="text-[13px] flex items-center gap-1.5 text-[#061e44] font-medium">
+              <span className="text-muted-foreground">Owner:</span> {patient.ownerName}
             </p>
-            <p data-testid={`patient-owner-phone-${patient.id}`}>
+            <p data-testid={`patient-owner-phone-${patient.id}`} className="text-[13px] text-muted-foreground font-medium">
               <LtrText>{patient.ownerPhone}</LtrText>
             </p>
           </div>
 
-          {/* Visit info */}
-          <div className="mt-2 flex flex-wrap gap-3 text-xs text-stone-400">
+          <div className="pt-4 border-t border-border/30 flex justify-between items-center text-[12px] text-muted-foreground mt-auto">
             <span data-testid={`patient-last-visit-${patient.id}`}>
-              Last visit: <LtrText>{formatDate(patient.lastVisitDate)}</LtrText>
+              Last visit: <LtrText className="font-semibold text-[#061e44] ml-1">{formatDate(patient.lastVisitDate)}</LtrText>
             </span>
             <span data-testid={`patient-next-appt-${patient.id}`}>
-              Next: <LtrText>{formatDate(patient.nextAppointmentDate)}</LtrText>
+              Next: <LtrText className="font-bold text-[#303ef5] ml-1">{formatDate(patient.nextAppointmentDate)}</LtrText>
             </span>
           </div>
         </CardContent>

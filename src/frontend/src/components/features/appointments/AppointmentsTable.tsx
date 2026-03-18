@@ -181,7 +181,7 @@ export function AppointmentsTable() {
           <Input
             data-testid="appointment-search"
             placeholder={t('search_placeholder') ?? 'Search patient or owner...'}
-            className="w-64 pl-9"
+            className="w-64 pl-9 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -193,7 +193,7 @@ export function AppointmentsTable() {
             setPage(1)
           }}
         >
-          <SelectTrigger className="w-48" data-testid="status-filter" aria-label="Filter by status">
+          <SelectTrigger className="w-48 rounded-xl border-border/80 text-[13px]" data-testid="status-filter" aria-label="Filter by status">
             <SelectValue placeholder={t('all_statuses')} />
           </SelectTrigger>
           <SelectContent>
@@ -211,7 +211,7 @@ export function AppointmentsTable() {
 
         <Input
           type="date"
-          className="w-40"
+          className="w-40 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
           data-testid="date-filter"
           aria-label="Filter by date"
           value={dateFilter}
@@ -237,7 +237,7 @@ export function AppointmentsTable() {
       <div className="md:hidden space-y-3" data-testid="appointments-cards">
         {isLoading ? (
           Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="rounded-lg border bg-card p-4 space-y-2">
+            <div key={i} className="rounded-xl border border-border/80 bg-white p-4 space-y-2">
               <Skeleton className="h-4 w-3/4" />
               <Skeleton className="h-3 w-1/2" />
               <Skeleton className="h-3 w-1/3" />
@@ -265,14 +265,14 @@ export function AppointmentsTable() {
               key={row.id}
               href={`/${locale}/appointments/${row.original.id}`}
               data-testid={`appointment-card-${row.original.id}`}
-              className="block rounded-lg border bg-card p-4 hover:shadow-md transition-shadow min-h-[44px]"
+              className="block rounded-xl border border-border/80 bg-white p-4 hover:shadow-md transition-all duration-200 min-h-[44px]"
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium truncate">
+                  <p className="font-semibold text-[14px] text-[#061e44] truncate">
                     {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
                   </p>
-                  <p className="text-sm text-muted-foreground mt-0.5">{row.original.ownerName}</p>
+                  <p className="text-[13px] text-muted-foreground mt-0.5">{row.original.ownerName}</p>
                 </div>
                 <StatusBadge status={row.original.status} />
               </div>
@@ -286,13 +286,13 @@ export function AppointmentsTable() {
       </div>
 
       {/* Desktop table */}
-      <div className="hidden md:block rounded-md border" data-testid="appointments-table">
+      <div className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="appointments-table">
         <Table>
-          <TableHeader className="bg-stone-50">
+          <TableHeader className="bg-[#f4f6f9]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                  <TableHead key={header.id} className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -336,7 +336,7 @@ export function AppointmentsTable() {
               </TableRow>
             ) : (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-testid={`appointment-row-${row.original.id}`} className="hover:bg-stone-50">
+                <TableRow key={row.id} data-testid={`appointment-row-${row.original.id}`} className="hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -352,7 +352,7 @@ export function AppointmentsTable() {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between" data-testid="pagination">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-[13px] text-muted-foreground">
             {t('page_of', { page, total: totalPages, count: totalCount })}
           </p>
           <div className="flex gap-2">
@@ -362,6 +362,7 @@ export function AppointmentsTable() {
               data-testid="btn-prev-page"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
+              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               {t('previous')}
             </Button>
@@ -371,6 +372,7 @@ export function AppointmentsTable() {
               data-testid="btn-next-page"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
+              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               {t('next')}
             </Button>

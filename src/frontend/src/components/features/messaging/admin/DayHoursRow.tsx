@@ -37,10 +37,10 @@ export function DayHoursRow({ hours, onChange }: DayHoursRowProps) {
 
   return (
     <tr
-      className="border-b last:border-b-0"
+      className="border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
       data-testid={`day-row-${dayName}`}
     >
-      <td className="px-4 py-3 font-medium text-sm w-32">
+      <td className="px-4 py-3 text-[13px] font-semibold text-[#061e44] w-32">
         {t(`days.${dayName}`)}
       </td>
       <td className="px-4 py-3">
@@ -52,7 +52,7 @@ export function DayHoursRow({ hours, onChange }: DayHoursRowProps) {
             data-testid={`day-open-toggle-${dayName}`}
             className="h-4 w-4 cursor-pointer accent-primary"
           />
-          <span className="text-sm text-muted-foreground">
+          <span className="text-[13px] text-muted-foreground">
             {hours.isClosed ? t("closed") : t("open")}
           </span>
         </label>
@@ -65,7 +65,7 @@ export function DayHoursRow({ hours, onChange }: DayHoursRowProps) {
           disabled={hours.isClosed}
           data-testid={`day-open-time-${dayName}`}
           aria-label={`${t(`days.${dayName}`)} — ${t("col_open")}`}
-          className="w-32 disabled:opacity-40"
+          className="w-32 rounded-lg border-border/80 text-[13px] disabled:opacity-40"
         />
       </td>
       <td className="px-4 py-3">
@@ -76,7 +76,7 @@ export function DayHoursRow({ hours, onChange }: DayHoursRowProps) {
           disabled={hours.isClosed}
           data-testid={`day-close-time-${dayName}`}
           aria-label={`${t(`days.${dayName}`)} — ${t("col_close")}`}
-          className="w-32 disabled:opacity-40"
+          className="w-32 rounded-lg border-border/80 text-[13px] disabled:opacity-40"
         />
       </td>
     </tr>

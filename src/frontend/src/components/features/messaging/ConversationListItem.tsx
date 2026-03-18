@@ -12,20 +12,20 @@ interface ConversationListItemProps {
 }
 
 const CATEGORY_COLOR: Record<MessageCategory, string> = {
-  MedicalUrgency: 'bg-red-100 text-red-700 border-red-200',
-  PostOperativeFollowUp: 'bg-orange-100 text-orange-700 border-orange-200',
-  MedicalQuestion: 'bg-blue-100 text-blue-700 border-blue-200',
-  AppointmentRequest: 'bg-green-100 text-green-700 border-green-200',
-  Administrative: 'bg-stone-100 text-stone-700 border-stone-200',
-  Feedback: 'bg-purple-100 text-purple-700 border-purple-200',
-  Other: 'bg-stone-100 text-stone-600 border-stone-200',
+  MedicalUrgency: 'bg-red-50 text-red-700 ring-red-500/20',
+  PostOperativeFollowUp: 'bg-orange-50 text-orange-700 ring-orange-500/20',
+  MedicalQuestion: 'bg-blue-50 text-blue-700 ring-blue-500/20',
+  AppointmentRequest: 'bg-emerald-50 text-emerald-700 ring-emerald-500/20',
+  Administrative: 'bg-slate-50 text-slate-700 ring-slate-500/20',
+  Feedback: 'bg-purple-50 text-purple-700 ring-purple-500/20',
+  Other: 'bg-zinc-50 text-zinc-600 ring-zinc-500/20',
 }
 
 const STATUS_COLOR: Record<ConversationStatus, string> = {
-  Open: 'bg-blue-100 text-blue-700',
-  InProgress: 'bg-yellow-100 text-yellow-700',
-  Resolved: 'bg-green-100 text-green-700',
-  Closed: 'bg-stone-100 text-stone-600',
+  Open: 'bg-blue-50 text-blue-700',
+  InProgress: 'bg-amber-50 text-amber-700',
+  Resolved: 'bg-emerald-50 text-emerald-700',
+  Closed: 'bg-slate-50 text-slate-600',
 }
 
 function formatRelativeDate(dateStr: string): string {
@@ -53,63 +53,57 @@ export function ConversationListItem({
       data-testid={`conversation-item-${conversation.id}`}
       onClick={onClick}
       className={cn(
-        'w-full text-left px-4 py-3 border-b transition-all duration-200 ease-in-out hover:bg-muted/50',
-        isSelected && 'bg-primary/5 border-l-2 border-l-primary shadow-sm',
-        !isSelected && 'border-l-2 border-l-transparent',
-        isUrgency && !isSelected && 'bg-red-50/60',
+        'w-full text-left px-4 py-3.5 border-b border-border/30 transition-all duration-200 ease-in-out hover:bg-[#f4f6f9]/50',
+        isSelected && 'bg-[#eef2fd] border-l-[3px] border-l-[#303ef5]',
+        !isSelected && 'border-l-[3px] border-l-transparent',
+        isUrgency && !isSelected && 'bg-red-50/30 hover:bg-red-50/60',
       )}
     >
-      <div className="flex items-start justify-between gap-2 mb-1">
+      <div className="flex items-start justify-between gap-2 mb-1.5">
         <div className="flex items-center gap-2 min-w-0">
-          {/* Unread dot */}
           {conversation.unreadCount > 0 && (
             <span
               data-testid={`unread-dot-${conversation.id}`}
-              className="flex-shrink-0 h-2 w-2 rounded-full bg-primary animate-pulse-badge"
+              className="flex-shrink-0 h-2 w-2 rounded-full bg-[#303ef5] animate-pulse-badge"
             />
           )}
-          <span className="font-medium text-sm truncate">{conversation.ownerName}</span>
+          <span className="font-bold text-[14px] text-[#061e44] truncate">{conversation.ownerName}</span>
         </div>
-        <span className="text-xs text-muted-foreground flex-shrink-0">
+        <span className="text-[11px] font-semibold text-muted-foreground flex-shrink-0">
           {formatRelativeDate(conversation.lastMessageAt)}
         </span>
       </div>
 
-      <p className="text-sm text-foreground truncate mb-2">{conversation.subject}</p>
+      <p className="text-[13px] text-muted-foreground truncate mb-2.5 leading-snug">{conversation.subject}</p>
 
       <div className="flex items-center gap-2 flex-wrap">
-        {/* Category badge */}
-        <Badge
+        <span
           data-testid={`category-badge-${conversation.id}`}
-          variant="outline"
-          className={cn('text-xs px-1.5 py-0', CATEGORY_COLOR[conversation.category])}
+          className={cn('inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold ring-1 ring-inset', CATEGORY_COLOR[conversation.category])}
         >
           {t(`category.${conversation.category}`)}
-        </Badge>
+        </span>
 
-        {/* Status badge */}
-        <Badge
+        <span
           data-testid={`status-badge-${conversation.id}`}
-          variant="secondary"
-          className={cn('text-xs px-1.5 py-0', STATUS_COLOR[conversation.status])}
+          className={cn('inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold', STATUS_COLOR[conversation.status])}
         >
           {t(`status.${conversation.status}`)}
-        </Badge>
+        </span>
 
-        {/* Unread count */}
         {conversation.unreadCount > 0 && (
           <span
             data-testid={`unread-count-${conversation.id}`}
-            className="ml-auto flex-shrink-0 h-5 min-w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center px-1 animate-pulse-badge"
+            className="ml-auto flex-shrink-0 h-5 min-w-5 rounded-full bg-[#303ef5] text-white text-[11px] font-bold flex items-center justify-center px-1.5 shadow-sm animate-pulse-badge"
           >
             {conversation.unreadCount}
           </span>
         )}
       </div>
 
-      {/* Patient name if present */}
       {conversation.patientName && (
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-[11px] font-semibold text-muted-foreground mt-2 flex items-center gap-1.5">
+          <span className="w-1 h-1 rounded-full bg-border" />
           {conversation.patientName}
         </p>
       )}

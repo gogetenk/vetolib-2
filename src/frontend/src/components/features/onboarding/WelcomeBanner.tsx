@@ -109,7 +109,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <p
           data-testid="welcome-banner-greeting"
-          className="text-base font-semibold text-stone-900"
+          className="text-base font-semibold text-[#061e44]"
         >
           {t(`${roleKey}.greeting`, { clinicName: clinicName ?? '' })}
         </p>
@@ -130,7 +130,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
         data-testid="welcome-banner-dismiss"
         aria-label="Dismiss welcome banner"
         onClick={handleDismiss}
-        className="absolute end-3 top-3 rounded-full p-1 text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+        className="absolute end-3 top-3 rounded-full p-1 text-muted-foreground transition-colors hover:bg-[#f4f6f9] hover:text-[#061e44] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30"
       >
         <X className="h-4 w-4" />
       </button>

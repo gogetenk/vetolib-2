@@ -243,9 +243,9 @@ export function MedicalRecordForm({
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <Card data-testid="medical-record-form">
+    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="medical-record-form">
       <CardHeader>
-        <CardTitle>New Medical Record — {patientName}</CardTitle>
+        <CardTitle className="text-[18px] font-bold text-[#061e44]">New Medical Record — {patientName}</CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -256,12 +256,13 @@ export function MedicalRecordForm({
         >
           {/* Reason */}
           <div className="space-y-2">
-            <Label htmlFor="reason">Reason for Consultation</Label>
+            <Label htmlFor="reason" className="text-[13px] font-semibold text-[#061e44]">Reason for Consultation</Label>
             <Input
               id="reason"
               placeholder="e.g. Annual vaccination, Limping"
               data-testid="input-reason"
               aria-invalid={!!errors.reason}
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('reason')}
             />
             {errors.reason && (
@@ -273,13 +274,14 @@ export function MedicalRecordForm({
 
           {/* Anamnesis */}
           <div className="space-y-2">
-            <Label htmlFor="anamnesis">Anamnesis</Label>
+            <Label htmlFor="anamnesis" className="text-[13px] font-semibold text-[#061e44]">Anamnesis</Label>
             <Textarea
               id="anamnesis"
               rows={4}
               placeholder="Patient history, owner observations..."
               data-testid="input-anamnesis"
               aria-invalid={!!errors.anamnesis}
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('anamnesis')}
             />
             {errors.anamnesis && (
@@ -291,10 +293,10 @@ export function MedicalRecordForm({
 
           {/* Clinical exam */}
           <fieldset className="space-y-3">
-            <legend className="text-sm font-medium">Clinical Examination</legend>
+            <legend className="text-[13px] font-bold text-[#061e44]">Clinical Examination</legend>
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="weight">Weight (kg)</Label>
+                <Label htmlFor="weight" className="text-[13px] font-semibold text-[#061e44]">Weight (kg)</Label>
                 <Input
                   id="weight"
                   type="number"
@@ -302,6 +304,7 @@ export function MedicalRecordForm({
                   placeholder="32.5"
                   data-testid="input-weight"
                   aria-invalid={!!errors.weight}
+                  className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                   {...register('weight')}
                 />
                 {errors.weight && (
@@ -311,7 +314,7 @@ export function MedicalRecordForm({
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="temperature">Temperature (°C)</Label>
+                <Label htmlFor="temperature" className="text-[13px] font-semibold text-[#061e44]">Temperature (°C)</Label>
                 <Input
                   id="temperature"
                   type="number"
@@ -319,6 +322,7 @@ export function MedicalRecordForm({
                   placeholder="38.5"
                   data-testid="input-temperature"
                   aria-invalid={!!errors.temperature}
+                  className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                   {...register('temperature')}
                 />
                 {errors.temperature && (
@@ -328,13 +332,14 @@ export function MedicalRecordForm({
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="heartRate">Heart Rate (bpm)</Label>
+                <Label htmlFor="heartRate" className="text-[13px] font-semibold text-[#061e44]">Heart Rate (bpm)</Label>
                 <Input
                   id="heartRate"
                   type="number"
                   placeholder="80"
                   data-testid="input-heart-rate"
                   aria-invalid={!!errors.heartRate}
+                  className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                   {...register('heartRate')}
                 />
                 {errors.heartRate && (
@@ -348,13 +353,14 @@ export function MedicalRecordForm({
 
           {/* Diagnosis */}
           <div className="space-y-2">
-            <Label htmlFor="diagnosis">Diagnosis</Label>
+            <Label htmlFor="diagnosis" className="text-[13px] font-semibold text-[#061e44]">Diagnosis</Label>
             <Textarea
               id="diagnosis"
               rows={3}
               placeholder="Clinical findings and diagnosis..."
               data-testid="input-diagnosis"
               aria-invalid={!!errors.diagnosis}
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('diagnosis')}
             />
             {errors.diagnosis && (
@@ -366,13 +372,14 @@ export function MedicalRecordForm({
 
           {/* Treatment */}
           <div className="space-y-2">
-            <Label htmlFor="treatment">Treatment</Label>
+            <Label htmlFor="treatment" className="text-[13px] font-semibold text-[#061e44]">Treatment</Label>
             <Textarea
               id="treatment"
               rows={3}
               placeholder="Treatment plan, procedures performed..."
               data-testid="input-treatment"
               aria-invalid={!!errors.treatment}
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('treatment')}
             />
             {errors.treatment && (
@@ -459,13 +466,14 @@ export function MedicalRecordForm({
 
           {/* Next visit (optional) */}
           <div className="space-y-2">
-            <Label htmlFor="nextVisitDate">
-              Recommended Next Visit <span className="text-muted-foreground">(optional)</span>
+            <Label htmlFor="nextVisitDate" className="text-[13px] font-semibold text-[#061e44]">
+              Recommended Next Visit <span className="text-muted-foreground font-normal">(optional)</span>
             </Label>
             <Input
               id="nextVisitDate"
               type="date"
               data-testid="input-next-visit-date"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('nextVisitDate')}
             />
           </div>
@@ -486,6 +494,7 @@ export function MedicalRecordForm({
               disabled={isSubmitting || isSubmitBlocked}
               data-testid="save-record-btn"
               title={isSubmitBlocked ? 'Provide clinical justification before saving' : undefined}
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
             >
               {isSubmitting ? 'Saving...' : 'Save Record'}
             </Button>
@@ -503,6 +512,7 @@ export function MedicalRecordForm({
               variant="outline"
               onClick={() => router.push(`/patients/${patientId}`)}
               data-testid="cancel-record-btn"
+              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               Cancel
             </Button>

@@ -13,15 +13,15 @@ export default async function AppointmentDetailPage({ params }: Props) {
   const t = await getTranslations('appointments')
 
   return (
-    <div className="space-y-6" data-testid="appointment-detail-page">
+    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto" data-testid="appointment-detail-page">
       <Link href="../appointments">
         <Button
           variant="ghost"
           size="sm"
           data-testid="back-to-appointments-btn"
-          className="-ms-2"
+          className="-ms-2 group/back text-muted-foreground hover:text-[#061e44]"
         >
-          <ArrowLeft className="h-4 w-4 me-1" />
+          <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
           {t('title')}
         </Button>
       </Link>

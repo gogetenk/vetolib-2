@@ -131,20 +131,21 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl" data-testid="csv-import-dialog">
+      <DialogContent className="max-w-2xl rounded-2xl" data-testid="csv-import-dialog">
         <DialogHeader>
-          <DialogTitle data-testid="csv-import-title">{t('title')}</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-[#061e44]" data-testid="csv-import-title">{t('title')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           {/* Download template */}
-          <div className="flex items-center justify-between rounded-lg border bg-muted/40 p-3">
-            <p className="text-sm text-muted-foreground">{t('template_hint')}</p>
+          <div className="flex items-center justify-between rounded-xl border border-border/80 bg-[#f4f6f9] p-3">
+            <p className="text-[13px] text-muted-foreground">{t('template_hint')}</p>
             <Button
               variant="outline"
               size="sm"
               onClick={handleDownloadTemplate}
               data-testid="download-template-btn"
+              className="rounded-lg border-border/80 text-[12px] font-semibold hover:bg-white"
             >
               <Download className="h-4 w-4 me-1" />
               {t('download_template')}
@@ -155,10 +156,10 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
           {!report && (
             <div
               data-testid="csv-dropzone"
-              className={`relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 text-center transition-colors cursor-pointer ${
+              className={`relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition-colors cursor-pointer ${
                 isDragOver
-                  ? 'border-primary bg-primary/5'
-                  : 'border-muted-foreground/25 hover:border-primary/50'
+                  ? 'border-[#303ef5] bg-[#303ef5]/5'
+                  : 'border-border/60 hover:border-[#303ef5]/50'
               }`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
@@ -218,18 +219,18 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
               <p className="mb-2 text-sm font-medium">{t('preview_label')}</p>
               <div className="overflow-x-auto rounded-lg border">
                 <table className="w-full text-xs">
-                  <thead className="bg-stone-50">
-                    <tr>
+                  <thead>
+                    <tr className="bg-[#f4f6f9]">
                       {previewHeaders.map(h => (
-                        <th key={h} className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wide text-stone-500">{h}</th>
+                        <th key={h} className="px-3 py-2 text-left text-[11px] font-bold uppercase tracking-wider text-[#061e44]">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {preview.map((row, i) => (
-                      <tr key={i} className="border-t hover:bg-stone-50">
+                      <tr key={i} className="border-t border-border/30 hover:bg-[#f4f6f9]/50">
                         {previewHeaders.map(h => (
-                          <td key={h} className="px-3 py-2 text-muted-foreground">{row[h]}</td>
+                          <td key={h} className="px-3 py-2 text-[12px] text-muted-foreground">{row[h]}</td>
                         ))}
                       </tr>
                     ))}
@@ -242,7 +243,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
 
           {/* Import report */}
           {report && (
-            <div data-testid="import-report" className="rounded-lg border p-4 space-y-3">
+            <div data-testid="import-report" className="rounded-xl border border-border/80 p-4 space-y-3">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-green-500" />
                 <span className="font-medium text-sm">{t('import_complete')}</span>
@@ -275,7 +276,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
 
           {/* Actions */}
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={handleClose} data-testid="csv-import-cancel">
+            <Button variant="outline" onClick={handleClose} data-testid="csv-import-cancel" className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]">
               {report ? t('close') : t('cancel')}
             </Button>
             {!report && (
@@ -283,6 +284,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
                 onClick={handleImport}
                 disabled={!selectedFile || isImporting}
                 data-testid="csv-import-submit"
+                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
               >
                 {isImporting ? (
                   <>

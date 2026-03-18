@@ -82,14 +82,14 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent data-testid="stock-movement-dialog">
+      <DialogContent className="rounded-2xl" data-testid="stock-movement-dialog">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-[#061e44]">
             {t('movement.title')} — {item.name}
           </DialogTitle>
         </DialogHeader>
 
-        <p className="text-sm text-muted-foreground" data-testid="movement-current-qty">
+        <p className="text-[13px] text-muted-foreground" data-testid="movement-current-qty">
           {t('movement.current_qty', { qty: item.quantity, unit: item.unit })}
         </p>
 
@@ -101,7 +101,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
         >
           {/* Type */}
           <div className="space-y-1">
-            <Label htmlFor="movement-type">
+            <Label htmlFor="movement-type" className="text-[13px] font-semibold text-[#061e44]">
               {t('movement.type')} <span className="text-destructive">*</span>
             </Label>
             <Select
@@ -110,7 +110,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
                 setValue('type', val as MovementType, { shouldValidate: true })
               }
             >
-              <SelectTrigger data-testid="select-movement-type-trigger">
+              <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-movement-type-trigger">
                 <SelectValue placeholder={t('movement.select_type')} />
               </SelectTrigger>
               <SelectContent>
@@ -129,7 +129,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
 
           {/* Quantity */}
           <div className="space-y-1">
-            <Label htmlFor="movement-quantity">
+            <Label htmlFor="movement-quantity" className="text-[13px] font-semibold text-[#061e44]">
               {t('movement.quantity')} <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -137,6 +137,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               type="number"
               min={1}
               data-testid="input-movement-quantity"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('quantity')}
             />
             {errors.quantity && (
@@ -148,7 +149,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
 
           {/* Reason */}
           <div className="space-y-1">
-            <Label htmlFor="movement-reason">
+            <Label htmlFor="movement-reason" className="text-[13px] font-semibold text-[#061e44]">
               {t('movement.reason')}{' '}
               <span className="text-muted-foreground">{t('form.optional')}</span>
             </Label>
@@ -156,6 +157,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               id="movement-reason"
               data-testid="input-movement-reason"
               placeholder={t('movement.reason_placeholder')}
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('reason')}
             />
           </div>
@@ -166,6 +168,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               variant="outline"
               data-testid="btn-cancel-movement"
               onClick={() => onOpenChange(false)}
+              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               {t('form.cancel')}
             </Button>
@@ -173,6 +176,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
               type="submit"
               disabled={isSubmitting}
               data-testid="btn-save-movement"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
             >
               {isSubmitting ? t('form.saving') : t('movement.confirm')}
             </Button>

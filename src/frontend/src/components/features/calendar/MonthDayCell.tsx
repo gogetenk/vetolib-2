@@ -58,20 +58,20 @@ export function MonthDayCell({
   return (
     <div
       data-testid={`month-day-cell-${dateKey}`}
-      className={`min-h-24 border-b border-e border-border p-1 cursor-pointer transition-all duration-200 ease-in-out hover:bg-muted/50 relative ${
-        isToday ? 'bg-blue-50 dark:bg-blue-950/20' : ''
-      } ${isWeekend ? 'bg-muted/40' : ''} ${!isCurrentMonth ? 'opacity-50' : ''}`}
+      className={`min-h-24 border-b border-e border-border/30 p-1 cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#f4f6f9]/50 relative ${
+        isToday ? 'bg-[#eef2fd]' : ''
+      } ${isWeekend ? 'bg-[#f9fafb]' : ''} ${!isCurrentMonth ? 'opacity-40' : ''}`}
       onClick={() => onDayClick(date)}
     >
       {/* Day number */}
       <div className="flex justify-center mb-0.5">
         <span
-          className={`text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 ${
+          className={`text-[11px] font-bold w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 ${
             isToday
-              ? 'bg-primary text-primary-foreground animate-pulse'
+              ? 'bg-[#303ef5] text-white shadow-sm'
               : !isCurrentMonth
                 ? 'text-muted-foreground'
-                : ''
+                : 'text-[#061e44]'
           }`}
         >
           {dayNumberFormatter.format(date)}
@@ -87,7 +87,7 @@ export function MonthDayCell({
             <button
               key={apt.id}
               data-testid={`month-appointment-${apt.id}`}
-              className={`w-full text-start flex items-center gap-1 rounded px-1 py-0.5 text-[10px] truncate transition-all duration-200 ease-in-out hover:shadow-sm hover:scale-[1.02] ${color.bg}`}
+              className={`w-full text-start flex items-center gap-1 rounded-md px-1 py-0.5 text-[10px] truncate transition-all duration-200 ease-in-out hover:shadow-sm hover:scale-[1.02] ${color.bg}`}
               onClick={(e) => handleAppointmentClick(e, apt)}
             >
               <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${color.border.replace('border-l-', 'bg-')}`} />
@@ -105,7 +105,7 @@ export function MonthDayCell({
         <div className="relative">
           <button
             data-testid={`month-more-link-${dateKey}`}
-            className="text-[10px] text-primary font-medium hover:underline px-1 mt-0.5 transition-colors duration-200"
+            className="text-[10px] text-[#303ef5] font-semibold hover:underline px-1 mt-0.5 transition-colors duration-200"
             onClick={handleMoreClick}
           >
             {t('moreAppointments', { count: remaining })}
@@ -113,7 +113,7 @@ export function MonthDayCell({
 
           {/* Popover with full list and animation */}
           <div
-            className={`absolute start-0 top-full z-50 min-w-48 max-w-64 rounded-lg border border-border bg-popover p-2 shadow-lg transition-all duration-200 ease-in-out origin-top-start ${
+            className={`absolute start-0 top-full z-50 min-w-48 max-w-64 rounded-xl border border-border/80 bg-white p-2 shadow-lg transition-all duration-200 ease-in-out origin-top-start ${
               showPopover
                 ? 'opacity-100 scale-100 translate-y-0'
                 : 'opacity-0 scale-95 -translate-y-1 pointer-events-none'
@@ -127,7 +127,7 @@ export function MonthDayCell({
                 return (
                   <button
                     key={apt.id}
-                    className={`w-full text-start flex items-center gap-1 rounded px-1.5 py-1 text-xs truncate transition-all duration-200 hover:shadow-sm hover:scale-[1.02] ${color.bg}`}
+                    className={`w-full text-start flex items-center gap-1 rounded-md px-1.5 py-1 text-[11px] truncate transition-all duration-200 hover:shadow-sm hover:scale-[1.02] ${color.bg}`}
                     onClick={(e) => handleAppointmentClick(e, apt)}
                     data-testid={`month-popover-appointment-${apt.id}`}
                   >

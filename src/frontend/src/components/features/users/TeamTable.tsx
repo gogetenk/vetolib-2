@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button"
 import { ChangeRoleDialog } from "./ChangeRoleDialog"
 import { deactivateUser } from "@/lib/api/users"
 import type { UserDto, UserRole } from "@/lib/api/users"
+import { cn } from "@/lib/utils"
+import { Pencil } from "lucide-react"
 
 interface TeamTableProps {
   users: UserDto[]
@@ -28,16 +30,25 @@ interface TeamTableProps {
 function roleBadgeClass(role: UserRole): string {
   switch (role) {
     case "ADMIN":
-      return "bg-red-100 text-red-700 border-red-200"
+      return "bg-[#fef2f2] text-[#ef4444]"
     case "VET":
-      return "bg-blue-100 text-blue-700 border-blue-200"
+      return "bg-[#eef2fd] text-[#303ef5]"
     case "ASSISTANT":
-      return "bg-green-100 text-green-700 border-green-200"
+      return "bg-[#e8f6f0] text-[#22c55e]"
     case "RECEPTIONIST":
-      return "bg-orange-100 text-orange-700 border-orange-200"
+      return "bg-[#fff7ed] text-[#f97316]"
     default:
-      return ""
+      return "bg-muted text-muted-foreground"
   }
+}
+
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 }
 
 export function TeamTable({
@@ -66,75 +77,72 @@ export function TeamTable({
 
   return (
     <>
-      <Table data-testid="team-table">
-        <TableHeader className="bg-stone-50">
-          <TableRow>
-            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Name</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Email</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Role</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500">Status</TableHead>
-            {isAdmin && <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500 text-right">Actions</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id} data-testid={`user-row-${user.id}`} className="hover:bg-stone-50">
-              <TableCell data-testid={`user-name-${user.id}`}>
-                {user.fullName}
-              </TableCell>
-              <TableCell data-testid={`user-email-${user.id}`}>
-                {user.email}
-              </TableCell>
-              <TableCell>
-                <Badge
-                  data-testid={`user-role-badge-${user.id}`}
-                  variant="outline"
-                  className={roleBadgeClass(user.role)}
-                >
-                  {user.role}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <Badge
-                  data-testid={`user-status-${user.id}`}
-                  variant={user.isActive ? "default" : "secondary"}
-                  className={
-                    user.isActive
-                      ? "bg-green-100 text-green-700 border-green-200"
-                      : "bg-stone-100 text-stone-500 border-stone-200"
-                  }
-                >
-                  {user.isActive ? "Active" : "Inactive"}
-                </Badge>
-              </TableCell>
-              {isAdmin && (
-                <TableCell className="text-right space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    data-testid={`change-role-btn-${user.id}`}
-                    onClick={() => setChangeRoleUser(user)}
-                  >
-                    Change Role
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    data-testid={`deactivate-btn-${user.id}`}
-                    disabled={
-                      user.email === currentUserEmail ||
-                      deactivatingId === user.id
-                    }
-                    onClick={() => handleDeactivate(user)}
-                  >
-                    {deactivatingId === user.id ? "Deactivating..." : "Deactivate"}
-                  </Button>
-                </TableCell>
-              )}
+      <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+        <Table data-testid="team-table">
+          <TableHeader>
+            <TableRow className="bg-[#f4f6f9] hover:bg-[#f4f6f9] border-b border-border/50">
+              <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider">Collaborateurs</TableHead>
+              <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider">Niveau de visibilité</TableHead>
+              <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider text-center">Statut</TableHead>
+              {isAdmin && <TableHead className="h-12 px-6 text-[11px] font-bold text-[#061e44] uppercase tracking-wider text-right w-24"></TableHead>}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user.id} data-testid={`user-row-${user.id}`} className="hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
+                <TableCell className="px-6 py-4" data-testid={`user-name-${user.id}`}>
+                  <div className="flex items-center gap-4">
+                    <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold", roleBadgeClass(user.role))}>
+                      {getInitials(user.fullName)}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[14px] font-semibold text-[#061e44]">{user.fullName}</span>
+                      <span className="text-[12px] text-muted-foreground">{user.role.toLowerCase().replace('_', ' ')}</span>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="px-6 py-4 text-[13px] text-muted-foreground font-medium">
+                  Tous détails
+                </TableCell>
+                <TableCell className="px-6 py-4 text-center">
+                  <button
+                    onClick={() => isAdmin && handleDeactivate(user)}
+                    disabled={!isAdmin || user.email === currentUserEmail || deactivatingId === user.id}
+                    className={cn(
+                      "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                      user.isActive ? "bg-[#303ef5]" : "bg-muted-foreground/30",
+                      (!isAdmin || user.email === currentUserEmail) && "cursor-not-allowed opacity-50"
+                    )}
+                    role="switch"
+                    aria-checked={user.isActive}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        "pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                        user.isActive ? "translate-x-2" : "-translate-x-2"
+                      )}
+                    />
+                  </button>
+                </TableCell>
+                {isAdmin && (
+                  <TableCell className="px-6 py-4 text-right">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      className="rounded-full text-muted-foreground hover:text-[#303ef5] hover:bg-[#303ef5]/5"
+                      data-testid={`change-role-btn-${user.id}`}
+                      onClick={() => setChangeRoleUser(user)}
+                    >
+                      <Pencil className="size-4" />
+                    </Button>
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
       {changeRoleUser && (
         <ChangeRoleDialog

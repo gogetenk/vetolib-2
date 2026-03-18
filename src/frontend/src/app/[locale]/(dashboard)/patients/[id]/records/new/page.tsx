@@ -53,15 +53,15 @@ export default function NewMedicalRecordPage() {
   }
 
   return (
-    <div className="space-y-6" data-testid="new-medical-record-page">
+    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto" data-testid="new-medical-record-page">
       <Link href={`../../${id}`}>
         <Button
           variant="ghost"
           size="sm"
           data-testid="back-to-patient-btn"
-          className="-ms-2"
+          className="-ms-2 group/back text-muted-foreground hover:text-[#061e44]"
         >
-          <ArrowLeft className="h-4 w-4 me-1" />
+          <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
           {patient.name}&apos;s record
         </Button>
       </Link>

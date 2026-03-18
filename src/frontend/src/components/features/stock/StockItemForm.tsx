@@ -90,9 +90,9 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent data-testid="stock-item-dialog">
+      <DialogContent className="rounded-2xl" data-testid="stock-item-dialog">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-[#061e44]">
             {isEdit ? t('form.edit_title') : t('form.add_title')}
           </DialogTitle>
         </DialogHeader>
@@ -105,13 +105,14 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
         >
           {/* Name */}
           <div className="space-y-1">
-            <Label htmlFor="stock-name">
+            <Label htmlFor="stock-name" className="text-[13px] font-semibold text-[#061e44]">
               {t('form.name')} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="stock-name"
               data-testid="input-stock-name"
               placeholder={t('form.name_placeholder')}
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('name')}
             />
             {errors.name && (
@@ -123,7 +124,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
 
           {/* Category */}
           <div className="space-y-1">
-            <Label htmlFor="stock-category">
+            <Label htmlFor="stock-category" className="text-[13px] font-semibold text-[#061e44]">
               {t('form.category')} <span className="text-destructive">*</span>
             </Label>
             <Select
@@ -132,7 +133,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
                 setValue('category', val as StockCategory, { shouldValidate: true })
               }
             >
-              <SelectTrigger data-testid="select-stock-category-trigger">
+              <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-stock-category-trigger">
                 <SelectValue placeholder={t('form.select_category')} />
               </SelectTrigger>
               <SelectContent>
@@ -157,7 +158,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
           <div className="grid grid-cols-2 gap-3">
             {/* Quantity */}
             <div className="space-y-1">
-              <Label htmlFor="stock-quantity">
+              <Label htmlFor="stock-quantity" className="text-[13px] font-semibold text-[#061e44]">
                 {t('form.quantity')} <span className="text-destructive">*</span>
               </Label>
               <Input
@@ -165,6 +166,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
                 type="number"
                 min={0}
                 data-testid="input-stock-quantity"
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('quantity')}
               />
               {errors.quantity && (
@@ -176,13 +178,14 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
 
             {/* Unit */}
             <div className="space-y-1">
-              <Label htmlFor="stock-unit">
+              <Label htmlFor="stock-unit" className="text-[13px] font-semibold text-[#061e44]">
                 {t('form.unit')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="stock-unit"
                 data-testid="input-stock-unit"
                 placeholder={t('form.unit_placeholder')}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('unit')}
               />
               {errors.unit && (
@@ -195,7 +198,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
 
           {/* Threshold */}
           <div className="space-y-1">
-            <Label htmlFor="stock-threshold">
+            <Label htmlFor="stock-threshold" className="text-[13px] font-semibold text-[#061e44]">
               {t('form.threshold')} <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -203,6 +206,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
               type="number"
               min={1}
               data-testid="input-stock-threshold"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('threshold')}
             />
             {errors.threshold && (
@@ -214,7 +218,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
 
           {/* Expiry date */}
           <div className="space-y-1">
-            <Label htmlFor="stock-expiry">
+            <Label htmlFor="stock-expiry" className="text-[13px] font-semibold text-[#061e44]">
               {t('form.expiry_date')}{' '}
               <span className="text-muted-foreground">{t('form.optional')}</span>
             </Label>
@@ -222,6 +226,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
               id="stock-expiry"
               type="date"
               data-testid="input-stock-expiry"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('expiryDate')}
             />
           </div>
@@ -232,6 +237,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
               variant="outline"
               data-testid="btn-cancel-stock-item"
               onClick={() => onOpenChange(false)}
+              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               {t('form.cancel')}
             </Button>
@@ -239,6 +245,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
               type="submit"
               disabled={isSubmitting}
               data-testid="btn-save-stock-item"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
             >
               {isSubmitting ? t('form.saving') : t('form.save')}
             </Button>

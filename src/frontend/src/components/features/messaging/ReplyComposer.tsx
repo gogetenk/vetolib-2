@@ -88,12 +88,12 @@ export function ReplyComposer({
         onKeyDown={handleKeyDown}
         placeholder={t('reply_placeholder')}
         className={cn(
-          'resize-none min-h-[80px] max-h-[200px]',
+          'resize-none min-h-[80px] max-h-[200px] rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 transition-shadow',
           isOverLimit && 'border-red-400 focus-visible:ring-red-400'
         )}
         disabled={isSending}
         aria-label={t('reply_placeholder')}
-        maxLength={MAX_CHARS + 100} // Soft limit — UI shows warning
+        maxLength={MAX_CHARS + 100}
       />
 
       <div className="flex items-center justify-between mt-2 gap-2">
@@ -136,19 +136,20 @@ export function ReplyComposer({
               disabled={isSending || isEmpty || isOverLimit}
               onClick={handleAddNote}
               aria-label={t('add_note')}
+              className="rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               <StickyNote className="h-4 w-4 mr-1.5" aria-hidden />
               {t('add_note')}
             </Button>
           )}
 
-          {/* Send reply */}
           <Button
             type="button"
             size="sm"
             data-testid="send-reply-btn"
             disabled={isSending || isEmpty || isOverLimit}
             onClick={handleSend}
+            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-lg shadow-sm"
           >
             {isSending ? (
               <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />

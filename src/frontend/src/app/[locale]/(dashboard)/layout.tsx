@@ -1,5 +1,4 @@
 import { Header } from "@/components/features/shell/Header";
-import { Sidebar } from "@/components/features/shell/Sidebar";
 import { MessagingSseProvider } from "@/components/features/messaging/MessagingSseProvider";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ConsentBanner } from "@/components/features/analytics/ConsentBanner";
@@ -12,14 +11,14 @@ export default function DashboardLayout({
   return (
     <PostHogProvider>
       <MessagingSseProvider>
-        <div className="flex min-h-screen flex-col">
+        <div className="flex h-screen flex-col bg-background text-foreground overflow-hidden">
           <Header />
-          <div className="flex flex-1">
-            <Sidebar />
-            <main className="flex-1 p-6 bg-stone-50 animate-in fade-in-0 duration-300 ease-out" data-testid="dashboard-main">
-              {children}
-            </main>
-          </div>
+          <main
+            className="flex-1 flex flex-col w-full h-full relative animate-in fade-in-0 duration-300 ease-out overflow-y-auto"
+            data-testid="dashboard-main"
+          >
+            {children}
+          </main>
         </div>
         <ConsentBanner />
       </MessagingSseProvider>

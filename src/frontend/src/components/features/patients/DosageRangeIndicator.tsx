@@ -32,10 +32,10 @@ export function DosageRangeIndicator({
   return (
     <div
       data-testid="dosage-range-indicator"
-      className={`rounded-md border px-3 py-2 text-xs space-y-1 ${statusClass}`}
+      className={`rounded-xl border px-3 py-2.5 text-[12px] space-y-1 ${statusClass}`}
       aria-live="polite"
     >
-      <p className="font-semibold">Recommended dosage range</p>
+      <p className="font-bold text-[13px]">Recommended dosage range</p>
       <div className="flex items-center gap-4">
         <span>
           Min:{' '}

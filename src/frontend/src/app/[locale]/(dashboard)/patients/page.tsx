@@ -64,26 +64,31 @@ export default function PatientsPage() {
   }, [searchQuery, fetchPatients])
 
   return (
-    <div className="space-y-6" data-testid="patients-page">
+    <div className="p-6 lg:p-8 space-y-6" data-testid="patients-page">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold" data-testid="patients-title">
-          {t('title')}
-        </h1>
+        <div>
+          <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="patients-title">
+            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+            {t('title')}
+          </h1>
+        </div>
         {canWrite && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
               onClick={() => setShowImportDialog(true)}
               data-testid="import-csv-btn"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
-              <Upload className="h-4 w-4 me-1" />
+              <Upload className="h-4 w-4 me-1.5" />
               {t('import_csv')}
             </Button>
             <Link href="patients/new">
               <Button
                 data-testid="add-patient-btn"
+                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
               >
-                <Plus className="h-4 w-4 me-1" />
+                <Plus className="h-4 w-4 me-1.5" />
                 {t('add_patient')}
               </Button>
             </Link>
@@ -98,10 +103,10 @@ export default function PatientsPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           data-testid="search-input"
-          className="w-full transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
+          className="w-full bg-white border-border/80 rounded-xl h-11 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md"
         />
         {!isLoading && !error && patients.length > 0 && (
-          <p className="text-sm text-stone-500" data-testid="patients-count">
+          <p className="text-[13px] text-muted-foreground font-medium" data-testid="patients-count">
             {patients.length} {patients.length === 1 ? 'patient' : 'patients'}
           </p>
         )}

@@ -151,9 +151,9 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   const today = new Date().toISOString().split('T')[0]
 
   return (
-    <Card data-testid="patient-form">
+    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="patient-form">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-[18px] font-bold text-[#061e44]">
           {isEdit ? t('edit_title', { name: patient!.name }) : t('title')}
         </CardTitle>
       </CardHeader>
@@ -167,13 +167,14 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         >
           {/* Animal Name */}
           <div className="space-y-1">
-            <Label htmlFor="name">
+            <Label htmlFor="name" className="text-[13px] font-semibold text-[#061e44]">
               {t('patient_name')} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="name"
               data-testid="input-patient-name"
               placeholder={t('patient_name_placeholder')}
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
               {...register('name')}
             />
             {errors.name && (
@@ -186,7 +187,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Species */}
             <div className="space-y-1">
-              <Label htmlFor="species">
+              <Label htmlFor="species" className="text-[13px] font-semibold text-[#061e44]">
                 {t('species')} <span className="text-destructive">*</span>
               </Label>
               <Select
@@ -194,7 +195,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 onValueChange={(val) => setValue('species', val as Species, { shouldValidate: true })}
                 data-testid="select-species"
               >
-                <SelectTrigger data-testid="select-species-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-species-trigger">
                   <SelectValue placeholder={t('select_species')}>
                     {selectedSpecies ? SPECIES_LABELS[selectedSpecies] : null}
                   </SelectValue>
@@ -216,18 +217,19 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
             {/* Breed */}
             <div className="space-y-1">
-              <Label htmlFor="breed">{t('breed')}</Label>
+              <Label htmlFor="breed" className="text-[13px] font-semibold text-[#061e44]">{t('breed')}</Label>
               <Input
                 id="breed"
                 data-testid="input-breed"
                 placeholder={t('breed_placeholder')}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('breed')}
               />
             </div>
 
             {/* Date of Birth */}
             <div className="space-y-1">
-              <Label htmlFor="dateOfBirth">
+              <Label htmlFor="dateOfBirth" className="text-[13px] font-semibold text-[#061e44]">
                 {t('date_of_birth')} <span className="text-destructive">*</span>
               </Label>
               <Input
@@ -235,6 +237,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 type="date"
                 data-testid="input-date-of-birth"
                 max={today}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('dateOfBirth')}
               />
               {errors.dateOfBirth && (
@@ -246,7 +249,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
             {/* Gender */}
             <div className="space-y-1">
-              <Label htmlFor="gender">{t('gender')}</Label>
+              <Label htmlFor="gender" className="text-[13px] font-semibold text-[#061e44]">{t('gender')}</Label>
               <Select
                 value={selectedGender}
                 onValueChange={(val) =>
@@ -254,7 +257,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 }
                 data-testid="select-gender"
               >
-                <SelectTrigger data-testid="select-gender-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-gender-trigger">
                   <SelectValue placeholder={t('select_gender')}>
                     {selectedGender ?? null}
                   </SelectValue>
@@ -269,7 +272,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
             {/* Weight */}
             <div className="space-y-1">
-              <Label htmlFor="weightKg">
+              <Label htmlFor="weightKg" className="text-[13px] font-semibold text-[#061e44]">
                 {t('weight')}{' '}
                 <span className="text-muted-foreground font-normal">{t('weight_optional')}</span>
               </Label>
@@ -280,6 +283,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 min="0"
                 data-testid="patient-weight-input"
                 placeholder={t('weight_placeholder')}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('weightKg')}
               />
               <p className="text-xs text-muted-foreground">{t('weight_hint')}</p>
@@ -291,19 +295,20 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             </div>
           </div>
 
-          <hr className="border-border" />
-          <p className="text-sm font-medium text-muted-foreground">{t('owner_information')}</p>
+          <hr className="border-border/50" />
+          <p className="text-[13px] font-bold text-[#061e44]">{t('owner_information')}</p>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Owner Name */}
             <div className="space-y-1 md:col-span-2">
-              <Label htmlFor="ownerName">
+              <Label htmlFor="ownerName" className="text-[13px] font-semibold text-[#061e44]">
                 {t('owner_name')} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="ownerName"
                 data-testid="input-owner-name"
                 placeholder={t('owner_name_placeholder')}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('ownerName')}
               />
               {errors.ownerName && (
@@ -315,7 +320,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
             {/* Owner Phone */}
             <div className="space-y-1">
-              <Label htmlFor="ownerPhone">
+              <Label htmlFor="ownerPhone" className="text-[13px] font-semibold text-[#061e44]">
                 {t('owner_phone')} <span className="text-destructive">*</span>
               </Label>
               <Input
@@ -323,6 +328,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 type="tel"
                 data-testid="input-owner-phone"
                 placeholder={t('owner_phone_placeholder')}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('ownerPhone')}
               />
               {errors.ownerPhone && (
@@ -334,7 +340,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
             {/* Owner Email */}
             <div className="space-y-1">
-              <Label htmlFor="ownerEmail">
+              <Label htmlFor="ownerEmail" className="text-[13px] font-semibold text-[#061e44]">
                 {t('owner_email')} <span className="text-muted-foreground">{t('owner_email_optional')}</span>
               </Label>
               <Input
@@ -342,6 +348,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 type="email"
                 data-testid="input-owner-email"
                 placeholder={t('owner_email_placeholder')}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
                 {...register('ownerEmail')}
               />
               {errors.ownerEmail && (
@@ -358,7 +365,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
             </p>
           )}
 
-          <div className="sticky bottom-0 bg-background py-3 border-t flex gap-3 justify-end -mx-6 px-6">
+          <div className="sticky bottom-0 bg-white py-3 border-t border-border/50 flex gap-3 justify-end -mx-6 px-6">
             <Button
               type="button"
               variant="outline"
@@ -370,6 +377,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                   router.push('/patients')
                 }
               }}
+              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               {t('cancel')}
             </Button>
@@ -377,6 +385,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
               type="submit"
               disabled={isSubmitting}
               data-testid="btn-save-patient"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
               {isSubmitting ? t('saving') : t('save_patient')}

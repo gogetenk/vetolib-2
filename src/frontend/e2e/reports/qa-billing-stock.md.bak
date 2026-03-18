@@ -1,0 +1,24 @@
+# QA Report --- Billing and Stock
+
+**Branch**: develop
+**Date**: 2026-03-12
+**Analyst**: QA Agent (claude-sonnet-4-6)
+
+---
+
+## Test Results
+
+### e2e/billing/billing.spec.ts (MSW-backed)
+- Passed: 18
+- Skipped: 0
+- Failed: 0
+
+### e2e/stock/stock.spec.ts
+- Passed: 0
+- Skipped: ALL (global test.skip at line 5)
+- Reason: Requires real Aspire backend, deferred to wire task
+
+### e2e/recette/billing.spec.ts
+- Passed: 2 (P5-BILLING-02, P5-BILLING-06)
+- Skipped: 4 (P5-BILLING-01, P5-BILLING-03, P5-BILLING-04, P5-BILLING-05)
+- Reason: See BUG-003

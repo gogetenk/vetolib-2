@@ -57,29 +57,29 @@ function MedicalRecordItem({ record }: { record: MedicalRecordDto }) {
   return (
     <Card
       data-testid={`medical-record-${record.id}`}
-      className={`mb-3 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md border-s-4 ${accentClass}`}
+      className={`mb-3 bg-white border border-border/80 rounded-xl shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md border-s-4 ${accentClass}`}
     >
       <CardContent className="p-4">
         {/* Title row with icon + date below */}
         <div className="flex items-start justify-between gap-2">
           <div>
             <div className="flex items-center gap-1.5">
-              <RecordTypeIcon type={recordType} className="h-4 w-4 text-stone-500" />
+              <RecordTypeIcon type={recordType} className="h-4 w-4 text-muted-foreground" />
               <p
-                className="font-semibold text-sm text-stone-800"
+                className="font-semibold text-[14px] text-[#061e44]"
                 data-testid={`record-reason-${record.id}`}
               >
                 {record.reason}
               </p>
             </div>
             <p
-              className="text-xs text-stone-400 mt-0.5"
+              className="text-[12px] text-muted-foreground mt-0.5"
               data-testid={`record-date-${record.id}`}
             >
               {formatDateTime(record.visitDate)}
             </p>
             <p
-              className="text-xs text-stone-400"
+              className="text-[12px] text-muted-foreground"
               data-testid={`record-vet-${record.id}`}
             >
               {record.vetName}
@@ -89,37 +89,37 @@ function MedicalRecordItem({ record }: { record: MedicalRecordDto }) {
 
         {/* Vitals row (S8) */}
         <div
-          className="bg-stone-50 rounded-lg px-3 py-2 mt-3 grid grid-cols-3 gap-3"
+          className="bg-[#f4f6f9] rounded-xl px-3 py-2 mt-3 grid grid-cols-3 gap-3"
           data-testid={`record-vitals-${record.id}`}
         >
           <div data-testid={`record-weight-${record.id}`}>
-            <span className="text-xs font-medium uppercase tracking-wide text-stone-400 block">Weight</span>
-            <span className="text-sm font-medium text-stone-700">{record.weight} kg</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">Weight</span>
+            <span className="text-[13px] font-semibold text-[#061e44]">{record.weight} kg</span>
           </div>
           <div data-testid={`record-temp-${record.id}`}>
-            <span className="text-xs font-medium uppercase tracking-wide text-stone-400 block">Temperature</span>
-            <span className="text-sm font-medium text-stone-700">{record.temperature}&deg;C</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">Temperature</span>
+            <span className="text-[13px] font-semibold text-[#061e44]">{record.temperature}&deg;C</span>
           </div>
           <div data-testid={`record-hr-${record.id}`}>
-            <span className="text-xs font-medium uppercase tracking-wide text-stone-400 block">Heart Rate</span>
-            <span className="text-sm font-medium text-stone-700">{record.heartRate} bpm</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground block">Heart Rate</span>
+            <span className="text-[13px] font-semibold text-[#061e44]">{record.heartRate} bpm</span>
           </div>
         </div>
 
         {/* Diagnosis + treatment */}
-        <div className="space-y-1.5 text-sm mt-3">
+        <div className="space-y-1.5 text-[13px] mt-3">
           <div data-testid={`record-diagnosis-${record.id}`}>
-            <span className="font-medium text-stone-700">Diagnosis: </span>
-            <span className="text-stone-500">{record.diagnosis}</span>
+            <span className="font-semibold text-[#061e44]">Diagnosis: </span>
+            <span className="text-muted-foreground">{record.diagnosis}</span>
           </div>
           <div data-testid={`record-treatment-${record.id}`}>
-            <span className="font-medium text-stone-700">Treatment: </span>
-            <span className="text-stone-500">{record.treatment}</span>
+            <span className="font-semibold text-[#061e44]">Treatment: </span>
+            <span className="text-muted-foreground">{record.treatment}</span>
           </div>
           {record.prescription && (
             <div data-testid={`record-prescription-${record.id}`}>
-              <span className="font-medium text-stone-700">Prescription: </span>
-              <span className="text-stone-500">{record.prescription}</span>
+              <span className="font-semibold text-[#061e44]">Prescription: </span>
+              <span className="text-muted-foreground">{record.prescription}</span>
             </div>
           )}
         </div>
@@ -142,7 +142,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
   if (records.length === 0) {
     return (
       <p
-        className="text-stone-400 text-sm py-8 text-center animate-in fade-in duration-300"
+        className="text-muted-foreground text-[13px] py-8 text-center animate-in fade-in duration-300"
         data-testid="medical-records-empty"
       >
         No medical records found.

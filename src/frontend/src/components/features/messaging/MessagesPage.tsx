@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -43,7 +42,7 @@ const STATUS_COLOR: Record<ConversationStatus, string> = {
   Open: 'bg-blue-100 text-blue-700',
   InProgress: 'bg-yellow-100 text-yellow-700',
   Resolved: 'bg-green-100 text-green-700',
-  Closed: 'bg-stone-100 text-stone-600',
+  Closed: 'bg-[#f4f6f9] text-muted-foreground',
 }
 
 const CATEGORY_COLOR: Record<MessageCategory, string> = {
@@ -51,9 +50,9 @@ const CATEGORY_COLOR: Record<MessageCategory, string> = {
   PostOperativeFollowUp: 'bg-orange-100 text-orange-700 border-orange-200',
   MedicalQuestion: 'bg-blue-100 text-blue-700 border-blue-200',
   AppointmentRequest: 'bg-green-100 text-green-700 border-green-200',
-  Administrative: 'bg-stone-100 text-stone-700 border-stone-200',
+  Administrative: 'bg-[#f4f6f9] text-[#061e44] border-border/50',
   Feedback: 'bg-purple-100 text-purple-700 border-purple-200',
-  Other: 'bg-stone-100 text-stone-600 border-stone-200',
+  Other: 'bg-[#f4f6f9] text-muted-foreground border-border/50',
 }
 
 function formatDate(dateStr: string): string {
@@ -68,8 +67,6 @@ function formatDate(dateStr: string): string {
 export function MessagesPage() {
   const t = useTranslations('messaging')
   const role = useRole()
-  const router = useRouter()
-
   const [conversations, setConversations] = useState<ConversationDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -129,8 +126,6 @@ export function MessagesPage() {
   const handleSelect = (id: string) => {
     setSelectedId(id)
     setShowMobileDetail(true)
-    // Navigate to full detail page
-    router.push(`/messages/${id}`)
   }
 
   const handleBackToList = () => {
@@ -153,18 +148,18 @@ export function MessagesPage() {
   const totalUnread = conversations.reduce((sum, c) => sum + c.unreadCount, 0)
 
   return (
-    <div className="flex flex-col h-full" data-testid="messages-page">
-      {/* Page header */}
+    <div className="flex flex-col h-full p-6 lg:p-8" data-testid="messages-page">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold" data-testid="messages-title">
+          <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="messages-title">
+            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
             {t('title')}
           </h1>
           {totalUnread > 0 && (
             <Badge
               data-testid="unread-total-badge"
               data-pulse
-              className="bg-primary text-primary-foreground"
+              className="bg-[#303ef5] text-white font-bold text-[12px] rounded-full h-6 min-w-6 flex items-center justify-center"
             >
               {totalUnread}
             </Badge>
@@ -182,12 +177,11 @@ export function MessagesPage() {
         onSearchChange={setSearchQuery}
       />
 
-      {/* Main layout: list + detail */}
-      <div className="mt-4 flex flex-1 border rounded-lg overflow-hidden min-h-0">
+      <div className="mt-4 flex flex-1 bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden min-h-0">
         {/* Conversation list — hidden on mobile when detail is shown */}
         <div
           className={cn(
-            'w-full md:w-80 lg:w-96 border-r flex flex-col flex-shrink-0 overflow-y-auto',
+            'w-full md:w-80 lg:w-96 border-r border-border/50 flex flex-col flex-shrink-0 overflow-y-auto bg-white',
             showMobileDetail ? 'hidden md:flex' : 'flex'
           )}
           data-testid="conversation-list-panel"
@@ -217,8 +211,8 @@ export function MessagesPage() {
               t={t}
             />
           ) : (
-            <div className="flex flex-1 items-center justify-center text-muted-foreground">
-              <p className="text-sm">{t('select_conversation')}</p>
+            <div className="flex flex-1 items-center justify-center text-muted-foreground bg-[#f4f6f9]">
+              <p className="text-[14px] text-muted-foreground">{t('select_conversation')}</p>
             </div>
           )}
         </div>
@@ -245,8 +239,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
   return (
     <div className="flex flex-col h-full">
       {/* Detail header */}
-      <div className="border-b p-4 flex items-start gap-3">
-        {/* Back button — mobile only */}
+      <div className="border-b border-border/50 p-4 flex items-start gap-3 bg-white">
         <Button
           variant="ghost"
           size="sm"
@@ -259,17 +252,17 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
 
         <div className="flex-1 min-w-0">
           <h2
-            className="text-base font-semibold truncate"
+            className="text-[15px] font-bold text-[#061e44] truncate"
             data-testid="detail-subject"
           >
             {conversation.subject}
           </h2>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
-            <span className="text-sm text-muted-foreground" data-testid="detail-owner">
+            <span className="text-[13px] text-muted-foreground" data-testid="detail-owner">
               {conversation.ownerName}
             </span>
             {conversation.patientName && (
-              <span className="text-sm text-muted-foreground">
+              <span className="text-[13px] text-muted-foreground">
                 · {conversation.patientName}
               </span>
             )}
@@ -278,14 +271,14 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
             <Badge
               data-testid="detail-category-badge"
               variant="outline"
-              className={cn('text-xs', CATEGORY_COLOR[conversation.category])}
+              className={cn('text-[10px] font-bold rounded-md', CATEGORY_COLOR[conversation.category])}
             >
               {t(`category.${conversation.category}`)}
             </Badge>
             <Badge
               data-testid="detail-status-badge"
               variant="secondary"
-              className={cn('text-xs', STATUS_COLOR[conversation.status])}
+              className={cn('text-[10px] font-bold rounded-md', STATUS_COLOR[conversation.status])}
             >
               {t(`status.${conversation.status}`)}
             </Badge>
@@ -293,7 +286,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
               <Badge
                 data-testid="detail-triage-uncertain-badge"
                 variant="outline"
-                className="text-xs bg-yellow-50 text-yellow-700 border-yellow-200"
+                className="text-[10px] font-bold rounded-md bg-yellow-50 text-yellow-700 border-yellow-200"
               >
                 {t('triage_uncertain')}
               </Badge>
@@ -311,6 +304,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
                 size="sm"
                 data-testid={`btn-set-status-${s.toLowerCase()}`}
                 onClick={() => onStatusChange(conversation.id, s)}
+                className="rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
               >
                 {t(`status.${s}`)}
               </Button>
@@ -320,7 +314,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
       </div>
 
       {/* Metadata */}
-      <div className="px-4 py-3 border-b bg-muted/30 text-xs text-muted-foreground flex flex-wrap gap-4">
+      <div className="px-4 py-3 border-b border-border/50 bg-[#f4f6f9] text-[12px] text-muted-foreground flex flex-wrap gap-4">
         <span data-testid="detail-created-at">
           {t('created')}: {formatDate(conversation.createdAt)}
         </span>

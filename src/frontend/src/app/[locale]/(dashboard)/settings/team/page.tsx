@@ -83,17 +83,21 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="space-y-6" data-testid="team-page">
+    <div className="p-6 lg:p-8 space-y-6" data-testid="team-page">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
-          <p className="text-muted-foreground text-sm mt-1">
+          <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
+            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+            {t('title')}
+          </h1>
+          <p className="text-[13px] text-muted-foreground mt-1 ml-3">
             {t('subtitle')}
           </p>
         </div>
         <Button
           data-testid="invite-member-btn"
           onClick={() => setInviteOpen(true)}
+          className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-11 px-6 shadow-sm"
         >
           {t('invite_member')}
         </Button>

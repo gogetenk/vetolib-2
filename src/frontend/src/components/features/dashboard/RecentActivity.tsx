@@ -62,9 +62,12 @@ export function RecentActivity() {
   }, [load])
 
   return (
-    <Card data-testid="recent-activity-card">
+    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="recent-activity-card">
       <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold text-stone-900">{t('title')}</CardTitle>
+        <CardTitle className="text-[15px] font-bold text-[#061e44] flex items-center gap-2">
+          <span className="w-1 h-4 bg-[#303ef5] rounded-full"></span>
+          {t('title')}
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         {loading ? (
@@ -82,13 +85,13 @@ export function RecentActivity() {
           />
         ) : activities.length === 0 ? (
           <p
-            className="p-4 text-sm text-stone-500"
+            className="p-4 text-[13px] text-muted-foreground"
             data-testid="recent-activity-empty"
           >
             {t('empty')}
           </p>
         ) : (
-          <ul data-testid="recent-activity-list" className="divide-y">
+          <ul data-testid="recent-activity-list" className="divide-y divide-border/30">
             {activities.map((activity) => (
               <li
                 key={activity.id}
@@ -104,13 +107,13 @@ export function RecentActivity() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <p
-                    className="text-sm text-stone-700 truncate"
+                    className="text-[13px] text-[#061e44] font-medium truncate"
                     data-testid={`activity-message-${activity.id}`}
                   >
                     {activity.message}
                   </p>
                   <p
-                    className="text-xs text-stone-400 mt-0.5"
+                    className="text-[12px] text-muted-foreground mt-0.5"
                     data-testid={`activity-time-${activity.id}`}
                     title={new Date(activity.occurredAt).toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}
                   >

@@ -96,15 +96,16 @@ export function AnalyticsSection() {
       className="space-y-6"
       data-testid="analytics-section"
     >
-      <h2 className="text-xl font-semibold" data-testid="analytics-title">
+      <h2 className="text-[18px] font-bold text-[#061e44] flex items-center gap-2" data-testid="analytics-title">
+        <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
         {t('title')}
       </h2>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* No-show rate stat card */}
-        <Card data-testid="analytics-no-show-card">
+        <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="analytics-no-show-card">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-[13px] font-semibold text-muted-foreground">
               {t('no_show_rate')}
             </CardTitle>
           </CardHeader>
@@ -113,7 +114,7 @@ export function AnalyticsSection() {
               <Skeleton className="h-10 w-24" />
             ) : (
               <p
-                className="text-4xl font-bold"
+                className="text-4xl font-bold text-[#061e44]"
                 data-testid="analytics-no-show-value"
               >
                 {noShowRate.toFixed(1)}%
@@ -123,9 +124,9 @@ export function AnalyticsSection() {
         </Card>
 
         {/* Patients by species — pie chart */}
-        <Card className="lg:col-span-2" data-testid="analytics-species-card">
+        <Card className="lg:col-span-2 bg-white border-border/80 rounded-xl shadow-sm" data-testid="analytics-species-card">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-[13px] font-semibold text-muted-foreground">
               {t('patients_by_species')}
             </CardTitle>
           </CardHeader>
@@ -171,9 +172,9 @@ export function AnalyticsSection() {
       </div>
 
       {/* Revenue by month — bar chart */}
-      <Card data-testid="analytics-revenue-card">
+      <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="analytics-revenue-card">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardTitle className="text-[13px] font-semibold text-muted-foreground">
             {t('revenue_by_month')} ({t('currency')})
           </CardTitle>
         </CardHeader>
@@ -207,7 +208,7 @@ export function AnalyticsSection() {
                       t('revenue_by_month'),
                     ]}
                   />
-                  <Bar dataKey="total" fill="#3b82f6" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="total" fill="#303ef5" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

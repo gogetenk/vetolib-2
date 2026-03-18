@@ -38,12 +38,11 @@ export function ConversationFilters({
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center" data-testid="conversation-filters">
-      {/* Search */}
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
           data-testid="filter-search"
-          className="pl-9"
+          className="pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md transition-shadow"
           placeholder={t('search_placeholder')}
           aria-label={t('search_placeholder')}
           value={searchQuery}
@@ -51,13 +50,13 @@ export function ConversationFilters({
         />
       </div>
 
-      {/* Status filter */}
       <div className="flex flex-wrap gap-1" data-testid="filter-status-group">
         <Button
           variant={statusFilter === '' ? 'default' : 'outline'}
           size="sm"
           data-testid="filter-status-all"
           onClick={() => onStatusChange('')}
+          className={statusFilter === '' ? 'bg-[#303ef5] hover:bg-[#2530c4] text-white rounded-lg text-[12px] font-semibold' : 'rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]'}
         >
           {t('status.all')}
         </Button>
@@ -68,19 +67,20 @@ export function ConversationFilters({
             size="sm"
             data-testid={`filter-status-${s.toLowerCase()}`}
             onClick={() => onStatusChange(s)}
+            className={statusFilter === s ? 'bg-[#303ef5] hover:bg-[#2530c4] text-white rounded-lg text-[12px] font-semibold' : 'rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]'}
           >
             {t(`status.${s}`)}
           </Button>
         ))}
       </div>
 
-      {/* Category filter */}
       <div className="flex flex-wrap gap-1" data-testid="filter-category-group">
         <Button
           variant={categoryFilter === '' ? 'secondary' : 'ghost'}
           size="sm"
           data-testid="filter-category-all"
           onClick={() => onCategoryChange('')}
+          className="rounded-lg text-[12px] font-semibold"
         >
           {t('category.all')}
         </Button>
@@ -91,6 +91,7 @@ export function ConversationFilters({
             size="sm"
             data-testid={`filter-category-${c.toLowerCase()}`}
             onClick={() => onCategoryChange(c)}
+            className="rounded-lg text-[12px] font-semibold"
           >
             {t(`category.${c}`)}
           </Button>

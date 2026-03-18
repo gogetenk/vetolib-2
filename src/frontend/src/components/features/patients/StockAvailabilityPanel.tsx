@@ -22,7 +22,7 @@ export function StockAvailabilityPanel({
 
   return (
     <div
-      className="rounded-md border bg-muted/30 p-3 space-y-2 text-sm"
+      className="rounded-xl border border-border/80 bg-[#f4f6f9] p-3 space-y-2 text-[13px]"
       data-testid="stock-availability-panel"
     >
       {/* Header row */}
@@ -33,10 +33,10 @@ export function StockAvailabilityPanel({
           <Package className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
         )}
 
-        <span className="font-medium text-foreground">Clinic stock:</span>
+        <span className="font-semibold text-[#061e44]">Clinic stock:</span>
 
         {!isOutOfStock && (
-          <span data-testid="stock-quantity" className="text-foreground">
+          <span data-testid="stock-quantity" className="text-[#061e44] font-medium">
             {stock.quantity} {stock.unit}
           </span>
         )}
@@ -82,7 +82,7 @@ export function StockAvailabilityPanel({
               <li
                 key={alt.stockItemId}
                 data-testid={`stock-alternative-${alt.stockItemId}`}
-                className="flex items-center justify-between gap-2 rounded border border-border/60 bg-background px-3 py-1.5 text-xs"
+                className="flex items-center justify-between gap-2 rounded-xl border border-border/60 bg-white px-3 py-2 text-[12px]"
               >
                 <span className="font-medium truncate">{alt.name}</span>
                 <span className="text-muted-foreground shrink-0">

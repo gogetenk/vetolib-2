@@ -33,7 +33,7 @@ const STATUS_COLOR: Record<ConversationStatus, string> = {
   Open: 'bg-blue-100 text-blue-700',
   InProgress: 'bg-yellow-100 text-yellow-700',
   Resolved: 'bg-green-100 text-green-700',
-  Closed: 'bg-stone-100 text-stone-600',
+  Closed: 'bg-[#f4f6f9] text-muted-foreground',
 }
 
 const CATEGORY_COLOR: Record<string, string> = {
@@ -41,9 +41,9 @@ const CATEGORY_COLOR: Record<string, string> = {
   PostOperativeFollowUp: 'bg-orange-100 text-orange-700 border-orange-200',
   MedicalQuestion: 'bg-blue-100 text-blue-700 border-blue-200',
   AppointmentRequest: 'bg-green-100 text-green-700 border-green-200',
-  Administrative: 'bg-stone-100 text-stone-700 border-stone-200',
+  Administrative: 'bg-[#f4f6f9] text-[#061e44] border-border/50',
   Feedback: 'bg-purple-100 text-purple-700 border-purple-200',
-  Other: 'bg-stone-100 text-stone-600 border-stone-200',
+  Other: 'bg-[#f4f6f9] text-muted-foreground border-border/50',
 }
 
 interface ConversationDetailPageProps {
@@ -204,8 +204,8 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
   return (
     <div className="flex flex-col h-full" data-testid="conversation-detail-page">
-      {/* ── Header ─────────────────────────────────────────────────────── */}
-      <div className="border-b p-4 flex items-start gap-3 flex-shrink-0">
+      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      <div className="border-b border-border/50 p-4 flex items-start gap-3 flex-shrink-0 bg-white">
         <Button
           variant="ghost"
           size="sm"
@@ -219,20 +219,20 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
         <div className="flex-1 min-w-0">
           <h1
-            className="text-base font-semibold truncate"
+            className="text-[15px] font-bold text-[#061e44] truncate"
             data-testid="conversation-subject"
           >
             {conversation.subject}
           </h1>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
             <span
-              className="text-sm text-muted-foreground"
+              className="text-[13px] text-muted-foreground"
               data-testid="conversation-owner"
             >
               {conversation.ownerName}
             </span>
             {conversation.patientName && (
-              <span className="text-sm text-muted-foreground" data-testid="conversation-patient">
+              <span className="text-[13px] text-muted-foreground" data-testid="conversation-patient">
                 · {conversation.patientName}
               </span>
             )}
@@ -241,14 +241,14 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
             <Badge
               data-testid="conversation-category-badge"
               variant="outline"
-              className={cn('text-xs', CATEGORY_COLOR[conversation.category])}
+              className={cn('text-[10px] font-bold rounded-md', CATEGORY_COLOR[conversation.category])}
             >
               {t(`category.${conversation.category}`)}
             </Badge>
             <Badge
               data-testid="conversation-status-badge"
               variant="secondary"
-              className={cn('text-xs', STATUS_COLOR[conversation.status])}
+              className={cn('text-[10px] font-bold rounded-md', STATUS_COLOR[conversation.status])}
             >
               {t(`status.${conversation.status}`)}
             </Badge>
@@ -256,14 +256,14 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
               <Badge
                 data-testid="conversation-triage-uncertain-badge"
                 variant="outline"
-                className="text-xs bg-yellow-50 text-yellow-700 border-yellow-200"
+                className="text-[10px] font-bold rounded-md bg-yellow-50 text-yellow-700 border-yellow-200"
               >
                 {t('triage_uncertain')}
               </Badge>
             )}
             {conversation.assignedToUserName && (
               <span
-                className="text-xs text-muted-foreground"
+                className="text-[12px] text-muted-foreground font-medium"
                 data-testid="conversation-assigned-to"
               >
                 {t('assigned_to')}: {conversation.assignedToUserName}
@@ -301,7 +301,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
           {/* Reply composer */}
           {!isAssistant && (
-            <div className="border-t flex-shrink-0">
+            <div className="border-t border-border/50 flex-shrink-0 bg-white">
               <ReplyComposer
                 prefillText={suggestedText}
                 onPrefillConsumed={() => setSuggestedText('')}
@@ -317,7 +317,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
         {/* Right: context + suggestions (desktop) */}
         <div
-          className="hidden lg:flex flex-col w-72 xl:w-80 border-l flex-shrink-0 overflow-y-auto"
+          className="hidden lg:flex flex-col w-72 xl:w-80 border-l border-border/50 flex-shrink-0 overflow-y-auto bg-[#f4f6f9]"
           data-testid="right-panel"
         >
           {/* Patient context */}
@@ -338,7 +338,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
       </div>
 
       {/* Mobile: patient context + suggestions (below thread) */}
-      <div className="lg:hidden border-t">
+      <div className="lg:hidden border-t border-border/50">
         <PatientContextPanel
           patientId={conversation.patientId}
           patientName={conversation.patientName}

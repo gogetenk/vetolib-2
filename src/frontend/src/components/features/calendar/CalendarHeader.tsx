@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import type { CalendarView } from './types'
@@ -17,6 +17,7 @@ interface CalendarHeaderProps {
   vets: VetDto[]
   selectedVetIds: string[]
   onVetFilterChange: (vetIds: string[]) => void
+  onNewAppointment?: () => void
 }
 
 export function CalendarHeader({
@@ -29,6 +30,7 @@ export function CalendarHeader({
   vets,
   selectedVetIds,
   onVetFilterChange,
+  onNewAppointment,
 }: CalendarHeaderProps) {
   const t = useTranslations('calendar')
   const locale = useLocale()
@@ -65,106 +67,93 @@ export function CalendarHeader({
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 py-3" data-testid="calendar-header">
-      {/* Navigation */}
-      <div className="flex items-center gap-2">
-        <Button
-          variant="outline"
-          size="icon-sm"
-          onClick={onPrev}
-          data-testid="calendar-prev-btn"
-          aria-label={t('prev')}
-          className="transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
-        >
-          {isRtl ? <ChevronRight className="size-4" /> : <ChevronLeft className="size-4" />}
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onToday}
-          data-testid="calendar-today-btn"
-          className="transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
-        >
-          {t('today')}
-        </Button>
-        <Button
-          variant="outline"
-          size="icon-sm"
-          onClick={onNext}
-          data-testid="calendar-next-btn"
-          aria-label={t('next')}
-          className="transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
-        >
-          {isRtl ? <ChevronLeft className="size-4" /> : <ChevronRight className="size-4" />}
-        </Button>
-        <span className="text-sm font-semibold ms-2 transition-all duration-200 ease-in-out">{dateLabel}</span>
+    <div className="flex flex-col gap-4 pb-4 bg-white" data-testid="calendar-header">
+      {/* Top row: Personnel filter (left) */}
+      <div className="flex items-center gap-4 px-2">
+        <div className="flex items-center gap-2 bg-white rounded-full border border-border/80 p-1 shadow-sm">
+          {/* Vet filter dropdown (like Weda personnel filter) */}
+          <div className="relative" ref={filterRef} data-testid="calendar-vet-filter">
+            <button
+              className="flex items-center gap-2 rounded-full px-4 py-1.5 text-[13px] font-semibold text-[#061e44] hover:bg-[#f4f6f9] transition-all duration-200"
+              onClick={() => setIsFilterOpen((prev) => !prev)}
+              data-testid="calendar-vet-filter-btn"
+            >
+              Personnel
+              <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown */}
+            <div className={`absolute left-0 top-full mt-2 z-50 min-w-56 rounded-xl border border-border/80 bg-white p-2 shadow-lg transition-all duration-200 origin-top-left ${isFilterOpen ? 'opacity-100 scale-y-100 translate-y-0' : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'}`}>
+              <button
+                className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-[#f4f6f9] ${selectedVetIds.length === 0 ? 'font-semibold text-[#303ef5] bg-[#eef2fd]' : 'text-[#061e44]'}`}
+                onClick={() => onVetFilterChange([])}
+              >
+                {t('allVets')}
+              </button>
+              {vets.map((vet) => (
+                <button
+                  key={vet.id}
+                  className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-[#f4f6f9] mt-1 ${selectedVetIds.includes(vet.id) ? 'font-semibold text-[#303ef5] bg-[#eef2fd]' : 'text-[#061e44]'}`}
+                  onClick={() => handleVetToggle(vet.id)}
+                >
+                  {vet.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button className="px-4 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-[#061e44] transition-colors rounded-full hover:bg-[#f4f6f9]">
+            Équipe
+          </button>
+        </div>
       </div>
 
-      {/* View toggle + Vet filter */}
-      <div className="flex items-center gap-3">
-        {/* View toggle */}
-        <div className="flex rounded-lg border border-border overflow-hidden" data-testid="calendar-view-toggle">
-          {views.map((view) => (
-            <button
-              key={view.key}
-              data-testid={view.testId}
-              className={`px-3 py-1 text-xs font-medium transition-all duration-200 ease-in-out ${
-                activeView === view.key
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'bg-background text-muted-foreground hover:bg-muted'
-              }`}
-              onClick={() => onViewChange(view.key)}
-            >
-              {view.label}
-            </button>
-          ))}
+      {/* Bottom row: Today, Navigation, View Toggle, New Appointment */}
+      <div className="flex items-center justify-between px-2">
+        {/* Left: Aujourd'hui */}
+        <div className="flex-1 flex justify-start">
+          <Button variant="outline" onClick={onToday} className="rounded-full px-6 font-semibold bg-[#303ef5] text-white border-[#303ef5] hover:bg-[#2530c4] shadow-sm h-10">
+            {t('today')}
+          </Button>
         </div>
 
-        {/* Vet filter dropdown with smooth animation */}
-        <div className="relative" ref={filterRef} data-testid="calendar-vet-filter">
-          <button
-            className="flex items-center gap-1.5 rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm cursor-pointer select-none hover:bg-muted transition-all duration-200 ease-in-out"
-            onClick={() => setIsFilterOpen((prev) => !prev)}
-            data-testid="calendar-vet-filter-btn"
-          >
-            {t('filterByVet')}
-            <ChevronDown
-              className={`size-3 text-muted-foreground transition-transform duration-200 ease-in-out ${
-                isFilterOpen ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
+        {/* Center: Navigation & Date */}
+        <div className="flex-1 flex justify-center items-center gap-4">
+          <Button variant="ghost" size="icon" onClick={onPrev} className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
+            {isRtl ? <ChevronRight className="size-5" /> : <ChevronLeft className="size-5" />}
+          </Button>
+          <span className="text-[15px] font-semibold min-w-[200px] text-center text-[#061e44]">{dateLabel}</span>
+          <Button variant="ghost" size="icon" onClick={onNext} className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
+            {isRtl ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
+          </Button>
+        </div>
 
-          {/* Dropdown with fade + slide */}
-          <div
-            className={`absolute end-0 top-full mt-1 z-50 min-w-48 rounded-lg border border-border bg-popover p-1 shadow-md transition-all duration-200 ease-in-out origin-top ${
-              isFilterOpen
-                ? 'opacity-100 scale-y-100 translate-y-0'
-                : 'opacity-0 scale-y-95 -translate-y-1 pointer-events-none'
-            }`}
-          >
-            <button
-              className={`w-full text-start rounded-md px-2 py-1.5 text-sm transition-colors duration-150 hover:bg-muted ${
-                selectedVetIds.length === 0 ? 'font-semibold text-primary' : ''
-              }`}
-              onClick={() => onVetFilterChange([])}
-              data-testid="calendar-vet-filter-all"
-            >
-              {t('allVets')}
-            </button>
-            {vets.map((vet) => (
+        {/* Right: View toggle & New Appt */}
+        <div className="flex-1 flex justify-end items-center gap-4">
+          {/* View toggle */}
+          <div className="flex rounded-full border border-border/80 bg-white p-1 shadow-sm h-10 items-center">
+            {views.map((view) => (
               <button
-                key={vet.id}
-                className={`w-full text-start rounded-md px-2 py-1.5 text-sm transition-colors duration-150 hover:bg-muted ${
-                  selectedVetIds.includes(vet.id) ? 'font-semibold text-primary' : ''
+                key={view.key}
+                className={`px-4 py-1.5 text-[13px] font-semibold rounded-full transition-all duration-200 h-full ${
+                  activeView === view.key
+                    ? 'bg-[#303ef5] text-white shadow-sm'
+                    : 'text-muted-foreground hover:text-[#061e44] hover:bg-[#f4f6f9]'
                 }`}
-                onClick={() => handleVetToggle(vet.id)}
-                data-testid={`calendar-vet-filter-${vet.id}`}
+                onClick={() => onViewChange(view.key)}
               >
-                {vet.name}
+                {view.label}
               </button>
             ))}
           </div>
+
+          {/* New Appointment Button with Glow */}
+          <Button 
+            className="rounded-full gap-2 px-6 h-10 font-semibold bg-[#303ef5] hover:bg-[#2530c4] text-white shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5 transition-all duration-200"
+            onClick={onNewAppointment}
+          >
+            <Plus className="size-4" />
+            Nouveau rendez-vous
+          </Button>
         </div>
       </div>
     </div>

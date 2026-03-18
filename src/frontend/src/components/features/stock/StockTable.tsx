@@ -82,7 +82,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           <Input
             data-testid="stock-search"
             placeholder={t('search_placeholder') ?? 'Search item name...'}
-            className="w-56 pl-9 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:shadow-md"
+            className="w-56 pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md transition-shadow"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -92,7 +92,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           onValueChange={(v) => setCategoryFilter(v ?? 'all')}
           data-testid="filter-category"
         >
-          <SelectTrigger className="w-44" data-testid="filter-category-trigger">
+          <SelectTrigger className="w-44 rounded-xl border-border/80 text-[13px]" data-testid="filter-category-trigger">
             <SelectValue placeholder={t('filters.all_categories')} />
           </SelectTrigger>
           <SelectContent>
@@ -116,7 +116,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           onValueChange={(v) => setStatusFilter(v ?? 'all')}
           data-testid="filter-status"
         >
-          <SelectTrigger className="w-44" data-testid="filter-status-trigger">
+          <SelectTrigger className="w-44 rounded-xl border-border/80 text-[13px]" data-testid="filter-status-trigger">
             <SelectValue placeholder={t('filters.all_statuses')} />
           </SelectTrigger>
           <SelectContent>
@@ -139,13 +139,13 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           {filtered.map(item => (
             <div
               key={item.id}
-              className="rounded-lg border bg-card p-4 min-h-[44px] transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
+              className="bg-white border border-border/80 rounded-xl p-4 min-h-[44px] shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
               data-testid={`stock-card-${item.id}`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-[14px] font-bold text-[#061e44]">{item.name}</p>
+                  <p className="text-[13px] text-muted-foreground">
                     {t(`categories.${item.category.toLowerCase()}`)}
                   </p>
                 </div>
@@ -168,7 +168,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
                   onClick={() => onEdit(item)}
                   data-testid={`btn-edit-card-${item.id}`}
                   aria-label={t('actions.edit')}
-                  className="min-h-[44px]"
+                  className="min-h-[44px] rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
                 >
                   <Pencil className="h-3.5 w-3.5 me-1" />
                   {t('actions.edit')}
@@ -179,7 +179,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
                   onClick={() => onMovement(item)}
                   data-testid={`btn-movement-card-${item.id}`}
                   aria-label={t('actions.movement')}
-                  className="min-h-[44px]"
+                  className="min-h-[44px] rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
                 >
                   <ArrowLeftRight className="h-3.5 w-3.5 me-1" />
                   {t('actions.movement')}
@@ -199,29 +199,29 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           {t('no_items')}
         </p>
       ) : (
-        <div className="hidden md:block rounded-md border" data-testid="stock-table">
+        <div className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="stock-table">
           <Table>
-            <TableHeader className="sticky top-0 z-10 bg-stone-50 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)]">
-              <TableRow>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-name">{t('columns.name')}</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-category">{t('columns.category')}</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-quantity">{t('columns.quantity')}</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-threshold">{t('columns.threshold')}</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-expiry">{t('columns.expiry')}</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-status">{t('columns.status')}</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-stone-500" data-testid="th-actions">{t('columns.actions')}</TableHead>
+            <TableHeader>
+              <TableRow className="bg-[#f4f6f9] hover:bg-[#f4f6f9] border-b border-border/50">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-name">{t('columns.name')}</TableHead>
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-category">{t('columns.category')}</TableHead>
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-quantity">{t('columns.quantity')}</TableHead>
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-threshold">{t('columns.threshold')}</TableHead>
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-expiry">{t('columns.expiry')}</TableHead>
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-status">{t('columns.status')}</TableHead>
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-actions">{t('columns.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map(item => (
-                <TableRow key={item.id} data-testid={`stock-row-${item.id}`} className="group transition-colors duration-150 ease-in-out hover:bg-stone-50">
+                <TableRow key={item.id} data-testid={`stock-row-${item.id}`} className="group hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
                   <TableCell
-                    className="font-medium"
+                    className="text-[14px] font-semibold text-[#061e44]"
                     data-testid={`stock-name-${item.id}`}
                   >
                     {item.name}
                   </TableCell>
-                  <TableCell data-testid={`stock-category-${item.id}`}>
+                  <TableCell className="text-[13px]" data-testid={`stock-category-${item.id}`}>
                     {t(`categories.${item.category.toLowerCase()}`)}
                   </TableCell>
                   <TableCell data-testid={`stock-quantity-${item.id}`}>
@@ -252,6 +252,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
                         onClick={() => onEdit(item)}
                         data-testid={`btn-edit-${item.id}`}
                         aria-label={t('actions.edit')}
+                        className="rounded-lg border-border/80 hover:bg-[#f4f6f9]"
                       >
                         <Pencil className="h-3.5 w-3.5" />
                       </Button>
@@ -261,6 +262,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
                         onClick={() => onMovement(item)}
                         data-testid={`btn-movement-${item.id}`}
                         aria-label={t('actions.movement')}
+                        className="rounded-lg border-border/80 hover:bg-[#f4f6f9]"
                       >
                         <ArrowLeftRight className="h-3.5 w-3.5" />
                       </Button>

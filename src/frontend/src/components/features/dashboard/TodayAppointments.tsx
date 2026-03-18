@@ -98,12 +98,15 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   }
 
   return (
-    <Card data-testid="today-appointments-card">
+    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="today-appointments-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-base font-semibold text-stone-900">{t('title')}</CardTitle>
+        <CardTitle className="text-[15px] font-bold text-[#061e44] flex items-center gap-2">
+          <span className="w-1 h-4 bg-[#303ef5] rounded-full"></span>
+          {t('title')}
+        </CardTitle>
         <Link
           href="/appointments"
-          className="text-sm text-stone-500 hover:underline"
+          className="text-[13px] text-[#303ef5] font-semibold hover:underline"
           data-testid="today-appointments-view-all"
         >
           {t('view_all')} {arrow}
@@ -128,10 +131,10 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
             data-testid="empty-state-dashboard-today"
             className="p-6 flex flex-col gap-2"
           >
-            <p className="text-sm font-medium text-stone-900">
+            <p className="text-[13px] font-semibold text-[#061e44]">
               {tEmpty('title')}
             </p>
-            <p className="text-sm text-stone-500">
+            <p className="text-[13px] text-muted-foreground">
               {tEmpty('description')}
             </p>
             <Link
@@ -143,7 +146,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
             </Link>
           </div>
         ) : (
-          <ul data-testid="today-appointments-list" className="divide-y">
+          <ul data-testid="today-appointments-list" className="divide-y divide-border/30">
             {appointments.map((appt) => {
               const typeConfig = appt.consultationType
                 ? CONSULTATION_TYPE_COLORS[appt.consultationType]
@@ -153,10 +156,9 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                 <li
                   key={appt.id}
                   data-testid={`today-appointment-row-${appt.id}`}
-                  className="flex items-center justify-between px-4 py-3 hover:bg-muted/30 transition-colors"
+                  className="flex items-center justify-between px-4 py-3 hover:bg-[#f4f6f9]/50 transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    {/* Colored dot for consultation type */}
                     {typeConfig && (
                       <span
                         className={`h-2.5 w-2.5 rounded-full shrink-0 ${typeConfig.dot}`}
@@ -165,7 +167,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       />
                     )}
                     <LtrText
-                      className="text-sm font-mono text-stone-500 w-12 shrink-0"
+                      className="text-[13px] font-mono text-muted-foreground w-12 shrink-0"
                       data-testid={`appointment-time-${appt.id}`}
                     >
                       {formatTime(appt.scheduledAt)}
@@ -175,22 +177,21 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       className="hover:underline truncate"
                       data-testid={`appointment-link-${appt.id}`}
                     >
-                      <span className="font-medium text-stone-900">{appt.patientName}</span>
-                      <span className="text-stone-500 ml-1 text-sm">
+                      <span className="text-[14px] font-semibold text-[#061e44]">{appt.patientName}</span>
+                      <span className="text-muted-foreground ml-1 text-[13px]">
                         ({appt.species})
                       </span>
                     </Link>
-                    {/* Consultation type badge */}
                     {typeConfig && (
                       <span
-                        className={`text-xs px-1.5 py-0.5 rounded-full font-medium shrink-0 hidden sm:inline-block ${typeConfig.badge}`}
+                        className={`text-[11px] px-2 py-0.5 rounded-md font-bold shrink-0 hidden sm:inline-block ${typeConfig.badge}`}
                         data-testid={`appointment-type-badge-${appt.id}`}
                       >
                         {typeConfig.text}
                       </span>
                     )}
                     <span
-                      className="text-sm text-stone-500 hidden md:inline truncate"
+                      className="text-[13px] text-muted-foreground hidden md:inline truncate"
                       data-testid={`appointment-vet-${appt.id}`}
                     >
                       {appt.vetName}
@@ -199,6 +200,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                   <div className="flex items-center gap-2 shrink-0">
                     <Badge
                       variant={STATUS_VARIANTS[appt.status]}
+                      className="rounded-md text-[10px] font-bold uppercase tracking-wider"
                       data-testid={`appointment-status-${appt.id}`}
                     >
                       {tStatus(appt.status)}
@@ -211,6 +213,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                         aria-busy={checkingIn === appt.id}
                         onClick={() => handleCheckIn(appt.id)}
                         data-testid={`checkin-btn-${appt.id}`}
+                        className="rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
                       >
                         {checkingIn === appt.id ? t('checking_in') : t('check_in')}
                       </Button>

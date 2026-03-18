@@ -73,7 +73,7 @@ export function InteractionAlertsPanel({
         return (
           <div
             key={index}
-            className={`flex items-start gap-3 rounded-md p-3 text-sm ${containerClass}`}
+            className={`flex items-start gap-3 rounded-xl p-3 text-[13px] ${containerClass}`}
             data-testid={`interaction-alert-${alert.severity.toLowerCase()}-${index}`}
             role="alert"
           >

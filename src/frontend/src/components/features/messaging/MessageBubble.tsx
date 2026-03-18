@@ -118,7 +118,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         data-testid={`message-${message.id}`}
         data-sender="system"
       >
-        <span className="text-xs text-muted-foreground italic bg-muted px-3 py-1 rounded-full">
+        <span className="text-[11px] text-muted-foreground italic bg-[#f4f6f9] px-3 py-1.5 rounded-full font-medium">
           {message.body}
         </span>
       </div>
@@ -142,7 +142,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
               <span className="text-xs text-muted-foreground">{message.senderName}</span>
             )}
           </div>
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-3 text-sm text-yellow-900">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3 text-[13px] text-yellow-900">
             {message.body}
           </div>
           <div className="flex justify-end mt-1">
@@ -173,7 +173,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           {message.senderName && (
             <p className="text-xs text-muted-foreground mb-1 ml-1">{message.senderName}</p>
           )}
-          <div className="bg-stone-100 rounded-lg px-4 py-3 text-sm text-stone-900">
+          <div className="bg-[#f4f6f9] rounded-xl px-4 py-3 text-[13px] text-[#061e44]">
             {message.body}
             {message.attachments.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-2">
@@ -210,8 +210,8 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         )}
         <div
           className={cn(
-            'rounded-lg px-4 py-3 text-sm text-white',
-            message.sender === 'Vet' ? 'bg-primary' : 'bg-blue-500'
+            'rounded-xl px-4 py-3 text-[13px] text-white',
+            message.sender === 'Vet' ? 'bg-[#303ef5]' : 'bg-[#303ef5]/80'
           )}
         >
           {message.body}

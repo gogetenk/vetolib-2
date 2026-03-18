@@ -77,14 +77,14 @@ export default function DashboardHomePage() {
   }, [])
 
   return (
-    <div className="space-y-6" data-testid="dashboard-home">
+    <div className="p-6 lg:p-8 space-y-6" data-testid="dashboard-home">
       <WelcomeBanner role={role} clinicName={clinicName} />
 
       <div className="flex flex-col gap-1" data-testid="dashboard-greeting">
-        <h1 className="text-2xl font-bold text-stone-900" data-testid="dashboard-greeting-title">
+        <h1 className="text-[22px] font-bold text-[#061e44]" data-testid="dashboard-greeting-title">
           {getGreeting(locale)}{userName ? `, ${userName}` : ''}
         </h1>
-        <p className="text-sm text-stone-500 capitalize" data-testid="dashboard-date">
+        <p className="text-[13px] text-muted-foreground font-medium capitalize" data-testid="dashboard-date">
           {formatDateStr(locale)}
         </p>
       </div>

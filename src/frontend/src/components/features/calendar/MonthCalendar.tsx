@@ -77,17 +77,17 @@ export function MonthCalendarBody({ year, month, appointments, onDayClick, onApp
   }, [locale, isRtl])
 
   return (
-    <div className="border border-border rounded-lg bg-background overflow-hidden" data-testid="calendar-month-view">
+    <div className="border border-border/60 rounded-xl bg-white shadow-sm overflow-hidden" data-testid="calendar-month-view">
       {/* Day names header */}
-      <div className={`grid grid-cols-7 border-b border-border ${isRtl ? 'direction-rtl' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
+      <div className={`grid grid-cols-7 border-b border-border/40 ${isRtl ? 'direction-rtl' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
         {dayNames.map((name, i) => {
           const dayIndex = isRtl ? 6 - i : i
           const isWeekendDay = dayIndex === 5 || dayIndex === 6
           return (
             <div
               key={i}
-              className={`py-2 text-center text-xs font-medium text-muted-foreground ${
-                isWeekendDay ? 'bg-muted/40' : ''
+              className={`py-2.5 text-center text-[11px] font-bold text-[#061e44] uppercase tracking-wider ${
+                isWeekendDay ? 'bg-[#f9fafb]' : 'bg-[#f4f6f9]'
               }`}
             >
               {name}

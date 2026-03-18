@@ -54,30 +54,29 @@ function formatDate(dateStr: string | null): string {
 function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
   if (vaccinations.length === 0) {
     return (
-      <p className="text-muted-foreground text-sm py-8 text-center" data-testid="vaccinations-empty">
+      <p className="text-muted-foreground text-[13px] py-8 text-center" data-testid="vaccinations-empty">
         No vaccination records found.
       </p>
     )
   }
   return (
-    <div data-testid="vaccinations-list" className="space-y-2">
-      <div className="grid grid-cols-4 gap-4 text-xs font-medium text-muted-foreground uppercase tracking-wide px-3 py-2">
+    <div data-testid="vaccinations-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+      <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-[#061e44] uppercase tracking-wider px-4 py-3 bg-[#f4f6f9] border-b border-border/50">
         <span>Vaccine</span>
         <span>Date Given</span>
         <span>Next Due</span>
         <span>Vet</span>
       </div>
-      <Separator />
       {vaccinations.map((vac) => (
         <div
           key={vac.id}
           data-testid={`vaccination-${vac.id}`}
-          className="grid grid-cols-4 gap-4 text-sm px-3 py-3 rounded-md hover:bg-muted/50 transition-colors duration-150 ease-in-out"
+          className="grid grid-cols-4 gap-4 text-[13px] px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
         >
-          <span className="font-medium" data-testid={`vaccination-name-${vac.id}`}>{vac.name}</span>
-          <span data-testid={`vaccination-date-${vac.id}`}>{formatDate(vac.administeredDate)}</span>
-          <span data-testid={`vaccination-next-due-${vac.id}`}>{formatDate(vac.nextDueDate)}</span>
-          <span data-testid={`vaccination-vet-${vac.id}`}>{vac.vetName}</span>
+          <span className="font-semibold text-[#061e44]" data-testid={`vaccination-name-${vac.id}`}>{vac.name}</span>
+          <span className="text-muted-foreground" data-testid={`vaccination-date-${vac.id}`}>{formatDate(vac.administeredDate)}</span>
+          <span className="text-muted-foreground" data-testid={`vaccination-next-due-${vac.id}`}>{formatDate(vac.nextDueDate)}</span>
+          <span className="text-muted-foreground" data-testid={`vaccination-vet-${vac.id}`}>{vac.vetName}</span>
         </div>
       ))}
     </div>
@@ -101,6 +100,7 @@ function PrescriptionsTab({
             <Button
               size="sm"
               data-testid="new-prescription-btn"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
             >
               New Prescription
             </Button>
@@ -109,7 +109,7 @@ function PrescriptionsTab({
       )}
 
       {prescriptions.length === 0 ? (
-        <p className="text-muted-foreground text-sm py-8 text-center" data-testid="prescriptions-empty">
+        <p className="text-muted-foreground text-[13px] py-8 text-center" data-testid="prescriptions-empty">
           No prescriptions found.
         </p>
       ) : (
@@ -118,18 +118,19 @@ function PrescriptionsTab({
             <div
               key={presc.id}
               data-testid={`prescription-${presc.id}`}
-              className="flex items-start justify-between gap-4 rounded-md border p-4 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
+              className="flex items-start justify-between gap-4 bg-white border border-border/80 rounded-xl p-4 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
             >
               <div>
-                <p className="font-medium text-sm" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="font-semibold text-[14px] text-[#061e44]" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
+                <p className="text-[12px] text-muted-foreground mt-1">
                   {presc.dosage} &bull; {presc.duration}
                 </p>
-                <p className="text-xs text-muted-foreground">{presc.vetName} &bull; {formatDate(presc.prescribedDate)}</p>
+                <p className="text-[12px] text-muted-foreground">{presc.vetName} &bull; {formatDate(presc.prescribedDate)}</p>
               </div>
               <Badge
                 variant={presc.status === 'active' ? 'default' : 'secondary'}
                 data-testid={`presc-status-${presc.id}`}
+                className={presc.status === 'active' ? 'bg-[#303ef5] text-white rounded-md text-[10px] font-bold uppercase tracking-wider' : 'rounded-md text-[10px] font-bold uppercase tracking-wider'}
               >
                 {presc.status}
               </Badge>
@@ -206,13 +207,13 @@ export default function PatientDetailPage() {
   }
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-300" data-testid="patient-detail-page">
+    <div className="p-6 lg:p-8 space-y-6 animate-in fade-in duration-300 max-w-6xl mx-auto" data-testid="patient-detail-page">
       <Link href="../patients">
         <Button
           variant="ghost"
           size="sm"
           data-testid="back-to-patients-btn"
-          className="-ms-2 group/back"
+          className="-ms-2 group/back text-muted-foreground hover:text-[#061e44]"
         >
           <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
           {t('title')}
@@ -223,99 +224,103 @@ export default function PatientDetailPage() {
         const speciesColor = getSpeciesColor(patient.species)
         return (
           <div
-            className={`bg-white rounded-xl shadow-sm border border-s-4 ${speciesColor.border} p-4`}
+            className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden"
             data-testid="patient-header"
           >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              {/* Left: species icon + pet info */}
-              <div className="flex items-start gap-4">
-                <div
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${speciesColor.bg} ${speciesColor.text}`}
-                  data-testid="patient-species-avatar"
-                  aria-label={patient.species}
-                >
-                  <SpeciesIcon species={patient.species} className="h-6 w-6" />
+            <div className="flex flex-col md:flex-row">
+              {/* Left: Patient & Owner Info */}
+              <div className="flex-1 p-6 md:p-8">
+                <div className="flex items-start gap-4 mb-6">
+                  <div
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ${speciesColor.bg} ${speciesColor.text}`}
+                    data-testid="patient-species-avatar"
+                    aria-label={patient.species}
+                  >
+                    <SpeciesIcon species={patient.species} className="h-7 w-7" />
+                  </div>
+                  <div>
+                    <h1
+                      className="text-[22px] font-bold text-[#061e44]"
+                      data-testid="patient-detail-name"
+                    >
+                      {patient.name}
+                    </h1>
+                    <p
+                      className="text-[13px] text-muted-foreground mt-0.5 font-medium"
+                      data-testid="patient-detail-species"
+                    >
+                      {patient.species} &bull; {patient.breed} &bull;{' '}
+                      <span data-testid="patient-detail-age">{calculateAge(patient.dateOfBirth)}</span>
+                      {' '}&bull; {patient.gender}
+                    </p>
+                    <p className="text-[12px] text-muted-foreground mt-0.5" data-testid="patient-weight-display">
+                      Weight: {patient.weightKg != null ? `${patient.weightKg} kg` : 'Not recorded'}
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <h1
-                    className="text-xl font-bold text-stone-900"
-                    data-testid="patient-detail-name"
-                  >
-                    {patient.name}
-                  </h1>
-                  <p
-                    className="text-sm text-stone-500"
-                    data-testid="patient-detail-species"
-                  >
-                    {patient.species} &bull; {patient.breed} &bull;{' '}
-                    <span data-testid="patient-detail-age">{calculateAge(patient.dateOfBirth)}</span>
-                    {' '}&bull; {patient.gender}
-                  </p>
-                  <p className="text-xs text-stone-400 mt-0.5" data-testid="patient-weight-display">
-                    Weight: {patient.weightKg != null ? `${patient.weightKg} kg` : 'Not recorded'}
-                  </p>
+                {/* Actions row */}
+                <div className="flex items-center gap-3">
+                  {canWrite && (
+                    <>
+                      <Button
+                        variant="outline"
+                        data-testid="edit-patient-btn"
+                        onClick={() => setIsEditOpen(true)}
+                        className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                      >
+                        <Pencil className="h-4 w-4 me-1.5" />
+                        Edit
+                      </Button>
+                      <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
+                        <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
+                          <SheetHeader>
+                            <SheetTitle>Edit Patient</SheetTitle>
+                          </SheetHeader>
+                          <div className="mt-4">
+                            <PatientForm
+                              patient={patient}
+                              onSuccess={(updated) => {
+                                setPatient(updated)
+                                setIsEditOpen(false)
+                              }}
+                            />
+                          </div>
+                        </SheetContent>
+                      </Sheet>
+                    </>
+                  )}
+
+                  {role === 'VET' && (
+                    <Link href={`patients/${id}/records/new`}>
+                      <Button
+                        data-testid="new-medical-record-btn"
+                        className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+                      >
+                        New Medical Record
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
 
-              {/* Right: owner info */}
-              <div className="flex flex-col gap-1 text-sm text-stone-600 sm:text-end" data-testid="patient-owner-section">
-                <span className="font-medium text-stone-800" data-testid="patient-detail-owner">
-                  {patient.ownerName}
-                </span>
-                <span className="flex items-center gap-1 sm:justify-end text-stone-500" data-testid="patient-detail-phone">
-                  <Phone className="h-3.5 w-3.5" />
-                  {patient.ownerPhone}
-                </span>
-                <span className="flex items-center gap-1 sm:justify-end text-stone-500" data-testid="patient-detail-email">
-                  <Mail className="h-3.5 w-3.5" />
-                  {patient.ownerEmail}
-                </span>
+              {/* Right: Owner info */}
+              <div className="md:w-[280px] bg-[#f4f6f9] p-6 md:p-8 border-t md:border-t-0 md:border-l border-border/50" data-testid="patient-owner-section">
+                <h3 className="text-[13px] font-bold text-[#061e44] mb-3">Owner</h3>
+                <div className="space-y-3">
+                  <span className="text-[14px] font-semibold text-[#061e44] block" data-testid="patient-detail-owner">
+                    {patient.ownerName}
+                  </span>
+                  <div className="flex items-center gap-2.5 text-[13px] text-muted-foreground" data-testid="patient-detail-phone">
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">{patient.ownerPhone}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5 text-[13px] text-muted-foreground" data-testid="patient-detail-email">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">{patient.ownerEmail}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* Actions row */}
-            <div className="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
-              {canWrite && (
-                <>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    data-testid="edit-patient-btn"
-                    onClick={() => setIsEditOpen(true)}
-                  >
-                    <Pencil className="h-4 w-4 me-1" />
-                    Edit
-                  </Button>
-                  <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
-                    <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
-                      <SheetHeader>
-                        <SheetTitle>Edit Patient</SheetTitle>
-                      </SheetHeader>
-                      <div className="mt-4">
-                        <PatientForm
-                          patient={patient}
-                          onSuccess={(updated) => {
-                            setPatient(updated)
-                            setIsEditOpen(false)
-                          }}
-                        />
-                      </div>
-                    </SheetContent>
-                  </Sheet>
-                </>
-              )}
-
-              {role === 'VET' && (
-                <Link href={`patients/${id}/records/new`}>
-                  <Button
-                    size="sm"
-                    data-testid="new-medical-record-btn"
-                  >
-                    New Medical Record
-                  </Button>
-                </Link>
-              )}
             </div>
           </div>
         )
@@ -323,7 +328,7 @@ export default function PatientDetailPage() {
 
       <div data-testid="patient-tabs">
         <div
-          className="flex gap-1 border-b"
+          className="flex gap-1 bg-white border border-border/80 rounded-xl shadow-sm px-2"
           role="tablist"
           data-testid="tabs-nav"
         >
@@ -337,10 +342,10 @@ export default function PatientDetailPage() {
               data-testid={tab.testId}
               onClick={() => setActiveTab(tab.id)}
               className={[
-                'px-4 py-2 text-sm font-medium border-b-2 transition-colors',
+                'px-5 py-3 text-[13px] font-semibold border-b-2 transition-colors',
                 activeTab === tab.id
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground',
+                  ? 'border-[#303ef5] text-[#303ef5]'
+                  : 'border-transparent text-muted-foreground hover:text-[#061e44] hover:border-border',
               ].join(' ')}
             >
               {tab.label}

@@ -168,7 +168,7 @@ export function DrugSelector({
     <div className="space-y-2" ref={containerRef}>
       {/* Label row */}
       <div className="flex items-center justify-between">
-        <Label htmlFor={isFreeText ? 'drug-selector-free-text-input' : 'drug-selector-input'}>
+        <Label htmlFor={isFreeText ? 'drug-selector-free-text-input' : 'drug-selector-input'} className="text-[13px] font-semibold text-[#061e44]">
           {displayLabel}
           {required && <span className="text-destructive ml-1">*</span>}
         </Label>
@@ -176,7 +176,7 @@ export function DrugSelector({
           type="button"
           data-testid="drug-selector-free-text-toggle"
           onClick={handleToggleFreeText}
-          className="text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors"
+          className="text-[12px] text-[#303ef5] underline underline-offset-2 hover:text-[#2530c4] transition-colors font-medium"
           aria-pressed={isFreeText}
         >
           {isFreeText ? t('use_catalog') : t('use_free_text')}
@@ -192,6 +192,7 @@ export function DrugSelector({
           onChange={handleFreeTextChange}
           placeholder={t('free_text_placeholder')}
           aria-label={t('free_text_label')}
+          className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
         />
       ) : (
         /* ── Catalog autocomplete mode ──────────────────────────── */
@@ -211,12 +212,13 @@ export function DrugSelector({
             aria-expanded={isOpen}
             aria-controls="drug-selector-listbox"
             aria-label={t('label')}
+            className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
           />
 
           {/* Skeleton rows while loading */}
           {isLoading && (
             <div
-              className="absolute z-50 mt-1 w-full rounded-md border bg-popover shadow-md p-2 space-y-2"
+              className="absolute z-50 mt-1 w-full rounded-xl border border-border/80 bg-popover shadow-lg p-2 space-y-2"
               aria-busy="true"
               data-testid="drug-selector-loading"
             >
@@ -232,7 +234,7 @@ export function DrugSelector({
               id="drug-selector-listbox"
               role="listbox"
               aria-label={t('results_label')}
-              className="absolute z-50 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md max-h-64 overflow-y-auto"
+              className="absolute z-50 mt-1 w-full rounded-xl border border-border/80 bg-popover text-popover-foreground shadow-lg max-h-64 overflow-y-auto"
               data-testid="drug-selector-results"
             >
               {results.map(drug => (
@@ -244,18 +246,18 @@ export function DrugSelector({
                   onClick={() => handleSelect(drug)}
                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(drug) } }}
                   tabIndex={0}
-                  className="flex items-start justify-between px-3 py-2 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors focus:outline-none focus:bg-accent focus:text-accent-foreground"
+                  className="flex items-start justify-between px-3 py-2.5 cursor-pointer hover:bg-[#f4f6f9] transition-colors focus:outline-none focus:bg-[#f4f6f9] rounded-lg"
                 >
                   <div className="flex flex-col min-w-0">
-                    <span className="font-medium text-sm truncate">
+                    <span className="font-semibold text-[13px] text-[#061e44] truncate">
                       {drug.displayName}
                     </span>
-                    <span className="text-xs text-muted-foreground truncate">
+                    <span className="text-[12px] text-muted-foreground truncate">
                       {drug.innName}
                     </span>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
-                    <Badge variant="secondary" className="text-xs whitespace-nowrap">
+                    <Badge variant="secondary" className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap rounded-md">
                       {drug.category}
                     </Badge>
                     {drug.requiresPrescription && (
@@ -272,7 +274,7 @@ export function DrugSelector({
           {/* No results state */}
           {!isLoading && isOpen && results.length === 0 && query.trim() && (
             <div
-              className="absolute z-50 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md px-3 py-4 text-sm text-muted-foreground text-center"
+              className="absolute z-50 mt-1 w-full rounded-xl border border-border/80 bg-popover text-popover-foreground shadow-lg px-3 py-4 text-[13px] text-muted-foreground text-center"
               data-testid="drug-selector-no-results"
             >
               {t('no_results')}

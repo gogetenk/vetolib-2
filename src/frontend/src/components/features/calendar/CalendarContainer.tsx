@@ -229,7 +229,7 @@ export function CalendarContainer() {
   }
 
   return (
-    <div className="flex flex-col" data-testid="calendar-container">
+    <div className="flex flex-col h-full w-full bg-white rounded-xl" data-testid="calendar-container">
       <CalendarHeader
         dateLabel={dateLabel}
         onPrev={goToPrev}
@@ -240,24 +240,29 @@ export function CalendarContainer() {
         vets={vets}
         selectedVetIds={selectedVetIds}
         onVetFilterChange={setSelectedVetIds}
+        onNewAppointment={() => {
+          const now = new Date()
+          const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+          setSelectedSlot({ date: now, time: timeString })
+        }}
       />
 
       {/* Loading skeleton */}
       {isLoading && (
-        <div className="animate-in fade-in duration-300" data-testid="calendar-loading-skeleton">
-          <div className="flex border border-border rounded-lg bg-background overflow-hidden">
-            <div className="flex-shrink-0 w-16 border-e border-border">
+        <div className="flex-1 animate-in fade-in duration-300" data-testid="calendar-loading-skeleton">
+          <div className="flex border border-border/60 rounded-xl bg-white shadow-sm overflow-hidden h-full">
+            <div className="flex-shrink-0 w-16 border-e border-border/40">
               {Array.from({ length: 8 }, (_, i) => (
-                <div key={i} className="h-16 border-b border-border/50 p-2">
-                  <div className="h-3 w-10 bg-muted animate-pulse rounded" />
+                <div key={i} className="h-16 border-b border-border/30 p-2">
+                  <div className="h-3 w-10 bg-[#f4f6f9] animate-pulse rounded" />
                 </div>
               ))}
             </div>
             <div className="flex-1 grid grid-cols-5 gap-0">
               {Array.from({ length: 40 }, (_, i) => (
-                <div key={i} className="h-16 border-b border-e border-border/50 p-1">
+                <div key={i} className="h-16 border-b border-e border-border/30 p-1">
                   {i % 7 === 0 && (
-                    <div className="h-8 bg-muted animate-pulse rounded-md mx-0.5" />
+                    <div className="h-8 bg-[#f4f6f9] animate-pulse rounded-lg mx-0.5" />
                   )}
                 </div>
               ))}
@@ -269,7 +274,7 @@ export function CalendarContainer() {
       {/* Calendar views with transition */}
       {!isLoading && (
         <div
-          className={`transition-all duration-200 ease-in-out ${getTransitionClasses()}`}
+          className={`flex-1 min-h-0 overflow-y-auto transition-all duration-200 ease-in-out ${getTransitionClasses()}`}
           data-testid="calendar-view-container"
         >
           {activeView === 'day' && (

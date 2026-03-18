@@ -20,7 +20,7 @@ export function StockAlerts({ alerts }: StockAlertsProps) {
     <div className="space-y-2" data-testid="stock-alerts">
       {lowStockAlerts.length > 0 && (
         <div
-          className="flex items-start gap-3 rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3"
+          className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3"
           data-testid="alert-low-stock"
           role="alert"
         >
@@ -46,7 +46,7 @@ export function StockAlerts({ alerts }: StockAlertsProps) {
 
       {expiringAlerts.length > 0 && (
         <div
-          className="flex items-start gap-3 rounded-md border border-orange-300 bg-orange-50 px-4 py-3"
+          className="flex items-start gap-3 rounded-xl border border-orange-300 bg-orange-50 px-4 py-3"
           data-testid="alert-expiring"
           role="alert"
         >
