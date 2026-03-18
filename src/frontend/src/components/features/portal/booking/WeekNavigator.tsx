@@ -165,15 +165,15 @@ export function WeekNavigator({
           className={cn(
             'flex items-center justify-center w-9 h-9 rounded-full transition-colors',
             isPrevDisabled
-              ? 'text-stone-300 cursor-not-allowed'
-              : 'text-stone-600 hover:bg-stone-100 cursor-pointer'
+              ? 'text-muted-foreground/40 cursor-not-allowed'
+              : 'text-muted-foreground hover:bg-[#f4f6f9] cursor-pointer'
           )}
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
 
         <span
-          className="text-sm font-semibold text-stone-700"
+          className="text-sm font-semibold text-[#061e44]"
           data-testid="week-range-label"
         >
           {formatWeekRange(weekStart)}
@@ -188,8 +188,8 @@ export function WeekNavigator({
           className={cn(
             'flex items-center justify-center w-9 h-9 rounded-full transition-colors',
             isNextDisabled
-              ? 'text-stone-300 cursor-not-allowed'
-              : 'text-stone-600 hover:bg-stone-100 cursor-pointer'
+              ? 'text-muted-foreground/40 cursor-not-allowed'
+              : 'text-muted-foreground hover:bg-[#f4f6f9] cursor-pointer'
           )}
         >
           <ChevronRight className="h-5 w-5" />
@@ -222,17 +222,17 @@ export function WeekNavigator({
               aria-label={`${dayName} ${dayNum}${isClosed ? ' (closed)' : isPast ? ' (past)' : ''}`}
               className={cn(
                 // Base — 44px tall for touch
-                'flex flex-col items-center justify-center min-h-[44px] rounded-lg px-1 py-1.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500',
+                'flex flex-col items-center justify-center min-h-[44px] rounded-xl px-1 py-1.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]',
                 isDisabled
                   ? 'cursor-not-allowed opacity-40'
                   : 'cursor-pointer',
                 isSelected
-                  ? 'bg-emerald-600 text-white shadow-sm'
+                  ? 'bg-[#303ef5] text-white shadow-sm'
                   : isToday && !isDisabled
-                  ? 'bg-emerald-50 border border-emerald-300 text-emerald-700'
+                  ? 'bg-[#eef2fd]/50 border border-[#303ef5]/40 text-[#2530c4]'
                   : isDisabled
-                  ? 'bg-stone-50 text-stone-400'
-                  : 'hover:bg-stone-100 text-stone-700'
+                  ? 'bg-[#f4f6f9] text-muted-foreground'
+                  : 'hover:bg-[#f4f6f9] text-[#061e44]'
               )}
             >
               <span className="text-[10px] font-medium uppercase tracking-wide leading-none">
@@ -245,7 +245,7 @@ export function WeekNavigator({
                 <span
                   className={cn(
                     'mt-0.5 w-1 h-1 rounded-full',
-                    isSelected ? 'bg-white' : 'bg-emerald-500'
+                    isSelected ? 'bg-white' : 'bg-[#303ef5]'
                   )}
                   aria-hidden="true"
                 />

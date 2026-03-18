@@ -74,14 +74,14 @@ export default function DrugCatalogPage() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="drug-catalog-title">
-            <span className="w-1 h-5 bg-emerald-500 rounded-full"></span>
+            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
             {t('title')}
           </h1>
         </div>
         <Button
           onClick={() => setShowAddDialog(true)}
           data-testid="btn-add-drug"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+          className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
         >
           <Plus className="me-1.5 h-4 w-4" />
           {t('add_drug')}

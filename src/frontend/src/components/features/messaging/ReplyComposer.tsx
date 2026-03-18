@@ -136,7 +136,7 @@ export function ReplyComposer({
               disabled={isSending || isEmpty || isOverLimit}
               onClick={handleAddNote}
               aria-label={t('add_note')}
-              className="rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               <StickyNote className="h-4 w-4 mr-1.5" aria-hidden />
               {t('add_note')}
@@ -149,7 +149,7 @@ export function ReplyComposer({
             data-testid="send-reply-btn"
             disabled={isSending || isEmpty || isOverLimit}
             onClick={handleSend}
-            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-lg shadow-sm"
+            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
           >
             {isSending ? (
               <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />

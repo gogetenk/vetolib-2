@@ -67,9 +67,9 @@ export function ChangeRoleDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent data-testid="change-role-dialog">
+      <DialogContent className="rounded-2xl" data-testid="change-role-dialog">
         <DialogHeader>
-          <DialogTitle>Change Role</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-[#061e44]">Change Role</DialogTitle>
           <DialogDescription>
             Update the role for <strong>{user.fullName}</strong>
           </DialogDescription>
@@ -85,6 +85,7 @@ export function ChangeRoleDialog({
               <SelectTrigger
                 id="role-select"
                 data-testid="change-role-select"
+                className="rounded-xl border-border/80 text-[13px]"
               >
                 <SelectValue placeholder="Select a role" />
               </SelectTrigger>
@@ -109,6 +110,7 @@ export function ChangeRoleDialog({
             data-testid="change-role-cancel-btn"
             onClick={() => onOpenChange(false)}
             disabled={isSubmitting}
+            className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
           >
             Cancel
           </Button>
@@ -116,6 +118,7 @@ export function ChangeRoleDialog({
             data-testid="change-role-confirm-btn"
             onClick={handleSubmit}
             disabled={isSubmitting}
+            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
           >
             {isSubmitting ? "Saving..." : "Save Role"}
           </Button>

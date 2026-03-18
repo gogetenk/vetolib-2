@@ -97,7 +97,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
       data-testid="welcome-banner"
       role="banner"
       className={[
-        'relative flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm',
+        'relative flex items-center gap-4 rounded-xl border border-border/80 bg-emerald-50 p-5 shadow-sm',
         'transition-opacity duration-200',
         animatingOut ? 'opacity-0' : 'opacity-100',
       ].join(' ')}
@@ -109,7 +109,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <p
           data-testid="welcome-banner-greeting"
-          className="text-base font-semibold text-[#061e44]"
+          className="text-[14px] font-semibold text-[#061e44]"
         >
           {t(`${roleKey}.greeting`, { clinicName: clinicName ?? '' })}
         </p>
@@ -118,7 +118,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
           data-testid="welcome-banner-cta"
           size="sm"
           variant="default"
-          className="w-fit"
+          className="w-fit bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
           onClick={handleCta}
         >
           {t(`${roleKey}.cta`)}

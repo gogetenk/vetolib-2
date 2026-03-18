@@ -73,7 +73,7 @@ export function MessagingHoursPage() {
       </div>
 
       {isLoading ? (
-        <div data-testid="hours-loading" className="text-sm text-muted-foreground">
+        <div data-testid="hours-loading" className="text-[13px] text-muted-foreground">
           {t("loading")}
         </div>
       ) : (

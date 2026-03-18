@@ -109,11 +109,11 @@ export function InvoiceTable() {
         </div>
         <div className="flex flex-wrap gap-3 mt-3">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute start-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               data-testid="invoice-search"
               placeholder="Search invoice # or patient..."
-              className="w-64 pl-9 bg-white border-border/80 rounded-xl h-10 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md"
+              className="w-64 ps-9 bg-white border-border/80 rounded-xl h-10 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -237,7 +237,7 @@ export function InvoiceTable() {
             </Table>
             {invoices.length > 0 && (
               <div className="mt-4 flex justify-end border-t border-border/30 pt-3" data-testid="invoice-summary">
-                <div className="text-right space-y-1" dir="ltr">
+                <div className="text-end space-y-1" dir="ltr">
                   <p className="text-[13px] text-muted-foreground font-medium">
                     {invoices.length} invoice{invoices.length !== 1 ? 's' : ''} — Total filtered:
                   </p>

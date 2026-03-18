@@ -17,7 +17,7 @@ const PAST_STATUSES: BookingAppointmentStatus[] = ['Completed', 'Cancelled', 'No
 const STATUS_STYLES: Record<BookingAppointmentStatus, string> = {
   Scheduled: 'bg-blue-100 text-blue-800',
   CheckedIn: 'bg-emerald-100 text-emerald-800',
-  Completed: 'bg-stone-100 text-stone-700',
+  Completed: 'bg-[#f4f6f9] text-muted-foreground',
   Cancelled: 'bg-red-100 text-red-700',
   NoShow: 'bg-orange-100 text-orange-700',
 }
@@ -52,7 +52,7 @@ function AppointmentCard({
       role="button"
       tabIndex={0}
       data-testid={`appointment-card-${appt.id}`}
-      className="flex items-center gap-4 rounded-xl border border-stone-200 bg-white p-4 shadow-sm hover:border-emerald-300 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+      className="flex items-center gap-4 rounded-xl border border-border/80 bg-white p-4 shadow-sm hover:border-[#303ef5]/40 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30"
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
@@ -63,8 +63,8 @@ function AppointmentCard({
         }
       }}
     >
-      <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-stone-50 border border-stone-200">
-        <CalendarDays className="w-5 h-5 text-stone-500" />
+      <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-[#f4f6f9] border border-border/80">
+        <CalendarDays className="w-5 h-5 text-[#303ef5]" />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
@@ -76,19 +76,19 @@ function AppointmentCard({
           </span>
         </div>
         <p
-          className="text-sm font-semibold text-stone-900 truncate"
+          className="text-[14px] font-semibold text-[#061e44] truncate"
           data-testid={`appointment-type-${appt.id}`}
         >
           {appt.consultationTypeName}
         </p>
-        <p className="text-xs text-stone-500 mt-0.5" data-testid={`appointment-pet-${appt.id}`}>
+        <p className="text-xs text-muted-foreground mt-0.5" data-testid={`appointment-pet-${appt.id}`}>
           {appt.petName} &middot; {appt.veterinarianName}
         </p>
-        <p className="text-xs text-stone-400 mt-0.5" data-testid={`appointment-date-${appt.id}`}>
+        <p className="text-xs text-muted-foreground/70 mt-0.5" data-testid={`appointment-date-${appt.id}`}>
           {formattedDate} &middot; {formattedTime}
         </p>
       </div>
-      <ChevronRight className="h-4 w-4 text-stone-400 flex-shrink-0" />
+      <ChevronRight className="h-4 w-4 text-muted-foreground flex-shrink-0" />
     </div>
   )
 }
@@ -132,7 +132,7 @@ export function MyAppointments() {
   if (expired) {
     return (
       <div className="text-center py-12 space-y-3" data-testid="my-appointments-expired">
-        <p className="text-stone-700">{t('landing.link_expired')}</p>
+        <p className="text-[#061e44]">{t('landing.link_expired')}</p>
       </div>
     )
   }
@@ -140,7 +140,7 @@ export function MyAppointments() {
   if (error) {
     return (
       <div className="text-center py-12 space-y-3" data-testid="my-appointments-error">
-        <p className="text-stone-700">{t('myAppointments.loadError')}</p>
+        <p className="text-[#061e44]">{t('myAppointments.loadError')}</p>
       </div>
     )
   }
@@ -152,47 +152,51 @@ export function MyAppointments() {
         variant="ghost"
         size="sm"
         data-testid="my-appointments-back-btn"
-        className="text-stone-600 hover:text-stone-900 -ms-2"
+        className="text-muted-foreground hover:text-[#061e44] -ms-2"
         onClick={() => router.push(base)}
       >
         <ArrowLeft className="h-4 w-4 me-1" />
         {t('myAppointments.backButton')}
       </Button>
 
-      <h1 className="text-xl font-bold text-stone-900" data-testid="my-appointments-title">
+      <h1 className="text-[22px] font-bold text-[#061e44]" data-testid="my-appointments-title">
         {t('myAppointments.title')}
       </h1>
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-stone-200" data-testid="appointments-tabs">
+      <div className="flex gap-1 bg-white border border-border/80 rounded-xl shadow-sm px-2" data-testid="appointments-tabs" role="tablist">
         <button
           data-testid="tab-upcoming"
-          className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${
+          role="tab"
+          aria-selected={activeTab === 'upcoming'}
+          className={`px-5 py-3 text-[13px] font-semibold transition-colors border-b-2 ${
             activeTab === 'upcoming'
-              ? 'border-emerald-600 text-emerald-700'
-              : 'border-transparent text-stone-500 hover:text-stone-700'
+              ? 'border-[#303ef5] text-[#303ef5]'
+              : 'border-transparent text-muted-foreground hover:text-[#061e44] hover:border-border'
           }`}
           onClick={() => setActiveTab('upcoming')}
         >
           {t('myAppointments.upcoming')}
           {upcoming.length > 0 && (
-            <span className="ms-1.5 text-xs bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full">
+            <span className="ms-1.5 text-xs bg-[#eef2fd] text-[#303ef5] px-1.5 py-0.5 rounded-full font-bold">
               {upcoming.length}
             </span>
           )}
         </button>
         <button
           data-testid="tab-past"
-          className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${
+          role="tab"
+          aria-selected={activeTab === 'past'}
+          className={`px-5 py-3 text-[13px] font-semibold transition-colors border-b-2 ${
             activeTab === 'past'
-              ? 'border-emerald-600 text-emerald-700'
-              : 'border-transparent text-stone-500 hover:text-stone-700'
+              ? 'border-[#303ef5] text-[#303ef5]'
+              : 'border-transparent text-muted-foreground hover:text-[#061e44] hover:border-border'
           }`}
           onClick={() => setActiveTab('past')}
         >
           {t('myAppointments.past')}
           {past.length > 0 && (
-            <span className="ms-1.5 text-xs bg-stone-100 text-stone-600 px-1.5 py-0.5 rounded-full">
+            <span className="ms-1.5 text-xs bg-[#f4f6f9] text-muted-foreground px-1.5 py-0.5 rounded-full font-bold">
               {past.length}
             </span>
           )}
@@ -203,15 +207,15 @@ export function MyAppointments() {
       {isLoading ? (
         <div className="space-y-3" data-testid="appointments-loading">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-20 rounded-xl bg-stone-100 animate-pulse" />
+            <div key={i} className="h-20 rounded-xl bg-muted animate-pulse" />
           ))}
         </div>
       ) : displayed.length === 0 ? (
         <div
-          className="text-center py-12 text-stone-400"
+          className="text-center py-12 text-muted-foreground"
           data-testid="appointments-empty"
         >
-          <CalendarDays className="w-10 h-10 mx-auto mb-2 text-stone-200" />
+          <CalendarDays className="w-10 h-10 mx-auto mb-2 text-muted-foreground/50" />
           <p className="text-sm">{t('myAppointments.noAppointments')}</p>
         </div>
       ) : (

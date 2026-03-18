@@ -436,7 +436,7 @@ export function MedicalRecordForm({
             {/* Confirmed override badge */}
             {overrideConfirmed && (
               <p
-                className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1"
+                className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-1.5"
                 data-testid="override-confirmed-notice"
                 role="status"
               >
@@ -488,19 +488,10 @@ export function MedicalRecordForm({
             </p>
           )}
 
-          <div className="flex gap-3">
-            <Button
-              type="submit"
-              disabled={isSubmitting || isSubmitBlocked}
-              data-testid="save-record-btn"
-              title={isSubmitBlocked ? 'Provide clinical justification before saving' : undefined}
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
-            >
-              {isSubmitting ? 'Saving...' : 'Save Record'}
-            </Button>
+          <div className="sticky bottom-0 bg-white py-3 border-t border-border/50 flex gap-3 justify-end items-center -mx-6 px-6">
             {isSubmitBlocked && (
               <p
-                className="self-center text-xs text-destructive"
+                className="text-xs text-destructive mr-auto"
                 data-testid="submit-blocked-notice"
                 role="status"
               >
@@ -515,6 +506,15 @@ export function MedicalRecordForm({
               className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
             >
               Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting || isSubmitBlocked}
+              data-testid="save-record-btn"
+              title={isSubmitBlocked ? 'Provide clinical justification before saving' : undefined}
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+            >
+              {isSubmitting ? 'Saving...' : 'Save Record'}
             </Button>
           </div>
         </form>

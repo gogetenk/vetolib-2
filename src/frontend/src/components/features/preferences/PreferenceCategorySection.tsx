@@ -27,20 +27,20 @@ export function PreferenceCategorySection({
 
   return (
     <div
-      className="border rounded-lg overflow-hidden transition-all duration-200 ease-in-out"
+      className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden transition-all duration-200 ease-in-out"
       data-testid={`pref-section-${category.key}`}
     >
       {/* Header */}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-muted/30 hover:bg-muted/50 transition-colors text-left"
+        className="w-full flex items-center justify-between px-4 py-3 bg-[#f4f6f9] hover:bg-[#f4f6f9]/80 transition-colors text-left"
         data-testid={`pref-section-toggle-${category.key}`}
         aria-expanded={isOpen}
       >
         <div>
-          <h3 className="text-sm font-semibold">{category.label}</h3>
-          <p className="text-xs text-muted-foreground mt-0.5">{category.description}</p>
+          <h3 className="text-[14px] font-bold text-[#061e44]">{category.label}</h3>
+          <p className="text-[12px] text-muted-foreground mt-0.5">{category.description}</p>
         </div>
         <ChevronDownIcon
           className={cn(
@@ -52,7 +52,7 @@ export function PreferenceCategorySection({
 
       {/* Content */}
       {isOpen && (
-        <div className="px-4 divide-y divide-border">
+        <div className="px-4 divide-y divide-border/30">
           {category.items.map((item) => {
             if (item.valueType === 'boolean') {
               return (

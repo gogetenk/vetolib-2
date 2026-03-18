@@ -106,7 +106,7 @@ export default function TeamPage() {
       {isLoading ? (
         <div data-testid="team-loading" className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-12 w-full rounded-lg" />
+            <Skeleton key={i} className="h-12 w-full rounded-xl" />
           ))}
         </div>
       ) : error ? (

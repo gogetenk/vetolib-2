@@ -8,7 +8,7 @@ export default async function NewInvoicePage() {
   const t = await getTranslations('billing')
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto" data-testid="new-invoice-page">
+    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto animate-in fade-in duration-300" data-testid="new-invoice-page">
       <Link href="../billing">
         <Button
           variant="ghost"

@@ -117,7 +117,7 @@ export function RecommendedSlots({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="h-9 w-44 rounded-full bg-stone-200 animate-pulse"
+            className="h-9 w-44 rounded-full bg-muted animate-pulse"
             data-testid={`recommended-slot-skeleton-${i}`}
           />
         ))}
@@ -129,7 +129,7 @@ export function RecommendedSlots({
   if (hasError || suggestions.length === 0) {
     return (
       <div
-        className="text-xs text-stone-400 italic py-1"
+        className="text-xs text-muted-foreground italic py-1"
         data-testid="recommended-slots-empty"
       >
         {t('empty')}
@@ -143,7 +143,7 @@ export function RecommendedSlots({
       data-testid="recommended-slots"
     >
       {/* Section label */}
-      <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-700">
+      <div className="flex items-center gap-1.5 text-xs font-medium text-[#2530c4]">
         <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
         <span>{t('title')}</span>
       </div>
@@ -163,10 +163,10 @@ export function RecommendedSlots({
               aria-label={`${slot.vetName} — ${formatSuggestionLabel(slot)}`}
               className={cn(
                 // Base chip — touch-friendly min height
-                'inline-flex flex-col items-start justify-center px-3 py-2 rounded-full border text-xs font-medium transition-all min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 cursor-pointer',
+                'inline-flex flex-col items-start justify-center px-3 py-2 rounded-full border text-xs font-medium transition-all min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1 cursor-pointer',
                 isSelected
-                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
-                  : 'bg-white border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-400'
+                  ? 'bg-[#303ef5] border-[#303ef5] text-white shadow-sm'
+                  : 'bg-white border-[#303ef5]/20 text-[#2530c4] hover:bg-[#eef2fd]/50 hover:border-[#303ef5]/60'
               )}
             >
               {/* Vet name */}
@@ -178,7 +178,7 @@ export function RecommendedSlots({
               </span>
               {/* Date + time */}
               <span
-                className={cn('leading-none', isSelected ? 'text-emerald-100' : 'text-stone-500')}
+                className={cn('leading-none', isSelected ? 'text-[#eef2fd]' : 'text-muted-foreground')}
                 data-testid={`recommended-slot-datetime-${idx}`}
               >
                 {formatSuggestionLabel(slot)}

@@ -3,6 +3,7 @@
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { FileText } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function MedicalRecordsPage() {
   const locale = useLocale()
@@ -17,7 +18,7 @@ export default function MedicalRecordsPage() {
           <FileText className="h-8 w-8 text-[#303ef5]" />
         </div>
         <h1
-          className="text-[18px] font-bold text-[#061e44]"
+          className="text-[22px] font-bold text-[#061e44]"
           data-testid="medical-records-title"
         >
           Medical Records
@@ -29,12 +30,12 @@ export default function MedicalRecordsPage() {
           Access patient records from each patient&apos;s profile page.
         </p>
         <Link href={`/${locale}/patients`}>
-          <button
-            className="mt-6 bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-11 px-6 text-[14px] shadow-sm transition-colors"
+          <Button
             data-testid="go-to-patients-btn"
+            className="mt-6 bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-11 px-6 text-[14px] shadow-sm"
           >
             Go to Patients
-          </button>
+          </Button>
         </Link>
       </div>
     </div>

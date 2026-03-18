@@ -104,11 +104,11 @@ export default function StockHistoryPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => router.push('/stock')}
             data-testid="btn-back-stock"
-            className="rounded-xl hover:bg-[#f4f6f9]"
+            className="rounded-xl border-border/80 hover:bg-[#f4f6f9]"
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>

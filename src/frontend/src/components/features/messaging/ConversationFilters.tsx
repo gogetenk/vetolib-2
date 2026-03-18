@@ -56,7 +56,7 @@ export function ConversationFilters({
           size="sm"
           data-testid="filter-status-all"
           onClick={() => onStatusChange('')}
-          className={statusFilter === '' ? 'bg-[#303ef5] hover:bg-[#2530c4] text-white rounded-lg text-[12px] font-semibold' : 'rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]'}
+          className={statusFilter === '' ? 'bg-[#303ef5] hover:bg-[#2530c4] text-white rounded-xl text-[12px] font-semibold' : 'rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]'}
         >
           {t('status.all')}
         </Button>
@@ -67,7 +67,7 @@ export function ConversationFilters({
             size="sm"
             data-testid={`filter-status-${s.toLowerCase()}`}
             onClick={() => onStatusChange(s)}
-            className={statusFilter === s ? 'bg-[#303ef5] hover:bg-[#2530c4] text-white rounded-lg text-[12px] font-semibold' : 'rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]'}
+            className={statusFilter === s ? 'bg-[#303ef5] hover:bg-[#2530c4] text-white rounded-xl text-[12px] font-semibold' : 'rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]'}
           >
             {t(`status.${s}`)}
           </Button>
@@ -80,7 +80,7 @@ export function ConversationFilters({
           size="sm"
           data-testid="filter-category-all"
           onClick={() => onCategoryChange('')}
-          className="rounded-lg text-[12px] font-semibold"
+          className="rounded-xl text-[12px] font-semibold"
         >
           {t('category.all')}
         </Button>
@@ -91,7 +91,7 @@ export function ConversationFilters({
             size="sm"
             data-testid={`filter-category-${c.toLowerCase()}`}
             onClick={() => onCategoryChange(c)}
-            className="rounded-lg text-[12px] font-semibold"
+            className="rounded-xl text-[12px] font-semibold"
           >
             {t(`category.${c}`)}
           </Button>

@@ -106,6 +106,7 @@ export function TeamTable({
                 </TableCell>
                 <TableCell className="px-6 py-4 text-center">
                   <button
+                    data-testid={`user-status-toggle-${user.id}`}
                     onClick={() => isAdmin && handleDeactivate(user)}
                     disabled={!isAdmin || user.email === currentUserEmail || deactivatingId === user.id}
                     className={cn(

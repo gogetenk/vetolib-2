@@ -71,7 +71,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12" data-testid="conversation-loading">
-        <div className="h-8 w-8 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin" />
+        <div className="h-8 w-8 rounded-full border-2 border-[#303ef5] border-t-transparent animate-spin" />
       </div>
     )
   }
@@ -79,14 +79,14 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
   if (expired) {
     return (
       <div className="text-center py-12 space-y-3" data-testid="conversation-expired">
-        <p className="text-stone-700">{tLanding('link_expired')}</p>
+        <p className="text-[#061e44]">{tLanding('link_expired')}</p>
       </div>
     )
   }
 
   if (!conversation) {
     return (
-      <div className="text-center py-12 text-stone-500" data-testid="conversation-not-found">
+      <div className="text-center py-12 text-muted-foreground" data-testid="conversation-not-found">
         <p>{t('not_found')}</p>
         <Button
           variant="ghost"
@@ -108,7 +108,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
           type="button"
           onClick={() => router.push(`/${params.locale}/portal/${params.clinicSlug}`)}
           data-testid="back-to-conversations-link"
-          className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-800"
+          className="flex items-center gap-1 text-[13px] text-[#303ef5] hover:text-[#2530c4]"
         >
           <ArrowLeft className="h-4 w-4" />
           {t('back')}
@@ -116,10 +116,10 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
       </div>
 
       <div>
-        <h1 className="text-lg font-bold text-stone-900" data-testid="conversation-subject">
+        <h1 className="text-[18px] font-bold text-[#061e44]" data-testid="conversation-subject">
           {conversation.subject}
         </h1>
-        <p className="text-xs text-stone-500 mt-0.5">
+        <p className="text-xs text-muted-foreground mt-0.5">
           {new Date(conversation.createdAt).toLocaleDateString('en-AE', {
             day: 'numeric',
             month: 'long',
@@ -140,19 +140,19 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
               data-testid={`message-${msg.id}`}
             >
               <div
-                className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
+                className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-[13px] ${
                   isOwner
-                    ? 'bg-emerald-600 text-white rounded-br-sm'
-                    : 'bg-white border border-stone-200 text-stone-900 rounded-bl-sm'
+                    ? 'bg-[#303ef5] text-white rounded-br-sm'
+                    : 'bg-white border border-border/80 text-[#061e44] rounded-bl-sm shadow-sm'
                 }`}
               >
                 {!isOwner && (
-                  <p className="text-xs font-semibold mb-1 text-emerald-700">
+                  <p className="text-xs font-semibold mb-1 text-[#303ef5]">
                     {msg.senderName ?? t('clinic')}
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{msg.body}</p>
-                <p className={`text-xs mt-1 ${isOwner ? 'text-emerald-100' : 'text-stone-400'}`}>
+                <p className={`text-xs mt-1 ${isOwner ? 'text-blue-100' : 'text-muted-foreground'}`}>
                   {new Date(msg.sentAt).toLocaleTimeString('en-AE', {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -169,7 +169,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
       {/* Closed notice or reply box */}
       {isClosed ? (
         <div
-          className="rounded-lg bg-stone-100 border border-stone-200 px-4 py-3 text-sm text-stone-600 text-center"
+          className="rounded-xl bg-[#f4f6f9] border border-border/80 px-4 py-3 text-[13px] text-muted-foreground text-center"
           data-testid="conversation-closed-notice"
         >
           {t('closed_notice')}
@@ -188,7 +188,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
               placeholder={t('reply_placeholder')}
               rows={3}
               data-testid="reply-input"
-              className="flex-1 block rounded-xl border border-stone-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+              className="flex-1 block rounded-xl border border-border/80 px-3 py-2 text-[13px] shadow-sm focus:outline-none focus:ring-1 focus:ring-[#303ef5] focus:border-[#303ef5] resize-none"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
                   handleSendReply()
@@ -199,7 +199,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
               onClick={handleSendReply}
               disabled={isSending || !reply.trim()}
               data-testid="send-reply-btn"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white h-10 px-3"
+              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm h-10 px-3"
             >
               {isSending ? (
                 <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />

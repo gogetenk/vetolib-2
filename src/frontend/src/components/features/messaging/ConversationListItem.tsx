@@ -12,20 +12,20 @@ interface ConversationListItemProps {
 }
 
 const CATEGORY_COLOR: Record<MessageCategory, string> = {
-  MedicalUrgency: 'bg-red-50 text-red-700 ring-red-500/20',
-  PostOperativeFollowUp: 'bg-orange-50 text-orange-700 ring-orange-500/20',
-  MedicalQuestion: 'bg-blue-50 text-blue-700 ring-blue-500/20',
-  AppointmentRequest: 'bg-emerald-50 text-emerald-700 ring-emerald-500/20',
-  Administrative: 'bg-slate-50 text-slate-700 ring-slate-500/20',
-  Feedback: 'bg-purple-50 text-purple-700 ring-purple-500/20',
-  Other: 'bg-zinc-50 text-zinc-600 ring-zinc-500/20',
+  MedicalUrgency: 'bg-red-100 text-red-700 ring-red-200',
+  PostOperativeFollowUp: 'bg-orange-100 text-orange-700 ring-orange-200',
+  MedicalQuestion: 'bg-blue-100 text-blue-700 ring-blue-200',
+  AppointmentRequest: 'bg-green-100 text-green-700 ring-green-200',
+  Administrative: 'bg-[#f4f6f9] text-[#061e44] ring-border/50',
+  Feedback: 'bg-purple-100 text-purple-700 ring-purple-200',
+  Other: 'bg-[#f4f6f9] text-muted-foreground ring-border/50',
 }
 
 const STATUS_COLOR: Record<ConversationStatus, string> = {
-  Open: 'bg-blue-50 text-blue-700',
-  InProgress: 'bg-amber-50 text-amber-700',
-  Resolved: 'bg-emerald-50 text-emerald-700',
-  Closed: 'bg-slate-50 text-slate-600',
+  Open: 'bg-blue-100 text-blue-700',
+  InProgress: 'bg-yellow-100 text-yellow-700',
+  Resolved: 'bg-green-100 text-green-700',
+  Closed: 'bg-[#f4f6f9] text-muted-foreground',
 }
 
 function formatRelativeDate(dateStr: string): string {

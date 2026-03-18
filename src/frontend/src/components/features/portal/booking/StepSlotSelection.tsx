@@ -131,7 +131,7 @@ export function StepSlotSelection({
     <div className="space-y-6" data-testid="step-slot-selection">
       {/* Recommended slots */}
       <div data-testid="recommended-slots-section">
-        <p className="text-xs font-medium text-stone-500 uppercase tracking-wide mb-2">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
           {t('suggestedTitle')}
         </p>
         <RecommendedSlots
@@ -146,10 +146,10 @@ export function StepSlotSelection({
       {/* Divider */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-stone-200" />
+          <div className="w-full border-t border-border/80" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-2 text-stone-400">{t('browseTitle')}</span>
+          <span className="bg-white px-2 text-muted-foreground">{t('browseTitle')}</span>
         </div>
       </div>
 
@@ -165,7 +165,7 @@ export function StepSlotSelection({
       {/* Slot grid */}
       {selectedDay === null ? (
         <div
-          className="flex items-center justify-center py-10 text-sm text-stone-400"
+          className="flex items-center justify-center py-10 text-sm text-muted-foreground"
           data-testid="slot-selection-prompt"
         >
           {t('selectDayPrompt')}
@@ -179,7 +179,7 @@ export function StepSlotSelection({
           {Array.from({ length: 12 }, (_, i) => (
             <div
               key={i}
-              className="h-11 rounded-lg bg-stone-200 animate-pulse"
+              className="h-11 rounded-xl bg-muted animate-pulse"
               data-testid={`slot-skeleton-${i}`}
             />
           ))}
@@ -193,14 +193,14 @@ export function StepSlotSelection({
         </div>
       ) : dayData?.closed ? (
         <div
-          className="text-sm text-stone-500 text-center py-6"
+          className="text-sm text-muted-foreground text-center py-6"
           data-testid="slot-grid-closed"
         >
           {t('clinicClosed')}
         </div>
       ) : (
         <div data-testid="slot-grid-section">
-          <p className="text-xs font-medium text-stone-500 uppercase tracking-wide mb-2">
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
             {t('availableTimesTitle')}
           </p>
           <SlotGrid

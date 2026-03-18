@@ -53,12 +53,12 @@ export function PatientContextPanel({
         data-patient-linked="false"
       >
         <div className="flex items-center gap-2 mb-2">
-          <User className="h-4 w-4 text-[#3498db]" aria-hidden />
-          <h3 className="text-[13px] font-bold text-[#2e4053]">
+          <User className="h-4 w-4 text-[#303ef5]" aria-hidden />
+          <h3 className="text-[13px] font-bold text-[#061e44]">
             {t('patient_context_title')}
           </h3>
         </div>
-        <p className="text-sm text-muted-foreground italic" data-testid="no-patient-linked">
+        <p className="text-[13px] text-muted-foreground italic" data-testid="no-patient-linked">
           {t('no_patient_linked')}
         </p>
       </div>
@@ -87,7 +87,7 @@ export function PatientContextPanel({
       </div>
 
       {context ? (
-        <div className="space-y-2 text-sm" data-testid="patient-context-details">
+        <div className="space-y-2 text-[14px]" data-testid="patient-context-details">
           {/* Pet name + species */}
           <div className="flex items-center justify-between">
             <span className="font-bold text-[14px] text-[#061e44]" data-testid="patient-name">{context.patientName}</span>
@@ -184,7 +184,7 @@ export function PatientContextPanel({
       ) : (
         /* Fallback: show patient name from conversation if context fetch failed */
         <div data-testid="patient-context-fallback">
-          <p className="text-sm font-medium" data-testid="patient-name">{patientName}</p>
+          <p className="text-[14px] font-medium" data-testid="patient-name">{patientName}</p>
           <p className="text-xs text-muted-foreground mt-1 italic">{t('context_unavailable')}</p>
         </div>
       )}

@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -38,7 +39,6 @@ import {
 } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus } from '@/lib/api/billing'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
-import { useDirection } from '@/hooks/use-direction'
 
 const STATUS_BADGE_STYLES: Record<InvoiceStatus, string> = {
   DRAFT: 'bg-amber-50 text-amber-700 border-amber-200',
@@ -66,8 +66,7 @@ interface InvoiceDetailProps {
 export function InvoiceDetail({ id }: InvoiceDetailProps) {
   const router = useRouter()
   const locale = useLocale()
-  const dir = useDirection()
-  const backArrow = dir === 'rtl' ? '\u2192' : '\u2190'
+
   const [invoice, setInvoice] = useState<InvoiceDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -214,9 +213,9 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
   if (loading) {
     return (
       <div className="space-y-3" data-testid="invoice-detail-loading">
-        <Skeleton className="h-32 w-full rounded-lg" style={{ animationDelay: '0ms' }} />
-        <Skeleton className="h-24 w-full rounded-lg" style={{ animationDelay: '100ms' }} />
-        <Skeleton className="h-48 w-full rounded-lg" style={{ animationDelay: '200ms' }} />
+        <Skeleton className="h-32 w-full rounded-xl" style={{ animationDelay: '0ms' }} />
+        <Skeleton className="h-24 w-full rounded-xl" style={{ animationDelay: '100ms' }} />
+        <Skeleton className="h-48 w-full rounded-xl" style={{ animationDelay: '200ms' }} />
       </div>
     )
   }
@@ -256,7 +255,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               {invoice.invoiceNumber}
             </span>
             <StatusBadge status={invoice.status} />
-            <div className="text-[13px] text-muted-foreground text-right" data-testid="invoice-detail-date">
+            <div className="text-[13px] text-muted-foreground text-end" data-testid="invoice-detail-date">
               <LtrText>{formatDate(invoice.createdAt)}</LtrText>
               {invoice.dueDate && (
                 <p className="text-muted-foreground/70" data-testid="invoice-due-date">
@@ -284,7 +283,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             <p className="text-[13px] text-muted-foreground" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
             <p className="text-[13px] text-muted-foreground">Patient: <span className="font-semibold text-[#061e44]" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
           </div>
-          <div className="text-right text-[13px] text-muted-foreground">
+          <div className="text-end text-[13px] text-muted-foreground">
             <p className="font-semibold text-[#061e44]">Happy Paws Veterinary</p>
             <p>Dubai, UAE</p>
             <LtrText as="p">+971 4 000 0000</LtrText>
@@ -322,7 +321,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
           </div>
 
           {/* Totals */}
-          <div className="mt-4 rounded-xl bg-[#f4f6f9] border border-border/50 px-4 py-3 space-y-1.5 text-[13px] max-w-xs ml-auto" data-testid="detail-totals">
+          <div className="mt-4 rounded-xl bg-[#f4f6f9] border border-border/50 px-4 py-3 space-y-1.5 text-[13px] max-w-xs ms-auto" data-testid="detail-totals">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Subtotal (excl. VAT)</span>
               <LtrText className="font-semibold text-[#061e44] tabular-nums" data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
@@ -355,7 +354,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
         <Link href={`/${locale}/billing`}>
           <Button variant="outline" data-testid="back-to-billing-btn" className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9] group/back">
-            <span className="inline-block transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5">{backArrow}</span> Back to Billing
+            <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" /> Back to Billing
           </Button>
         </Link>
 

@@ -213,7 +213,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                         aria-busy={checkingIn === appt.id}
                         onClick={() => handleCheckIn(appt.id)}
                         data-testid={`checkin-btn-${appt.id}`}
-                        className="rounded-lg text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                        className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
                       >
                         {checkingIn === appt.id ? t('checking_in') : t('check_in')}
                       </Button>

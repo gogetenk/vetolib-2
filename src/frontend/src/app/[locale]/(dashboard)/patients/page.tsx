@@ -120,7 +120,7 @@ export default function PatientsPage() {
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="h-48 rounded-lg bg-muted animate-pulse"
+              className="h-48 rounded-xl bg-muted animate-pulse"
               style={{ animationDelay: `${(i - 1) * 100}ms` }}
             />
           ))}

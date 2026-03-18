@@ -41,7 +41,7 @@ export function ExportPage() {
         type="button"
         onClick={() => router.push(`/${params.locale}/portal/${params.clinicSlug}`)}
         data-testid="export-back-btn"
-        className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-800"
+        className="flex items-center gap-1 text-sm text-[#303ef5] hover:text-[#061e44]"
       >
         <ArrowLeft className="h-4 w-4" />
         {t('back')}
@@ -49,10 +49,10 @@ export function ExportPage() {
 
       {/* Title + description */}
       <div>
-        <h1 className="text-xl font-bold text-stone-900" data-testid="export-title">
+        <h1 className="text-xl font-bold text-[#061e44]" data-testid="export-title">
           {t('title')}
         </h1>
-        <p className="mt-1 text-sm text-stone-600" data-testid="export-description">
+        <p className="mt-1 text-sm text-muted-foreground" data-testid="export-description">
           {t('description')}
         </p>
       </div>
@@ -69,7 +69,7 @@ export function ExportPage() {
         onClick={handleDownload}
         disabled={isDownloading}
         data-testid="download-export-btn"
-        className="bg-emerald-600 hover:bg-emerald-700 text-white"
+        className="bg-[#303ef5] hover:bg-[#2530c4] text-white"
       >
         <Download className="h-4 w-4 me-2" />
         {isDownloading ? t('downloading') : t('download')}

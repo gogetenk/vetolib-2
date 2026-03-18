@@ -44,7 +44,7 @@ export function SlotGrid({
   if (slots.length === 0) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-12 text-stone-400"
+        className="flex flex-col items-center justify-center py-12 text-muted-foreground"
         data-testid="slot-grid-empty"
       >
         <span className="text-sm font-medium">{t('noSlots')}</span>
@@ -72,21 +72,21 @@ export function SlotGrid({
             aria-label={`${formatSlotTime(slot.startsAt)}${!hideVetName ? ` with ${slot.vetName}` : ''} — ${isAvailable ? 'available' : 'unavailable'}`}
             className={cn(
               // Base — touch-friendly minimum 44x44px
-              'relative flex flex-col items-center justify-center rounded-lg px-1 py-2 min-h-[44px] text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1',
+              'relative flex flex-col items-center justify-center rounded-xl px-1 py-2 min-h-[44px] text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1',
               isAvailable
                 ? isSelected
                   ? // Selected state
-                    'bg-emerald-50 border-2 border-emerald-500 text-emerald-700 shadow-md scale-[1.05]'
+                    'bg-[#eef2fd]/50 border-2 border-[#303ef5] text-[#2530c4] shadow-md scale-[1.05]'
                   : // Available unselected
-                    'bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-400 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
+                    'bg-[#eef2fd]/50 border border-[#303ef5]/20 text-[#2530c4] hover:bg-[#eef2fd] hover:border-[#303ef5]/60 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
                 : // Unavailable
-                  'bg-stone-100 border border-stone-200 text-stone-400 cursor-not-allowed opacity-60'
+                  'bg-[#f4f6f9] border border-border/80 text-muted-foreground cursor-not-allowed opacity-60'
             )}
           >
             {/* Check icon for selected slot */}
             {isSelected && (
               <Check
-                className="absolute top-0.5 right-0.5 h-3 w-3 text-emerald-600"
+                className="absolute top-0.5 right-0.5 h-3 w-3 text-[#303ef5]"
                 data-testid={`slot-check-${slot.startsAt}`}
                 aria-hidden="true"
               />
@@ -100,7 +100,7 @@ export function SlotGrid({
             {/* Vet name — shown only when no vet preference set */}
             {!hideVetName && (
               <span
-                className="mt-0.5 text-[10px] leading-tight text-center text-stone-500 truncate w-full text-center"
+                className="mt-0.5 text-[10px] leading-tight text-center text-muted-foreground truncate w-full text-center"
                 data-testid={`slot-vet-${slot.startsAt}`}
               >
                 {slot.vetName.replace('Dr. ', '')}

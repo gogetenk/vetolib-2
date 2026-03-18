@@ -115,7 +115,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
     return (
       <div data-testid="medical-records-loading" className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-32 rounded-lg bg-muted animate-pulse" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
+          <div key={i} className="h-32 rounded-xl bg-muted animate-pulse" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
         ))}
       </div>
     )

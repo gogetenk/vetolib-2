@@ -81,17 +81,17 @@ export function SetupChecklist({ role }: SetupChecklistProps) {
   }
 
   return (
-    <Card data-testid="setup-checklist" id="setup-checklist" className="w-full">
+    <Card data-testid="setup-checklist" id="setup-checklist" className="w-full bg-white border-border/80 rounded-xl shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold leading-none tracking-tight text-[#061e44]">
+          <h2 className="text-[15px] font-bold leading-none tracking-tight text-[#061e44]">
             {t('title')}
           </h2>
           <div className="flex items-center gap-2">
             {!allCompleted && (
               <span
                 data-testid="checklist-progress"
-                className="text-xs text-muted-foreground"
+                className="text-[12px] text-muted-foreground"
               >
                 {t('progress', {
                   completed: state.progress.completedSteps,
@@ -130,7 +130,7 @@ export function SetupChecklist({ role }: SetupChecklistProps) {
                 type="button"
                 data-testid="checklist-dismiss"
                 onClick={handleDismiss}
-                className="text-xs text-muted-foreground underline-offset-4 hover:text-[#061e44] hover:underline"
+                className="text-[12px] text-muted-foreground underline-offset-4 hover:text-[#061e44] hover:underline"
               >
                 {t('dismiss')}
               </button>

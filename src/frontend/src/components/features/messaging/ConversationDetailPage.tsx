@@ -219,7 +219,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
         <div className="flex-1 min-w-0">
           <h1
-            className="text-[15px] font-bold text-[#061e44] truncate"
+            className="text-[18px] font-bold text-[#061e44] truncate"
             data-testid="conversation-subject"
           >
             {conversation.subject}
@@ -363,11 +363,11 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 function ConversationDetailSkeleton() {
   return (
     <div className="flex flex-col h-full" data-testid="conversation-detail-skeleton">
-      <div className="border-b p-4 flex items-start gap-3">
-        <Skeleton className="h-8 w-8 rounded" />
+      <div className="border-b border-border/80 p-4 flex items-start gap-3">
+        <Skeleton className="h-8 w-8 rounded-xl" />
         <div className="flex-1 space-y-2">
-          <Skeleton className="h-5 w-3/4" />
-          <Skeleton className="h-4 w-1/2" />
+          <Skeleton className="h-5 w-3/4 rounded-xl" />
+          <Skeleton className="h-4 w-1/2 rounded-xl" />
           <div className="flex gap-2">
             <Skeleton className="h-5 w-20 rounded-full" />
             <Skeleton className="h-5 w-16 rounded-full" />
@@ -377,7 +377,7 @@ function ConversationDetailSkeleton() {
       <div className="flex-1 p-4 space-y-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className={cn('flex', i % 2 === 0 ? 'justify-start' : 'justify-end')}>
-            <Skeleton className={cn('h-16 rounded-lg', i % 2 === 0 ? 'w-2/3' : 'w-1/2')} />
+            <Skeleton className={cn('h-16 rounded-xl', i % 2 === 0 ? 'w-2/3' : 'w-1/2')} />
           </div>
         ))}
       </div>
