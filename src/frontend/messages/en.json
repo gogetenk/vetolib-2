@@ -531,10 +531,39 @@
       "item_updated": "Stock item updated successfully",
       "movement_recorded": "Movement recorded successfully"
     },
+    "history_link": "History",
     "errors": {
       "load_failed": "Failed to load stock data",
       "save_failed": "Failed to save. Please try again.",
       "movement_failed": "Failed to record movement. Please try again."
+    },
+    "history": {
+      "title": "Movement History",
+      "search_placeholder": "Search item, person, reason...",
+      "all_types": "All Types",
+      "date_from": "From",
+      "date_to": "To",
+      "no_movements": "No movements found.",
+      "count": "{count, plural, =0 {No movements} one {1 movement} other {# movements}}",
+      "export_csv": "Export CSV",
+      "export_success": "CSV exported successfully",
+      "columns": {
+        "date": "Date",
+        "item": "Item",
+        "type": "Type",
+        "quantity": "Qty",
+        "stock_change": "Stock Change",
+        "performed_by": "Performed By",
+        "patient": "Patient",
+        "reason": "Reason"
+      },
+      "types": {
+        "incoming": "Incoming",
+        "outgoing": "Outgoing",
+        "adjustment": "Adjustment",
+        "loss": "Loss",
+        "return": "Return"
+      }
     }
   },
   "ai_triage": {
