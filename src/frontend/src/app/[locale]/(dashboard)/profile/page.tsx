@@ -4,6 +4,7 @@ import { useMemo } from "react"
 import { User, Mail, Shield } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { PageContainer } from "@/components/ui/page-container"
 import { getStoredUser } from "@/lib/api/auth"
 import { useRole } from "@/hooks/use-role"
 
@@ -28,7 +29,7 @@ export default function ProfilePage() {
   }, [])
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="profile-page">
+    <PageContainer variant="default" data-testid="profile-page">
       <div>
         <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
@@ -104,6 +105,6 @@ export default function ProfilePage() {
           </Button>
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   )
 }

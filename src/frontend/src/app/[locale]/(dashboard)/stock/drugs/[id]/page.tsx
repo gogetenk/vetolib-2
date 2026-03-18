@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { DrugDetailCard } from '@/components/drugs/DrugDetailCard'
 import { getDrugById } from '@/lib/api/drugs'
 import type { DrugCatalogEntryDto } from '@/lib/api/drugs'
@@ -36,7 +37,7 @@ export default function DrugDetailPage() {
   }, [drugId, t])
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="drug-detail-page">
+    <PageContainer variant="default" data-testid="drug-detail-page">
       <div className="flex items-center gap-3">
         <Button
           variant="outline"
@@ -69,6 +70,6 @@ export default function DrugDetailPage() {
           {t('errors.not_found')}
         </p>
       )}
-    </div>
+    </PageContainer>
   )
 }

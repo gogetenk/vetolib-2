@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { InvoiceDetail } from '@/components/features/billing/InvoiceDetail'
 import { getTranslations } from 'next-intl/server'
 
@@ -13,7 +14,7 @@ export default async function InvoiceDetailPage({ params }: Props) {
   const t = await getTranslations('billing')
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto animate-in fade-in duration-300" data-testid="invoice-detail-page">
+    <PageContainer variant="default" data-testid="invoice-detail-page">
       <Link href="../billing">
         <Button
           variant="ghost"
@@ -32,6 +33,6 @@ export default async function InvoiceDetailPage({ params }: Props) {
       </h1>
 
       <InvoiceDetail id={id} />
-    </div>
+    </PageContainer>
   )
 }

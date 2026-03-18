@@ -15,6 +15,7 @@ import { getPatient, getPatientVaccinations, getPatientPrescriptions } from '@/l
 import type { PatientDto, VaccinationDto, PrescriptionDto } from '@/lib/api/patients'
 import { getPatientMedicalRecords } from '@/lib/api/medical-records'
 import type { MedicalRecordDto } from '@/lib/api/medical-records'
+import { PageContainer } from '@/components/ui/page-container'
 import { useRole } from '@/hooks/use-role'
 import { useTranslations } from 'next-intl'
 
@@ -211,7 +212,7 @@ export default function PatientDetailPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 animate-in fade-in duration-300 max-w-6xl mx-auto" data-testid="patient-detail-page">
+    <PageContainer variant="default" data-testid="patient-detail-page">
       <Link href="../patients">
         <Button
           variant="ghost"
@@ -379,6 +380,6 @@ export default function PatientDetailPage() {
           )}
         </div>
       </div>
-    </div>
+    </PageContainer>
   )
 }

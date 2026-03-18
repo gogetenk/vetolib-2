@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { AppointmentDetailLoader } from '@/components/features/appointments/AppointmentDetailLoader'
 import { getTranslations } from 'next-intl/server'
 
@@ -13,7 +14,7 @@ export default async function AppointmentDetailPage({ params }: Props) {
   const t = await getTranslations('appointments')
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto" data-testid="appointment-detail-page">
+    <PageContainer variant="default" data-testid="appointment-detail-page">
       <Link href="../appointments">
         <Button
           variant="ghost"
@@ -26,6 +27,6 @@ export default async function AppointmentDetailPage({ params }: Props) {
         </Button>
       </Link>
       <AppointmentDetailLoader id={id} />
-    </div>
+    </PageContainer>
   )
 }
