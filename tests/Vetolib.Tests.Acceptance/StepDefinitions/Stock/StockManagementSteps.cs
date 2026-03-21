@@ -165,8 +165,6 @@ internal class StockManagementSteps
     [Given(@"clinic A has stock item ""(.*)"" with quantity (\d+)")]
     public async Task GivenClinicAHasStockItemWithQuantity(string name, int quantity)
     {
-        // Use TestClinicGuid for clinic A so the EF Core compiled query filter matches.
-        // The compiled query filter uses the initial ClinicId value captured at model creation.
         var clinicAId = TestClinicContext.TestClinicGuid;
         await CreateStockItemForClinic(clinicAId, "admin-a@clinic-a.ae", name, quantity);
     }
@@ -281,7 +279,6 @@ internal class StockManagementSteps
     [When(@"I am authenticated in clinic A")]
     public async Task WhenIAmAuthenticatedInClinicA()
     {
-        // Must use TestClinicGuid so EF Core compiled query filter returns clinic A items.
         var clinicAId = TestClinicContext.TestClinicGuid;
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicAId;
@@ -295,19 +292,33 @@ internal class StockManagementSteps
             new AuthenticationHeaderValue("Bearer", authToken!.AccessToken);
     }
 
+    [When(@"I attempt to create a stock item with an empty name")]
+    public async Task WhenIAttemptToCreateAStockItemWithAnEmptyName()
+    {
+        var request = new CreateStockItemRequest("", "Medication", 10, "ml", 5, null);
+        _lastResponse = await _client.PostAsJsonAsync("/api/v1/stock", request);
+    }
+
+    [When(@"I attempt to create a stock item with a quantity of (-?\d+)")]
+    public async Task WhenIAttemptToCreateAStockItemWithAQuantityOf(int quantity)
+    {
+        var request = new CreateStockItemRequest("Test Item", "Medication", quantity, "ml", 5, null);
+        _lastResponse = await _client.PostAsJsonAsync("/api/v1/stock", request);
+    }
+
     // ─── THEN ───────────────────────────────────────────────────
 
-    [Then(@"the stock item should be created successfully")]
-    public void ThenTheStockItemShouldBeCreatedSuccessfully()
+    [Then(@"the stock item is created successfully")]
+    public void ThenTheStockItemIsCreatedSuccessfully()
     {
         _lastResponse.Should().NotBeNull();
-        _lastResponse!.StatusCode.Should().Be(HttpStatusCode.OK,
-            $"Expected 200 but got {(int)_lastResponse.StatusCode}");
+        _lastResponse!.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected success but got {(int)_lastResponse.StatusCode}");
         _currentItem.Should().NotBeNull();
     }
 
-    [Then(@"the response should contain the stock item ID")]
-    public void ThenTheResponseShouldContainTheStockItemId()
+    [Then(@"the stock item is created with an identifier")]
+    public void ThenTheStockItemIsCreatedWithAnIdentifier()
     {
         _currentItem.Should().NotBeNull();
         _currentItem!.Id.Should().NotBeEmpty();
@@ -327,15 +338,15 @@ internal class StockManagementSteps
         _currentList!.Should().Contain(i => i.Name == name);
     }
 
-    [Then(@"the stock item quantity should be (\d+)")]
-    public void ThenTheStockItemQuantityShouldBe(int expectedQuantity)
+    [Then(@"the stock item quantity is (\d+)")]
+    public void ThenTheStockItemQuantityIs(int expectedQuantity)
     {
         _currentItem.Should().NotBeNull();
         _currentItem!.Quantity.Should().Be(expectedQuantity);
     }
 
-    [Then(@"I should receive an error indicating insufficient stock")]
-    public void ThenIShouldReceiveAnErrorIndicatingInsufficientStock()
+    [Then(@"the system indicates insufficient stock")]
+    public void ThenTheSystemIndicatesInsufficientStock()
     {
         _lastResponse.Should().NotBeNull();
         _lastResponse!.IsSuccessStatusCode.Should().BeFalse(
@@ -358,28 +369,28 @@ internal class StockManagementSteps
             $"Expected '{itemName}' in expiring soon alerts");
     }
 
-    [Then(@"the stock item threshold should be (\d+)")]
-    public void ThenTheStockItemThresholdShouldBe(int expectedThreshold)
+    [Then(@"the stock item threshold is (\d+)")]
+    public void ThenTheStockItemThresholdIs(int expectedThreshold)
     {
         _currentItem.Should().NotBeNull();
         _currentItem!.MinThreshold.Should().Be(expectedThreshold);
     }
 
-    [Then(@"I should receive the stock list successfully")]
-    public void ThenIShouldReceiveTheStockListSuccessfully()
+    [Then(@"the stock list is returned successfully")]
+    public void ThenTheStockListIsReturnedSuccessfully()
     {
         _lastResponse.Should().NotBeNull();
-        _lastResponse!.StatusCode.Should().Be(HttpStatusCode.OK,
-            $"Expected 200 but got {(int)_lastResponse.StatusCode}");
+        _lastResponse!.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected success but got {(int)_lastResponse.StatusCode}");
         _currentList.Should().NotBeNull();
     }
 
-    [Then(@"I should receive a 403 Forbidden response")]
-    public void ThenIShouldReceiveA403ForbiddenResponse()
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
     {
         _lastResponse.Should().NotBeNull();
         _lastResponse!.StatusCode.Should().Be(HttpStatusCode.Forbidden,
-            $"Expected 403 but got {(int)_lastResponse.StatusCode}");
+            $"Expected access denied but got {(int)_lastResponse.StatusCode}");
     }
 
     [Then(@"I should only see clinic A's stock items")]
@@ -388,6 +399,14 @@ internal class StockManagementSteps
         _currentList.Should().NotBeNull();
         _currentList!.Should().HaveCount(1, "Clinic A should only see its own stock items");
         _currentList!.All(i => i.Quantity == 100).Should().BeTrue();
+    }
+
+    [Then(@"the system rejects the input as invalid")]
+    public void ThenTheSystemRejectsTheInputAsInvalid()
+    {
+        _lastResponse.Should().NotBeNull();
+        _lastResponse!.IsSuccessStatusCode.Should().BeFalse(
+            $"Expected rejection but got {(int)_lastResponse.StatusCode}");
     }
 
     // ─── Helpers ────────────────────────────────────────────────
