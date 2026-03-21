@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useMessagingSse } from '@/hooks/use-messaging-sse'
@@ -37,12 +37,17 @@ export function MessagingSseProvider({ children }: MessagingSseProviderProps) {
   const router = useRouter()
 
   const { latestEvent } = sseState
+  const lastProcessedRef = useRef<string | null>(null)
 
   // React to new-message SSE events
   useEffect(() => {
     if (!latestEvent || latestEvent.type !== 'new-message') return
 
     const event = latestEvent as NewMessageEvent
+
+    // Deduplicate: skip if we already processed this exact message
+    if (lastProcessedRef.current === event.messageId) return
+    lastProcessedRef.current = event.messageId
     const preview = event.preview.length > 80
       ? event.preview.slice(0, 80) + '…'
       : event.preview

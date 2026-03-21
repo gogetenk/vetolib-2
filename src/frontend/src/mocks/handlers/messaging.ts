@@ -457,7 +457,7 @@ export const messagingHandlers = [
 
   // GET /api/v1/messaging/sse — SSE mock stream
   // MSW intercepts the EventSource request. We return a text/event-stream ReadableStream
-  // that emits mock events every 10 seconds so the SSE hook stays exercised in dev.
+  // that emits mock events every 60 seconds so the SSE hook stays exercised in dev.
   http.get(`${BASE}/sse`, () => {
     let intervalId: ReturnType<typeof setInterval> | null = null
 
@@ -469,7 +469,7 @@ export const messagingHandlers = [
         const initialCount: UnreadCountEvent = { type: 'unread-count', total: 3 }
         controller.enqueue(encode(`event: unread-count\ndata: ${JSON.stringify({ total: initialCount.total })}\n\n`))
 
-        // Cycle through mock events every 10 s
+        // Cycle through mock events every 60 s (throttled to avoid navigation storms in dev)
         let tick = 0
         intervalId = setInterval(() => {
           tick++
@@ -504,18 +504,20 @@ export const messagingHandlers = [
               controller.enqueue(encode(`event: unread-count\ndata: ${JSON.stringify(countEvt)}\n\n`))
             }
 
-            // Also emit conversation-updated to exercise that branch
-            const updatedEvt: Omit<ConversationUpdatedEvent, 'type'> = {
-              conversationId: MOCK_CONVERSATIONS[0]?.id ?? 'conv-001',
-              status: 'InProgress',
-              unreadCount: tick,
+            // Emit conversation-updated only on every 3rd tick to reduce state churn
+            if (tick % 3 === 0) {
+              const updatedEvt: Omit<ConversationUpdatedEvent, 'type'> = {
+                conversationId: MOCK_CONVERSATIONS[0]?.id ?? 'conv-001',
+                status: 'InProgress',
+                unreadCount: tick,
+              }
+              controller.enqueue(encode(`event: conversation-updated\ndata: ${JSON.stringify(updatedEvt)}\n\n`))
             }
-            controller.enqueue(encode(`event: conversation-updated\ndata: ${JSON.stringify(updatedEvt)}\n\n`))
           } catch {
             // Stream may have been cancelled — stop
             if (intervalId !== null) clearInterval(intervalId)
           }
-        }, 10_000)
+        }, 60_000)
       },
       cancel() {
         if (intervalId !== null) clearInterval(intervalId)

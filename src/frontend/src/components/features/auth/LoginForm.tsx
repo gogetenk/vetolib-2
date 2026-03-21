@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -36,6 +36,7 @@ type LoginFormValues = {
 
 export function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const t = useTranslations("auth.login")
   const locale = useLocale()
   const [serverError, setServerError] = useState<string | null>(null)
@@ -57,7 +58,12 @@ export function LoginForm() {
     setServerError(null)
     try {
       await login(data.email, data.password)
-      router.push(`/${locale}/appointments`)
+      // Respect callbackUrl from middleware redirect, fallback to appointments
+      const callbackUrl = searchParams.get("callbackUrl")
+      const destination = callbackUrl && callbackUrl.startsWith("/")
+        ? callbackUrl
+        : `/${locale}/appointments`
+      router.push(destination)
     } catch (err) {
       const loginErr = err as LoginError
       if (loginErr.code === "ACCOUNT_LOCKED") {
