@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/features/shell/Header";
 import { MessagingSseProvider } from "@/components/features/messaging/MessagingSseProvider";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { ConsentBanner } from "@/components/features/analytics/ConsentBanner";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default function DashboardLayout({
   children,
