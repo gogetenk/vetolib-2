@@ -1540,5 +1540,15 @@
       "save_failed": "Failed to add drug.",
       "not_found": "Drug not found."
     }
+  },
+  "settings_page": {
+    "title": "Settings",
+    "subtitle": "Manage your clinic configuration and preferences.",
+    "preferences_title": "Clinic Preferences",
+    "preferences_description": "Configure clinic hours, default consultation duration, and notification settings.",
+    "team_title": "Team Management",
+    "team_description": "Invite team members, manage roles, and control access permissions.",
+    "messaging_title": "Messaging Settings",
+    "messaging_description": "Set up automated reminders, templates, and messaging hours."
   }
 }

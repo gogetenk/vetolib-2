@@ -531,6 +531,35 @@
       "load_failed": "فشل تحميل بيانات المخزون",
       "save_failed": "فشل الحفظ. يرجى المحاولة مرة أخرى.",
       "movement_failed": "فشل تسجيل الحركة. يرجى المحاولة مرة أخرى."
+    },
+    "history_link": "السجل",
+    "history": {
+      "title": "سجل الحركات",
+      "search_placeholder": "بحث بالصنف أو الشخص أو السبب...",
+      "all_types": "جميع الأنواع",
+      "date_from": "من",
+      "date_to": "إلى",
+      "no_movements": "لا توجد حركات.",
+      "count": "{count, plural, =0 {لا توجد حركات} one {حركة واحدة} other {# حركة}}",
+      "export_csv": "تصدير CSV",
+      "export_success": "تم تصدير CSV بنجاح",
+      "columns": {
+        "date": "التاريخ",
+        "item": "الصنف",
+        "type": "النوع",
+        "quantity": "الكمية",
+        "stock_change": "تغيير المخزون",
+        "performed_by": "بواسطة",
+        "patient": "الحيوان",
+        "reason": "السبب"
+      },
+      "types": {
+        "incoming": "وارد",
+        "outgoing": "صادر",
+        "adjustment": "تعديل",
+        "loss": "فقدان",
+        "return": "إرجاع"
+      }
     }
   },
   "team": {
@@ -1511,5 +1540,15 @@
       "save_failed": "فشل إضافة الدواء.",
       "not_found": "لم يتم العثور على الدواء."
     }
+  },
+  "settings_page": {
+    "title": "الإعدادات",
+    "subtitle": "إدارة إعدادات العيادة والتفضيلات.",
+    "preferences_title": "تفضيلات العيادة",
+    "preferences_description": "ضبط ساعات العمل ومدة الاستشارة الافتراضية وإعدادات الإشعارات.",
+    "team_title": "إدارة الفريق",
+    "team_description": "دعوة أعضاء الفريق وإدارة الأدوار والتحكم في صلاحيات الوصول.",
+    "messaging_title": "إعدادات الرسائل",
+    "messaging_description": "إعداد التذكيرات التلقائية والقوالب وساعات المراسلة."
   }
 }

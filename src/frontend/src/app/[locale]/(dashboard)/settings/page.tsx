@@ -2,35 +2,45 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Settings, Users, MessageSquare } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { Settings, Users, MessageSquare, type LucideIcon } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-const settingsLinks = [
+interface SettingsLink {
+  href: string
+  icon: LucideIcon
+  titleKey: string
+  descriptionKey: string
+  testId: string
+}
+
+const settingsLinks: SettingsLink[] = [
   {
     href: "settings/preferences",
     icon: Settings,
-    title: "Clinic Preferences",
-    description: "Configure clinic hours, default consultation duration, and notification settings.",
+    titleKey: "preferences_title",
+    descriptionKey: "preferences_description",
     testId: "settings-link-preferences",
   },
   {
     href: "settings/team",
     icon: Users,
-    title: "Team Management",
-    description: "Invite team members, manage roles, and control access permissions.",
+    titleKey: "team_title",
+    descriptionKey: "team_description",
     testId: "settings-link-team",
   },
   {
     href: "settings/messaging",
     icon: MessageSquare,
-    title: "Messaging Settings",
-    description: "Set up automated reminders, templates, and messaging hours.",
+    titleKey: "messaging_title",
+    descriptionKey: "messaging_description",
     testId: "settings-link-messaging",
   },
 ]
 
 export default function SettingsIndexPage() {
   const pathname = usePathname()
+  const t = useTranslations("settings_page")
   // Extract locale prefix from current path (e.g. "/en/settings" -> "/en")
   const localePrefix = pathname.replace(/\/settings$/, "")
 
@@ -39,10 +49,10 @@ export default function SettingsIndexPage() {
       <div>
         <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
-          Settings
+          {t("title")}
         </h1>
         <p className="text-[13px] text-muted-foreground mt-1 ml-3">
-          Manage your clinic configuration and preferences.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -61,9 +71,9 @@ export default function SettingsIndexPage() {
                     <link.icon className="h-5 w-5 text-[#303ef5]" />
                   </div>
                   <div>
-                    <CardTitle className="text-[15px] font-bold text-[#061e44]">{link.title}</CardTitle>
+                    <CardTitle className="text-[15px] font-bold text-[#061e44]">{t(link.titleKey)}</CardTitle>
                     <CardDescription className="mt-1 text-[13px] text-muted-foreground">
-                      {link.description}
+                      {t(link.descriptionKey)}
                     </CardDescription>
                   </div>
                 </div>
