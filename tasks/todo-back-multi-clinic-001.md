@@ -1,46 +1,35 @@
-# todo-back-multi-clinic-001.md — Vue groupe multi-cliniques
+# todo-back-multi-clinic-001.md — Multi-clinic switcher
 
-**Module** : Auth + Dashboard
-**Dépendances** : done-back-signup-selfservice-001
-**Priorité** : BASSE (post-MVP, scale)
-**Skills à lire** : `ardalis-result`, `multitenant-efcore`
+**Module** : Auth
+**Dependencies** : done-back-signup-selfservice-001
+**Priority** : low (post-MVP)
+**Skills** : ardalis-result, multitenant-efcore
 
----
+## Objective
+Allow an admin to manage multiple clinics from a single account with a clinic switcher. NO consolidated dashboard.
 
-## Objectif
-
-Permettre à un owner de gérer plusieurs cliniques depuis un seul compte, avec une vue consolidée.
-
-## Implémentation
+## Scope
 
 ### Backend
-
-1. **Domain : ClinicGroup**
-   - `ClinicGroup { Id, Name, OwnerUserId }`
-   - `ClinicGroupMember { ClinicGroupId, ClinicId }`
-   - Un Admin peut lier ses cliniques à un groupe
-
-2. **Endpoints**
-   - `POST /api/v1/clinic-groups` — créer un groupe (AdminOnly)
-   - `POST /api/v1/clinic-groups/{id}/clinics` — ajouter une clinique au groupe
-   - `GET /api/v1/clinic-groups/{id}/dashboard` — stats consolidées cross-cliniques
-   - `GET /api/v1/clinic-groups/{id}/clinics` — liste des cliniques du groupe
-
-3. **Switch clinic**
-   - L'utilisateur peut switcher de clinique active via un sélecteur dans le header
-   - Le JWT est rafraîchi avec le nouveau ClinicId
+1. **ClinicGroup entity** : `{ Id, Name, OwnerUserId }`
+2. **ClinicGroupMember** : `{ ClinicGroupId, ClinicId }`
+3. **Endpoints** :
+   - `POST /api/v1/clinic-groups` — create group (AdminOnly)
+   - `POST /api/v1/clinic-groups/{id}/clinics` — add clinic to group
+   - `GET /api/v1/clinic-groups/{id}/clinics` — list clinics in group
+4. **Switch clinic** : refresh JWT with new ClinicId
 
 ### Frontend
+5. **Clinic switcher in header** (only visible if user has multiple clinics)
+6. Switching refreshes the auth token and reloads data
 
-4. **Sélecteur de clinique dans le header** (si multi-clinic)
-5. **Dashboard groupe** — stats agrégées de toutes les cliniques
+## NOT in scope
+- Consolidated cross-clinic dashboard
+- Cross-clinic analytics
 
-## Critère
-
-```
-□ ClinicGroup entity + endpoints
-□ Dashboard consolidé multi-cliniques
-□ Sélecteur de clinique dans le header
-□ Tests BDD
-□ Renommer en done
-```
+## Completion criteria
+- [ ] ClinicGroup entity + endpoints
+- [ ] Clinic switcher in header
+- [ ] JWT refresh on switch
+- [ ] Tests
+- [ ] Build GREEN
