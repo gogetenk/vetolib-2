@@ -112,8 +112,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
   }
 
-  // Redirect authenticated users away from locale-prefixed login pages
-  if (isPublicPath(pathname) && token) {
+  // Redirect authenticated users away from login/signup pages (not portal or landing)
+  const isPortalPath = /\/portal\//.test(pathname);
+  const isLandingPage = SUPPORTED_LOCALES.some(l => pathname === `/${l}`);
+  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 
