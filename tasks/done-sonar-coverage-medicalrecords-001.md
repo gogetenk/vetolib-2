@@ -14,10 +14,10 @@ These MedicalRecords handlers changed in PR #14 but have no unit tests.
 3. `Application/Queries/SearchDrugCatalog/SearchDrugCatalogHandler.cs` — query handler, test search with/without results
 
 ## Acceptance criteria
-- [ ] Unit tests for GetDrugCatalogEntryByIdHandler (found → Success, not found → NotFound)
-- [ ] Unit tests for ListMedicalRecordsHandler (returns paged results)
-- [ ] Unit tests for SearchDrugCatalogHandler (matching/no matching results)
-- [ ] All tests GREEN locally before PR
+- [x] Unit tests for GetDrugCatalogEntryByIdHandler (found → Success, not found → NotFound)
+- [x] Unit tests for ListMedicalRecordsHandler (returns paged results)
+- [x] Unit tests for SearchDrugCatalogHandler (matching/no matching results)
+- [x] All tests GREEN locally before PR (454/454 passing)
 
 ## Skills
 `ardalis-result`, `cqrs-mediatr`
