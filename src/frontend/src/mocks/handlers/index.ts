@@ -12,6 +12,7 @@ import { preferenceHandlers } from './preferences'
 import { stockHandlers } from './stock'
 import { aiHandlers } from './ai'
 import { bookingHandlers } from './booking'
+import { clinicGroupHandlers } from './clinic-group'
 
 export const handlers = [
   ...authHandlers,
@@ -28,4 +29,5 @@ export const handlers = [
   ...stockHandlers,
   ...aiHandlers,
   ...bookingHandlers,
+  ...clinicGroupHandlers,
 ]

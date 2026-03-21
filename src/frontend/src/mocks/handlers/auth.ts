@@ -14,11 +14,12 @@ const failedAttempts: Record<string, number> = {}
 const lockedAccounts: Set<string> = new Set()
 
 // Mock users: UAE clinic staff
-const MOCK_USERS: Record<string, { password: string; clinicId: string; clinicName: string; name: string; role: string }> = {
+const MOCK_USERS: Record<string, { password: string; clinicId: string; clinicName: string; clinicGroupId: string; name: string; role: string }> = {
   'dr.sarah@desertpaws.ae': {
     password: 'Secure123!',
     clinicId: 'clinic-001',
     clinicName: 'Desert Paws Clinic',
+    clinicGroupId: 'group-001',
     name: 'Dr. Sarah Johnson',
     role: 'VET',
   },
@@ -26,6 +27,7 @@ const MOCK_USERS: Record<string, { password: string; clinicId: string; clinicNam
     password: 'Secure456!',
     clinicId: 'clinic-002',
     clinicName: 'Al Barsha Vets',
+    clinicGroupId: 'group-001',
     name: 'Dr. Omar Al-Rashid',
     role: 'VET',
   },
@@ -33,6 +35,7 @@ const MOCK_USERS: Record<string, { password: string; clinicId: string; clinicNam
     password: 'Secure123!',
     clinicId: 'clinic-001',
     clinicName: 'Desert Paws Clinic',
+    clinicGroupId: 'group-001',
     name: 'Mariam Al-Zaabi',
     role: 'ASSISTANT',
   },
@@ -40,6 +43,7 @@ const MOCK_USERS: Record<string, { password: string; clinicId: string; clinicNam
     password: 'Secure123!',
     clinicId: 'clinic-001',
     clinicName: 'Desert Paws Clinic',
+    clinicGroupId: 'group-001',
     name: 'Khalid Al-Nuaimi',
     role: 'RECEPTIONIST',
   },
@@ -83,6 +87,7 @@ export const authHandlers = [
       password: body.password,
       clinicId: `clinic-${Date.now()}`,
       clinicName: body.clinicName,
+      clinicGroupId: `group-${Date.now()}`,
       name: body.clinicName,
       role: 'ADMIN',
     }
@@ -127,7 +132,7 @@ export const authHandlers = [
     // Reset failed attempts on success
     failedAttempts[email] = 0
 
-    const accessToken = generateToken({ sub: email, clinicId: user.clinicId, clinicName: user.clinicName, name: user.name, role: user.role })
+    const accessToken = generateToken({ sub: email, clinicId: user.clinicId, clinicName: user.clinicName, clinicGroupId: user.clinicGroupId, name: user.name, role: user.role })
     const refreshToken = generateToken({ sub: email, type: 'refresh' })
 
     return HttpResponse.json({
@@ -139,6 +144,7 @@ export const authHandlers = [
         name: user.name,
         clinicId: user.clinicId,
         clinicName: user.clinicName,
+        clinicGroupId: user.clinicGroupId,
         role: user.role,
       },
     })
@@ -171,7 +177,7 @@ export const authHandlers = [
         )
       }
 
-      const newAccessToken = generateToken({ sub: email, clinicId: user.clinicId, clinicName: user.clinicName, name: user.name, role: user.role })
+      const newAccessToken = generateToken({ sub: email, clinicId: user.clinicId, clinicName: user.clinicName, clinicGroupId: user.clinicGroupId, name: user.name, role: user.role })
       const newRefreshToken = generateToken({ sub: email, type: 'refresh' })
 
       return HttpResponse.json({

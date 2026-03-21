@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, PawPrint, ChevronDown } from "lucide-react";
+import { Menu, PawPrint } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -17,30 +17,13 @@ import { UserMenu } from "./UserMenu";
 import { MobileSidebarContent } from "./Sidebar";
 import { cn } from "@/lib/utils";
 import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
-
-function parseClinicName(token: string): string {
-  try {
-    const base64 = token.split(".")[1];
-    const json = atob(base64.replace(/-/g, "+").replace(/_/g, "/"));
-    const payload = JSON.parse(json) as Record<string, unknown>;
-    return (payload["clinicName"] as string) || "";
-  } catch {
-    return "";
-  }
-}
-
-function getInitialClinicName(): string {
-  if (typeof window === "undefined") return "";
-  const token = localStorage.getItem("access_token");
-  return token ? parseClinicName(token) : "Desert Paws Clinic"; // Fallback for dev
-}
+import { ClinicSwitcher } from "./ClinicSwitcher";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const role = useRole();
   const locale = useLocale();
   const pathname = usePathname();
-  const [clinicName] = useState<string>(getInitialClinicName);
   const { unreadCount } = useMessagingSseContext();
   const t = useTranslations("nav");
 
@@ -70,11 +53,8 @@ export function Header() {
           <span>Veto</span>
         </Link>
 
-        {/* Structure Selector Button */}
-        <button className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/80 bg-white hover:bg-muted transition-colors text-[13px] font-semibold text-foreground">
-          <span className="max-w-[150px] truncate">{clinicName}</span>
-          <ChevronDown className="h-4 w-4 text-muted-foreground" />
-        </button>
+        {/* Clinic Switcher — visible only for multi-clinic groups */}
+        <ClinicSwitcher />
 
         {/* Desktop Navigation Tabs */}
         <nav className="hidden lg:flex items-center gap-1 h-full ml-4">
