@@ -20,6 +20,8 @@ import { AlternativeSuggestions } from './AlternativeSuggestions'
 import { DosageRangeIndicator } from './DosageRangeIndicator'
 import { StockAvailabilityPanel } from './StockAvailabilityPanel'
 import { DispenseToggle } from './DispenseToggle'
+import { SoapNotesPanel } from './SoapNotesPanel'
+import type { SoapNotesValues } from './SoapNotesPanel'
 import type { DrugSelectorValue } from './DrugSelector'
 import type { DispenseToggleValue } from './DispenseToggle'
 import type {
@@ -87,18 +89,45 @@ export function MedicalRecordForm({
     partialConfirmed: false,
   })
 
+  // SOAP Notes panel state
+  const [soapOpen, setSoapOpen] = useState(false)
+
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<MedicalRecordFormValues>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(medicalRecordSchema) as any,
   })
 
-  // Watch weight field so preflight can use up-to-date value
+  // Watch fields for preflight and SOAP notes
   const weightFieldValue = watch('weight')
+  const reasonFieldValue = watch('reason')
+  const anamnesisFieldValue = watch('anamnesis')
+  const temperatureFieldValue = watch('temperature')
+  const heartRateFieldValue = watch('heartRate')
+
+  // SOAP notes accept handler — fills diagnosis and treatment fields
+  const handleSoapAccept = useCallback(
+    (soapValues: SoapNotesValues) => {
+      // Map SOAP sections to form fields:
+      // Subjective → anamnesis (enriches owner history)
+      // Assessment → diagnosis
+      // Plan → treatment
+      setValue('diagnosis', soapValues.assessment, { shouldValidate: true })
+      setValue('treatment', soapValues.plan, { shouldValidate: true })
+      // Enrich anamnesis with subjective if current value is shorter
+      const currentAnamnesis = anamnesisFieldValue || ''
+      if (soapValues.subjective.length > currentAnamnesis.length) {
+        setValue('anamnesis', soapValues.subjective, { shouldValidate: true })
+      }
+      setSoapOpen(false)
+    },
+    [setValue, anamnesisFieldValue]
+  )
 
   // ── Alerts derived state ───────────────────────────────────────────────────
   const alerts: InteractionAlert[] = preflightResult?.interactionAlerts ?? []
@@ -387,6 +416,33 @@ export function MedicalRecordForm({
                 {errors.treatment.message}
               </p>
             )}
+          </div>
+
+          {/* AI SOAP Notes */}
+          <div className="space-y-3" data-testid="soap-notes-section">
+            {!soapOpen && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setSoapOpen(true)}
+                data-testid="open-soap-btn"
+                className="rounded-xl font-semibold border-blue-200 text-blue-700 hover:bg-blue-50"
+              >
+                Generate SOAP Notes
+              </Button>
+            )}
+            <SoapNotesPanel
+              open={soapOpen}
+              requestData={{
+                reason: reasonFieldValue || '',
+                anamnesis: anamnesisFieldValue || '',
+                species: patientSpecies,
+                weight: typeof weightFieldValue === 'number' && weightFieldValue > 0 ? weightFieldValue : undefined,
+                temperature: typeof temperatureFieldValue === 'number' && temperatureFieldValue > 0 ? temperatureFieldValue : undefined,
+                heartRate: typeof heartRateFieldValue === 'number' && heartRateFieldValue > 0 ? heartRateFieldValue : undefined,
+              }}
+              onAccept={handleSoapAccept}
+            />
           </div>
 
           {/* Prescription (optional) — Drug Selector + preflight results */}

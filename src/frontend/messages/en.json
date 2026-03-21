@@ -1645,5 +1645,19 @@
     "team_description": "Invite team members, manage roles, and control access permissions.",
     "messaging_title": "Messaging Settings",
     "messaging_description": "Set up automated reminders, templates, and messaging hours."
+  },
+  "soap_notes": {
+    "title": "AI SOAP Notes",
+    "ai_badge": "AI Generated",
+    "description": "Generate structured clinical notes from the consultation data using AI. You can review and edit before applying.",
+    "generate": "Generate SOAP Notes",
+    "regenerate": "Regenerate",
+    "accept": "Accept & Apply",
+    "generating": "Generating SOAP notes...",
+    "error": "Failed to generate SOAP notes. Please try again.",
+    "subjective": "Subjective (S)",
+    "objective": "Objective (O)",
+    "assessment": "Assessment (A)",
+    "plan": "Plan (P)"
   }
 }
