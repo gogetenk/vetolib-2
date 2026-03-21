@@ -24,7 +24,7 @@ internal class JwtTokenService : IJwtTokenService
 
     public string GenerateAccessTokenForClinic(User user, Guid clinicId)
     {
-        var key = _configuration["Jwt:Key"] ?? "super-secret-key-for-vetolib-jwt-token-generation-minimum-32-chars";
+        var key = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key configuration is required. Set it in appsettings.json or environment variables.");
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 

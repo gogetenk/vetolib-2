@@ -14,7 +14,8 @@ internal class PreferencesDbContextFactory : IDesignTimeDbContextFactory<Prefere
     public PreferencesDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<PreferencesDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new PreferencesDbContext(options, new DesignTimeClinicContext(), new NullPublisher());

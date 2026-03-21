@@ -14,7 +14,8 @@ internal class BillingDbContextFactory : IDesignTimeDbContextFactory<BillingDbCo
     public BillingDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<BillingDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new BillingDbContext(options, new DesignTimeClinicContext(), new NullPublisher());

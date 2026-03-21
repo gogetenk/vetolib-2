@@ -47,7 +47,8 @@ public class AuditDbContextFactory : IDesignTimeDbContextFactory<AuditDbContext>
     public AuditDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<AuditDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new AuditDbContext(options);

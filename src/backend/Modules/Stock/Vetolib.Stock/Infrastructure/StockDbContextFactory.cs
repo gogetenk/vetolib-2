@@ -14,7 +14,8 @@ internal class StockDbContextFactory : IDesignTimeDbContextFactory<StockDbContex
     public StockDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<StockDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new StockDbContext(options, new DesignTimeStockClinicContext(), new StockNullPublisher());

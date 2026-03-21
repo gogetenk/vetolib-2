@@ -35,6 +35,9 @@ internal sealed class LocalFileStorage : IFileStorage
     public Task DeleteAsync(string path, CancellationToken ct = default)
     {
         var fullPath = Path.Combine(_basePath, path);
+        if (!Path.GetFullPath(fullPath).StartsWith(Path.GetFullPath(_basePath)))
+            throw new InvalidOperationException("Invalid file path");
+
         if (File.Exists(fullPath))
         {
             File.Delete(fullPath);
@@ -46,6 +49,9 @@ internal sealed class LocalFileStorage : IFileStorage
     {
         // In local dev, return a file:// URI pointing to the stored file
         var fullPath = Path.Combine(_basePath, path);
+        if (!Path.GetFullPath(fullPath).StartsWith(Path.GetFullPath(_basePath)))
+            throw new InvalidOperationException("Invalid file path");
+
         return Task.FromResult(new Uri(fullPath).AbsoluteUri);
     }
 }
