@@ -20,6 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.Result" Version="10.*" />
     <PackageReference Include="Ardalis.Result.AspNetCore" Version="10.*" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.27.0" />
     <PackageReference Include="MassTransit" Version="8.*" />
     <PackageReference Include="MediatR" Version="14.*" />
     <PackageReference Include="FluentValidation" Version="11.*" />

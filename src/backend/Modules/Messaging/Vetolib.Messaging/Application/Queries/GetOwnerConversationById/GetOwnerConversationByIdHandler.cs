@@ -42,6 +42,7 @@ internal class GetOwnerConversationByIdHandler
             conversation.Subject,
             conversation.Category,
             conversation.Status,
+            conversation.Channel,
             conversation.AssignedToUserId,
             conversation.AssignedToRole,
             conversation.AiTriageConfidence,
