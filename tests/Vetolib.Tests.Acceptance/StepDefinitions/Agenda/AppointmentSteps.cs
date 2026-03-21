@@ -640,11 +640,32 @@ internal class AppointmentSteps
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [Then(@"the response status is (\d+)")]
-    public void ThenTheResponseStatusIs(int statusCode)
+    [Then(@"the operation succeeds")]
+    public void ThenTheOperationSucceeds()
     {
-        ((int)_response.StatusCode).Should().Be(statusCode,
-            $"Expected status {statusCode} but got {(int)_response.StatusCode}: {_errorResponseBody}");
+        _response.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected a success status code but got {(int)_response.StatusCode}: {_errorResponseBody}");
+    }
+
+    [Then(@"the request is rejected")]
+    public void ThenTheRequestIsRejected()
+    {
+        ((int)_response.StatusCode).Should().Be(400,
+            $"Expected status 400 but got {(int)_response.StatusCode}: {_errorResponseBody}");
+    }
+
+    [Then(@"the record is not found")]
+    public void ThenTheRecordIsNotFound()
+    {
+        ((int)_response.StatusCode).Should().Be(404,
+            $"Expected status 404 but got {(int)_response.StatusCode}: {_errorResponseBody}");
+    }
+
+    [Then(@"a conflict is detected")]
+    public void ThenAConflictIsDetected()
+    {
+        ((int)_response.StatusCode).Should().Be(409,
+            $"Expected status 409 but got {(int)_response.StatusCode}: {_errorResponseBody}");
     }
 
     [Then(@"the appointment details include patient ""(.*)"" and time ""(.*)""")]

@@ -69,12 +69,12 @@ Feature: Authentication and JWT token management
   Scenario: Incorrect password returns an error
     When I log in with email "vet@happypaws.ae" and password "MauvaisPass1"
     Then the system rejects with code "INVALID_CREDENTIALS"
-    And the error message is "Email ou mot de passe incorrect"
+    And the error message is "Invalid email or password"
 
   Scenario: Non-existent email returns an error
     When I log in with email "inconnu@happypaws.ae" and password "SecurePass1"
     Then the system rejects with code "INVALID_CREDENTIALS"
-    And the error message is "Email ou mot de passe incorrect"
+    And the error message is "Invalid email or password"
 
   # ─── Account lockout ────────────────────────────────────
 
@@ -113,7 +113,7 @@ Feature: Authentication and JWT token management
 
   Scenario: Access to /me without token returns 401
     When I call GET /api/v1/auth/me without authentication token
-    Then the system returns HTTP code 401
+    Then the user must sign in
 
   # ─── Multi-tenancy ───────────────────────────────────────
 
@@ -149,7 +149,7 @@ Feature: Authentication and JWT token management
       | Email                  | Password     | Role | VetLicenseNumber |
       | novet@happypaws.ae     | NoVetPass1   | Vet  |                  |
     Then the system rejects with code "VET_LICENSE_REQUIRED"
-    And the error message is "Un numero de licence veterinaire est requis pour le role Vet"
+    And the error message is "A veterinary license number is required for the Vet role"
 
   # ─── Password validation (user creation) ────────────────
 
@@ -157,10 +157,10 @@ Feature: Authentication and JWT token management
     Given I am logged in as "admin@happypaws.ae"
     When I attempt to create a user with email "test@happypaws.ae" and password "<password>"
     Then the system rejects with code "VALIDATION_ERROR"
-    And the message contains "<raison>"
+    And the message contains "<reason>"
 
     Examples:
-      | password | raison                                      |
-      | Short1   | Le mot de passe doit contenir au moins 8 caracteres |
-      | alllowercase1 | Le mot de passe doit contenir au moins une majuscule |
-      | AllUpperCase  | Le mot de passe doit contenir au moins un chiffre    |
+      | password | reason                                      |
+      | Short1   | Password must contain at least 8 characters |
+      | alllowercase1 | Password must contain at least one uppercase letter |
+      | AllUpperCase  | Password must contain at least one digit    |

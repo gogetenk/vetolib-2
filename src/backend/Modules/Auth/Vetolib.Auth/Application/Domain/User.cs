@@ -34,7 +34,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         errors.AddRange(passwordErrors);
 
         if (role == UserRole.Vet && string.IsNullOrWhiteSpace(vetLicenseNumber))
-            errors.Add(new ValidationError(nameof(vetLicenseNumber), "Un numero de licence veterinaire est requis pour le role Vet"));
+            errors.Add(new ValidationError(nameof(vetLicenseNumber), "A veterinary license number is required for the Vet role"));
 
         if (errors.Count > 0)
             return Result<User>.Invalid(errors);
@@ -171,13 +171,13 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         var errors = new List<ValidationError>();
 
         if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
-            errors.Add(new ValidationError("Password", "Le mot de passe doit contenir au moins 8 caracteres"));
+            errors.Add(new ValidationError("Password", "Password must contain at least 8 characters"));
 
         if (!string.IsNullOrWhiteSpace(password) && !password.Any(char.IsUpper))
-            errors.Add(new ValidationError("Password", "Le mot de passe doit contenir au moins une majuscule"));
+            errors.Add(new ValidationError("Password", "Password must contain at least one uppercase letter"));
 
         if (!string.IsNullOrWhiteSpace(password) && !password.Any(char.IsDigit))
-            errors.Add(new ValidationError("Password", "Le mot de passe doit contenir au moins un chiffre"));
+            errors.Add(new ValidationError("Password", "Password must contain at least one digit"));
 
         return errors;
     }
