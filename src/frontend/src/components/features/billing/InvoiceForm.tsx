@@ -16,6 +16,7 @@ import type { CreateInvoiceLineItem } from '@/lib/api/billing'
 import { getPatients } from '@/lib/api/patients'
 import type { PatientDto } from '@/lib/api/patients'
 import { trackEvent, AnalyticsEvents, bucketAed } from '@/lib/analytics'
+import { toast } from 'sonner'
 
 interface LineItem {
   description: string
@@ -56,7 +57,7 @@ export function InvoiceForm() {
         )
       })
       .catch(() => {
-        // Silently fail — patient list will be empty
+        toast.error('Failed to load patients')
       })
   }, [])
 

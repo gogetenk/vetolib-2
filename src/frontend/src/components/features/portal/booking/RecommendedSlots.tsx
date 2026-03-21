@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, RefreshCw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { suggestSlots } from '@/lib/api/booking'
 import type { SlotSuggestionDto } from '@/lib/api/booking'
@@ -64,11 +64,14 @@ export function RecommendedSlots({
     hasError: boolean
   }
   type FetchAction =
+    | { type: 'loading' }
     | { type: 'success'; payload: SlotSuggestionDto[] }
     | { type: 'error' }
 
   function fetchReducer(_state: FetchState, action: FetchAction): FetchState {
     switch (action.type) {
+      case 'loading':
+        return { suggestions: [], isLoading: true, hasError: false }
       case 'success':
         return { suggestions: action.payload, isLoading: false, hasError: false }
       case 'error':
@@ -85,6 +88,12 @@ export function RecommendedSlots({
   })
 
   const resolvedToDate = toDate ?? addDays(fromDate, 14)
+  const [retryCount, setRetryCount] = useReducer((c: number) => c + 1, 0)
+
+  const handleRetry = useCallback(() => {
+    dispatch({ type: 'loading' })
+    setRetryCount()
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -103,7 +112,7 @@ export function RecommendedSlots({
       })
 
     return () => { cancelled = true }
-  }, [fromDate, resolvedToDate, vetId, reason])
+  }, [fromDate, resolvedToDate, vetId, reason, retryCount])
 
   // Loading skeletons
   if (isLoading) {
@@ -125,8 +134,29 @@ export function RecommendedSlots({
     )
   }
 
-  // Error state — silent fail, no chips shown
-  if (hasError || suggestions.length === 0) {
+  // Error state — show message with retry
+  if (hasError) {
+    return (
+      <div
+        className="flex items-center gap-2 text-xs text-destructive py-1"
+        data-testid="recommended-slots-error"
+      >
+        <span>Unable to load suggestions. Please try again.</span>
+        <button
+          type="button"
+          onClick={handleRetry}
+          data-testid="recommended-slots-retry"
+          className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 underline underline-offset-2 transition-colors"
+        >
+          <RefreshCw className="h-3 w-3" aria-hidden="true" />
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  // Empty state — no suggestions available
+  if (suggestions.length === 0) {
     return (
       <div
         className="text-xs text-muted-foreground italic py-1"

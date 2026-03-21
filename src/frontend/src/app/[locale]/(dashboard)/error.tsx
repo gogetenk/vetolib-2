@@ -22,7 +22,7 @@ export default function DashboardError({ error, reset }: ErrorProps) {
         An error occurred
       </h2>
       <p className="text-sm text-muted-foreground">
-        {error.message || "Unexpected error. Please try again."}
+        Something went wrong. Please try again or contact support if the problem persists.
       </p>
       <Button
         variant="outline"
