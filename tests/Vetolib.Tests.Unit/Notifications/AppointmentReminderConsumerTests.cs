@@ -1,27 +1,46 @@
 using Ardalis.Result;
 using FluentAssertions;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Notifications.Consumers;
+using Vetolib.Notifications.Contracts.Enums;
+using Vetolib.Notifications.Infrastructure;
 using Vetolib.Preferences.Contracts;
 using Vetolib.Shared.Kernel;
 using Xunit;
 
 namespace Vetolib.Tests.Unit.Notifications;
 
-public class AppointmentReminderConsumerTests
+public class AppointmentReminderConsumerTests : IDisposable
 {
     private readonly IEmailSender _emailSender;
     private readonly ILogger<AppointmentReminderConsumer> _logger;
+    private readonly NotificationsDbContext _dbContext;
     private readonly AppointmentReminderConsumer _consumer;
 
     public AppointmentReminderConsumerTests()
     {
         _emailSender = Substitute.For<IEmailSender>();
         _logger = Microsoft.Extensions.Logging.Abstractions.NullLogger<AppointmentReminderConsumer>.Instance;
-        _consumer = new AppointmentReminderConsumer(_emailSender, Substitute.For<IPreferenceChecker>(), _logger);
+
+        var options = new DbContextOptionsBuilder<NotificationsDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+        _dbContext = new NotificationsDbContext(options);
+
+        _consumer = new AppointmentReminderConsumer(
+            _emailSender,
+            Substitute.For<IPreferenceChecker>(),
+            _dbContext,
+            _logger);
+    }
+
+    public void Dispose()
+    {
+        _dbContext.Dispose();
     }
 
     private static ConsumeContext<AppointmentReminderDueIntegrationEvent> BuildContext(AppointmentReminderDueIntegrationEvent evt)
@@ -87,6 +106,21 @@ public class AppointmentReminderConsumerTests
     }
 
     [Fact]
+    public async Task Consume_WhenEmailSendSucceeds_LogsReminderAsSent()
+    {
+        _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var context = BuildContext(BuildEvent());
+
+        await _consumer.Consume(context);
+
+        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        logs.Should().HaveCount(1);
+        logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Sent);
+    }
+
+    [Fact]
     public async Task Consume_WhenEmailSendFails_ThrowsInvalidOperationException()
     {
         _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
@@ -113,5 +147,20 @@ public class AppointmentReminderConsumerTests
         await _emailSender.Received(1).SendAsync(
             Arg.Any<EmailMessage>(),
             Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenEmailSendFails_LogsReminderAsFailed()
+    {
+        _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Error("SMTP timeout"));
+
+        var context = BuildContext(BuildEvent());
+
+        try { await _consumer.Consume(context); } catch { /* expected */ }
+
+        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        logs.Should().HaveCount(1);
+        logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Failed);
     }
 }
