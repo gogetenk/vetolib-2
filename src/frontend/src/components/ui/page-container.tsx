@@ -1,0 +1,31 @@
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+type PageContainerVariant = "full" | "default" | "narrow"
+
+const variantClasses: Record<PageContainerVariant, string> = {
+  full: "max-w-screen-xl mx-auto",
+  default: "max-w-screen-xl mx-auto",
+  narrow: "max-w-4xl mx-auto",
+}
+
+function PageContainer({
+  className,
+  variant = "full",
+  ...props
+}: React.ComponentProps<"div"> & { variant?: PageContainerVariant }) {
+  return (
+    <div
+      data-testid="page-container"
+      className={cn(
+        "p-6 lg:p-8 space-y-6 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300",
+        variantClasses[variant],
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { PageContainer }

@@ -124,7 +124,7 @@ export function DrugCatalogTable({
           <Input
             data-testid="drug-search"
             placeholder={t('search_placeholder')}
-            className="w-64 pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md transition-shadow"
+            className="w-64 pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
           />
@@ -188,7 +188,7 @@ export function DrugCatalogTable({
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[14px] font-bold text-[#061e44]">{drug.displayName}</p>
+                  <p className="text-[14px] font-bold text-foreground">{drug.displayName}</p>
                   <p className="text-[12px] text-muted-foreground italic">{drug.innName}</p>
                 </div>
                 {getCategoryBadge(drug.category)}
@@ -223,38 +223,38 @@ export function DrugCatalogTable({
         <div className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="drug-catalog-table">
           <Table>
             <TableHeader>
-              <TableRow className="bg-[#f4f6f9] hover:bg-[#f4f6f9] border-b border-border/50">
+              <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
                 <TableHead
-                  className="text-[11px] font-bold uppercase tracking-wider text-[#061e44] cursor-pointer select-none"
+                  className="text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('displayName')}
                   data-testid="th-drug-name"
                 >
                   {t('columns.name')}<SortIcon field="displayName" sortField={sortField} sortDir={sortDir} />
                 </TableHead>
                 <TableHead
-                  className="text-[11px] font-bold uppercase tracking-wider text-[#061e44] cursor-pointer select-none"
+                  className="text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('innName')}
                   data-testid="th-drug-inn"
                 >
                   {t('columns.inn_name')}<SortIcon field="innName" sortField={sortField} sortDir={sortDir} />
                 </TableHead>
                 <TableHead
-                  className="text-[11px] font-bold uppercase tracking-wider text-[#061e44] cursor-pointer select-none"
+                  className="text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('category')}
                   data-testid="th-drug-category"
                 >
                   {t('columns.category')}<SortIcon field="category" sortField={sortField} sortDir={sortDir} />
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-drug-dosage">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-dosage">
                   {t('columns.dosage')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-drug-species">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-species">
                   {t('columns.species')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-drug-rx">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-rx">
                   {t('columns.prescription')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-drug-actions">
+                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-actions">
                   {t('columns.actions')}
                 </TableHead>
               </TableRow>
@@ -264,9 +264,9 @@ export function DrugCatalogTable({
                 <TableRow
                   key={drug.id}
                   data-testid={`drug-row-${drug.id}`}
-                  className="group hover:bg-[#f4f6f9]/50 border-border/30 transition-colors"
+                  className="group hover:bg-muted/50 border-border/30 transition-colors"
                 >
-                  <TableCell className="text-[13px] font-semibold text-[#061e44]" data-testid={`drug-name-${drug.id}`}>
+                  <TableCell className="text-[13px] font-semibold text-foreground" data-testid={`drug-name-${drug.id}`}>
                     {drug.displayName}
                   </TableCell>
                   <TableCell className="text-[13px] text-muted-foreground italic" data-testid={`drug-inn-${drug.id}`}>
@@ -308,7 +308,7 @@ export function DrugCatalogTable({
                       onClick={() => onView(drug)}
                       data-testid={`btn-view-drug-${drug.id}`}
                       aria-label={`${t('actions.view')} ${drug.displayName}`}
-                      className="rounded-xl border-border/80 hover:bg-[#f4f6f9] opacity-0 group-hover:opacity-100 transition-all duration-200"
+                      className="rounded-xl border-border/80 hover:bg-muted opacity-0 group-hover:opacity-100 transition-all duration-200"
                     >
                       <Eye className="h-3.5 w-3.5 me-1" />
                       {t('actions.view')}

@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { DrugDetailCard } from '@/components/drugs/DrugDetailCard'
 import { getDrugById } from '@/lib/api/drugs'
 import type { DrugCatalogEntryDto } from '@/lib/api/drugs'
@@ -36,19 +37,19 @@ export default function DrugDetailPage() {
   }, [drugId, t])
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="drug-detail-page">
+    <PageContainer variant="default" data-testid="drug-detail-page">
       <div className="flex items-center gap-3">
         <Button
           variant="outline"
           size="sm"
           onClick={() => router.push(`/${locale}/stock/drugs`)}
           data-testid="btn-back-to-catalog"
-          className="rounded-xl border-border/80 hover:bg-[#f4f6f9]"
+          className="rounded-xl border-border/80 hover:bg-muted"
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="drug-detail-title">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="drug-detail-title">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           {drug ? drug.displayName : t('detail.loading')}
         </h1>
       </div>
@@ -69,6 +70,6 @@ export default function DrugDetailPage() {
           {t('errors.not_found')}
         </p>
       )}
-    </div>
+    </PageContainer>
   )
 }

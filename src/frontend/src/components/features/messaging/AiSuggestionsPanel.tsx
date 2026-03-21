@@ -18,8 +18,8 @@ export function AiSuggestionsPanel({ suggestions, onSelect }: AiSuggestionsPanel
       data-testid="ai-suggestions-panel"
     >
       <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="h-4 w-4 text-[#303ef5]" aria-hidden />
-        <h3 className="text-[13px] font-bold text-[#061e44]">
+        <Sparkles className="h-4 w-4 text-primary" aria-hidden />
+        <h3 className="text-[13px] font-bold text-foreground">
           {t('ai_suggestions_title')}
         </h3>
       </div>
@@ -30,7 +30,7 @@ export function AiSuggestionsPanel({ suggestions, onSelect }: AiSuggestionsPanel
             key={index}
             type="button"
             data-testid={`ai-suggestion-${index}`}
-            className="w-full text-left rounded-xl border border-[#303ef5]/20 bg-[#303ef5]/5 px-3 py-2.5 text-[13px] text-[#061e44] hover:bg-[#303ef5]/10 hover:border-[#303ef5]/30 transition-colors focus:outline-none focus:ring-2 focus:ring-[#303ef5]/30"
+            className="w-full text-left rounded-xl border border-primary/20 bg-primary/5 px-3 py-2.5 text-[13px] text-foreground hover:bg-primary/10 hover:border-primary/30 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30"
             dir={suggestion.language === 'ar' ? 'rtl' : 'ltr'}
             onClick={() => onSelect(suggestion.text)}
           >

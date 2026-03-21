@@ -103,12 +103,12 @@ export function UserMenu() {
         {/* Avatar */}
         <span
           data-testid="user-avatar"
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-[#303ef5] text-white text-xs font-bold select-none transition-transform duration-200 ease-in-out hover:scale-105"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold select-none transition-transform duration-200 ease-in-out hover:scale-105"
         >
           {userInfo.initials}
         </span>
         <span className="hidden sm:flex flex-col items-start leading-tight">
-          <span data-testid="user-fullname" className="text-[13px] font-semibold text-[#061e44]">
+          <span data-testid="user-fullname" className="text-[13px] font-semibold text-foreground">
             {userInfo.fullName}
           </span>
           <span data-testid="user-role" className="text-[11px] text-muted-foreground capitalize">
@@ -137,11 +137,11 @@ export function UserMenu() {
           {/* User info header */}
           <div className="px-2 py-2 mb-1">
             <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#303ef5] text-white text-sm font-bold select-none">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold select-none">
                 {userInfo.initials}
               </span>
               <div className="flex flex-col leading-tight">
-                <span className="text-[13px] font-semibold text-[#061e44]">{userInfo.fullName}</span>
+                <span className="text-[13px] font-semibold text-foreground">{userInfo.fullName}</span>
                 <span className="text-[11px] text-muted-foreground capitalize">
                   {userInfo.role.toLowerCase().replace("_", " ")}
                 </span>
@@ -154,7 +154,7 @@ export function UserMenu() {
           <Link
             href={`/${locale}/settings`}
             data-testid="user-menu-settings"
-            className="group flex items-center gap-2 rounded-lg px-2 py-2 text-[13px] font-medium text-[#061e44] transition-all duration-200 ease-in-out hover:bg-[#f4f6f9] hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30"
+            className="group flex items-center gap-2 rounded-lg px-2 py-2 text-[13px] font-medium text-foreground transition-all duration-200 ease-in-out hover:bg-muted hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
             role="menuitem"
             onClick={() => setOpen(false)}
           >

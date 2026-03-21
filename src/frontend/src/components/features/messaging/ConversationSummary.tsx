@@ -16,7 +16,7 @@ export function ConversationSummary({ summary, isLoading }: ConversationSummaryP
 
   return (
     <div
-      className="border border-[#303ef5]/20 rounded-xl bg-[#eef2fd] mb-4"
+      className="border border-primary/20 rounded-xl bg-primary/10 mb-4"
       data-testid="ai-summary-card"
     >
       <button
@@ -27,13 +27,13 @@ export function ConversationSummary({ summary, isLoading }: ConversationSummaryP
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[#303ef5]" aria-hidden />
-          <span className="text-[13px] font-bold text-[#303ef5]">{t('ai_summary')}</span>
+          <Sparkles className="h-4 w-4 text-primary" aria-hidden />
+          <span className="text-[13px] font-bold text-primary">{t('ai_summary')}</span>
         </div>
         {isOpen ? (
-          <ChevronUp className="h-4 w-4 text-[#303ef5]" />
+          <ChevronUp className="h-4 w-4 text-primary" />
         ) : (
-          <ChevronDown className="h-4 w-4 text-[#303ef5]" />
+          <ChevronDown className="h-4 w-4 text-primary" />
         )}
       </button>
 
@@ -41,15 +41,15 @@ export function ConversationSummary({ summary, isLoading }: ConversationSummaryP
         className={cn('overflow-hidden transition-all duration-200', isOpen ? 'max-h-96' : 'max-h-0')}
         aria-hidden={!isOpen}
       >
-        <div className="px-4 pb-4 text-[13px] text-[#061e44]">
+        <div className="px-4 pb-4 text-[13px] text-foreground">
           {isLoading ? (
-            <p className="italic text-[#303ef5]/70" data-testid="ai-summary-loading">
+            <p className="italic text-primary/70" data-testid="ai-summary-loading">
               {t('loading_summary')}
             </p>
           ) : summary ? (
             <p data-testid="ai-summary-text">{summary}</p>
           ) : (
-            <p className="italic text-[#303ef5]/70" data-testid="ai-summary-unavailable">
+            <p className="italic text-primary/70" data-testid="ai-summary-unavailable">
               {t('summary_unavailable')}
             </p>
           )}

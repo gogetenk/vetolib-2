@@ -117,7 +117,7 @@ export function AppointmentForm() {
   return (
     <Card className="bg-white border-border/80 rounded-xl shadow-sm">
       <CardHeader>
-        <CardTitle className="text-[18px] font-bold text-[#061e44]">{t('title')}</CardTitle>
+        <CardTitle className="text-[18px] font-bold text-foreground">{t('title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -129,13 +129,13 @@ export function AppointmentForm() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Patient Name */}
             <div className="space-y-1">
-              <Label htmlFor="patientName" className="text-[13px] font-semibold text-[#061e44]">{t('patient_name')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="patientName" className="text-[13px] font-semibold text-foreground">{t('patient_name')} <span className="text-destructive">*</span></Label>
               <Input
                 id="patientName"
                 data-testid="input-patient-name"
                 {...register('patientName')}
                 placeholder={t('patient_name_placeholder')}
-                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               />
               {errors.patientName && (
                 <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-patient-name">
@@ -146,7 +146,7 @@ export function AppointmentForm() {
 
             {/* Species */}
             <div className="space-y-1">
-              <Label htmlFor="species" className="text-[13px] font-semibold text-[#061e44]">{t('species')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="species" className="text-[13px] font-semibold text-foreground">{t('species')} <span className="text-destructive">*</span></Label>
               <Select
                 onValueChange={(val) => setValue('species', val as Species)}
                 data-testid="select-species"
@@ -171,13 +171,13 @@ export function AppointmentForm() {
 
             {/* Owner Name */}
             <div className="space-y-1">
-              <Label htmlFor="ownerName" className="text-[13px] font-semibold text-[#061e44]">{t('owner_name')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="ownerName" className="text-[13px] font-semibold text-foreground">{t('owner_name')} <span className="text-destructive">*</span></Label>
               <Input
                 id="ownerName"
                 data-testid="input-owner-name"
                 {...register('ownerName')}
                 placeholder={t('owner_name_placeholder')}
-                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               />
               {errors.ownerName && (
                 <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-owner-name">
@@ -188,13 +188,13 @@ export function AppointmentForm() {
 
             {/* Owner Phone */}
             <div className="space-y-1">
-              <Label htmlFor="ownerPhone" className="text-[13px] font-semibold text-[#061e44]">{t('owner_phone')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="ownerPhone" className="text-[13px] font-semibold text-foreground">{t('owner_phone')} <span className="text-destructive">*</span></Label>
               <Input
                 id="ownerPhone"
                 data-testid="input-owner-phone"
                 {...register('ownerPhone')}
                 placeholder={t('owner_phone_placeholder')}
-                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               />
               {errors.ownerPhone && (
                 <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-owner-phone">
@@ -205,7 +205,7 @@ export function AppointmentForm() {
 
             {/* Vet */}
             <div className="space-y-1">
-              <Label htmlFor="vetId" className="text-[13px] font-semibold text-[#061e44]">{t('vet')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="vetId" className="text-[13px] font-semibold text-foreground">{t('vet')} <span className="text-destructive">*</span></Label>
               <Select
                 onValueChange={(val) => setValue('vetId', val as string)}
                 data-testid="select-vet"
@@ -230,14 +230,14 @@ export function AppointmentForm() {
 
             {/* Date */}
             <div className="space-y-1">
-              <Label htmlFor="date" className="text-[13px] font-semibold text-[#061e44]">{t('date')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="date" className="text-[13px] font-semibold text-foreground">{t('date')} <span className="text-destructive">*</span></Label>
               <Input
                 id="date"
                 type="date"
                 data-testid="input-date"
                 {...register('date')}
                 min={new Date().toISOString().split('T')[0]}
-                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               />
               {errors.date && (
                 <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-date">
@@ -248,7 +248,7 @@ export function AppointmentForm() {
 
             {/* Time */}
             <div className="space-y-1">
-              <Label htmlFor="time" className="text-[13px] font-semibold text-[#061e44]">{t('time_slot')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="time" className="text-[13px] font-semibold text-foreground">{t('time_slot')} <span className="text-destructive">*</span></Label>
               <Select
                 onValueChange={(val) => setValue('time', val as string)}
                 data-testid="select-time"
@@ -274,14 +274,14 @@ export function AppointmentForm() {
 
           {/* Reason */}
           <div className="space-y-1">
-            <Label htmlFor="reason" className="text-[13px] font-semibold text-[#061e44]">{t('reason')} <span className="text-destructive">*</span></Label>
+            <Label htmlFor="reason" className="text-[13px] font-semibold text-foreground">{t('reason')} <span className="text-destructive">*</span></Label>
             <Textarea
               id="reason"
               data-testid="textarea-reason"
               {...register('reason')}
               placeholder={t('reason_placeholder')}
               rows={3}
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
             {errors.reason && (
               <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-reason">
@@ -292,14 +292,14 @@ export function AppointmentForm() {
 
           {/* Notes */}
           <div className="space-y-1">
-            <Label htmlFor="notes" className="text-[13px] font-semibold text-[#061e44]">{t('notes')}</Label>
+            <Label htmlFor="notes" className="text-[13px] font-semibold text-foreground">{t('notes')}</Label>
             <Textarea
               id="notes"
               data-testid="textarea-notes"
               {...register('notes')}
               placeholder={t('notes_placeholder')}
               rows={2}
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
@@ -309,7 +309,7 @@ export function AppointmentForm() {
               variant="outline"
               data-testid="btn-cancel-form"
               onClick={() => router.push('/appointments')}
-              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl font-semibold border-border/80 hover:bg-muted"
             >
               {t('cancel')}
             </Button>
@@ -317,7 +317,7 @@ export function AppointmentForm() {
               type="submit"
               data-testid="btn-save"
               disabled={isSubmitting}
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
               {isSubmitting ? t('saving') : t('save')}

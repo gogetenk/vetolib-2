@@ -58,8 +58,8 @@ export function MonthDayCell({
   return (
     <div
       data-testid={`month-day-cell-${dateKey}`}
-      className={`min-h-24 border-b border-e border-border/30 p-1 cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#f4f6f9]/50 relative ${
-        isToday ? 'bg-[#eef2fd]' : ''
+      className={`min-h-24 border-b border-e border-border/30 p-1 cursor-pointer transition-all duration-200 ease-in-out hover:bg-muted/50 relative ${
+        isToday ? 'bg-primary/10' : ''
       } ${isWeekend ? 'bg-[#f9fafb]' : ''} ${!isCurrentMonth ? 'opacity-40' : ''}`}
       onClick={() => onDayClick(date)}
     >
@@ -68,10 +68,10 @@ export function MonthDayCell({
         <span
           className={`text-[11px] font-bold w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 ${
             isToday
-              ? 'bg-[#303ef5] text-white shadow-sm'
+              ? 'bg-primary text-primary-foreground shadow-sm'
               : !isCurrentMonth
                 ? 'text-muted-foreground'
-                : 'text-[#061e44]'
+                : 'text-foreground'
           }`}
         >
           {dayNumberFormatter.format(date)}
@@ -105,7 +105,7 @@ export function MonthDayCell({
         <div className="relative">
           <button
             data-testid={`month-more-link-${dateKey}`}
-            className="text-[10px] text-[#303ef5] font-semibold hover:underline px-1 mt-0.5 transition-colors duration-200"
+            className="text-[10px] text-primary font-semibold hover:underline px-1 mt-0.5 transition-colors duration-200"
             onClick={handleMoreClick}
           >
             {t('moreAppointments', { count: remaining })}

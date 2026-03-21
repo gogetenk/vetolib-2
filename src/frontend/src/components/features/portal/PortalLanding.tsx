@@ -13,8 +13,8 @@ import type { PortalConversationDto, ConversationStatus } from '@/lib/api/messag
 const STATUS_COLORS: Record<ConversationStatus, string> = {
   Open: 'bg-emerald-100 text-emerald-800',
   InProgress: 'bg-blue-100 text-blue-800',
-  Resolved: 'bg-[#f4f6f9] text-muted-foreground',
-  Closed: 'bg-[#f4f6f9] text-muted-foreground',
+  Resolved: 'bg-muted text-muted-foreground',
+  Closed: 'bg-muted text-muted-foreground',
 }
 
 export function PortalLanding() {
@@ -52,7 +52,7 @@ export function PortalLanding() {
         data-testid="portal-expired"
       >
         <MessageCircle className="w-12 h-12 text-muted-foreground mx-auto" />
-        <p className="text-[#061e44] font-medium" data-testid="expired-message">
+        <p className="text-foreground font-medium" data-testid="expired-message">
           {t('link_expired')}
         </p>
       </div>
@@ -63,13 +63,13 @@ export function PortalLanding() {
     <div className="space-y-5" data-testid="portal-landing">
       {/* Header row */}
       <div className="flex items-center justify-between">
-        <h1 className="text-[22px] font-bold text-[#061e44]" data-testid="portal-landing-title">
+        <h1 className="text-[22px] font-bold text-foreground" data-testid="portal-landing-title">
           {t('your_conversations')}
         </h1>
         <Button
           onClick={handleNewMessage}
           data-testid="new-message-btn"
-          className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+          className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl shadow-sm"
           size="sm"
         >
           <Plus className="h-4 w-4 me-1" />
@@ -97,7 +97,7 @@ export function PortalLanding() {
               <Link
                 href={`/${params.locale}/portal/${params.clinicSlug}/conversations/${conv.id}`}
                 data-testid={`conversation-item-${conv.id}`}
-                className="flex items-center gap-3 bg-white rounded-xl border border-border/80 px-4 py-3 hover:border-[#303ef5]/40 hover:shadow-sm transition-all"
+                className="flex items-center gap-3 bg-white rounded-xl border border-border/80 px-4 py-3 hover:border-primary/40 hover:shadow-sm transition-all"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -109,7 +109,7 @@ export function PortalLanding() {
                     </span>
                     {conv.unreadByOwnerCount > 0 && (
                       <span
-                        className="text-xs bg-[#303ef5] text-white px-1.5 py-0.5 rounded-full font-semibold"
+                        className="text-xs bg-primary text-white px-1.5 py-0.5 rounded-full font-semibold"
                         data-testid={`conv-unread-${conv.id}`}
                       >
                         {t('unread', { count: conv.unreadByOwnerCount })}
@@ -117,7 +117,7 @@ export function PortalLanding() {
                     )}
                   </div>
                   <p
-                    className="text-[14px] font-medium text-[#061e44] truncate"
+                    className="text-[14px] font-medium text-foreground truncate"
                     data-testid={`conv-subject-${conv.id}`}
                   >
                     {conv.subject}
@@ -144,7 +144,7 @@ export function PortalLanding() {
       <div className="text-center pt-4 border-t border-border/80">
         <Link
           href={`/${params.locale}/portal/${params.clinicSlug}/export`}
-          className="text-[13px] text-[#303ef5] hover:text-[#2530c4] hover:underline"
+          className="text-[13px] text-primary hover:text-primary/90 hover:underline"
           data-testid="export-link"
         >
           {t('download_all')}

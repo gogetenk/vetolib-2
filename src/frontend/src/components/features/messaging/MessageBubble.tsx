@@ -37,7 +37,7 @@ function AttachmentPreview({ attachment }: { attachment: MessageAttachmentDto })
       <button
         type="button"
         data-testid={`attachment-${attachment.id}`}
-        className="mt-2 rounded-xl overflow-hidden border border-border/80 focus:outline-none focus:ring-2 focus:ring-[#303ef5]/20"
+        className="mt-2 rounded-xl overflow-hidden border border-border/80 focus:outline-none focus:ring-2 focus:ring-primary/20"
         onClick={() => isImage && setLightboxOpen(true)}
         aria-label={`View attachment: ${attachment.fileName}`}
       >
@@ -118,7 +118,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         data-testid={`message-${message.id}`}
         data-sender="system"
       >
-        <span className="text-[11px] text-muted-foreground italic bg-[#f4f6f9] px-3 py-1.5 rounded-full font-medium">
+        <span className="text-[11px] text-muted-foreground italic bg-muted px-3 py-1.5 rounded-full font-medium">
           {message.body}
         </span>
       </div>
@@ -173,7 +173,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           {message.senderName && (
             <p className="text-xs text-muted-foreground mb-1 ml-1">{message.senderName}</p>
           )}
-          <div className="bg-[#f4f6f9] rounded-xl px-4 py-3 text-[13px] text-[#061e44]">
+          <div className="bg-muted rounded-xl px-4 py-3 text-[13px] text-foreground">
             {message.body}
             {message.attachments.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-2">
@@ -211,7 +211,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         <div
           className={cn(
             'rounded-xl px-4 py-3 text-[13px] text-white',
-            message.sender === 'Vet' ? 'bg-[#303ef5]' : 'bg-[#303ef5]/80'
+            message.sender === 'Vet' ? 'bg-primary' : 'bg-primary/80'
           )}
         >
           {message.body}

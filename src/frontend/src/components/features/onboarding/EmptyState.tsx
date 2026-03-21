@@ -37,7 +37,7 @@ export function EmptyState({
     <Button
       data-testid={`empty-state-cta-${prefix}`}
       onClick={primaryCta.onClick}
-      className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+      className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
     >
       {primaryCta.label}
     </Button>
@@ -56,7 +56,7 @@ export function EmptyState({
       </div>
 
       <div className="space-y-2 max-w-sm">
-        <h2 className="text-[18px] font-bold tracking-tight text-[#061e44]">{title}</h2>
+        <h2 className="text-[18px] font-bold tracking-tight text-foreground">{title}</h2>
         <p className="text-muted-foreground text-[13px]">{description}</p>
       </div>
 
@@ -75,7 +75,7 @@ export function EmptyState({
               <Button
                 variant="outline"
                 data-testid={secondaryCta['data-testid'] ?? `empty-state-cta-secondary-${prefix}`}
-                className="border-border/80 hover:bg-[#f4f6f9] rounded-xl font-semibold"
+                className="border-border/80 hover:bg-muted rounded-xl font-semibold"
               >
                 {secondaryCta.label}
               </Button>
@@ -85,7 +85,7 @@ export function EmptyState({
               variant="outline"
               onClick={secondaryCta.onClick}
               data-testid={secondaryCta['data-testid'] ?? `empty-state-cta-secondary-${prefix}`}
-              className="border-border/80 hover:bg-[#f4f6f9] rounded-xl font-semibold"
+              className="border-border/80 hover:bg-muted rounded-xl font-semibold"
             >
               {secondaryCta.label}
             </Button>

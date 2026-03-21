@@ -84,7 +84,7 @@ export function SetupChecklist({ role }: SetupChecklistProps) {
     <Card data-testid="setup-checklist" id="setup-checklist" className="w-full bg-white border-border/80 rounded-xl shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-[15px] font-bold leading-none tracking-tight text-[#061e44]">
+          <h2 className="text-[15px] font-bold leading-none tracking-tight text-foreground">
             {t('title')}
           </h2>
           <div className="flex items-center gap-2">
@@ -104,7 +104,7 @@ export function SetupChecklist({ role }: SetupChecklistProps) {
               data-testid="checklist-close-btn"
               aria-label="Close setup checklist"
               onClick={handleDismiss}
-              className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-[#f4f6f9] hover:text-[#061e44] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30"
+              className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
             >
               <X className="h-4 w-4" />
             </button>
@@ -130,7 +130,7 @@ export function SetupChecklist({ role }: SetupChecklistProps) {
                 type="button"
                 data-testid="checklist-dismiss"
                 onClick={handleDismiss}
-                className="text-[12px] text-muted-foreground underline-offset-4 hover:text-[#061e44] hover:underline"
+                className="text-[12px] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
               >
                 {t('dismiss')}
               </button>

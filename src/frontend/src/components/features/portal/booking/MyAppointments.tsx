@@ -17,7 +17,7 @@ const PAST_STATUSES: BookingAppointmentStatus[] = ['Completed', 'Cancelled', 'No
 const STATUS_STYLES: Record<BookingAppointmentStatus, string> = {
   Scheduled: 'bg-blue-100 text-blue-800',
   CheckedIn: 'bg-emerald-100 text-emerald-800',
-  Completed: 'bg-[#f4f6f9] text-muted-foreground',
+  Completed: 'bg-muted text-muted-foreground',
   Cancelled: 'bg-red-100 text-red-700',
   NoShow: 'bg-orange-100 text-orange-700',
 }
@@ -52,7 +52,7 @@ function AppointmentCard({
       role="button"
       tabIndex={0}
       data-testid={`appointment-card-${appt.id}`}
-      className="flex items-center gap-4 rounded-xl border border-border/80 bg-white p-4 shadow-sm hover:border-[#303ef5]/40 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30"
+      className="flex items-center gap-4 rounded-xl border border-border/80 bg-white p-4 shadow-sm hover:border-primary/40 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
@@ -63,8 +63,8 @@ function AppointmentCard({
         }
       }}
     >
-      <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-[#f4f6f9] border border-border/80">
-        <CalendarDays className="w-5 h-5 text-[#303ef5]" />
+      <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-muted border border-border/80">
+        <CalendarDays className="w-5 h-5 text-primary" />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
@@ -76,7 +76,7 @@ function AppointmentCard({
           </span>
         </div>
         <p
-          className="text-[14px] font-semibold text-[#061e44] truncate"
+          className="text-[14px] font-semibold text-foreground truncate"
           data-testid={`appointment-type-${appt.id}`}
         >
           {appt.consultationTypeName}
@@ -132,7 +132,7 @@ export function MyAppointments() {
   if (expired) {
     return (
       <div className="text-center py-12 space-y-3" data-testid="my-appointments-expired">
-        <p className="text-[#061e44]">{t('landing.link_expired')}</p>
+        <p className="text-foreground">{t('landing.link_expired')}</p>
       </div>
     )
   }
@@ -140,7 +140,7 @@ export function MyAppointments() {
   if (error) {
     return (
       <div className="text-center py-12 space-y-3" data-testid="my-appointments-error">
-        <p className="text-[#061e44]">{t('myAppointments.loadError')}</p>
+        <p className="text-foreground">{t('myAppointments.loadError')}</p>
       </div>
     )
   }
@@ -152,14 +152,14 @@ export function MyAppointments() {
         variant="ghost"
         size="sm"
         data-testid="my-appointments-back-btn"
-        className="text-muted-foreground hover:text-[#061e44] -ms-2"
+        className="text-muted-foreground hover:text-foreground -ms-2"
         onClick={() => router.push(base)}
       >
         <ArrowLeft className="h-4 w-4 me-1" />
         {t('myAppointments.backButton')}
       </Button>
 
-      <h1 className="text-[22px] font-bold text-[#061e44]" data-testid="my-appointments-title">
+      <h1 className="text-[22px] font-bold text-foreground" data-testid="my-appointments-title">
         {t('myAppointments.title')}
       </h1>
 
@@ -171,14 +171,14 @@ export function MyAppointments() {
           aria-selected={activeTab === 'upcoming'}
           className={`px-5 py-3 text-[13px] font-semibold transition-colors border-b-2 ${
             activeTab === 'upcoming'
-              ? 'border-[#303ef5] text-[#303ef5]'
-              : 'border-transparent text-muted-foreground hover:text-[#061e44] hover:border-border'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
           }`}
           onClick={() => setActiveTab('upcoming')}
         >
           {t('myAppointments.upcoming')}
           {upcoming.length > 0 && (
-            <span className="ms-1.5 text-xs bg-[#eef2fd] text-[#303ef5] px-1.5 py-0.5 rounded-full font-bold">
+            <span className="ms-1.5 text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-bold">
               {upcoming.length}
             </span>
           )}
@@ -189,14 +189,14 @@ export function MyAppointments() {
           aria-selected={activeTab === 'past'}
           className={`px-5 py-3 text-[13px] font-semibold transition-colors border-b-2 ${
             activeTab === 'past'
-              ? 'border-[#303ef5] text-[#303ef5]'
-              : 'border-transparent text-muted-foreground hover:text-[#061e44] hover:border-border'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
           }`}
           onClick={() => setActiveTab('past')}
         >
           {t('myAppointments.past')}
           {past.length > 0 && (
-            <span className="ms-1.5 text-xs bg-[#f4f6f9] text-muted-foreground px-1.5 py-0.5 rounded-full font-bold">
+            <span className="ms-1.5 text-xs bg-muted text-muted-foreground px-1.5 py-0.5 rounded-full font-bold">
               {past.length}
             </span>
           )}

@@ -136,17 +136,17 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
               {/* Day header */}
               <div
                 className={`h-14 flex flex-col items-center justify-center border-b border-border/40 transition-colors duration-200 ${
-                  day.isToday ? 'bg-[#eef2fd]' : ''
+                  day.isToday ? 'bg-primary/10' : ''
                 }`}
               >
-                <span className={`text-[11px] font-semibold uppercase tracking-wider ${day.isToday ? 'text-[#303ef5]' : 'text-muted-foreground'}`}>
+                <span className={`text-[11px] font-semibold uppercase tracking-wider ${day.isToday ? 'text-primary' : 'text-muted-foreground'}`}>
                   {dayNameFormatter.format(day.date)}
                 </span>
                 <span
                   className={`mt-0.5 text-[15px] font-bold ${
                     day.isToday
-                      ? 'bg-[#303ef5] text-white rounded-full w-7 h-7 flex items-center justify-center shadow-sm text-[13px]'
-                      : 'text-[#061e44]'
+                      ? 'bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center shadow-sm text-[13px]'
+                      : 'text-foreground'
                   }`}
                 >
                   {dayNumberFormatter.format(day.date)}
@@ -176,11 +176,11 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       <div
                         className={`h-8 relative transition-colors duration-200 ease-in-out ${
                           isClickable
-                            ? 'cursor-pointer hover:bg-[#eef2fd]/60'
+                            ? 'cursor-pointer hover:bg-primary/10'
                             : offHours
                             ? 'cursor-not-allowed'
                             : ''
-                        } ${isTopHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
+                        } ${isTopHovered && isClickable ? 'bg-primary/10' : ''}`}
                         onClick={() => isClickable && handleSlotClick(day, hour, true)}
                         onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
                         onMouseLeave={() => setHoveredSlot(null)}
@@ -189,7 +189,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       >
                         {isTopHovered && isClickable && (
                           <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                            <PlusIcon className="size-4 text-[#303ef5]/50" />
+                            <PlusIcon className="size-4 text-primary/50" />
                           </div>
                         )}
                       </div>
@@ -198,11 +198,11 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       <div
                         className={`h-8 relative transition-colors duration-200 ease-in-out ${
                           isClickable
-                            ? 'cursor-pointer hover:bg-[#eef2fd]/60'
+                            ? 'cursor-pointer hover:bg-primary/10'
                             : offHours
                             ? 'cursor-not-allowed'
                             : ''
-                        } ${isBottomHovered && isClickable ? 'bg-[#eef2fd]/60' : ''}`}
+                        } ${isBottomHovered && isClickable ? 'bg-primary/10' : ''}`}
                         onClick={() => isClickable && handleSlotClick(day, hour, false)}
                         onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
                         onMouseLeave={() => setHoveredSlot(null)}
@@ -211,7 +211,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                       >
                         {isBottomHovered && isClickable && (
                           <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
-                            <PlusIcon className="size-4 text-[#303ef5]/50" />
+                            <PlusIcon className="size-4 text-primary/50" />
                           </div>
                         )}
                       </div>

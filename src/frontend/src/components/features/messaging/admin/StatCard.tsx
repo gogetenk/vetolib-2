@@ -18,7 +18,7 @@ export function StatCard({ title, value, description, className, testId }: StatC
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold text-[#061e44]" data-testid={`${testId ?? "stat-card"}-value`}>
+        <div className="text-2xl font-bold text-foreground" data-testid={`${testId ?? "stat-card"}-value`}>
           {value}
         </div>
         {description && (
