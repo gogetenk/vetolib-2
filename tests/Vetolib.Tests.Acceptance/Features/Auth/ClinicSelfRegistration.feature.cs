@@ -137,15 +137,15 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Successful clinic registration returns JWT and creates tenant")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successful clinic registration authenticates and creates tenant")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Clinic self-service registration")]
-        [global::Xunit.TraitAttribute("Description", "Successful clinic registration returns JWT and creates tenant")]
-        public async global::System.Threading.Tasks.Task SuccessfulClinicRegistrationReturnsJWTAndCreatesTenant()
+        [global::Xunit.TraitAttribute("Description", "Successful clinic registration authenticates and creates tenant")]
+        public async global::System.Threading.Tasks.Task SuccessfulClinicRegistrationAuthenticatesAndCreatesTenant()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successful clinic registration returns JWT and creates tenant", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successful clinic registration authenticates and creates tenant", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 8
@@ -171,19 +171,19 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "+971501234567",
                             "AE"});
 #line 9
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table19, "When ");
+    await testRunner.WhenAsync("I register a new clinic with:", ((string)(null)), table19, "When ");
 #line hidden
 #line 12
-    await testRunner.ThenAsync("the response status is 201", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the record is created successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 13
-    await testRunner.AndAsync("I receive a JWT access token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I am successfully authenticated", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 14
-    await testRunner.AndAsync("the JWT contains claim \"clinic_id\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the session is linked to the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 15
-    await testRunner.AndAsync("a new clinic \"Desert Paws\" exists in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the clinic \"Desert Paws\" is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 16
     await testRunner.AndAsync("the admin user \"owner@desertpaws.ae\" belongs to the new clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -235,10 +235,10 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "+971509876543",
                             "AE"});
 #line 22
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table20, "When ");
+    await testRunner.WhenAsync("I register a new clinic with:", ((string)(null)), table20, "When ");
 #line hidden
 #line 25
-    await testRunner.ThenAsync("the response status is 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation is rejected with validation errors", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 26
     await testRunner.AndAsync("the response contains \"EMAIL_EXISTS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -281,13 +281,13 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "+971501234567",
                             "AE"});
 #line 29
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table21, "When ");
+    await testRunner.WhenAsync("I register a new clinic with:", ((string)(null)), table21, "When ");
 #line hidden
 #line 32
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 33
-    await testRunner.AndAsync("the response contains validation error for \"ClinicName\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the operation is rejected because ClinicName is invalid", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -327,13 +327,13 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "+971501234567",
                             "AE"});
 #line 36
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table22, "When ");
+    await testRunner.WhenAsync("I register a new clinic with:", ((string)(null)), table22, "When ");
 #line hidden
 #line 39
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 40
-    await testRunner.AndAsync("the response contains validation error for \"Password\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the operation is rejected because Password is invalid", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -373,13 +373,13 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "+971501234567",
                             "AE"});
 #line 43
-    await testRunner.WhenAsync("I POST /api/v1/clinics/register with:", ((string)(null)), table23, "When ");
+    await testRunner.WhenAsync("I register a new clinic with:", ((string)(null)), table23, "When ");
 #line hidden
 #line 46
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 47
-    await testRunner.AndAsync("the response contains validation error for \"Password\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the operation is rejected because Password is invalid", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

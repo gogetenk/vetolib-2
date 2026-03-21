@@ -9,20 +9,20 @@ Feature: Change password
   Scenario: Successful password change
     Given I am authenticated as VET with password "Secure@1234567!"
     When I change my password from "Secure@1234567!" to "NewSecure@7654321!"
-    Then the response status is 200
+    Then the operation succeeds
     And I can log in with the new password "NewSecure@7654321!"
 
   Scenario: Wrong current password is rejected
     Given I am authenticated as VET with password "Secure@1234567!"
     When I change my password from "WrongPassword@!" to "NewSecure@7654321!"
-    Then the response status is 422
+    Then the operation is rejected with validation errors
     And the error code is "INVALID_CURRENT_PASSWORD"
 
   Scenario: Weak new password is rejected
     Given I am authenticated as VET with password "Secure@1234567!"
     When I change my password from "Secure@1234567!" to "weak"
-    Then the response status is 400
+    Then the request is rejected
 
   Scenario: Unauthenticated request is rejected
     When I send a change password request without authentication
-    Then the response status is 401
+    Then the user is denied access

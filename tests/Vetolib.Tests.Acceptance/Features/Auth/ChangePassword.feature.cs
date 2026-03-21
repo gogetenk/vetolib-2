@@ -174,7 +174,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.WhenAsync("I change my password from \"Secure@1234567!\" to \"NewSecure@7654321!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 12
-    await testRunner.ThenAsync("the response status is 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 13
     await testRunner.AndAsync("I can log in with the new password \"NewSecure@7654321!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -214,7 +214,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.WhenAsync("I change my password from \"WrongPassword@!\" to \"NewSecure@7654321!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 18
-    await testRunner.ThenAsync("the response status is 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation is rejected with validation errors", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 19
     await testRunner.AndAsync("the error code is \"INVALID_CURRENT_PASSWORD\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -254,7 +254,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.WhenAsync("I change my password from \"Secure@1234567!\" to \"weak\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 24
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -288,7 +288,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.WhenAsync("I send a change password request without authentication", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 28
-    await testRunner.ThenAsync("the response status is 401", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

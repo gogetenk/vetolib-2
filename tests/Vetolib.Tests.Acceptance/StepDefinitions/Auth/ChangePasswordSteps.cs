@@ -93,11 +93,32 @@ internal class ChangePasswordSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"the response status is (\d+)")]
-    public void ThenTheResponseStatusIs(int statusCode)
+    [Then(@"the operation succeeds")]
+    public void ThenTheOperationSucceeds()
     {
-        ((int)_response.StatusCode).Should().Be(statusCode,
-            $"Expected HTTP {statusCode} but got {(int)_response.StatusCode}");
+        ((int)_response.StatusCode).Should().Be(200,
+            $"Expected HTTP 200 but got {(int)_response.StatusCode}");
+    }
+
+    [Then(@"the operation is rejected with validation errors")]
+    public void ThenTheOperationIsRejectedWithValidationErrors()
+    {
+        ((int)_response.StatusCode).Should().Be(422,
+            $"Expected HTTP 422 but got {(int)_response.StatusCode}");
+    }
+
+    [Then(@"the request is rejected")]
+    public void ThenTheRequestIsRejected()
+    {
+        ((int)_response.StatusCode).Should().Be(400,
+            $"Expected HTTP 400 but got {(int)_response.StatusCode}");
+    }
+
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
+    {
+        ((int)_response.StatusCode).Should().Be(401,
+            $"Expected HTTP 401 but got {(int)_response.StatusCode}");
     }
 
     [Then(@"I can log in with the new password ""(.*)""")]

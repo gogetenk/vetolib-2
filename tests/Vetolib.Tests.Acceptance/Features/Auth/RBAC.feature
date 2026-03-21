@@ -8,15 +8,15 @@ Feature: RBAC matrix -- role-based access control
   Background:
     Given a clinic "Desert Paws"
 
-  Scenario: Assistant cannot create an appointment (403)
+  Scenario: Assistant cannot create an appointment
     Given I am authenticated as Assistant
     When I attempt to create an appointment
-    Then the system returns 403
+    Then the user is denied access
 
-  Scenario: Receptionist cannot add a medical record (403)
+  Scenario: Receptionist cannot add a medical record
     Given I am authenticated as Receptionist
     When I attempt to add a medical record
-    Then the system returns 403
+    Then the user is denied access
 
   Scenario: Vet can create an appointment
     Given I am authenticated as Vet
@@ -28,15 +28,15 @@ Feature: RBAC matrix -- role-based access control
     When I attempt to create an invoice
     Then the system accepts the request
 
-  Scenario: Assistant cannot create an invoice (403)
+  Scenario: Assistant cannot create an invoice
     Given I am authenticated as Assistant
     When I attempt to create an invoice
-    Then the system returns 403
+    Then the user is denied access
 
-  Scenario: Only Vet can add a prescription (VetOnly)
+  Scenario: Only Vet can add a prescription
     Given I am authenticated as Admin
     When I attempt to add a prescription to a medical record
-    Then the system returns 403
+    Then the user is denied access
 
   Scenario: Vet can add a prescription
     Given I am authenticated as Vet
