@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { ChevronRight, PlusIcon, Video } from 'lucide-react'
+import { PlusIcon, Video } from 'lucide-react'
 import { getConsultationColor } from './consultation-colors'
 import { START_HOUR, END_HOUR } from './TimeColumn'
 import type { CalendarAppointment } from './types'
@@ -11,22 +11,14 @@ import type { AppointmentStatus } from '@/lib/api/appointments'
 const SLOT_HEIGHT = 16 // 15-minute slot = 16px, so 1 hour = 64px (same as week view)
 const HOUR_HEIGHT = SLOT_HEIGHT * 4 // 64px per hour
 
-const SPECIES_EMOJI: Record<string, string> = {
-  Dog: '\uD83D\uDC36',
-  Cat: '\uD83D\uDC31',
-  Bird: '\uD83D\uDC26',
-  Rabbit: '\uD83D\uDC30',
-  Horse: '\uD83D\uDC34',
-  Exotic: '\uD83E\uDD8E',
-}
-
-const STATUS_COLORS: Record<AppointmentStatus, string> = {
+const _STATUS_COLORS: Record<AppointmentStatus, string> = {
   SCHEDULED: 'bg-blue-500',
   CHECKED_IN: 'bg-yellow-500',
   IN_PROGRESS: 'bg-green-500',
   COMPLETED: 'bg-stone-400',
   CANCELLED: 'bg-red-500',
 }
+void _STATUS_COLORS
 
 interface LayoutedAppointment {
   appointment: CalendarAppointment
@@ -161,12 +153,6 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
     return () => clearInterval(interval)
   }, [date])
 
-  // Time formatter
-  const timeFormatter = useMemo(
-    () => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit', hour12: false }),
-    [locale]
-  )
-
   function isOffHours(hour: number): boolean {
     return hour < 8 || hour >= 18
   }
@@ -280,7 +266,6 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
             const minutes = scheduledDate.getMinutes()
             const topPx = (hours - START_HOUR) * HOUR_HEIGHT + (minutes / 60) * HOUR_HEIGHT
             const heightPx = ((apt.durationMinutes ?? 30) / 60) * HOUR_HEIGHT
-            const emoji = SPECIES_EMOJI[apt.species] ?? '\uD83D\uDC3E'
             const widthPercent = 100 / totalColumns
             const leftPercent = column * widthPercent
 

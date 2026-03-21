@@ -15,6 +15,10 @@ const eslintConfig = defineConfig([
     // Playwright report artifacts — not source code
     "playwright-report/**",
     "test-results/**",
+    // Generated e2e report scripts
+    "e2e/reports/**",
+    // MSW auto-generated service worker
+    "public/mockServiceWorker.js",
   ]),
 ]);
 

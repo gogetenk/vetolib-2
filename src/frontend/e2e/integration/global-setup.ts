@@ -2,8 +2,6 @@
  * Global setup for integration tests.
  * Verifies that the ASP.NET Core backend is reachable before running tests.
  */
-import { chromium } from "@playwright/test";
-
 const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:5295";
 const MAX_RETRIES = 10;
 const RETRY_DELAY_MS = 2000;

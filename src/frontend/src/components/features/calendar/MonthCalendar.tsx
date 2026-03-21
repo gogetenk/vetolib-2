@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { useLocale, useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 import { MonthDayCell } from './MonthDayCell'
 import type { CalendarAppointment } from './types'
 
@@ -43,7 +43,6 @@ interface MonthCalendarBodyProps {
 
 export function MonthCalendarBody({ year, month, appointments, onDayClick, onAppointmentClick }: MonthCalendarBodyProps) {
   const locale = useLocale()
-  const t = useTranslations('calendar')
   const isRtl = locale === 'ar'
 
   const today = useMemo(() => new Date(), [])

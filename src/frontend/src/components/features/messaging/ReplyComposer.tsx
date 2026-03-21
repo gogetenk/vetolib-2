@@ -47,20 +47,27 @@ export function ReplyComposer({
 
   // Clean up send success timeout and preview URLs on unmount
   useEffect(() => {
+    const timeoutRef = sendSuccessTimeout
+    const urlsRef = previewUrlsRef
     return () => {
-      if (sendSuccessTimeout.current) clearTimeout(sendSuccessTimeout.current)
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
       // Revoke all tracked object URLs to avoid memory leaks
-      previewUrlsRef.current.forEach((url) => URL.revokeObjectURL(url))
-      previewUrlsRef.current.clear()
+      urlsRef.current.forEach((url) => URL.revokeObjectURL(url))
+      urlsRef.current.clear()
     }
   }, [])
 
   // When an AI suggestion is selected, prefill the textarea.
+  // Use a ref to track consumed prefill and queueMicrotask to avoid synchronous setState in effect.
+  const lastConsumedPrefill = useRef('')
   useEffect(() => {
-    if (prefillText) {
-      setText(prefillText)
-      onPrefillConsumed()
-      textareaRef.current?.focus()
+    if (prefillText && prefillText !== lastConsumedPrefill.current) {
+      lastConsumedPrefill.current = prefillText
+      queueMicrotask(() => {
+        setText(prefillText)
+        onPrefillConsumed()
+        textareaRef.current?.focus()
+      })
     }
   }, [prefillText, onPrefillConsumed])
 

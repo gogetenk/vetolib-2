@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
 import type { ConversationDto, MessageCategory, ConversationStatus } from '@/lib/api/messaging-types'
 
 interface ConversationListItemProps {

@@ -30,7 +30,7 @@ interface ApiSession {
   invoiceNumber: string;
 }
 
-async function setupBillingData(page: Page): Promise<ApiSession> {
+async function _setupBillingData(page: Page): Promise<ApiSession> {
   // Login as vet to create patient
   const vetLogin = await page.request.post(`${BACKEND_URL}/api/auth/login`, {
     data: {

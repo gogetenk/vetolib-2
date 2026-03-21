@@ -6,15 +6,6 @@ import { START_HOUR } from './TimeColumn'
 import type { CalendarAppointment } from './types'
 import type { AppointmentStatus } from '@/lib/api/appointments'
 
-const SPECIES_EMOJI: Record<string, string> = {
-  Dog: '🐶',
-  Cat: '🐱',
-  Bird: '🐦',
-  Rabbit: '🐰',
-  Horse: '🐴',
-  Exotic: '🦎',
-}
-
 const STATUS_OPACITY: Record<AppointmentStatus, string> = {
   SCHEDULED: 'opacity-100',
   CHECKED_IN: 'opacity-100 ring-1 ring-inset ring-yellow-400',
@@ -38,8 +29,6 @@ export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps
   // Calculate position: each hour = 64px (h-16), offset from START_HOUR
   const topPx = (hours - START_HOUR) * 64 + (minutes / 60) * 64
   const heightPx = (appointment.durationMinutes / 60) * 64
-
-  const emoji = SPECIES_EMOJI[appointment.species] ?? '🐾'
 
   function handleClick(e: React.MouseEvent) {
     e.stopPropagation()

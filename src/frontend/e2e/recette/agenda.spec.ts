@@ -5,7 +5,7 @@
  */
 import { test, expect, type Page } from "@playwright/test";
 import { SEED_USERS, waitForMswReady } from "../fixtures/auth.fixtures";
-import { uniqueName, tomorrowAt, inDaysAt } from "../fixtures/data.fixtures";
+import { uniqueName } from "../fixtures/data.fixtures";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -260,7 +260,6 @@ test("P2-AGENDA-07 vet availability time slots shown in form", async ({
 
   // Time slot select should become enabled / show options
   await page.getByTestId("select-time-trigger").click();
-  const timeOptions = page.locator('[data-testid^="time-option-"]');
   // At minimum the trigger should be clickable (availability endpoint was called)
   await expect(page.getByTestId("select-time-trigger")).toBeVisible();
 });

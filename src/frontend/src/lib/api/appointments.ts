@@ -13,6 +13,7 @@ export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Exotic'
 
 export interface AppointmentDto {
   id: string
+  patientId?: string
   patientName: string
   species: Species
   ownerName: string

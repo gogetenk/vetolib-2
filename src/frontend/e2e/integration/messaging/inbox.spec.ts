@@ -18,7 +18,6 @@ import {
   loginAsVet,
   loginAsAdmin,
   loginAsAssistant,
-  navigateToInbox,
   CONV_IDS,
 } from '../../fixtures/messaging'
 

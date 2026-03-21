@@ -24,7 +24,6 @@ import {
   PlayIcon,
   XCircleIcon,
   LogInIcon,
-  VideoIcon,
   SendIcon,
   UserIcon,
 } from 'lucide-react'
@@ -213,7 +212,7 @@ export function AppointmentDetailSheet({
                   </div>
                 </div>
                 
-                <Link href={`/${locale}/patients/${(appointment as any).patientId || ''}`}>
+                <Link href={`/${locale}/patients/${appointment.patientId ?? ''}`}>
                   <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-11 shadow-sm mt-2 flex items-center gap-2">
                     Consulter le dossier patient
                     <ExternalLinkIcon className="w-4 h-4" />
