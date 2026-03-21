@@ -50,5 +50,8 @@ internal class ConversationConfiguration : IEntityTypeConfiguration<Conversation
             .WithOne()
             .HasForeignKey(m => m.ConversationId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Performance: index for date-range queries filtered by clinic
+        builder.HasIndex(c => new { c.ClinicId, c.CreatedAt });
     }
 }

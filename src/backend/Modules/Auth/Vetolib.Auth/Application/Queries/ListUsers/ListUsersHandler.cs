@@ -6,7 +6,7 @@ using Vetolib.Auth.Infrastructure;
 
 namespace Vetolib.Auth.Application.Queries.ListUsers;
 
-internal class ListUsersHandler : IRequestHandler<ListUsersQuery, Result<IReadOnlyList<UserListItemDto>>>
+internal class ListUsersHandler : IRequestHandler<ListUsersQuery, Result<UserPagedResultDto>>
 {
     private readonly AuthDbContext _context;
 
@@ -15,13 +15,24 @@ internal class ListUsersHandler : IRequestHandler<ListUsersQuery, Result<IReadOn
         _context = context;
     }
 
-    public async Task<Result<IReadOnlyList<UserListItemDto>>> Handle(ListUsersQuery query, CancellationToken ct)
+    public async Task<Result<UserPagedResultDto>> Handle(ListUsersQuery query, CancellationToken ct)
     {
+        var page = query.Page < 1 ? 1 : query.Page;
+        var pageSize = query.PageSize < 1 ? 20 : query.PageSize;
+
+        var totalCount = await _context.Users
+            .AsNoTracking()
+            .CountAsync(ct);
+
         var users = await _context.Users
             .AsNoTracking()
+            .OrderBy(u => u.Email)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(u => u.ToListItemDto())
             .ToListAsync(ct);
 
-        return Result<IReadOnlyList<UserListItemDto>>.Success(users);
+        return Result<UserPagedResultDto>.Success(
+            new UserPagedResultDto(users, totalCount, page, pageSize));
     }
 }

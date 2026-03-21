@@ -30,5 +30,8 @@ internal class MessageConfiguration : IEntityTypeConfiguration<Message>
             .WithOne()
             .HasForeignKey(a => a.MessageId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Performance: index for ordering messages within a conversation
+        builder.HasIndex(m => new { m.ConversationId, m.SentAt });
     }
 }

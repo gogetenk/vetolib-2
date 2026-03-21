@@ -62,13 +62,15 @@ internal static class UserEndpoints
 
     private static async Task<IResult> GetUsers(
         ClaimsPrincipal user,
-        ISender sender)
+        ISender sender,
+        int page = 1,
+        int pageSize = 20)
     {
         var role = user.FindFirst(ClaimTypes.Role)?.Value;
         if (role != "Admin")
-            return (Ardalis.Result.Result<IReadOnlyList<UserListItemDto>>.Forbidden()).ToMinimalApiResult();
+            return (Ardalis.Result.Result<UserPagedResultDto>.Forbidden()).ToMinimalApiResult();
 
-        return (await sender.Send(new ListUsersQuery())).ToMinimalApiResult();
+        return (await sender.Send(new ListUsersQuery(page, pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> InviteUser(
