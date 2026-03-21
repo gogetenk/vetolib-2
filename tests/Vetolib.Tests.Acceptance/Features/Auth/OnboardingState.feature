@@ -76,4 +76,4 @@ Feature: Onboarding State Management
 
   Scenario: Non-authenticated user cannot access onboarding state
     When an unauthenticated request is made to the onboarding endpoint
-    Then the response status is 401
+    Then the user must sign in
