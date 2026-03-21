@@ -261,7 +261,7 @@ internal class TeamManagementSteps
     [Then(@"the request is rejected with message ""(.*)""")]
     public void ThenRequestRejectedWithMessage(string expectedMessage)
     {
-        _response.IsSuccessStatusCode.Should().BeFalse();
+        _response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         _errorBody.Should().Contain(expectedMessage);
     }
 

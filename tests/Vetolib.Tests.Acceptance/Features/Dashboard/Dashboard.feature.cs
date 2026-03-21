@@ -328,7 +328,7 @@ namespace Vetolib.Tests.Acceptance.Features.Dashboard
     await testRunner.WhenAsync("I request dashboard analytics without authentication", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 34
-    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user must sign in", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

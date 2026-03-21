@@ -31,7 +31,7 @@ Feature: Dashboard statistics
 
   Scenario: Analytics endpoint requires authentication
     When I request dashboard analytics without authentication
-    Then the user is denied access
+    Then the user must sign in
 
   Scenario: Non-admin cannot access analytics
     Given I am authenticated as RECEPTIONIST
