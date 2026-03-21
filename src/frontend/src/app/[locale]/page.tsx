@@ -122,6 +122,22 @@ export default async function LandingPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
       />
 
+      {/* CRO: Sticky CTA bar */}
+      <StickyCtaBar
+        signupHref={signupHref}
+        ctaLabel={t("sticky_cta.cta")}
+        tagline={t("sticky_cta.tagline")}
+      />
+
+      {/* CRO: Exit intent popup */}
+      <ExitIntentPopup
+        headline={t("exit_intent.headline")}
+        subtitle={t("exit_intent.subtitle")}
+        emailPlaceholder={t("exit_intent.email_placeholder")}
+        ctaLabel={t("exit_intent.cta")}
+        successMessage={t("exit_intent.success")}
+      />
+
       {/* ── Nav ────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 border-b border-stone-100 bg-white/80 backdrop-blur-md transition-all duration-300">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">

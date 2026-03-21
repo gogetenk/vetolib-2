@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "./ScrollReveal";
 
 interface FooterLink {
@@ -47,12 +48,19 @@ interface FooterMessages {
   };
 }
 
+interface FooterCtaMessages {
+  headline: string;
+  cta: string;
+}
+
 interface Props {
   locale: string;
   messages: FooterMessages;
+  signupHref: string;
+  footerCta?: FooterCtaMessages;
 }
 
-export function Footer({ locale, messages: m }: Props) {
+export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
   const columns: FooterColumn[] = [
     {
       title: m.columns.product.title,
@@ -96,6 +104,14 @@ export function Footer({ locale, messages: m }: Props) {
     <footer data-testid="section-footer" className="border-t border-stone-100 bg-stone-50">
       <ScrollReveal direction="fade-up">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        {footerCta && (
+          <div data-testid="footer-cta" className="mb-10 flex flex-col items-center gap-4 rounded-2xl bg-emerald-50 px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-start">
+            <p className="text-lg font-semibold text-stone-900">{footerCta.headline}</p>
+            <Link href={signupHref}>
+              <Button className="bg-emerald-700 px-8 font-semibold text-white hover:bg-emerald-800" data-testid="btn-footer-cta">{footerCta.cta}</Button>
+            </Link>
+          </div>
+        )}
         {/* 4-column grid */}
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {columns.map((col) => (

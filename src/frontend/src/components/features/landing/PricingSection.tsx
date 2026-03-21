@@ -29,6 +29,8 @@ interface PricingMessages {
   annual_savings: string;
   trial_note: string;
   vat_note: string;
+  early_access_badge?: string;
+  trial_under_plan?: string;
   free: PlanMessages;
   starter: PlanMessages;
   pro: PlanMessages;
@@ -66,6 +68,15 @@ export function PricingSection({ messages: m, loginHref }: Props) {
         {/* Header */}
         <ScrollReveal direction="fade-up">
           <div className="mx-auto max-w-2xl text-center">
+            {m.early_access_badge && (
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-amber-50 px-4 py-1.5 text-sm font-semibold text-amber-700 ring-1 ring-amber-200" data-testid="pricing-early-access-badge">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
+                </span>
+                {m.early_access_badge}
+              </div>
+            )}
             <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
               {m.title}
             </h2>
@@ -195,6 +206,9 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                         {plan.cta}
                       </Button>
                     </Link>
+                  )}
+                  {m.trial_under_plan && (
+                    <p className="mt-2 text-center text-xs text-stone-400">{m.trial_under_plan}</p>
                   )}
                 </CardContent>
               </Card>
