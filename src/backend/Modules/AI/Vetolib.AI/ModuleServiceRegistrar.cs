@@ -11,6 +11,7 @@ using Microsoft.Extensions.ML;
 using Vetolib.AI.Api;
 using Vetolib.AI.Application.ML;
 using Vetolib.AI.Application.Services;
+using Vetolib.AI.Contracts;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Shared.Infrastructure.Behaviors;
 
@@ -85,6 +86,16 @@ public static class ModuleServiceRegistrar
         }
 
         services.AddScoped<INoShowPredictionService, NoShowPredictionService>();
+
+        // SOAP Notes Generator — uses LLM if IChatClient is available, template fallback otherwise
+        if (innerClient is not null)
+        {
+            services.AddScoped<ISoapNotesGenerator, ClaudeSoapNotesGenerator>();
+        }
+        else
+        {
+            services.AddScoped<ISoapNotesGenerator, TemplateSoapNotesGenerator>();
+        }
 
         return services;
     }

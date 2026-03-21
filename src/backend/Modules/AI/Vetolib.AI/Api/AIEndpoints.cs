@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.AI.Application.Commands.AcceptTriage;
+using Vetolib.AI.Application.Commands.GenerateSoapNotes;
 using Vetolib.AI.Application.Commands.OverrideTriage;
 using Vetolib.AI.Application.Commands.PredictNoShow;
 using Vetolib.AI.Application.Commands.PredictNoShowBatch;
@@ -42,6 +43,11 @@ internal static class AIEndpoints
 
         group.MapPost("/no-show-predictions/batch", PredictNoShowBatch)
             .WithName("PredictNoShowBatch");
+
+        // SOAP notes generation — AI-assisted medical record writing
+        group.MapPost("/soap-notes", GenerateSoapNotes)
+            .WithName("GenerateSoapNotes")
+            .RequireAuthorization("VetOrAdmin");
 
         // Drug interaction checking — used by prescription form before saving
         group.MapPost("/check-interactions", CheckInteractions)
@@ -129,6 +135,23 @@ internal static class AIEndpoints
 
         return (await sender.Send(query)).ToMinimalApiResult();
     }
+
+    private static async Task<IResult> GenerateSoapNotes(
+        SoapNotesRequest request,
+        ISender sender)
+    {
+        var cmd = new GenerateSoapNotesCommand(
+            Species: request.Species,
+            Breed: request.Breed,
+            PatientName: request.PatientName,
+            Symptoms: request.Symptoms,
+            Vitals: request.Vitals,
+            Diagnosis: request.Diagnosis,
+            TreatmentPlan: request.TreatmentPlan,
+            Prescriptions: request.Prescriptions);
+
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
 }
 
 internal record TriageRequest(
@@ -146,3 +169,13 @@ internal record CheckInteractionsRequest(
     Guid PatientId,
     Guid DrugCatalogEntryId,
     decimal? DosageAmount);
+
+internal record SoapNotesRequest(
+    string Species,
+    string Breed,
+    string PatientName,
+    string Symptoms,
+    string Vitals,
+    string Diagnosis,
+    string TreatmentPlan,
+    List<string> Prescriptions);
