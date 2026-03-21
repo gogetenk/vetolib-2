@@ -417,10 +417,10 @@ internal class OnboardingSteps
         state!.Steps.Count.Should().Be(count, $"Assistant role should have {count} steps");
     }
 
-    [Then(@"the user is denied access")]
-    public void ThenTheUserIsDeniedAccess()
+    [Then(@"the user must sign in")]
+    public void ThenTheUserMustSignIn()
     {
-        ((int)_response.StatusCode).Should().Be(401);
+        _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

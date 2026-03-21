@@ -113,7 +113,7 @@ Feature: Authentication and session management
 
   Scenario: Unauthenticated user cannot access their profile
     When an unauthenticated user checks their profile
-    Then the user is denied access
+    Then the user must sign in
 
   # ─── Multi-tenancy ───────────────────────────────────────
 

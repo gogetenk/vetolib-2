@@ -525,11 +525,16 @@ internal class LoginSteps
         user.IsLocked.Should().BeFalse();
     }
 
+    [Then(@"the user must sign in")]
+    public void ThenTheUserMustSignIn()
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
     [Then(@"the user is denied access")]
     public void ThenTheUserIsDeniedAccess()
     {
-        _response.StatusCode.Should().BeOneOf(
-            HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden);
+        _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
     [Then(@"the requests from this user only return data from ""(.*)""")]
