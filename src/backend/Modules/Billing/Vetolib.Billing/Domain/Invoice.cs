@@ -31,13 +31,13 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         var errors = new List<ValidationError>();
 
         if (clinicId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(clinicId), "ClinicId est requis"));
+            errors.Add(new ValidationError(nameof(clinicId), "ClinicId is required"));
 
         if (animalId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(animalId), "AnimalId est requis"));
+            errors.Add(new ValidationError(nameof(animalId), "AnimalId is required"));
 
         if (string.IsNullOrWhiteSpace(invoiceNumber))
-            errors.Add(new ValidationError(nameof(invoiceNumber), "Le numéro de facture est requis"));
+            errors.Add(new ValidationError(nameof(invoiceNumber), "Invoice number is required"));
 
         if (errors.Count > 0)
             return Result<Invoice>.Invalid(errors);
@@ -95,10 +95,10 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
 
         if (!validTransition)
             return Result.Error(
-                $"INVALID_TRANSITION:Transition de {Status} vers {newStatus} non autorisée");
+                $"INVALID_TRANSITION:Transition from {Status} to {newStatus} is not allowed");
 
         if (newStatus == InvoiceStatus.Sent && _items.Count == 0)
-            return Result.Error("INVOICE_EMPTY:La facture doit contenir au moins un item");
+            return Result.Error("INVOICE_EMPTY:Invoice must contain at least one item");
 
         Status = newStatus;
 

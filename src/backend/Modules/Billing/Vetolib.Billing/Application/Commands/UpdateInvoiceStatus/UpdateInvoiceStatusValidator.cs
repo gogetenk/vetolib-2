@@ -9,10 +9,10 @@ internal class UpdateInvoiceStatusValidator : AbstractValidator<UpdateInvoiceSta
     {
         RuleFor(x => x.InvoiceId)
             .NotEmpty()
-            .WithMessage("InvoiceId est requis");
+            .WithMessage("InvoiceId is required");
 
         RuleFor(x => x.NewStatus)
             .IsInEnum()
-            .WithMessage($"Le statut doit etre l'une des valeurs : {string.Join(", ", Enum.GetNames<InvoiceStatus>())}");
+            .WithMessage($"Status must be one of: {string.Join(", ", Enum.GetNames<InvoiceStatus>())}");
     }
 }

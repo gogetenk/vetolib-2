@@ -21,13 +21,13 @@ internal class InvoiceItem : BaseEntity
         var errors = new List<ValidationError>();
 
         if (invoiceId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(invoiceId), "InvoiceId est requis"));
+            errors.Add(new ValidationError(nameof(invoiceId), "InvoiceId is required"));
 
         if (string.IsNullOrWhiteSpace(description))
-            errors.Add(new ValidationError(nameof(description), "La description est requise"));
+            errors.Add(new ValidationError(nameof(description), "Description is required"));
 
         if (unitPrice <= 0)
-            errors.Add(new ValidationError(nameof(unitPrice), "Le prix unitaire doit être positif"));
+            errors.Add(new ValidationError(nameof(unitPrice), "Unit price must be positive"));
 
         if (errors.Count > 0)
             return Result<InvoiceItem>.Invalid(errors);

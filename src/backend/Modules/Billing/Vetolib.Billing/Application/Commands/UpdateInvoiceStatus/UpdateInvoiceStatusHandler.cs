@@ -22,7 +22,7 @@ internal class UpdateInvoiceStatusHandler : IRequestHandler<UpdateInvoiceStatusC
             .FirstOrDefaultAsync(i => i.Id == cmd.InvoiceId, ct);
 
         if (invoice is null)
-            return Result<InvoiceDto>.NotFound("INVOICE_NOT_FOUND:Facture introuvable");
+            return Result<InvoiceDto>.NotFound("INVOICE_NOT_FOUND:Invoice not found");
 
         var result = invoice.UpdateStatus(cmd.NewStatus);
         if (!result.IsSuccess)
