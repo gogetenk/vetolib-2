@@ -55,8 +55,8 @@ internal class ClinicSelfRegistrationSteps
 
     // ─── WHEN ─────────────────────────────────────────────────────
 
-    [When(@"^I POST /api/v1/clinics/register with:$")]
-    public async Task WhenIPostRegister(DataTable table)
+    [When(@"^I register a new clinic with:$")]
+    public async Task WhenIRegisterANewClinicWith(DataTable table)
     {
         var row = table.Rows[0];
         var request = new RegisterClinicRequest(
@@ -78,14 +78,26 @@ internal class ClinicSelfRegistrationSteps
 
     // ─── THEN ─────────────────────────────────────────────────────
 
-    [Then(@"the response status is (\d+)")]
-    public void ThenTheResponseStatusIs(int statusCode)
+    [Then(@"the record is created successfully")]
+    public void ThenTheRecordIsCreatedSuccessfully()
     {
-        ((int)_response.StatusCode).Should().Be(statusCode);
+        ((int)_response.StatusCode).Should().Be(201);
     }
 
-    [Then(@"I receive a JWT access token")]
-    public void ThenIReceiveAJwtAccessToken()
+    [Then(@"the operation is rejected with validation errors")]
+    public void ThenTheOperationIsRejectedWithValidationErrors()
+    {
+        ((int)_response.StatusCode).Should().Be(422);
+    }
+
+    [Then(@"the request is rejected")]
+    public void ThenTheRequestIsRejected()
+    {
+        ((int)_response.StatusCode).Should().Be(400);
+    }
+
+    [Then(@"I am successfully authenticated")]
+    public void ThenIAmSuccessfullyAuthenticated()
     {
         _registrationResponse.Should().NotBeNull();
         _registrationResponse!.AccessToken.Should().NotBeNullOrEmpty();
@@ -94,18 +106,18 @@ internal class ClinicSelfRegistrationSteps
         handler.CanReadToken(_registrationResponse.AccessToken).Should().BeTrue();
     }
 
-    [Then(@"the JWT contains claim ""(.*)""")]
-    public void ThenTheJwtContainsClaim(string claimName)
+    [Then(@"the session is linked to the clinic")]
+    public void ThenTheSessionIsLinkedToTheClinic()
     {
         _registrationResponse.Should().NotBeNull();
         var handler = new JwtSecurityTokenHandler();
         var token = handler.ReadJwtToken(_registrationResponse!.AccessToken);
-        token.Claims.Should().Contain(c => c.Type == claimName,
-            $"JWT should contain claim '{claimName}'");
+        token.Claims.Should().Contain(c => c.Type == "clinic_id",
+            "JWT should contain claim 'clinic_id'");
     }
 
-    [Then(@"a new clinic ""(.*)"" exists in the database")]
-    public async Task ThenANewClinicExistsInDatabase(string clinicName)
+    [Then(@"the clinic ""(.*)"" is created")]
+    public async Task ThenTheClinicIsCreated(string clinicName)
     {
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
@@ -180,8 +192,8 @@ internal class ClinicSelfRegistrationSteps
         _responseBody.Should().Contain(expectedText);
     }
 
-    [Then(@"the response contains validation error for ""(.*)""")]
-    public void ThenTheResponseContainsValidationErrorFor(string fieldName)
+    [Then(@"the operation is rejected because (.*) is invalid")]
+    public void ThenTheOperationIsRejectedBecauseFieldIsInvalid(string fieldName)
     {
         _responseBody.Should().NotBeNull();
         _responseBody!.ToLower().Should().Contain(fieldName.ToLower(),

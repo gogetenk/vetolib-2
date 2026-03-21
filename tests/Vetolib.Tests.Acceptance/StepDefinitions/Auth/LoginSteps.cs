@@ -198,8 +198,8 @@ internal class LoginSteps
         _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
-    [When(@"^I call POST /api/v1/auth/refresh with my refresh token$")]
-    public async Task WhenICallPostRefreshWithMyRefreshToken()
+    [When(@"^the user refreshes their session$")]
+    public async Task WhenTheUserRefreshesTheirSession()
     {
         _previousAuthToken = _authToken;
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
@@ -215,24 +215,24 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^I call POST /api/v1/auth/refresh with the revoked refresh token$")]
-    public async Task WhenICallPostRefreshWithTheRevokedRefreshToken()
+    [When(@"^the user refreshes their session with the revoked refresh token$")]
+    public async Task WhenTheUserRefreshesTheirSessionWithTheRevokedRefreshToken()
     {
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^I call POST /api/v1/auth/refresh with the expired refresh token$")]
-    public async Task WhenICallPostRefreshWithTheExpiredRefreshToken()
+    [When(@"^the user refreshes their session with the expired refresh token$")]
+    public async Task WhenTheUserRefreshesTheirSessionWithTheExpiredRefreshToken()
     {
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_authToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"^I call POST /api/v1/auth/logout$")]
-    public async Task WhenICallPostLogout()
+    [When(@"^the user logs out$")]
+    public async Task WhenTheUserLogsOut()
     {
         _response = await _client.PostAsync("/api/v1/auth/logout", null);
 
@@ -246,8 +246,8 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^I call GET /api/v1/auth/me$")]
-    public async Task WhenICallGetMe()
+    [When(@"^the user checks their profile$")]
+    public async Task WhenTheUserChecksTheirProfile()
     {
         _response = await _client.GetAsync("/api/v1/auth/me");
 
@@ -261,8 +261,8 @@ internal class LoginSteps
         }
     }
 
-    [When(@"^I call GET /api/v1/auth/me without authentication token$")]
-    public async Task WhenICallGetMeWithoutAuthenticationToken()
+    [When(@"^an unauthenticated user checks their profile$")]
+    public async Task WhenAnUnauthenticatedUserChecksTheirProfile()
     {
         var unauthClient = _factory.CreateClient();
         _response = await unauthClient.GetAsync("/api/v1/auth/me");
@@ -325,8 +325,8 @@ internal class LoginSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"I receive a valid JWT access token")]
-    public void ThenIReceiveAValidJwtAccessToken()
+    [Then(@"I am successfully authenticated")]
+    public void ThenIAmSuccessfullyAuthenticated()
     {
         _authToken.Should().NotBeNull();
         _authToken!.AccessToken.Should().NotBeNullOrEmpty();
@@ -355,14 +355,14 @@ internal class LoginSteps
             _authToken.User.VetLicenseNumber.Should().Be(row["VetLicenseNumber"]);
     }
 
-    [Then(@"the JWT contains the claim ""(.*)"" with value ""(.*)""")]
-    public void ThenTheJwtContainsTheClaimWithValue(string claimName, string expectedValue)
+    [Then(@"the session is linked to the clinic ""(.*)""")]
+    public void ThenTheSessionIsLinkedToTheClinic(string expectedValue)
     {
         _authToken.Should().NotBeNull();
         var handler = new JwtSecurityTokenHandler();
         var token = handler.ReadJwtToken(_authToken!.AccessToken);
-        var claim = token.Claims.FirstOrDefault(c => c.Type == claimName);
-        claim.Should().NotBeNull($"JWT should contain claim '{claimName}'");
+        var claim = token.Claims.FirstOrDefault(c => c.Type == "clinic_id");
+        claim.Should().NotBeNull("JWT should contain claim 'clinic_id'");
 
         var expectedGuid = _clinicIds.ContainsKey(expectedValue)
             ? _clinicIds[expectedValue].ToString()
@@ -385,8 +385,8 @@ internal class LoginSteps
             "Access token should expire after approximately 15 minutes");
     }
 
-    [Then(@"I receive a new valid JWT access token")]
-    public void ThenIReceiveANewValidJwtAccessToken()
+    [Then(@"I receive a new valid access token")]
+    public void ThenIReceiveANewValidAccessToken()
     {
         _authToken.Should().NotBeNull();
         _authToken!.AccessToken.Should().NotBeNullOrEmpty();
@@ -525,10 +525,16 @@ internal class LoginSteps
         user.IsLocked.Should().BeFalse();
     }
 
-    [Then(@"the system returns HTTP code (.*)")]
-    public void ThenTheSystemReturnsHttpCode(int statusCode)
+    [Then(@"the user must sign in")]
+    public void ThenTheUserMustSignIn()
     {
-        ((int)_response.StatusCode).Should().Be(statusCode);
+        _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
     [Then(@"the user must sign in")]
@@ -565,9 +571,9 @@ internal class LoginSteps
     }
 
     [Then(@"the message contains ""(.*)""")]
-    public void ThenTheMessageContains(string expectedPart)
+    public void ThenTheMessageContains(string reason)
     {
-        _errorResponseBody.Should().Contain(expectedPart);
+        _errorResponseBody.Should().Contain(reason);
     }
 
     // ─── Helpers ─────────────────────────────────────────────────

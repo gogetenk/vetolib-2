@@ -1,6 +1,6 @@
 # features/auth/login.feature
 
-Feature: Authentication and JWT token management
+Feature: Authentication and session management
   As a Vetolib user
   I want to authenticate with my email and password
   In order to access my clinic's features securely
@@ -16,14 +16,14 @@ Feature: Authentication and JWT token management
 
   # ─── Login — Happy Path ──────────────────────────────────
 
-  Scenario: Successful login returns a JWT and a refresh token
+  Scenario: Successful login authenticates the user
     When I log in with email "vet@happypaws.ae" and password "SecurePass1"
-    Then I receive a valid JWT access token
+    Then I am successfully authenticated
     And I receive a refresh token
     And the response contains the user information:
       | Email            | Role | ClinicId          | VetLicenseNumber |
       | vet@happypaws.ae | Vet  | clinic-happy-paws | UAE-VET-12345    |
-    And the JWT contains the claim "clinic_id" with value "clinic-happy-paws"
+    And the session is linked to the clinic "clinic-happy-paws"
 
   Scenario: The access token expires after 15 minutes
     When I log in with email "vet@happypaws.ae" and password "SecurePass1"
@@ -31,18 +31,18 @@ Feature: Authentication and JWT token management
 
   # ─── Refresh Token — Happy Path ──────────────────────────
 
-  Scenario: Refreshing the token returns a new pair and invalidates the old refresh token
+  Scenario: Refreshing the session returns a new pair and invalidates the old refresh token
     Given I am logged in as "vet@happypaws.ae"
     And I have a valid refresh token
-    When I call POST /api/v1/auth/refresh with my refresh token
-    Then I receive a new valid JWT access token
+    When the user refreshes their session
+    Then I receive a new valid access token
     And I receive a new refresh token different from the old one
     And the old refresh token is invalid
 
   Scenario: The new refresh token expires after 7 days
     Given I am logged in as "vet@happypaws.ae"
     And I have a valid refresh token
-    When I call POST /api/v1/auth/refresh with my refresh token
+    When the user refreshes their session
     Then the new refresh token has a validity duration of 7 days
 
   # ─── Logout — Happy Path ─────────────────────────────────
@@ -50,16 +50,16 @@ Feature: Authentication and JWT token management
   Scenario: Logout invalidates the refresh token
     Given I am logged in as "vet@happypaws.ae"
     And I have a valid refresh token
-    When I call POST /api/v1/auth/logout
+    When the user logs out
     Then the logout is confirmed
     And the refresh token is invalid
     And an attempt to refresh with the old token fails
 
-  # ─── GET /me — Happy Path ────────────────────────────────
+  # ─── Profile — Happy Path ────────────────────────────────
 
   Scenario: Retrieve the connected user profile
     Given I am logged in as "vet@happypaws.ae"
-    When I call GET /api/v1/auth/me
+    When the user checks their profile
     Then I receive my profile information:
       | Email            | Role | ClinicId          | VetLicenseNumber |
       | vet@happypaws.ae | Vet  | clinic-happy-paws | UAE-VET-12345    |
@@ -92,7 +92,7 @@ Feature: Authentication and JWT token management
   Scenario: Successful login after lockout period expires
     Given the account "vet@happypaws.ae" was locked 16 minutes ago
     When I log in with email "vet@happypaws.ae" and password "SecurePass1"
-    Then I receive a valid JWT access token
+    Then I am successfully authenticated
     And the failed attempts counter is reset
 
   # ─── Refresh Token — Errors ─────────────────────────────
@@ -100,19 +100,19 @@ Feature: Authentication and JWT token management
   Scenario: Refresh with a revoked token fails
     Given I am logged in as "vet@happypaws.ae"
     And my refresh token has been revoked by a previous refresh
-    When I call POST /api/v1/auth/refresh with the revoked refresh token
+    When the user refreshes their session with the revoked refresh token
     Then the system rejects with code "INVALID_REFRESH_TOKEN"
 
   Scenario: Refresh with an expired token fails
     Given I am logged in as "vet@happypaws.ae"
     And my refresh token has expired for more than 7 days
-    When I call POST /api/v1/auth/refresh with the expired refresh token
+    When the user refreshes their session with the expired refresh token
     Then the system rejects with code "INVALID_REFRESH_TOKEN"
 
-  # ─── GET /me — Errors ───────────────────────────────────
+  # ─── Profile — Errors ─────────────────────────────────
 
-  Scenario: Access to /me without token returns 401
-    When I call GET /api/v1/auth/me without authentication token
+  Scenario: Unauthenticated user cannot access their profile
+    When an unauthenticated user checks their profile
     Then the user must sign in
 
   # ─── Multi-tenancy ───────────────────────────────────────
@@ -123,7 +123,7 @@ Feature: Authentication and JWT token management
       | Email                | Password     | Role | ClinicId           |
       | recep@desertvet.ae   | SecurePass1  | Receptionist | clinic-desert-vet |
     When I log in with email "recep@desertvet.ae" and password "SecurePass1"
-    Then the JWT contains the claim "clinic_id" with value "clinic-desert-vet"
+    Then the session is linked to the clinic "clinic-desert-vet"
     And the requests from this user only return data from "clinic-desert-vet"
 
   # ─── User creation (minimal support) ────────────────────

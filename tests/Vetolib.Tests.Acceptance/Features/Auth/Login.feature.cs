@@ -17,14 +17,14 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class AuthenticationAndJWTTokenManagementFeature : object, global::Xunit.IClassFixture<AuthenticationAndJWTTokenManagementFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class AuthenticationAndSessionManagementFeature : object, global::Xunit.IClassFixture<AuthenticationAndSessionManagementFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "Authentication and JWT token management", "  As a Vetolib user\r\n  I want to authenticate with my email and password\r\n  In or" +
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Auth", "Authentication and session management", "  As a Vetolib user\r\n  I want to authenticate with my email and password\r\n  In or" +
                 "der to access my clinic\'s features securely", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
@@ -32,7 +32,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 1 "Login.feature"
 #line hidden
         
-        public AuthenticationAndJWTTokenManagementFeature(AuthenticationAndJWTTokenManagementFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public AuthenticationAndSessionManagementFeature(AuthenticationAndSessionManagementFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -111,33 +111,33 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 9
     await testRunner.GivenAsync("a clinic \"Happy Paws\" with identifier \"clinic-happy-paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-            global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                         "Email",
                         "Password",
                         "Role",
                         "ClinicId",
                         "VetLicenseNumber"});
-            table24.AddRow(new string[] {
+            table1.AddRow(new string[] {
                         "vet@happypaws.ae",
                         "SecurePass1",
                         "Vet",
                         "clinic-happy-paws",
                         "UAE-VET-12345"});
 #line 10
-    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table24, "And ");
+    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table1, "And ");
 #line hidden
-            global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                         "Email",
                         "Password",
                         "Role",
                         "ClinicId"});
-            table25.AddRow(new string[] {
+            table2.AddRow(new string[] {
                         "admin@happypaws.ae",
                         "AdminPass1",
                         "Admin",
                         "clinic-happy-paws"});
 #line 13
-    await testRunner.AndAsync("an existing admin user:", ((string)(null)), table25, "And ");
+    await testRunner.AndAsync("an existing admin user:", ((string)(null)), table2, "And ");
 #line hidden
         }
         
@@ -171,15 +171,15 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Successful login returns a JWT and a refresh token")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
-        [global::Xunit.TraitAttribute("Description", "Successful login returns a JWT and a refresh token")]
-        public async global::System.Threading.Tasks.Task SuccessfulLoginReturnsAJWTAndARefreshToken()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successful login authenticates the user")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
+        [global::Xunit.TraitAttribute("Description", "Successful login authenticates the user")]
+        public async global::System.Threading.Tasks.Task SuccessfulLoginAuthenticatesTheUser()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successful login returns a JWT and a refresh token", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successful login authenticates the user", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 19
@@ -199,33 +199,33 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 21
-    await testRunner.ThenAsync("I receive a valid JWT access token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I am successfully authenticated", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 22
     await testRunner.AndAsync("I receive a refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Role",
                             "ClinicId",
                             "VetLicenseNumber"});
-                table26.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "vet@happypaws.ae",
                             "Vet",
                             "clinic-happy-paws",
                             "UAE-VET-12345"});
 #line 23
-    await testRunner.AndAsync("the response contains the user information:", ((string)(null)), table26, "And ");
+    await testRunner.AndAsync("the response contains the user information:", ((string)(null)), table3, "And ");
 #line hidden
 #line 26
-    await testRunner.AndAsync("the JWT contains the claim \"clinic_id\" with value \"clinic-happy-paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the session is linked to the clinic \"clinic-happy-paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="The access token expires after 15 minutes")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "The access token expires after 15 minutes")]
         public async global::System.Threading.Tasks.Task TheAccessTokenExpiresAfter15Minutes()
         {
@@ -258,15 +258,15 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Refreshing the token returns a new pair and invalidates the old refresh token")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
-        [global::Xunit.TraitAttribute("Description", "Refreshing the token returns a new pair and invalidates the old refresh token")]
-        public async global::System.Threading.Tasks.Task RefreshingTheTokenReturnsANewPairAndInvalidatesTheOldRefreshToken()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Refreshing the session returns a new pair and invalidates the old refresh token")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
+        [global::Xunit.TraitAttribute("Description", "Refreshing the session returns a new pair and invalidates the old refresh token")]
+        public async global::System.Threading.Tasks.Task RefreshingTheSessionReturnsANewPairAndInvalidatesTheOldRefreshToken()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Refreshing the token returns a new pair and invalidates the old refresh token", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Refreshing the session returns a new pair and invalidates the old refresh token", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 34
@@ -289,10 +289,10 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("I have a valid refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 37
-    await testRunner.WhenAsync("I call POST /api/v1/auth/refresh with my refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("the user refreshes their session", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 38
-    await testRunner.ThenAsync("I receive a new valid JWT access token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I receive a new valid access token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 39
     await testRunner.AndAsync("I receive a new refresh token different from the old one", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -305,7 +305,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="The new refresh token expires after 7 days")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "The new refresh token expires after 7 days")]
         public async global::System.Threading.Tasks.Task TheNewRefreshTokenExpiresAfter7Days()
         {
@@ -335,7 +335,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("I have a valid refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 45
-    await testRunner.WhenAsync("I call POST /api/v1/auth/refresh with my refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("the user refreshes their session", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 46
     await testRunner.ThenAsync("the new refresh token has a validity duration of 7 days", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -345,7 +345,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Logout invalidates the refresh token")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Logout invalidates the refresh token")]
         public async global::System.Threading.Tasks.Task LogoutInvalidatesTheRefreshToken()
         {
@@ -375,7 +375,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("I have a valid refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 53
-    await testRunner.WhenAsync("I call POST /api/v1/auth/logout", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("the user logs out", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 54
     await testRunner.ThenAsync("the logout is confirmed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -391,7 +391,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Retrieve the connected user profile")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Retrieve the connected user profile")]
         public async global::System.Threading.Tasks.Task RetrieveTheConnectedUserProfile()
         {
@@ -418,27 +418,27 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.GivenAsync("I am logged in as \"vet@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 62
-    await testRunner.WhenAsync("I call GET /api/v1/auth/me", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("the user checks their profile", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table27 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Role",
                             "ClinicId",
                             "VetLicenseNumber"});
-                table27.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "vet@happypaws.ae",
                             "Vet",
                             "clinic-happy-paws",
                             "UAE-VET-12345"});
 #line 63
-    await testRunner.ThenAsync("I receive my profile information:", ((string)(null)), table27, "Then ");
+    await testRunner.ThenAsync("I receive my profile information:", ((string)(null)), table4, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Incorrect password returns an error")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Incorrect password returns an error")]
         public async global::System.Threading.Tasks.Task IncorrectPasswordReturnsAnError()
         {
@@ -468,14 +468,14 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.ThenAsync("the system rejects with code \"INVALID_CREDENTIALS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 72
-    await testRunner.AndAsync("the error message is \"Email ou mot de passe incorrect\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the error message is \"Invalid email or password\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Non-existent email returns an error")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Non-existent email returns an error")]
         public async global::System.Threading.Tasks.Task Non_ExistentEmailReturnsAnError()
         {
@@ -505,14 +505,14 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.ThenAsync("the system rejects with code \"INVALID_CREDENTIALS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 77
-    await testRunner.AndAsync("the error message is \"Email ou mot de passe incorrect\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the error message is \"Invalid email or password\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="5 failed attempts lock the account for 15 minutes")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "5 failed attempts lock the account for 15 minutes")]
         public async global::System.Threading.Tasks.Task _5FailedAttemptsLockTheAccountFor15Minutes()
         {
@@ -549,7 +549,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Login refused during lockout period even with the correct password")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Login refused during lockout period even with the correct password")]
         public async global::System.Threading.Tasks.Task LoginRefusedDuringLockoutPeriodEvenWithTheCorrectPassword()
         {
@@ -589,7 +589,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Successful login after lockout period expires")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Successful login after lockout period expires")]
         public async global::System.Threading.Tasks.Task SuccessfulLoginAfterLockoutPeriodExpires()
         {
@@ -619,7 +619,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 95
-    await testRunner.ThenAsync("I receive a valid JWT access token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I am successfully authenticated", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 96
     await testRunner.AndAsync("the failed attempts counter is reset", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -629,7 +629,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Refresh with a revoked token fails")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Refresh with a revoked token fails")]
         public async global::System.Threading.Tasks.Task RefreshWithARevokedTokenFails()
         {
@@ -659,7 +659,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("my refresh token has been revoked by a previous refresh", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 103
-    await testRunner.WhenAsync("I call POST /api/v1/auth/refresh with the revoked refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("the user refreshes their session with the revoked refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 104
     await testRunner.ThenAsync("the system rejects with code \"INVALID_REFRESH_TOKEN\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -669,7 +669,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="Refresh with an expired token fails")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Refresh with an expired token fails")]
         public async global::System.Threading.Tasks.Task RefreshWithAnExpiredTokenFails()
         {
@@ -699,7 +699,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.AndAsync("my refresh token has expired for more than 7 days", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 109
-    await testRunner.WhenAsync("I call POST /api/v1/auth/refresh with the expired refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("the user refreshes their session with the expired refresh token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 110
     await testRunner.ThenAsync("the system rejects with code \"INVALID_REFRESH_TOKEN\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -708,15 +708,15 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Access to /me without token returns 401")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
-        [global::Xunit.TraitAttribute("Description", "Access to /me without token returns 401")]
-        public async global::System.Threading.Tasks.Task AccessToMeWithoutTokenReturns401()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Unauthenticated user cannot access their profile")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
+        [global::Xunit.TraitAttribute("Description", "Unauthenticated user cannot access their profile")]
+        public async global::System.Threading.Tasks.Task UnauthenticatedUserCannotAccessTheirProfile()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "13";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Access to /me without token returns 401", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Unauthenticated user cannot access their profile", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 114
@@ -733,17 +733,17 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 115
-    await testRunner.WhenAsync("I call GET /api/v1/auth/me without authentication token", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("an unauthenticated user checks their profile", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 116
-    await testRunner.ThenAsync("the system returns HTTP code 401", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user must sign in", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="A user from clinic A cannot see clinic B data")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "A user from clinic A cannot see clinic B data")]
         public async global::System.Threading.Tasks.Task AUserFromClinicACannotSeeClinicBData()
         {
@@ -769,24 +769,24 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 121
     await testRunner.GivenAsync("a clinic \"Desert Vet\" with identifier \"clinic-desert-vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table28 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role",
                             "ClinicId"});
-                table28.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "recep@desertvet.ae",
                             "SecurePass1",
                             "Receptionist",
                             "clinic-desert-vet"});
 #line 122
-    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table28, "And ");
+    await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table5, "And ");
 #line hidden
 #line 125
     await testRunner.WhenAsync("I log in with email \"recep@desertvet.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 126
-    await testRunner.ThenAsync("the JWT contains the claim \"clinic_id\" with value \"clinic-desert-vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the session is linked to the clinic \"clinic-desert-vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 127
     await testRunner.AndAsync("the requests from this user only return data from \"clinic-desert-vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -796,7 +796,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="An admin can create a user")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "An admin can create a user")]
         public async global::System.Threading.Tasks.Task AnAdminCanCreateAUser()
         {
@@ -822,18 +822,18 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 132
     await testRunner.GivenAsync("I am logged in as \"admin@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table29 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role",
                             "VetLicenseNumber"});
-                table29.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "newvet@happypaws.ae",
                             "NewVetPass1",
                             "Vet",
                             "UAE-VET-99999"});
 #line 133
-    await testRunner.WhenAsync("I create a user with the following information:", ((string)(null)), table29, "When ");
+    await testRunner.WhenAsync("I create a user with the following information:", ((string)(null)), table6, "When ");
 #line hidden
 #line 136
     await testRunner.ThenAsync("the user is created successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -846,7 +846,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="A non-admin cannot create a user")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "A non-admin cannot create a user")]
         public async global::System.Threading.Tasks.Task ANon_AdminCannotCreateAUser()
         {
@@ -872,16 +872,16 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 140
     await testRunner.GivenAsync("I am logged in as \"vet@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table30 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role"});
-                table30.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "autre@happypaws.ae",
                             "OtherPass1",
                             "Receptionist"});
 #line 141
-    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table30, "When ");
+    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table7, "When ");
 #line hidden
 #line 144
     await testRunner.ThenAsync("the system rejects with code \"FORBIDDEN\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -891,7 +891,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         }
         
         [global::Xunit.SkippableFactAttribute(DisplayName="The Vet role requires a veterinary license number")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "The Vet role requires a veterinary license number")]
         public async global::System.Threading.Tasks.Task TheVetRoleRequiresAVeterinaryLicenseNumber()
         {
@@ -917,42 +917,41 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
 #line 147
     await testRunner.GivenAsync("I am logged in as \"admin@happypaws.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table31 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
                             "Email",
                             "Password",
                             "Role",
                             "VetLicenseNumber"});
-                table31.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "novet@happypaws.ae",
                             "NoVetPass1",
                             "Vet",
                             ""});
 #line 148
-    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table31, "When ");
+    await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table8, "When ");
 #line hidden
 #line 151
     await testRunner.ThenAsync("the system rejects with code \"VET_LICENSE_REQUIRED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 152
-    await testRunner.AndAsync("the error message is \"Un numero de licence veterinaire est requis pour le role Ve" +
-                        "t\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the error message is \"A veterinary license number is required for the Vet role\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
         [global::Xunit.SkippableTheoryAttribute(DisplayName="Invalid password during user creation")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and JWT token management")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Invalid password during user creation")]
-        [global::Xunit.InlineDataAttribute("Short1", "Le mot de passe doit contenir au moins 8 caracteres", "18", new string[0])]
-        [global::Xunit.InlineDataAttribute("alllowercase1", "Le mot de passe doit contenir au moins une majuscule", "19", new string[0])]
-        [global::Xunit.InlineDataAttribute("AllUpperCase", "Le mot de passe doit contenir au moins un chiffre", "20", new string[0])]
-        public async global::System.Threading.Tasks.Task InvalidPasswordDuringUserCreation(string password, string raison, string @__pickleIndex, string[] exampleTags)
+        [global::Xunit.InlineDataAttribute("Short1", "Password must contain at least 8 characters", "18", new string[0])]
+        [global::Xunit.InlineDataAttribute("alllowercase1", "Password must contain at least one uppercase letter", "19", new string[0])]
+        [global::Xunit.InlineDataAttribute("AllUpperCase", "Password must contain at least one digit", "20", new string[0])]
+        public async global::System.Threading.Tasks.Task InvalidPasswordDuringUserCreation(string password, string reason, string @__pickleIndex, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("password", password);
-            argumentsOfScenario.Add("raison", raison);
+            argumentsOfScenario.Add("reason", reason);
             string pickleIndex = @__pickleIndex;
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Invalid password during user creation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
@@ -980,7 +979,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.ThenAsync("the system rejects with code \"VALIDATION_ERROR\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 160
-    await testRunner.AndAsync(string.Format("the message contains \"{0}\"", raison), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync(string.Format("the message contains \"{0}\"", reason), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -993,12 +992,12 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await AuthenticationAndJWTTokenManagementFeature.FeatureSetupAsync();
+                await AuthenticationAndSessionManagementFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await AuthenticationAndJWTTokenManagementFeature.FeatureTearDownAsync();
+                await AuthenticationAndSessionManagementFeature.FeatureTearDownAsync();
             }
         }
     }

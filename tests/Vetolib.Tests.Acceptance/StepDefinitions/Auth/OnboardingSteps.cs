@@ -417,10 +417,10 @@ internal class OnboardingSteps
         state!.Steps.Count.Should().Be(count, $"Assistant role should have {count} steps");
     }
 
-    [Then(@"the response status is (\d+)")]
-    public void ThenTheResponseStatusIs(int statusCode)
+    [Then(@"the user must sign in")]
+    public void ThenTheUserMustSignIn()
     {
-        ((int)_response.StatusCode).Should().Be(statusCode);
+        _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Then(@"the user must sign in")]

@@ -120,8 +120,8 @@ internal class RbacSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"the system returns 403")]
-    public void ThenTheSystemReturns403()
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden,
             $"Expected 403 Forbidden but got {(int)_response.StatusCode} {_response.StatusCode}");
