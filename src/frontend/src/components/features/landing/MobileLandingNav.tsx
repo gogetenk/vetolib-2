@@ -61,18 +61,21 @@ export function MobileLandingNav({ links, signInLabel, ctaLabel, loginHref, sign
               </a>
             ))}
             <div className="mt-4 flex flex-col gap-2 border-t pt-4">
-              <Link href={loginHref} onClick={() => setOpen(false)}>
-                <Button variant="outline" className="w-full" data-testid="btn-mobile-signin">
-                  {signInLabel}
-                </Button>
+              <Link
+                href={loginHref}
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground w-full"
+                data-testid="btn-mobile-signin"
+              >
+                {signInLabel}
               </Link>
-              <Link href={signupHref} onClick={() => setOpen(false)}>
-                <Button
-                  className="w-full bg-emerald-700 text-white hover:bg-emerald-800"
-                  data-testid="btn-mobile-start-trial"
-                >
-                  {ctaLabel}
-                </Button>
+              <Link
+                href={signupHref}
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center rounded-md bg-emerald-700 text-white px-4 py-2 text-sm font-medium hover:bg-emerald-800 w-full"
+                data-testid="btn-mobile-start-trial"
+              >
+                {ctaLabel}
               </Link>
             </div>
           </nav>

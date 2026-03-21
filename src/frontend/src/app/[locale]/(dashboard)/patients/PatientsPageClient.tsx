@@ -27,15 +27,17 @@ export default function PatientsPageClient() {
 
   const canWrite = role === 'VET' || role === 'ADMIN'
 
-  const fetchPatients = useCallback(async (search?: string) => {
+  const fetchPatients = useCallback(async (search?: string): Promise<number> => {
     setIsLoading(true)
     setError(null)
     try {
       const result = await getPatients({ search: search || undefined })
       setPatients(result.items)
+      return result.items.length
     } catch {
       setError('Failed to load patients')
       setPatients([])
+      return 0
     } finally {
       setIsLoading(false)
     }
@@ -48,19 +50,16 @@ export default function PatientsPageClient() {
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (searchQuery.length > 0) {
-        await fetchPatients(searchQuery)
-        // Track after results are loaded (patients state updated async, use local ref)
-        // We track optimistically here; has_results is determined after fetch
+        const count = await fetchPatients(searchQuery)
         trackEvent(AnalyticsEvents.PATIENT_SEARCHED, {
           query_length: String(searchQuery.length),
-          has_results: String(patients.length > 0),
+          has_results: String(count > 0),
         })
       } else {
         fetchPatients(searchQuery)
       }
     }, 300)
     return () => clearTimeout(timer)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, fetchPatients])
 
   return (
