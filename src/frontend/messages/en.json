@@ -1077,11 +1077,21 @@
         "digitail": "Digitail"
       },
       "rows": {
-        "arabic": { "feature": "Arabic + English" },
-        "whatsapp": { "feature": "WhatsApp Integration" },
-        "ai_triage": { "feature": "AI Triage" },
-        "uae_optimized": { "feature": "UAE Optimized" },
-        "price": { "feature": "Affordable Pricing" }
+        "arabic": {
+          "feature": "Arabic + English"
+        },
+        "whatsapp": {
+          "feature": "WhatsApp Integration"
+        },
+        "ai_triage": {
+          "feature": "AI Triage"
+        },
+        "uae_optimized": {
+          "feature": "UAE Optimized"
+        },
+        "price": {
+          "feature": "Affordable Pricing"
+        }
       }
     },
     "trust_signals": {
