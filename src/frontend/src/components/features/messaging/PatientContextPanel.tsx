@@ -53,8 +53,8 @@ export function PatientContextPanel({
         data-patient-linked="false"
       >
         <div className="flex items-center gap-2 mb-2">
-          <User className="h-4 w-4 text-[#303ef5]" aria-hidden />
-          <h3 className="text-[13px] font-bold text-[#061e44]">
+          <User className="h-4 w-4 text-primary" aria-hidden />
+          <h3 className="text-[13px] font-bold text-foreground">
             {t('patient_context_title')}
           </h3>
         </div>
@@ -82,15 +82,15 @@ export function PatientContextPanel({
       data-patient-linked="true"
     >
       <div className="flex items-center gap-2 mb-3">
-        <User className="h-4 w-4 text-[#303ef5]" aria-hidden />
-        <h3 className="text-[13px] font-bold text-[#061e44]">{t('patient_context_title')}</h3>
+        <User className="h-4 w-4 text-primary" aria-hidden />
+        <h3 className="text-[13px] font-bold text-foreground">{t('patient_context_title')}</h3>
       </div>
 
       {context ? (
         <div className="space-y-2 text-[14px]" data-testid="patient-context-details">
           {/* Pet name + species */}
           <div className="flex items-center justify-between">
-            <span className="font-bold text-[14px] text-[#061e44]" data-testid="patient-name">{context.patientName}</span>
+            <span className="font-bold text-[14px] text-foreground" data-testid="patient-name">{context.patientName}</span>
             <Badge variant="outline" className="text-xs" data-testid="patient-species">
               {context.species}
             </Badge>

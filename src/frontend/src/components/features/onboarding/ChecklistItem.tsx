@@ -32,7 +32,7 @@ export function ChecklistItem({ step, onComplete }: ChecklistItemProps) {
         'group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start transition-colors',
         step.completed
           ? 'cursor-default text-muted-foreground hover:bg-transparent'
-          : 'hover:bg-[#f4f6f9]',
+          : 'hover:bg-muted',
       ].join(' ')}
       aria-disabled={step.completed}
     >
@@ -43,7 +43,7 @@ export function ChecklistItem({ step, onComplete }: ChecklistItemProps) {
           'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300',
           step.completed
             ? 'scale-110 border-green-500 bg-green-500 opacity-100'
-            : 'border-border/80 bg-white opacity-100 group-hover:border-[#303ef5]',
+            : 'border-border/80 bg-white opacity-100 group-hover:border-primary',
         ].join(' ')}
         aria-hidden="true"
       >

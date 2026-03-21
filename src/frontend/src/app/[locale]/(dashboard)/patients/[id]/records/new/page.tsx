@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { MedicalRecordForm } from '@/components/features/patients/MedicalRecordForm'
 import { getPatient } from '@/lib/api/patients'
 import type { PatientDto } from '@/lib/api/patients'
@@ -53,13 +54,13 @@ export default function NewMedicalRecordPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6 max-w-5xl mx-auto" data-testid="new-medical-record-page">
+    <PageContainer variant="narrow" data-testid="new-medical-record-page">
       <Link href={`../../${id}`}>
         <Button
           variant="ghost"
           size="sm"
           data-testid="back-to-patient-btn"
-          className="-ms-2 group/back text-muted-foreground hover:text-[#061e44]"
+          className="-ms-2 group/back text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" />
           {patient.name}&apos;s record
@@ -67,8 +68,8 @@ export default function NewMedicalRecordPage() {
       </Link>
 
       <div>
-        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="new-record-title">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="new-record-title">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           New Medical Record
         </h1>
         <p className="text-[13px] text-muted-foreground mt-1 ml-3">
@@ -82,6 +83,6 @@ export default function NewMedicalRecordPage() {
         patientSpecies={patient.species}
         patientWeightKg={patient.weightKg}
       />
-    </div>
+    </PageContainer>
   )
 }

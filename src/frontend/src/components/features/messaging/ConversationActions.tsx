@@ -90,10 +90,10 @@ export function ConversationActions({
                 type="button"
                 role="menuitem"
                 data-testid="transfer-btn"
-                className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors"
+                className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted transition-colors"
                 onClick={() => { setTransferOpen(true); setOpen(false) }}
               >
-                <ArrowRightLeft className="h-4 w-4 text-[#303ef5]" />
+                <ArrowRightLeft className="h-4 w-4 text-primary" />
                 {t('action_transfer')}
               </button>
 
@@ -102,10 +102,10 @@ export function ConversationActions({
                 type="button"
                 role="menuitem"
                 data-testid="convert-appointment-btn"
-                className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors"
+                className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted transition-colors"
                 onClick={() => { onConvertToAppointment(); setOpen(false) }}
               >
-                <CalendarPlus className="h-4 w-4 text-[#303ef5]" />
+                <CalendarPlus className="h-4 w-4 text-primary" />
                 {t('action_convert_appointment')}
               </button>
 
@@ -115,7 +115,7 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="resolve-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted transition-colors"
                   onClick={() => { void onStatusChange('Resolved'); setOpen(false) }}
                 >
                   <CheckCircle className="h-4 w-4 text-[#22c55e]" />
@@ -129,7 +129,7 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="close-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted transition-colors"
                   onClick={() => { void onStatusChange('Closed'); setOpen(false) }}
                 >
                   <Archive className="h-4 w-4 text-muted-foreground" />
@@ -143,10 +143,10 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="reopen-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted transition-colors"
                   onClick={() => { void onStatusChange('Open'); setOpen(false) }}
                 >
-                  <RotateCcw className="h-4 w-4 text-[#303ef5]" />
+                  <RotateCcw className="h-4 w-4 text-primary" />
                   {t('action_reopen')}
                 </button>
               )}
@@ -169,7 +169,7 @@ export function ConversationActions({
                   type="button"
                   role="menuitem"
                   data-testid="reassign-btn"
-                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-[#061e44] hover:bg-[#f4f6f9] transition-colors"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted transition-colors"
                   onClick={() => { setTransferOpen(true); setOpen(false) }}
                 >
                   <UserCog className="h-4 w-4 text-muted-foreground" />
@@ -196,10 +196,10 @@ export function ConversationActions({
             aria-modal="true"
             aria-labelledby="transfer-dialog-title"
           >
-            <h2 id="transfer-dialog-title" className="text-[15px] font-bold text-[#061e44] mb-4">
+            <h2 id="transfer-dialog-title" className="text-[15px] font-bold text-foreground mb-4">
               {t('transfer_dialog_title')}
             </h2>
-            <label htmlFor="transfer-role-select" className="text-[13px] font-semibold text-[#061e44] block mb-2">
+            <label htmlFor="transfer-role-select" className="text-[13px] font-semibold text-foreground block mb-2">
               {t('transfer_to_role')}
             </label>
             <select
@@ -207,7 +207,7 @@ export function ConversationActions({
               data-testid="transfer-role-select"
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
-              className="w-full rounded-xl border border-border/80 bg-transparent px-3 py-2 text-[13px] focus:outline-none focus:ring-2 focus:ring-[#303ef5]/20 mb-4"
+              className="w-full rounded-xl border border-border/80 bg-transparent px-3 py-2 text-[13px] focus:outline-none focus:ring-2 focus:ring-primary/20 mb-4"
             >
               <option value="">{t('select_role')}</option>
               {ROLES_FOR_TRANSFER.map((r) => (
@@ -228,7 +228,7 @@ export function ConversationActions({
                 onClick={() => setTransferOpen(false)}
                 data-testid="transfer-cancel-btn"
                 disabled={isTransferring}
-                className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                className="rounded-xl font-semibold border-border/80 hover:bg-muted"
               >
                 {t('cancel')}
               </Button>
@@ -238,7 +238,7 @@ export function ConversationActions({
                 onClick={handleTransferConfirm}
                 data-testid="transfer-confirm-btn"
                 disabled={!selectedRole || isTransferring}
-                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
                 {isTransferring ? t('transferring') : t('action_transfer')}
               </Button>

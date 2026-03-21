@@ -64,14 +64,14 @@ export function Header() {
         <Link
           href={`/${locale}/appointments`}
           data-testid="header-logo"
-          className="flex items-center justify-center font-bold text-2xl text-[#061e44] tracking-tighter"
+          className="flex items-center justify-center font-bold text-2xl text-foreground tracking-tighter"
         >
           <PawPrint className="h-6 w-6 mr-1" />
           <span>Veto</span>
         </Link>
 
         {/* Structure Selector Button */}
-        <button className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/80 bg-white hover:bg-[#f4f6f9] transition-colors text-[13px] font-semibold text-[#061e44]">
+        <button className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/80 bg-white hover:bg-muted transition-colors text-[13px] font-semibold text-foreground">
           <span className="max-w-[150px] truncate">{clinicName}</span>
           <ChevronDown className="h-4 w-4 text-muted-foreground" />
         </button>
@@ -86,19 +86,19 @@ export function Header() {
                 href={`/${locale}${item.href}`}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "relative flex items-center h-full px-4 text-[13px] font-semibold transition-colors hover:text-[#303ef5]",
-                  isActive ? "text-[#303ef5]" : "text-muted-foreground"
+                  "relative flex items-center h-full px-4 text-[13px] font-semibold transition-colors hover:text-primary",
+                  isActive ? "text-primary" : "text-muted-foreground"
                 )}
               >
                 {item.label}
                 {item.badge && (
-                  <span className="ml-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#303ef5] text-[10px] font-bold text-white px-1">
+                  <span className="ml-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground px-1">
                     {item.badge}
                   </span>
                 )}
                 {/* Active indicator bar at bottom */}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#303ef5] rounded-t-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-full" />
                 )}
               </Link>
             );

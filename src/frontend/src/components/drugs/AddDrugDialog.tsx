@@ -92,13 +92,13 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
     >
       <DialogContent className="sm:max-w-md rounded-2xl" data-testid="add-drug-dialog">
         <DialogHeader>
-          <DialogTitle className="text-[18px] font-bold text-[#061e44]" data-testid="add-drug-dialog-title">{t('form.add_title')}</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-foreground" data-testid="add-drug-dialog-title">{t('form.add_title')}</DialogTitle>
           <DialogDescription>{t('form.add_description')}</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4" data-testid="add-drug-form">
           <div className="space-y-1">
-            <Label htmlFor="drug-inn-name" className="text-[13px] font-semibold text-[#061e44]">
+            <Label htmlFor="drug-inn-name" className="text-[13px] font-semibold text-foreground">
               {t('form.inn_name')} <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -108,12 +108,12 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
               value={innName}
               onChange={(e) => setInnName(e.target.value)}
               required
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="drug-display-name" className="text-[13px] font-semibold text-[#061e44]">
+            <Label htmlFor="drug-display-name" className="text-[13px] font-semibold text-foreground">
               {t('form.display_name')} <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -123,12 +123,12 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               required
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
           <div className="space-y-1">
-            <Label className="text-[13px] font-semibold text-[#061e44]">
+            <Label className="text-[13px] font-semibold text-foreground">
               {t('form.category')} <span className="text-destructive">*</span>
             </Label>
             <Select value={category} onValueChange={(v) => { if (v) setCategory(v as DrugCategory) }}>
@@ -150,7 +150,7 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="drug-common-dosage" className="text-[13px] font-semibold text-[#061e44]">
+            <Label htmlFor="drug-common-dosage" className="text-[13px] font-semibold text-foreground">
               {t('form.common_dosage')} <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -160,12 +160,12 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
               value={commonDosage}
               onChange={(e) => setCommonDosage(e.target.value)}
               required
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
           <div className="flex items-center justify-between">
-            <Label htmlFor="drug-requires-prescription" className="text-[13px] font-semibold text-[#061e44]">{t('form.requires_prescription')}</Label>
+            <Label htmlFor="drug-requires-prescription" className="text-[13px] font-semibold text-foreground">{t('form.requires_prescription')}</Label>
             <Switch
               id="drug-requires-prescription"
               data-testid="switch-drug-requires-prescription"
@@ -180,7 +180,7 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
               variant="outline"
               onClick={() => onOpenChange(false)}
               data-testid="btn-cancel-add-drug"
-              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
             >
               {t('form.cancel')}
             </Button>
@@ -188,7 +188,7 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
               type="submit"
               disabled={isSubmitting || !innName.trim() || !displayName.trim() || !commonDosage.trim()}
               data-testid="btn-submit-add-drug"
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               {isSubmitting ? t('form.submitting') : t('form.submit')}
             </Button>

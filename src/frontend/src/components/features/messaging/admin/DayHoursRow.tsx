@@ -37,10 +37,10 @@ export function DayHoursRow({ hours, onChange }: DayHoursRowProps) {
 
   return (
     <tr
-      className="border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
+      className="border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
       data-testid={`day-row-${dayName}`}
     >
-      <td className="px-4 py-3 text-[13px] font-semibold text-[#061e44] w-32">
+      <td className="px-4 py-3 text-[13px] font-semibold text-foreground w-32">
         {t(`days.${dayName}`)}
       </td>
       <td className="px-4 py-3">

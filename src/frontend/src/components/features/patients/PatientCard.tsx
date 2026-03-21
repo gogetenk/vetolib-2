@@ -46,7 +46,7 @@ export function PatientCard({ patient }: PatientCardProps) {
               </div>
               <div className="min-w-0 flex flex-col">
                 <p
-                  className="truncate text-[15px] font-bold text-[#061e44] leading-tight"
+                  className="truncate text-[15px] font-bold text-foreground leading-tight"
                   data-testid={`patient-name-${patient.id}`}
                 >
                   {patient.name}
@@ -57,13 +57,13 @@ export function PatientCard({ patient }: PatientCardProps) {
               </div>
             </div>
 
-            <span className="shrink-0 text-[12px] font-bold text-[#303ef5] bg-[#eef2fd] px-2 py-0.5 rounded-md" data-testid={`patient-age-${patient.id}`}>
+            <span className="shrink-0 text-[12px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md" data-testid={`patient-age-${patient.id}`}>
               {patient.ageYears}y {patient.gender}
             </span>
           </div>
 
           <div className="space-y-1 mb-6 flex-1">
-            <p data-testid={`patient-owner-${patient.id}`} className="text-[13px] flex items-center gap-1.5 text-[#061e44] font-medium">
+            <p data-testid={`patient-owner-${patient.id}`} className="text-[13px] flex items-center gap-1.5 text-foreground font-medium">
               <span className="text-muted-foreground">Owner:</span> {patient.ownerName}
             </p>
             <p data-testid={`patient-owner-phone-${patient.id}`} className="text-[13px] text-muted-foreground font-medium">
@@ -73,10 +73,10 @@ export function PatientCard({ patient }: PatientCardProps) {
 
           <div className="pt-4 border-t border-border/30 flex justify-between items-center text-[12px] text-muted-foreground mt-auto">
             <span data-testid={`patient-last-visit-${patient.id}`}>
-              Last visit: <LtrText className="font-semibold text-[#061e44] ml-1">{formatDate(patient.lastVisitDate)}</LtrText>
+              Last visit: <LtrText className="font-semibold text-foreground ml-1">{formatDate(patient.lastVisitDate)}</LtrText>
             </span>
             <span data-testid={`patient-next-appt-${patient.id}`}>
-              Next: <LtrText className="font-bold text-[#303ef5] ml-1">{formatDate(patient.nextAppointmentDate)}</LtrText>
+              Next: <LtrText className="font-bold text-primary ml-1">{formatDate(patient.nextAppointmentDate)}</LtrText>
             </span>
           </div>
         </CardContent>

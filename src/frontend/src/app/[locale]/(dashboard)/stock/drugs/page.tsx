@@ -6,6 +6,7 @@ import { Plus, ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { DrugCatalogTable } from '@/components/drugs/DrugCatalogTable'
 import { AddDrugDialog } from '@/components/drugs/AddDrugDialog'
 import { getDrugCatalog, createDrug } from '@/lib/api/drugs'
@@ -61,7 +62,7 @@ export default function DrugCatalogPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="drug-catalog-page">
+    <PageContainer data-testid="drug-catalog-page">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Button
@@ -69,19 +70,19 @@ export default function DrugCatalogPage() {
             size="sm"
             onClick={() => router.push(`/${locale}/stock`)}
             data-testid="btn-back-to-stock"
-            className="rounded-xl border-border/80 hover:bg-[#f4f6f9]"
+            className="rounded-xl border-border/80 hover:bg-muted"
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="drug-catalog-title">
-            <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+          <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="drug-catalog-title">
+            <span className="w-1 h-5 bg-primary rounded-full"></span>
             {t('title')}
           </h1>
         </div>
         <Button
           onClick={() => setShowAddDialog(true)}
           data-testid="btn-add-drug"
-          className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
         >
           <Plus className="me-1.5 h-4 w-4" />
           {t('add_drug')}
@@ -92,7 +93,7 @@ export default function DrugCatalogPage() {
       <div className="flex gap-4" data-testid="drug-catalog-stats">
         <div className="bg-white border border-border/80 rounded-xl px-4 py-3 shadow-sm">
           <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('stats.total')}</p>
-          <p className="text-lg font-bold text-[#061e44] tabular-nums" data-testid="stat-total-drugs">{drugs.length}</p>
+          <p className="text-lg font-bold text-foreground tabular-nums" data-testid="stat-total-drugs">{drugs.length}</p>
         </div>
         <div className="bg-white border border-border/80 rounded-xl px-4 py-3 shadow-sm">
           <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('stats.prescription')}</p>
@@ -138,6 +139,6 @@ export default function DrugCatalogPage() {
         onOpenChange={setShowAddDialog}
         onSubmit={handleAddDrug}
       />
-    </div>
+    </PageContainer>
   )
 }

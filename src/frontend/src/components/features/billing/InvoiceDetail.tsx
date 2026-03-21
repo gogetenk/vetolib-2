@@ -42,13 +42,13 @@ import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
 const STATUS_BADGE_STYLES: Record<InvoiceStatus, string> = {
   DRAFT: 'bg-amber-50 text-amber-700 border-amber-200',
-  SENT: 'bg-[#eef2fd] text-[#303ef5] border-[#303ef5]/30',
+  SENT: 'bg-primary/10 text-primary border-primary/30',
   PAID: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  CANCELLED: 'bg-[#f4f6f9] text-muted-foreground border-border/50',
+  CANCELLED: 'bg-muted text-muted-foreground border-border/50',
 }
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
-  const style = STATUS_BADGE_STYLES[status] ?? 'bg-[#f4f6f9] text-muted-foreground border-border/50'
+  const style = STATUS_BADGE_STYLES[status] ?? 'bg-muted text-muted-foreground border-border/50'
   return (
     <span
       className={cn('inline-flex items-center rounded-md px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border', style)}
@@ -251,7 +251,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between" data-testid="invoice-detail-header">
-            <span className="text-[16px] font-bold text-[#061e44]" data-testid="invoice-detail-number">
+            <span className="text-[16px] font-bold text-foreground" data-testid="invoice-detail-number">
               {invoice.invoiceNumber}
             </span>
             <StatusBadge status={invoice.status} />
@@ -275,16 +275,16 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Client Info + Clinic */}
       <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-[15px] font-bold text-[#061e44]">Client</CardTitle>
+          <CardTitle className="text-[15px] font-bold text-foreground">Client</CardTitle>
         </CardHeader>
         <CardContent className="flex justify-between">
           <div>
-            <p className="font-semibold text-[14px] text-[#061e44]" data-testid="invoice-owner-name">{invoice.ownerName}</p>
+            <p className="font-semibold text-[14px] text-foreground" data-testid="invoice-owner-name">{invoice.ownerName}</p>
             <p className="text-[13px] text-muted-foreground" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
-            <p className="text-[13px] text-muted-foreground">Patient: <span className="font-semibold text-[#061e44]" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
+            <p className="text-[13px] text-muted-foreground">Patient: <span className="font-semibold text-foreground" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
           </div>
           <div className="text-end text-[13px] text-muted-foreground">
-            <p className="font-semibold text-[#061e44]">Happy Paws Veterinary</p>
+            <p className="font-semibold text-foreground">Happy Paws Veterinary</p>
             <p>Dubai, UAE</p>
             <LtrText as="p">+971 4 000 0000</LtrText>
           </div>
@@ -294,26 +294,26 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Line Items */}
       <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-[15px] font-bold text-[#061e44]">Items</CardTitle>
+          <CardTitle className="text-[15px] font-bold text-foreground">Items</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="border border-border/80 rounded-xl overflow-hidden">
             <Table data-testid="invoice-items-table">
               <TableHeader>
-                <TableRow className="bg-[#f4f6f9]">
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Description</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Qty</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Unit Price</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-[#061e44]">Subtotal</TableHead>
+                <TableRow className="bg-muted">
+                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">Description</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Qty</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Unit Price</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Subtotal</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {invoice.items.map((item) => (
-                  <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
-                    <TableCell className="text-[13px] text-[#061e44]">{item.description}</TableCell>
-                    <TableCell className="text-end tabular-nums text-[13px] text-[#061e44]">{item.quantity}</TableCell>
+                  <TableRow key={item.id} data-testid={`detail-item-${item.id}`} className="hover:bg-muted/50 border-border/30 transition-colors">
+                    <TableCell className="text-[13px] text-foreground">{item.description}</TableCell>
+                    <TableCell className="text-end tabular-nums text-[13px] text-foreground">{item.quantity}</TableCell>
                     <TableCell className="text-end tabular-nums text-[13px] text-muted-foreground"><LtrText>{formatAED(item.unitPrice)}</LtrText></TableCell>
-                    <TableCell className="text-end tabular-nums text-[13px] font-semibold text-[#061e44]"><LtrText>{formatAED(item.subtotal)}</LtrText></TableCell>
+                    <TableCell className="text-end tabular-nums text-[13px] font-semibold text-foreground"><LtrText>{formatAED(item.subtotal)}</LtrText></TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -321,16 +321,16 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
           </div>
 
           {/* Totals */}
-          <div className="mt-4 rounded-xl bg-[#f4f6f9] border border-border/50 px-4 py-3 space-y-1.5 text-[13px] max-w-xs ms-auto" data-testid="detail-totals">
+          <div className="mt-4 rounded-xl bg-muted border border-border/50 px-4 py-3 space-y-1.5 text-[13px] max-w-xs ms-auto" data-testid="detail-totals">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Subtotal (excl. VAT)</span>
-              <LtrText className="font-semibold text-[#061e44] tabular-nums" data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
+              <LtrText className="font-semibold text-foreground tabular-nums" data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">VAT (5%)</span>
               <LtrText className="text-muted-foreground tabular-nums" data-testid="detail-vat">{formatAED(invoice.vatAmount)}</LtrText>
             </div>
-            <div className="flex justify-between font-bold text-[15px] text-[#061e44] border-t border-border/50 pt-1.5">
+            <div className="flex justify-between font-bold text-[15px] text-foreground border-t border-border/50 pt-1.5">
               <span>Total AED</span>
               <LtrText className="tabular-nums" data-testid="detail-total">{formatAED(invoice.total)}</LtrText>
             </div>
@@ -342,7 +342,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {invoice.notes && (
         <Card className="bg-white border-border/80 rounded-xl shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-[15px] font-bold text-[#061e44]">Notes</CardTitle>
+            <CardTitle className="text-[15px] font-bold text-foreground">Notes</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-[13px] text-muted-foreground" data-testid="invoice-notes">{invoice.notes}</p>
@@ -353,7 +353,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Actions */}
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
         <Link href={`/${locale}/billing`}>
-          <Button variant="outline" data-testid="back-to-billing-btn" className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9] group/back">
+          <Button variant="outline" data-testid="back-to-billing-btn" className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted group/back">
             <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" /> Back to Billing
           </Button>
         </Link>
@@ -364,7 +364,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="send-invoice-btn"
               onClick={handleSend}
               disabled={actionLoading}
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               Send
             </Button>
@@ -386,7 +386,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="mark-paid-btn"
               onClick={handleMarkPaid}
               disabled={actionLoading}
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
               Mark as Paid
             </Button>
@@ -395,7 +395,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               data-testid="cancel-invoice-btn"
               onClick={handleCancel}
               disabled={actionLoading}
-              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
             >
               Cancel
             </Button>
@@ -408,7 +408,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             data-testid="download-pdf-btn"
             onClick={handleDownloadPdf}
             disabled={actionLoading}
-            className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+            className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
           >
             Download PDF
           </Button>
@@ -419,7 +419,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
     <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
       <DialogContent data-testid="delete-confirm-dialog" className="rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-[#061e44] font-bold">Delete Invoice</DialogTitle>
+          <DialogTitle className="text-foreground font-bold">Delete Invoice</DialogTitle>
           <DialogDescription className="text-muted-foreground text-[13px]">
             This action cannot be undone. The invoice will be permanently deleted.
           </DialogDescription>
@@ -429,7 +429,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             variant="outline"
             data-testid="delete-confirm-cancel"
             onClick={() => setDeleteDialogOpen(false)}
-            className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-[#f4f6f9]"
+            className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
           >
             Cancel
           </Button>

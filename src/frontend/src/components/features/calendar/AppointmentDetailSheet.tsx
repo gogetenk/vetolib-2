@@ -39,7 +39,7 @@ const SPECIES_EMOJI: Record<string, string> = {
 }
 
 const STATUS_BADGE_VARIANT: Record<AppointmentStatus, string> = {
-  SCHEDULED: 'bg-[#eef2fd] text-[#303ef5]',
+  SCHEDULED: 'bg-primary/10 text-primary',
   CHECKED_IN: 'bg-[#fff7ed] text-[#f97316]',
   IN_PROGRESS: 'bg-[#e8f6f0] text-[#22c55e]',
   COMPLETED: 'bg-muted text-muted-foreground',
@@ -178,7 +178,7 @@ export function AppointmentDetailSheet({
           {/* Left Column: Patient & Owner Info */}
           <div className="w-full md:w-[40%] bg-white p-8 flex flex-col border-r border-border/50">
             <div className="mb-8">
-              <h2 className="text-[22px] font-bold text-[#061e44] leading-tight flex items-center gap-2">
+              <h2 className="text-[22px] font-bold text-foreground leading-tight flex items-center gap-2">
                 {ownerLastName} <span className="font-semibold text-primary">{ownerFirstName}</span> <span className="text-muted-foreground font-normal ml-1">{emoji}</span>
               </h2>
               <p className="text-[13px] text-muted-foreground mt-1 font-medium">
@@ -188,7 +188,7 @@ export function AppointmentDetailSheet({
 
             <div className="space-y-6">
               <div>
-                <h3 className="text-[13px] font-bold text-[#061e44] mb-3">Coordonnées</h3>
+                <h3 className="text-[13px] font-bold text-foreground mb-3">Coordonnées</h3>
                 <div className="space-y-3.5">
                   <div className="flex items-start gap-3">
                     <MapPinIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
@@ -208,13 +208,13 @@ export function AppointmentDetailSheet({
               <div className="pt-6 border-t border-border/50">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-[13px] font-bold text-[#061e44]">Vétérinaire traitant</h3>
+                    <h3 className="text-[13px] font-bold text-foreground">Vétérinaire traitant</h3>
                     <p className="text-[14px] text-foreground font-medium mt-1">{appointment.vetName}</p>
                   </div>
                 </div>
                 
                 <Link href={`/${locale}/patients/${(appointment as any).patientId || ''}`}>
-                  <Button className="w-full bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-11 shadow-sm mt-2 flex items-center gap-2">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-11 shadow-sm mt-2 flex items-center gap-2">
                     Consulter le dossier patient
                     <ExternalLinkIcon className="w-4 h-4" />
                   </Button>
@@ -224,13 +224,13 @@ export function AppointmentDetailSheet({
           </div>
 
           {/* Right Column: Appointment Details */}
-          <div className="w-full md:w-[60%] bg-[#f4f6f9] p-8 flex flex-col relative">
+          <div className="w-full md:w-[60%] bg-muted p-8 flex flex-col relative">
             <div className="flex-1 space-y-6">
               {/* Header */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-[18px] font-bold text-[#061e44] flex items-center gap-2">
-                    <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+                  <h3 className="text-[18px] font-bold text-foreground flex items-center gap-2">
+                    <span className="w-1 h-5 bg-primary rounded-full"></span>
                     Le rendez-vous
                   </h3>
                   <Badge className={`${STATUS_BADGE_VARIANT[appointment.status]} border-0 rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider`}>
@@ -238,19 +238,19 @@ export function AppointmentDetailSheet({
                   </Badge>
                 </div>
                 <p className="text-[13px] text-muted-foreground font-medium ml-3 flex items-center gap-2">
-                  <UserIcon className="w-3.5 h-3.5" /> {appointment.vetName} <span className="text-border mx-1">•</span> <span className="text-[#303ef5] font-bold">{dateStr}</span> <span className="text-border mx-1">•</span> {timeStr}
+                  <UserIcon className="w-3.5 h-3.5" /> {appointment.vetName} <span className="text-border mx-1">•</span> <span className="text-primary font-bold">{dateStr}</span> <span className="text-border mx-1">•</span> {timeStr}
                 </p>
               </div>
 
               {/* Consultation Type */}
               <div>
-                <h4 className="text-[13px] font-bold text-[#061e44] mb-2">Type de consultation</h4>
+                <h4 className="text-[13px] font-bold text-foreground mb-2">Type de consultation</h4>
                 <div className="bg-white border border-border/80 rounded-xl p-3.5 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${color.bg}`}>
                       <div className={`w-3 h-3 rounded-full ${color.dot}`}></div>
                     </div>
-                    <span className="text-[14px] font-semibold text-[#061e44]">{appointment.consultationType}</span>
+                    <span className="text-[14px] font-semibold text-foreground">{appointment.consultationType}</span>
                   </div>
                   <Badge variant="outline" className="bg-muted text-muted-foreground border-border/50">
                     {t('detail.minutes', { count: appointment.durationMinutes })}
@@ -260,7 +260,7 @@ export function AppointmentDetailSheet({
 
               {/* Reason */}
               <div>
-                <h4 className="text-[13px] font-bold text-[#061e44] mb-2">Motif</h4>
+                <h4 className="text-[13px] font-bold text-foreground mb-2">Motif</h4>
                 <div className="bg-white border border-border/80 rounded-xl p-4 min-h-[80px] shadow-sm text-[14px] font-medium text-foreground">
                   {appointment.reason || <span className="text-muted-foreground italic">Aucun motif renseigné</span>}
                 </div>
@@ -268,7 +268,7 @@ export function AppointmentDetailSheet({
 
               {/* Notes */}
               <div>
-                <h4 className="text-[13px] font-bold text-[#061e44] mb-2">Notes & Discussion</h4>
+                <h4 className="text-[13px] font-bold text-foreground mb-2">Notes & Discussion</h4>
                 <div className="bg-white border border-border/80 rounded-xl p-4 min-h-[100px] shadow-sm flex flex-col justify-between">
                   <div className="text-[14px] font-medium text-foreground mb-4">
                     {appointment.notes || <span className="text-muted-foreground italic">Aucune note</span>}
@@ -281,7 +281,7 @@ export function AppointmentDetailSheet({
                       className="w-full bg-muted/50 border border-border rounded-xl pl-4 pr-12 py-2.5 text-[13px] focus:outline-none focus:ring-1 focus:ring-primary"
                       disabled
                     />
-                    <button className="absolute right-1.5 top-[18px] w-7 h-7 bg-[#303ef5] text-white rounded-lg flex items-center justify-center hover:bg-[#2530c4] transition-colors" disabled>
+                    <button className="absolute right-1.5 top-[18px] w-7 h-7 bg-primary text-primary-foreground rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors" disabled>
                       <SendIcon className="w-3.5 h-3.5 ml-0.5" />
                     </button>
                   </div>

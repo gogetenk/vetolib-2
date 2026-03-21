@@ -109,7 +109,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <p
           data-testid="welcome-banner-greeting"
-          className="text-[14px] font-semibold text-[#061e44]"
+          className="text-[14px] font-semibold text-foreground"
         >
           {t(`${roleKey}.greeting`, { clinicName: clinicName ?? '' })}
         </p>
@@ -118,7 +118,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
           data-testid="welcome-banner-cta"
           size="sm"
           variant="default"
-          className="w-fit bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+          className="w-fit bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
           onClick={handleCta}
         >
           {t(`${roleKey}.cta`)}
@@ -130,7 +130,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
         data-testid="welcome-banner-dismiss"
         aria-label="Dismiss welcome banner"
         onClick={handleDismiss}
-        className="absolute end-3 top-3 rounded-full p-1 text-muted-foreground transition-colors hover:bg-[#f4f6f9] hover:text-[#061e44] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5]/30"
+        className="absolute end-3 top-3 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
       >
         <X className="h-4 w-4" />
       </button>

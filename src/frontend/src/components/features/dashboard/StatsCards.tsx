@@ -71,8 +71,8 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
                 {t('appointments_today')}
               </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#eef2fd]">
-                <Calendar className="h-4 w-4 text-[#303ef5]" aria-hidden="true" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10">
+                <Calendar className="h-4 w-4 text-primary" aria-hidden="true" />
               </div>
             </div>
           </CardHeader>
@@ -80,7 +80,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
             {loading ? (
               <Skeleton className="h-9 w-16" />
             ) : (
-              <p className="text-3xl font-bold text-[#061e44]" data-testid="stat-appointments-today-value">
+              <p className="text-3xl font-bold text-foreground" data-testid="stat-appointments-today-value">
                 {stats?.appointmentsToday ?? 0}
               </p>
             )}
@@ -105,7 +105,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <Skeleton className="h-9 w-16" />
             ) : (
               <div className="flex items-center gap-2">
-                <p className="text-3xl font-bold text-[#061e44]" data-testid="stat-pending-checkin-value">
+                <p className="text-3xl font-bold text-foreground" data-testid="stat-pending-checkin-value">
                   {stats?.pendingCheckin ?? 0}
                 </p>
                 {(stats?.pendingCheckin ?? 0) > 0 && (
@@ -135,7 +135,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
             {loading ? (
               <Skeleton className="h-9 w-28" />
             ) : (
-              <p className="text-2xl font-bold text-[#061e44]" data-testid="stat-unpaid-invoices-value">
+              <p className="text-2xl font-bold text-foreground" data-testid="stat-unpaid-invoices-value">
                 <LtrText>{formatAed(stats?.unpaidInvoicesAed ?? 0)}</LtrText>
               </p>
             )}
@@ -159,7 +159,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
             {loading ? (
               <Skeleton className="h-9 w-16" />
             ) : (
-              <p className="text-3xl font-bold text-[#061e44]" data-testid="stat-total-patients-value">
+              <p className="text-3xl font-bold text-foreground" data-testid="stat-total-patients-value">
                 {stats?.totalPatients ?? 0}
               </p>
             )}
@@ -183,7 +183,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
             {loading ? (
               <Skeleton className="h-9 w-24" />
             ) : (
-              <p className="text-3xl font-bold text-[#061e44]" data-testid="stat-todays-revenue-value">
+              <p className="text-3xl font-bold text-foreground" data-testid="stat-todays-revenue-value">
                 <LtrText>AED 0</LtrText>
               </p>
             )}

@@ -100,13 +100,13 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   return (
     <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="today-appointments-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-[15px] font-bold text-[#061e44] flex items-center gap-2">
-          <span className="w-1 h-4 bg-[#303ef5] rounded-full"></span>
+        <CardTitle className="text-[15px] font-bold text-foreground flex items-center gap-2">
+          <span className="w-1 h-4 bg-primary rounded-full"></span>
           {t('title')}
         </CardTitle>
         <Link
           href="/appointments"
-          className="text-[13px] text-[#303ef5] font-semibold hover:underline"
+          className="text-[13px] text-primary font-semibold hover:underline"
           data-testid="today-appointments-view-all"
         >
           {t('view_all')} {arrow}
@@ -131,7 +131,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
             data-testid="empty-state-dashboard-today"
             className="p-6 flex flex-col gap-2"
           >
-            <p className="text-[13px] font-semibold text-[#061e44]">
+            <p className="text-[13px] font-semibold text-foreground">
               {tEmpty('title')}
             </p>
             <p className="text-[13px] text-muted-foreground">
@@ -156,7 +156,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                 <li
                   key={appt.id}
                   data-testid={`today-appointment-row-${appt.id}`}
-                  className="flex items-center justify-between px-4 py-3 hover:bg-[#f4f6f9]/50 transition-colors"
+                  className="flex items-center justify-between px-4 py-3 hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     {typeConfig && (
@@ -177,7 +177,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       className="hover:underline truncate"
                       data-testid={`appointment-link-${appt.id}`}
                     >
-                      <span className="text-[14px] font-semibold text-[#061e44]">{appt.patientName}</span>
+                      <span className="text-[14px] font-semibold text-foreground">{appt.patientName}</span>
                       <span className="text-muted-foreground ml-1 text-[13px]">
                         ({appt.species})
                       </span>
@@ -213,7 +213,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                         aria-busy={checkingIn === appt.id}
                         onClick={() => handleCheckIn(appt.id)}
                         data-testid={`checkin-btn-${appt.id}`}
-                        className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                        className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted"
                       >
                         {checkingIn === appt.id ? t('checking_in') : t('check_in')}
                       </Button>

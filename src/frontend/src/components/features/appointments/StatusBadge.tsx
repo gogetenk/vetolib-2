@@ -6,10 +6,10 @@ import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 
 const STATUS_STYLES: Record<AppointmentStatus, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; className?: string }> = {
-  SCHEDULED: { variant: 'outline', className: 'border-[#303ef5]/30 text-[#303ef5] bg-[#eef2fd] rounded-md text-[10px] font-bold uppercase tracking-wider' },
+  SCHEDULED: { variant: 'outline', className: 'border-primary/30 text-primary bg-primary/10 rounded-md text-[10px] font-bold uppercase tracking-wider' },
   CHECKED_IN: { variant: 'secondary', className: 'border-amber-300 text-amber-700 bg-amber-50 rounded-md text-[10px] font-bold uppercase tracking-wider' },
   IN_PROGRESS: { variant: 'default', className: 'border-green-300 text-green-700 bg-green-50 rounded-md text-[10px] font-bold uppercase tracking-wider' },
-  COMPLETED: { variant: 'outline', className: 'text-muted-foreground bg-[#f4f6f9] rounded-md text-[10px] font-bold uppercase tracking-wider' },
+  COMPLETED: { variant: 'outline', className: 'text-muted-foreground bg-muted rounded-md text-[10px] font-bold uppercase tracking-wider' },
   CANCELLED: { variant: 'destructive', className: 'rounded-md text-[10px] font-bold uppercase tracking-wider' },
 }
 

@@ -93,7 +93,7 @@ export function InviteUserDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="rounded-2xl" data-testid="invite-user-dialog">
         <DialogHeader>
-          <DialogTitle className="text-[18px] font-bold text-[#061e44]">Invite Team Member</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-foreground">Invite Team Member</DialogTitle>
           <DialogDescription>
             Send an invitation to a new team member. They will receive a temporary password.
           </DialogDescription>
@@ -134,7 +134,7 @@ export function InviteUserDialog({
               <Button
                 data-testid="invite-done-btn"
                 onClick={handleClose}
-                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
                 Done
               </Button>
@@ -218,7 +218,7 @@ export function InviteUserDialog({
                 data-testid="invite-cancel-btn"
                 onClick={handleClose}
                 disabled={isSubmitting}
-                className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                className="rounded-xl font-semibold border-border/80 hover:bg-muted"
               >
                 Cancel
               </Button>
@@ -226,7 +226,7 @@ export function InviteUserDialog({
                 type="submit"
                 data-testid="invite-submit-btn"
                 disabled={isSubmitting}
-                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
                 {isSubmitting ? "Sending..." : "Send Invite"}
               </Button>

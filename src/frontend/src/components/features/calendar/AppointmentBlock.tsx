@@ -66,9 +66,9 @@ export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps
       
       {/* Content */}
       <div className="flex flex-col min-w-0 flex-1 justify-center ms-2 py-0.5">
-        <span className="text-[12px] tracking-tight truncate text-[#061e44] leading-tight">
+        <span className="text-[12px] tracking-tight truncate text-foreground leading-tight">
           <span className="font-bold">{appointment.ownerName.split(' ')[0].toUpperCase()}</span>{' '}
-          <span className="font-medium text-[#061e44]/90">{appointment.patientName}</span>
+          <span className="font-medium text-foreground/90">{appointment.patientName}</span>
         </span>
         
         {heightPx >= 40 && (
@@ -80,7 +80,7 @@ export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps
 
       {appointment.consultationType === 'Teleconsultation' && (
         <div className="flex-shrink-0 ms-2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
-          <div className="bg-white/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-[#061e44]">
+          <div className="bg-white/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-foreground">
             <Video className="w-3.5 h-3.5" />
           </div>
         </div>

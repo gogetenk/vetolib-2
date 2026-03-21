@@ -109,7 +109,7 @@ export function AppointmentsTable() {
       cell: ({ getValue }) => {
         const val = getValue<string>()
         return (
-          <span data-testid="cell-datetime" className="text-[13px] text-[#061e44]">
+          <span data-testid="cell-datetime" className="text-[13px] text-foreground">
             <LtrText>{format(new Date(val), 'dd MMM yyyy HH:mm')}</LtrText>
           </span>
         )
@@ -119,7 +119,7 @@ export function AppointmentsTable() {
       id: 'patient',
       header: t('columns.patient'),
       cell: ({ row }) => (
-        <span data-testid="cell-patient" className="text-[13px] font-medium text-[#061e44]">
+        <span data-testid="cell-patient" className="text-[13px] font-medium text-foreground">
           {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
         </span>
       ),
@@ -128,14 +128,14 @@ export function AppointmentsTable() {
       accessorKey: 'ownerName',
       header: t('columns.owner'),
       cell: ({ getValue }) => (
-        <span data-testid="cell-owner" className="text-[13px] text-[#061e44]">{getValue<string>()}</span>
+        <span data-testid="cell-owner" className="text-[13px] text-foreground">{getValue<string>()}</span>
       ),
     },
     {
       accessorKey: 'vetName',
       header: t('columns.vet'),
       cell: ({ getValue }) => (
-        <span data-testid="cell-vet" className="text-[13px] text-[#061e44]">{getValue<string>()}</span>
+        <span data-testid="cell-vet" className="text-[13px] text-foreground">{getValue<string>()}</span>
       ),
     },
     {
@@ -154,7 +154,7 @@ export function AppointmentsTable() {
             variant="outline"
             size="sm"
             data-testid={`btn-view-${row.original.id}`}
-            className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9] text-[13px]"
+            className="rounded-xl font-semibold border-border/80 hover:bg-muted text-[13px]"
           >
             {t('columns.view')}
           </Button>
@@ -182,7 +182,7 @@ export function AppointmentsTable() {
           <Input
             data-testid="appointment-search"
             placeholder={t('search_placeholder') ?? 'Search patient or owner...'}
-            className="w-64 pl-9 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+            className="w-64 pl-9 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -212,7 +212,7 @@ export function AppointmentsTable() {
 
         <Input
           type="date"
-          className="w-40 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+          className="w-40 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
           data-testid="date-filter"
           aria-label="Filter by date"
           value={dateFilter}
@@ -270,7 +270,7 @@ export function AppointmentsTable() {
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-[14px] text-[#061e44] truncate">
+                  <p className="font-semibold text-[14px] text-foreground truncate">
                     {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
                   </p>
                   <p className="text-[13px] text-muted-foreground mt-0.5">{row.original.ownerName}</p>
@@ -289,11 +289,11 @@ export function AppointmentsTable() {
       {/* Desktop table */}
       <div className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="appointments-table">
         <Table>
-          <TableHeader className="bg-[#f4f6f9]">
+          <TableHeader className="bg-muted">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]">
+                  <TableHead key={header.id} className="text-[11px] font-bold uppercase tracking-wider text-foreground">
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -337,7 +337,7 @@ export function AppointmentsTable() {
               </TableRow>
             ) : (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-testid={`appointment-row-${row.original.id}`} className="hover:bg-[#f4f6f9]/50 border-border/30 transition-colors">
+                <TableRow key={row.id} data-testid={`appointment-row-${row.original.id}`} className="hover:bg-muted/50 border-border/30 transition-colors">
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -363,7 +363,7 @@ export function AppointmentsTable() {
               data-testid="btn-prev-page"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl font-semibold border-border/80 hover:bg-muted"
             >
               {t('previous')}
             </Button>
@@ -373,7 +373,7 @@ export function AppointmentsTable() {
               data-testid="btn-next-page"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+              className="rounded-xl font-semibold border-border/80 hover:bg-muted"
             >
               {t('next')}
             </Button>

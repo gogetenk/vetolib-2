@@ -91,7 +91,7 @@ export function DispenseToggle({
         />
         <Label
           htmlFor="dispense-toggle"
-          className="cursor-pointer select-none text-[13px] font-semibold text-[#061e44]"
+          className="cursor-pointer select-none text-[13px] font-semibold text-foreground"
         >
           Dispense from clinic stock
           {!stockAvailable && (
@@ -103,7 +103,7 @@ export function DispenseToggle({
       {/* Quantity input — shown only when dispense is checked */}
       {dispense && (
         <div className="space-y-2 pl-6">
-          <Label htmlFor="dispense-quantity-input" className="text-[13px] font-semibold text-[#061e44]">
+          <Label htmlFor="dispense-quantity-input" className="text-[13px] font-semibold text-foreground">
             Quantity to dispense ({unit})
           </Label>
           <Input
@@ -115,7 +115,7 @@ export function DispenseToggle({
             value={quantityStr}
             onChange={(e) => setQuantityStr(e.target.value)}
             placeholder="e.g. 10"
-            className="max-w-[140px] rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+            className="max-w-[140px] rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             aria-invalid={isInsufficient}
           />
 

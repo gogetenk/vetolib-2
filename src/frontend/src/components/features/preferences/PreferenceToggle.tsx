@@ -63,7 +63,7 @@ export function PreferenceToggle({ item, isAdminUser, onToggle }: PreferenceTogg
       <div className="flex items-start justify-between gap-4 py-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className={cn("text-[13px] font-semibold text-[#061e44]", isDisabled && "text-muted-foreground")}>
+            <span className={cn("text-[13px] font-semibold text-foreground", isDisabled && "text-muted-foreground")}>
               {item.label}
             </span>
             <Badge

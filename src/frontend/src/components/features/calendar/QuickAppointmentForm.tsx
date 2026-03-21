@@ -133,14 +133,14 @@ export function QuickAppointmentForm({
         data-testid="quick-create-dialog"
       >
         <DialogHeader>
-          <DialogTitle className="text-[18px] font-bold text-[#061e44]">{t('title')}</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-foreground">{t('title')}</DialogTitle>
           <DialogDescription className="text-[13px]">{dateLabel}</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           {/* Time */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="quick-time" className="text-[13px] font-semibold text-[#061e44]">{t('time')}</Label>
+            <Label htmlFor="quick-time" className="text-[13px] font-semibold text-foreground">{t('time')}</Label>
             <Input
               id="quick-time"
               type="time"
@@ -148,13 +148,13 @@ export function QuickAppointmentForm({
               onChange={(e) => setEditableTime(e.target.value)}
               step={900}
               data-testid="quick-create-time-input"
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
           {/* Patient */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="quick-patient" className="text-[13px] font-semibold text-[#061e44]">{t('patient')}</Label>
+            <Label htmlFor="quick-patient" className="text-[13px] font-semibold text-foreground">{t('patient')}</Label>
             <Input
               id="quick-patient"
               value={patientName}
@@ -162,13 +162,13 @@ export function QuickAppointmentForm({
               placeholder={t('patient')}
               required
               data-testid="quick-create-patient-input"
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
           {/* Owner */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="quick-owner" className="text-[13px] font-semibold text-[#061e44]">{t('owner')}</Label>
+            <Label htmlFor="quick-owner" className="text-[13px] font-semibold text-foreground">{t('owner')}</Label>
             <Input
               id="quick-owner"
               value={ownerName}
@@ -176,13 +176,13 @@ export function QuickAppointmentForm({
               placeholder={t('owner')}
               required
               data-testid="quick-create-owner-input"
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
           {/* Consultation type */}
           <div className="flex flex-col gap-1.5">
-            <Label className="text-[13px] font-semibold text-[#061e44]">{t('type')}</Label>
+            <Label className="text-[13px] font-semibold text-foreground">{t('type')}</Label>
             <Select
               value={consultationType}
               onValueChange={(v) => v && setConsultationType(v)}
@@ -207,7 +207,7 @@ export function QuickAppointmentForm({
 
           {/* Vet */}
           <div className="flex flex-col gap-1.5">
-            <Label className="text-[13px] font-semibold text-[#061e44]">{t('vet')}</Label>
+            <Label className="text-[13px] font-semibold text-foreground">{t('vet')}</Label>
             <Select
               value={vetId}
               onValueChange={(v) => v && setVetId(v)}
@@ -230,7 +230,7 @@ export function QuickAppointmentForm({
 
           {/* Reason */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="quick-reason" className="text-[13px] font-semibold text-[#061e44]">{t('reason')}</Label>
+            <Label htmlFor="quick-reason" className="text-[13px] font-semibold text-foreground">{t('reason')}</Label>
             <Textarea
               id="quick-reason"
               value={reason}
@@ -238,7 +238,7 @@ export function QuickAppointmentForm({
               placeholder={t('reason')}
               rows={2}
               data-testid="quick-create-reason-input"
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50"
+              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
 
@@ -257,7 +257,7 @@ export function QuickAppointmentForm({
                 variant="outline"
                 onClick={() => handleOpenChange(false)}
                 data-testid="quick-create-cancel-btn"
-                className="rounded-xl font-semibold border-border/80 hover:bg-[#f4f6f9]"
+                className="rounded-xl font-semibold border-border/80 hover:bg-muted"
               >
                 {t('cancel')}
               </Button>
@@ -265,7 +265,7 @@ export function QuickAppointmentForm({
                 type="submit"
                 disabled={submitting || !patientName || !ownerName}
                 data-testid="quick-create-submit-btn"
-                className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
                 {t('submit')}
               </Button>

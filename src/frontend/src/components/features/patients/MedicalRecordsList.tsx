@@ -56,7 +56,7 @@ function MedicalRecordRow({ record }: { record: MedicalRecordDto }) {
   return (
     <div
       data-testid={`medical-record-${record.id}`}
-      className="relative border-b border-border/30 last:border-b-0 hover:bg-[#f4f6f9]/50 transition-colors"
+      className="relative border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
     >
       {/* Accent bar */}
       <div className={`absolute inset-y-0 start-0 w-1 ${accentColor}`} />
@@ -68,7 +68,7 @@ function MedicalRecordRow({ record }: { record: MedicalRecordDto }) {
           <div className="flex items-center gap-1.5">
             <RecordTypeIcon type={recordType} className="h-4 w-4 text-muted-foreground shrink-0" />
             <p
-              className="font-semibold text-[13px] text-[#061e44] truncate"
+              className="font-semibold text-[13px] text-foreground truncate"
               data-testid={`record-reason-${record.id}`}
             >
               {record.reason}
@@ -92,9 +92,9 @@ function MedicalRecordRow({ record }: { record: MedicalRecordDto }) {
 
         {/* Vitals */}
         <div className="text-[12px] space-y-0.5" data-testid={`record-vitals-${record.id}`}>
-          <span data-testid={`record-weight-${record.id}`} className="text-[#061e44] font-semibold block">{record.weight} kg</span>
-          <span data-testid={`record-temp-${record.id}`} className="text-[#061e44] font-semibold block">{record.temperature}&deg;C</span>
-          <span data-testid={`record-hr-${record.id}`} className="text-[#061e44] font-semibold block">{record.heartRate} bpm</span>
+          <span data-testid={`record-weight-${record.id}`} className="text-foreground font-semibold block">{record.weight} kg</span>
+          <span data-testid={`record-temp-${record.id}`} className="text-foreground font-semibold block">{record.temperature}&deg;C</span>
+          <span data-testid={`record-hr-${record.id}`} className="text-foreground font-semibold block">{record.heartRate} bpm</span>
         </div>
 
         {/* Diagnosis + treatment */}
@@ -135,7 +135,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
   return (
     <div data-testid="medical-records-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full animate-in fade-in duration-300">
       {/* Header row */}
-      <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-[#061e44] uppercase tracking-wider px-4 ps-5 py-3 bg-[#f4f6f9] border-b border-border/50">
+      <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 ps-5 py-3 bg-muted border-b border-border/50">
         <span>Reason</span>
         <span>Date</span>
         <span>Vitals</span>

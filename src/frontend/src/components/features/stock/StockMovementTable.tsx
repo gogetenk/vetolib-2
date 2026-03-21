@@ -60,7 +60,7 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
           >
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
-                <p className="text-[14px] font-bold text-[#061e44]">{m.stockItemName}</p>
+                <p className="text-[14px] font-bold text-foreground">{m.stockItemName}</p>
                 <p className="text-[12px] text-muted-foreground mt-0.5">{formatDateTime(m.createdAt)}</p>
               </div>
               <MovementTypeBadge type={m.type} translatedLabel={t(`types.${m.type.toLowerCase()}`)} />
@@ -68,19 +68,19 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
             <div className="mt-2 text-[13px] space-y-1">
               <p>
                 <span className="text-muted-foreground">{t('columns.quantity')}: </span>
-                <span className={`font-semibold tabular-nums ${m.type === 'INCOMING' ? 'text-emerald-700' : m.type === 'LOSS' ? 'text-red-700' : 'text-[#061e44]'}`}>
+                <span className={`font-semibold tabular-nums ${m.type === 'INCOMING' ? 'text-emerald-700' : m.type === 'LOSS' ? 'text-red-700' : 'text-foreground'}`}>
                   {getQuantitySign(m.type)}{m.quantity}
                 </span>
                 <span className="text-muted-foreground"> ({m.previousQuantity} &rarr; {m.newQuantity})</span>
               </p>
               <p>
                 <span className="text-muted-foreground">{t('columns.performed_by')}: </span>
-                <span className="text-[#061e44]">{m.performedBy}</span>
+                <span className="text-foreground">{m.performedBy}</span>
               </p>
               {m.patientName && (
                 <p>
                   <span className="text-muted-foreground">{t('columns.patient')}: </span>
-                  <span className="text-[#061e44]">{m.patientName}</span>
+                  <span className="text-foreground">{m.patientName}</span>
                 </p>
               )}
               {m.reason && (
@@ -98,26 +98,26 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
       >
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#f4f6f9] hover:bg-[#f4f6f9] border-b border-border/50">
-              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-date">
+            <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
+              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-date">
                 {t('columns.date')}
               </TableHead>
-              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-item">
+              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-item">
                 {t('columns.item')}
               </TableHead>
-              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-type">
+              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-type">
                 {t('columns.type')}
               </TableHead>
-              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-quantity">
+              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-quantity">
                 {t('columns.quantity')}
               </TableHead>
-              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-stock-change">
+              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-stock-change">
                 {t('columns.stock_change')}
               </TableHead>
-              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-performed-by">
+              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-performed-by">
                 {t('columns.performed_by')}
               </TableHead>
-              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-[#061e44]" data-testid="th-reason">
+              <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-reason">
                 {t('columns.reason')}
               </TableHead>
             </TableRow>
@@ -127,12 +127,12 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
               <TableRow
                 key={m.id}
                 data-testid={`movement-row-${m.id}`}
-                className="group hover:bg-[#f4f6f9]/50 border-border/30 transition-colors"
+                className="group hover:bg-muted/50 border-border/30 transition-colors"
               >
                 <TableCell className="text-[13px] text-muted-foreground whitespace-nowrap" data-testid={`movement-date-${m.id}`}>
                   {formatDateTime(m.createdAt)}
                 </TableCell>
-                <TableCell className="text-[13px] font-semibold text-[#061e44]" data-testid={`movement-item-${m.id}`}>
+                <TableCell className="text-[13px] font-semibold text-foreground" data-testid={`movement-item-${m.id}`}>
                   {m.stockItemName}
                   {m.patientName && (
                     <span className="block text-[11px] text-muted-foreground font-normal mt-0.5">
@@ -144,14 +144,14 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
                   <MovementTypeBadge type={m.type} translatedLabel={t(`types.${m.type.toLowerCase()}`)} />
                 </TableCell>
                 <TableCell className="text-[13px] tabular-nums" data-testid={`movement-qty-${m.id}`}>
-                  <span className={`font-semibold ${m.type === 'INCOMING' ? 'text-emerald-700' : m.type === 'LOSS' ? 'text-red-700' : m.type === 'RETURN' ? 'text-purple-700' : 'text-[#061e44]'}`}>
+                  <span className={`font-semibold ${m.type === 'INCOMING' ? 'text-emerald-700' : m.type === 'LOSS' ? 'text-red-700' : m.type === 'RETURN' ? 'text-purple-700' : 'text-foreground'}`}>
                     {getQuantitySign(m.type)}{m.quantity}
                   </span>
                 </TableCell>
                 <TableCell className="text-[13px] text-muted-foreground tabular-nums" data-testid={`movement-change-${m.id}`}>
                   <LtrText>{m.previousQuantity} &rarr; {m.newQuantity}</LtrText>
                 </TableCell>
-                <TableCell className="text-[13px] text-[#061e44]" data-testid={`movement-by-${m.id}`}>
+                <TableCell className="text-[13px] text-foreground" data-testid={`movement-by-${m.id}`}>
                   {m.performedBy}
                 </TableCell>
                 <TableCell className="text-[13px] text-muted-foreground max-w-[200px] truncate" data-testid={`movement-reason-${m.id}`}>
