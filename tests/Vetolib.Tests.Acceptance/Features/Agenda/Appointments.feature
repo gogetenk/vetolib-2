@@ -26,7 +26,7 @@ Feature: Veterinary appointment management
     Given an existing appointment for "Max" with "Dr. Ahmed" at "10:00" for 30 minutes
     When I try to create an appointment for "Luna" with "Dr. Ahmed" at "10:00"
     Then the system rejects with code "APPOINTMENT_CONFLICT"
-    And the message is "Ce creneau est deja pris pour ce veterinaire"
+    And the message is "This time slot is already taken for this veterinarian"
     And the next available slots are suggested
 
   Scenario: Reject if partial overlap
@@ -80,42 +80,42 @@ Feature: Veterinary appointment management
   Scenario: Get appointment by ID
     Given an existing appointment for patient "Max" on "2026-04-01" at "10:00"
     When I request the appointment by its ID
-    Then the response status is 200
+    Then the operation succeeds
     And the appointment details include patient "Max" and time "10:00"
 
-  Scenario: Get appointment by ID returns 404 when not found
+  Scenario: Looking up a non-existent appointment fails
     When I request appointment with a random non-existent ID
-    Then the response status is 404
+    Then the record is not found
 
   Scenario: Edit appointment date and time
     Given an existing appointment for patient "Max" on "2026-04-01" at "10:00"
     When I update the appointment to "2026-04-02" at "14:00"
-    Then the response status is 200
+    Then the operation succeeds
     And the appointment is now scheduled for "2026-04-02" at "14:00"
 
   Scenario: Edit appointment refused if slot conflict
     Given an existing appointment on "2026-04-02" at "14:00"
     And another appointment for "Max" on "2026-04-01" at "10:00"
     When I update the second appointment to "2026-04-02" at "14:00"
-    Then the response status is 409
+    Then a conflict is detected
 
   Scenario: Admin updates appointment status directly
     Given a clinic "Happy Paws"
     And I am authenticated as ADMIN
     And an existing appointment with status "SCHEDULED"
     When I update the appointment status to "NO_SHOW"
-    Then the response status is 200
+    Then the operation succeeds
     And the appointment status is "NoShow"
 
-  Scenario: Status update with invalid status value returns 400
+  Scenario: Updating an appointment with an invalid status is rejected
     Given a clinic "Happy Paws"
     And I am authenticated as ADMIN
     And an existing appointment with status "SCHEDULED"
     When I update the appointment status to "INVALID_STATUS"
-    Then the response status is 400
+    Then the request is rejected
 
-  Scenario: Status update on non-existent appointment returns 404
+  Scenario: Updating a non-existent appointment fails
     Given a clinic "Happy Paws"
     And I am authenticated as ADMIN
     When I update a non-existent appointment status to "NO_SHOW"
-    Then the response status is 404
+    Then the record is not found
