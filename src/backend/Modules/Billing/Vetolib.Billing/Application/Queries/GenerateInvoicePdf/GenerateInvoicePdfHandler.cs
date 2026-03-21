@@ -26,7 +26,7 @@ internal class GenerateInvoicePdfHandler : IRequestHandler<GenerateInvoicePdfQue
             .FirstOrDefaultAsync(i => i.Id == query.InvoiceId, ct);
 
         if (invoice is null)
-            return Result<InvoicePdfResult>.NotFound("INVOICE_NOT_FOUND:Facture introuvable");
+            return Result<InvoicePdfResult>.NotFound("INVOICE_NOT_FOUND:Invoice not found");
 
         var dto = invoice.ToDto();
 

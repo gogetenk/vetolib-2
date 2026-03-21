@@ -156,8 +156,8 @@ internal class CsvImportSteps
         content.Should().StartWith(expectedHeader);
     }
 
-    [Then(@"the import is rejected with status 403")]
-    public void ThenImportRejectedWith403()
+    [Then(@"the user is denied access")]
+    public void ThenUserIsDeniedAccess()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }

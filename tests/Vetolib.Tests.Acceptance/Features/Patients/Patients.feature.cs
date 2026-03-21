@@ -27,7 +27,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
                 "wip"};
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Patients", "Patient standalone CRUD", "  As a vet or admin\r\n  I want to create and manage patients independently of appo" +
-                "intments\r\n  So that I can maintain a complete patient database with UAE species", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+                "intments\r\n  So that I can maintain a complete patient registry with UAE species", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -337,7 +337,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
                         "2020-01-01\", owner name \"Owner Name\", owner phone \"+971 50 000 0000\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 37
-    await testRunner.ThenAsync("the request is rejected with status 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

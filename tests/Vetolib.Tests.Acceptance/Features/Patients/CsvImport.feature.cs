@@ -328,7 +328,7 @@ namespace Vetolib.Tests.Acceptance.Features.Patients
     await testRunner.WhenAsync("I import a CSV with 1 valid patient row", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 35
-    await testRunner.ThenAsync("the import is rejected with status 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

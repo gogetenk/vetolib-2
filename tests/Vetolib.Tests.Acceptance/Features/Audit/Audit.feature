@@ -17,4 +17,4 @@ Feature: Audit trail
   Scenario: Non-admin cannot access audit
     Given I am authenticated as VET
     When I query audit
-    Then I receive 403 Forbidden
+    Then the user is denied access
