@@ -76,7 +76,10 @@
     "sign_out": "Sign Out",
     "stock": "Stock",
     "read_only": "Read only",
-    "messaging_settings": "Messaging Settings"
+    "messaging_settings": "Messaging Settings",
+    "switch_clinic": "Switch clinic",
+    "select_clinic": "Select clinic",
+    "your_clinics": "Your clinics"
   },
   "appointments": {
     "title": "Appointments",

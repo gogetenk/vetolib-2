@@ -76,7 +76,10 @@
     "sign_out": "تسجيل الخروج",
     "stock": "المخزون",
     "read_only": "للقراءة فقط",
-    "messaging_settings": "إعدادات الرسائل"
+    "messaging_settings": "إعدادات الرسائل",
+    "switch_clinic": "تبديل العيادة",
+    "select_clinic": "اختر العيادة",
+    "your_clinics": "عياداتك"
   },
   "appointments": {
     "title": "المواعيد",
