@@ -68,5 +68,8 @@ internal class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
 
         // Index for conflict detection queries
         builder.HasIndex(a => new { a.ClinicId, a.VeterinarianId, a.Date });
+
+        // Performance: index for calendar/schedule queries by clinic + date + time
+        builder.HasIndex(a => new { a.ClinicId, a.Date, a.StartTime });
     }
 }

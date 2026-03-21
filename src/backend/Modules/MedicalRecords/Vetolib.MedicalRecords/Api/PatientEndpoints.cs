@@ -31,7 +31,7 @@ internal static class PatientEndpoints
 
         group.MapGet("/", ListPatients)
             .WithName("ListPatients")
-            .CacheOutput("Moderate2min");
+            .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
 
         group.MapGet("/{id:guid}", GetPatientById)
             .WithName("GetPatientById")

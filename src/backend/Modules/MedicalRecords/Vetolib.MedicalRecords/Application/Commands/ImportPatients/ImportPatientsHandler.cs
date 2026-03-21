@@ -43,8 +43,24 @@ internal class ImportPatientsHandler : IRequestHandler<ImportPatientsCommand, Re
             return Result<ImportReportDto>.Success(new ImportReportDto(0, 0, []));
         }
 
-        // Load existing owners by email for dedup (within this clinic, via global filter)
+        // Extract emails from CSV first, then load only matching owners (filter before load)
+        var csvEmails = rows
+            .Select(r => r.OwnerEmail?.Trim())
+            .Where(e => !string.IsNullOrWhiteSpace(e))
+            .Select(e => e!)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        // Also include generated emails for rows without explicit email
+        foreach (var row in rows)
+        {
+            if (string.IsNullOrWhiteSpace(row.OwnerEmail) && !string.IsNullOrWhiteSpace(row.OwnerName))
+            {
+                csvEmails.Add(GenerateEmailFromName(row.OwnerName.Trim(), cmd.ClinicId));
+            }
+        }
+
         var existingOwnersByEmail = await _context.Owners
+            .Where(o => csvEmails.Contains(o.Email))
             .ToDictionaryAsync(o => o.Email, o => o, StringComparer.OrdinalIgnoreCase, ct);
 
         for (int i = 0; i < rows.Count; i++)
