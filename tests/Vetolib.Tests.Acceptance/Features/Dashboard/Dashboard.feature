@@ -25,15 +25,15 @@ Feature: Dashboard statistics
 
   Scenario: Admin sees analytics data
     When I request dashboard analytics
-    Then the response status is 200
+    Then the operation succeeds
     And the analytics include a revenue by month list
     And the analytics include an appointments by status list
 
   Scenario: Analytics endpoint requires authentication
     When I request dashboard analytics without authentication
-    Then the response status is 401
+    Then the user must sign in
 
   Scenario: Non-admin cannot access analytics
     Given I am authenticated as RECEPTIONIST
     When I request dashboard analytics
-    Then the response status is 403
+    Then the user is denied access

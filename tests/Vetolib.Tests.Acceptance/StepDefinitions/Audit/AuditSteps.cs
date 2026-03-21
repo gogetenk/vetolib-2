@@ -114,8 +114,8 @@ internal class AuditSteps
         createdEntry.Should().NotBeNull();
     }
 
-    [Then(@"I receive 403 Forbidden")]
-    public void ThenIReceive403Forbidden()
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
     {
         _lastResponse.Should().NotBeNull();
         _lastResponse!.StatusCode.Should().Be(HttpStatusCode.Forbidden);

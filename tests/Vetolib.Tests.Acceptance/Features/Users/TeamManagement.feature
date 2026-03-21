@@ -9,13 +9,13 @@ Feature: Team Management
 
   Scenario: Admin lists team members
     Given the team has a vet "dr.omar@desertpaws.ae" and a receptionist "amira@desertpaws.ae"
-    When I call GET /api/users
+    When I list all team members
     Then I receive a list with 3 members
 
   Scenario: Admin invites a new user
     When I invite a new user with email "dr.new@desertpaws.ae", name "Dr. New Vet", role "Vet"
     Then the invitation succeeds
-    And the response contains a temporary password
+    And a temporary password is generated
     And the new user appears in the team list
 
   Scenario: Admin changes a user role
@@ -32,12 +32,12 @@ Feature: Team Management
 
   Scenario: Admin cannot deactivate themselves
     When I try to deactivate myself
-    Then I receive a 400 error with message "Cannot deactivate your own account"
+    Then the request is rejected with message "Cannot deactivate your own account"
 
   Scenario: Non-admin cannot access user management
     Given I am a vet "dr.sarah@desertpaws.ae" in clinic "desert-paws-001"
-    When I call GET /api/users as a vet
-    Then I receive a 403 error
+    When a vet lists all team members
+    Then the user is denied access
 
   Scenario: Deactivated user cannot log in
     Given there is an active user "dr.inactive@desertpaws.ae" with role "Vet"

@@ -9,11 +9,11 @@ internal class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand
         RuleFor(x => x.CurrentPassword).NotEmpty();
         RuleFor(x => x.NewPassword)
             .NotEmpty()
-            .MinimumLength(10).WithMessage("Le mot de passe doit contenir au moins 10 caracteres")
-            .Matches("[A-Z]").WithMessage("Le mot de passe doit contenir au moins une majuscule")
-            .Matches("[0-9]").WithMessage("Le mot de passe doit contenir au moins un chiffre")
+            .MinimumLength(10).WithMessage("Password must contain at least 10 characters")
+            .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter")
+            .Matches("[0-9]").WithMessage("Password must contain at least one digit")
             .Matches("[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?`~]")
-                .WithMessage("Le mot de passe doit contenir au moins un caractere special");
+                .WithMessage("Password must contain at least one special character");
         RuleFor(x => x.UserId).NotEmpty();
     }
 }

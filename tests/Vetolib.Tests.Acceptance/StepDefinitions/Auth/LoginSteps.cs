@@ -504,14 +504,14 @@ internal class LoginSteps
     [Then(@"the message indicates the account is locked for 15 minutes")]
     public void ThenTheMessageIndicatesTheAccountIsLockedFor15Minutes()
     {
-        _errorResponseBody.Should().Contain("verrouille");
+        _errorResponseBody.Should().Contain("locked");
         _errorResponseBody.Should().Contain("15 minutes");
     }
 
     [Then(@"the message indicates the account is locked")]
     public void ThenTheMessageIndicatesTheAccountIsLocked()
     {
-        _errorResponseBody.Should().Contain("verrouille");
+        _errorResponseBody.Should().Contain("locked");
     }
 
     [Then(@"the failed attempts counter is reset")]
@@ -535,6 +535,12 @@ internal class LoginSteps
     public void ThenTheUserIsDeniedAccess()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    [Then(@"the user must sign in")]
+    public void ThenTheUserMustSignIn()
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Then(@"the requests from this user only return data from ""(.*)""")]

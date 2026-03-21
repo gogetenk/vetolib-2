@@ -161,8 +161,8 @@ internal class TriageSteps
 
     // ─── THEN Steps ─────────────────────────────────────────────
 
-    [Then(@"I should receive a triage suggestion with status 200")]
-    public void ThenIShouldReceiveATriage200()
+    [Then(@"I receive a triage suggestion")]
+    public void ThenIReceiveATriageSuggestion()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK,
             $"Expected 200 but got {(int)_response.StatusCode}");
@@ -277,13 +277,22 @@ internal class TriageSteps
         _suggestion!.Severity.Should().Be(Enum.Parse<AISeverity>(severity, true));
     }
 
-    [Then(@"I should receive a validation error for ""(.*)""")]
-    public async Task ThenIShouldReceiveValidationErrorFor(string fieldName)
+    [Then(@"the request is rejected because symptoms are missing")]
+    public async Task ThenTheRequestIsRejectedBecauseSymptomsAreMissing()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.BadRequest,
             $"Expected 400 but got {(int)_response.StatusCode}");
         var body = await _response.Content.ReadAsStringAsync();
-        body.Should().Contain(fieldName, $"Expected validation error for {fieldName} in: {body}");
+        body.Should().Contain("Symptoms", $"Expected validation error for Symptoms in: {body}");
+    }
+
+    [Then(@"the request is rejected because species is missing")]
+    public async Task ThenTheRequestIsRejectedBecauseSpeciesIsMissing()
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.BadRequest,
+            $"Expected 400 but got {(int)_response.StatusCode}");
+        var body = await _response.Content.ReadAsStringAsync();
+        body.Should().Contain("Species", $"Expected validation error for Species in: {body}");
     }
 
     [Then(@"the disclaimer should contain ""(.*)"" and ""(.*)""")]
@@ -322,8 +331,8 @@ internal class TriageSteps
             $"Expected 503 but got {(int)_response.StatusCode}");
     }
 
-    [Then(@"a triage result should be persisted in the database")]
-    public async Task ThenATriageResultShouldBePersistedInDatabase()
+    [Then(@"the triage result is saved")]
+    public async Task ThenTheTriageResultIsSaved()
     {
         _suggestion.Should().NotBeNull();
         using var scope = _factory.Services.CreateScope();
@@ -357,8 +366,8 @@ internal class TriageSteps
         result.LatencyMs.Should().BeGreaterThanOrEqualTo(0);
     }
 
-    [Then(@"I should receive a 403 Forbidden response")]
-    public void ThenIShouldReceive403()
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden,
             $"Expected 403 but got {(int)_response.StatusCode}");

@@ -22,7 +22,7 @@ internal class AddInvoiceItemHandler : IRequestHandler<AddInvoiceItemCommand, Re
             .FirstOrDefaultAsync(i => i.Id == cmd.InvoiceId, ct);
 
         if (invoice is null)
-            return Result<InvoiceDto>.NotFound("INVOICE_NOT_FOUND:Facture introuvable");
+            return Result<InvoiceDto>.NotFound("INVOICE_NOT_FOUND:Invoice not found");
 
         var itemResult = invoice.AddItem(cmd.Description, cmd.UnitPrice);
         if (!itemResult.IsSuccess)

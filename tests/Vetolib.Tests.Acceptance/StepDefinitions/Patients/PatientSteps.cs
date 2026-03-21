@@ -253,8 +253,8 @@ internal class PatientSteps
         _patientDto!.OwnerPhone.Should().Be(expectedPhone);
     }
 
-    [Then(@"the request is rejected with status 403")]
-    public void ThenRejectedWith403()
+    [Then(@"the user is denied access")]
+    public void ThenUserIsDeniedAccess()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }

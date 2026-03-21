@@ -23,7 +23,7 @@ internal class GetInvoiceByIdHandler : IRequestHandler<GetInvoiceByIdQuery, Resu
             .FirstOrDefaultAsync(i => i.Id == query.InvoiceId, ct);
 
         if (invoice is null)
-            return Result<InvoiceDto>.NotFound("INVOICE_NOT_FOUND:Facture introuvable");
+            return Result<InvoiceDto>.NotFound("INVOICE_NOT_FOUND:Invoice not found");
 
         return Result<InvoiceDto>.Success(invoice.ToDto());
     }

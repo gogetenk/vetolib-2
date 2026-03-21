@@ -35,7 +35,7 @@ Feature: Veterinary invoicing
     Given a "PAID" invoice for "Max"
     When I attempt to add an item to the invoice
     Then the system rejects with code "INVOICE_IMMUTABLE"
-    And the error message is "Une facture payée ne peut plus être modifiée"
+    And the error message is "A paid invoice cannot be modified"
 
   Scenario: Sequential numbering per clinic
     Given 3 existing invoices for "Happy Paws"
@@ -45,15 +45,15 @@ Feature: Veterinary invoicing
   Scenario: Download PDF of a sent invoice
     Given a "SENT" invoice for "Max" with at least one item
     When I download the PDF of this invoice
-    Then the response has status 200
+    Then the operation succeeds
     And the Content-Type is "application/pdf"
     And the content is not empty
 
   Scenario: Cannot download PDF of a draft invoice
     Given a "DRAFT" invoice for "Max"
     When I download the PDF of this invoice
-    Then the response has status 422
+    Then the operation is rejected with validation errors
 
-  Scenario: Non-existent PDF returns 404
+  Scenario: Non-existent PDF returns not found
     When I download the PDF of an invoice with a random non-existent ID
-    Then the response has status 404
+    Then the record is not found
