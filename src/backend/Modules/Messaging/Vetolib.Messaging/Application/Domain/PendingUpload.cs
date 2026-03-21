@@ -1,24 +1,22 @@
 using Ardalis.Result;
-using Vetolib.Messaging.Contracts;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Messaging.Application.Domain;
 
-internal class MessageAttachment : BaseEntity
+internal class PendingUpload : BaseEntity, IMultiTenant
 {
-    public Guid MessageId { get; private set; }
+    public Guid ClinicId { get; private set; }
     public string FileName { get; private set; } = string.Empty;
     public string ContentType { get; private set; } = string.Empty;
     public long FileSizeBytes { get; private set; }
     public string StoragePath { get; private set; } = string.Empty;
+    public DateTime UploadedAt { get; private set; }
+    public DateTime ExpiresAt { get; private set; }
 
-    private MessageAttachment() { } // EF Core
+    private PendingUpload() { } // EF Core
 
-    private const long MaxFileSizeBytes = 10 * 1024 * 1024; // 10 MB
-    private static readonly string[] AllowedContentTypes = ["image/jpeg", "image/png", "application/pdf"];
-
-    public static Result<MessageAttachment> Create(
-        Guid messageId,
+    public static Result<PendingUpload> Create(
+        Guid clinicId,
         string fileName,
         string contentType,
         long fileSizeBytes,
@@ -26,43 +24,34 @@ internal class MessageAttachment : BaseEntity
     {
         var errors = new List<ValidationError>();
 
-        if (messageId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(messageId), "MessageId is required"));
+        if (clinicId == Guid.Empty)
+            errors.Add(new ValidationError(nameof(clinicId), "ClinicId is required"));
 
         if (string.IsNullOrWhiteSpace(fileName))
             errors.Add(new ValidationError(nameof(fileName), "FileName is required"));
 
         if (string.IsNullOrWhiteSpace(contentType))
             errors.Add(new ValidationError(nameof(contentType), "ContentType is required"));
-        else if (!AllowedContentTypes.Contains(contentType))
-            errors.Add(new ValidationError(nameof(contentType), "Only PDF, JPEG, and PNG files are allowed"));
 
         if (fileSizeBytes <= 0)
             errors.Add(new ValidationError(nameof(fileSizeBytes), "FileSizeBytes must be positive"));
-        else if (fileSizeBytes > MaxFileSizeBytes)
-            errors.Add(new ValidationError(nameof(fileSizeBytes), "File size cannot exceed 10 MB"));
 
         if (string.IsNullOrWhiteSpace(storagePath))
             errors.Add(new ValidationError(nameof(storagePath), "StoragePath is required"));
 
         if (errors.Count > 0)
-            return Result<MessageAttachment>.Invalid(errors);
+            return Result<PendingUpload>.Invalid(errors);
 
-        return Result<MessageAttachment>.Success(new MessageAttachment
+        var now = DateTime.UtcNow;
+        return Result<PendingUpload>.Success(new PendingUpload
         {
-            MessageId = messageId,
+            ClinicId = clinicId,
             FileName = fileName,
             ContentType = contentType,
             FileSizeBytes = fileSizeBytes,
-            StoragePath = storagePath
+            StoragePath = storagePath,
+            UploadedAt = now,
+            ExpiresAt = now.AddHours(24)
         });
     }
-
-    public MessageAttachmentDto ToDto(string url) => new(
-        Id,
-        MessageId,
-        FileName,
-        ContentType,
-        FileSizeBytes,
-        url);
 }

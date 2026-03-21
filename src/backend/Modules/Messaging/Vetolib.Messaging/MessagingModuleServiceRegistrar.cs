@@ -51,6 +51,9 @@ public static class MessagingModuleServiceRegistrar
         // Emergency escalation background service
         services.AddHostedService<EmergencyEscalationBackgroundService>();
 
+        // Pending upload cleanup — removes expired uploads every hour
+        services.AddHostedService<PendingUploadCleanupService>();
+
         // SSE broadcaster — singleton so all scopes share the same connection registry
         services.AddSingleton<IMessagingEventBroadcaster, MessagingEventBroadcaster>();
 

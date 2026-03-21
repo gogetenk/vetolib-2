@@ -62,6 +62,32 @@ internal class SendReplyHandler : IRequestHandler<SendReplyCommand, Result<Messa
         var replyMessage = messageResult.Value;
         _context.Messages.Add(replyMessage);
 
+        // Process attachments from PendingUploads
+        if (cmd.AttachmentIds is { Count: > 0 })
+        {
+            var pendingUploads = await _context.PendingUploads
+                .Where(p => cmd.AttachmentIds.Contains(p.Id))
+                .ToListAsync(ct);
+
+            if (pendingUploads.Count != cmd.AttachmentIds.Count)
+                return Result<MessageDto>.NotFound("One or more attachment IDs not found or expired");
+
+            foreach (var pending in pendingUploads)
+            {
+                var attachResult = replyMessage.AddAttachment(
+                    pending.FileName,
+                    pending.ContentType,
+                    pending.FileSizeBytes,
+                    pending.StoragePath);
+
+                if (!attachResult.IsSuccess)
+                    return Result<MessageDto>.Error(string.Join("; ", attachResult.Errors));
+
+                _context.MessageAttachments.Add(attachResult.Value);
+                _context.PendingUploads.Remove(pending);
+            }
+        }
+
         // Find the last owner message to reference in the audit
         var lastOwnerMessage = await _context.Messages
             .Where(m => m.ConversationId == cmd.ConversationId && m.Sender == MessageSender.Owner)
