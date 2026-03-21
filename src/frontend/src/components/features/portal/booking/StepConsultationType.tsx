@@ -113,8 +113,8 @@ export function StepConsultationType({
                 className={cn(
                   'relative flex flex-col items-start gap-1 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
                   isSelected
-                    ? 'border-primary bg-primary/10/50 shadow-md scale-[1.02]'
-                    : 'border-border/80 bg-white hover:border-primary/40 hover:bg-primary/10/50/30 hover:shadow-sm'
+                    ? 'border-primary bg-primary/5 shadow-md scale-[1.02]'
+                    : 'border-border/80 bg-white hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm'
                 )}
               >
                 <div

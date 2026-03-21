@@ -166,7 +166,7 @@ export function RecommendedSlots({
                 'inline-flex flex-col items-start justify-center px-3 py-2 rounded-full border text-xs font-medium transition-all min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
                 isSelected
                   ? 'bg-primary border-primary text-white shadow-sm'
-                  : 'bg-white border-primary/20 text-primary/90 hover:bg-primary/10/50 hover:border-primary/60'
+                  : 'bg-white border-primary/20 text-primary/90 hover:bg-primary/5 hover:border-primary/60'
               )}
             >
               {/* Vet name */}

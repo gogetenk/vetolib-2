@@ -76,9 +76,9 @@ export function SlotGrid({
               isAvailable
                 ? isSelected
                   ? // Selected state
-                    'bg-primary/10/50 border-2 border-primary text-primary/90 shadow-md scale-[1.05]'
+                    'bg-primary/5 border-2 border-primary text-primary/90 shadow-md scale-[1.05]'
                   : // Available unselected
-                    'bg-primary/10/50 border border-primary/20 text-primary/90 hover:bg-primary/10 hover:border-primary/60 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
+                    'bg-primary/5 border border-primary/20 text-primary/90 hover:bg-primary/10 hover:border-primary/60 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
                 : // Unavailable
                   'bg-muted border border-border/80 text-muted-foreground cursor-not-allowed opacity-60'
             )}

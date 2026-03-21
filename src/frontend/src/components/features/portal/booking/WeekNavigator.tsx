@@ -229,7 +229,7 @@ export function WeekNavigator({
                 isSelected
                   ? 'bg-primary text-white shadow-sm'
                   : isToday && !isDisabled
-                  ? 'bg-primary/10/50 border border-primary/40 text-primary/90'
+                  ? 'bg-primary/5 border border-primary/40 text-primary/90'
                   : isDisabled
                   ? 'bg-muted text-muted-foreground'
                   : 'hover:bg-muted text-foreground'

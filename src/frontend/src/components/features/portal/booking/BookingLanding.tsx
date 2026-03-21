@@ -48,7 +48,7 @@ export function BookingLanding() {
 
       {/* Next Appointment preview card */}
       {nextAppointment && (
-        <Card className="border-primary/20 bg-primary/10/50 rounded-xl shadow-sm" data-testid="next-appointment-card">
+        <Card className="border-primary/20 bg-primary/5 rounded-xl shadow-sm" data-testid="next-appointment-card">
           <CardContent className="flex items-center gap-4 py-4">
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
               <Clock className="w-6 h-6 text-primary" />
