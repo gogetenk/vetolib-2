@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 
 /**
  * Hook that encapsulates the form shake animation pattern.
@@ -6,10 +6,25 @@ import { useState, useCallback } from 'react'
  */
 export function useFormShake() {
   const [shakeForm, setShakeForm] = useState(false)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   const triggerShake = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+    }
     setShakeForm(true)
-    setTimeout(() => setShakeForm(false), 500)
+    timerRef.current = setTimeout(() => {
+      setShakeForm(false)
+      timerRef.current = null
+    }, 500)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
   }, [])
 
   return { shakeForm, triggerShake } as const

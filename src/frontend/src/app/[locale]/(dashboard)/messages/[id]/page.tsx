@@ -7,7 +7,7 @@ interface PageProps {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Conversation — Vetolib',
+    title: 'Conversation',
   }
 }
 

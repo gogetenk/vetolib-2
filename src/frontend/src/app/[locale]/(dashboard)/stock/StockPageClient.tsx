@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { Plus, History } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { StockTable } from '@/components/features/stock/StockTable'
 import { StockAlerts } from '@/components/features/stock/StockAlerts'
@@ -21,6 +21,7 @@ import type { StockItemDto, StockAlertDto } from '@/lib/api/stock'
 
 export default function StockPageClient() {
   const t = useTranslations('stock')
+  const locale = useLocale()
 
   const [items, setItems] = useState<StockItemDto[]>([])
   const [alerts, setAlerts] = useState<StockAlertDto[]>([])
@@ -98,7 +99,7 @@ export default function StockPageClient() {
           {t('title')}
         </h1>
         <div className="flex items-center gap-2">
-          <Link href="/stock/history">
+          <Link href={`/${locale}/stock/history`}>
             <Button
               variant="outline"
               data-testid="btn-stock-history"
