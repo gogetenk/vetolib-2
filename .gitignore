@@ -45,3 +45,10 @@ msbuild.binlog
 
 # Playwright MCP logs
 .playwright-mcp/*.log
+
+# Screenshots (QA, demo, e2e, MCP)
+qa-screenshots/
+screenshots/
+.playwright-mcp/
+src/frontend/e2e/screenshots/
+src/frontend/playwright-report/
