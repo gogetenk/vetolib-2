@@ -72,21 +72,21 @@ export function SlotGrid({
             aria-label={`${formatSlotTime(slot.startsAt)}${!hideVetName ? ` with ${slot.vetName}` : ''} — ${isAvailable ? 'available' : 'unavailable'}`}
             className={cn(
               // Base — touch-friendly minimum 44x44px
-              'relative flex flex-col items-center justify-center rounded-xl px-1 py-2 min-h-[44px] text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#303ef5] focus-visible:ring-offset-1',
+              'relative flex flex-col items-center justify-center rounded-xl px-1 py-2 min-h-[44px] text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1',
               isAvailable
                 ? isSelected
                   ? // Selected state
-                    'bg-[#eef2fd]/50 border-2 border-[#303ef5] text-[#2530c4] shadow-md scale-[1.05]'
+                    'bg-primary/10/50 border-2 border-primary text-primary/90 shadow-md scale-[1.05]'
                   : // Available unselected
-                    'bg-[#eef2fd]/50 border border-[#303ef5]/20 text-[#2530c4] hover:bg-[#eef2fd] hover:border-[#303ef5]/60 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
+                    'bg-primary/10/50 border border-primary/20 text-primary/90 hover:bg-primary/10 hover:border-primary/60 hover:shadow-sm hover:scale-[1.03] cursor-pointer'
                 : // Unavailable
-                  'bg-[#f4f6f9] border border-border/80 text-muted-foreground cursor-not-allowed opacity-60'
+                  'bg-muted border border-border/80 text-muted-foreground cursor-not-allowed opacity-60'
             )}
           >
             {/* Check icon for selected slot */}
             {isSelected && (
               <Check
-                className="absolute top-0.5 right-0.5 h-3 w-3 text-[#303ef5]"
+                className="absolute top-0.5 right-0.5 h-3 w-3 text-primary"
                 data-testid={`slot-check-${slot.startsAt}`}
                 aria-hidden="true"
               />

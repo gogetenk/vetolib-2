@@ -71,7 +71,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12" data-testid="conversation-loading">
-        <div className="h-8 w-8 rounded-full border-2 border-[#303ef5] border-t-transparent animate-spin" />
+        <div className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
       </div>
     )
   }
@@ -79,7 +79,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
   if (expired) {
     return (
       <div className="text-center py-12 space-y-3" data-testid="conversation-expired">
-        <p className="text-[#061e44]">{tLanding('link_expired')}</p>
+        <p className="text-foreground">{tLanding('link_expired')}</p>
       </div>
     )
   }
@@ -108,7 +108,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
           type="button"
           onClick={() => router.push(`/${params.locale}/portal/${params.clinicSlug}`)}
           data-testid="back-to-conversations-link"
-          className="flex items-center gap-1 text-[13px] text-[#303ef5] hover:text-[#2530c4]"
+          className="flex items-center gap-1 text-[13px] text-primary hover:text-primary/90"
         >
           <ArrowLeft className="h-4 w-4" />
           {t('back')}
@@ -116,7 +116,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
       </div>
 
       <div>
-        <h1 className="text-[18px] font-bold text-[#061e44]" data-testid="conversation-subject">
+        <h1 className="text-[18px] font-bold text-foreground" data-testid="conversation-subject">
           {conversation.subject}
         </h1>
         <p className="text-xs text-muted-foreground mt-0.5">
@@ -142,12 +142,12 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
               <div
                 className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-[13px] ${
                   isOwner
-                    ? 'bg-[#303ef5] text-white rounded-br-sm'
-                    : 'bg-white border border-border/80 text-[#061e44] rounded-bl-sm shadow-sm'
+                    ? 'bg-primary text-white rounded-br-sm'
+                    : 'bg-white border border-border/80 text-foreground rounded-bl-sm shadow-sm'
                 }`}
               >
                 {!isOwner && (
-                  <p className="text-xs font-semibold mb-1 text-[#303ef5]">
+                  <p className="text-xs font-semibold mb-1 text-primary">
                     {msg.senderName ?? t('clinic')}
                   </p>
                 )}
@@ -169,7 +169,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
       {/* Closed notice or reply box */}
       {isClosed ? (
         <div
-          className="rounded-xl bg-[#f4f6f9] border border-border/80 px-4 py-3 text-[13px] text-muted-foreground text-center"
+          className="rounded-xl bg-muted border border-border/80 px-4 py-3 text-[13px] text-muted-foreground text-center"
           data-testid="conversation-closed-notice"
         >
           {t('closed_notice')}
@@ -188,7 +188,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
               placeholder={t('reply_placeholder')}
               rows={3}
               data-testid="reply-input"
-              className="flex-1 block rounded-xl border border-border/80 px-3 py-2 text-[13px] shadow-sm focus:outline-none focus:ring-1 focus:ring-[#303ef5] focus:border-[#303ef5] resize-none"
+              className="flex-1 block rounded-xl border border-border/80 px-3 py-2 text-[13px] shadow-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary resize-none"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
                   handleSendReply()
@@ -199,7 +199,7 @@ export function PortalConversation({ conversationId }: PortalConversationProps) 
               onClick={handleSendReply}
               disabled={isSending || !reply.trim()}
               data-testid="send-reply-btn"
-              className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl shadow-sm h-10 px-3"
+              className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl shadow-sm h-10 px-3"
             >
               {isSending ? (
                 <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />

@@ -51,7 +51,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f6f9] flex flex-col">
+    <div className="min-h-screen bg-muted flex flex-col">
       {/* Portal header */}
       <header
         className="bg-white border-b border-border/80 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm"
@@ -59,12 +59,12 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
       >
         <div className="flex items-center gap-2">
           <div
-            className="w-8 h-8 rounded-full bg-[#303ef5] flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
+            className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
             aria-hidden="true"
           >
             {clinicName.charAt(0)}
           </div>
-          <span className="font-semibold text-[#061e44] text-sm sm:text-base" data-testid="portal-clinic-name">
+          <span className="font-semibold text-foreground text-sm sm:text-base" data-testid="portal-clinic-name">
             {clinicName}
           </span>
         </div>
@@ -74,7 +74,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
           size="sm"
           onClick={toggleLanguage}
           data-testid="portal-language-toggle"
-          className="flex items-center gap-1 text-muted-foreground hover:text-[#061e44]"
+          className="flex items-center gap-1 text-muted-foreground hover:text-foreground"
         >
           <Globe className="h-4 w-4" />
           <span className="text-xs">{isAr ? 'English' : '\u0639\u0631\u0628\u064a'}</span>
@@ -97,8 +97,8 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
                 className={cn(
                   'flex items-center gap-3 w-full rounded-xl px-3 py-2.5 text-[13px] font-semibold transition-all duration-200 min-h-[44px]',
                   isActive(item.path)
-                    ? 'bg-[#eef2fd] text-[#303ef5]'
-                    : 'text-muted-foreground hover:bg-[#f4f6f9] hover:text-[#061e44]'
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 )}
               >
                 {item.icon}
@@ -127,7 +127,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
             className={cn(
               'flex flex-col items-center gap-0.5 py-2 px-3 min-w-[64px] min-h-[44px] text-xs font-medium transition-colors',
               isActive(item.path)
-                ? 'text-[#303ef5]'
+                ? 'text-primary'
                 : 'text-muted-foreground'
             )}
           >
