@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
+using Polly;
+using Polly.Timeout;
 using Vetolib.Messaging.Api;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Application.Services.SSE;
@@ -87,8 +90,38 @@ public static class MessagingModuleServiceRegistrar
         // WhatsApp — channel dispatcher
         services.AddScoped<IChannelDispatcher, WhatsAppSender>();
 
-        // HttpClient for WhatsApp Graph API
-        services.AddHttpClient("WhatsApp");
+        // HttpClient for WhatsApp Graph API with Polly resilience
+        services.AddHttpClient("WhatsApp")
+            .AddResilienceHandler("WhatsAppResilience", builder =>
+            {
+                // Timeout: 10s per attempt
+                builder.AddTimeout(TimeSpan.FromSeconds(10));
+
+                // Retry: 2 retries with exponential backoff (1s, 2s)
+                builder.AddRetry(new HttpRetryStrategyOptions
+                {
+                    MaxRetryAttempts = 2,
+                    Delay = TimeSpan.FromSeconds(1),
+                    BackoffType = DelayBackoffType.Exponential,
+                    ShouldHandle = new PredicateBuilder<HttpResponseMessage>()
+                        .Handle<HttpRequestException>()
+                        .Handle<TimeoutRejectedException>()
+                        .HandleResult(r => r.StatusCode >= System.Net.HttpStatusCode.InternalServerError)
+                });
+
+                // Circuit Breaker: opens after 3 consecutive failures, stays open 30s
+                builder.AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions
+                {
+                    FailureRatio = 1.0,          // 100% failure ratio within sampling window
+                    SamplingDuration = TimeSpan.FromSeconds(30),
+                    MinimumThroughput = 3,        // At least 3 calls before evaluating
+                    BreakDuration = TimeSpan.FromSeconds(30),
+                    ShouldHandle = new PredicateBuilder<HttpResponseMessage>()
+                        .Handle<HttpRequestException>()
+                        .Handle<TimeoutRejectedException>()
+                        .HandleResult(r => r.StatusCode >= System.Net.HttpStatusCode.InternalServerError)
+                });
+            });
 
         return services;
     }

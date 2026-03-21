@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Ardalis.Result;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Polly.CircuitBreaker;
 using Vetolib.Messaging.Contracts;
 
 namespace Vetolib.Messaging.Infrastructure;
@@ -93,6 +94,11 @@ internal sealed class WhatsAppSender : IChannelDispatcher
                 message.TemplateName, message.RecipientPhone, message.ClinicId);
 
             return Result.Success();
+        }
+        catch (BrokenCircuitException ex)
+        {
+            _logger.LogWarning(ex, "WhatsApp circuit breaker is open for clinic {ClinicId}", message.ClinicId);
+            return Result.Error("WhatsApp service temporarily unavailable");
         }
         catch (HttpRequestException ex)
         {

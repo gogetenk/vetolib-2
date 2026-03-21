@@ -88,9 +88,17 @@ public static class ModuleServiceRegistrar
         services.AddScoped<INoShowPredictionService, NoShowPredictionService>();
 
         // SOAP Notes Generator — uses LLM if IChatClient is available, template fallback otherwise
+        // When LLM is available, wraps ClaudeSoapNotesGenerator with Polly Circuit Breaker;
+        // falls back to TemplateSoapNotesGenerator when the circuit is open.
+        services.AddScoped<TemplateSoapNotesGenerator>();
         if (innerClient is not null)
         {
-            services.AddScoped<ISoapNotesGenerator, ClaudeSoapNotesGenerator>();
+            services.AddScoped<ClaudeSoapNotesGenerator>();
+            services.AddScoped<ISoapNotesGenerator>(sp =>
+                new ResilientSoapNotesGenerator(
+                    sp.GetRequiredService<ClaudeSoapNotesGenerator>(),
+                    sp.GetRequiredService<TemplateSoapNotesGenerator>(),
+                    sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<ResilientSoapNotesGenerator>>()));
         }
         else
         {

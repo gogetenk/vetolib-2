@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using Polly.CircuitBreaker;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Shared.Kernel;
@@ -163,7 +164,39 @@ public class WhatsAppSenderTests : IDisposable
         handler.LastRequestBody.Should().Contain("2026-03-21");
     }
 
+    [Fact]
+    public async Task SendAsync_WhenCircuitBreakerOpen_ReturnsGracefulError()
+    {
+        await SeedWaba();
+        _tokenEncryptor.Decrypt("encrypted_token_123").Returns("plain_access_token");
+
+        var handler = new BrokenCircuitHttpMessageHandler();
+        var httpClient = new HttpClient(handler);
+        var factory = Substitute.For<IHttpClientFactory>();
+        factory.CreateClient("WhatsApp").Returns(httpClient);
+
+        var sender = new WhatsAppSender(factory, _context, _tokenEncryptor, _logger);
+        var message = new ChannelMessage("+971501234567", "hello_world", new(), ClinicId);
+
+        var result = await sender.SendAsync(message);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.Contains("WhatsApp service temporarily unavailable"));
+    }
+
     public void Dispose() => _context.Dispose();
+
+    /// <summary>
+    /// Fake HTTP handler that throws BrokenCircuitException to simulate an open circuit.
+    /// </summary>
+    private sealed class BrokenCircuitHttpMessageHandler : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            throw new BrokenCircuitException("Circuit is open");
+        }
+    }
 
     /// <summary>
     /// Fake HTTP handler that captures the request and returns a predetermined response.
