@@ -84,6 +84,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={`/${locale}${item.href}`}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "relative flex items-center h-full px-4 text-[13px] font-semibold transition-colors hover:text-[#303ef5]",
                   isActive ? "text-[#303ef5]" : "text-muted-foreground"
@@ -112,6 +113,7 @@ export function Header() {
           size="icon"
           data-testid="mobile-menu-trigger"
           className="lg:hidden"
+          aria-label="Open navigation menu"
           onClick={() => setMobileOpen(true)}
         >
           <Menu className="h-5 w-5" />

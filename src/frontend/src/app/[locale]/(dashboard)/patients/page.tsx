@@ -100,6 +100,7 @@ export default function PatientsPage() {
         <Input
           type="search"
           placeholder={t('search_placeholder')}
+          aria-label="Search patients"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           data-testid="search-input"

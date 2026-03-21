@@ -2,6 +2,7 @@
   "auth": {
     "signup": {
       "title": "Create Your Clinic",
+      "heading": "Create Account",
       "meta_title": "Create Your Clinic — Vetolib",
       "meta_description": "Start your free 14-day trial. Manage appointments, medical records, and billing for your veterinary clinic in the UAE.",
       "subtitle": "Start your 14-day free trial. No credit card required.",
@@ -39,6 +40,7 @@
     },
     "login": {
       "title": "Sign In",
+      "heading": "Sign In",
       "email": "Email",
       "password": "Password",
       "submit": "Sign In",

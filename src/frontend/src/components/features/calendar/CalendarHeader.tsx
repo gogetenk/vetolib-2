@@ -118,11 +118,11 @@ export function CalendarHeader({
 
         {/* Center: Navigation & Date */}
         <div className="flex-1 flex justify-center items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={onPrev} className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
+          <Button variant="ghost" size="icon" onClick={onPrev} aria-label="Previous" className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
             {isRtl ? <ChevronRight className="size-5" /> : <ChevronLeft className="size-5" />}
           </Button>
           <span className="text-[15px] font-semibold min-w-[200px] text-center text-[#061e44]">{dateLabel}</span>
-          <Button variant="ghost" size="icon" onClick={onNext} className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
+          <Button variant="ghost" size="icon" onClick={onNext} aria-label="Next" className="rounded-full hover:bg-[#f4f6f9] h-8 w-8 text-muted-foreground hover:text-[#061e44]">
             {isRtl ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
           </Button>
         </div>

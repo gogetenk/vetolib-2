@@ -119,6 +119,7 @@ export function SignupForm() {
       </div>
       <Card data-testid="signup-card" className="shadow-lg">
         <CardHeader className="text-center">
+          <h1 className="sr-only">{t("heading")}</h1>
           <CardTitle className="text-2xl font-bold tracking-tight">Vetolib</CardTitle>
           <CardDescription>{t("subtitle")}</CardDescription>
         </CardHeader>
@@ -148,11 +149,13 @@ export function SignupForm() {
                 data-testid="clinic-name-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.clinicName}
+                aria-describedby={errors.clinicName ? "clinicName-error" : undefined}
                 className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.clinicName ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("clinicName")}
               />
               {errors.clinicName && (
                 <p
+                  id="clinicName-error"
                   className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="clinic-name-error"
                   role="alert"
@@ -172,11 +175,13 @@ export function SignupForm() {
                 data-testid="email-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
                 className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("email")}
               />
               {errors.email && (
                 <p
+                  id="email-error"
                   className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="email-error"
                   role="alert"
@@ -196,11 +201,13 @@ export function SignupForm() {
                 data-testid="phone-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.phone}
+                aria-describedby={errors.phone ? "phone-error" : undefined}
                 className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.phone ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("phone")}
               />
               {errors.phone && (
                 <p
+                  id="phone-error"
                   className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="phone-error"
                   role="alert"
@@ -221,6 +228,7 @@ export function SignupForm() {
                   data-testid="password-input"
                   disabled={isSubmitting}
                   aria-invalid={!!errors.password}
+                  aria-describedby={errors.password ? "password-error" : undefined}
                   className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("password")}
                 />
@@ -286,6 +294,7 @@ export function SignupForm() {
               )}
               {errors.password && (
                 <p
+                  id="password-error"
                   className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="password-error"
                   role="alert"
@@ -306,6 +315,7 @@ export function SignupForm() {
                   data-testid="confirm-password-input"
                   disabled={isSubmitting}
                   aria-invalid={!!errors.confirmPassword}
+                  aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
                   className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("confirmPassword")}
                 />
@@ -328,6 +338,7 @@ export function SignupForm() {
               </div>
               {errors.confirmPassword && (
                 <p
+                  id="confirmPassword-error"
                   className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="confirm-password-error"
                   role="alert"
