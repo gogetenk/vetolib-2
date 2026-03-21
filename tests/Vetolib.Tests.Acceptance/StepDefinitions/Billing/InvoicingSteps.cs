@@ -13,7 +13,7 @@ namespace Vetolib.Tests.Acceptance.StepDefinitions.Billing;
 
 [Binding]
 [Scope(Feature = "Veterinary invoicing")]
-internal class FacturationSteps
+internal class InvoicingSteps
 {
     private readonly ScenarioContext _ctx;
     private HttpClient _client = null!;
@@ -29,7 +29,7 @@ internal class FacturationSteps
         Converters = { new JsonStringEnumConverter() }
     };
 
-    public FacturationSteps(ScenarioContext ctx)
+    public InvoicingSteps(ScenarioContext ctx)
     {
         _ctx = ctx;
     }
@@ -339,11 +339,25 @@ internal class FacturationSteps
         _currentInvoice!.InvoiceNumber.Should().Be(expectedNumber);
     }
 
-    [Then(@"the response has status (\d+)")]
-    public void ThenTheResponseHasStatus(int statusCode)
+    [Then(@"the operation succeeds")]
+    public void ThenTheOperationSucceeds()
     {
         _lastResponse.Should().NotBeNull();
-        ((int)_lastResponse!.StatusCode).Should().Be(statusCode);
+        ((int)_lastResponse!.StatusCode).Should().Be(200);
+    }
+
+    [Then(@"the operation is rejected with validation errors")]
+    public void ThenTheOperationIsRejectedWithValidationErrors()
+    {
+        _lastResponse.Should().NotBeNull();
+        ((int)_lastResponse!.StatusCode).Should().Be(422);
+    }
+
+    [Then(@"the record is not found")]
+    public void ThenTheRecordIsNotFound()
+    {
+        _lastResponse.Should().NotBeNull();
+        ((int)_lastResponse!.StatusCode).Should().Be(404);
     }
 
     [Then(@"the Content-Type is ""(.*)""")]
