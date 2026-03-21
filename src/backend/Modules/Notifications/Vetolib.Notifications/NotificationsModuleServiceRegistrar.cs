@@ -1,4 +1,12 @@
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vetolib.Notifications.Api;
+using Vetolib.Notifications.Infrastructure;
+using Vetolib.Shared.Infrastructure.Behaviors;
 
 namespace Vetolib.Notifications;
 
@@ -12,9 +20,22 @@ public static class NotificationsModuleServiceRegistrar
 {
     public static IServiceCollection AddNotificationsModule(this IServiceCollection services)
     {
-        // MassTransit consumer registration is handled in Program.cs via
-        // x.AddConsumers(typeof(NotificationsModuleServiceRegistrar).Assembly)
-        // No additional registrations needed here.
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(NotificationsModuleServiceRegistrar).Assembly);
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        });
+
+        services.AddValidatorsFromAssembly(typeof(NotificationsModuleServiceRegistrar).Assembly, includeInternalTypes: true);
+
+        services.AddHostedService<ReminderSchedulerService>();
+
         return services;
+    }
+
+    public static IEndpointRouteBuilder MapNotificationsEndpoints(this IEndpointRouteBuilder app)
+    {
+        app.MapReminderApiEndpoints();
+        return app;
     }
 }
