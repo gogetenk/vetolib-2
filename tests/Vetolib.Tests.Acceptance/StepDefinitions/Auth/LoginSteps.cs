@@ -537,12 +537,6 @@ internal class LoginSteps
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 
-    [Then(@"the user must sign in")]
-    public void ThenTheUserMustSignIn()
-    {
-        _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
-
     [Then(@"the requests from this user only return data from ""(.*)""")]
     public void ThenTheRequestsFromThisUserOnlyReturnDataFrom(string clinicIdentifier)
     {

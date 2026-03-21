@@ -423,12 +423,6 @@ internal class OnboardingSteps
         _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
-    [Then(@"the user must sign in")]
-    public void ThenTheUserMustSignIn()
-    {
-        _response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
-
     // ─── Helpers ─────────────────────────────────────────────────
 
     private bool _authInitialized = false;
