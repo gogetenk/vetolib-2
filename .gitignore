@@ -39,3 +39,9 @@ blob-report/
 # Claude Code
 .claude/cost-log.csv
 .claude/worktrees/
+
+# Build artifacts
+msbuild.binlog
+
+# Playwright MCP logs
+.playwright-mcp/*.log

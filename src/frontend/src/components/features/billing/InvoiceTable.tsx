@@ -113,6 +113,10 @@ export function InvoiceTable() {
             <Input
               data-testid="invoice-search"
               placeholder="Search invoice # or patient..."
+<<<<<<< HEAD
+              aria-label="Search invoices"
+=======
+>>>>>>> origin/develop
               className="w-64 ps-9 bg-white border-border/80 rounded-xl h-10 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -122,7 +126,7 @@ export function InvoiceTable() {
             value={statusFilter}
             onValueChange={(val) => setStatusFilter(val as InvoiceStatus | 'ALL')}
           >
-            <SelectTrigger className="w-48 rounded-xl h-10 border-border/80" data-testid="status-filter">
+            <SelectTrigger className="w-48 rounded-xl h-10 border-border/80" aria-label="Filter by status" data-testid="status-filter">
               <SelectValue placeholder="All statuses" />
             </SelectTrigger>
             <SelectContent>

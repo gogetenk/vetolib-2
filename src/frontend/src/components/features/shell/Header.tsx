@@ -12,7 +12,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useRole } from "@/hooks/use-role";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { UserMenu } from "./UserMenu";
 import { MobileSidebarContent } from "./Sidebar";
 import { cn } from "@/lib/utils";
@@ -42,13 +42,16 @@ export function Header() {
   const pathname = usePathname();
   const [clinicName] = useState<string>(getInitialClinicName);
   const { unreadCount } = useMessagingSseContext();
+  const t = useTranslations("nav");
 
   const navItems = [
-    { href: "/appointments", label: "Agenda" },
-    { href: "/messages", label: "Messagerie", badge: unreadCount > 0 ? unreadCount : undefined },
-    { href: "/medical-records", label: "Dossier et consultation" },
-    { href: "/patients", label: "Patients" },
-    { href: "/billing", label: "Comptabilité" },
+    { href: "/dashboard", label: t("dashboard") },
+    { href: "/appointments", label: t("appointments") },
+    { href: "/messages", label: t("messages"), badge: unreadCount > 0 ? unreadCount : undefined },
+    { href: "/medical-records", label: t("medical_records") },
+    { href: "/patients", label: t("patients") },
+    { href: "/billing", label: t("billing") },
+    { href: "/stock", label: t("stock") },
   ];
 
   return (
@@ -81,6 +84,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={`/${locale}${item.href}`}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "relative flex items-center h-full px-4 text-[13px] font-semibold transition-colors hover:text-primary",
                   isActive ? "text-primary" : "text-muted-foreground"
@@ -109,6 +113,7 @@ export function Header() {
           size="icon"
           data-testid="mobile-menu-trigger"
           className="lg:hidden"
+          aria-label="Open navigation menu"
           onClick={() => setMobileOpen(true)}
         >
           <Menu className="h-5 w-5" />

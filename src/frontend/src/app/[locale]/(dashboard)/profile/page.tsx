@@ -1,5 +1,14 @@
-"use client"
+import type { Metadata } from "next";
+import ProfilePageClient from "./ProfilePageClient";
 
+<<<<<<< HEAD
+export const metadata: Metadata = {
+  title: "Profile",
+};
+
+export default function ProfilePage() {
+  return <ProfilePageClient />;
+=======
 import { useMemo } from "react"
 import { User, Mail, Shield } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
@@ -107,4 +116,5 @@ export default function ProfilePage() {
       </Card>
     </PageContainer>
   )
+>>>>>>> origin/develop
 }

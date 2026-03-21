@@ -23,7 +23,7 @@ internal class CreateOwnerHandler : IRequestHandler<CreateOwnerCommand, Result<O
             .FirstOrDefaultAsync(o => o.Email == cmd.Email.ToLowerInvariant(), ct);
 
         if (existingOwner is not null)
-            return Result<OwnerDto>.Error("EMAIL_EXISTS:Cet email de proprietaire est deja utilise");
+            return Result<OwnerDto>.Error("EMAIL_EXISTS:This owner email is already in use");
 
         var ownerResult = Owner.Create(cmd.ClinicId, cmd.FirstName, cmd.LastName, cmd.Email, cmd.Phone);
 

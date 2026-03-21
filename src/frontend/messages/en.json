@@ -2,6 +2,7 @@
   "auth": {
     "signup": {
       "title": "Create Your Clinic",
+      "heading": "Create Account",
       "meta_title": "Create Your Clinic — Vetolib",
       "meta_description": "Start your free 14-day trial. Manage appointments, medical records, and billing for your veterinary clinic in the UAE.",
       "subtitle": "Start your 14-day free trial. No credit card required.",
@@ -39,6 +40,7 @@
     },
     "login": {
       "title": "Sign In",
+      "heading": "Sign In",
       "email": "Email",
       "password": "Password",
       "submit": "Sign In",
@@ -62,6 +64,7 @@
     }
   },
   "nav": {
+    "dashboard": "Dashboard",
     "appointments": "Appointments",
     "patients": "Patients",
     "medical_records": "Medical Records",
@@ -72,7 +75,8 @@
     "profile": "Profile",
     "sign_out": "Sign Out",
     "stock": "Stock",
-    "read_only": "Read only"
+    "read_only": "Read only",
+    "messaging_settings": "Messaging Settings"
   },
   "appointments": {
     "title": "Appointments",
@@ -781,6 +785,9 @@
       "week": "Week",
       "month": "Month"
     },
+    "personal": "Personal",
+    "team": "Team",
+    "newAppointment": "New Appointment",
     "allVets": "All vets",
     "filterByVet": "Filter by vet",
     "moreAppointments": "+{count} more",
@@ -1535,5 +1542,15 @@
       "save_failed": "Failed to add drug.",
       "not_found": "Drug not found."
     }
+  },
+  "settings_page": {
+    "title": "Settings",
+    "subtitle": "Manage your clinic configuration and preferences.",
+    "preferences_title": "Clinic Preferences",
+    "preferences_description": "Configure clinic hours, default consultation duration, and notification settings.",
+    "team_title": "Team Management",
+    "team_description": "Invite team members, manage roles, and control access permissions.",
+    "messaging_title": "Messaging Settings",
+    "messaging_description": "Set up automated reminders, templates, and messaging hours."
   }
 }

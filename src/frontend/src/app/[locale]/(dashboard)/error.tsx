@@ -19,17 +19,17 @@ export default function DashboardError({ error, reset }: ErrorProps) {
       data-testid="dashboard-error"
     >
       <h2 className="text-xl font-semibold text-destructive">
-        Une erreur est survenue
+        An error occurred
       </h2>
       <p className="text-sm text-muted-foreground">
-        {error.message || "Erreur inattendue. Veuillez réessayer."}
+        {error.message || "Unexpected error. Please try again."}
       </p>
       <Button
         variant="outline"
         onClick={reset}
         data-testid="dashboard-error-reset"
       >
-        Réessayer
+        Try again
       </Button>
     </div>
   );

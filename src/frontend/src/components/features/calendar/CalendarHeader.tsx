@@ -78,7 +78,7 @@ export function CalendarHeader({
               onClick={() => setIsFilterOpen((prev) => !prev)}
               data-testid="calendar-vet-filter-btn"
             >
-              Personnel
+              {t('personal')}
               <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`} />
             </button>
 
@@ -102,7 +102,11 @@ export function CalendarHeader({
             </div>
           </div>
           <button className="px-4 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted">
+<<<<<<< HEAD
+            {t('team')}
+=======
             Équipe
+>>>>>>> origin/develop
           </button>
         </div>
       </div>
@@ -118,11 +122,19 @@ export function CalendarHeader({
 
         {/* Center: Navigation & Date */}
         <div className="flex-1 flex justify-center items-center gap-4">
+<<<<<<< HEAD
+          <Button variant="ghost" size="icon" onClick={onPrev} aria-label="Previous" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
+            {isRtl ? <ChevronRight className="size-5" /> : <ChevronLeft className="size-5" />}
+          </Button>
+          <span className="text-[15px] font-semibold min-w-[200px] text-center text-foreground">{dateLabel}</span>
+          <Button variant="ghost" size="icon" onClick={onNext} aria-label="Next" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
+=======
           <Button variant="ghost" size="icon" onClick={onPrev} className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
             {isRtl ? <ChevronRight className="size-5" /> : <ChevronLeft className="size-5" />}
           </Button>
           <span className="text-[15px] font-semibold min-w-[200px] text-center text-foreground">{dateLabel}</span>
           <Button variant="ghost" size="icon" onClick={onNext} className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
+>>>>>>> origin/develop
             {isRtl ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
           </Button>
         </div>
@@ -152,7 +164,7 @@ export function CalendarHeader({
             onClick={onNewAppointment}
           >
             <Plus className="size-4" />
-            Nouveau rendez-vous
+            {t('newAppointment')}
           </Button>
         </div>
       </div>

@@ -28,7 +28,7 @@ internal class EditAppointmentHandler : IRequestHandler<EditAppointmentCommand, 
                 .FirstOrDefaultAsync(a => a.Id == cmd.AppointmentId, ct);
 
             if (appointment is null)
-                return Result<AppointmentDto>.NotFound($"Rendez-vous {cmd.AppointmentId} introuvable");
+                return Result<AppointmentDto>.NotFound($"Appointment {cmd.AppointmentId} not found");
 
             // Apply domain logic (guards status, etc.)
             var rescheduleResult = appointment.Reschedule(

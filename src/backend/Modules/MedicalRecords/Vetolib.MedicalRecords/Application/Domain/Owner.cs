@@ -25,13 +25,13 @@ internal class Owner : BaseEntity, IMultiTenant
             errors.Add(new ValidationError(nameof(clinicId), "ClinicId is required"));
 
         if (string.IsNullOrWhiteSpace(firstName))
-            errors.Add(new ValidationError(nameof(firstName), "Le prenom est requis"));
+            errors.Add(new ValidationError(nameof(firstName), "First name is required"));
 
         if (string.IsNullOrWhiteSpace(lastName))
-            errors.Add(new ValidationError(nameof(lastName), "Le nom est requis"));
+            errors.Add(new ValidationError(nameof(lastName), "Last name is required"));
 
         if (string.IsNullOrWhiteSpace(email))
-            errors.Add(new ValidationError(nameof(email), "L'email est requis"));
+            errors.Add(new ValidationError(nameof(email), "Email is required"));
 
         if (errors.Count > 0)
             return Result<Owner>.Invalid(errors);

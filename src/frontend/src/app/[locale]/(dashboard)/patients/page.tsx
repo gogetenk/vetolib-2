@@ -1,5 +1,14 @@
-'use client'
+import type { Metadata } from "next";
+import PatientsPageClient from "./PatientsPageClient";
 
+<<<<<<< HEAD
+export const metadata: Metadata = {
+  title: "Patients",
+};
+
+export default function PatientsPage() {
+  return <PatientsPageClient />;
+=======
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { Plus, Upload, ClipboardList } from 'lucide-react'
@@ -171,4 +180,5 @@ export default function PatientsPage() {
       )}
     </PageContainer>
   )
+>>>>>>> origin/develop
 }

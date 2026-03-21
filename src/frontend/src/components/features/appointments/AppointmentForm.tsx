@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useFormShake } from '@/hooks/use-form-shake'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -36,7 +37,7 @@ TIME_SLOTS.push('19:00')
 
 const schema = z.object({
   patientName: z.string().min(1, 'Patient name is required'),
-  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic'] as [Species, ...Species[]]),
+  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic'] as [Species, ...Species[]], { message: 'Please select a species' }),
   ownerName: z.string().min(1, 'Owner name is required'),
   ownerPhone: z.string().min(1, 'Owner phone is required'),
   vetId: z.string().min(1, 'Vet is required'),
@@ -53,27 +54,29 @@ export function AppointmentForm() {
   const t = useTranslations('appointments.form')
   const [vets, setVets] = useState<VetDto[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [hasShake, setHasShake] = useState(false)
+  const { shakeForm: hasShake, triggerShake } = useFormShake()
   const formRef = useRef<HTMLFormElement>(null)
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   })
 
+  const selectedVetId = watch('vetId')
+  const selectedVetName = vets.find((v) => v.id === selectedVetId)?.name
+
   // Shake form on validation errors
   const errorCount = Object.keys(errors).length
   useEffect(() => {
     if (errorCount > 0) {
-      setHasShake(true)
-      const timer = setTimeout(() => setHasShake(false), 500)
-      return () => clearTimeout(timer)
+      triggerShake()
     }
-  }, [errorCount])
+  }, [errorCount, triggerShake])
 
   useEffect(() => {
     trackEvent(AnalyticsEvents.APPOINTMENT_FORM_OPENED)
@@ -211,7 +214,9 @@ export function AppointmentForm() {
                 data-testid="select-vet"
               >
                 <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-vet-trigger">
-                  <SelectValue placeholder={t('select_vet')} />
+                  <SelectValue placeholder={t('select_vet')}>
+                    {selectedVetName}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {vets.map((v) => (

@@ -1,5 +1,14 @@
-'use client'
+import type { Metadata } from "next";
+import StockPageClient from "./StockPageClient";
 
+<<<<<<< HEAD
+export const metadata: Metadata = {
+  title: "Stock",
+};
+
+export default function StockPage() {
+  return <StockPageClient />;
+=======
 import { useEffect, useState, useCallback } from 'react'
 import { Plus, History } from 'lucide-react'
 import Link from 'next/link'
@@ -166,4 +175,5 @@ export default function StockPage() {
       />
     </PageContainer>
   )
+>>>>>>> origin/develop
 }

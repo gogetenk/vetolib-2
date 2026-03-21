@@ -214,7 +214,9 @@ export function QuickAppointmentForm({
               data-testid="quick-create-vet-select"
             >
               <SelectTrigger className="w-full rounded-xl border-border/80 text-[13px]" data-testid="quick-create-vet-select">
-                <SelectValue />
+                <SelectValue>
+                  {vets.find((v) => v.id === vetId)?.name}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {vets.map((vet) => (

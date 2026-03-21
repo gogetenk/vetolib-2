@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo, useRef, useEffect } from 'react'
+import { useFormShake } from '@/hooks/use-form-shake'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -27,7 +28,7 @@ import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 function createPatientSchema(t: (key: string) => string) {
   return z.object({
     name: z.string().min(1, t('errors.name_required')),
-    species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic'] as [Species, ...Species[]]),
+    species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic'] as [Species, ...Species[]], { message: t('errors.species_required') }),
     breed: z.string().optional(),
     dateOfBirth: z.string().min(1, t('errors.date_of_birth_required')).refine(
       (val) => {
@@ -67,7 +68,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
 
   const isEdit = !!patient
 
-  const [hasShake, setHasShake] = useState(false)
+  const { shakeForm: hasShake, triggerShake } = useFormShake()
 
   const {
     register,
@@ -100,11 +101,9 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   const errorCount = Object.keys(errors).length
   useEffect(() => {
     if (errorCount > 0) {
-      setHasShake(true)
-      const timer = setTimeout(() => setHasShake(false), 500)
-      return () => clearTimeout(timer)
+      triggerShake()
     }
-  }, [errorCount])
+  }, [errorCount, triggerShake])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const selectedSpecies = watch('species')

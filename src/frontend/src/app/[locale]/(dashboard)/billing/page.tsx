@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import { InvoiceTable } from "@/components/features/billing/InvoiceTable";
 import { PageContainer } from "@/components/ui/page-container";
 import { getTranslations } from 'next-intl/server'
+
+export const metadata: Metadata = {
+  title: "Billing",
+};
 
 export default async function BillingPage() {
   const t = await getTranslations('billing')

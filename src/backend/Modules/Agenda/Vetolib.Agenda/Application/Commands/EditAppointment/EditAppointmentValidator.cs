@@ -8,13 +8,13 @@ internal class EditAppointmentValidator : AbstractValidator<EditAppointmentComma
     {
         RuleFor(x => x.AppointmentId)
             .NotEmpty()
-            .WithMessage("AppointmentId est requis");
+            .WithMessage("AppointmentId is required");
 
         When(x => x.VeterinarianId.HasValue, () =>
         {
             RuleFor(x => x.VeterinarianId!.Value)
                 .NotEmpty()
-                .WithMessage("VeterinarianId ne peut pas etre un Guid vide");
+                .WithMessage("VeterinarianId cannot be an empty Guid");
         });
 
         When(x => x.DurationMinutes.HasValue, () =>
@@ -22,7 +22,7 @@ internal class EditAppointmentValidator : AbstractValidator<EditAppointmentComma
             RuleFor(x => x.DurationMinutes!.Value)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(480)
-                .WithMessage("La duree doit etre entre 1 et 480 minutes");
+                .WithMessage("Duration must be between 1 and 480 minutes");
         });
     }
 }

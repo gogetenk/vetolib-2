@@ -20,6 +20,7 @@ import { FeaturesSection } from "@/components/features/landing/FeaturesSection";
 import { FinalCtaSection } from "@/components/features/landing/FinalCtaSection";
 import { Footer } from "@/components/features/landing/Footer";
 import { NavLanguageSwitcher } from "@/components/features/landing/NavLanguageSwitcher";
+import { MobileLandingNav } from "@/components/features/landing/MobileLandingNav";
 import { ScrollReveal } from "@/components/features/landing/ScrollReveal";
 import { HeroStagger, HeroDashboardReveal } from "@/components/features/landing/HeroAnimations";
 import { AnimatedStat } from "@/components/features/landing/AnimatedStat";
@@ -151,18 +152,20 @@ export default async function LandingPage({ params }: Props) {
               </Button>
             </Link>
           </div>
-          {/* Mobile sign-in */}
+          {/* Mobile nav */}
           <div className="flex items-center gap-2 md:hidden">
             <NavLanguageSwitcher locale={locale} />
-            <Link href={signupHref} data-testid="nav-mobile-cta">
-              <Button
-                size="sm"
-                className="bg-emerald-700 text-white hover:bg-emerald-800"
-                data-testid="btn-nav-mobile-start-trial"
-              >
-                {t("hero.cta_primary")}
-              </Button>
-            </Link>
+            <MobileLandingNav
+              links={[
+                { label: t("nav.features"), href: "#features", testId: "nav-link-features" },
+                { label: t("nav.pricing"), href: "#pricing", testId: "nav-link-pricing" },
+                { label: t("nav.faq"), href: "#faq", testId: "nav-link-faq" },
+              ]}
+              signInLabel={t("nav.sign_in")}
+              ctaLabel={t("hero.cta_primary")}
+              loginHref={loginHref}
+              signupHref={signupHref}
+            />
           </div>
         </nav>
       </header>

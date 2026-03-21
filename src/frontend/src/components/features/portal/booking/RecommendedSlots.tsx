@@ -178,7 +178,7 @@ export function RecommendedSlots({
               </span>
               {/* Date + time */}
               <span
-                className={cn('leading-none', isSelected ? 'text-primary/10' : 'text-muted-foreground')}
+                className={cn('leading-none', isSelected ? 'text-primary-foreground' : 'text-muted-foreground')}
                 data-testid={`recommended-slot-datetime-${idx}`}
               >
                 {formatSuggestionLabel(slot)}

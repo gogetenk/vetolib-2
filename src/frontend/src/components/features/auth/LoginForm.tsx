@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login, type LoginError } from "@/lib/api/auth"
+import { useFormShake } from "@/hooks/use-form-shake"
 import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
 import { useTranslations, useLocale } from "next-intl"
 import { LanguageSwitcher } from "./LanguageSwitcher"
@@ -36,11 +37,12 @@ type LoginFormValues = {
 
 export function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const t = useTranslations("auth.login")
   const locale = useLocale()
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
-  const [shakeForm, setShakeForm] = useState(false)
+  const { shakeForm, triggerShake } = useFormShake()
   const formRef = useRef<HTMLFormElement>(null)
 
   const loginSchema = buildLoginSchema(t)
@@ -57,7 +59,12 @@ export function LoginForm() {
     setServerError(null)
     try {
       await login(data.email, data.password)
-      router.push(`/${locale}/appointments`)
+      // Respect callbackUrl from middleware redirect, fallback to appointments
+      const callbackUrl = searchParams.get("callbackUrl")
+      const destination = callbackUrl && callbackUrl.startsWith("/")
+        ? callbackUrl
+        : `/${locale}/appointments`
+      router.push(destination)
     } catch (err) {
       const loginErr = err as LoginError
       if (loginErr.code === "ACCOUNT_LOCKED") {
@@ -68,14 +75,12 @@ export function LoginForm() {
         setServerError(t("errors.connection_error"))
       }
       // Trigger shake animation on error
-      setShakeForm(true)
-      setTimeout(() => setShakeForm(false), 500)
+      triggerShake()
     }
   }
 
   const handleInvalidSubmit = () => {
-    setShakeForm(true)
-    setTimeout(() => setShakeForm(false), 500)
+    triggerShake()
   }
 
   const emailError = errors.email?.message
@@ -111,6 +116,7 @@ export function LoginForm() {
         className="shadow-lg"
       >
         <CardHeader className="text-center">
+          <h1 className="sr-only">{t("heading")}</h1>
           <CardTitle className="text-2xl font-bold tracking-tight">Vetolib</CardTitle>
           <CardDescription className="text-muted-foreground">{t("veterinary_management")}</CardDescription>
         </CardHeader>
@@ -140,11 +146,13 @@ export function LoginForm() {
                 data-testid="email-input"
                 disabled={isSubmitting}
                 aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
                 className={`transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                 {...register("email")}
               />
               {errors.email && (
                 <p
+                  id="email-error"
                   className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="email-error"
                   role="alert"
@@ -172,6 +180,7 @@ export function LoginForm() {
                   data-testid="password-input"
                   disabled={isSubmitting}
                   aria-invalid={!!errors.password}
+                  aria-describedby={errors.password ? "password-error" : undefined}
                   className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("password")}
                 />
@@ -194,6 +203,7 @@ export function LoginForm() {
               </div>
               {errors.password && (
                 <p
+                  id="password-error"
                   className="text-sm text-red-600 animate-auth-error-slide"
                   data-testid="password-error"
                   role="alert"

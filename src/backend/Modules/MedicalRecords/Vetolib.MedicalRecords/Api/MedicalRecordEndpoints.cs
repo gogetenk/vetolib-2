@@ -74,7 +74,7 @@ internal static class MedicalRecordEndpoints
         Guid recordId)
     {
         // Medical records are immutable — deletion is forbidden
-        var result = Ardalis.Result.Result.Error("MEDICAL_RECORD_IMMUTABLE:Un dossier médical ne peut jamais être supprimé");
+        var result = Ardalis.Result.Result.Error("MEDICAL_RECORD_IMMUTABLE:A medical record can never be deleted");
         return result.ToMinimalApiResult();
     }
 
@@ -92,7 +92,7 @@ internal static class MedicalRecordEndpoints
 
         var vetLicense = user.FindFirst("vetLicense")?.Value ?? string.Empty;
         if (string.IsNullOrWhiteSpace(vetLicense))
-            return Ardalis.Result.Result<PrescriptionDto>.Error("VET_LICENSE_REQUIRED:Numéro de licence vétérinaire requis").ToMinimalApiResult();
+            return Ardalis.Result.Result<PrescriptionDto>.Error("VET_LICENSE_REQUIRED:Veterinary license number is required").ToMinimalApiResult();
 
         var userIdClaim = user.FindFirst("sub")?.Value
             ?? user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

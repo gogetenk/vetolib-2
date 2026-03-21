@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { ScrollReveal } from "./ScrollReveal";
 
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
 interface FooterColumn {
   title: string;
-  links: { label: string; href: string }[];
+  links: FooterLink[];
 }
 
 interface FooterMessages {
@@ -99,16 +104,28 @@ export function Footer({ locale, messages: m }: Props) {
                 {col.title}
               </h3>
               <ul className="mt-4 space-y-2">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-stone-600 transition-colors hover:text-emerald-700"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {col.links.map((link) => {
+                  const isDisabled = link.href === "#";
+                  return (
+                    <li key={link.label}>
+                      {isDisabled ? (
+                        <span
+                          className="text-sm text-stone-400 opacity-50 cursor-not-allowed select-none"
+                          title="Coming Soon"
+                        >
+                          {link.label}
+                        </span>
+                      ) : (
+                        <a
+                          href={link.href}
+                          className="text-sm text-stone-600 transition-colors hover:text-emerald-700"
+                        >
+                          {link.label}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

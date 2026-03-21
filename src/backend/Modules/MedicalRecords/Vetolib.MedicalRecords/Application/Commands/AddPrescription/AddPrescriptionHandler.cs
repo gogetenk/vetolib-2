@@ -28,7 +28,7 @@ internal class AddPrescriptionHandler : IRequestHandler<AddPrescriptionCommand, 
 
         var medicalRecord = await GetMedicalRecordAsync(cmd.MedicalRecordId, ct);
         if (medicalRecord is null)
-            return Result<PrescriptionDto>.NotFound("Dossier médical introuvable");
+            return Result<PrescriptionDto>.NotFound("Medical record not found");
 
         var interactionCheckResult = await CheckDrugInteractionsAsync(cmd, ct);
         if (!interactionCheckResult.IsSuccess)

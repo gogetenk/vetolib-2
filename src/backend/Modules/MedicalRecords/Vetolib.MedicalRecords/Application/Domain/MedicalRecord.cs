@@ -29,19 +29,19 @@ internal class MedicalRecord : BaseEntity, IMultiTenant, IAggregateRoot
         var errors = new List<ValidationError>();
 
         if (clinicId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(clinicId), "ClinicId est requis"));
+            errors.Add(new ValidationError(nameof(clinicId), "ClinicId is required"));
 
         if (patientId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(patientId), "PatientId est requis"));
+            errors.Add(new ValidationError(nameof(patientId), "PatientId is required"));
 
         if (string.IsNullOrWhiteSpace(diagnosis))
-            errors.Add(new ValidationError(nameof(diagnosis), "Le diagnostic est requis"));
+            errors.Add(new ValidationError(nameof(diagnosis), "Diagnosis is required"));
 
         if (string.IsNullOrWhiteSpace(treatment))
-            errors.Add(new ValidationError(nameof(treatment), "Le traitement est requis"));
+            errors.Add(new ValidationError(nameof(treatment), "Treatment is required"));
 
         if (string.IsNullOrWhiteSpace(vetName))
-            errors.Add(new ValidationError(nameof(vetName), "Le nom du vétérinaire est requis"));
+            errors.Add(new ValidationError(nameof(vetName), "Veterinarian name is required"));
 
         if (errors.Count > 0)
             return Result<MedicalRecord>.Invalid(errors);

@@ -2,6 +2,7 @@
   "auth": {
     "signup": {
       "title": "إنشاء عيادتك",
+      "heading": "إنشاء حساب",
       "meta_title": "إنشاء عيادتك — فيتوليب",
       "meta_description": "ابدأ تجربتك المجانية لمدة 14 يوماً. أدر مواعيدك وسجلاتك الطبية وفواتيرك في عيادتك البيطرية بالإمارات.",
       "subtitle": "ابدأ تجربتك المجانية لمدة 14 يوماً. لا حاجة لبطاقة ائتمان.",
@@ -39,6 +40,7 @@
     },
     "login": {
       "title": "تسجيل الدخول",
+      "heading": "تسجيل الدخول",
       "email": "البريد الإلكتروني",
       "password": "كلمة المرور",
       "submit": "تسجيل الدخول",
@@ -62,6 +64,7 @@
     }
   },
   "nav": {
+    "dashboard": "لوحة التحكم",
     "appointments": "المواعيد",
     "patients": "الحيوانات",
     "medical_records": "السجلات الطبية",
@@ -72,7 +75,8 @@
     "profile": "الملف الشخصي",
     "sign_out": "تسجيل الخروج",
     "stock": "المخزون",
-    "read_only": "للقراءة فقط"
+    "read_only": "للقراءة فقط",
+    "messaging_settings": "إعدادات الرسائل"
   },
   "appointments": {
     "title": "المواعيد",
@@ -529,6 +533,35 @@
       "load_failed": "فشل تحميل بيانات المخزون",
       "save_failed": "فشل الحفظ. يرجى المحاولة مرة أخرى.",
       "movement_failed": "فشل تسجيل الحركة. يرجى المحاولة مرة أخرى."
+    },
+    "history_link": "السجل",
+    "history": {
+      "title": "سجل الحركات",
+      "search_placeholder": "بحث بالصنف أو الشخص أو السبب...",
+      "all_types": "جميع الأنواع",
+      "date_from": "من",
+      "date_to": "إلى",
+      "no_movements": "لا توجد حركات.",
+      "count": "{count, plural, =0 {لا توجد حركات} one {حركة واحدة} other {# حركة}}",
+      "export_csv": "تصدير CSV",
+      "export_success": "تم تصدير CSV بنجاح",
+      "columns": {
+        "date": "التاريخ",
+        "item": "الصنف",
+        "type": "النوع",
+        "quantity": "الكمية",
+        "stock_change": "تغيير المخزون",
+        "performed_by": "بواسطة",
+        "patient": "الحيوان",
+        "reason": "السبب"
+      },
+      "types": {
+        "incoming": "وارد",
+        "outgoing": "صادر",
+        "adjustment": "تعديل",
+        "loss": "فقدان",
+        "return": "إرجاع"
+      }
     }
   },
   "team": {
@@ -740,6 +773,9 @@
       "week": "أسبوع",
       "month": "شهر"
     },
+    "personal": "شخصي",
+    "team": "الفريق",
+    "newAppointment": "موعد جديد",
     "allVets": "جميع الأطباء",
     "filterByVet": "تصفية حسب الطبيب",
     "moreAppointments": "+{count} المزيد",
@@ -1506,5 +1542,15 @@
       "save_failed": "فشل إضافة الدواء.",
       "not_found": "لم يتم العثور على الدواء."
     }
+  },
+  "settings_page": {
+    "title": "الإعدادات",
+    "subtitle": "إدارة إعدادات العيادة والتفضيلات.",
+    "preferences_title": "تفضيلات العيادة",
+    "preferences_description": "ضبط ساعات العمل ومدة الاستشارة الافتراضية وإعدادات الإشعارات.",
+    "team_title": "إدارة الفريق",
+    "team_description": "دعوة أعضاء الفريق وإدارة الأدوار والتحكم في صلاحيات الوصول.",
+    "messaging_title": "إعدادات الرسائل",
+    "messaging_description": "إعداد التذكيرات التلقائية والقوالب وساعات المراسلة."
   }
 }

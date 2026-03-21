@@ -1,5 +1,14 @@
-"use client"
+import type { Metadata } from "next";
+import SettingsPageClient from "./SettingsPageClient";
 
+<<<<<<< HEAD
+export const metadata: Metadata = {
+  title: "Settings",
+};
+
+export default function SettingsIndexPage() {
+  return <SettingsPageClient />;
+=======
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Settings, Users, MessageSquare } from "lucide-react"
@@ -75,4 +84,5 @@ export default function SettingsIndexPage() {
       </div>
     </PageContainer>
   )
+>>>>>>> origin/develop
 }

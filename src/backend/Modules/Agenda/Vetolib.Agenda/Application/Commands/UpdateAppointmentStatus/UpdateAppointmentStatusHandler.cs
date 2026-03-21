@@ -24,7 +24,7 @@ internal class UpdateAppointmentStatusHandler
             .FirstOrDefaultAsync(a => a.Id == cmd.AppointmentId, ct);
 
         if (appointment is null)
-            return Result<AppointmentDto>.NotFound($"Rendez-vous {cmd.AppointmentId} introuvable");
+            return Result<AppointmentDto>.NotFound($"Appointment {cmd.AppointmentId} not found");
 
         var transitionResult = cmd.NewStatus switch
         {
@@ -33,7 +33,7 @@ internal class UpdateAppointmentStatusHandler
             AppointmentStatus.Completed  => appointment.Complete(),
             AppointmentStatus.Cancelled  => appointment.Cancel(cmd.Reason),
             AppointmentStatus.NoShow     => appointment.MarkNoShow(),
-            _ => Result.Error($"UNSUPPORTED_TRANSITION:Transition vers {cmd.NewStatus} non supportee")
+            _ => Result.Error($"UNSUPPORTED_TRANSITION:Transition to {cmd.NewStatus} is not supported")
         };
 
         if (!transitionResult.IsSuccess)
