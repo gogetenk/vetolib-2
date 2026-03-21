@@ -12,11 +12,11 @@ internal sealed class InvoiceNumber
     {
         if (year < 2000)
             return Result<InvoiceNumber>.Invalid(
-                new ValidationError(nameof(year), "L'année doit être >= 2000"));
+                new ValidationError(nameof(year), "Year must be >= 2000"));
 
         if (sequenceNumber < 1)
             return Result<InvoiceNumber>.Invalid(
-                new ValidationError(nameof(sequenceNumber), "Le numéro de séquence doit être >= 1"));
+                new ValidationError(nameof(sequenceNumber), "Sequence number must be >= 1"));
 
         var value = $"INV-{year}-{sequenceNumber:D3}";
         return Result<InvoiceNumber>.Success(new InvoiceNumber(value));
