@@ -9,7 +9,7 @@ import {
   Users,
   UserPlus,
   Building2,
-  Quote,
+  Star,
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,11 +22,17 @@ import { Footer } from "@/components/features/landing/Footer";
 import { NavLanguageSwitcher } from "@/components/features/landing/NavLanguageSwitcher";
 import { MobileLandingNav } from "@/components/features/landing/MobileLandingNav";
 import { ScrollReveal } from "@/components/features/landing/ScrollReveal";
-import { HeroStagger, HeroDashboardReveal } from "@/components/features/landing/HeroAnimations";
+import {
+  HeroStagger,
+  HeroDashboardReveal,
+} from "@/components/features/landing/HeroAnimations";
 import { AnimatedStat } from "@/components/features/landing/AnimatedStat";
 import { TrustSignalsSection } from "@/components/features/landing/TrustSignalsSection";
 import { DemoFormSection } from "@/components/features/landing/DemoFormSection";
 import { CompetitiveTableSection } from "@/components/features/landing/CompetitiveTableSection";
+import { StickyCtaBar } from "@/components/features/landing/StickyCtaBar";
+import { ExitIntentPopup } from "@/components/features/landing/ExitIntentPopup";
+import { LatestBlogSection } from "@/components/features/blog/LatestBlogSection";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -153,6 +159,13 @@ export default async function LandingPage({ params }: Props) {
             >
               {t("nav.faq")}
             </a>
+            <Link
+              href={`/${locale}/blog`}
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-blog"
+            >
+              Blog
+            </Link>
             <NavLanguageSwitcher locale={locale} />
             <Link href={loginHref} data-testid="nav-signin-link">
               <Button variant="outline" size="sm" className="transition-all duration-200 hover:scale-[1.02]" data-testid="btn-nav-signin">
@@ -178,6 +191,7 @@ export default async function LandingPage({ params }: Props) {
                 { label: t("nav.pricing"), href: "#pricing", testId: "nav-link-pricing" },
                 { label: t("nav.demo"), href: "#demo", testId: "nav-link-demo" },
                 { label: t("nav.faq"), href: "#faq", testId: "nav-link-faq" },
+                { label: "Blog", href: `/${locale}/blog`, testId: "nav-link-blog" },
               ]}
               signInLabel={t("nav.sign_in")}
               ctaLabel={t("hero.cta_primary")}
@@ -209,42 +223,26 @@ export default async function LandingPage({ params }: Props) {
                   </p>
                 </HeroStagger>
                 <HeroStagger index={2}>
-                  <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                  <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
                     <Link href={signupHref} data-testid="hero-cta-start-trial">
-                      <Button
-                        size="lg"
-                        className="group/cta relative w-full overflow-hidden bg-emerald-700 px-8 text-base font-semibold text-white transition-all duration-300 hover:bg-emerald-800 hover:shadow-lg hover:shadow-emerald-700/25 hover:scale-[1.02] sm:w-auto"
-                        data-testid="btn-hero-start-trial"
-                      >
-                        {t("hero.cta_primary")}
-                      </Button>
+                      <Button size="lg" className="group/cta relative w-full overflow-hidden bg-emerald-700 px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-emerald-800 hover:shadow-lg hover:shadow-emerald-700/25 hover:scale-[1.02] sm:w-auto" data-testid="btn-hero-start-trial">{t("hero.cta_primary")}</Button>
                     </Link>
-                    <a
-                      href="#demo"
-                      data-testid="hero-cta-book-demo"
-                    >
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="w-full border-emerald-700 px-8 text-base font-semibold text-emerald-700 transition-all duration-300 hover:bg-emerald-50 hover:scale-[1.02] sm:w-auto"
-                        data-testid="btn-hero-book-demo"
-                      >
-                        {t("hero.cta_secondary")}
-                      </Button>
-                    </a>
                   </div>
                 </HeroStagger>
                 <HeroStagger index={3}>
-                  <p
-                    data-testid="hero-trust-badge"
-                    className="mt-5 flex items-center justify-center gap-1.5 text-sm text-stone-500 lg:justify-start"
-                  >
-                    <ShieldCheck
-                      className="h-4 w-4 shrink-0 text-emerald-600"
-                      aria-hidden="true"
-                    />
-                    {t("hero.trust_badge")}
-                  </p>
+                  <div className="mt-5 flex flex-col items-center gap-2 lg:items-start">
+                    <p data-testid="hero-trust-badge" className="flex items-center gap-1.5 text-sm text-stone-500">
+                      <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
+                      {t("hero.trust_badge")}
+                    </p>
+                    <p data-testid="hero-social-proof-badge" className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                      </span>
+                      {t("hero.social_proof_badge")}
+                    </p>
+                  </div>
                 </HeroStagger>
               </div>
 
@@ -466,6 +464,8 @@ export default async function LandingPage({ params }: Props) {
             annual_savings: t("pricing.annual_savings"),
             trial_note: t("pricing.trial_note"),
             vat_note: t("pricing.vat_note"),
+            early_access_badge: t("pricing_badge.early_access"),
+            trial_under_plan: t("pricing_badge.trial_under_plan"),
             free: {
               name: t("pricing.free.name"),
               price_monthly: t("pricing.free.price_monthly"),
@@ -617,43 +617,32 @@ export default async function LandingPage({ params }: Props) {
               </div>
             </ScrollReveal>
 
-            {/* Cards — 3 columns desktop, vertical stack mobile */}
             <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {(["quote1", "quote2", "quote3"] as const).map((key, idx) => (
-                <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
-                  <figure
-                    data-testid={`testimonial-${key}`}
-                    className="flex flex-col rounded-2xl border border-stone-100 bg-stone-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
-                  >
-                    <Quote
-                      className="h-8 w-8 text-emerald-200"
-                      aria-hidden="true"
-                    />
-                    <blockquote className="mt-4 flex-1">
-                      <p className="text-sm leading-relaxed text-stone-700">
-                        &ldquo;{t(`testimonials.${key}.text`)}&rdquo;
-                      </p>
-                    </blockquote>
-                    <figcaption className="mt-6 flex items-center gap-3 border-t border-stone-100 pt-4">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">
-                        {t(`testimonials.${key}.name`)
-                          .split(" ")
-                          .slice(-1)[0]
-                          .charAt(0)}
+              {(["quote1", "quote2", "quote3"] as const).map((key, idx) => {
+                const rating = parseInt(t(`testimonials.${key}.rating`), 10) || 5;
+                return (
+                  <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
+                    <figure data-testid={`testimonial-${key}`} className="flex flex-col rounded-2xl border border-stone-100 bg-stone-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                      <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className={`h-4 w-4 ${i < rating ? "fill-amber-400 text-amber-400" : "fill-stone-200 text-stone-200"}`} aria-hidden="true" />
+                        ))}
                       </div>
-                      <div>
-                        <p className="text-sm font-semibold text-stone-900">
-                          {t(`testimonials.${key}.name`)}
-                        </p>
-                        <p className="text-xs text-stone-500">
-                          {t(`testimonials.${key}.role`)} &bull;{" "}
-                          {t(`testimonials.${key}.clinic`)}
-                        </p>
-                      </div>
-                    </figcaption>
-                  </figure>
-                </ScrollReveal>
-              ))}
+                      <blockquote className="mt-4 flex-1">
+                        <p className="text-sm leading-relaxed text-stone-700">&ldquo;{t(`testimonials.${key}.text`)}&rdquo;</p>
+                      </blockquote>
+                      <figcaption className="mt-6 flex items-center gap-3 border-t border-stone-100 pt-4">
+                        <Image src={`/avatars/testimonial-${idx + 1}.svg`} alt={t(`testimonials.${key}.name`)} width={40} height={40} className="h-10 w-10 shrink-0 rounded-full object-cover" unoptimized />
+                        <div>
+                          <p className="text-sm font-semibold text-stone-900">{t(`testimonials.${key}.name`)}</p>
+                          <p className="text-xs text-stone-500">{t(`testimonials.${key}.role`)} &bull;{" "}{t(`testimonials.${key}.clinic`)}</p>
+                          <p className="text-xs text-stone-400">{t(`testimonials.${key}.emirate`)}</p>
+                        </div>
+                      </figcaption>
+                    </figure>
+                  </ScrollReveal>
+                );
+              })}
             </div>
 
             {/* Mobile carousel hint — subtle scroll indicator */}
@@ -662,6 +651,9 @@ export default async function LandingPage({ params }: Props) {
             </p>
           </div>
         </section>
+
+        {/* ── Latest from the Blog ────────────────────────────────── */}
+        <LatestBlogSection locale={locale} />
 
         {/* ── Demo Form ────────────────────────────────────────────── */}
         <DemoFormSection
@@ -702,6 +694,11 @@ export default async function LandingPage({ params }: Props) {
       {/* ── Footer ─────────────────────────────────────────────────── */}
       <Footer
         locale={locale}
+        signupHref={signupHref}
+        footerCta={{
+          headline: t("footer_cta.headline"),
+          cta: t("footer_cta.cta"),
+        }}
         messages={{
           copyright: t("footer.copyright"),
           tagline: t("footer.tagline"),
