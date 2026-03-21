@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useFormShake } from "@/hooks/use-form-shake"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -56,7 +57,7 @@ export function SignupForm() {
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [shakeForm, setShakeForm] = useState(false)
+  const { shakeForm, triggerShake } = useFormShake()
 
   const signupSchema = buildSignupSchema(t)
 
@@ -103,14 +104,12 @@ export function SignupForm() {
         setServerError(t("errors.connection_error"))
       }
       // Trigger shake animation on error
-      setShakeForm(true)
-      setTimeout(() => setShakeForm(false), 500)
+      triggerShake()
     }
   }
 
   const handleInvalidSubmit = () => {
-    setShakeForm(true)
-    setTimeout(() => setShakeForm(false), 500)
+    triggerShake()
   }
 
   return (

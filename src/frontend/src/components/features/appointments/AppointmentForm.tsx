@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useFormShake } from '@/hooks/use-form-shake'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -53,7 +54,7 @@ export function AppointmentForm() {
   const t = useTranslations('appointments.form')
   const [vets, setVets] = useState<VetDto[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [hasShake, setHasShake] = useState(false)
+  const { shakeForm: hasShake, triggerShake } = useFormShake()
   const formRef = useRef<HTMLFormElement>(null)
 
   const {
@@ -73,11 +74,9 @@ export function AppointmentForm() {
   const errorCount = Object.keys(errors).length
   useEffect(() => {
     if (errorCount > 0) {
-      setHasShake(true)
-      const timer = setTimeout(() => setHasShake(false), 500)
-      return () => clearTimeout(timer)
+      triggerShake()
     }
-  }, [errorCount])
+  }, [errorCount, triggerShake])
 
   useEffect(() => {
     trackEvent(AnalyticsEvents.APPOINTMENT_FORM_OPENED)

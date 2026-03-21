@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login, type LoginError } from "@/lib/api/auth"
+import { useFormShake } from "@/hooks/use-form-shake"
 import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
 import { useTranslations, useLocale } from "next-intl"
 import { LanguageSwitcher } from "./LanguageSwitcher"
@@ -41,7 +42,7 @@ export function LoginForm() {
   const locale = useLocale()
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
-  const [shakeForm, setShakeForm] = useState(false)
+  const { shakeForm, triggerShake } = useFormShake()
   const formRef = useRef<HTMLFormElement>(null)
 
   const loginSchema = buildLoginSchema(t)
@@ -74,14 +75,12 @@ export function LoginForm() {
         setServerError(t("errors.connection_error"))
       }
       // Trigger shake animation on error
-      setShakeForm(true)
-      setTimeout(() => setShakeForm(false), 500)
+      triggerShake()
     }
   }
 
   const handleInvalidSubmit = () => {
-    setShakeForm(true)
-    setTimeout(() => setShakeForm(false), 500)
+    triggerShake()
   }
 
   const emailError = errors.email?.message
