@@ -62,7 +62,7 @@ Si des ecarts sont trouves :
 **Screenshots comparatifs** : [liens]
 ```
 
-- Marque PR `[DESIGN_OK]` ou `[DESIGN_ISSUE]` dans pr-status.md
+- Marque PR `[DESIGN_OK]` ou `[DESIGN_ISSUE]` dans .claude/pr-status.md
 
 ## Regles
 - Tu ne modifies JAMAIS le code -- tu constates et rapportes

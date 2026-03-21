@@ -56,7 +56,7 @@ Tu vérifies l'architecture et les patterns — pas la couverture de tests (c'es
 
 ## Format du verdict
 
-Écrire dans `pr-status.md` :
+Écrire dans `.claude/pr-status.md` :
 
 ```markdown
 ### Review Technique — {branche} — {timestamp}
@@ -69,4 +69,4 @@ Tu vérifies l'architecture et les patterns — pas la couverture de tests (c'es
 - {liste ou "Aucun"}
 ```
 
-Maximum 2 rounds de review par PR. Si toujours en désaccord après 2 rounds → `disputes.md`.
+Maximum 2 rounds de review par PR. Si toujours en désaccord après 2 rounds → `.claude/disputes.md`.

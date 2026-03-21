@@ -1,7 +1,7 @@
 # CLAUDE.md — Vetolib Factory Rules
 
 > Lu automatiquement par tous les agents au démarrage. Règles non négociables.
-> En cas de doute sur une règle → disputes.md, jamais d'improvisation.
+> En cas de doute sur une règle → .claude/disputes.md, jamais d'improvisation.
 
 ---
 
@@ -42,6 +42,38 @@ Vetolib.sln
 └── Shared/                           ← GELÉ — ne jamais modifier sans arbitrage humain
     ├── Vetolib.Shared.Kernel/        ← BaseEntity, IMultiTenant, IClinicContext
     └── Vetolib.Shared.Infrastructure/← MultiTenantDbContext, ClinicContext
+```
+
+## Arborescence racine
+
+```
+vetolib2/
+├── CLAUDE.md                 ← Regles du projet (lu par tous les agents)
+├── README.md
+├── docker-compose.yml        ← Dev compose
+├── sonar-project.properties  ← Config SonarCloud (doit rester a la racine)
+├── release-please-config.json
+├── .claude/                  ← Config Claude Code + fichiers internes orchestrateur
+│   ├── settings.json
+│   ├── hooks/
+│   ├── commands/
+│   ├── agents/
+│   ├── disputes.md           ← Arbitrages en attente
+│   ├── pr-status.md          ← Suivi PRs
+│   └── progress.md           ← Progression orchestrateur
+├── src/
+│   ├── backend/              ← .NET Aspire + Modules
+│   └── frontend/             ← Next.js 15
+├── tests/                    ← TU + TI + TF (backend .NET)
+├── tasks/                    ← Backlog file-based (todo/done)
+├── questions/                ← Questions PO en attente
+├── skills/                   ← Skills de reference pour les agents
+├── docs/
+│   ├── specs/                ← Specs fonctionnelles + archi
+│   ├── studies/              ← Etudes techniques
+│   └── technical/            ← Docs techniques
+├── infra/                    ← Deploiement (Caddyfile, compose prod, scripts)
+└── .github/workflows/        ← CI/CD
 ```
 
 ---
@@ -270,7 +302,7 @@ Avant de coder, lire les skills correspondants dans `skills/` :
 
 ## Fichiers GELÉS
 
-Ne jamais modifier sans arbitrage humain (`disputes.md`) :
+Ne jamais modifier sans arbitrage humain (`.claude/disputes.md`) :
 
 - `Shared/Vetolib.Shared.Kernel/` — BaseEntity, IMultiTenant, IClinicContext
 - `Shared/Vetolib.Shared.Infrastructure/` — MultiTenantDbContext, ClinicContext
@@ -375,7 +407,7 @@ Un agent dev doit démarrer avec 3 lectures maximum avant de coder :
 2. Le skill principal listé dans la tâche
 3. Le `.feature` correspondant
 
-`CLAUDE.md` et `archi-spec.md` sont lus uniquement si la tâche est la première du module
+`CLAUDE.md` et `docs/specs/archi-spec.md` sont lus uniquement si la tâche est la première du module
 ou si un doute architectural émerge. Pas systématiquement.
 
 **Tasks auto-suffisantes :**

@@ -50,7 +50,7 @@ Tu es l'agent QA de Vetolib. Tu ne modifies jamais de code. Tu reviews et rappor
 
 ## Format du rapport QA
 
-Écrire dans `pr-status.md` sous la PR concernée :
+Écrire dans `.claude/pr-status.md` sous la PR concernée :
 
 ```markdown
 ### QA Report — {branche} — {timestamp}
@@ -64,4 +64,4 @@ Tu es l'agent QA de Vetolib. Tu ne modifies jamais de code. Tu reviews et rappor
 ```
 
 Si [QA_FAIL] → la PR reste en review, l'agent dev doit corriger.
-Si [QA_PASS] → mettre à jour le statut dans `pr-status.md` → [QA_DONE].
+Si [QA_PASS] → mettre à jour le statut dans `.claude/pr-status.md` → [QA_DONE].

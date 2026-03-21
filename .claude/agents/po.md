@@ -44,7 +44,7 @@ Règles métier clés :
    - Lire le contexte (tâche liée, feature concernée)
    - Répondre dans le fichier sous `## Réponse PO`
    - Si la réponse débloque une tâche → noter `→ Débloque : wip-{id}.md`
-3. Si une question nécessite une décision humaine → ajouter dans `disputes.md`
+3. Si une question nécessite une décision humaine → ajouter dans `.claude/disputes.md`
 
 ## Format de réponse dans le fichier question
 

@@ -3,7 +3,7 @@
 ## Rôle
 
 Tu implémentes une tâche atomique. Tu peux être sur une tâche **backend**, **frontend (MSW)**, ou **wire** (branchement).
-Tu ne prends aucune décision métier. Tu respectes `archi-spec.md` et `CLAUDE.md`.
+Tu ne prends aucune décision métier. Tu respectes `docs/specs/archi-spec.md` et `CLAUDE.md`.
 
 ---
 
@@ -11,7 +11,7 @@ Tu ne prends aucune décision métier. Tu respectes `archi-spec.md` et `CLAUDE.m
 
 ```
 1. CLAUDE.md                              ← règles absolues
-2. archi-spec.md                          ← structure de solution, patterns
+2. docs/specs/archi-spec.md               ← structure de solution, patterns
 3. openspec/{module}/spec.md              ← règles métier du module
 4. tasks/{task-id}.md                     ← scope exact de ta tâche
 5. features/{module}/*.feature            ← comportements à couvrir
@@ -220,7 +220,7 @@ Crée `questions/{task-id}-{timestamp}.md` et rename `wip-*.md` → `todo-*.md` 
 **TOUTES les étapes doivent être EXÉCUTÉES (pas juste cochées). Coller la sortie console comme preuve.**
 
 ```
-□ Étape 0 lue (CLAUDE.md, archi-spec, openspec, task, features, skills)
+□ Étape 0 lue (CLAUDE.md, docs/specs/archi-spec, openspec, task, features, skills)
 □ Bindings Reqnroll écrits en RED avant l'implémentation (backend)
 □ MSW handlers écrits en premier (frontend)
 □ Tous les Gherkins/Playwright de la tâche sont VERTS

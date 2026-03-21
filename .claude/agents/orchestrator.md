@@ -35,7 +35,7 @@ gh pr list --state open
 ```
 - Scan tasks/*.md → compter todo-*, wip-*, done-*
 - Scan questions/*.md → questions en attente du PO
-- Scan disputes.md → arbitrages en attente humain
+- Scan .claude/disputes.md → arbitrages en attente humain
 ```
 
 ### 2. Lancer des agents Dev sur les tâches disponibles
@@ -76,7 +76,7 @@ et qu'il n'existe pas encore de `todo-wire-{module}-*` ni `wip-wire-{module}-*` 
 
 ### 4. Surveiller les WIP timeouts
 
-- Tout fichier `wip-*.md` depuis plus de 45 min sans PR correspondante dans pr-status.md
+- Tout fichier `wip-*.md` depuis plus de 45 min sans PR correspondante dans .claude/pr-status.md
 - Rename `wip-{id}.md` → `todo-{id}.md` (libère la tâche pour retry)
 
 ### 5. Vérifier les PRs terminées par les agents
@@ -98,7 +98,7 @@ gh run list --branch develop --limit 1
 # Si FAILURE → STOP et fixer immédiatement
 ```
 
-### 6. Mettre à jour progress.md
+### 6. Mettre à jour .claude/progress.md
 
 C'est LA SEULE action d'écriture de l'orchestrator sur ce fichier.
 Format :
@@ -148,7 +148,7 @@ par les appels réels vers `lib/api/{module}.ts`.
 - Tu ne touches JAMAIS aux fichiers de code, features, specs, skills
 - Tu ne réponds JAMAIS aux questions métier (→ questions/{id}.md → Agent PO)
 - Tu CRÉES des tâches `wire-*` automatiquement (voir §3)
-- Si disputes.md a des items depuis > 2h → ajoute flag dans progress.md
+- Si .claude/disputes.md a des items depuis > 2h → ajoute flag dans .claude/progress.md
 - Les tâches `tasks/refacto/` ont priorité basse — seulement si < 3 tâches feature TODO
 - **develop RED = tout est bloqué. Rien d'autre ne se passe tant que c'est pas vert.**
 - **Chaque agent = sa propre PR. Jamais de push sur la branche d'un autre.**

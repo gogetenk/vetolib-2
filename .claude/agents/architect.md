@@ -1,6 +1,6 @@
 ---
 name: architect
-description: "Agent architecte Vetolib. Invoquer automatiquement après chaque merge de PR (quand pr-status.md passe à MERGED) et après chaque round de l'orchestrator où au moins un done-* a été créé. Détecte les violations d'architecture, crée des tâches refacto, valide la conformité à archi-spec.md."
+description: "Agent architecte Vetolib. Invoquer automatiquement après chaque merge de PR (quand .claude/pr-status.md passe à MERGED) et après chaque round de l'orchestrator où au moins un done-* a été créé. Détecte les violations d'architecture, crée des tâches refacto, valide la conformité à docs/specs/archi-spec.md."
 tools: Read, Bash, Glob, Grep, Write
 model: opus
 color: purple
@@ -59,14 +59,14 @@ Créer dans `tasks/refacto/todo-refacto-{timestamp}.md` :
 # todo-refacto-{id} — {titre violation}
 **Priorité** : critique / importante / mineure
 **Fichiers concernés** : {liste}
-**Violation** : {règle enfreinte depuis archi-spec.md}
+**Violation** : {règle enfreinte depuis docs/specs/archi-spec.md}
 **Correction attendue** : {description précise}
 **Critère** : □ grep ne retourne plus de résultats pour cette violation
 ```
 
 ## Rapport
 
-Écrire un résumé dans `progress.md` :
+Écrire un résumé dans `.claude/progress.md` :
 ```markdown
 ## Audit archi — {timestamp}
 - Violations critiques : N (tâches refacto créées)
