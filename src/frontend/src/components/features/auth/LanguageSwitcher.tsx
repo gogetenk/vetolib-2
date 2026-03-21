@@ -15,7 +15,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   // Replace the current locale segment in the pathname
   function getLocalePath(targetLocale: string) {
     const segments = pathname.split("/")
-    if (segments.length > 1 && (segments[1] === "en" || segments[1] === "ar")) {
+    if (segments.length > 1 && (segments[1] === "en" || segments[1] === "ar" || segments[1] === "fr")) {
       segments[1] = targetLocale
     }
     return segments.join("/") || `/${targetLocale}`
@@ -36,6 +36,18 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         }`}
       >
         EN
+      </Link>
+      <span className="text-stone-200">|</span>
+      <Link
+        href={getLocalePath("fr")}
+        data-testid="lang-switch-fr"
+        className={`text-xs font-medium transition-all duration-200 ${
+          locale === "fr"
+            ? "text-emerald-700 scale-105"
+            : "text-stone-400 hover:text-emerald-700 hover:scale-105"
+        }`}
+      >
+        FR
       </Link>
       <span className="text-stone-200">|</span>
       <Link

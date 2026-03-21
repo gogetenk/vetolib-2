@@ -898,7 +898,8 @@
       "subtitle": "Appointments, medical records, VAT-compliant invoicing, and team management — all in one platform built for UAE clinics. Setup in under 2 minutes.",
       "cta_primary": "Start Free Trial",
       "cta_secondary": "Book a Demo",
-      "trust_badge": "Trusted by 50+ clinics across the UAE",
+      "trust_badge": "14-day free trial — no credit card required",
+      "social_proof_badge": "Join 50+ clinics across the UAE",
       "image_alt": "Vetolib dashboard showing appointments and patient health records"
     },
     "social_proof": {
@@ -1115,21 +1116,27 @@
         "text": "We switched from spreadsheets to Vetolib in a day. The Arabic interface was a game-changer for our reception staff.",
         "name": "Dr. Fatima Al-Rashidi",
         "role": "Owner",
-        "clinic": "Al Barsha Veterinary Clinic, Dubai"
+        "clinic": "Al Barsha Veterinary Clinic",
+        "emirate": "Dubai",
+        "rating": "5"
       },
       "quote2": {
         "text": "Finally, invoices that are actually FTA-compliant without manual workarounds. Our accountant is thrilled.",
         "name": "Dr. James Porter",
         "role": "Practice Manager",
-        "clinic": "Desert Paws Veterinary Centre, Abu Dhabi"
+        "clinic": "Desert Paws Veterinary Centre",
+        "emirate": "Abu Dhabi",
+        "rating": "5"
       },
       "quote3": {
         "text": "The role-based access is exactly what we needed. Receptionists handle bookings and billing while vets focus on medicine.",
         "name": "Dr. Ahmed Al-Mansoori",
         "role": "Head Vet",
-        "clinic": "Jumeirah Pet Care, Dubai"
+        "clinic": "Jumeirah Pet Care",
+        "emirate": "Dubai",
+        "rating": "5"
       },
-      "scroll_hint": "← Scroll to see more →"
+      "scroll_hint": "Scroll to see more"
     },
     "faq": {
       "title": "Frequently Asked Questions",
@@ -1167,16 +1174,36 @@
         "answer": "All plans include access to our help center and video tutorials. Pro and Enterprise plans include live onboarding sessions with our team."
       }
     },
+    "sticky_cta": {
+      "tagline": "Save 2 hours a day on clinic admin",
+      "cta": "Start Free Trial"
+    },
+    "exit_intent": {
+      "headline": "Wait! Start your free 14-day trial",
+      "subtitle": "Join 50+ UAE clinics already using Vetolib. No credit card required.",
+      "email_placeholder": "Enter your email address",
+      "cta": "Start Free Trial",
+      "success": "We'll be in touch shortly!"
+    },
+    "pricing_badge": {
+      "early_access": "Early access pricing — locked for founding clinics",
+      "trial_under_plan": "14-day free trial — no credit card required"
+    },
     "final_cta": {
       "headline": "Stop Managing Your Clinic with Spreadsheets.",
       "subtitle": "Join 50+ veterinary clinics in the UAE who save 2 hours a day on admin tasks. Start your free 14-day trial — no credit card required.",
       "cta": "Start Free Trial — No Card Needed",
       "reassurance": "Cancel anytime. Your data is yours — always."
     },
+    "footer_cta": {
+      "headline": "Ready to transform your clinic?",
+      "cta": "Start Free Trial"
+    },
     "footer": {
       "copyright": "© 2026 Vetolib.",
       "tagline": "Made for veterinary clinics in the UAE.",
       "lang_en": "EN",
+      "lang_fr": "FR",
       "lang_ar": "AR",
       "product": {
         "title": "Product",

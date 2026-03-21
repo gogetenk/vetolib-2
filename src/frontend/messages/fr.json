@@ -1,0 +1,1716 @@
+{
+  "auth": {
+    "signup": {
+      "title": "Créez votre clinique",
+      "heading": "Créer un compte",
+      "meta_title": "Créez votre clinique — Vetolib",
+      "meta_description": "Commencez votre essai gratuit de 14 jours. Gérez les rendez-vous, dossiers médicaux et la facturation de votre clinique vétérinaire.",
+      "subtitle": "Essai gratuit de 14 jours. Aucune carte bancaire requise.",
+      "clinic_name": "Nom de la clinique",
+      "clinic_name_placeholder": "ex. Clinique Vétérinaire des Lilas",
+      "email": "E-mail",
+      "email_placeholder": "admin@votreclinique.fr",
+      "phone": "Téléphone",
+      "phone_placeholder": "+33 6 12 34 56 78",
+      "password": "Mot de passe",
+      "password_placeholder": "Min. 8 car., 1 majuscule, 1 chiffre",
+      "confirm_password": "Confirmer le mot de passe",
+      "confirm_password_placeholder": "Répétez votre mot de passe",
+      "submit": "Créer ma clinique",
+      "submitting": "Création en cours...",
+      "already_have_account": "Vous avez déjà un compte ?",
+      "sign_in": "Se connecter",
+      "strength_min": "8 caractères minimum",
+      "strength_upper": "1 lettre majuscule",
+      "strength_number": "1 chiffre",
+      "show_password": "Afficher le mot de passe",
+      "hide_password": "Masquer le mot de passe",
+      "welcome_toast": "Bienvenue ! Votre essai gratuit de 14 jours a commencé.",
+      "errors": {
+        "clinic_name_required": "Le nom de la clinique est requis",
+        "email_required": "Veuillez saisir une adresse e-mail valide",
+        "phone_required": "Le numéro de téléphone est requis",
+        "password_min": "Le mot de passe doit contenir au moins 8 caractères",
+        "password_uppercase": "Le mot de passe doit contenir au moins une majuscule",
+        "password_number": "Le mot de passe doit contenir au moins un chiffre",
+        "passwords_no_match": "Les mots de passe ne correspondent pas",
+        "email_taken": "Un compte avec cette adresse e-mail existe déjà",
+        "connection_error": "Erreur de connexion. Veuillez réessayer."
+      }
+    },
+    "login": {
+      "title": "Connexion",
+      "heading": "Connexion",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "signing_in": "Connexion en cours...",
+      "veterinary_management": "Gestion vétérinaire",
+      "email_placeholder": "veto@clinique-paris.fr",
+      "password_placeholder": "Saisissez votre mot de passe",
+      "forgot_password": "Mot de passe oublié ?",
+      "no_account": "Vous n'avez pas de compte ?",
+      "sign_up_link": "S'inscrire",
+      "show_password": "Afficher le mot de passe",
+      "hide_password": "Masquer le mot de passe",
+      "errors": {
+        "invalid_credentials": "E-mail ou mot de passe invalide",
+        "account_locked": "Compte verrouillé. Réessayez dans 15 minutes.",
+        "connection_error": "Erreur de connexion. Veuillez réessayer.",
+        "email_required": "Veuillez saisir une adresse e-mail valide",
+        "email_invalid": "Veuillez saisir une adresse e-mail valide",
+        "password_required": "Le mot de passe est requis"
+      }
+    }
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "appointments": "Rendez-vous",
+    "patients": "Patients",
+    "medical_records": "Dossiers médicaux",
+    "billing": "Facturation",
+    "messages": "Messages",
+    "team": "Équipe",
+    "settings": "Paramètres",
+    "profile": "Profil",
+    "sign_out": "Déconnexion",
+    "stock": "Stock",
+    "read_only": "Lecture seule",
+    "messaging_settings": "Paramètres de messagerie",
+    "switch_clinic": "Changer de clinique",
+    "select_clinic": "Sélectionner une clinique",
+    "your_clinics": "Vos cliniques"
+  },
+  "appointments": {
+    "title": "Rendez-vous",
+    "new": "Nouveau rendez-vous",
+    "all_statuses": "Tous les statuts",
+    "clear_date": "Effacer la date",
+    "search_placeholder": "Rechercher un patient ou un propriétaire...",
+    "loading": "Chargement...",
+    "no_appointments": "Aucun rendez-vous trouvé",
+    "page_of": "Page {page} sur {total} ({count} au total)",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "columns": {
+      "datetime": "Date / Heure",
+      "patient": "Patient",
+      "owner": "Propriétaire",
+      "vet": "Vétérinaire",
+      "status": "Statut",
+      "actions": "Actions",
+      "view": "Voir"
+    },
+    "form": {
+      "title": "Nouveau rendez-vous",
+      "patient_name": "Nom du patient",
+      "patient_name_placeholder": "ex. Max",
+      "species": "Espèce",
+      "select_species": "Sélectionner une espèce",
+      "owner_name": "Nom du propriétaire",
+      "owner_name_placeholder": "ex. Jean Dupont",
+      "owner_phone": "Téléphone du propriétaire",
+      "owner_phone_placeholder": "+33 6 12 34 56 78",
+      "vet": "Vétérinaire",
+      "select_vet": "Sélectionner un vétérinaire",
+      "date": "Date",
+      "time_slot": "Créneau horaire",
+      "select_time": "Sélectionner un créneau",
+      "reason": "Motif de consultation",
+      "reason_placeholder": "Décrivez le motif du rendez-vous",
+      "notes": "Notes (facultatif)",
+      "notes_placeholder": "Notes complémentaires",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "cancel": "Annuler",
+      "errors": {
+        "species_required": "L'espèce est requise",
+        "patient_name_required": "Le nom du patient est requis",
+        "owner_name_required": "Le nom du propriétaire est requis",
+        "owner_phone_required": "Le téléphone du propriétaire est requis",
+        "vet_required": "Le vétérinaire est requis",
+        "date_required": "La date est requise",
+        "time_required": "Le créneau horaire est requis",
+        "reason_required": "Le motif est requis"
+      },
+      "toast": {
+        "created": "Rendez-vous créé avec succès",
+        "failed": "Échec de la création du rendez-vous",
+        "load_vets_failed": "Échec du chargement des vétérinaires",
+        "slot_unavailable": "Ce créneau n'est pas disponible"
+      },
+      "suggest_slot": {
+        "button": "Suggérer le meilleur créneau",
+        "loading": "Recherche des meilleurs créneaux...",
+        "panel_title": "Créneaux suggérés",
+        "score_label": "Score de compatibilité",
+        "duration_minutes": "{n} min",
+        "select_button": "Choisir ce créneau",
+        "error": "Échec de la récupération des suggestions"
+      }
+    },
+    "error_load": "Échec du chargement des rendez-vous",
+    "detail": {
+      "back": "Retour aux rendez-vous",
+      "update_status": "Modifier le statut",
+      "confirm_action": "Confirmer l'action",
+      "transition_to": "Passer à",
+      "owner": "Propriétaire",
+      "vet": "Vétérinaire",
+      "datetime": "Date et heure",
+      "reason": "Motif",
+      "notes": "Notes",
+      "cancellation_reason": "Motif d'annulation",
+      "dialog_back": "Retour",
+      "confirm": "Confirmer",
+      "processing": "Traitement en cours...",
+      "cancel_reason_placeholder": "Saisissez le motif d'annulation",
+      "toast": {
+        "success": "Rendez-vous mis à jour avec succès",
+        "failed": "Échec de la mise à jour du rendez-vous"
+      },
+      "actions": {
+        "check_in": "Enregistrer l'arrivée",
+        "check_in_title": "Enregistrer l'arrivée du patient",
+        "check_in_description": "Le patient est arrivé et est prêt à être enregistré.",
+        "cancel": "Annuler",
+        "cancel_title": "Annuler le rendez-vous",
+        "cancel_description": "Veuillez indiquer le motif de l'annulation.",
+        "start": "Démarrer la consultation",
+        "start_title": "Démarrer la consultation",
+        "start_description": "Commencer la consultation pour ce rendez-vous.",
+        "complete": "Terminer",
+        "complete_title": "Terminer le rendez-vous",
+        "complete_description": "Marquer cette consultation comme terminée."
+      },
+      "error_not_found": "Rendez-vous introuvable.",
+      "error_server_title": "Erreur serveur",
+      "error_server_description": "Une erreur est survenue sur le serveur. Veuillez réessayer ultérieurement.",
+      "error_network_title": "Erreur de connexion",
+      "error_network_description": "Impossible de se connecter au serveur. Vérifiez votre connexion Internet et réessayez.",
+      "retry": "Réessayer"
+    },
+    "status": {
+      "SCHEDULED": "Planifié",
+      "CHECKED_IN": "Arrivé",
+      "IN_PROGRESS": "En cours",
+      "COMPLETED": "Terminé",
+      "CANCELLED": "Annulé"
+    }
+  },
+  "patients": {
+    "title": "Patients",
+    "add_patient": "Ajouter un patient",
+    "import_csv": "Importer un CSV",
+    "search_placeholder": "Rechercher par nom ou propriétaire...",
+    "no_patients": "Aucun patient trouvé.",
+    "owner": "Propriétaire",
+    "last_visit": "Dernière visite",
+    "next_appt": "Prochain RDV",
+    "view_record": "Voir le dossier",
+    "import": {
+      "title": "Importer des patients depuis un CSV",
+      "template_hint": "Téléchargez le modèle pour obtenir le format attendu.",
+      "download_template": "Télécharger le modèle",
+      "drop_hint": "Déposez votre fichier CSV ici ou cliquez pour parcourir",
+      "csv_only": "Fichiers CSV uniquement",
+      "preview_label": "Aperçu (5 premières lignes)",
+      "preview_note": "Affichage des 5 premières lignes",
+      "import_complete": "Import terminé",
+      "imported": "Importés",
+      "skipped": "Ignorés",
+      "errors_title": "Erreurs par ligne",
+      "import": "Importer",
+      "importing": "Import en cours...",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "error_not_csv": "Veuillez sélectionner un fichier CSV",
+      "error_import_failed": "L'import a échoué. Veuillez réessayer."
+    },
+    "form": {
+      "title": "Nouveau patient",
+      "edit_title": "Modifier le patient — {name}",
+      "patient_name": "Nom de l'animal",
+      "patient_name_placeholder": "ex. Max",
+      "species": "Espèce",
+      "select_species": "Sélectionner une espèce",
+      "breed": "Race",
+      "breed_placeholder": "ex. Golden Retriever",
+      "gender": "Sexe",
+      "select_gender": "Sélectionner le sexe",
+      "gender_male": "Mâle",
+      "gender_female": "Femelle",
+      "gender_unknown": "Inconnu",
+      "date_of_birth": "Date de naissance",
+      "weight": "Poids (kg)",
+      "weight_optional": "(facultatif)",
+      "weight_hint": "Facultatif — utilisé pour le calcul des posologies",
+      "weight_placeholder": "ex. 32,5",
+      "owner_information": "Informations du propriétaire",
+      "owner_name": "Nom complet",
+      "owner_name_placeholder": "ex. Jean Dupont",
+      "owner_phone": "Téléphone",
+      "owner_phone_placeholder": "+33 6 12 34 56 78",
+      "owner_email": "E-mail",
+      "owner_email_optional": "(facultatif)",
+      "owner_email_placeholder": "proprietaire@email.fr",
+      "save_patient": "Enregistrer le patient",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "cancel": "Annuler",
+      "toast_created": "Patient créé avec succès",
+      "toast_updated": "Patient mis à jour avec succès",
+      "error_save_failed": "Échec de l'enregistrement du patient. Veuillez réessayer.",
+      "errors": {
+        "name_required": "Le nom de l'animal est requis",
+        "date_of_birth_required": "La date de naissance est requise",
+        "date_of_birth_future": "La date de naissance ne peut pas être dans le futur",
+        "weight_positive": "Le poids doit être supérieur à 0",
+        "owner_name_required": "Le nom du propriétaire est requis",
+        "owner_phone_required": "Le téléphone du propriétaire est requis",
+        "owner_phone_format": "Le téléphone doit suivre le format : +33 X XX XX XX XX",
+        "owner_email_invalid": "Adresse e-mail invalide"
+      }
+    },
+    "species": {
+      "Dog": "Chien",
+      "Cat": "Chat",
+      "Bird": "Oiseau",
+      "Rabbit": "Lapin",
+      "Horse": "Cheval",
+      "Camel": "Chameau",
+      "Exotic": "Exotique"
+    },
+    "errors": {
+      "load_failed": "Échec du chargement des données patient. Veuillez réessayer."
+    }
+  },
+  "drug_selector": {
+    "label": "Médicament",
+    "search_placeholder": "Rechercher par nom ou DCI (ex. amoxicilline)...",
+    "free_text_placeholder": "Saisissez le nom du médicament et la posologie",
+    "free_text_label": "Médicament (texte libre)",
+    "use_free_text": "Saisie manuelle",
+    "use_catalog": "Rechercher dans le catalogue",
+    "results_label": "Résultats du catalogue",
+    "no_results": "Aucun médicament correspondant. Passez à la saisie manuelle.",
+    "search_error": "La recherche a échoué. Veuillez réessayer.",
+    "rx_required": "Rx",
+    "selected_summary_label": "Sélectionné"
+  },
+  "medical_records": {
+    "title": "Dossiers médicaux",
+    "records": "Dossiers",
+    "coming_soon": "La gestion des dossiers médicaux arrive prochainement.",
+    "search_placeholder": "Rechercher par patient, diagnostic ou vétérinaire...",
+    "no_records": "Aucun dossier médical trouvé.",
+    "columns": {
+      "date": "Date",
+      "patient": "Patient",
+      "reason": "Motif",
+      "diagnosis": "Diagnostic",
+      "vet": "Vétérinaire",
+      "weight": "Poids",
+      "temperature": "Temp.",
+      "heart_rate": "FC"
+    },
+    "errors": {
+      "load_failed": "Échec du chargement des dossiers médicaux."
+    }
+  },
+  "billing": {
+    "title": "Facturation",
+    "invoices": "Factures",
+    "new_invoice": "+ Nouvelle facture",
+    "all_statuses": "Tous les statuts",
+    "loading": "Chargement des factures...",
+    "no_invoices": "Aucune facture trouvée",
+    "failed_to_load": "Échec du chargement des factures",
+    "subtotal": "Sous-total",
+    "vat": "TVA (20 %)",
+    "total": "Total EUR",
+    "total_filtered": "Total filtré :",
+    "invoice_count_singular": "{count} facture —",
+    "invoice_count_plural": "{count} factures —",
+    "columns": {
+      "invoice": "N° Facture",
+      "patient": "Patient",
+      "date": "Date",
+      "subtotal": "Sous-total (HT)",
+      "vat": "TVA (20 %)",
+      "total": "Total EUR",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "detail": {
+      "created": "Créée le :",
+      "due": "Échéance :",
+      "paid_on": "Payée le :",
+      "client": "Client",
+      "patient": "Patient :",
+      "items": "Articles",
+      "notes": "Notes",
+      "back_to_billing": "Retour à la facturation",
+      "send": "Envoyer",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "mark_as_paid": "Marquer comme payée",
+      "cancel": "Annuler",
+      "download_pdf": "Télécharger le PDF",
+      "description": "Description",
+      "qty": "Qté",
+      "unit_price": "Prix unitaire",
+      "subtotal": "Sous-total",
+      "subtotal_ht": "Sous-total (HT)",
+      "delete_confirm": "Supprimer cette facture ? Cette action est irréversible.",
+      "errors": {
+        "not_found": "Facture introuvable",
+        "send_failed": "Échec de l'envoi de la facture",
+        "paid_failed": "Échec du marquage comme payée",
+        "cancel_failed": "Échec de l'annulation de la facture",
+        "delete_failed": "Échec de la suppression de la facture",
+        "pdf_failed": "Échec du téléchargement du PDF"
+      }
+    },
+    "status": {
+      "DRAFT": "Brouillon",
+      "SENT": "Envoyée",
+      "PAID": "Payée",
+      "CANCELLED": "Annulée"
+    },
+    "form": {
+      "title": "Nouvelle facture",
+      "patient_section": "Patient",
+      "search_patient": "Rechercher un patient",
+      "search_patient_placeholder": "Saisissez le nom du patient ou du propriétaire...",
+      "no_patients_found": "Aucun patient trouvé",
+      "owner_label": "Propriétaire",
+      "change_patient": "Changer de patient",
+      "items_section": "Articles de la facture",
+      "add_item": "+ Ajouter un article",
+      "description": "Description",
+      "description_placeholder": "ex. Consultation",
+      "qty": "Qté",
+      "unit_price": "Prix unitaire (EUR)",
+      "notes_section": "Notes (facultatif)",
+      "notes_placeholder": "Notes complémentaires pour la facture...",
+      "subtotal_excl_vat": "Sous-total (HT)",
+      "vat_percent": "TVA (20 %)",
+      "total_aed": "Total EUR",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "create_invoice": "Créer la facture",
+      "creating": "Création en cours...",
+      "errors": {
+        "select_patient": "Veuillez sélectionner un patient",
+        "add_item_description": "Veuillez ajouter au moins un article avec une description",
+        "create_failed": "Échec de la création de la facture. Veuillez réessayer."
+      },
+      "item_description_aria": "Description de l'article {index}",
+      "item_quantity_aria": "Quantité de l'article {index}",
+      "item_unit_price_aria": "Prix unitaire de l'article {index} en EUR",
+      "item_remove_aria": "Supprimer l'article {index}"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bon retour",
+    "stats": {
+      "appointments_today": "Rendez-vous du jour",
+      "pending_checkin": "En attente d'arrivée",
+      "urgent": "Urgent",
+      "unpaid_invoices": "Factures impayées",
+      "total_patients": "Total patients",
+      "todays_revenue": "Chiffre d'affaires du jour"
+    },
+    "today": {
+      "title": "Planning du jour",
+      "view_all": "Tout voir",
+      "error_load": "Échec du chargement des rendez-vous du jour",
+      "checked_in_success": "Arrivée du patient enregistrée",
+      "checked_in_failed": "Échec de l'enregistrement de l'arrivée",
+      "checking_in": "Enregistrement...",
+      "check_in": "Enregistrer l'arrivée"
+    },
+    "recent_activity": {
+      "title": "Activité récente",
+      "empty": "Aucune activité récente"
+    },
+    "analytics": {
+      "title": "Statistiques",
+      "revenue_by_month": "Chiffre d'affaires par mois",
+      "patients_by_species": "Patients par espèce",
+      "no_show_rate": "Taux d'absence (30 j)",
+      "appointments_by_status": "Rendez-vous par statut",
+      "currency": "EUR",
+      "loading": "Chargement des statistiques...",
+      "error": "Échec du chargement des statistiques",
+      "months": {
+        "01": "Jan.",
+        "02": "Fév.",
+        "03": "Mars",
+        "04": "Avr.",
+        "05": "Mai",
+        "06": "Juin",
+        "07": "Juil.",
+        "08": "Août",
+        "09": "Sep.",
+        "10": "Oct.",
+        "11": "Nov.",
+        "12": "Déc."
+      }
+    }
+  },
+  "team": {
+    "title": "Équipe",
+    "subtitle": "Gérez les membres de votre équipe",
+    "invite_member": "Inviter un membre",
+    "loading": "Chargement de l'équipe..."
+  },
+  "stock": {
+    "title": "Stock",
+    "add_item": "Ajouter un article",
+    "no_items": "Aucun article en stock trouvé.",
+    "search_placeholder": "Rechercher un article...",
+    "columns": {
+      "name": "Nom",
+      "category": "Catégorie",
+      "quantity": "Quantité",
+      "threshold": "Seuil min.",
+      "expiry": "Date d'expiration",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "categories": {
+      "medication": "Médicament",
+      "vaccine": "Vaccin",
+      "supply": "Fourniture"
+    },
+    "status": {
+      "ok": "OK",
+      "low_stock": "Stock faible",
+      "expiring_soon": "Expiration proche"
+    },
+    "filters": {
+      "all_categories": "Toutes les catégories",
+      "all_statuses": "Tous les statuts"
+    },
+    "alerts": {
+      "low_stock_title": "{count} article(s) en stock faible",
+      "expiring_title": "{count} article(s) expirant dans les 30 jours",
+      "qty_threshold": "{qty} restant(s) (min. : {threshold})",
+      "expires_on": "Expire le {date}"
+    },
+    "actions": {
+      "edit": "Modifier",
+      "movement": "Enregistrer un mouvement"
+    },
+    "form": {
+      "add_title": "Ajouter un article au stock",
+      "edit_title": "Modifier l'article",
+      "name": "Nom",
+      "name_placeholder": "ex. Amoxicilline 250 mg",
+      "category": "Catégorie",
+      "select_category": "Sélectionner une catégorie",
+      "quantity": "Quantité",
+      "unit": "Unité",
+      "unit_placeholder": "ex. comprimés, doses, paires",
+      "threshold": "Seuil minimum",
+      "expiry_date": "Date d'expiration",
+      "optional": "(facultatif)",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "cancel": "Annuler"
+    },
+    "movement": {
+      "title": "Enregistrer un mouvement",
+      "current_qty": "Stock actuel : {qty} {unit}",
+      "type": "Type de mouvement",
+      "select_type": "Sélectionner un type",
+      "types": {
+        "in": "ENTRÉE — Réapprovisionnement",
+        "out": "SORTIE — Consommation",
+        "adjustment": "Ajustement"
+      },
+      "quantity": "Quantité",
+      "reason": "Motif",
+      "reason_placeholder": "ex. Réapprovisionnement mensuel, Utilisé en chirurgie",
+      "confirm": "Confirmer"
+    },
+    "success": {
+      "item_added": "Article ajouté au stock avec succès",
+      "item_updated": "Article mis à jour avec succès",
+      "movement_recorded": "Mouvement enregistré avec succès"
+    },
+    "history_link": "Historique",
+    "errors": {
+      "load_failed": "Échec du chargement des données de stock",
+      "save_failed": "Échec de l'enregistrement. Veuillez réessayer.",
+      "movement_failed": "Échec de l'enregistrement du mouvement. Veuillez réessayer."
+    },
+    "history": {
+      "title": "Historique des mouvements",
+      "search_placeholder": "Rechercher un article, une personne, un motif...",
+      "all_types": "Tous les types",
+      "date_from": "Du",
+      "date_to": "Au",
+      "no_movements": "Aucun mouvement trouvé.",
+      "count": "{count, plural, =0 {Aucun mouvement} one {1 mouvement} other {# mouvements}}",
+      "export_csv": "Exporter en CSV",
+      "export_success": "CSV exporté avec succès",
+      "columns": {
+        "date": "Date",
+        "item": "Article",
+        "type": "Type",
+        "quantity": "Qté",
+        "stock_change": "Variation de stock",
+        "performed_by": "Effectué par",
+        "patient": "Patient",
+        "reason": "Motif"
+      },
+      "types": {
+        "incoming": "Entrée",
+        "outgoing": "Sortie",
+        "adjustment": "Ajustement",
+        "loss": "Perte",
+        "return": "Retour"
+      }
+    }
+  },
+  "ai_triage": {
+    "symptoms_label": "Décrivez les symptômes",
+    "symptoms_placeholder": "ex. Le chien boite depuis 2 jours, refuse de manger et semble léthargique",
+    "analyze_button": "Analyser les symptômes",
+    "analyzing": "Analyse en cours...",
+    "suggestion_title": "Suggestion de triage IA",
+    "severity": {
+      "Emergency": "Urgence",
+      "Normal": "Normal",
+      "Routine": "Routine"
+    },
+    "specialty_label": "Spécialité recommandée",
+    "duration_label": "Durée estimée",
+    "confidence_label": "Indice de confiance",
+    "accept_button": "Accepter",
+    "override_button": "Modifier",
+    "accepted_note": "Recommandé : {specialty} — durée estimée {duration} min (triage IA)",
+    "accepted_toast": "Suggestion de triage appliquée",
+    "accepted_indicator": "Suggestion de triage appliquée",
+    "error": "Service IA indisponible — veuillez décrire les symptômes manuellement"
+  },
+  "messaging": {
+    "title": "Messages",
+    "search_placeholder": "Rechercher par objet, propriétaire ou patient...",
+    "no_conversations": "Aucune conversation trouvée.",
+    "no_messages": "Aucun message pour le moment.",
+    "select_conversation": "Sélectionnez une conversation pour afficher les détails.",
+    "messages_coming_soon": "Le fil de discussion complet arrive prochainement.",
+    "status_updated": "Statut mis à jour.",
+    "created": "Créé le",
+    "last_message": "Dernier message",
+    "assigned_to": "Assigné à",
+    "triage_uncertain": "Triage incertain",
+    "internal_note": "Note interne",
+    "back_to_inbox": "Retour à la boîte de réception",
+    "actions": "Actions",
+    "more_actions": "Plus d'actions",
+    "reply_sent": "Réponse envoyée.",
+    "note_added": "Note interne ajoutée.",
+    "transferred": "Conversation transférée.",
+    "marked_spam": "Marqué comme indésirable.",
+    "reply_placeholder": "Rédigez une réponse... (Ctrl+Entrée pour envoyer)",
+    "send_reply": "Envoyer",
+    "sending": "Envoi en cours...",
+    "add_note": "Ajouter une note",
+    "attach_to_record": "Joindre au dossier médical",
+    "char_limit_exceeded": "Le message dépasse la limite de 2000 caractères.",
+    "attach_files": "Joindre des fichiers",
+    "remove_attachment": "Supprimer la pièce jointe",
+    "uploading": "Téléversement...",
+    "download_all": "Tout télécharger",
+    "file_error_max_count": "Vous pouvez joindre jusqu'à {max} fichiers.",
+    "file_error_type": "Seuls les fichiers PDF, JPG et PNG sont acceptés.",
+    "file_error_size": "Chaque fichier doit faire moins de {max}.",
+    "file_upload_failed": "Échec du téléversement. Veuillez réessayer.",
+    "ai_summary": "Résumé IA",
+    "ai_suggestions_title": "Suggestions IA",
+    "loading_summary": "Chargement du résumé...",
+    "summary_unavailable": "Résumé non disponible.",
+    "ai_disclaimer": "Cette réponse a été pré-rédigée par l'IA. Elle sera examinée et validée par un vétérinaire avant envoi.",
+    "patient_context_title": "Contexte patient",
+    "no_patient_linked": "Aucun patient associé à cette conversation.",
+    "context_unavailable": "Détails du contexte non disponibles.",
+    "last_exam": "Dernier examen",
+    "last_examination": "Dernier examen",
+    "outstanding_invoices": "Factures impayées",
+    "current_prescriptions": "Prescriptions en cours",
+    "known_allergies": "Allergies connues",
+    "vaccinations": "Vaccinations",
+    "no_records": "Aucun dossier disponible.",
+    "action_transfer": "Transférer",
+    "action_convert_appointment": "Convertir en rendez-vous",
+    "action_mark_spam": "Marquer comme indésirable",
+    "action_resolve": "Résoudre",
+    "action_close": "Clôturer",
+    "action_reopen": "Rouvrir",
+    "action_reassign": "Réassigner",
+    "actions_toolbar": "Actions de la conversation",
+    "transfer_dialog_title": "Transférer la conversation",
+    "transfer_to_role": "Transférer au rôle",
+    "select_role": "Sélectionner un rôle...",
+    "transferring": "Transfert en cours...",
+    "cancel": "Annuler",
+    "status": {
+      "all": "Tous",
+      "Open": "Ouvert",
+      "InProgress": "En cours",
+      "Resolved": "Résolu",
+      "Closed": "Clôturé"
+    },
+    "category": {
+      "all": "Toutes",
+      "MedicalUrgency": "Urgence médicale",
+      "PostOperativeFollowUp": "Suivi post-opératoire",
+      "MedicalQuestion": "Question médicale",
+      "AppointmentRequest": "Rendez-vous",
+      "Administrative": "Administratif",
+      "Feedback": "Retour d'expérience",
+      "Other": "Autre"
+    },
+    "errors": {
+      "load_failed": "Échec du chargement des conversations.",
+      "status_failed": "Échec de la mise à jour du statut.",
+      "send_failed": "Échec de l'envoi du message.",
+      "transfer_failed": "Échec du transfert de la conversation.",
+      "spam_failed": "Échec du marquage comme indésirable.",
+      "not_found": "Conversation introuvable."
+    }
+  },
+  "messaging_admin": {
+    "nav": {
+      "title": "Paramètres de messagerie",
+      "subtitle": "Gérez les modèles de réponse, les horaires d'ouverture et les statistiques de messagerie.",
+      "templates": "Modèles",
+      "hours": "Horaires d'ouverture",
+      "stats": "Statistiques",
+      "whatsapp": "WhatsApp"
+    },
+    "templates": {
+      "title": "Modèles de réponse",
+      "subtitle": "Réponses prédéfinies à utiliser dans les conversations.",
+      "add": "Ajouter un modèle",
+      "empty": "Aucun modèle pour le moment. Cliquez sur « Ajouter un modèle » pour en créer un.",
+      "load_failed": "Échec du chargement des modèles.",
+      "save_failed": "Échec de l'enregistrement du modèle.",
+      "delete_failed": "Échec de la suppression du modèle.",
+      "saved": "Modèle enregistré.",
+      "deleted": "Modèle supprimé.",
+      "col_name": "Nom",
+      "col_category": "Catégorie",
+      "col_updated": "Dernière mise à jour",
+      "col_actions": "Actions",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "delete_confirm_title": "Supprimer le modèle ?",
+      "delete_confirm_body": "Voulez-vous vraiment supprimer « {name} » ? Cette action est irréversible.",
+      "form": {
+        "add_title": "Ajouter un modèle",
+        "edit_title": "Modifier le modèle",
+        "name": "Nom",
+        "name_placeholder": "ex. Suivi post-chirurgical",
+        "name_required": "Le nom est requis",
+        "category": "Catégorie (facultatif)",
+        "category_placeholder": "Sélectionner une catégorie",
+        "no_category": "Aucune catégorie",
+        "content_en": "Contenu (anglais)",
+        "content_en_placeholder": "Rédigez le contenu du modèle en anglais...",
+        "content_en_required": "Le contenu en anglais est requis",
+        "content_ar": "Contenu (arabe)",
+        "content_ar_placeholder": "اكتب محتوى القالب بالعربية...",
+        "content_ar_required": "Le contenu en arabe est requis"
+      }
+    },
+    "hours": {
+      "title": "Horaires d'ouverture",
+      "subtitle": "Configurez les horaires pendant lesquels les messages reçoivent une réponse immédiate.",
+      "loading": "Chargement des horaires...",
+      "col_day": "Jour",
+      "col_status": "Statut",
+      "col_open": "Ouverture",
+      "col_close": "Fermeture",
+      "open": "Ouvert",
+      "closed": "Fermé",
+      "save": "Enregistrer les horaires",
+      "saving": "Enregistrement...",
+      "save_success": "Horaires d'ouverture enregistrés.",
+      "load_failed": "Échec du chargement des horaires d'ouverture.",
+      "save_failed": "Échec de l'enregistrement des horaires d'ouverture.",
+      "outside_hours_note": "Les messages envoyés en dehors de ces horaires recevront un accusé de réception automatique.",
+      "days": {
+        "sunday": "Dimanche",
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi"
+      }
+    },
+    "stats": {
+      "title": "Statistiques de triage",
+      "subtitle": "Aperçu des performances de messagerie et de la précision du triage IA sur les 30 derniers jours.",
+      "loading": "Chargement des statistiques...",
+      "load_failed": "Échec du chargement des statistiques.",
+      "avg_response_time": "Temps de première réponse moyen",
+      "avg_response_desc": "Délai entre la réception du message et la première réponse de l'équipe",
+      "total_conversations": "Total des conversations",
+      "open_conversations": "{count} actuellement ouvertes",
+      "ai_accuracy": "Précision du triage IA",
+      "ai_accuracy_desc": "Pourcentage de catégories attribuées par l'IA confirmées par l'équipe",
+      "conversion_rate": "Taux de conversion",
+      "conversion_desc": "Messages ayant abouti à un nouveau rendez-vous",
+      "by_category": "Messages par catégorie",
+      "volume_per_day": "Volume par jour (30 derniers jours)",
+      "tooltip_count": "messages",
+      "tooltip_messages": "messages"
+    },
+    "whatsapp": {
+      "title": "Intégration WhatsApp",
+      "subtitle": "Configurez les identifiants de l'API WhatsApp Business et gérez l'intégration.",
+      "loading": "Chargement de la configuration WhatsApp...",
+      "load_failed": "Échec du chargement de la configuration WhatsApp.",
+      "enable_title": "Intégration WhatsApp",
+      "enable_description": "Activez ou désactivez la messagerie WhatsApp pour votre clinique.",
+      "status_enabled": "Activée",
+      "status_disabled": "Désactivée",
+      "credentials_title": "Identifiants WABA",
+      "credentials_description": "Saisissez les identifiants de votre compte WhatsApp Business depuis Meta Business Manager.",
+      "business_account_id": "ID du compte Business",
+      "business_account_id_placeholder": "ex. 123456789012345",
+      "phone_number_id": "ID du numéro de téléphone",
+      "phone_number_id_placeholder": "ex. 987654321098765",
+      "access_token": "Jeton d'accès",
+      "access_token_placeholder": "Saisissez votre jeton d'accès permanent",
+      "save": "Enregistrer la configuration",
+      "saving": "Enregistrement...",
+      "save_success": "Configuration WhatsApp enregistrée.",
+      "save_failed": "Échec de l'enregistrement de la configuration WhatsApp.",
+      "test_connection": "Tester la connexion",
+      "testing": "Test en cours...",
+      "test_failed": "Le test de connexion a échoué.",
+      "optin_title": "Statut de consentement",
+      "optin_description": "Nombre de propriétaires d'animaux ayant donné leur accord pour recevoir des messages WhatsApp.",
+      "optin_label": "propriétaires inscrits"
+    },
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "deleting": "Suppression...",
+    "common_loading": "Chargement..."
+  },
+  "analytics": {
+    "consent_banner": {
+      "message": "Nous utilisons des statistiques pour améliorer votre expérience. Vous pouvez modifier ce choix dans les Paramètres.",
+      "accept": "Accepter",
+      "decline": "Refuser"
+    },
+    "settings": {
+      "title": "Statistiques et confidentialité",
+      "description": "Nous collectons des données d'utilisation anonymes pour améliorer le produit. Aucune information personnelle n'est suivie.",
+      "toggle_label": "Autoriser les statistiques d'utilisation anonymes"
+    }
+  },
+  "calendar": {
+    "today": "Aujourd'hui",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "views": {
+      "day": "Jour",
+      "week": "Semaine",
+      "month": "Mois"
+    },
+    "personal": "Personnel",
+    "team": "Équipe",
+    "newAppointment": "Nouveau rendez-vous",
+    "allVets": "Tous les vétérinaires",
+    "filterByVet": "Filtrer par vétérinaire",
+    "moreAppointments": "+{count} autre(s)",
+    "noAppointments": "Aucun rendez-vous",
+    "close": "Fermer",
+    "closedSlot": "La clinique est fermée à cette heure",
+    "quickCreate": {
+      "title": "Nouveau rendez-vous",
+      "submit": "Créer",
+      "cancel": "Annuler",
+      "fullForm": "Ouvrir le formulaire complet",
+      "success": "Rendez-vous créé pour {name} à {time}",
+      "patient": "Nom du patient",
+      "owner": "Nom du propriétaire",
+      "type": "Type de consultation",
+      "vet": "Vétérinaire",
+      "reason": "Motif",
+      "time": "Heure"
+    },
+    "detail": {
+      "title": "Détail du rendez-vous",
+      "viewFull": "Voir les détails complets",
+      "patient": "Patient",
+      "owner": "Propriétaire",
+      "phone": "Téléphone",
+      "type": "Type",
+      "vet": "Vétérinaire",
+      "duration": "Durée",
+      "date": "Date",
+      "time": "Heure",
+      "status": "Statut",
+      "reason": "Motif",
+      "notes": "Notes",
+      "minutes": "{count} min"
+    }
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "view": "Voir",
+    "settings": "Paramètres"
+  },
+  "user_menu": {
+    "settings": "Paramètres",
+    "sign_out": "Déconnexion"
+  },
+  "landing": {
+    "meta": {
+      "title": "Vetolib — La plateforme intelligente de gestion de clinique vétérinaire",
+      "description": "Plateforme de gestion de clinique vétérinaire — triage IA, intégration WhatsApp, support français + anglais + arabe, et facturation conforme TVA. Offre gratuite disponible."
+    },
+    "nav": {
+      "features": "Fonctionnalités",
+      "pricing": "Tarifs",
+      "faq": "FAQ",
+      "demo": "Réserver une démo",
+      "sign_in": "Connexion"
+    },
+    "hero": {
+      "headline": "Gérez votre clinique vétérinaire en deux fois moins de temps",
+      "subtitle": "Rendez-vous, dossiers médicaux, facturation conforme TVA et gestion d'équipe — le tout sur une seule plateforme. Installation en moins de 2 minutes.",
+      "cta_primary": "Démarrer l'essai gratuit",
+      "cta_secondary": "Réserver une démo",
+      "trust_badge": "Utilisé par plus de 50 cliniques",
+      "image_alt": "Tableau de bord Vetolib affichant les rendez-vous et les dossiers de santé des patients"
+    },
+    "social_proof": {
+      "clinics": "50+ cliniques",
+      "clinics_label": "dans le monde",
+      "patients": "5 000+ patients",
+      "patients_label": "gérés",
+      "invoiced": "2 M EUR+ facturés",
+      "invoiced_label": "et ça continue",
+      "uptime": "99,9 % de disponibilité",
+      "uptime_label": "garantie"
+    },
+    "new_features": {
+      "title": "Conçu pour la clinique vétérinaire de demain",
+      "subtitle": "Vetolib combine des dossiers de santé animale partagés, des outils IA intelligents et une gestion fluide de la clinique — le tout en une seule plateforme.",
+      "health_passport": {
+        "title": "Passeport santé animal partagé",
+        "description": "Chaque animal dispose d'un dossier de santé permanent accessible depuis n'importe quelle clinique — avec le consentement du propriétaire. Consultations, vaccinations, prescriptions et diagnostics, toujours disponibles où que l'animal soit vu.",
+        "badge": "Avantage clé"
+      },
+      "ai": {
+        "title": "IA vétérinaire intégrée",
+        "description": "Le triage IA analyse les symptômes et suggère un niveau d'urgence avant le rendez-vous. La vérification des interactions médicamenteuses protège vos patients. La prédiction des absences optimise votre planning automatiquement.",
+        "badge": "Propulsé par l'IA"
+      },
+      "messaging": {
+        "title": "Portail de messagerie clinique",
+        "description": "Les propriétaires se connectent via un portail sécurisé par lien magique — sans compte nécessaire. L'IA classe les messages entrants par urgence. Votre équipe reste concentrée sur les soins, pas sur la boîte de réception."
+      },
+      "stock": {
+        "title": "Gestion intelligente des stocks",
+        "description": "Suivez les médicaments et consommables en temps réel. Alertes automatiques pour les stocks faibles et les produits proches de la péremption. Les prescriptions mettent à jour l'inventaire automatiquement — zéro suivi manuel."
+      },
+      "multilingual": {
+        "title": "Multilingue par nature",
+        "description": "Support complet en français, anglais et arabe avec mise en page RTL — extensible à d'autres langues. Votre équipe et vos clients communiquent dans la langue de leur choix."
+      }
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour mieux gérer votre clinique",
+      "subtitle": "Remplacez quatre outils distincts par une seule plateforme — conçue spécifiquement pour les cliniques vétérinaires.",
+      "scheduling": {
+        "title": "Planning intelligent",
+        "description": "Prenez des rendez-vous, gérez la disponibilité des vétérinaires, enregistrez l'arrivée des patients. La détection de conflits empêche les doubles réservations."
+      },
+      "medical_records": {
+        "title": "Dossiers médicaux complets",
+        "description": "Historique complet du patient : examens, diagnostics, traitements, prescriptions avec numéro d'ordre vétérinaire. Piste d'audit immuable."
+      },
+      "invoicing": {
+        "title": "Facturation conforme",
+        "description": "Calcul automatique de la TVA 20 %, numéro de SIRET sur chaque facture, numérotation séquentielle (FAC-2026-001). Brouillon, envoi, marquage comme payée."
+      },
+      "team": {
+        "title": "Accès par rôle",
+        "description": "Admin, Vétérinaire, Assistant, Secrétaire — chaque rôle ne voit que ce qui lui est nécessaire. Les secrétaires gèrent la facturation, pas les dossiers médicaux."
+      },
+      "dashboard": {
+        "title": "Tableau de bord en temps réel",
+        "description": "Rendez-vous du jour, arrivées en attente, factures impayées, total des patients — tout d'un coup d'œil."
+      },
+      "notifications": {
+        "title": "Notifications par e-mail",
+        "description": "Rappels de rendez-vous, envoi de factures, invitations d'équipe — modèles bilingues en français et en anglais."
+      }
+    },
+    "how_it_works": {
+      "title": "Opérationnel en quelques minutes",
+      "subtitle": "Pas d'intégration longue. Pas de service informatique nécessaire. Trois étapes et votre clinique est en ligne.",
+      "step1": {
+        "number": "01",
+        "title": "Inscrivez-vous en 2 minutes",
+        "description": "Créez votre compte clinique. Aucune carte bancaire requise pour l'essai gratuit."
+      },
+      "step2": {
+        "number": "02",
+        "title": "Invitez votre équipe",
+        "description": "Ajoutez vos vétérinaires, assistants et secrétaires. Chacun reçoit automatiquement le bon niveau d'accès."
+      },
+      "step3": {
+        "number": "03",
+        "title": "Commencez à gérer votre clinique",
+        "description": "Prenez des rendez-vous, enregistrez des consultations, envoyez des factures — le tout depuis un seul endroit, en français ou en anglais."
+      },
+      "cta": "Démarrer gratuitement"
+    },
+    "pricing": {
+      "title": "Tarification simple et transparente",
+      "subtitle": "Commencez gratuitement et évoluez selon vos besoins. Tous les forfaits payants incluent un essai gratuit de 14 jours.",
+      "toggle_monthly": "Mensuel",
+      "toggle_annual": "Annuel",
+      "annual_savings": "Économisez 17 %",
+      "trial_note": "Tous les forfaits payants incluent un essai gratuit de 14 jours. Aucune carte bancaire requise.",
+      "vat_note": "Prix HT, TVA 20 % en sus.",
+      "free": {
+        "name": "Gratuit",
+        "price_monthly": "0 EUR",
+        "price_annual": "0 EUR",
+        "per_month": "/mois",
+        "description": "Pour les vétérinaires indépendants qui débutent.",
+        "features": [
+          "1 vétérinaire",
+          "Jusqu'à 50 patients",
+          "Planning de base",
+          "Support communautaire"
+        ],
+        "cta": "Démarrer gratuitement"
+      },
+      "starter": {
+        "name": "Starter",
+        "price_monthly": "29 EUR",
+        "price_annual": "24 EUR",
+        "usd_hint_monthly": "~29 USD/mois",
+        "usd_hint_annual": "~24 USD/mois",
+        "per_month": "/mois",
+        "description": "Pour les petites cliniques avec 1 à 3 vétérinaires.",
+        "features": [
+          "Jusqu'à 3 vétérinaires",
+          "500 patients",
+          "Notifications WhatsApp",
+          "Facturation conforme TVA (20 %)",
+          "Support par e-mail (réponse sous 48 h)",
+          "5 Go de stockage"
+        ],
+        "cta": "Démarrer l'essai gratuit"
+      },
+      "pro": {
+        "name": "Pro",
+        "badge": "Le plus populaire",
+        "price_monthly": "79 EUR",
+        "price_annual": "66 EUR",
+        "usd_hint_monthly": "~79 USD/mois",
+        "usd_hint_annual": "~66 USD/mois",
+        "per_month": "/mois",
+        "description": "Pour les cliniques établies qui ont besoin de toute la puissance.",
+        "features": [
+          "Vétérinaires illimités",
+          "Patients illimités",
+          "Triage IA et interactions médicamenteuses",
+          "Intégration WhatsApp complète",
+          "Factures PDF personnalisées avec logo",
+          "Gestion d'équipe avancée (RBAC)",
+          "Support prioritaire (réponse sous 12 h)",
+          "25 Go de stockage"
+        ],
+        "cta": "Démarrer l'essai gratuit"
+      },
+      "enterprise": {
+        "name": "Entreprise",
+        "price_monthly": "149 EUR",
+        "price_annual": "125 EUR",
+        "usd_hint_monthly": "~149 USD/mois",
+        "usd_hint_annual": "~125 USD/mois",
+        "per_month": "/mois",
+        "description": "Pour les groupes multi-cliniques et les chaînes vétérinaires.",
+        "features": [
+          "Gestion multi-clinique",
+          "Accès API pour les intégrations",
+          "Authentification unique (SSO)",
+          "Chargé de compte dédié",
+          "SLA garanti à 99,9 %",
+          "Support téléphonique (réponse sous 4 h)",
+          "Stockage illimité"
+        ],
+        "cta": "Contacter l'équipe commerciale"
+      }
+    },
+    "competitive": {
+      "title": "Pourquoi Vetolib ?",
+      "subtitle": "Découvrez comment Vetolib se compare aux autres solutions de gestion vétérinaire.",
+      "columns": {
+        "feature": "Fonctionnalité",
+        "vetolib": "Vetolib",
+        "ezyvet": "ezyVet",
+        "digitail": "Digitail"
+      },
+      "rows": {
+        "arabic": { "feature": "Arabe + Anglais + Français" },
+        "whatsapp": { "feature": "Intégration WhatsApp" },
+        "ai_triage": { "feature": "Triage IA" },
+        "uae_optimized": { "feature": "Optimisé international" },
+        "price": { "feature": "Tarifs abordables" }
+      }
+    },
+    "trust_signals": {
+      "title": "Conçu pour les cliniques vétérinaires",
+      "badges": {
+        "arabic_english": "Français + Anglais + Arabe",
+        "whatsapp": "WhatsApp intégré",
+        "uae_hosting": "Hébergement sécurisé",
+        "moccae": "Conforme réglementation"
+      }
+    },
+    "demo_form": {
+      "title": "Réserver une démo",
+      "subtitle": "Découvrez Vetolib en action. Remplissez le formulaire et notre équipe planifiera une présentation personnalisée.",
+      "clinic_name": "Nom de la clinique",
+      "clinic_name_placeholder": "ex. Clinique Vétérinaire des Lilas",
+      "email": "E-mail",
+      "email_placeholder": "vous@clinique.fr",
+      "phone": "Téléphone",
+      "phone_placeholder": "+33 6 12 34 56 78",
+      "preferred_time": "Créneau souhaité",
+      "preferred_time_placeholder": "ex. Lundi 10 h, n'importe quel après-midi en semaine",
+      "submit": "Demander une démo",
+      "success_title": "Demande de démo reçue !",
+      "success_description": "Notre équipe vous contactera dans les 24 heures pour planifier votre démonstration personnalisée."
+    },
+    "testimonials": {
+      "title": "Des cliniques vétérinaires nous font confiance",
+      "subtitle": "Découvrez ce que les propriétaires et responsables de cliniques disent de Vetolib.",
+      "disclaimer": "Ces témoignages sont des exemples illustratifs. De vrais témoignages seront ajoutés avant le lancement.",
+      "quote1": {
+        "text": "Nous sommes passés des tableurs à Vetolib en une journée. L'interface multilingue a été un vrai plus pour notre secrétariat.",
+        "name": "Dr. Sophie Martin",
+        "role": "Gérante",
+        "clinic": "Clinique Vétérinaire des Lilas, Paris"
+      },
+      "quote2": {
+        "text": "Enfin des factures conformes à la TVA sans bidouillage manuel. Notre comptable est ravi.",
+        "name": "Dr. Pierre Durand",
+        "role": "Directeur de clinique",
+        "clinic": "Centre Vétérinaire du Parc, Lyon"
+      },
+      "quote3": {
+        "text": "La gestion des accès par rôle est exactement ce qu'il nous fallait. Les secrétaires gèrent les rendez-vous et la facturation pendant que les vétérinaires se concentrent sur la médecine.",
+        "name": "Dr. Marie Lefebvre",
+        "role": "Vétérinaire responsable",
+        "clinic": "Clinique des Animaux de Compagnie, Bordeaux"
+      },
+      "scroll_hint": "← Faites défiler pour en voir plus →"
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "subtitle": "Tout ce que vous devez savoir avant de vous lancer.",
+      "0": {
+        "question": "Vetolib est-il conforme à la réglementation française sur la TVA ?",
+        "answer": "Oui. Chaque facture inclut le calcul automatique de la TVA à 20 % et le numéro SIRET de votre clinique, conformément à la réglementation fiscale en vigueur."
+      },
+      "1": {
+        "question": "Puis-je utiliser Vetolib en français ?",
+        "answer": "Absolument. Vetolib est entièrement disponible en français, anglais et arabe avec un support complet RTL (droite à gauche). Vous pouvez changer de langue à tout moment."
+      },
+      "2": {
+        "question": "Comment les données de ma clinique sont-elles sécurisées ?",
+        "answer": "Les données de chaque clinique sont entièrement isolées (architecture multi-tenant). Aucune autre clinique ne peut voir vos patients, dossiers ou factures. Toutes les données sont chiffrées en transit et au repos."
+      },
+      "3": {
+        "question": "Quels rôles puis-je attribuer à mon équipe ?",
+        "answer": "Quatre rôles : Admin (accès complet + gestion d'équipe), Vétérinaire (clinique + facturation), Assistant (dossiers médicaux en lecture seule), Secrétaire (rendez-vous + facturation uniquement, pas de dossiers médicaux)."
+      },
+      "4": {
+        "question": "Puis-je importer mes données patients existantes ?",
+        "answer": "Oui. Nous fournissons des outils d'import CSV et notre équipe d'accompagnement peut vous aider à migrer vos données depuis votre système actuel."
+      },
+      "5": {
+        "question": "Existe-t-il une application mobile ?",
+        "answer": "Vetolib est une application web responsive qui fonctionne sur tout appareil — ordinateur, tablette ou téléphone — via votre navigateur. Aucune installation d'application requise."
+      },
+      "6": {
+        "question": "Que se passe-t-il après l'essai gratuit ?",
+        "answer": "Après 14 jours, vous choisissez un forfait ou votre compte est mis en pause (pas supprimé). Vos données sont conservées pendant 90 jours afin que vous puissiez réactiver à tout moment."
+      },
+      "7": {
+        "question": "Proposez-vous de la formation ?",
+        "answer": "Tous les forfaits incluent l'accès à notre centre d'aide et à nos tutoriels vidéo. Les forfaits Pro et Entreprise incluent des sessions d'accompagnement en direct avec notre équipe."
+      }
+    },
+    "final_cta": {
+      "headline": "Arrêtez de gérer votre clinique avec des tableurs.",
+      "subtitle": "Rejoignez plus de 50 cliniques vétérinaires qui économisent 2 heures par jour sur les tâches administratives. Essai gratuit de 14 jours — aucune carte bancaire requise.",
+      "cta": "Essai gratuit — Sans carte bancaire",
+      "reassurance": "Annulez à tout moment. Vos données vous appartiennent — toujours."
+    },
+    "footer": {
+      "copyright": "© 2026 Vetolib.",
+      "tagline": "Conçu pour les cliniques vétérinaires.",
+      "lang_en": "EN",
+      "lang_ar": "AR",
+      "lang_fr": "FR",
+      "product": {
+        "title": "Produit",
+        "features": "Fonctionnalités",
+        "pricing": "Tarifs",
+        "integrations": "Intégrations",
+        "changelog": "Notes de version"
+      },
+      "company": {
+        "title": "Entreprise",
+        "about": "À propos",
+        "contact": "Contact",
+        "careers": "Carrières"
+      },
+      "resources": {
+        "title": "Ressources",
+        "help_center": "Centre d'aide",
+        "api_docs": "Documentation API",
+        "status": "Page de statut"
+      },
+      "legal": {
+        "title": "Mentions légales",
+        "privacy": "Politique de confidentialité",
+        "terms": "Conditions d'utilisation",
+        "dpa": "Accord de traitement des données"
+      }
+    }
+  },
+  "portal": {
+    "header": {
+      "language": "Langue"
+    },
+    "nav": {
+      "conversations": "Conversations",
+      "appointments": "Rendez-vous",
+      "my_pets": "Mes animaux",
+      "profile": "Profil"
+    },
+    "landing": {
+      "your_conversations": "Vos conversations",
+      "new_message": "Nouveau message",
+      "no_conversations": "Vous n'avez pas encore de conversations. Envoyez-nous un message et nous vous répondrons.",
+      "loading": "Chargement de vos conversations...",
+      "link_expired": "Ce lien a expiré. Veuillez contacter votre clinique pour en recevoir un nouveau.",
+      "status": {
+        "Open": "Ouvert",
+        "InProgress": "En cours",
+        "Resolved": "Résolu",
+        "Closed": "Clôturé"
+      },
+      "unread": "{count} non lu(s)",
+      "last_message": "Dernier message : {date}",
+      "download_all": "Télécharger toutes mes conversations"
+    },
+    "consent": {
+      "title": "Conditions d'utilisation de la messagerie",
+      "intro": "Avant d'envoyer un message à la clinique, veuillez lire et accepter les conditions suivantes.",
+      "terms_body": "En utilisant ce portail de messagerie, vous acceptez que :\n\n• Les messages sont suivis par l'équipe de la clinique pendant les heures d'ouverture (lundi–vendredi 08 h 00–20 h 00, samedi 08 h 00–12 h 00).\n• Ce service ne remplace pas les soins vétérinaires d'urgence. En cas de situation mettant la vie de votre animal en danger, contactez immédiatement une clinique d'urgence.\n• Vous pouvez recevoir jusqu'à 5 messages par jour via ce portail.\n• Les messages et pièces jointes sont stockés de manière sécurisée et utilisés uniquement pour fournir des soins vétérinaires.\n• Vous pouvez demander un export de vos conversations à tout moment.",
+      "accept_label": "J'accepte les conditions d'utilisation de la messagerie",
+      "continue": "Continuer",
+      "must_accept": "Vous devez accepter les conditions pour continuer.",
+      "emergency_title": "Urgence ?",
+      "emergency_body": "Si votre animal est en situation d'urgence médicale, veuillez appeler directement la clinique au lieu d'utiliser ce service de messagerie."
+    },
+    "new_message": {
+      "title": "Nouveau message",
+      "pet_label": "Concernant quel animal ?",
+      "pet_placeholder": "Sélectionner un animal",
+      "no_pet": "Autre / Aucun animal en particulier",
+      "category_label": "De quoi s'agit-il ?",
+      "category_placeholder": "Sélectionner une catégorie",
+      "categories": {
+        "MedicalUrgency": "Mon animal a un problème de santé",
+        "MedicalQuestion": "Mon animal a un problème de santé",
+        "PostOperativeFollowUp": "Suivi post-opératoire",
+        "AppointmentRequest": "Je souhaite prendre rendez-vous",
+        "Administrative": "Question administrative",
+        "Feedback": "Retour sur la clinique",
+        "Other": "Autre"
+      },
+      "subject_label": "Objet",
+      "subject_placeholder": "Brève description de votre message",
+      "message_label": "Votre message",
+      "message_placeholder": "Veuillez décrire votre préoccupation avec le plus de détails possible...",
+      "characters_remaining": "{count} caractères restants",
+      "characters_over": "{count} caractères de trop",
+      "photos_label": "Joindre des photos (facultatif)",
+      "photos_hint": "3 photos maximum, 5 Mo chacune. JPG ou PNG.",
+      "add_photo": "Ajouter une photo",
+      "send": "Envoyer le message",
+      "sending": "Envoi en cours...",
+      "success_title": "Message envoyé !",
+      "success_body": "Nous avons bien reçu votre message. Notre équipe vous répondra dans les 24 heures pendant les heures d'ouverture (lundi–vendredi 08 h 00–20 h 00, samedi 08 h 00–12 h 00).",
+      "back_to_conversations": "Retour à mes conversations",
+      "errors": {
+        "too_many_messages": "Vous avez atteint la limite quotidienne de messages. Veuillez réessayer demain.",
+        "file_too_large": "Fichier trop volumineux (max. 5 Mo)",
+        "too_many_photos": "3 photos maximum par message",
+        "invalid_type": "Seuls les fichiers JPG et PNG sont acceptés",
+        "subject_required": "Veuillez saisir un objet",
+        "category_required": "Veuillez sélectionner une catégorie",
+        "message_required": "Veuillez saisir un message",
+        "send_failed": "Échec de l'envoi de votre message. Veuillez réessayer."
+      }
+    },
+    "conversation": {
+      "not_found": "Conversation introuvable.",
+      "title": "Conversation",
+      "closed_notice": "Cette conversation est clôturée. Veuillez démarrer une nouvelle conversation si vous avez besoin d'aide supplémentaire.",
+      "reply_placeholder": "Saisissez votre réponse...",
+      "send_reply": "Envoyer",
+      "sending": "Envoi en cours...",
+      "you": "Vous",
+      "clinic": "Votre clinique",
+      "back": "Retour aux conversations",
+      "errors": {
+        "too_many_messages": "Vous avez atteint la limite quotidienne de messages. Veuillez réessayer demain.",
+        "send_failed": "Échec de l'envoi de votre réponse. Veuillez réessayer."
+      }
+    },
+    "export": {
+      "title": "Télécharger mes messages",
+      "description": "Téléchargez un fichier texte contenant toutes vos conversations avec la clinique.",
+      "download": "Télécharger mes messages",
+      "downloading": "Préparation du téléchargement...",
+      "back": "Retour aux conversations",
+      "error": "Échec de l'export des conversations. Veuillez réessayer."
+    },
+    "booking": {
+      "landing": {
+        "title": "Rendez-vous",
+        "subtitle": "Gérez vos rendez-vous avec la clinique",
+        "bookButton": "Prendre rendez-vous",
+        "upcomingTitle": "Prochains rendez-vous",
+        "noUpcoming": "Aucun rendez-vous à venir",
+        "contactClinic": "Besoin de contacter la clinique ?",
+        "loading": "Chargement...",
+        "nextAppointment": "Prochain rendez-vous",
+        "myAppointmentsSubtitle": "Consultez et gérez vos rendez-vous à venir et passés",
+        "bookNewSubtitle": "Planifiez une nouvelle visite pour votre animal",
+        "link_expired": "Ce lien a expiré. Veuillez contacter votre clinique pour en recevoir un nouveau."
+      },
+      "wizard": {
+        "step1Title": "Sélectionnez votre animal",
+        "step2Title": "Détails de la consultation",
+        "step3Title": "Choisissez une date et un créneau",
+        "step4Title": "Confirmez la réservation",
+        "next": "Suivant",
+        "review": "Vérifier",
+        "back": "Retour",
+        "confirm": "Confirmer la réservation",
+        "confirming": "Confirmation en cours...",
+        "cancel": "Annuler",
+        "stepLabel": "Étape {current} sur {total}",
+        "stepPet": "Animal",
+        "stepType": "Type",
+        "stepSlot": "Créneau",
+        "stepConfirm": "Confirmer",
+        "assignedVet": "Vétérinaire assigné",
+        "petSection": {
+          "selectPet": "Sélectionnez un animal",
+          "noPets": "Aucun animal trouvé sur votre compte. Veuillez contacter la clinique.",
+          "loadError": "Échec du chargement de vos animaux. Veuillez réessayer.",
+          "yearsOld": "{n} an",
+          "yearsOldPlural": "{n} ans"
+        },
+        "consultationSection": {
+          "typeLabel": "Type de consultation",
+          "vetLabel": "Vétérinaire préféré",
+          "vetOptional": "(facultatif)",
+          "vetNoPreference": "Pas de préférence — tout vétérinaire disponible",
+          "reasonLabel": "Motif de la visite",
+          "reasonOptional": "(facultatif)",
+          "reasonPlaceholder": "Décrivez brièvement le motif de votre visite, les symptômes ou préoccupations...",
+          "loadError": "Échec du chargement des types de consultation. Veuillez réessayer.",
+          "durationMinutes": "{n} min"
+        },
+        "slotSection": {
+          "suggestedTitle": "Créneaux suggérés",
+          "browseTitle": "ou parcourir par date",
+          "selectDayPrompt": "Sélectionnez un jour ci-dessus pour voir les créneaux disponibles",
+          "availableTimesTitle": "Horaires disponibles",
+          "clinicClosed": "La clinique est fermée ce jour.",
+          "loadError": "Échec du chargement des créneaux. Veuillez réessayer."
+        },
+        "confirmationSection": {
+          "summaryTitle": "Récapitulatif de la réservation",
+          "petLabel": "Animal",
+          "typeLabel": "Type de consultation",
+          "vetLabel": "Vétérinaire",
+          "dateLabel": "Date",
+          "timeLabel": "Heure",
+          "reasonLabel": "Motif",
+          "termsText": "Je confirme que les informations ci-dessus sont exactes et j'accepte les conditions de rendez-vous. Les annulations doivent être effectuées au moins 24 heures à l'avance.",
+          "termsLinkText": "conditions de rendez-vous",
+          "submitError": "Échec de la réservation. Veuillez réessayer."
+        },
+        "success": {
+          "title": "Réservation confirmée !",
+          "subtitle": "Votre rendez-vous a été planifié",
+          "dateLabel": "Date",
+          "timeLabel": "Heure",
+          "addToCalendar": "Ajouter au calendrier (.ics)",
+          "redirectNotice": "Redirection vers Mes rendez-vous dans {n} s…",
+          "goNow": "Aller à Mes rendez-vous maintenant"
+        }
+      },
+      "slotGrid": {
+        "morning": "Matin",
+        "afternoon": "Après-midi",
+        "evening": "Soir",
+        "noSlots": "Aucun créneau disponible pour cette date",
+        "selectDate": "Sélectionnez une date"
+      },
+      "recommendedSlots": {
+        "title": "Créneaux recommandés",
+        "empty": "Aucune suggestion disponible pour le moment."
+      },
+      "confirmation": {
+        "title": "Réservation confirmée !",
+        "subtitle": "Votre rendez-vous a été planifié",
+        "details": "Détails du rendez-vous",
+        "date": "Date",
+        "time": "Heure",
+        "vet": "Vétérinaire",
+        "type": "Type de consultation",
+        "pet": "Animal",
+        "backToPortal": "Retour au portail"
+      },
+      "guestSignup": {
+        "title": "Créez votre compte pour confirmer",
+        "name": "Nom complet",
+        "email": "Adresse e-mail",
+        "phone": "Numéro de téléphone",
+        "phonePlaceholder": "+33 X XX XX XX XX",
+        "verify": "Vérifier",
+        "otpTitle": "Saisissez le code de vérification",
+        "otpSubtitle": "Nous avons envoyé un code à 6 chiffres à votre adresse e-mail",
+        "confirmBooking": "Confirmer la réservation"
+      },
+      "myAppointments": {
+        "title": "Mes rendez-vous",
+        "upcoming": "À venir",
+        "past": "Passés",
+        "cancelButton": "Annuler le rendez-vous",
+        "rescheduleButton": "Reporter",
+        "cancelConfirmTitle": "Annuler le rendez-vous",
+        "cancelConfirmMessage": "Êtes-vous sûr de vouloir annuler ce rendez-vous ? Cette action est irréversible.",
+        "cancelSuccess": "Rendez-vous annulé avec succès",
+        "cancelError": "Échec de l'annulation du rendez-vous. Veuillez réessayer.",
+        "cancelling": "Annulation...",
+        "rescheduleSuccess": "Rendez-vous reporté avec succès",
+        "rescheduleComingSoon": "Le report de rendez-vous sera bientôt disponible.",
+        "noAppointments": "Aucun rendez-vous trouvé",
+        "loadError": "Impossible de charger les rendez-vous. Veuillez réessayer ultérieurement.",
+        "backButton": "Retour",
+        "notFound": "Rendez-vous introuvable.",
+        "timeLabel": "Heure",
+        "vetLabel": "Vétérinaire",
+        "petLabel": "Animal",
+        "clinicLabel": "Clinique",
+        "notesLabel": "Notes",
+        "status": {
+          "Scheduled": "Planifié",
+          "CheckedIn": "Arrivé",
+          "Completed": "Terminé",
+          "Cancelled": "Annulé",
+          "NoShow": "Absent"
+        }
+      },
+      "consultationType": {
+        "generalCheckup": "Bilan général",
+        "vaccination": "Vaccination",
+        "surgery": "Chirurgie",
+        "dental": "Soins dentaires",
+        "emergency": "Urgence",
+        "grooming": "Toilettage",
+        "labTests": "Analyses de laboratoire"
+      }
+    }
+  },
+  "onboarding": {
+    "banner": {
+      "admin": {
+        "greeting": "Bienvenue sur {clinicName} ! Votre clinique est prête — terminons la configuration.",
+        "cta": "Voir la checklist de configuration"
+      },
+      "vet": {
+        "greeting": "Bienvenue ! Votre espace de travail est prêt — commencez par ajouter votre premier patient.",
+        "cta": "Voir la checklist"
+      },
+      "receptionist": {
+        "greeting": "Bienvenue ! Vous êtes prêt à gérer les rendez-vous.",
+        "cta": "Prendre un premier rendez-vous"
+      },
+      "assistant": {
+        "greeting": "Bienvenue ! Vous pouvez consulter les dossiers patients et assister l'équipe clinique.",
+        "cta": "Voir les patients"
+      }
+    },
+    "checklist": {
+      "title": "Checklist de configuration",
+      "progress": "{completed} sur {total} terminé(s)",
+      "dismiss": "Masquer la checklist",
+      "completed_title": "Tout est prêt !",
+      "completed_body": "Vous avez terminé la configuration. Profitez de Vetolib.",
+      "steps": {
+        "admin": {
+          "invite_team_member": "Invitez votre premier membre d'équipe",
+          "add_first_patient": "Ajoutez votre premier patient",
+          "book_first_appointment": "Prenez votre premier rendez-vous",
+          "create_first_invoice": "Créez votre première facture",
+          "explore_dashboard": "Explorez le tableau de bord"
+        },
+        "vet": {
+          "view_appointments": "Consultez vos rendez-vous",
+          "open_patient_record": "Ouvrez un dossier patient",
+          "add_medical_record": "Ajoutez un dossier médical",
+          "write_prescription": "Rédigez une ordonnance"
+        },
+        "receptionist": {
+          "book_appointment": "Prenez un rendez-vous",
+          "check_in_patient": "Enregistrez l'arrivée d'un patient",
+          "create_invoice": "Créez une facture",
+          "send_invoice": "Envoyez une facture"
+        },
+        "assistant": {
+          "browse_patients": "Parcourez les patients",
+          "view_medical_record": "Consultez un dossier médical",
+          "check_today_schedule": "Vérifiez le planning du jour"
+        }
+      }
+    },
+    "empty": {
+      "patients": {
+        "title": "Votre liste de patients est vide",
+        "description": "Ajoutez votre premier patient pour commencer à construire son historique médical.",
+        "cta": "Ajouter un patient",
+        "cta_import": "Importer depuis un CSV",
+        "tip": "Astuce : vous pouvez importer vos patients existants en masse via un fichier CSV."
+      },
+      "appointments": {
+        "title": "Aucun rendez-vous pour le moment",
+        "description": "Prenez votre premier rendez-vous pour commencer à remplir votre planning.",
+        "cta": "Nouveau rendez-vous",
+        "tip": "Astuce : Vetolib détecte automatiquement les conflits de planning — fini les doubles réservations."
+      },
+      "billing": {
+        "title": "Aucune facture pour le moment",
+        "description": "Créez votre première facture — la TVA à 20 % est calculée automatiquement.",
+        "cta": "Nouvelle facture",
+        "tip": "Astuce : les factures incluent votre numéro SIRET et sont conformes à la réglementation fiscale."
+      },
+      "team": {
+        "title": "Vous êtes le seul membre de l'équipe",
+        "description": "Invitez des vétérinaires, assistants et secrétaires pour collaborer.",
+        "cta": "Inviter un membre",
+        "tip": "Astuce : chaque rôle a un accès adapté — les secrétaires voient la facturation mais pas les dossiers médicaux."
+      },
+      "dashboard_today": {
+        "title": "Aucun rendez-vous planifié pour aujourd'hui.",
+        "description": "Votre journée est libre — ou peut-être est-il temps d'en planifier un ?",
+        "cta": "Voir les rendez-vous"
+      }
+    }
+  },
+  "preferences": {
+    "title": "Préférences",
+    "subtitle": "Gérez vos préférences de notification, d'affichage et de confidentialité.",
+    "source": {
+      "user_override": "Personnalisé",
+      "clinic_default": "Défaut de la clinique",
+      "system_default": "Défaut système"
+    },
+    "admin_only_hint": "Réservé aux admins",
+    "errors": {
+      "load_failed": "Échec du chargement des préférences.",
+      "update_failed": "Échec de la mise à jour de la préférence.",
+      "revoke_failed": "Échec de la révocation du consentement."
+    },
+    "consent": {
+      "title": "Gestion du consentement",
+      "description": "Gérez les consentements de traitement des données pour les statistiques et intégrations tierces.",
+      "revoked": "Consentement aux statistiques révoqué avec succès.",
+      "revoking": "Révocation...",
+      "revoke_analytics": "Révoquer le consentement aux statistiques"
+    }
+  },
+  "drugs": {
+    "title": "Catalogue de médicaments",
+    "add_drug": "Ajouter un médicament",
+    "no_drugs": "Aucun médicament correspondant à vos critères.",
+    "search_placeholder": "Rechercher par nom ou DCI...",
+    "prescription_required": "Sur ordonnance",
+    "has_contraindications": "Contre-indications",
+    "interaction": "Interaction",
+    "columns": {
+      "name": "Nom",
+      "inn_name": "DCI",
+      "category": "Catégorie",
+      "dosage": "Posologie courante",
+      "species": "Espèces",
+      "prescription": "Type",
+      "actions": "Actions"
+    },
+    "categories": {
+      "Antibiotic": "Antibiotique",
+      "Antiparasitic": "Antiparasitaire",
+      "AntiInflammatory": "Anti-inflammatoire",
+      "Analgesic": "Antalgique",
+      "Vaccine": "Vaccin",
+      "Antifungal": "Antifongique",
+      "Cardiac": "Cardiaque",
+      "Dermatological": "Dermatologique",
+      "Ophthalmic": "Ophtalmique",
+      "Hormonal": "Hormonal",
+      "Other": "Autre"
+    },
+    "filters": {
+      "all_categories": "Toutes les catégories",
+      "all_species": "Toutes les espèces"
+    },
+    "actions": {
+      "view": "Voir"
+    },
+    "stats": {
+      "total": "Total médicaments",
+      "prescription": "Sur ordonnance",
+      "otc": "Vente libre"
+    },
+    "detail": {
+      "loading": "Chargement...",
+      "common_dosage": "Posologie courante",
+      "dosage_guidelines": "Posologie par espèce",
+      "species": "Espèce",
+      "dose_per_kg": "Dose par kg",
+      "frequency": "Fréquence",
+      "max_duration": "Durée max.",
+      "days": "jours",
+      "ongoing": "Continue",
+      "contraindications": "Contre-indications"
+    },
+    "form": {
+      "add_title": "Ajouter un nouveau médicament",
+      "add_description": "Ajoutez un nouveau médicament au catalogue de la clinique.",
+      "inn_name": "DCI",
+      "inn_name_placeholder": "ex. amoxicilline",
+      "display_name": "Nom d'affichage",
+      "display_name_placeholder": "ex. Amoxicilline 250 mg",
+      "category": "Catégorie",
+      "common_dosage": "Posologie courante",
+      "common_dosage_placeholder": "ex. 10-20 mg/kg deux fois par jour pendant 5-7 jours",
+      "requires_prescription": "Nécessite une ordonnance",
+      "cancel": "Annuler",
+      "submit": "Ajouter le médicament",
+      "submitting": "Ajout en cours..."
+    },
+    "success": {
+      "drug_added": "Médicament ajouté au catalogue avec succès."
+    },
+    "errors": {
+      "load_failed": "Échec du chargement du catalogue de médicaments.",
+      "save_failed": "Échec de l'ajout du médicament.",
+      "not_found": "Médicament introuvable."
+    }
+  },
+  "settings_page": {
+    "title": "Paramètres",
+    "subtitle": "Gérez la configuration et les préférences de votre clinique.",
+    "preferences_title": "Préférences de la clinique",
+    "preferences_description": "Configurez les horaires de la clinique, la durée de consultation par défaut et les paramètres de notification.",
+    "team_title": "Gestion de l'équipe",
+    "team_description": "Invitez des membres, gérez les rôles et contrôlez les permissions d'accès.",
+    "messaging_title": "Paramètres de messagerie",
+    "messaging_description": "Configurez les rappels automatiques, les modèles et les horaires de messagerie.",
+    "notifications_title": "Paramètres de notification",
+    "notifications_description": "Configurez les rappels automatiques pour les rendez-vous, vaccinations et suivis."
+  },
+  "soap_notes": {
+    "title": "Notes SOAP IA",
+    "ai_badge": "Généré par IA",
+    "description": "Générez des notes cliniques structurées à partir des données de consultation à l'aide de l'IA. Vous pouvez relire et modifier avant de valider.",
+    "generate": "Générer les notes SOAP",
+    "regenerate": "Régénérer",
+    "accept": "Accepter et appliquer",
+    "generating": "Génération des notes SOAP...",
+    "error": "Échec de la génération des notes SOAP. Veuillez réessayer.",
+    "subjective": "Subjectif (S)",
+    "objective": "Objectif (O)",
+    "assessment": "Évaluation (A)",
+    "plan": "Plan (P)"
+  },
+  "reminder_settings": {
+    "title": "Paramètres de rappel",
+    "subtitle": "Configurez les rappels automatiques envoyés aux propriétaires d'animaux.",
+    "save": "Enregistrer les modifications",
+    "saving": "Enregistrement...",
+    "save_success": "Paramètres de rappel enregistrés avec succès.",
+    "appointment": {
+      "title": "Rappels de rendez-vous",
+      "description": "Envoyez des rappels aux propriétaires avant leurs rendez-vous planifiés.",
+      "timing_label": "Envoyer",
+      "hours_before": "heures avant le rendez-vous"
+    },
+    "vaccination": {
+      "title": "Rappels de vaccination",
+      "description": "Prévenez les propriétaires lorsque des vaccinations sont à prévoir."
+    },
+    "followup": {
+      "title": "Rappels de suivi",
+      "description": "Envoyez des rappels de suivi après les consultations.",
+      "days_label": "Envoyer",
+      "days_after": "jours après la consultation"
+    },
+    "logs": {
+      "title": "Rappels récents",
+      "description": "Journal des rappels récemment envoyés.",
+      "empty": "Aucun rappel envoyé pour le moment.",
+      "col_date": "Date",
+      "col_type": "Type",
+      "col_patient": "Patient",
+      "col_owner": "Propriétaire",
+      "col_status": "Statut",
+      "type_appointment": "Rendez-vous",
+      "type_vaccination": "Vaccination",
+      "type_follow_up": "Suivi",
+      "status_sent": "Envoyé",
+      "status_failed": "Échoué",
+      "status_pending": "En attente"
+    },
+    "errors": {
+      "load_failed": "Échec du chargement des paramètres de rappel.",
+      "save_failed": "Échec de l'enregistrement des paramètres de rappel."
+    }
+  }
+}
