@@ -36,6 +36,9 @@ public static class AuthModuleServiceRegistrar
         // Cross-module readers
         services.AddScoped<IClinicVetReader, ClinicVetReader>();
 
+        // Subscription enforcement
+        services.AddScoped<ISubscriptionChecker, SubscriptionChecker>();
+
         // JWT Authentication
         var jwtKey = config["Jwt:Key"] ?? "super-secret-key-for-vetolib-jwt-token-generation-minimum-32-chars";
         var jwtIssuer = config["Jwt:Issuer"] ?? "Vetolib";

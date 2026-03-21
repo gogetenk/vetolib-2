@@ -1,4 +1,5 @@
 using Ardalis.Result;
+using Vetolib.Auth.Contracts;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Auth.Application.Domain;
@@ -10,7 +11,7 @@ namespace Vetolib.Auth.Application.Domain;
 internal class Clinic : BaseEntity, IAggregateRoot
 {
     public string Name { get; private set; } = string.Empty;
-    public string SubscriptionPlan { get; private set; } = string.Empty;
+    public Contracts.SubscriptionPlan SubscriptionPlan { get; private set; }
     public DateTime TrialEndsAt { get; private set; }
 
     private Clinic() { } // EF Core constructor
@@ -31,7 +32,7 @@ internal class Clinic : BaseEntity, IAggregateRoot
         var clinic = new Clinic
         {
             Name = name.Trim(),
-            SubscriptionPlan = "Pro",
+            SubscriptionPlan = Contracts.SubscriptionPlan.Pro,
             TrialEndsAt = DateTime.UtcNow.AddDays(14)
         };
 

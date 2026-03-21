@@ -18,7 +18,8 @@ internal class ClinicConfiguration : IEntityTypeConfiguration<Clinic>
 
         builder.Property(c => c.SubscriptionPlan)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(50)
+            .HasConversion<string>();
 
         builder.Property(c => c.TrialEndsAt)
             .IsRequired();

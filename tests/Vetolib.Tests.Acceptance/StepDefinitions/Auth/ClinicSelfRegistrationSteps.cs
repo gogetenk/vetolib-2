@@ -183,7 +183,7 @@ internal class ClinicSelfRegistrationSteps
 
         var clinic = await db.Clinics.FirstOrDefaultAsync(c => c.Id == clinicId);
         clinic.Should().NotBeNull();
-        clinic!.SubscriptionPlan.Should().Be(plan);
+        clinic!.SubscriptionPlan.ToString().Should().Be(plan);
     }
 
     [Then(@"the response contains ""(.*)""")]
