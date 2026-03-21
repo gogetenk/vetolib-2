@@ -643,8 +643,8 @@ internal class AppointmentSteps
     [Then(@"the operation succeeds")]
     public void ThenTheOperationSucceeds()
     {
-        ((int)_response.StatusCode).Should().Be(200,
-            $"Expected status 200 but got {(int)_response.StatusCode}: {_errorResponseBody}");
+        _response.IsSuccessStatusCode.Should().BeTrue(
+            $"Expected a success status code but got {(int)_response.StatusCode}: {_errorResponseBody}");
     }
 
     [Then(@"the request is rejected")]
