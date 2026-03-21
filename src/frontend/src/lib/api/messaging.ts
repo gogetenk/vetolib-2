@@ -18,6 +18,7 @@ import type {
   ConversationStatus,
   WhatsAppConfigDto,
   UpdateWhatsAppConfigRequest,
+  WhatsAppTestRequest,
   WhatsAppTestResult,
   UploadFilesResponse,
 } from './messaging-types'
@@ -100,7 +101,7 @@ export function getConversationSummary(id: string): Promise<{ summary: string }>
 export function uploadFiles(files: File[]): Promise<UploadFilesResponse> {
   const formData = new FormData()
   files.forEach((file) => formData.append('files', file))
-  return apiPostFormData<UploadFilesResponse>(`${BASE}/upload`, formData)
+  return apiPostFormData<UploadFilesResponse>(`${BASE}/upload`, formData) as Promise<UploadFilesResponse>
 }
 
 // ─── Triage Statistics ────────────────────────────────────────────────────────
@@ -153,7 +154,7 @@ export function updateWhatsAppConfig(
 }
 
 export function testWhatsAppConnection(
-  data: UpdateWhatsAppConfigRequest
+  data: WhatsAppTestRequest
 ): Promise<WhatsAppTestResult> {
   return apiPost<WhatsAppTestResult>(`${BASE}/whatsapp/test`, data)
 }

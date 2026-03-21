@@ -6,7 +6,6 @@ import { toast } from "sonner"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import {
   getWhatsAppConfig,
@@ -22,21 +21,20 @@ export function WhatsAppSettingsPage() {
   const [saving, setSaving] = useState(false)
   const [testing, setTesting] = useState(false)
 
-  const [enabled, setEnabled] = useState(false)
-  const [businessAccountId, setBusinessAccountId] = useState("")
+  const [hasAccessToken, setHasAccessToken] = useState(false)
+  const [wabaId, setWabaId] = useState("")
   const [phoneNumberId, setPhoneNumberId] = useState("")
   const [accessToken, setAccessToken] = useState("")
-  const [optInCount, setOptInCount] = useState(0)
 
   const loadConfig = useCallback(async () => {
     try {
       setLoading(true)
       const config: WhatsAppConfigDto = await getWhatsAppConfig()
-      setEnabled(config.enabled)
-      setBusinessAccountId(config.businessAccountId)
+      setHasAccessToken(config.hasAccessToken)
+      setWabaId(config.wabaId)
       setPhoneNumberId(config.phoneNumberId)
-      setAccessToken(config.accessToken)
-      setOptInCount(config.optInCount)
+      // Never populate the access token from the backend (it's not returned)
+      setAccessToken("")
     } catch {
       toast.error(t("load_failed"))
     } finally {
@@ -52,13 +50,14 @@ export function WhatsAppSettingsPage() {
     setSaving(true)
     try {
       const updated = await updateWhatsAppConfig({
-        enabled,
-        businessAccountId,
+        wabaId,
         phoneNumberId,
         accessToken,
       })
-      setEnabled(updated.enabled)
-      setOptInCount(updated.optInCount)
+      setHasAccessToken(updated.hasAccessToken)
+      setWabaId(updated.wabaId)
+      setPhoneNumberId(updated.phoneNumberId)
+      setAccessToken("")
       toast.success(t("save_success"))
     } catch {
       toast.error(t("save_failed"))
@@ -71,10 +70,8 @@ export function WhatsAppSettingsPage() {
     setTesting(true)
     try {
       const result = await testWhatsAppConnection({
-        enabled,
-        businessAccountId,
-        phoneNumberId,
-        accessToken,
+        recipientPhone: "+971501234567",
+        templateName: "hello_world",
       })
       if (result.success) {
         toast.success(result.message)
@@ -103,26 +100,16 @@ export function WhatsAppSettingsPage() {
         <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
       </div>
 
-      {/* Enable/Disable Toggle */}
-      <Card data-testid="whatsapp-toggle-card">
-        <CardHeader>
-          <CardTitle className="text-base">{t("enable_title")}</CardTitle>
-          <CardDescription>{t("enable_description")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-3">
-            <Switch
-              checked={enabled}
-              onCheckedChange={setEnabled}
-              data-testid="whatsapp-enabled-toggle"
-              aria-label={t("enable_title")}
-            />
-            <Label className="text-sm">
-              {enabled ? t("status_enabled") : t("status_disabled")}
-            </Label>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Connection Status */}
+      {hasAccessToken && (
+        <Card data-testid="whatsapp-status-card">
+          <CardContent className="pt-6">
+            <p className="text-sm text-green-600 font-medium" data-testid="whatsapp-connected-status">
+              {t("status_connected")}
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* WABA Credentials Form */}
       <Card data-testid="whatsapp-credentials-card">
@@ -132,11 +119,11 @@ export function WhatsAppSettingsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="businessAccountId">{t("business_account_id")}</Label>
+            <Label htmlFor="wabaId">{t("business_account_id")}</Label>
             <Input
-              id="businessAccountId"
-              value={businessAccountId}
-              onChange={(e) => setBusinessAccountId(e.target.value)}
+              id="wabaId"
+              value={wabaId}
+              onChange={(e) => setWabaId(e.target.value)}
               placeholder={t("business_account_id_placeholder")}
               data-testid="whatsapp-business-account-id"
             />
@@ -158,7 +145,7 @@ export function WhatsAppSettingsPage() {
               type="password"
               value={accessToken}
               onChange={(e) => setAccessToken(e.target.value)}
-              placeholder={t("access_token_placeholder")}
+              placeholder={hasAccessToken ? t("access_token_placeholder_existing") : t("access_token_placeholder")}
               data-testid="whatsapp-access-token"
             />
           </div>
@@ -174,27 +161,11 @@ export function WhatsAppSettingsPage() {
             <Button
               variant="outline"
               onClick={handleTestConnection}
-              disabled={testing || !businessAccountId || !phoneNumberId || !accessToken}
+              disabled={testing || !wabaId || !phoneNumberId}
               data-testid="whatsapp-test-button"
             >
               {testing ? t("testing") : t("test_connection")}
             </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Opt-in Status (read-only) */}
-      <Card data-testid="whatsapp-optin-card">
-        <CardHeader>
-          <CardTitle className="text-base">{t("optin_title")}</CardTitle>
-          <CardDescription>{t("optin_description")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-bold" data-testid="whatsapp-optin-count">
-              {optInCount}
-            </span>
-            <span className="text-sm text-muted-foreground">{t("optin_label")}</span>
           </div>
         </CardContent>
       </Card>

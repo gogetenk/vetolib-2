@@ -61,18 +61,27 @@ public static class MessagingModuleServiceRegistrar
         services.AddScoped<IPortalContext, PortalContext>();
 
         // WhatsApp — token encryption
+        // In non-Development environments, WhatsApp:EncryptionKey MUST be configured.
+        // A random fallback key means encrypted tokens become unrecoverable after restart.
         var encryptionKeyBase64 = configuration["WhatsApp:EncryptionKey"];
+        var aspnetEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
         if (!string.IsNullOrEmpty(encryptionKeyBase64))
         {
             var keyBytes = Convert.FromBase64String(encryptionKeyBase64);
             services.AddSingleton<ITokenEncryptor>(new AesTokenEncryptor(keyBytes));
         }
-        else
+        else if (string.Equals(aspnetEnv, "Development", StringComparison.OrdinalIgnoreCase))
         {
-            // Fallback: generate a random key (suitable for dev/test, NOT production)
+            // Dev/test only: generate a random key (tokens will be lost on restart)
             var devKey = new byte[32];
             System.Security.Cryptography.RandomNumberGenerator.Fill(devKey);
             services.AddSingleton<ITokenEncryptor>(new AesTokenEncryptor(devKey));
+        }
+        else
+        {
+            throw new InvalidOperationException(
+                "WhatsApp:EncryptionKey is required in non-Development environments. " +
+                "Generate a 32-byte base64 key and set it in configuration.");
         }
 
         // WhatsApp — channel dispatcher

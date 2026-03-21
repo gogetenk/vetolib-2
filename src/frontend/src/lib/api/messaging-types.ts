@@ -138,17 +138,8 @@ export interface PatientContextDto {
 
 // ─── Request types ───────────────────────────────────────────────────────────
 
-export interface UploadedAttachmentDto {
-  id: string
-  fileName: string
-  contentType: string
-  fileSizeBytes: number
-  url: string
-}
-
-export interface UploadFilesResponse {
-  attachments: UploadedAttachmentDto[]
-}
+/** Backend returns a flat array of Guid IDs (List<Guid>) from the upload endpoint. */
+export type UploadFilesResponse = string[]
 
 export interface SendReplyRequest {
   body: string
@@ -247,18 +238,23 @@ export interface ConsentResponse {
 // ─── WhatsApp Configuration ─────────────────────────────────────────────────
 
 export interface WhatsAppConfigDto {
-  enabled: boolean
-  businessAccountId: string
+  id: string
+  wabaId: string
   phoneNumberId: string
-  accessToken: string
-  optInCount: number
+  hasAccessToken: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface UpdateWhatsAppConfigRequest {
-  enabled: boolean
-  businessAccountId: string
+  wabaId: string
   phoneNumberId: string
   accessToken: string
+}
+
+export interface WhatsAppTestRequest {
+  recipientPhone: string
+  templateName: string
 }
 
 export interface WhatsAppTestResult {

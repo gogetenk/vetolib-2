@@ -10,12 +10,12 @@ export default function WhatsAppSettingsRoute() {
   const router = useRouter()
 
   useEffect(() => {
-    if (role && role !== "ADMIN") {
+    if (role && role.toUpperCase() !== "ADMIN") {
       router.replace("/dashboard")
     }
   }, [role, router])
 
-  if (role !== "ADMIN") return null
+  if (role.toUpperCase() !== "ADMIN") return null
 
   return <WhatsAppSettingsPage />
 }

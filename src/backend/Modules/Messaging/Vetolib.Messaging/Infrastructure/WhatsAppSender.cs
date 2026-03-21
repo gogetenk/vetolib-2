@@ -106,7 +106,9 @@ internal sealed class WhatsAppSender : IChannelDispatcher
         if (parameters.Count == 0)
             return [];
 
+        // Sort by key to ensure stable parameter ordering across Dictionary iterations
         var bodyParams = parameters
+            .OrderBy(kvp => kvp.Key, StringComparer.Ordinal)
             .Select(kvp => new WhatsAppParameter { Type = "text", Text = kvp.Value })
             .ToList();
 

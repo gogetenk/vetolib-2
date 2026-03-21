@@ -43,17 +43,16 @@ export function ReplyComposer({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const sendSuccessTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const previewUrlsRef = useRef<Set<string>>(new Set())
 
   // Clean up send success timeout and preview URLs on unmount
   useEffect(() => {
     return () => {
       if (sendSuccessTimeout.current) clearTimeout(sendSuccessTimeout.current)
-      // Revoke object URLs to avoid memory leaks
-      attachments.forEach((att) => {
-        if (att.previewUrl) URL.revokeObjectURL(att.previewUrl)
-      })
+      // Revoke all tracked object URLs to avoid memory leaks
+      previewUrlsRef.current.forEach((url) => URL.revokeObjectURL(url))
+      previewUrlsRef.current.clear()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // When an AI suggestion is selected, prefill the textarea.
@@ -104,10 +103,12 @@ export function ReplyComposer({
       // Create attachment entries
       const newAttachments: AttachmentFile[] = validFiles.map((file) => {
         const isImage = file.type.startsWith('image/')
+        const previewUrl = isImage ? URL.createObjectURL(file) : null
+        if (previewUrl) previewUrlsRef.current.add(previewUrl)
         return {
           file,
           id: crypto.randomUUID(),
-          previewUrl: isImage ? URL.createObjectURL(file) : null,
+          previewUrl,
           isUploading: false,
           uploadProgress: 0,
           uploadedId: null,
@@ -126,7 +127,10 @@ export function ReplyComposer({
   const handleRemoveAttachment = useCallback((id: string) => {
     setAttachments((prev) => {
       const att = prev.find((a) => a.id === id)
-      if (att?.previewUrl) URL.revokeObjectURL(att.previewUrl)
+      if (att?.previewUrl) {
+        URL.revokeObjectURL(att.previewUrl)
+        previewUrlsRef.current.delete(att.previewUrl)
+      }
       return prev.filter((a) => a.id !== id)
     })
     setFileError(null)
@@ -145,8 +149,8 @@ export function ReplyComposer({
 
       try {
         const filesToUpload = attachments.map((a) => a.file)
-        const result = await uploadFiles(filesToUpload)
-        attachmentIds = result.attachments.map((a) => a.id)
+        const uploadedIds = await uploadFiles(filesToUpload)
+        attachmentIds = uploadedIds
 
         // Mark as done
         setAttachments((prev) =>
@@ -154,7 +158,7 @@ export function ReplyComposer({
             ...a,
             isUploading: false,
             uploadProgress: 100,
-            uploadedId: result.attachments[i]?.id ?? null,
+            uploadedId: uploadedIds[i] ?? null,
           }))
         )
       } catch {
@@ -175,7 +179,10 @@ export function ReplyComposer({
     setText('')
     // Clean up preview URLs
     attachments.forEach((att) => {
-      if (att.previewUrl) URL.revokeObjectURL(att.previewUrl)
+      if (att.previewUrl) {
+        URL.revokeObjectURL(att.previewUrl)
+        previewUrlsRef.current.delete(att.previewUrl)
+      }
     })
     setAttachments([])
     setFileError(null)
