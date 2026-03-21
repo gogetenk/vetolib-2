@@ -280,6 +280,9 @@
       "Horse": "Horse",
       "Camel": "Camel",
       "Exotic": "Exotic"
+    },
+    "errors": {
+      "load_failed": "Failed to load patient data. Please try again."
     }
   },
   "drug_selector": {
@@ -291,6 +294,7 @@
     "use_catalog": "Search catalog",
     "results_label": "Drug catalog results",
     "no_results": "No matching drugs found. Switch to manual entry.",
+    "search_error": "Search failed. Please try again.",
     "rx_required": "Rx",
     "selected_summary_label": "Selected"
   },

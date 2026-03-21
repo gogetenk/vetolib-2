@@ -60,6 +60,7 @@ export function DrugSelector({
   )
   const [results, setResults] = useState<DrugCatalogEntryDto[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [searchError, setSearchError] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<DrugCatalogEntryDto | null>(
     defaultValue?.mode === 'catalog' ? defaultValue.drug : null
@@ -86,16 +87,21 @@ export function DrugSelector({
 
     let cancelled = false
     setIsLoading(true)
+    setSearchError(false)
 
     searchDrugs(debouncedQuery)
       .then(data => {
         if (!cancelled) {
           setResults(data)
+          setSearchError(false)
           setIsOpen(data.length > 0)
         }
       })
       .catch(() => {
-        if (!cancelled) setResults([])
+        if (!cancelled) {
+          setResults([])
+          setSearchError(true)
+        }
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false)
@@ -271,8 +277,18 @@ export function DrugSelector({
             </ul>
           )}
 
+          {/* Search error state */}
+          {!isLoading && searchError && query.trim() && (
+            <div
+              className="absolute z-50 mt-1 w-full rounded-xl border border-destructive/30 bg-destructive/5 text-destructive shadow-lg px-3 py-4 text-[13px] text-center"
+              data-testid="drug-selector-search-error"
+            >
+              {t('search_error')}
+            </div>
+          )}
+
           {/* No results state */}
-          {!isLoading && isOpen && results.length === 0 && query.trim() && (
+          {!isLoading && !searchError && isOpen && results.length === 0 && query.trim() && (
             <div
               className="absolute z-50 mt-1 w-full rounded-xl border border-border/80 bg-popover text-popover-foreground shadow-lg px-3 py-4 text-[13px] text-muted-foreground text-center"
               data-testid="drug-selector-no-results"

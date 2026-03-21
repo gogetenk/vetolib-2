@@ -17,6 +17,7 @@ import type { MedicalRecordDto } from '@/lib/api/medical-records'
 import { PageContainer } from '@/components/ui/page-container'
 import { useRole } from '@/hooks/use-role'
 import { useTranslations } from 'next-intl'
+import { toast } from 'sonner'
 
 type TabId = 'medical-records' | 'prescriptions' | 'vaccinations'
 
@@ -157,27 +158,41 @@ export default function PatientDetailPage() {
   const [prescriptions, setPrescriptions] = useState<PrescriptionDto[]>([])
   const [isLoadingPatient, setIsLoadingPatient] = useState(true)
   const [isLoadingRecords, setIsLoadingRecords] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
 
   useEffect(() => {
     if (!id) return
     getPatient(id)
       .then(setPatient)
-      .catch(() => setPatient(null))
+      .catch(() => {
+        setPatient(null)
+        setLoadError(true)
+        toast.error(t('errors.load_failed'))
+      })
       .finally(() => setIsLoadingPatient(false))
 
     getPatientMedicalRecords(id)
       .then((res) => setRecords(res.items))
-      .catch(() => setRecords([]))
+      .catch(() => {
+        setRecords([])
+        toast.error(t('errors.load_failed'))
+      })
       .finally(() => setIsLoadingRecords(false))
 
     getPatientVaccinations(id)
       .then(setVaccinations)
-      .catch(() => setVaccinations([]))
+      .catch(() => {
+        setVaccinations([])
+        toast.error(t('errors.load_failed'))
+      })
 
     getPatientPrescriptions(id)
       .then(setPrescriptions)
-      .catch(() => setPrescriptions([]))
+      .catch(() => {
+        setPrescriptions([])
+        toast.error(t('errors.load_failed'))
+      })
   }, [id])
 
   const canWrite = role === 'VET' || role === 'ADMIN'
@@ -199,8 +214,10 @@ export default function PatientDetailPage() {
 
   if (!patient) {
     return (
-      <div data-testid="patient-not-found" className="py-12 text-center">
-        <p className="text-muted-foreground">Patient not found.</p>
+      <div data-testid={loadError ? "patient-load-error" : "patient-not-found"} className="py-12 text-center">
+        <p className="text-muted-foreground">
+          {loadError ? t('errors.load_failed') : 'Patient not found.'}
+        </p>
         <Link href="../patients">
           <Button variant="outline" className="mt-4" data-testid="back-to-patients-fallback-btn">
             {t('title')}
