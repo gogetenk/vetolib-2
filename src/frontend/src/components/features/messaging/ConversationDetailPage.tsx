@@ -78,11 +78,11 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
     fetchConversation()
   }, [fetchConversation])
 
-  const handleSendReply = async (body: string) => {
+  const handleSendReply = async (body: string, attachmentIds?: string[]) => {
     if (!conversation || isAssistant) return
     setIsSending(true)
     try {
-      const newMsg = await sendReply(conversation.id, { body })
+      const newMsg = await sendReply(conversation.id, { body, attachmentIds })
       setConversation((prev) =>
         prev
           ? {

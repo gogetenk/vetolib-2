@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
+import { Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { MessageDto, MessageAttachmentDto } from '@/lib/api/messaging-types'
 
@@ -96,6 +97,39 @@ function AttachmentPreview({ attachment }: { attachment: MessageAttachmentDto })
   )
 }
 
+// ─── Download all button ──────────────────────────────────────────────────
+
+function DownloadAllButton({ attachments }: { attachments: MessageAttachmentDto[] }) {
+  const t = useTranslations('messaging')
+  if (attachments.length < 2) return null
+
+  const handleDownloadAll = () => {
+    for (const att of attachments) {
+      const link = document.createElement('a')
+      link.href = att.url
+      link.download = att.fileName
+      link.target = '_blank'
+      link.rel = 'noopener noreferrer'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      className="flex items-center gap-1 mt-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+      data-testid="download-all-btn"
+      onClick={handleDownloadAll}
+      aria-label={t('download_all')}
+    >
+      <Download className="h-3 w-3" aria-hidden />
+      {t('download_all')}
+    </button>
+  )
+}
+
 // ─── Message bubble ───────────────────────────────────────────────────────────
 
 interface MessageBubbleProps {
@@ -183,6 +217,9 @@ export function MessageBubble({ message }: MessageBubbleProps) {
               </div>
             )}
           </div>
+          {message.attachments.length > 0 && (
+            <DownloadAllButton attachments={message.attachments} />
+          )}
           <button
             type="button"
             className="text-xs text-muted-foreground hover:text-foreground transition-colors mt-1 ml-1"
@@ -223,6 +260,11 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             </div>
           )}
         </div>
+        {message.attachments.length > 0 && (
+          <div className="flex justify-end">
+            <DownloadAllButton attachments={message.attachments} />
+          </div>
+        )}
         <div className="flex justify-end mt-1">
           <button
             type="button"
