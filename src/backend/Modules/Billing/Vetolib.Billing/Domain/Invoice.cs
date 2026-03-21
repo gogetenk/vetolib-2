@@ -63,10 +63,10 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public Result<InvoiceItem> AddItem(string description, decimal unitPrice)
     {
         if (Status == InvoiceStatus.Paid)
-            return Result<InvoiceItem>.Error("INVOICE_IMMUTABLE:Une facture payée ne peut plus être modifiée");
+            return Result<InvoiceItem>.Error("INVOICE_IMMUTABLE:A paid invoice cannot be modified");
 
         if (Status == InvoiceStatus.Cancelled)
-            return Result<InvoiceItem>.Error("INVOICE_CANCELLED:Une facture annulée ne peut plus être modifiée");
+            return Result<InvoiceItem>.Error("INVOICE_CANCELLED:A cancelled invoice cannot be modified");
 
         var itemResult = InvoiceItem.Create(Id, description, unitPrice);
         if (!itemResult.IsSuccess)
@@ -79,10 +79,10 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public Result UpdateStatus(InvoiceStatus newStatus)
     {
         if (Status == InvoiceStatus.Paid)
-            return Result.Error("INVOICE_IMMUTABLE:Une facture payée ne peut plus être modifiée");
+            return Result.Error("INVOICE_IMMUTABLE:A paid invoice cannot be modified");
 
         if (Status == InvoiceStatus.Cancelled)
-            return Result.Error("INVOICE_CANCELLED:Une facture annulée ne peut plus être modifiée");
+            return Result.Error("INVOICE_CANCELLED:A cancelled invoice cannot be modified");
 
         var validTransition = (Status, newStatus) switch
         {

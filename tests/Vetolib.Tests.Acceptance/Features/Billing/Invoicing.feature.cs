@@ -28,7 +28,7 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Facturation.feature"
+#line 1 "Invoicing.feature"
 #line hidden
         
         public VeterinaryInvoicingFeature(VeterinaryInvoicingFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
@@ -120,7 +120,7 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Billing/Facturation.feature.ndjson", 11);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Billing/Invoicing.feature.ndjson", 11);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -351,7 +351,7 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
     await testRunner.ThenAsync("the system rejects with code \"INVOICE_IMMUTABLE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 38
-    await testRunner.AndAsync("the error message is \"Une facture payée ne peut plus être modifiée\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the error message is \"A paid invoice cannot be modified\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -425,7 +425,7 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
     await testRunner.WhenAsync("I download the PDF of this invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 48
-    await testRunner.ThenAsync("the response has status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 49
     await testRunner.AndAsync("the Content-Type is \"application/pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -468,21 +468,21 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
     await testRunner.WhenAsync("I download the PDF of this invoice", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 55
-    await testRunner.ThenAsync("the response has status 422", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation is rejected with validation errors", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Non-existent PDF returns 404")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Non-existent PDF returns not found")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary invoicing")]
-        [global::Xunit.TraitAttribute("Description", "Non-existent PDF returns 404")]
-        public async global::System.Threading.Tasks.Task Non_ExistentPDFReturns404()
+        [global::Xunit.TraitAttribute("Description", "Non-existent PDF returns not found")]
+        public async global::System.Threading.Tasks.Task Non_ExistentPDFReturnsNotFound()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "8";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Non-existent PDF returns 404", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Non-existent PDF returns not found", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 57
@@ -502,7 +502,7 @@ namespace Vetolib.Tests.Acceptance.Features.Billing
     await testRunner.WhenAsync("I download the PDF of an invoice with a random non-existent ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 59
-    await testRunner.ThenAsync("the response has status 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the record is not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

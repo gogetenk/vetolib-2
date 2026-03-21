@@ -28,7 +28,7 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "DossierMedical.feature"
+#line 1 "MedicalRecord.feature"
 #line hidden
         
         public AnimalMedicalRecordFeature(AnimalMedicalRecordFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
@@ -123,7 +123,7 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/MedicalRecords/DossierMedical.feature.ndjson", 9);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/MedicalRecords/MedicalRecord.feature.ndjson", 9);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -371,8 +371,8 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
     await testRunner.GivenAsync("an existing examination for \"Max\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 37
-    await testRunner.WhenAsync("I create a prescription with medication \"Amoxicilline 250mg\" dosage \"2x/day for 7" +
-                        " days\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I create a prescription with medication \"Amoxicillin 250mg\" dosage \"2x/day for 7 " +
+                        "days\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 38
     await testRunner.ThenAsync("the prescription is created with license number \"TEST-VET-001\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

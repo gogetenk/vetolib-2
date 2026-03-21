@@ -14,7 +14,7 @@ namespace Vetolib.Tests.Acceptance.StepDefinitions.MedicalRecords;
 
 [Binding]
 [Scope(Feature = "Animal medical record")]
-internal class DossierMedicalSteps
+internal class MedicalRecordSteps
 {
     private readonly ScenarioContext _ctx;
     private HttpClient _client = null!;
@@ -35,7 +35,7 @@ internal class DossierMedicalSteps
         Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
     };
 
-    public DossierMedicalSteps(ScenarioContext ctx)
+    public MedicalRecordSteps(ScenarioContext ctx)
     {
         _ctx = ctx;
     }

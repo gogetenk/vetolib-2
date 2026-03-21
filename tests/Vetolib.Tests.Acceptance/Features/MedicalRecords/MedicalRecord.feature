@@ -34,7 +34,7 @@ Feature: Animal medical record
 
   Scenario: Create a prescription
     Given an existing examination for "Max"
-    When I create a prescription with medication "Amoxicilline 250mg" dosage "2x/day for 7 days"
+    When I create a prescription with medication "Amoxicillin 250mg" dosage "2x/day for 7 days"
     Then the prescription is created with license number "TEST-VET-001"
     And it is linked to the examination
 
