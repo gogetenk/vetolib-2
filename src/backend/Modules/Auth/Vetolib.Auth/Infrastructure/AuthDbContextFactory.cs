@@ -14,7 +14,8 @@ internal class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
     public AuthDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<AuthDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new AuthDbContext(options, new DesignTimeClinicContext(), new NullPublisher());

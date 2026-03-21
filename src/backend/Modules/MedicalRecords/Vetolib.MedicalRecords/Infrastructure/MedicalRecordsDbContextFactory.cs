@@ -14,7 +14,8 @@ internal class MedicalRecordsDbContextFactory : IDesignTimeDbContextFactory<Medi
     public MedicalRecordsDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<MedicalRecordsDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new MedicalRecordsDbContext(options, new DesignTimeClinicContext(), new NullPublisher());

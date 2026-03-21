@@ -14,7 +14,8 @@ internal class AgendaDbContextFactory : IDesignTimeDbContextFactory<AgendaDbCont
     public AgendaDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<AgendaDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new AgendaDbContext(options, new DesignTimeClinicContext(), new NullPublisher());

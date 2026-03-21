@@ -14,7 +14,8 @@ internal class MessagingDbContextFactory : IDesignTimeDbContextFactory<Messaging
     public MessagingDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<MessagingDbContext>()
-            .UseNpgsql("Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
+            .UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL")
+                ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
         return new MessagingDbContext(options, new MessagingDesignTimeClinicContext(), new MessagingNullPublisher());

@@ -40,7 +40,7 @@ public static class AuthModuleServiceRegistrar
         services.AddScoped<ISubscriptionChecker, SubscriptionChecker>();
 
         // JWT Authentication
-        var jwtKey = config["Jwt:Key"] ?? "super-secret-key-for-vetolib-jwt-token-generation-minimum-32-chars";
+        var jwtKey = config["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key configuration is required. Set it in appsettings.json or environment variables.");
         var jwtIssuer = config["Jwt:Issuer"] ?? "Vetolib";
         var jwtAudience = config["Jwt:Audience"] ?? "Vetolib";
 
