@@ -13,6 +13,7 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
     public string Subject { get; private set; } = string.Empty;
     public MessageCategory Category { get; private set; }
     public ConversationStatus Status { get; private set; }
+    public ConversationChannel Channel { get; private set; }
     public Guid? AssignedToUserId { get; private set; }
     public string? AssignedToRole { get; private set; }
     public decimal? AiTriageConfidence { get; private set; }
@@ -31,7 +32,8 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         Guid ownerId,
         Guid? patientId,
         string subject,
-        MessageCategory category)
+        MessageCategory category,
+        ConversationChannel channel = ConversationChannel.Portal)
     {
         var errors = new List<ValidationError>();
 
@@ -54,6 +56,7 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
             PatientId = patientId,
             Subject = subject,
             Category = category,
+            Channel = channel,
             Status = ConversationStatus.Open
         });
     }
@@ -168,6 +171,7 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         Subject,
         Category,
         Status,
+        Channel,
         _messages.Count,
         CreatedAt,
         LastMessageAt,
@@ -188,6 +192,7 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         Subject,
         Category,
         Status,
+        Channel,
         AssignedToUserId,
         AssignedToRole,
         AiTriageConfidence,

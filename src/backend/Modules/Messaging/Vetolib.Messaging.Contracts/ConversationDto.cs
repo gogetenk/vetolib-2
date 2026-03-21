@@ -8,6 +8,7 @@ public record ConversationDto(
     string Subject,
     MessageCategory Category,
     ConversationStatus Status,
+    ConversationChannel Channel,
     int MessageCount,
     DateTime CreatedAt,
     DateTime? LastMessageAt,

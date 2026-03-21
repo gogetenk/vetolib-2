@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Vetolib.Messaging.Application.Domain;
+using Vetolib.Messaging.Contracts;
 
 namespace Vetolib.Messaging.Infrastructure;
 
@@ -29,6 +30,11 @@ internal class ConversationConfiguration : IEntityTypeConfiguration<Conversation
         builder.Property(c => c.Status)
             .IsRequired()
             .HasConversion<string>();
+
+        builder.Property(c => c.Channel)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasDefaultValue(ConversationChannel.Portal);
 
         builder.Property(c => c.AssignedToRole)
             .HasMaxLength(100);

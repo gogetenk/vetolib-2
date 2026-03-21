@@ -15,6 +15,8 @@ internal class MessagingDbContext : MultiTenantDbContext
     public DbSet<ResponseTemplate> ResponseTemplates => Set<ResponseTemplate>();
     public DbSet<OwnerPortalToken> OwnerPortalTokens => Set<OwnerPortalToken>();
     public DbSet<MessagingHours> MessagingHours => Set<MessagingHours>();
+    public DbSet<WhatsAppBusinessAccount> WhatsAppBusinessAccounts => Set<WhatsAppBusinessAccount>();
+    public DbSet<WhatsAppPhoneMapping> WhatsAppPhoneMappings => Set<WhatsAppPhoneMapping>();
 
     public MessagingDbContext(
         DbContextOptions<MessagingDbContext> options,
