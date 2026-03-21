@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   CalendarDays,
+  LayoutDashboard,
   PawPrint,
   ClipboardList,
   CreditCard,
@@ -19,7 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useRole } from "@/hooks/use-role";
 import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type UserRole = "VET" | "RECEPTIONIST" | "ASSISTANT" | "ADMIN" | string;
 
@@ -33,79 +34,89 @@ interface NavItem {
   badgeForRoles?: UserRole[]; // show badge only for these roles
 }
 
-const mainNavItems: NavItem[] = [
-  {
-    href: "/appointments",
-    label: "Agenda",
-    icon: <CalendarDays className="h-5 w-5" />,
-    testId: "nav-appointments",
-  },
-  {
-    href: "/patients",
-    label: "Patients",
-    icon: <PawPrint className="h-5 w-5" />,
-    testId: "nav-patients",
-  },
-  {
-    href: "/medical-records",
-    label: "Medical Records",
-    icon: <ClipboardList className="h-5 w-5" />,
-    testId: "nav-medical-records",
-    // RECEPTIONIST cannot see medical records
-    roles: ["VET", "ASSISTANT"],
-    badge: "Read only",
-    // badge only shown for ASSISTANT role
-    badgeForRoles: ["ASSISTANT"],
-  },
-  {
-    href: "/billing",
-    label: "Billing",
-    icon: <CreditCard className="h-5 w-5" />,
-    testId: "nav-billing",
-  },
-  {
-    href: "/messages",
-    label: "Messages",
-    icon: <MessageSquare className="h-5 w-5" />,
-    testId: "nav-messages",
-  },
-  {
-    href: "/stock",
-    label: "Stock",
-    icon: <Package className="h-5 w-5" />,
-    testId: "nav-stock",
-    roles: ["VET", "ADMIN"],
-  },
-  {
-    href: "/settings/team",
-    label: "Team",
-    icon: <Users className="h-5 w-5" />,
-    testId: "nav-team",
-    roles: ["ADMIN"],
-  },
-  {
-    href: "/settings/messaging/templates",
-    label: "Messaging Settings",
-    icon: <Settings className="h-5 w-5" />,
-    testId: "nav-messaging-settings",
-    roles: ["ADMIN"],
-  },
-];
+function getMainNavItems(t: (key: string) => string): NavItem[] {
+  return [
+    {
+      href: "/dashboard",
+      label: t("dashboard"),
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      testId: "nav-dashboard",
+    },
+    {
+      href: "/appointments",
+      label: t("appointments"),
+      icon: <CalendarDays className="h-5 w-5" />,
+      testId: "nav-appointments",
+    },
+    {
+      href: "/patients",
+      label: t("patients"),
+      icon: <PawPrint className="h-5 w-5" />,
+      testId: "nav-patients",
+    },
+    {
+      href: "/medical-records",
+      label: t("medical_records"),
+      icon: <ClipboardList className="h-5 w-5" />,
+      testId: "nav-medical-records",
+      // RECEPTIONIST cannot see medical records
+      roles: ["VET", "ASSISTANT"],
+      badge: t("read_only"),
+      // badge only shown for ASSISTANT role
+      badgeForRoles: ["ASSISTANT"],
+    },
+    {
+      href: "/billing",
+      label: t("billing"),
+      icon: <CreditCard className="h-5 w-5" />,
+      testId: "nav-billing",
+    },
+    {
+      href: "/messages",
+      label: t("messages"),
+      icon: <MessageSquare className="h-5 w-5" />,
+      testId: "nav-messages",
+    },
+    {
+      href: "/stock",
+      label: t("stock"),
+      icon: <Package className="h-5 w-5" />,
+      testId: "nav-stock",
+      roles: ["VET", "ADMIN"],
+    },
+    {
+      href: "/settings/team",
+      label: t("team"),
+      icon: <Users className="h-5 w-5" />,
+      testId: "nav-team",
+      roles: ["ADMIN"],
+    },
+    {
+      href: "/settings/messaging/templates",
+      label: t("messaging_settings"),
+      icon: <Settings className="h-5 w-5" />,
+      testId: "nav-messaging-settings",
+      roles: ["ADMIN"],
+    },
+  ];
+}
 
-const bottomNavItems: NavItem[] = [
-  {
-    href: "/settings",
-    label: "Settings",
-    icon: <Settings className="h-5 w-5" />,
-    testId: "nav-settings",
-  },
-  {
-    href: "/profile",
-    label: "Profile",
-    icon: <User className="h-5 w-5" />,
-    testId: "nav-profile",
-  },
-];
+function getBottomNavItems(t: (key: string) => string): NavItem[] {
+  return [
+    {
+      href: "/settings",
+      label: t("settings"),
+      icon: <Settings className="h-5 w-5" />,
+      testId: "nav-settings",
+    },
+    {
+      href: "/profile",
+      label: t("profile"),
+      icon: <User className="h-5 w-5" />,
+      testId: "nav-profile",
+    },
+  ];
+}
 
 interface SidebarNavItemProps {
   item: NavItem;
@@ -186,11 +197,12 @@ interface SidebarContentProps {
 
 function SidebarContent({ role, pathname, locale, onItemClick }: SidebarContentProps) {
   const { unreadCount } = useMessagingSseContext();
+  const t = useTranslations("nav");
 
-  const visibleMain = mainNavItems.filter(
+  const visibleMain = getMainNavItems(t).filter(
     (item) => !item.roles || item.roles.includes(role)
   );
-  const visibleBottom = bottomNavItems.filter(
+  const visibleBottom = getBottomNavItems(t).filter(
     (item) => !item.roles || item.roles.includes(role)
   );
 

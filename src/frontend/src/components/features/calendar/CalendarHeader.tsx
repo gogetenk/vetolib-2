@@ -78,7 +78,7 @@ export function CalendarHeader({
               onClick={() => setIsFilterOpen((prev) => !prev)}
               data-testid="calendar-vet-filter-btn"
             >
-              Personnel
+              {t('personal')}
               <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`} />
             </button>
 
@@ -102,7 +102,7 @@ export function CalendarHeader({
             </div>
           </div>
           <button className="px-4 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-[#061e44] transition-colors rounded-full hover:bg-[#f4f6f9]">
-            Équipe
+            {t('team')}
           </button>
         </div>
       </div>
@@ -152,7 +152,7 @@ export function CalendarHeader({
             onClick={onNewAppointment}
           >
             <Plus className="size-4" />
-            Nouveau rendez-vous
+            {t('newAppointment')}
           </Button>
         </div>
       </div>

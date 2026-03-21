@@ -36,7 +36,7 @@ TIME_SLOTS.push('19:00')
 
 const schema = z.object({
   patientName: z.string().min(1, 'Patient name is required'),
-  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic'] as [Species, ...Species[]]),
+  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic'] as [Species, ...Species[]], { message: 'Please select a species' }),
   ownerName: z.string().min(1, 'Owner name is required'),
   ownerPhone: z.string().min(1, 'Owner phone is required'),
   vetId: z.string().min(1, 'Vet is required'),
@@ -60,10 +60,14 @@ export function AppointmentForm() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   })
+
+  const selectedVetId = watch('vetId')
+  const selectedVetName = vets.find((v) => v.id === selectedVetId)?.name
 
   // Shake form on validation errors
   const errorCount = Object.keys(errors).length
@@ -211,7 +215,9 @@ export function AppointmentForm() {
                 data-testid="select-vet"
               >
                 <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-vet-trigger">
-                  <SelectValue placeholder={t('select_vet')} />
+                  <SelectValue placeholder={t('select_vet')}>
+                    {selectedVetName}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {vets.map((v) => (

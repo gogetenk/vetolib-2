@@ -62,6 +62,7 @@
     }
   },
   "nav": {
+    "dashboard": "لوحة التحكم",
     "appointments": "المواعيد",
     "patients": "الحيوانات",
     "medical_records": "السجلات الطبية",
@@ -72,7 +73,8 @@
     "profile": "الملف الشخصي",
     "sign_out": "تسجيل الخروج",
     "stock": "المخزون",
-    "read_only": "للقراءة فقط"
+    "read_only": "للقراءة فقط",
+    "messaging_settings": "إعدادات الرسائل"
   },
   "appointments": {
     "title": "المواعيد",
@@ -740,6 +742,9 @@
       "week": "أسبوع",
       "month": "شهر"
     },
+    "personal": "شخصي",
+    "team": "الفريق",
+    "newAppointment": "موعد جديد",
     "allVets": "جميع الأطباء",
     "filterByVet": "تصفية حسب الطبيب",
     "moreAppointments": "+{count} المزيد",
