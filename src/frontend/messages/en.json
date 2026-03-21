@@ -1651,7 +1651,9 @@
     "team_title": "Team Management",
     "team_description": "Invite team members, manage roles, and control access permissions.",
     "messaging_title": "Messaging Settings",
-    "messaging_description": "Set up automated reminders, templates, and messaging hours."
+    "messaging_description": "Set up automated reminders, templates, and messaging hours.",
+    "notifications_title": "Notification Settings",
+    "notifications_description": "Configure automatic reminders for appointments, vaccinations, and follow-ups."
   },
   "soap_notes": {
     "title": "AI SOAP Notes",
@@ -1666,5 +1668,48 @@
     "objective": "Objective (O)",
     "assessment": "Assessment (A)",
     "plan": "Plan (P)"
+  },
+  "reminder_settings": {
+    "title": "Reminder Settings",
+    "subtitle": "Configure automatic reminders sent to pet owners.",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "save_success": "Reminder settings saved successfully.",
+    "appointment": {
+      "title": "Appointment Reminders",
+      "description": "Send reminders to pet owners before their scheduled appointments.",
+      "timing_label": "Send",
+      "hours_before": "hours before appointment"
+    },
+    "vaccination": {
+      "title": "Vaccination Reminders",
+      "description": "Notify pet owners when vaccinations are due."
+    },
+    "followup": {
+      "title": "Follow-up Reminders",
+      "description": "Send follow-up reminders after consultations.",
+      "days_label": "Send",
+      "days_after": "days after consultation"
+    },
+    "logs": {
+      "title": "Recent Reminders",
+      "description": "Log of recently sent reminders.",
+      "empty": "No reminders sent yet.",
+      "col_date": "Date",
+      "col_type": "Type",
+      "col_patient": "Patient",
+      "col_owner": "Owner",
+      "col_status": "Status",
+      "type_appointment": "Appointment",
+      "type_vaccination": "Vaccination",
+      "type_follow_up": "Follow-up",
+      "status_sent": "Sent",
+      "status_failed": "Failed",
+      "status_pending": "Pending"
+    },
+    "errors": {
+      "load_failed": "Failed to load reminder settings.",
+      "save_failed": "Failed to save reminder settings."
+    }
   }
 }

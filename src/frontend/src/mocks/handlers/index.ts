@@ -13,6 +13,7 @@ import { stockHandlers } from './stock'
 import { aiHandlers } from './ai'
 import { bookingHandlers } from './booking'
 import { clinicGroupHandlers } from './clinic-group'
+import { reminderHandlers } from './reminders'
 
 export const handlers = [
   ...authHandlers,
@@ -30,4 +31,5 @@ export const handlers = [
   ...aiHandlers,
   ...bookingHandlers,
   ...clinicGroupHandlers,
+  ...reminderHandlers,
 ]

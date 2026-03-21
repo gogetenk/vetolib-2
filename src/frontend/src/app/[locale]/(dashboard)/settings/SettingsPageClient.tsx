@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTranslations } from "next-intl"
-import { Settings, Users, MessageSquare, type LucideIcon } from "lucide-react"
+import { Settings, Users, MessageSquare, Bell, type LucideIcon } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
 interface SettingsLink {
@@ -35,6 +35,13 @@ const settingsLinks: SettingsLink[] = [
     titleKey: "messaging_title",
     descriptionKey: "messaging_description",
     testId: "settings-link-messaging",
+  },
+  {
+    href: "settings/notifications",
+    icon: Bell,
+    titleKey: "notifications_title",
+    descriptionKey: "notifications_description",
+    testId: "settings-link-notifications",
   },
 ]
 
