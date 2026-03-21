@@ -28,19 +28,19 @@ internal class Prescription : BaseEntity, IMultiTenant
         var errors = new List<ValidationError>();
 
         if (clinicId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(clinicId), "ClinicId est requis"));
+            errors.Add(new ValidationError(nameof(clinicId), "ClinicId is required"));
 
         if (medicalRecordId == Guid.Empty)
-            errors.Add(new ValidationError(nameof(medicalRecordId), "MedicalRecordId est requis"));
+            errors.Add(new ValidationError(nameof(medicalRecordId), "MedicalRecordId is required"));
 
         if (string.IsNullOrWhiteSpace(medication))
-            errors.Add(new ValidationError(nameof(medication), "Le médicament est requis"));
+            errors.Add(new ValidationError(nameof(medication), "Medication is required"));
 
         if (string.IsNullOrWhiteSpace(dosage))
-            errors.Add(new ValidationError(nameof(dosage), "La posologie est requise"));
+            errors.Add(new ValidationError(nameof(dosage), "Dosage is required"));
 
         if (string.IsNullOrWhiteSpace(vetLicenseNumber))
-            errors.Add(new ValidationError(nameof(vetLicenseNumber), "Le numéro de licence est requis"));
+            errors.Add(new ValidationError(nameof(vetLicenseNumber), "License number is required"));
 
         if (errors.Count > 0)
             return Result<Prescription>.Invalid(errors);

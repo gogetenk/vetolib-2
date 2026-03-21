@@ -8,10 +8,10 @@ internal class DeactivateUserValidator : AbstractValidator<DeactivateUserCommand
     {
         RuleFor(x => x.RequestingUserId)
             .NotEmpty()
-            .WithMessage("RequestingUserId est requis");
+            .WithMessage("RequestingUserId is required");
 
         RuleFor(x => x.TargetUserId)
             .NotEmpty()
-            .WithMessage("TargetUserId est requis");
+            .WithMessage("TargetUserId is required");
     }
 }

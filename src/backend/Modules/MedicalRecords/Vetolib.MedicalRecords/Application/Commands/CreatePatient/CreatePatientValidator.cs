@@ -6,10 +6,10 @@ internal class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
 {
     public CreatePatientValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().WithMessage("Le nom de l'animal est requis");
-        RuleFor(x => x.Breed).NotEmpty().WithMessage("La race est requise");
-        RuleFor(x => x.OwnerName).NotEmpty().WithMessage("Le nom du proprietaire est requis");
-        RuleFor(x => x.OwnerPhone).NotEmpty().WithMessage("Le telephone du proprietaire est requis");
-        RuleFor(x => x.BirthDate).NotEqual(default(DateOnly)).WithMessage("La date de naissance est requise");
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Animal name is required");
+        RuleFor(x => x.Breed).NotEmpty().WithMessage("Breed is required");
+        RuleFor(x => x.OwnerName).NotEmpty().WithMessage("Owner name is required");
+        RuleFor(x => x.OwnerPhone).NotEmpty().WithMessage("Owner phone number is required");
+        RuleFor(x => x.BirthDate).NotEqual(default(DateOnly)).WithMessage("Birth date is required");
     }
 }

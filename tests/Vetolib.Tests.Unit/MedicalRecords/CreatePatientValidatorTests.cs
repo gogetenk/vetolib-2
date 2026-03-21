@@ -47,7 +47,7 @@ public class CreatePatientValidatorTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e =>
             e.PropertyName == nameof(CreatePatientCommand.Name) &&
-            e.ErrorMessage == "Le nom de l'animal est requis");
+            e.ErrorMessage == "Animal name is required");
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class CreatePatientValidatorTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e =>
             e.PropertyName == nameof(CreatePatientCommand.Breed) &&
-            e.ErrorMessage == "La race est requise");
+            e.ErrorMessage == "Breed is required");
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class CreatePatientValidatorTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e =>
             e.PropertyName == nameof(CreatePatientCommand.OwnerName) &&
-            e.ErrorMessage == "Le nom du proprietaire est requis");
+            e.ErrorMessage == "Owner name is required");
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class CreatePatientValidatorTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e =>
             e.PropertyName == nameof(CreatePatientCommand.OwnerPhone) &&
-            e.ErrorMessage == "Le telephone du proprietaire est requis");
+            e.ErrorMessage == "Owner phone number is required");
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public class CreatePatientValidatorTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e =>
             e.PropertyName == nameof(CreatePatientCommand.BirthDate) &&
-            e.ErrorMessage == "La date de naissance est requise");
+            e.ErrorMessage == "Birth date is required");
     }
 
     [Fact]

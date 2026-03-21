@@ -8,6 +8,6 @@ internal class LogoutValidator : AbstractValidator<LogoutCommand>
     {
         RuleFor(x => x.UserId)
             .NotEmpty()
-            .WithMessage("UserId est requis");
+            .WithMessage("UserId is required");
     }
 }

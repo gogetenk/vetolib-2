@@ -9,10 +9,10 @@ internal class UpdateAppointmentStatusValidator : AbstractValidator<UpdateAppoin
     {
         RuleFor(x => x.AppointmentId)
             .NotEmpty()
-            .WithMessage("AppointmentId est requis");
+            .WithMessage("AppointmentId is required");
 
         RuleFor(x => x.NewStatus)
             .IsInEnum()
-            .WithMessage($"Le statut doit etre l'une des valeurs : {string.Join(", ", Enum.GetNames<AppointmentStatus>())}");
+            .WithMessage($"Status must be one of the following values: {string.Join(", ", Enum.GetNames<AppointmentStatus>())}");
     }
 }

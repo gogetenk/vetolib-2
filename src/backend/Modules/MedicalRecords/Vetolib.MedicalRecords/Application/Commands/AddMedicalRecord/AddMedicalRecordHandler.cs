@@ -23,7 +23,7 @@ internal class AddMedicalRecordHandler : IRequestHandler<AddMedicalRecordCommand
             .FirstOrDefaultAsync(p => p.Id == cmd.PatientId, ct);
 
         if (patient is null)
-            return Result<MedicalRecordDto>.NotFound("Patient introuvable");
+            return Result<MedicalRecordDto>.NotFound("Patient not found");
 
         var recordResult = MedicalRecord.Create(
             cmd.ClinicId,

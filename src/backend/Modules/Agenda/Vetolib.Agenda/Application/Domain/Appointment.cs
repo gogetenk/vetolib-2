@@ -48,19 +48,19 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
             errors.Add(new ValidationError(nameof(veterinarianId), "VeterinarianId is required"));
 
         if (string.IsNullOrWhiteSpace(veterinarianName))
-            errors.Add(new ValidationError(nameof(veterinarianName), "Le nom du veterinaire est requis"));
+            errors.Add(new ValidationError(nameof(veterinarianName), "Veterinarian name is required"));
 
         if (animalId == Guid.Empty)
             errors.Add(new ValidationError(nameof(animalId), "AnimalId is required"));
 
         if (string.IsNullOrWhiteSpace(animalName))
-            errors.Add(new ValidationError(nameof(animalName), "Le nom de l'animal est requis"));
+            errors.Add(new ValidationError(nameof(animalName), "Animal name is required"));
 
         if (string.IsNullOrWhiteSpace(ownerName))
-            errors.Add(new ValidationError(nameof(ownerName), "Le nom du proprietaire est requis"));
+            errors.Add(new ValidationError(nameof(ownerName), "Owner name is required"));
 
         if (durationMinutes <= 0)
-            errors.Add(new ValidationError(nameof(durationMinutes), "La duree doit etre superieure a 0"));
+            errors.Add(new ValidationError(nameof(durationMinutes), "Duration must be greater than 0"));
 
         if (errors.Count > 0)
             return Result<Appointment>.Invalid(errors);
@@ -90,7 +90,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public Result CheckIn()
     {
         if (Status != AppointmentStatus.Scheduled)
-            return Result.Error($"INVALID_TRANSITION:Impossible de passer en CHECKED_IN depuis {Status}");
+            return Result.Error($"INVALID_TRANSITION:Cannot transition to CHECKED_IN from {Status}");
         Status = AppointmentStatus.CheckedIn;
         return Result.Success();
     }
@@ -98,7 +98,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public Result StartConsultation()
     {
         if (Status != AppointmentStatus.CheckedIn)
-            return Result.Error($"INVALID_TRANSITION:Impossible de passer en IN_PROGRESS depuis {Status}");
+            return Result.Error($"INVALID_TRANSITION:Cannot transition to IN_PROGRESS from {Status}");
         Status = AppointmentStatus.InProgress;
         return Result.Success();
     }
@@ -106,7 +106,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public Result Complete()
     {
         if (Status != AppointmentStatus.InProgress)
-            return Result.Error($"INVALID_TRANSITION:Impossible de passer en COMPLETED depuis {Status}");
+            return Result.Error($"INVALID_TRANSITION:Cannot transition to COMPLETED from {Status}");
         Status = AppointmentStatus.Completed;
         return Result.Success();
     }
@@ -114,7 +114,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public Result Cancel(string? reason = null)
     {
         if (Status == AppointmentStatus.Completed || Status == AppointmentStatus.Cancelled)
-            return Result.Error($"INVALID_TRANSITION:Impossible d'annuler un rendez-vous {Status}");
+            return Result.Error($"INVALID_TRANSITION:Cannot cancel an appointment with status {Status}");
         Status = AppointmentStatus.Cancelled;
         if (reason is not null)
             Reason = reason;
@@ -124,7 +124,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public Result MarkNoShow()
     {
         if (Status != AppointmentStatus.Scheduled && Status != AppointmentStatus.CheckedIn)
-            return Result.Error($"INVALID_TRANSITION:Impossible de passer en NO_SHOW depuis {Status}");
+            return Result.Error($"INVALID_TRANSITION:Cannot transition to NO_SHOW from {Status}");
         Status = AppointmentStatus.NoShow;
         return Result.Success();
     }
@@ -146,7 +146,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         string? newNotes)
     {
         if (Status == AppointmentStatus.Completed || Status == AppointmentStatus.Cancelled)
-            return Result.Error($"INVALID_TRANSITION:Impossible de modifier un rendez-vous {Status}");
+            return Result.Error($"INVALID_TRANSITION:Cannot modify an appointment with status {Status}");
 
         if (newDate.HasValue)
             Date = newDate.Value;
