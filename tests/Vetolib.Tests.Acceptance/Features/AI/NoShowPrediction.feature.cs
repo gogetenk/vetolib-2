@@ -179,7 +179,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I request a no-show prediction for that appointment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 14
-    await testRunner.ThenAsync("I should receive a prediction with status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I receive a prediction result", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 15
     await testRunner.AndAsync("the prediction should contain a probability between 0 and 1", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -354,7 +354,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I request a no-show prediction for any appointment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 43
-    await testRunner.ThenAsync("I should receive a 403 Forbidden response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -397,7 +397,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I request a no-show prediction for that appointment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 50
-    await testRunner.ThenAsync("I should receive a prediction with status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I receive a prediction result", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
