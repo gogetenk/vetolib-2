@@ -288,7 +288,7 @@ namespace Vetolib.Tests.Acceptance.Features.Dashboard
     await testRunner.WhenAsync("I request dashboard analytics", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 28
-    await testRunner.ThenAsync("the response status is 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 29
     await testRunner.AndAsync("the analytics include a revenue by month list", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -328,7 +328,7 @@ namespace Vetolib.Tests.Acceptance.Features.Dashboard
     await testRunner.WhenAsync("I request dashboard analytics without authentication", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 34
-    await testRunner.ThenAsync("the response status is 401", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -365,7 +365,7 @@ namespace Vetolib.Tests.Acceptance.Features.Dashboard
     await testRunner.WhenAsync("I request dashboard analytics", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 39
-    await testRunner.ThenAsync("the response status is 403", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

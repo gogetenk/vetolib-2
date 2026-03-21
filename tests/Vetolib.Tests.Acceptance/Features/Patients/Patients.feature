@@ -3,7 +3,7 @@
 Feature: Patient standalone CRUD
   As a vet or admin
   I want to create and manage patients independently of appointments
-  So that I can maintain a complete patient database with UAE species
+  So that I can maintain a complete patient registry with UAE species
 
   Background:
     Given a clinic "Desert Paws"
@@ -34,7 +34,7 @@ Feature: Patient standalone CRUD
   Scenario: Receptionist cannot create patients
     Given I am authenticated as Receptionist
     When I create a patient with name "Buddy", species "Dog", breed "Poodle", birth date "2020-01-01", owner name "Owner Name", owner phone "+971 50 000 0000"
-    Then the request is rejected with status 403
+    Then the user is denied access
 
   Scenario: Tenant isolation on patients
     Given a clinic "Al Barsha Vets"

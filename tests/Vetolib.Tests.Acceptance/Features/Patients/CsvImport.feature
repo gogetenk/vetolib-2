@@ -32,4 +32,4 @@ Feature: CSV Import Patients
   Scenario: Receptionist cannot import patients
     Given I am authenticated as Receptionist
     When I import a CSV with 1 valid patient row
-    Then the import is rejected with status 403
+    Then the user is denied access

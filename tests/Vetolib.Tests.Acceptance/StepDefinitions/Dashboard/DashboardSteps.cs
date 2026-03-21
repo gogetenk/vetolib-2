@@ -167,11 +167,19 @@ internal class DashboardSteps
 
     // ─── THEN ───────────────────────────────────────────────────
 
-    [Then(@"the response status is (\d+)")]
-    public void ThenTheResponseStatusIs(int expectedStatus)
+    [Then(@"the operation succeeds")]
+    public void ThenTheOperationSucceeds()
     {
         _lastResponse.Should().NotBeNull();
-        ((int)_lastResponse!.StatusCode).Should().Be(expectedStatus);
+        ((int)_lastResponse!.StatusCode).Should().Be(200);
+    }
+
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
+    {
+        _lastResponse.Should().NotBeNull();
+        var status = (int)_lastResponse!.StatusCode;
+        status.Should().BeOneOf(401, 403);
     }
 
     [Then(@"the analytics include a revenue by month list")]

@@ -172,7 +172,7 @@ namespace Vetolib.Tests.Acceptance.Features.Users
                         "e\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 12
-    await testRunner.WhenAsync("I call GET /api/users", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I list all team members", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 13
     await testRunner.ThenAsync("I receive a list with 3 members", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -213,7 +213,7 @@ namespace Vetolib.Tests.Acceptance.Features.Users
     await testRunner.ThenAsync("the invitation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 18
-    await testRunner.AndAsync("the response contains a temporary password", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("a temporary password is generated", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 19
     await testRunner.AndAsync("the new user appears in the team list", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -330,7 +330,7 @@ namespace Vetolib.Tests.Acceptance.Features.Users
     await testRunner.WhenAsync("I try to deactivate myself", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 35
-    await testRunner.ThenAsync("I receive a 400 error with message \"Cannot deactivate your own account\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected with message \"Cannot deactivate your own account\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -364,10 +364,10 @@ namespace Vetolib.Tests.Acceptance.Features.Users
     await testRunner.GivenAsync("I am a vet \"dr.sarah@desertpaws.ae\" in clinic \"desert-paws-001\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 39
-    await testRunner.WhenAsync("I call GET /api/users as a vet", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("a vet lists all team members", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 40
-    await testRunner.ThenAsync("I receive a 403 error", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

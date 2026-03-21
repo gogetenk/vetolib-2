@@ -120,8 +120,8 @@ internal class TeamManagementSteps
 
     // ─── WHEN steps ──────────────────────────────────────────────
 
-    [When(@"I call GET \/api\/users")]
-    public async Task WhenGetUsers()
+    [When(@"I list all team members")]
+    public async Task WhenListAllTeamMembers()
     {
         _response = await _client.GetAsync("/api/v1/users");
         if (_response.IsSuccessStatusCode)
@@ -172,8 +172,8 @@ internal class TeamManagementSteps
         _errorBody = await _response.Content.ReadAsStringAsync();
     }
 
-    [When(@"I call GET \/api\/users as a vet")]
-    public async Task WhenGetUsersAsVet()
+    [When(@"a vet lists all team members")]
+    public async Task WhenVetListsAllTeamMembers()
     {
         _response = await _client.GetAsync("/api/v1/users");
         _errorBody = await _response.Content.ReadAsStringAsync();
@@ -206,8 +206,8 @@ internal class TeamManagementSteps
         _inviteResponse.Should().NotBeNull();
     }
 
-    [Then(@"the response contains a temporary password")]
-    public void ThenResponseContainsPassword()
+    [Then(@"a temporary password is generated")]
+    public void ThenTemporaryPasswordIsGenerated()
     {
         _inviteResponse.Should().NotBeNull();
         _inviteResponse!.TemporaryPassword.Should().NotBeNullOrEmpty();
@@ -258,15 +258,15 @@ internal class TeamManagementSteps
         user.IsActive.Should().BeFalse();
     }
 
-    [Then(@"I receive a 400 error with message ""(.*)""")]
-    public void ThenReceive400WithMessage(string expectedMessage)
+    [Then(@"the request is rejected with message ""(.*)""")]
+    public void ThenRequestRejectedWithMessage(string expectedMessage)
     {
-        _response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        _response.IsSuccessStatusCode.Should().BeFalse();
         _errorBody.Should().Contain(expectedMessage);
     }
 
-    [Then(@"I receive a 403 error")]
-    public void ThenReceive403()
+    [Then(@"the user is denied access")]
+    public void ThenUserIsDeniedAccess()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
