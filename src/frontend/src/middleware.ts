@@ -10,7 +10,7 @@ import type { NextRequest } from "next/server";
  * Public routes: /{locale}/login, /api/v1/auth/*, /{locale}/portal/*
  */
 
-const SUPPORTED_LOCALES = ["en", "ar"] as const;
+const SUPPORTED_LOCALES = ["en", "ar", "fr"] as const;
 const DEFAULT_LOCALE = "en";
 
 /**
