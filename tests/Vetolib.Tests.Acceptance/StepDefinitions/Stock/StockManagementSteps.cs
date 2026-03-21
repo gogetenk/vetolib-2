@@ -349,8 +349,9 @@ internal class StockManagementSteps
     public void ThenTheSystemIndicatesInsufficientStock()
     {
         _lastResponse.Should().NotBeNull();
-        _lastResponse!.IsSuccessStatusCode.Should().BeFalse(
-            $"Expected error but got {(int)_lastResponse.StatusCode}");
+        _lastResponse!.StatusCode.Should().BeOneOf(
+            HttpStatusCode.BadRequest,
+            HttpStatusCode.UnprocessableEntity);
     }
 
     [Then(@"the alerts should include ""(.*)"" as low-stock")]
@@ -405,8 +406,9 @@ internal class StockManagementSteps
     public void ThenTheSystemRejectsTheInputAsInvalid()
     {
         _lastResponse.Should().NotBeNull();
-        _lastResponse!.IsSuccessStatusCode.Should().BeFalse(
-            $"Expected rejection but got {(int)_lastResponse.StatusCode}");
+        _lastResponse!.StatusCode.Should().BeOneOf(
+            HttpStatusCode.BadRequest,
+            HttpStatusCode.UnprocessableEntity);
     }
 
     // ─── Helpers ────────────────────────────────────────────────
