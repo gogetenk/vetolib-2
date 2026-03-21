@@ -138,8 +138,21 @@ export interface PatientContextDto {
 
 // ─── Request types ───────────────────────────────────────────────────────────
 
+export interface UploadedAttachmentDto {
+  id: string
+  fileName: string
+  contentType: string
+  fileSizeBytes: number
+  url: string
+}
+
+export interface UploadFilesResponse {
+  attachments: UploadedAttachmentDto[]
+}
+
 export interface SendReplyRequest {
   body: string
+  attachmentIds?: string[]
 }
 
 export interface AddNoteRequest {
@@ -229,4 +242,26 @@ export interface ConsentRequest {
 export interface ConsentResponse {
   acceptedAt: string
   version: string
+}
+
+// ─── WhatsApp Configuration ─────────────────────────────────────────────────
+
+export interface WhatsAppConfigDto {
+  enabled: boolean
+  businessAccountId: string
+  phoneNumberId: string
+  accessToken: string
+  optInCount: number
+}
+
+export interface UpdateWhatsAppConfigRequest {
+  enabled: boolean
+  businessAccountId: string
+  phoneNumberId: string
+  accessToken: string
+}
+
+export interface WhatsAppTestResult {
+  success: boolean
+  message: string
 }

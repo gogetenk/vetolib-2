@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPatch, apiPut, apiDelete } from './client'
+import { apiGet, apiPost, apiPatch, apiPut, apiDelete, apiPostFormData } from './client'
 import type {
   ConversationDto,
   ConversationWithSuggestionsDto,
@@ -16,6 +16,10 @@ import type {
   UpdateTemplateRequest,
   MessageCategory,
   ConversationStatus,
+  WhatsAppConfigDto,
+  UpdateWhatsAppConfigRequest,
+  WhatsAppTestResult,
+  UploadFilesResponse,
 } from './messaging-types'
 import type { PagedResult } from './types'
 
@@ -91,6 +95,14 @@ export function getConversationSummary(id: string): Promise<{ summary: string }>
   return apiGet<{ summary: string }>(`${BASE}/conversations/${id}/summary`)
 }
 
+// ─── File Upload ─────────────────────────────────────────────────────────────
+
+export function uploadFiles(files: File[]): Promise<UploadFilesResponse> {
+  const formData = new FormData()
+  files.forEach((file) => formData.append('files', file))
+  return apiPostFormData<UploadFilesResponse>(`${BASE}/upload`, formData)
+}
+
 // ─── Triage Statistics ────────────────────────────────────────────────────────
 
 export function getTriageStats(): Promise<TriageStatsDto> {
@@ -126,4 +138,22 @@ export function getMessagingHours(): Promise<MessagingHoursDto[]> {
 
 export function updateMessagingHours(hours: MessagingHoursDto[]): Promise<MessagingHoursDto[]> {
   return apiPatch<MessagingHoursDto[]>(`${BASE}/hours`, hours)
+}
+
+// ─── WhatsApp Configuration ─────────────────────────────────────────────────
+
+export function getWhatsAppConfig(): Promise<WhatsAppConfigDto> {
+  return apiGet<WhatsAppConfigDto>(`${BASE}/whatsapp/config`)
+}
+
+export function updateWhatsAppConfig(
+  data: UpdateWhatsAppConfigRequest
+): Promise<WhatsAppConfigDto> {
+  return apiPut<WhatsAppConfigDto>(`${BASE}/whatsapp/config`, data)
+}
+
+export function testWhatsAppConnection(
+  data: UpdateWhatsAppConfigRequest
+): Promise<WhatsAppTestResult> {
+  return apiPost<WhatsAppTestResult>(`${BASE}/whatsapp/test`, data)
 }

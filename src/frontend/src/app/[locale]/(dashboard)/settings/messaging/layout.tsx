@@ -29,6 +29,11 @@ export default function MessagingSettingsLayout({
       label: t("stats"),
       testId: "nav-messaging-stats",
     },
+    {
+      href: "whatsapp",
+      label: t("whatsapp"),
+      testId: "nav-messaging-whatsapp",
+    },
   ]
 
   return (

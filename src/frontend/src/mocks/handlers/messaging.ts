@@ -455,6 +455,45 @@ export const messagingHandlers = [
     return HttpResponse.json(context)
   }),
 
+  // GET /api/v1/messaging/whatsapp/config
+  http.get(`${BASE}/whatsapp/config`, async () => {
+    await delay(150)
+    return HttpResponse.json({
+      enabled: false,
+      businessAccountId: '',
+      phoneNumberId: '',
+      accessToken: '',
+      optInCount: 27,
+    })
+  }),
+
+  // PUT /api/v1/messaging/whatsapp/config
+  http.put(`${BASE}/whatsapp/config`, async ({ request }) => {
+    await delay(200)
+    const body = await request.json() as {
+      enabled: boolean
+      businessAccountId: string
+      phoneNumberId: string
+      accessToken: string
+    }
+    return HttpResponse.json({
+      enabled: body.enabled,
+      businessAccountId: body.businessAccountId,
+      phoneNumberId: body.phoneNumberId,
+      accessToken: body.accessToken,
+      optInCount: 27,
+    })
+  }),
+
+  // POST /api/v1/messaging/whatsapp/test
+  http.post(`${BASE}/whatsapp/test`, async () => {
+    await delay(500)
+    return HttpResponse.json({
+      success: true,
+      message: 'Template sent to +971-50-123-4567',
+    })
+  }),
+
   // GET /api/v1/messaging/sse — SSE mock stream
   // MSW intercepts the EventSource request. We return a text/event-stream ReadableStream
   // that emits mock events every 60 seconds so the SSE hook stays exercised in dev.
