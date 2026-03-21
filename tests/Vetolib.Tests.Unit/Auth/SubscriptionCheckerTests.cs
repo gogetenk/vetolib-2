@@ -2,6 +2,7 @@ using Ardalis.Result;
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Application.Services;
@@ -18,6 +19,8 @@ public class SubscriptionCheckerTests
     private static readonly Guid FixedClinicId = new("11111111-1111-1111-1111-111111111111");
 
     private readonly IPublisher _publisher = Substitute.For<IPublisher>();
+    private readonly ISender _sender = Substitute.For<ISender>();
+    private readonly ILogger<SubscriptionChecker> _logger = Substitute.For<ILogger<SubscriptionChecker>>();
 
     private AuthDbContext BuildContext()
     {
@@ -65,7 +68,7 @@ public class SubscriptionCheckerTests
     public async Task CheckLimit_ClinicNotFound_ReturnsNotFound()
     {
         using var context = BuildContext();
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(Guid.NewGuid(), LimitType.Vets);
 
@@ -79,7 +82,7 @@ public class SubscriptionCheckerTests
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Free);
         // No vets seeded — 0 < 1 limit
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.Vets);
 
@@ -92,7 +95,7 @@ public class SubscriptionCheckerTests
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Free);
         await SeedVetsAsync(context, 1); // 1 vet = at limit for Free plan
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.Vets);
 
@@ -106,7 +109,7 @@ public class SubscriptionCheckerTests
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Starter);
         await SeedVetsAsync(context, 2); // 2 < 3 limit for Starter
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.Vets);
 
@@ -119,7 +122,7 @@ public class SubscriptionCheckerTests
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Starter);
         await SeedVetsAsync(context, 3); // 3 = at limit for Starter
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.Vets);
 
@@ -133,7 +136,7 @@ public class SubscriptionCheckerTests
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Pro);
         await SeedVetsAsync(context, 10); // Pro is unlimited
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.Vets);
 
@@ -147,7 +150,7 @@ public class SubscriptionCheckerTests
     {
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Free);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.AiTriage);
 
@@ -160,7 +163,7 @@ public class SubscriptionCheckerTests
     {
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Starter);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.AiTriage);
 
@@ -172,7 +175,7 @@ public class SubscriptionCheckerTests
     {
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Free);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.WhatsApp);
 
@@ -185,7 +188,7 @@ public class SubscriptionCheckerTests
     {
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Pro);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.MultiClinic);
 
@@ -198,7 +201,7 @@ public class SubscriptionCheckerTests
     {
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Enterprise);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.MultiClinic);
 
@@ -210,7 +213,7 @@ public class SubscriptionCheckerTests
     {
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Pro);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.Api);
 
@@ -223,7 +226,7 @@ public class SubscriptionCheckerTests
     {
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Enterprise);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.CheckLimitAsync(FixedClinicId, LimitType.Api);
 
@@ -236,7 +239,7 @@ public class SubscriptionCheckerTests
     public async Task GetCurrentUsage_ClinicNotFound_ReturnsNotFound()
     {
         using var context = BuildContext();
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.GetCurrentUsageAsync(Guid.NewGuid());
 
@@ -250,7 +253,7 @@ public class SubscriptionCheckerTests
         using var context = BuildContext();
         await SeedClinicAsync(context, Vetolib.Auth.Contracts.SubscriptionPlan.Starter);
         await SeedVetsAsync(context, 2);
-        var checker = new SubscriptionChecker(context);
+        var checker = new SubscriptionChecker(context, _sender, _logger);
 
         var result = await checker.GetCurrentUsageAsync(FixedClinicId);
 

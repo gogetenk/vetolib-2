@@ -84,21 +84,15 @@ export const messagingHandlers = [
     return HttpResponse.json(result)
   }),
 
-  // POST /api/v1/messaging/upload
+  // POST /api/v1/messaging/upload — backend returns List<Guid> (flat array of IDs)
   http.post(`${BASE}/upload`, async ({ request }) => {
     await delay(400)
     const formData = await request.formData()
     const files = formData.getAll('files') as File[]
 
-    const attachments = files.map((file) => ({
-      id: crypto.randomUUID(),
-      fileName: file.name,
-      contentType: file.type,
-      fileSizeBytes: file.size,
-      url: `/mock-attachments/${file.name}`,
-    }))
+    const ids = files.map(() => crypto.randomUUID())
 
-    return HttpResponse.json({ attachments }, { status: 201 })
+    return HttpResponse.json(ids)
   }),
 
   // POST /api/v1/messaging/conversations/:id/reply
@@ -482,37 +476,38 @@ export const messagingHandlers = [
     return HttpResponse.json(context)
   }),
 
-  // GET /api/v1/messaging/whatsapp/config
+  // GET /api/v1/messaging/whatsapp/config — matches backend WhatsAppConfigDto
   http.get(`${BASE}/whatsapp/config`, async () => {
     await delay(150)
     return HttpResponse.json({
-      enabled: false,
-      businessAccountId: '',
+      id: '00000000-0000-0000-0000-000000000001',
+      wabaId: '',
       phoneNumberId: '',
-      accessToken: '',
-      optInCount: 27,
+      hasAccessToken: false,
+      createdAt: '2026-01-01T00:00:00Z',
+      updatedAt: '2026-01-01T00:00:00Z',
     })
   }),
 
-  // PUT /api/v1/messaging/whatsapp/config
+  // PUT /api/v1/messaging/whatsapp/config — accepts WhatsAppConfigRequest, returns WhatsAppConfigDto
   http.put(`${BASE}/whatsapp/config`, async ({ request }) => {
     await delay(200)
     const body = await request.json() as {
-      enabled: boolean
-      businessAccountId: string
+      wabaId: string
       phoneNumberId: string
       accessToken: string
     }
     return HttpResponse.json({
-      enabled: body.enabled,
-      businessAccountId: body.businessAccountId,
+      id: '00000000-0000-0000-0000-000000000001',
+      wabaId: body.wabaId,
       phoneNumberId: body.phoneNumberId,
-      accessToken: body.accessToken,
-      optInCount: 27,
+      hasAccessToken: body.accessToken.length > 0,
+      createdAt: '2026-01-01T00:00:00Z',
+      updatedAt: new Date().toISOString(),
     })
   }),
 
-  // POST /api/v1/messaging/whatsapp/test
+  // POST /api/v1/messaging/whatsapp/test — accepts WhatsAppTestRequest
   http.post(`${BASE}/whatsapp/test`, async () => {
     await delay(500)
     return HttpResponse.json({

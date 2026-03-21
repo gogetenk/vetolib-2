@@ -1,17 +1,24 @@
 using Ardalis.Result;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
+using Vetolib.MedicalRecords.Contracts;
 
 namespace Vetolib.Auth.Application.Services;
 
 internal class SubscriptionChecker : ISubscriptionChecker
 {
     private readonly AuthDbContext _dbContext;
+    private readonly ISender _sender;
+    private readonly ILogger<SubscriptionChecker> _logger;
 
-    public SubscriptionChecker(AuthDbContext dbContext)
+    public SubscriptionChecker(AuthDbContext dbContext, ISender sender, ILogger<SubscriptionChecker> logger)
     {
         _dbContext = dbContext;
+        _sender = sender;
+        _logger = logger;
     }
 
     public async Task<Result> CheckLimitAsync(Guid clinicId, LimitType limitType, CancellationToken ct = default)
@@ -122,15 +129,31 @@ internal class SubscriptionChecker : ISubscriptionChecker
             $"You have reached the maximum of {maxAllowed} {resourceName} on the {plan} plan. Please upgrade to add more.");
     }
 
-    // Placeholder — will be wired to MedicalRecords module via Contracts
-    private Task<int> CountPatientsAsync(Guid clinicId, CancellationToken ct)
-        => Task.FromResult(0);
+    private async Task<int> CountPatientsAsync(Guid clinicId, CancellationToken ct)
+    {
+        try
+        {
+            var result = await _sender.Send(new GetPatientCountQuery(), ct);
+            return result.IsSuccess ? result.Value : 0;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to count patients for clinic {ClinicId}, returning 0", clinicId);
+            return 0;
+        }
+    }
 
-    // Placeholder — will be wired to Messaging module via Contracts
+    // TODO: Wire to Messaging module once GetWhatsAppMessageCountQuery is added to Vetolib.Messaging.Contracts
     private Task<int> CountWhatsAppMessagesThisMonthAsync(Guid clinicId, CancellationToken ct)
-        => Task.FromResult(0);
+    {
+        _logger.LogDebug("WhatsApp message count not yet wired for clinic {ClinicId}, returning 0", clinicId);
+        return Task.FromResult(0);
+    }
 
-    // Placeholder — will be wired to storage tracking
+    // TODO: Wire to storage tracking once GetStorageUsedQuery is available
     private Task<int> GetStorageUsedGBAsync(Guid clinicId, CancellationToken ct)
-        => Task.FromResult(0);
+    {
+        _logger.LogDebug("Storage usage tracking not yet wired for clinic {ClinicId}, returning 0", clinicId);
+        return Task.FromResult(0);
+    }
 }
