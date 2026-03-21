@@ -24,6 +24,9 @@ import { MobileLandingNav } from "@/components/features/landing/MobileLandingNav
 import { ScrollReveal } from "@/components/features/landing/ScrollReveal";
 import { HeroStagger, HeroDashboardReveal } from "@/components/features/landing/HeroAnimations";
 import { AnimatedStat } from "@/components/features/landing/AnimatedStat";
+import { TrustSignalsSection } from "@/components/features/landing/TrustSignalsSection";
+import { DemoFormSection } from "@/components/features/landing/DemoFormSection";
+import { CompetitiveTableSection } from "@/components/features/landing/CompetitiveTableSection";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -79,12 +82,19 @@ const JSON_LD = {
   name: "Vetolib",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
+  description:
+    "UAE veterinary clinic management platform with AI triage, WhatsApp integration, Arabic + English support, and UAE-compliant invoicing.",
+  applicationSubCategory: "Veterinary Practice Management",
   offers: {
     "@type": "AggregateOffer",
     priceCurrency: "AED",
-    lowPrice: "249",
-    highPrice: "999",
+    lowPrice: "0",
+    highPrice: "549",
   },
+  featureList:
+    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, WhatsApp messaging, Arabic RTL support",
+  availableOnDevice: "Desktop, Tablet, Mobile",
+  countriesSupported: "AE",
 };
 
 export default async function LandingPage({ params }: Props) {
@@ -130,6 +140,13 @@ export default async function LandingPage({ params }: Props) {
               {t("nav.pricing")}
             </a>
             <a
+              href="#demo"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-demo"
+            >
+              {t("nav.demo")}
+            </a>
+            <a
               href="#faq"
               className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-faq"
@@ -159,6 +176,7 @@ export default async function LandingPage({ params }: Props) {
               links={[
                 { label: t("nav.features"), href: "#features", testId: "nav-link-features" },
                 { label: t("nav.pricing"), href: "#pricing", testId: "nav-link-pricing" },
+                { label: t("nav.demo"), href: "#demo", testId: "nav-link-demo" },
                 { label: t("nav.faq"), href: "#faq", testId: "nav-link-faq" },
               ]}
               signInLabel={t("nav.sign_in")}
@@ -202,7 +220,7 @@ export default async function LandingPage({ params }: Props) {
                       </Button>
                     </Link>
                     <a
-                      href="mailto:hello@vetolib.ae?subject=Demo%20Request"
+                      href="#demo"
                       data-testid="hero-cta-book-demo"
                     >
                       <Button
@@ -448,10 +466,26 @@ export default async function LandingPage({ params }: Props) {
             annual_savings: t("pricing.annual_savings"),
             trial_note: t("pricing.trial_note"),
             vat_note: t("pricing.vat_note"),
+            free: {
+              name: t("pricing.free.name"),
+              price_monthly: t("pricing.free.price_monthly"),
+              price_annual: t("pricing.free.price_annual"),
+              per_month: t("pricing.free.per_month"),
+              description: t("pricing.free.description"),
+              features: [
+                t("pricing.free.features.0"),
+                t("pricing.free.features.1"),
+                t("pricing.free.features.2"),
+                t("pricing.free.features.3"),
+              ],
+              cta: t("pricing.free.cta"),
+            },
             starter: {
               name: t("pricing.starter.name"),
               price_monthly: t("pricing.starter.price_monthly"),
               price_annual: t("pricing.starter.price_annual"),
+              usd_hint_monthly: t("pricing.starter.usd_hint_monthly"),
+              usd_hint_annual: t("pricing.starter.usd_hint_annual"),
               per_month: t("pricing.starter.per_month"),
               description: t("pricing.starter.description"),
               features: [
@@ -461,7 +495,6 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.starter.features.3"),
                 t("pricing.starter.features.4"),
                 t("pricing.starter.features.5"),
-                t("pricing.starter.features.6"),
               ],
               cta: t("pricing.starter.cta"),
             },
@@ -470,6 +503,8 @@ export default async function LandingPage({ params }: Props) {
               badge: t("pricing.pro.badge"),
               price_monthly: t("pricing.pro.price_monthly"),
               price_annual: t("pricing.pro.price_annual"),
+              usd_hint_monthly: t("pricing.pro.usd_hint_monthly"),
+              usd_hint_annual: t("pricing.pro.usd_hint_annual"),
               per_month: t("pricing.pro.per_month"),
               description: t("pricing.pro.description"),
               features: [
@@ -481,14 +516,15 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.pro.features.5"),
                 t("pricing.pro.features.6"),
                 t("pricing.pro.features.7"),
-                t("pricing.pro.features.8"),
               ],
               cta: t("pricing.pro.cta"),
             },
             enterprise: {
               name: t("pricing.enterprise.name"),
-              from: t("pricing.enterprise.from"),
-              price: t("pricing.enterprise.price"),
+              price_monthly: t("pricing.enterprise.price_monthly"),
+              price_annual: t("pricing.enterprise.price_annual"),
+              usd_hint_monthly: t("pricing.enterprise.usd_hint_monthly"),
+              usd_hint_annual: t("pricing.enterprise.usd_hint_annual"),
               per_month: t("pricing.enterprise.per_month"),
               description: t("pricing.enterprise.description"),
               features: [
@@ -499,12 +535,67 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.enterprise.features.4"),
                 t("pricing.enterprise.features.5"),
                 t("pricing.enterprise.features.6"),
-                t("pricing.enterprise.features.7"),
-                t("pricing.enterprise.features.8"),
-                t("pricing.enterprise.features.9"),
-                t("pricing.enterprise.features.10"),
               ],
               cta: t("pricing.enterprise.cta"),
+            },
+          }}
+        />
+
+        {/* ── Competitive Table ─────────────────────────────────────── */}
+        <CompetitiveTableSection
+          messages={{
+            title: t("competitive.title"),
+            subtitle: t("competitive.subtitle"),
+            columns: {
+              feature: t("competitive.columns.feature"),
+              vetolib: t("competitive.columns.vetolib"),
+              ezyvet: t("competitive.columns.ezyvet"),
+              digitail: t("competitive.columns.digitail"),
+            },
+            rows: [
+              {
+                feature: t("competitive.rows.arabic.feature"),
+                vetolib: "yes",
+                ezyvet: "no",
+                digitail: "no",
+              },
+              {
+                feature: t("competitive.rows.whatsapp.feature"),
+                vetolib: "yes",
+                ezyvet: "no",
+                digitail: "partial",
+              },
+              {
+                feature: t("competitive.rows.ai_triage.feature"),
+                vetolib: "yes",
+                ezyvet: "no",
+                digitail: "partial",
+              },
+              {
+                feature: t("competitive.rows.uae_optimized.feature"),
+                vetolib: "yes",
+                ezyvet: "partial",
+                digitail: "no",
+              },
+              {
+                feature: t("competitive.rows.price.feature"),
+                vetolib: "yes",
+                ezyvet: "no",
+                digitail: "partial",
+              },
+            ],
+          }}
+        />
+
+        {/* ── Trust Signals ────────────────────────────────────────── */}
+        <TrustSignalsSection
+          messages={{
+            title: t("trust_signals.title"),
+            badges: {
+              arabic_english: t("trust_signals.badges.arabic_english"),
+              whatsapp: t("trust_signals.badges.whatsapp"),
+              uae_hosting: t("trust_signals.badges.uae_hosting"),
+              moccae: t("trust_signals.badges.moccae"),
             },
           }}
         />
@@ -571,6 +662,25 @@ export default async function LandingPage({ params }: Props) {
             </p>
           </div>
         </section>
+
+        {/* ── Demo Form ────────────────────────────────────────────── */}
+        <DemoFormSection
+          messages={{
+            title: t("demo_form.title"),
+            subtitle: t("demo_form.subtitle"),
+            clinic_name: t("demo_form.clinic_name"),
+            clinic_name_placeholder: t("demo_form.clinic_name_placeholder"),
+            email: t("demo_form.email"),
+            email_placeholder: t("demo_form.email_placeholder"),
+            phone: t("demo_form.phone"),
+            phone_placeholder: t("demo_form.phone_placeholder"),
+            preferred_time: t("demo_form.preferred_time"),
+            preferred_time_placeholder: t("demo_form.preferred_time_placeholder"),
+            submit: t("demo_form.submit"),
+            success_title: t("demo_form.success_title"),
+            success_description: t("demo_form.success_description"),
+          }}
+        />
 
         {/* ── FAQ ────────────────────────────────────────────────────── */}
         <FaqSection
