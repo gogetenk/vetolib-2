@@ -10,6 +10,7 @@ public record ConversationWithMessagesDto(
     string Subject,
     MessageCategory Category,
     ConversationStatus Status,
+    ConversationChannel Channel,
     Guid? AssignedToUserId,
     string? AssignedToRole,
     decimal? AiTriageConfidence,

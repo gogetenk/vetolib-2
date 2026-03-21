@@ -9,6 +9,7 @@ using Vetolib.Messaging.Application.Commands.ChangeConversationStatus;
 using Vetolib.Messaging.Application.Commands.ConvertToAppointment;
 using Vetolib.Messaging.Application.Commands.CreateOutboundConversation;
 using Vetolib.Messaging.Application.Commands.CreateTemplate;
+using Vetolib.Messaging.Application.Commands.UploadFiles;
 using Vetolib.Messaging.Application.Commands.DeleteTemplate;
 using Vetolib.Messaging.Application.Commands.MarkAsSpam;
 using Vetolib.Messaging.Application.Commands.RecategorizeConversation;
@@ -68,7 +69,7 @@ internal static class MessagingEndpoints
             ISender sender,
             CancellationToken ct) =>
         {
-            var cmd = new SendReplyCommand(id, request.Body, request.AiSuggestedReply, request.WasSuggestedReplyUsed);
+            var cmd = new SendReplyCommand(id, request.Body, request.AiSuggestedReply, request.WasSuggestedReplyUsed, request.AttachmentIds);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).WithName("SendReply");
 
@@ -165,6 +166,24 @@ internal static class MessagingEndpoints
         group.MapGet("/conversations/{id:guid}/summary", async (Guid id, ISender sender, CancellationToken ct) =>
             (await sender.Send(new GetConversationSummaryQuery(id), ct)).ToMinimalApiResult()
         ).WithName("GetConversationSummary");
+
+        // -----------------------------------------------------------------------
+        // Staff: File Upload
+        // -----------------------------------------------------------------------
+
+        // POST /upload — upload files for attachment (max 5 files, max 10MB each, PDF/JPG/PNG only)
+        group.MapPost("/upload", async (
+            HttpRequest request,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            if (!request.HasFormContentType || request.Form.Files.Count == 0)
+                return Results.BadRequest("No files provided");
+
+            var cmd = new UploadFilesCommand(request.Form.Files);
+            return (await sender.Send(cmd, ct)).ToMinimalApiResult();
+        }).DisableAntiforgery()
+          .WithName("UploadFiles");
 
         // -----------------------------------------------------------------------
         // Admin: Settings

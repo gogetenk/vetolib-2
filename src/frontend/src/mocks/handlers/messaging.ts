@@ -84,13 +84,40 @@ export const messagingHandlers = [
     return HttpResponse.json(result)
   }),
 
+  // POST /api/v1/messaging/upload
+  http.post(`${BASE}/upload`, async ({ request }) => {
+    await delay(400)
+    const formData = await request.formData()
+    const files = formData.getAll('files') as File[]
+
+    const attachments = files.map((file) => ({
+      id: crypto.randomUUID(),
+      fileName: file.name,
+      contentType: file.type,
+      fileSizeBytes: file.size,
+      url: `/mock-attachments/${file.name}`,
+    }))
+
+    return HttpResponse.json({ attachments }, { status: 201 })
+  }),
+
   // POST /api/v1/messaging/conversations/:id/reply
   http.post(`${BASE}/conversations/:id/reply`, async ({ params, request }) => {
     await delay(200)
     const conv = conversations.find(c => c.id === params.id)
     if (!conv) return new HttpResponse(null, { status: 404 })
 
-    const body = await request.json() as { body: string }
+    const body = await request.json() as { body: string; attachmentIds?: string[] }
+
+    // Build attachments from uploaded IDs (mock: generate placeholder data)
+    const replyAttachments = (body.attachmentIds ?? []).map((id) => ({
+      id,
+      fileName: `attachment-${id.slice(0, 8)}.pdf`,
+      contentType: 'application/pdf',
+      fileSizeBytes: 50_000,
+      url: `/mock-attachments/attachment-${id.slice(0, 8)}.pdf`,
+    }))
+
     const newMessage: MessageDto = {
       id: crypto.randomUUID(),
       conversationId: conv.id,
@@ -100,7 +127,7 @@ export const messagingHandlers = [
       body: body.body,
       isInternalNote: false,
       sentAt: new Date().toISOString(),
-      attachments: [],
+      attachments: replyAttachments,
     }
 
     if (!messageStore[conv.id]) messageStore[conv.id] = []
@@ -453,6 +480,45 @@ export const messagingHandlers = [
     const context = MOCK_PATIENT_CONTEXTS[patientId]
     if (!context) return new HttpResponse(null, { status: 404 })
     return HttpResponse.json(context)
+  }),
+
+  // GET /api/v1/messaging/whatsapp/config
+  http.get(`${BASE}/whatsapp/config`, async () => {
+    await delay(150)
+    return HttpResponse.json({
+      enabled: false,
+      businessAccountId: '',
+      phoneNumberId: '',
+      accessToken: '',
+      optInCount: 27,
+    })
+  }),
+
+  // PUT /api/v1/messaging/whatsapp/config
+  http.put(`${BASE}/whatsapp/config`, async ({ request }) => {
+    await delay(200)
+    const body = await request.json() as {
+      enabled: boolean
+      businessAccountId: string
+      phoneNumberId: string
+      accessToken: string
+    }
+    return HttpResponse.json({
+      enabled: body.enabled,
+      businessAccountId: body.businessAccountId,
+      phoneNumberId: body.phoneNumberId,
+      accessToken: body.accessToken,
+      optInCount: 27,
+    })
+  }),
+
+  // POST /api/v1/messaging/whatsapp/test
+  http.post(`${BASE}/whatsapp/test`, async () => {
+    await delay(500)
+    return HttpResponse.json({
+      success: true,
+      message: 'Template sent to +971-50-123-4567',
+    })
   }),
 
   // GET /api/v1/messaging/sse — SSE mock stream

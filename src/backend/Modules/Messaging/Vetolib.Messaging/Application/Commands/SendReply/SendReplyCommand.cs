@@ -8,5 +8,6 @@ internal record SendReplyCommand(
     Guid ConversationId,
     string Body,
     string? AiSuggestedReply = null,
-    bool WasSuggestedReplyUsed = false
+    bool WasSuggestedReplyUsed = false,
+    List<Guid>? AttachmentIds = null
 ) : IRequest<Result<MessageDto>>;

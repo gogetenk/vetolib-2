@@ -6,5 +6,5 @@ public record MessageAttachmentDto(
     string FileName,
     string ContentType,
     long FileSizeBytes,
-    string StoragePath
+    string Url
 );

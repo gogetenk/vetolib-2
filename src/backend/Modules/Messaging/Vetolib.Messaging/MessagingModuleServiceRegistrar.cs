@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Messaging.Api;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Application.Services.SSE;
+using Vetolib.Messaging.Contracts;
 using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Messaging.Infrastructure;
 
@@ -17,6 +18,19 @@ public static class MessagingModuleServiceRegistrar
 {
     public static IServiceCollection AddMessagingModule(this IServiceCollection services, IConfiguration configuration)
     {
+        // File storage — Azure Blob when connection string is configured, otherwise local
+        var azureSection = configuration.GetSection(AzureBlobStorageOptions.SectionName);
+        if (!string.IsNullOrEmpty(azureSection[nameof(AzureBlobStorageOptions.ConnectionString)]))
+        {
+            services.Configure<AzureBlobStorageOptions>(azureSection);
+            services.AddScoped<IFileStorage, AzureBlobFileStorage>();
+        }
+        else
+        {
+            services.Configure<LocalFileStorageOptions>(configuration.GetSection(LocalFileStorageOptions.SectionName));
+            services.AddScoped<IFileStorage, LocalFileStorage>();
+        }
+
         // MediatR
         services.AddMediatR(cfg =>
         {
@@ -37,11 +51,35 @@ public static class MessagingModuleServiceRegistrar
         // Emergency escalation background service
         services.AddHostedService<EmergencyEscalationBackgroundService>();
 
+        // Pending upload cleanup — removes expired uploads every hour
+        services.AddHostedService<PendingUploadCleanupService>();
+
         // SSE broadcaster — singleton so all scopes share the same connection registry
         services.AddSingleton<IMessagingEventBroadcaster, MessagingEventBroadcaster>();
 
         // Portal context (scoped per request, populated by MagicLinkEndpointFilter)
         services.AddScoped<IPortalContext, PortalContext>();
+
+        // WhatsApp — token encryption
+        var encryptionKeyBase64 = configuration["WhatsApp:EncryptionKey"];
+        if (!string.IsNullOrEmpty(encryptionKeyBase64))
+        {
+            var keyBytes = Convert.FromBase64String(encryptionKeyBase64);
+            services.AddSingleton<ITokenEncryptor>(new AesTokenEncryptor(keyBytes));
+        }
+        else
+        {
+            // Fallback: generate a random key (suitable for dev/test, NOT production)
+            var devKey = new byte[32];
+            System.Security.Cryptography.RandomNumberGenerator.Fill(devKey);
+            services.AddSingleton<ITokenEncryptor>(new AesTokenEncryptor(devKey));
+        }
+
+        // WhatsApp — channel dispatcher
+        services.AddScoped<IChannelDispatcher, WhatsAppSender>();
+
+        // HttpClient for WhatsApp Graph API
+        services.AddHttpClient("WhatsApp");
 
         return services;
     }
@@ -62,6 +100,7 @@ public static class MessagingModuleServiceRegistrar
         app.MapMessagingApiEndpoints();
         app.MapPortalEndpoints();
         app.MapMessagingSseEndpoints();
+        app.MapWhatsAppEndpoints();
         return app;
     }
 }
