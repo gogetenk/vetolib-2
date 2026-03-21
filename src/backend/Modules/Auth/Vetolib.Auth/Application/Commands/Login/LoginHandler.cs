@@ -27,7 +27,7 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
             .FirstOrDefaultAsync(u => u.Email == cmd.Email.ToLowerInvariant(), ct);
 
         if (user is null)
-            return Result<AuthTokenDto>.Error("INVALID_CREDENTIALS:Email ou mot de passe incorrect");
+            return Result<AuthTokenDto>.Error("INVALID_CREDENTIALS:Invalid email or password");
 
         // Check if account is deactivated
         if (!user.IsActive)
@@ -36,7 +36,7 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
         // Check if account is locked
         if (user.IsCurrentlyLocked())
         {
-            return Result<AuthTokenDto>.Error("ACCOUNT_LOCKED:Le compte est verrouille pour 15 minutes suite a des tentatives echouees");
+            return Result<AuthTokenDto>.Error("ACCOUNT_LOCKED:Account is locked for 15 minutes due to failed login attempts");
         }
 
         // If lock has expired, unlock the account
@@ -53,10 +53,10 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
 
             if (user.IsCurrentlyLocked())
             {
-                return Result<AuthTokenDto>.Error("ACCOUNT_LOCKED:Le compte est verrouille pour 15 minutes suite a des tentatives echouees");
+                return Result<AuthTokenDto>.Error("ACCOUNT_LOCKED:Account is locked for 15 minutes due to failed login attempts");
             }
 
-            return Result<AuthTokenDto>.Error("INVALID_CREDENTIALS:Email ou mot de passe incorrect");
+            return Result<AuthTokenDto>.Error("INVALID_CREDENTIALS:Invalid email or password");
         }
 
         // Success: reset failed attempts
