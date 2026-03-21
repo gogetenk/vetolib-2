@@ -250,8 +250,8 @@ internal class NoShowPredictionSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"I should receive a prediction with status 200")]
-    public void ThenIShouldReceivePrediction200()
+    [Then(@"I receive a prediction result")]
+    public void ThenIReceivePredictionResult()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK,
             $"Expected 200 but got {(int)_response.StatusCode}. Response: {_errorBody ?? ReadResponseBody()}");
@@ -337,8 +337,8 @@ internal class NoShowPredictionSteps
             "High risk appointments should suggest sending an extra reminder");
     }
 
-    [Then(@"I should receive a 403 Forbidden response")]
-    public void ThenIShouldReceive403()
+    [Then(@"the user is denied access")]
+    public void ThenTheUserIsDeniedAccess()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Forbidden,
             $"Expected 403 but got {(int)_response.StatusCode}");

@@ -11,7 +11,7 @@ Feature: AI Veterinary Triage
     When I submit a triage request with:
       | Symptoms                                        | Species | Breed   | AgeMonths | WeightKg |
       | Vomiting for 2 days and refusing to eat          | cat     | persian | 36        | 4.2      |
-    Then I should receive a triage suggestion with status 200
+    Then I receive a triage suggestion
     And the suggestion should contain a severity of "Normal", "Emergency", or "Routine"
     And the suggestion should contain an estimated duration in minutes
     And the suggestion should contain a recommended specialty
@@ -37,17 +37,17 @@ Feature: AI Veterinary Triage
       | Dog ate chocolate 1 hour ago, trembling and vomiting   | dog     |
     Then the suggestion severity should be "Emergency"
 
-  Scenario: Triage with missing symptoms returns validation error
+  Scenario: Triage without symptoms is rejected
     When I submit a triage request with:
       | Symptoms | Species |
       |          | cat     |
-    Then I should receive a validation error for "Symptoms"
+    Then the request is rejected because symptoms are missing
 
-  Scenario: Triage with missing species returns validation error
+  Scenario: Triage without species is rejected
     When I submit a triage request with:
       | Symptoms               | Species |
       | Cat is scratching a lot |         |
-    Then I should receive a validation error for "Species"
+    Then the request is rejected because species is missing
 
   Scenario: Disclaimer is always present and constant
     When I submit a triage request with:
@@ -68,7 +68,7 @@ Feature: AI Veterinary Triage
     When I submit a triage request with:
       | Symptoms                  | Species | Breed    | AgeMonths | WeightKg |
       | Limping on front left paw  | dog     | labrador | 60        | 30.0     |
-    Then a triage result should be persisted in the database
+    Then the triage result is saved
     And the persisted result should include the model used
     And the persisted result should include prompt and completion token counts
     And the persisted result should include latency in milliseconds
@@ -78,11 +78,11 @@ Feature: AI Veterinary Triage
     When I submit a triage request with:
       | Symptoms       | Species |
       | Ear infection   | dog     |
-    Then I should receive a triage suggestion with status 200
+    Then I receive a triage suggestion
 
   Scenario: Unauthorized user cannot request triage
     Given I am authenticated as a user with role "Owner"
     When I submit a triage request with:
       | Symptoms       | Species |
       | Ear infection   | dog     |
-    Then I should receive a 403 Forbidden response
+    Then the user is denied access

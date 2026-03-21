@@ -186,7 +186,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table10, "When ");
 #line hidden
 #line 14
-    await testRunner.ThenAsync("I should receive a triage suggestion with status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I receive a triage suggestion", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 15
     await testRunner.AndAsync("the suggestion should contain a severity of \"Normal\", \"Emergency\", or \"Routine\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -330,15 +330,15 @@ namespace Vetolib.Tests.Acceptance.Features.AI
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage with missing symptoms returns validation error")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage without symptoms is rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
-        [global::Xunit.TraitAttribute("Description", "Triage with missing symptoms returns validation error")]
-        public async global::System.Threading.Tasks.Task TriageWithMissingSymptomsReturnsValidationError()
+        [global::Xunit.TraitAttribute("Description", "Triage without symptoms is rejected")]
+        public async global::System.Threading.Tasks.Task TriageWithoutSymptomsIsRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Triage with missing symptoms returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Triage without symptoms is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 40
@@ -364,21 +364,21 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table12, "When ");
 #line hidden
 #line 44
-    await testRunner.ThenAsync("I should receive a validation error for \"Symptoms\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected because symptoms are missing", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Triage with missing species returns validation error")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Triage without species is rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "AI Veterinary Triage")]
-        [global::Xunit.TraitAttribute("Description", "Triage with missing species returns validation error")]
-        public async global::System.Threading.Tasks.Task TriageWithMissingSpeciesReturnsValidationError()
+        [global::Xunit.TraitAttribute("Description", "Triage without species is rejected")]
+        public async global::System.Threading.Tasks.Task TriageWithoutSpeciesIsRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Triage with missing species returns validation error", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Triage without species is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 46
@@ -404,7 +404,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table13, "When ");
 #line hidden
 #line 50
-    await testRunner.ThenAsync("I should receive a validation error for \"Species\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected because species is missing", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -539,7 +539,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table16, "When ");
 #line hidden
 #line 71
-    await testRunner.ThenAsync("a triage result should be persisted in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the triage result is saved", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 72
     await testRunner.AndAsync("the persisted result should include the model used", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -591,7 +591,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table17, "When ");
 #line hidden
 #line 81
-    await testRunner.ThenAsync("I should receive a triage suggestion with status 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I receive a triage suggestion", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -634,7 +634,7 @@ namespace Vetolib.Tests.Acceptance.Features.AI
     await testRunner.WhenAsync("I submit a triage request with:", ((string)(null)), table18, "When ");
 #line hidden
 #line 88
-    await testRunner.ThenAsync("I should receive a 403 Forbidden response", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the user is denied access", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -11,7 +11,7 @@ Feature: No-Show Prediction
     Given the clinic has more than 50 completed appointments with no-show data
     And an appointment exists for owner "Al-Rashid" on "2026-03-15" at "10:00"
     When I request a no-show prediction for that appointment
-    Then I should receive a prediction with status 200
+    Then I receive a prediction result
     And the prediction should contain a probability between 0 and 1
     And the prediction should contain a risk level of "Low", "Medium", or "High"
     And the prediction should contain top contributing factors
@@ -40,14 +40,14 @@ Feature: No-Show Prediction
   Scenario: No-show score is never visible to owners
     Given I am authenticated as a user with role "Owner"
     When I request a no-show prediction for any appointment
-    Then I should receive a 403 Forbidden response
+    Then the user is denied access
 
   Scenario: Receptionist can view predictions
     Given I am authenticated as a user with role "Receptionist"
     And the clinic has sufficient appointment history
     And an appointment exists on "2026-03-15"
     When I request a no-show prediction for that appointment
-    Then I should receive a prediction with status 200
+    Then I receive a prediction result
 
   Scenario: Prediction factors are non-discriminatory
     When I request a no-show prediction for an appointment
