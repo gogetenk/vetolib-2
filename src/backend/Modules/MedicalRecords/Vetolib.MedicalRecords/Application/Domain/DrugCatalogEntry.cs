@@ -60,22 +60,46 @@ internal class DrugCatalogEntry : BaseEntity
         });
     }
 
-    public void AddContraindication(Species species, InteractionSeverity severity, string reason)
+    public Result AddContraindication(Species species, InteractionSeverity severity, string reason)
     {
+        if (string.IsNullOrWhiteSpace(reason))
+            return Result.Invalid(new ValidationError(nameof(reason), "Reason is required"));
+
         _speciesContraindications.Add(
             SpeciesContraindication.Create(Id, species, severity, reason));
+        return Result.Success();
     }
 
-    public void AddInteraction(Guid otherDrugId, string otherDrugName, InteractionSeverity severity, string description)
+    public Result AddInteraction(Guid otherDrugId, string otherDrugName, InteractionSeverity severity, string description)
     {
+        if (string.IsNullOrWhiteSpace(otherDrugName))
+            return Result.Invalid(new ValidationError(nameof(otherDrugName), "Other drug name is required"));
+
+        if (string.IsNullOrWhiteSpace(description))
+            return Result.Invalid(new ValidationError(nameof(description), "Description is required"));
+
         _interactions.Add(
             DrugInteraction.Create(Id, otherDrugId, otherDrugName, severity, description));
+        return Result.Success();
     }
 
-    public void AddDosageGuideline(Species species, decimal minDosePerKg, decimal maxDosePerKg, string unit, string route)
+    public Result AddDosageGuideline(Species species, decimal minDosePerKg, decimal maxDosePerKg, string unit, string route)
     {
+        if (minDosePerKg <= 0)
+            return Result.Invalid(new ValidationError(nameof(minDosePerKg), "Min dose must be greater than zero"));
+
+        if (maxDosePerKg < minDosePerKg)
+            return Result.Invalid(new ValidationError(nameof(maxDosePerKg), "Max dose must be greater than or equal to min dose"));
+
+        if (string.IsNullOrWhiteSpace(unit))
+            return Result.Invalid(new ValidationError(nameof(unit), "Unit is required"));
+
+        if (string.IsNullOrWhiteSpace(route))
+            return Result.Invalid(new ValidationError(nameof(route), "Route is required"));
+
         _dosageGuidelines.Add(
             DosageGuideline.Create(Id, species, minDosePerKg, maxDosePerKg, unit, route));
+        return Result.Success();
     }
 
     public Result Deactivate()

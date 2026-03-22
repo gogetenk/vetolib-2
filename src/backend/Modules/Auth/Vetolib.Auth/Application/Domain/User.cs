@@ -149,11 +149,12 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
-    public void ResetFailedAttempts()
+    public Result ResetFailedAttempts()
     {
         FailedLoginAttempts = 0;
         IsLocked = false;
         LockedUntil = null;
+        return Result.Success();
     }
 
     public UserDto ToDto()

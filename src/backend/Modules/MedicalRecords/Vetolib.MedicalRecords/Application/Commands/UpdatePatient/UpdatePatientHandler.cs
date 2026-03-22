@@ -38,9 +38,17 @@ internal class UpdatePatientHandler : IRequestHandler<UpdatePatientCommand, Resu
             {
                 var owner = ownerLink.Owner;
                 if (cmd.OwnerPhone is not null)
-                    owner.UpdatePhone(cmd.OwnerPhone);
+                {
+                    var phoneResult = owner.UpdatePhone(cmd.OwnerPhone);
+                    if (!phoneResult.IsSuccess)
+                        return Result<PatientDto>.Error(string.Join("; ", phoneResult.Errors));
+                }
                 if (cmd.OwnerName is not null)
-                    owner.UpdateName(cmd.OwnerName);
+                {
+                    var nameResult = owner.UpdateName(cmd.OwnerName);
+                    if (!nameResult.IsSuccess)
+                        return Result<PatientDto>.Error(string.Join("; ", nameResult.Errors));
+                }
             }
         }
 

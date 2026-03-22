@@ -81,6 +81,68 @@ public class PatientDomainTests
     }
 
     [Fact]
+    public void SetWeight_WithPositiveWeight_ReturnsSuccess()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
+
+        var result = patient.SetWeight(25.5m);
+
+        result.IsSuccess.Should().BeTrue();
+        patient.WeightKg.Should().Be(25.5m);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(-100)]
+    public void SetWeight_WithZeroOrNegativeWeight_ReturnsInvalid(decimal weight)
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
+
+        var result = patient.SetWeight(weight);
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "weightKg");
+    }
+
+    [Fact]
+    public void AddOwner_WithValidOwner_ReturnsSuccess()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
+        var owner = Owner.Create(ValidClinicId, "Faisal", "Al-Kuwari", "faisal@test.com", "+971501234567").Value;
+        var patientOwner = PatientOwner.Create(ValidClinicId, patient.Id, owner.Id);
+
+        var result = patient.AddOwner(patientOwner);
+
+        result.IsSuccess.Should().BeTrue();
+        patient.PatientOwners.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void AddOwner_WithNull_ReturnsError()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
+
+        var result = patient.AddOwner(null!);
+
+        result.IsSuccess.Should().BeFalse();
+    }
+
+    [Fact]
+    public void AddOwner_WithDuplicateOwner_ReturnsError()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
+        var owner = Owner.Create(ValidClinicId, "Faisal", "Al-Kuwari", "faisal@test.com", "+971501234567").Value;
+        var patientOwner1 = PatientOwner.Create(ValidClinicId, patient.Id, owner.Id);
+        var patientOwner2 = PatientOwner.Create(ValidClinicId, patient.Id, owner.Id);
+        patient.AddOwner(patientOwner1);
+
+        var result = patient.AddOwner(patientOwner2);
+
+        result.IsSuccess.Should().BeFalse();
+    }
+
+    [Fact]
     public void AllUaeSpeciesAreAvailable()
     {
         var expectedSpecies = new[]

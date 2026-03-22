@@ -81,9 +81,25 @@ public class ReminderLogDomainTests
             "ahmed@example.com",
             ClinicId).Value;
 
-        log.MarkSent();
+        var result = log.MarkSent();
 
+        result.IsSuccess.Should().BeTrue();
         log.DeliveryStatus.Should().Be(DeliveryStatus.Sent);
+    }
+
+    [Fact]
+    public void MarkSent_WhenAlreadySent_ReturnsError()
+    {
+        var log = ReminderLog.Create(
+            ReminderType.Appointment24h,
+            NotificationChannel.Email,
+            "ahmed@example.com",
+            ClinicId).Value;
+
+        log.MarkSent();
+        var result = log.MarkSent();
+
+        result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
@@ -95,8 +111,24 @@ public class ReminderLogDomainTests
             "ahmed@example.com",
             ClinicId).Value;
 
-        log.MarkFailed();
+        var result = log.MarkFailed();
 
+        result.IsSuccess.Should().BeTrue();
         log.DeliveryStatus.Should().Be(DeliveryStatus.Failed);
+    }
+
+    [Fact]
+    public void MarkFailed_WhenAlreadyFailed_ReturnsError()
+    {
+        var log = ReminderLog.Create(
+            ReminderType.Appointment24h,
+            NotificationChannel.Email,
+            "ahmed@example.com",
+            ClinicId).Value;
+
+        log.MarkFailed();
+        var result = log.MarkFailed();
+
+        result.IsSuccess.Should().BeFalse();
     }
 }
