@@ -17,22 +17,24 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class AdminMessagingManagementFeature : object, global::Xunit.IClassFixture<AdminMessagingManagementFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    [global::Xunit.TraitAttribute("Category", "wip")]
+    public partial class StaffFileAttachmentsInMessagingFeature : object, global::Xunit.IClassFixture<StaffFileAttachmentsInMessagingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Admin Messaging Management", "  As a clinic admin\r\n  I want to manage all messaging configuration and monitor t" +
-                "riage quality\r\n  So that the messaging system runs effectively", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Staff file attachments in messaging", "  As a veterinary staff member\r\n  I want to attach files to my replies in convers" +
+                "ations\r\n  So that I can share photos, documents and results with pet owners", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "AdminMessaging.feature"
+#line 1 "StaffAttachments.feature"
 #line hidden
         
-        public AdminMessagingManagementFeature(AdminMessagingManagementFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public StaffFileAttachmentsInMessagingFeature(StaffFileAttachmentsInMessagingFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -109,13 +111,16 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   #line hidden
 #line 8
-    await testRunner.GivenAsync("I am authenticated as a user with role \"Admin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am authenticated as a user with role \"Vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 9
+    await testRunner.AndAsync("there is a conversation with owner \"Fatima Al Mansoori\" about pet \"Luna\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Messaging/AdminMessaging.feature.ndjson", 9);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Messaging/StaffAttachments.feature.ndjson", 12);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -143,18 +148,18 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin sees all conversations")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin sees all conversations")]
-        public async global::System.Threading.Tasks.Task AdminSeesAllConversations()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet attaches a photo to a reply")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Staff file attachments in messaging")]
+        [global::Xunit.TraitAttribute("Description", "Vet attaches a photo to a reply")]
+        public async global::System.Threading.Tasks.Task VetAttachesAPhotoToAReply()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin sees all conversations", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet attaches a photo to a reply", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
+#line 11
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -167,34 +172,29 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 11
-    await testRunner.GivenAsync("there are conversations across all categories", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 12
-    await testRunner.WhenAsync("I open the Messages section", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I reply to the conversation with the text \"Here is the X-ray result\" and a photo " +
+                        "\"xray-luna.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 13
-    await testRunner.ThenAsync("I should see all conversations regardless of category", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 14
-    await testRunner.AndAsync("I should be able to filter by: status, category, assigned staff, date range", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("the owner can see my reply with the photo in the conversation", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin reassigns a conversation")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin reassigns a conversation")]
-        public async global::System.Threading.Tasks.Task AdminReassignsAConversation()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet attaches multiple files to a reply")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Staff file attachments in messaging")]
+        [global::Xunit.TraitAttribute("Description", "Vet attaches multiple files to a reply")]
+        public async global::System.Threading.Tasks.Task VetAttachesMultipleFilesToAReply()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin reassigns a conversation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet attaches multiple files to a reply", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 16
+#line 15
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -207,34 +207,43 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 17
-    await testRunner.GivenAsync("a conversation is currently assigned to \"Dr. Ahmad\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+                global::Reqnroll.Table table34 = new global::Reqnroll.Table(new string[] {
+                            "Filename",
+                            "Type"});
+                table34.AddRow(new string[] {
+                            "blood-test.pdf",
+                            "PDF"});
+                table34.AddRow(new string[] {
+                            "urine-analysis.pdf",
+                            "PDF"});
+                table34.AddRow(new string[] {
+                            "xray-abdomen.jpg",
+                            "JPEG"});
+#line 16
+    await testRunner.WhenAsync("I reply with the text \"Lab results attached\" and 3 files:", ((string)(null)), table34, "When ");
 #line hidden
-#line 18
-    await testRunner.WhenAsync("I click \"Reassign\" and select \"Dr. Fatima\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 21
+    await testRunner.ThenAsync("all 3 files are visible in the conversation thread", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 19
-    await testRunner.ThenAsync("the conversation should appear in Dr. Fatima\'s inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 20
-    await testRunner.AndAsync("Dr. Ahmad should no longer see it in his inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 22
+    await testRunner.AndAsync("the owner can download each file", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures quick response templates")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin configures quick response templates")]
-        public async global::System.Threading.Tasks.Task AdminConfiguresQuickResponseTemplates()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist attaches a document to a reply")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Staff file attachments in messaging")]
+        [global::Xunit.TraitAttribute("Description", "Receptionist attaches a document to a reply")]
+        public async global::System.Threading.Tasks.Task ReceptionistAttachesADocumentToAReply()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin configures quick response templates", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist attaches a document to a reply", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 22
+#line 24
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -247,43 +256,40 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 23
-    await testRunner.WhenAsync("I go to Messaging Settings > Templates", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 25
+    await testRunner.GivenAsync("I am authenticated as a user with role \"Receptionist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table32 = new global::Reqnroll.Table(new string[] {
-                            "Field",
-                            "Value"});
-                table32.AddRow(new string[] {
-                            "Name",
-                            "Vaccination reminder"});
-                table32.AddRow(new string[] {
-                            "English",
-                            "Your pet is due for vaccination. Please book an appointment."});
-                table32.AddRow(new string[] {
-                            "Arabic",
-                            "حيوانك الأليف بحاجة إلى التطعيم. يرجى حجز موعد."});
-#line 24
-    await testRunner.AndAsync("I create a new template with:", ((string)(null)), table32, "And ");
+#line 26
+    await testRunner.AndAsync("there is a conversation with owner \"Ahmed Al Rashid\" about a billing question", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 29
-    await testRunner.ThenAsync("the template should be available to all staff when replying to messages", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 27
+    await testRunner.WhenAsync("I reply with the text \"Please find your invoice attached\" and a file \"invoice-202" +
+                        "6-001.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 28
+    await testRunner.ThenAsync("the owner can see the reply with the attached document", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures messaging hours")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin configures messaging hours")]
-        public async global::System.Threading.Tasks.Task AdminConfiguresMessagingHours()
+        [global::Xunit.SkippableTheoryAttribute(DisplayName="Unsupported file type is rejected")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Staff file attachments in messaging")]
+        [global::Xunit.TraitAttribute("Description", "Unsupported file type is rejected")]
+        [global::Xunit.InlineDataAttribute("malware.exe", "3", new string[0])]
+        [global::Xunit.InlineDataAttribute("script.bat", "4", new string[0])]
+        [global::Xunit.InlineDataAttribute("archive.zip", "5", new string[0])]
+        [global::Xunit.InlineDataAttribute("macro-doc.docm", "6", new string[0])]
+        public async global::System.Threading.Tasks.Task UnsupportedFileTypeIsRejected(string filename, string @__pickleIndex, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin configures messaging hours", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            argumentsOfScenario.Add("filename", filename);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Unsupported file type is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 31
+#line 30
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -295,35 +301,32 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
                 await this.ScenarioStartAsync();
 #line 7
   await this.FeatureBackgroundAsync();
+#line hidden
+#line 31
+    await testRunner.WhenAsync(string.Format("I try to attach a file \"{0}\" to my reply", filename), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 32
-    await testRunner.WhenAsync("I go to Messaging Settings > Business Hours", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("the attachment is rejected with the message \"File type not allowed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 33
-    await testRunner.AndAsync("I set hours to Sunday-Thursday 08:00-20:00, Friday 08:00-12:00", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 34
-    await testRunner.ThenAsync("messages sent outside these hours should trigger the auto-acknowledgment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 35
-    await testRunner.AndAsync("emergency messages should still notify the on-call vet at any hour", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the reply is not sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views triage statistics dashboard")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin views triage statistics dashboard")]
-        public async global::System.Threading.Tasks.Task AdminViewsTriageStatisticsDashboard()
+        [global::Xunit.SkippableFactAttribute(DisplayName="File exceeding the size limit is rejected")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Staff file attachments in messaging")]
+        [global::Xunit.TraitAttribute("Description", "File exceeding the size limit is rejected")]
+        public async global::System.Threading.Tasks.Task FileExceedingTheSizeLimitIsRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin views triage statistics dashboard", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "7";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("File exceeding the size limit is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 37
+#line 42
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -336,86 +339,63 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 38
-    await testRunner.WhenAsync("I go to Messaging Settings > Statistics", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 43
+    await testRunner.WhenAsync("I try to attach a file larger than 10 MB", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table33 = new global::Reqnroll.Table(new string[] {
-                            "Metric"});
-                table33.AddRow(new string[] {
-                            "Average first response time"});
-                table33.AddRow(new string[] {
-                            "Messages by category (pie chart)"});
-                table33.AddRow(new string[] {
-                            "AI triage accuracy (% re-categorized)"});
-                table33.AddRow(new string[] {
-                            "Volume per day (trend)"});
-                table33.AddRow(new string[] {
-                            "Conversion rate: message to appointment"});
-#line 39
-    await testRunner.ThenAsync("I should see:", ((string)(null)), table33, "Then ");
+#line 44
+    await testRunner.ThenAsync("the attachment is rejected with the message \"File exceeds the maximum size of 10 " +
+                        "MB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin proactively messages an owner")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin proactively messages an owner")]
-        public async global::System.Threading.Tasks.Task AdminProactivelyMessagesAnOwner()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Vet attaches an allowed file type")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Staff file attachments in messaging")]
+        [global::Xunit.TraitAttribute("Description", "Vet attaches an allowed file type")]
+        public async global::System.Threading.Tasks.Task VetAttachesAnAllowedFileType()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin proactively messages an owner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "8";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Vet attaches an allowed file type", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
+#line 46
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 7
+  await this.FeatureBackgroundAsync();
+#line hidden
 #line 47
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 7
-  await this.FeatureBackgroundAsync();
+    await testRunner.WhenAsync("I reply with a file \"vaccination-record.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 48
-    await testRunner.WhenAsync("I click \"New outbound message\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 49
-    await testRunner.AndAsync("I select owner \"Mrs. Al-Rashid\" and pet \"Luna\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 50
-    await testRunner.AndAsync("I type \"Luna is due for her annual vaccination next month\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 51
-    await testRunner.AndAsync("I click \"Send\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 52
-    await testRunner.ThenAsync("the owner should receive an email notification", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 53
-    await testRunner.AndAsync("a new conversation should be created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("the file is accepted and visible in the conversation", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views spam folder")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin views spam folder")]
-        public async global::System.Threading.Tasks.Task AdminViewsSpamFolder()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner sees staff attachments in chronological order")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Staff file attachments in messaging")]
+        [global::Xunit.TraitAttribute("Description", "Owner sees staff attachments in chronological order")]
+        public async global::System.Threading.Tasks.Task OwnerSeesStaffAttachmentsInChronologicalOrder()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin views spam folder", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "9";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Owner sees staff attachments in chronological order", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 55
+#line 50
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -428,14 +408,17 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 56
-    await testRunner.WhenAsync("I go to Messages > Spam", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 51
+    await testRunner.GivenAsync("I have previously sent a reply with a photo \"checkup-photo.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 57
-    await testRunner.ThenAsync("I should see all messages marked as spam", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 52
+    await testRunner.AndAsync("I send another reply with a document \"lab-results.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 58
-    await testRunner.AndAsync("I should be able to restore a message to the inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 53
+    await testRunner.WhenAsync("the owner opens the conversation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 54
+    await testRunner.ThenAsync("the attachments appear in the order they were sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -448,12 +431,12 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await AdminMessagingManagementFeature.FeatureSetupAsync();
+                await StaffFileAttachmentsInMessagingFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await AdminMessagingManagementFeature.FeatureTearDownAsync();
+                await StaffFileAttachmentsInMessagingFeature.FeatureTearDownAsync();
             }
         }
     }

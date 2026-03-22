@@ -17,22 +17,25 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class ReceptionistMessagingInboxFeature : object, global::Xunit.IClassFixture<ReceptionistMessagingInboxFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    [global::Xunit.TraitAttribute("Category", "wip")]
+    public partial class WhatsAppIntegrationForClinicMessagingFeature : object, global::Xunit.IClassFixture<WhatsAppIntegrationForClinicMessagingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "wip"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Receptionist Messaging Inbox", "  As a receptionist\r\n  I want to see and respond to appointment requests and admi" +
-                "nistrative questions\r\n  So that I can handle owner inquiries efficiently", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "WhatsApp integration for clinic messaging", "  As a clinic administrator\r\n  I want to integrate WhatsApp with my clinic\r\n  So " +
+                "that appointment reminders and messages reach pet owners on their preferred chan" +
+                "nel", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "ReceptionistInbox.feature"
+#line 1 "WhatsAppIntegration.feature"
 #line hidden
         
-        public ReceptionistMessagingInboxFeature(ReceptionistMessagingInboxFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public WhatsAppIntegrationForClinicMessagingFeature(WhatsAppIntegrationForClinicMessagingFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -109,13 +112,13 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   #line hidden
 #line 8
-    await testRunner.GivenAsync("I am authenticated as a user with role \"Receptionist\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("a clinic \"Dubai Pet Care\" with an active subscription", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Messaging/ReceptionistInbox.feature.ndjson", 10);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Messaging/WhatsAppIntegration.feature.ndjson", 10);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -143,18 +146,18 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist sees only relevant messages")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist sees only relevant messages")]
-        public async global::System.Threading.Tasks.Task ReceptionistSeesOnlyRelevantMessages()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures WhatsApp credentials")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Admin configures WhatsApp credentials")]
+        public async global::System.Threading.Tasks.Task AdminConfiguresWhatsAppCredentials()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist sees only relevant messages", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin configures WhatsApp credentials", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
+#line 12
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -167,38 +170,34 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 11
-    await testRunner.GivenAsync("there are messages categorized as \"AppointmentRequest\", \"Administrative\", and \"Me" +
-                        "dicalQuestion\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 12
-    await testRunner.WhenAsync("I open the Messages inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
 #line 13
-    await testRunner.ThenAsync("I should see messages categorized as \"AppointmentRequest\" and \"Administrative\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.GivenAsync("I am authenticated as an admin of \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 14
-    await testRunner.AndAsync("I should NOT see messages categorized as \"MedicalQuestion\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("I enter the WhatsApp Business API credentials", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 15
-    await testRunner.AndAsync("I should NOT see messages categorized as \"MedicalUrgency\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I save the configuration", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 16
+    await testRunner.ThenAsync("the WhatsApp integration is marked as configured", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Messages are sorted by priority then by date")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Messages are sorted by priority then by date")]
-        public async global::System.Threading.Tasks.Task MessagesAreSortedByPriorityThenByDate()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Admin tests WhatsApp connection")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Admin tests WhatsApp connection")]
+        public async global::System.Threading.Tasks.Task AdminTestsWhatsAppConnection()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Messages are sorted by priority then by date", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin tests WhatsApp connection", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 17
+#line 18
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -211,35 +210,37 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 18
-    await testRunner.GivenAsync("there are 3 messages: one \"Administrative\" from yesterday, one \"AppointmentReques" +
-                        "t\" from today, one \"Administrative\" from today", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 19
-    await testRunner.WhenAsync("I open the Messages inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.GivenAsync("I am authenticated as an admin of \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 20
-    await testRunner.ThenAsync("the \"AppointmentRequest\" message should appear first (higher priority)", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("WhatsApp credentials have been configured", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 21
-    await testRunner.AndAsync("the two \"Administrative\" messages should be sorted oldest first", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("I click \"Test connection\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 22
+    await testRunner.ThenAsync("the system sends a test message to the admin\'s phone number", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 23
+    await testRunner.AndAsync("a success confirmation is displayed \"WhatsApp connection is working\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist replies using AI suggestion")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist replies using AI suggestion")]
-        public async global::System.Threading.Tasks.Task ReceptionistRepliesUsingAISuggestion()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Test connection fails with invalid credentials")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Test connection fails with invalid credentials")]
+        public async global::System.Threading.Tasks.Task TestConnectionFailsWithInvalidCredentials()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist replies using AI suggestion", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test connection fails with invalid credentials", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 23
+#line 25
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -252,43 +253,35 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 24
-    await testRunner.GivenAsync("I open a message from an owner asking about appointment availability", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 25
-    await testRunner.AndAsync("the AI has generated 2 suggested replies", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
 #line 26
-    await testRunner.WhenAsync("I click on the first suggestion", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.GivenAsync("I am authenticated as an admin of \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 27
-    await testRunner.ThenAsync("the reply field should be pre-filled with the suggestion text", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("WhatsApp credentials have been configured with an invalid API key", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 28
-    await testRunner.WhenAsync("I modify the text and click \"Send\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I click \"Test connection\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 29
-    await testRunner.ThenAsync("the reply should be sent to the owner", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 30
-    await testRunner.AndAsync("the message status should change to \"InProgress\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("an error is displayed \"WhatsApp connection failed. Please verify your credentials" +
+                        ".\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist uses a quick response template")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist uses a quick response template")]
-        public async global::System.Threading.Tasks.Task ReceptionistUsesAQuickResponseTemplate()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Appointment reminder is sent via WhatsApp")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Appointment reminder is sent via WhatsApp")]
+        public async global::System.Threading.Tasks.Task AppointmentReminderIsSentViaWhatsApp()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist uses a quick response template", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Appointment reminder is sent via WhatsApp", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 32
+#line 33
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -301,37 +294,37 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 33
-    await testRunner.GivenAsync("the clinic has configured a template \"Appointment confirmation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 34
-    await testRunner.WhenAsync("I open a message and click \"Templates\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.GivenAsync("WhatsApp is configured for \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 35
-    await testRunner.AndAsync("I select the \"Appointment confirmation\" template", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("owner \"Fatima Al Mansoori\" has opted in to WhatsApp notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 36
-    await testRunner.ThenAsync("the reply field should be pre-filled with the template text", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("\"Fatima Al Mansoori\" has an appointment tomorrow at 10:00 for pet \"Luna\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 37
-    await testRunner.AndAsync("I can modify it before sending", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("the reminder schedule runs 24 hours before the appointment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 38
+    await testRunner.ThenAsync("a WhatsApp message is sent to \"Fatima Al Mansoori\" with the appointment details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist transfers a medical message to vet")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist transfers a medical message to vet")]
-        public async global::System.Threading.Tasks.Task ReceptionistTransfersAMedicalMessageToVet()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Reminder includes appointment details")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Reminder includes appointment details")]
+        public async global::System.Threading.Tasks.Task ReminderIncludesAppointmentDetails()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist transfers a medical message to vet", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Reminder includes appointment details", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 39
+#line 40
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -344,81 +337,50 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 40
-    await testRunner.GivenAsync("I receive a message flagged as \"Triage uncertain -- please verify category\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 41
-    await testRunner.AndAsync("the message describes medical symptoms", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.GivenAsync("WhatsApp is configured for \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 42
-    await testRunner.WhenAsync("I click \"Transfer to veterinarian\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.AndAsync("owner \"Ahmed Al Rashid\" has opted in to WhatsApp notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 43
-    await testRunner.ThenAsync("the message should disappear from my inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("\"Ahmed Al Rashid\" has an appointment on Sunday at 14:30 for pet \"Rocky\" with Dr. " +
+                        "Omar", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 44
-    await testRunner.AndAsync("it should appear in the vet inbox with a note \"Transferred by [Receptionist Name]" +
-                        "\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("the appointment reminder is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
+                            "Detail",
+                            "Value"});
+                table37.AddRow(new string[] {
+                            "Clinic name",
+                            "Dubai Pet Care"});
+                table37.AddRow(new string[] {
+                            "Date and time",
+                            "Sunday at 14:30"});
+                table37.AddRow(new string[] {
+                            "Pet name",
+                            "Rocky"});
+                table37.AddRow(new string[] {
+                            "Veterinarian",
+                            "Dr. Omar"});
+#line 45
+    await testRunner.ThenAsync("the WhatsApp message contains:", ((string)(null)), table37, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist converts a message to an appointment")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist converts a message to an appointment")]
-        public async global::System.Threading.Tasks.Task ReceptionistConvertsAMessageToAnAppointment()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner without opt-in does not receive WhatsApp messages")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Owner without opt-in does not receive WhatsApp messages")]
+        public async global::System.Threading.Tasks.Task OwnerWithoutOpt_InDoesNotReceiveWhatsAppMessages()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist converts a message to an appointment", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 46
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 7
-  await this.FeatureBackgroundAsync();
-#line hidden
-#line 47
-    await testRunner.GivenAsync("I open a message requesting an appointment for pet \"Buddy\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 48
-    await testRunner.WhenAsync("I click \"Convert to appointment\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 49
-    await testRunner.ThenAsync("a new appointment form should open", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 50
-    await testRunner.AndAsync("the patient field should be pre-filled with \"Buddy\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 51
-    await testRunner.AndAsync("the owner field should be pre-filled", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 52
-    await testRunner.AndAsync("the reason should contain the message content", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist marks a message as spam")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist marks a message as spam")]
-        public async global::System.Threading.Tasks.Task ReceptionistMarksAMessageAsSpam()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist marks a message as spam", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Owner without opt-in does not receive WhatsApp messages", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 54
@@ -435,33 +397,36 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 55
-    await testRunner.GivenAsync("I open a message that is clearly spam", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("WhatsApp is configured for \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 56
-    await testRunner.WhenAsync("I click \"Mark as spam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.AndAsync("owner \"Sara Al Dhaheri\" has NOT opted in to WhatsApp notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 57
-    await testRunner.ThenAsync("the message should disappear from my inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("\"Sara Al Dhaheri\" has an appointment tomorrow at 09:00", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 58
-    await testRunner.AndAsync("the admin should be able to view it in the spam folder", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("the reminder schedule runs", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 59
+    await testRunner.ThenAsync("no WhatsApp message is sent to \"Sara Al Dhaheri\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Receptionist sees patient context alongside message")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Receptionist Messaging Inbox")]
-        [global::Xunit.TraitAttribute("Description", "Receptionist sees patient context alongside message")]
-        public async global::System.Threading.Tasks.Task ReceptionistSeesPatientContextAlongsideMessage()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Owner opts out of WhatsApp notifications")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Owner opts out of WhatsApp notifications")]
+        public async global::System.Threading.Tasks.Task OwnerOptsOutOfWhatsAppNotifications()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "7";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receptionist sees patient context alongside message", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string pickleIndex = "6";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Owner opts out of WhatsApp notifications", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 60
+#line 61
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -474,15 +439,55 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 61
-    await testRunner.GivenAsync("I open a message linked to patient \"Buddy\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 62
-    await testRunner.ThenAsync("I should see alongside the message: pet name, species, last appointment date, and" +
-                        " outstanding invoices", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.GivenAsync("owner \"Fatima Al Mansoori\" had previously opted in to WhatsApp notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 63
-    await testRunner.AndAsync("I should NOT see medical records (consistent with receptionist RBAC)", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("\"Fatima Al Mansoori\" opts out of WhatsApp notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 64
+    await testRunner.ThenAsync("future reminders are not sent via WhatsApp to \"Fatima Al Mansoori\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 65
+    await testRunner.AndAsync("the opt-out is recorded with a timestamp", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Non-admin cannot configure WhatsApp")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "WhatsApp integration for clinic messaging")]
+        [global::Xunit.TraitAttribute("Description", "Non-admin cannot configure WhatsApp")]
+        public async global::System.Threading.Tasks.Task Non_AdminCannotConfigureWhatsApp()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "7";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Non-admin cannot configure WhatsApp", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 69
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 7
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 70
+    await testRunner.GivenAsync("I am authenticated as a vet of \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 71
+    await testRunner.WhenAsync("I try to access the WhatsApp configuration", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 72
+    await testRunner.ThenAsync("access is denied with the message \"Only administrators can configure integrations" +
+                        "\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -495,12 +500,12 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await ReceptionistMessagingInboxFeature.FeatureSetupAsync();
+                await WhatsAppIntegrationForClinicMessagingFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await ReceptionistMessagingInboxFeature.FeatureTearDownAsync();
+                await WhatsAppIntegrationForClinicMessagingFeature.FeatureTearDownAsync();
             }
         }
     }

@@ -17,14 +17,12 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class MessageTriageFeature : object, global::Xunit.IClassFixture<MessageTriageFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = new string[] {
-                "wip"};
+        private static string[] featureTags = ((string[])(null));
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Message Triage", "  As the messaging system\r\n  I want to automatically classify incoming owner mess" +
                 "ages\r\n  So that they are routed to the right staff member with the right priorit" +

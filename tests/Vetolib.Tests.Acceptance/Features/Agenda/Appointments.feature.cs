@@ -264,7 +264,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.ThenAsync("the system rejects with code \"APPOINTMENT_CONFLICT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 29
-    await testRunner.AndAsync("the message is \"Ce creneau est deja pris pour ce veterinaire\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the message is \"This time slot is already taken for this veterinarian\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 30
     await testRunner.AndAsync("the next available slots are suggested", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -646,7 +646,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.WhenAsync("I request the appointment by its ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 83
-    await testRunner.ThenAsync("the response status is 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 84
     await testRunner.AndAsync("the appointment details include patient \"Max\" and time \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -655,15 +655,15 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Get appointment by ID returns 404 when not found")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Looking up a non-existent appointment fails")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
-        [global::Xunit.TraitAttribute("Description", "Get appointment by ID returns 404 when not found")]
-        public async global::System.Threading.Tasks.Task GetAppointmentByIDReturns404WhenNotFound()
+        [global::Xunit.TraitAttribute("Description", "Looking up a non-existent appointment fails")]
+        public async global::System.Threading.Tasks.Task LookingUpANon_ExistentAppointmentFails()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "13";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Get appointment by ID returns 404 when not found", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Looking up a non-existent appointment fails", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 86
@@ -683,7 +683,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.WhenAsync("I request appointment with a random non-existent ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 88
-    await testRunner.ThenAsync("the response status is 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the record is not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -720,7 +720,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.WhenAsync("I update the appointment to \"2026-04-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 93
-    await testRunner.ThenAsync("the response status is 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 94
     await testRunner.AndAsync("the appointment is now scheduled for \"2026-04-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -763,7 +763,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.WhenAsync("I update the second appointment to \"2026-04-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 100
-    await testRunner.ThenAsync("the response status is 409", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("a conflict is detected", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -806,7 +806,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.WhenAsync("I update the appointment status to \"NO_SHOW\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 107
-    await testRunner.ThenAsync("the response status is 200", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the operation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 108
     await testRunner.AndAsync("the appointment status is \"NoShow\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -815,15 +815,15 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Status update with invalid status value returns 400")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Updating an appointment with an invalid status is rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
-        [global::Xunit.TraitAttribute("Description", "Status update with invalid status value returns 400")]
-        public async global::System.Threading.Tasks.Task StatusUpdateWithInvalidStatusValueReturns400()
+        [global::Xunit.TraitAttribute("Description", "Updating an appointment with an invalid status is rejected")]
+        public async global::System.Threading.Tasks.Task UpdatingAnAppointmentWithAnInvalidStatusIsRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "17";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Status update with invalid status value returns 400", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Updating an appointment with an invalid status is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 110
@@ -852,21 +852,21 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.WhenAsync("I update the appointment status to \"INVALID_STATUS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 115
-    await testRunner.ThenAsync("the response status is 400", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the request is rejected", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Status update on non-existent appointment returns 404")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Updating a non-existent appointment fails")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Veterinary appointment management")]
-        [global::Xunit.TraitAttribute("Description", "Status update on non-existent appointment returns 404")]
-        public async global::System.Threading.Tasks.Task StatusUpdateOnNon_ExistentAppointmentReturns404()
+        [global::Xunit.TraitAttribute("Description", "Updating a non-existent appointment fails")]
+        public async global::System.Threading.Tasks.Task UpdatingANon_ExistentAppointmentFails()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "18";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Status update on non-existent appointment returns 404", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Updating a non-existent appointment fails", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 117
@@ -892,7 +892,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.WhenAsync("I update a non-existent appointment status to \"NO_SHOW\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 121
-    await testRunner.ThenAsync("the response status is 404", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the record is not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

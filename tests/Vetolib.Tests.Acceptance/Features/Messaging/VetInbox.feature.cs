@@ -17,14 +17,12 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class VeterinarianMessagingInboxFeature : object, global::Xunit.IClassFixture<VeterinarianMessagingInboxFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = new string[] {
-                "wip"};
+        private static string[] featureTags = ((string[])(null));
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Veterinarian Messaging Inbox", "  As a veterinarian\r\n  I want to see and respond to medical messages with full pa" +
                 "tient context\r\n  So that I can provide informed responses to pet owners", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
@@ -256,18 +254,18 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 24
     await testRunner.GivenAsync("I open a message linked to patient \"Luna\" (cat, 3 years old)", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table34 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
                             "Context"});
-                table34.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Last examination date"});
-                table34.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Current prescriptions"});
-                table34.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Known allergies"});
-                table34.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Vaccination history"});
 #line 25
-    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table34, "Then ");
+    await testRunner.ThenAsync("I should see alongside the message:", ((string)(null)), table35, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -445,20 +443,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 59
     await testRunner.WhenAsync("I click \"Create urgent appointment\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table36 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Pre-filled value"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Patient",
                             "Buddy"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Type",
                             "Emergency"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Reason",
                             "Extracted from message text"});
 #line 60
-    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table35, "Then ");
+    await testRunner.ThenAsync("a new appointment form should open with:", ((string)(null)), table36, "Then ");
 #line hidden
 #line 65
     await testRunner.AndAsync("the appointment should be created in the next available slot", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
