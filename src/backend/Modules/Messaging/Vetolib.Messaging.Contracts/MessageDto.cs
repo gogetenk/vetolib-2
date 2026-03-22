@@ -7,5 +7,7 @@ public record MessageDto(
     Guid? SenderUserId,
     string Body,
     bool IsInternalNote,
-    DateTime SentAt
+    DateTime SentAt,
+    // Classification fields (nullable - not all messages are classified)
+    MessageClassificationDto? Classification = null
 );
