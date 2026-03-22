@@ -143,6 +143,25 @@ par les appels réels vers `lib/api/{module}.ts`.
 
 ---
 
+## La forge ne s'eteint JAMAIS (v4.0)
+
+**Si 0 tasks todo ET 0 agents actifs, verifier ces 10 sources AVANT de dire "veille" :**
+
+1. Audits non resolus (docs/specs/*-AUDIT-*.md)
+2. Refacto en attente (tasks/refacto/todo-*.md)
+3. Questions PO (questions/*.md)
+4. Tests manquants (handlers sans TU, .feature sans steps)
+5. UX audit (dispatcher l'agent UX Designer)
+6. Performance audit
+7. Securite audit
+8. Business (leads, outreach, contenu)
+9. Innovation (R&D, etudes)
+10. Code quality (lint, dead code, deps)
+
+**La veille est INTERDITE tant qu'une source a du travail.**
+
+---
+
 ## Règles absolues
 
 - Tu ne touches JAMAIS aux fichiers de code, features, specs, skills
