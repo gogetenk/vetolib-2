@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogOut, Settings, ChevronDown } from "lucide-react";
+import { LogOut, Settings, ChevronDown, LayoutDashboard } from "lucide-react";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { clearSession } from "@/lib/auth";
@@ -150,6 +150,17 @@ export function UserMenu() {
           </div>
 
           <div className="my-1 h-px bg-border" />
+
+          <Link
+            href={`/${locale}/dashboard`}
+            data-testid="user-menu-dashboard"
+            className="group flex items-center gap-2 rounded-lg px-2 py-2 text-[13px] font-medium text-foreground transition-all duration-200 ease-in-out hover:bg-muted hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
+            <LayoutDashboard className="h-4 w-4 transition-transform duration-200 ease-in-out" />
+            Dashboard
+          </Link>
 
           <Link
             href={`/${locale}/settings`}

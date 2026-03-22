@@ -1,9 +1,15 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Search } from 'lucide-react'
+import { Search, SlidersHorizontal } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import type { MessageCategory, ConversationStatus } from '@/lib/api/messaging-types'
 
 interface ConversationFiltersProps {
@@ -15,7 +21,13 @@ interface ConversationFiltersProps {
   onSearchChange: (q: string) => void
 }
 
-const ALL_STATUSES: ConversationStatus[] = ['Open', 'InProgress', 'Resolved', 'Closed']
+/** Only these statuses are shown as top-level buttons */
+const VISIBLE_STATUSES: Array<{ value: ConversationStatus | '', key: string }> = [
+  { value: '', key: 'all' },
+  { value: 'Open', key: 'Open' },
+  { value: 'InProgress', key: 'InProgress' },
+]
+
 const ALL_CATEGORIES: MessageCategory[] = [
   'MedicalUrgency',
   'PostOperativeFollowUp',
@@ -36,6 +48,8 @@ export function ConversationFilters({
 }: ConversationFiltersProps) {
   const t = useTranslations('messaging')
 
+  const activeCategoryLabel = categoryFilter ? t(`category.${categoryFilter}`) : null
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center" data-testid="conversation-filters">
       <div className="relative flex-1">
@@ -50,53 +64,54 @@ export function ConversationFilters({
         />
       </div>
 
+      {/* Status filters — 3 visible buttons: All, Open, In Progress */}
       <div className="flex flex-wrap gap-1" data-testid="filter-status-group">
-        <Button
-          variant={statusFilter === '' ? 'default' : 'outline'}
-          size="sm"
-          data-testid="filter-status-all"
-          onClick={() => onStatusChange('')}
-          className={statusFilter === '' ? 'bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-[12px] font-semibold' : 'rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted'}
-        >
-          {t('status.all')}
-        </Button>
-        {ALL_STATUSES.map((s) => (
-          <Button
-            key={s}
-            variant={statusFilter === s ? 'default' : 'outline'}
-            size="sm"
-            data-testid={`filter-status-${s.toLowerCase()}`}
-            onClick={() => onStatusChange(s)}
-            className={statusFilter === s ? 'bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-[12px] font-semibold' : 'rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted'}
-          >
-            {t(`status.${s}`)}
-          </Button>
-        ))}
+        {VISIBLE_STATUSES.map(({ value, key }) => {
+          const isActive = statusFilter === value
+          return (
+            <Button
+              key={key}
+              variant={isActive ? 'default' : 'outline'}
+              size="sm"
+              data-testid={`filter-status-${key.toLowerCase()}`}
+              onClick={() => onStatusChange(value)}
+              className={isActive ? 'bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-[12px] font-semibold' : 'rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted'}
+            >
+              {value === '' ? t('status.all') : t(`status.${key}`)}
+            </Button>
+          )
+        })}
       </div>
 
-      <div className="flex flex-wrap gap-1" data-testid="filter-category-group">
-        <Button
-          variant={categoryFilter === '' ? 'secondary' : 'ghost'}
-          size="sm"
-          data-testid="filter-category-all"
-          onClick={() => onCategoryChange('')}
-          className="rounded-xl text-[12px] font-semibold"
+      {/* Category filters — hidden behind "More filters" dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          data-testid="filter-more-trigger"
+          className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border/80 bg-background px-3 py-1.5 text-[12px] font-semibold text-foreground shadow-sm hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 transition-colors"
         >
-          {t('category.all')}
-        </Button>
-        {ALL_CATEGORIES.map((c) => (
-          <Button
-            key={c}
-            variant={categoryFilter === c ? 'secondary' : 'ghost'}
-            size="sm"
-            data-testid={`filter-category-${c.toLowerCase()}`}
-            onClick={() => onCategoryChange(c)}
-            className="rounded-xl text-[12px] font-semibold"
+          <SlidersHorizontal className="h-3.5 w-3.5" />
+          {activeCategoryLabel ?? t('more_filters')}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-52" data-testid="filter-more-dropdown">
+          <DropdownMenuItem
+            data-testid="filter-category-all"
+            onClick={() => onCategoryChange('')}
+            className="text-[12px] font-semibold"
           >
-            {t(`category.${c}`)}
-          </Button>
-        ))}
-      </div>
+            {t('category.all')}
+          </DropdownMenuItem>
+          {ALL_CATEGORIES.map((c) => (
+            <DropdownMenuItem
+              key={c}
+              data-testid={`filter-category-${c.toLowerCase()}`}
+              onClick={() => onCategoryChange(c)}
+              className="text-[12px] font-semibold"
+            >
+              {t(`category.${c}`)}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }

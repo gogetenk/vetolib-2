@@ -601,6 +601,7 @@
   "messaging": {
     "title": "Messages",
     "search_placeholder": "Rechercher par objet, propriétaire ou patient...",
+    "more_filters": "Plus de filtres",
     "no_conversations": "Aucune conversation trouvée.",
     "no_messages": "Aucun message pour le moment.",
     "select_conversation": "Sélectionnez une conversation pour afficher les détails.",

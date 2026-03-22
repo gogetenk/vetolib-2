@@ -601,6 +601,7 @@
   "messaging": {
     "title": "الرسائل",
     "search_placeholder": "البحث بالموضوع أو المالك أو الحيوان...",
+    "more_filters": "مزيد من الفلاتر",
     "no_conversations": "لا توجد محادثات.",
     "no_messages": "لا توجد رسائل بعد.",
     "select_conversation": "اختر محادثة لعرض التفاصيل.",

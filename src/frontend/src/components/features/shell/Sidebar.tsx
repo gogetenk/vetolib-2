@@ -3,120 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  CalendarDays,
-  LayoutDashboard,
-  PawPrint,
-  ClipboardList,
-  CreditCard,
-  Settings,
-  User,
-  Users,
-  Package,
-  MessageSquare,
-} from "lucide-react";
+import { PawPrint } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { useRole } from "@/hooks/use-role";
 import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
 import { useLocale, useTranslations } from "next-intl";
-
-type UserRole = "VET" | "RECEPTIONIST" | "ASSISTANT" | "ADMIN" | string;
-
-interface NavItem {
-  href: string;
-  label: string;
-  icon: React.ReactNode;
-  testId: string;
-  roles?: UserRole[]; // undefined = all roles
-  badge?: string;     // optional badge text
-  badgeForRoles?: UserRole[]; // show badge only for these roles
-}
-
-function getMainNavItems(t: (key: string) => string): NavItem[] {
-  return [
-    {
-      href: "/dashboard",
-      label: t("dashboard"),
-      icon: <LayoutDashboard className="h-5 w-5" />,
-      testId: "nav-dashboard",
-    },
-    {
-      href: "/appointments",
-      label: t("appointments"),
-      icon: <CalendarDays className="h-5 w-5" />,
-      testId: "nav-appointments",
-    },
-    {
-      href: "/patients",
-      label: t("patients"),
-      icon: <PawPrint className="h-5 w-5" />,
-      testId: "nav-patients",
-    },
-    {
-      href: "/medical-records",
-      label: t("medical_records"),
-      icon: <ClipboardList className="h-5 w-5" />,
-      testId: "nav-medical-records",
-      // RECEPTIONIST cannot see medical records
-      roles: ["VET", "ASSISTANT"],
-      badge: t("read_only"),
-      // badge only shown for ASSISTANT role
-      badgeForRoles: ["ASSISTANT"],
-    },
-    {
-      href: "/billing",
-      label: t("billing"),
-      icon: <CreditCard className="h-5 w-5" />,
-      testId: "nav-billing",
-    },
-    {
-      href: "/messages",
-      label: t("messages"),
-      icon: <MessageSquare className="h-5 w-5" />,
-      testId: "nav-messages",
-    },
-    {
-      href: "/stock",
-      label: t("stock"),
-      icon: <Package className="h-5 w-5" />,
-      testId: "nav-stock",
-      roles: ["VET", "ADMIN"],
-    },
-    {
-      href: "/settings/team",
-      label: t("team"),
-      icon: <Users className="h-5 w-5" />,
-      testId: "nav-team",
-      roles: ["ADMIN"],
-    },
-    {
-      href: "/settings/messaging/templates",
-      label: t("messaging_settings"),
-      icon: <Settings className="h-5 w-5" />,
-      testId: "nav-messaging-settings",
-      roles: ["ADMIN"],
-    },
-  ];
-}
-
-function getBottomNavItems(t: (key: string) => string): NavItem[] {
-  return [
-    {
-      href: "/settings",
-      label: t("settings"),
-      icon: <Settings className="h-5 w-5" />,
-      testId: "nav-settings",
-    },
-    {
-      href: "/profile",
-      label: t("profile"),
-      icon: <User className="h-5 w-5" />,
-      testId: "nav-profile",
-    },
-  ];
-}
+import { getMainNavItems, type NavItem, type UserRole } from "./nav-items";
 
 interface SidebarNavItemProps {
   item: NavItem;
@@ -125,13 +18,15 @@ interface SidebarNavItemProps {
   locale: string;
   onClick?: () => void;
   messagingUnreadCount?: number;
+  t: (key: string) => string;
 }
 
-function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnreadCount }: SidebarNavItemProps) {
-  const showBadge = item.badge && item.badgeForRoles?.includes(role);
+function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnreadCount, t }: SidebarNavItemProps) {
+  const showBadge = item.badgeLabelKey && item.badgeForRoles?.includes(role);
   const isMessagesItem = item.href === "/messages";
   const localizedHref = `/${locale}${item.href}`;
   const showUnreadBadge = isMessagesItem && messagingUnreadCount != null && messagingUnreadCount > 0;
+  const Icon = item.icon;
 
   return (
     <Link
@@ -164,9 +59,9 @@ function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnread
         "group-hover/nav-item:scale-110",
         isActive && "text-primary"
       )}>
-        {item.icon}
+        <Icon className="h-5 w-5" />
       </span>
-      <span>{item.label}</span>
+      <span>{t(item.labelKey)}</span>
       {showUnreadBadge && (
         <Badge
           data-testid="nav-messages-unread-badge"
@@ -175,13 +70,13 @@ function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnread
           {messagingUnreadCount}
         </Badge>
       )}
-      {!showUnreadBadge && showBadge && (
+      {!showUnreadBadge && showBadge && item.badgeLabelKey && (
         <Badge
           data-testid={`${item.testId}-badge`}
           variant="secondary"
           className="ltr:ml-auto rtl:mr-auto text-xs"
         >
-          {item.badge}
+          {t(item.badgeLabelKey)}
         </Badge>
       )}
     </Link>
@@ -199,10 +94,7 @@ function SidebarContent({ role, pathname, locale, onItemClick }: SidebarContentP
   const { unreadCount } = useMessagingSseContext();
   const t = useTranslations("nav");
 
-  const visibleMain = getMainNavItems(t).filter(
-    (item) => !item.roles || item.roles.includes(role)
-  );
-  const visibleBottom = getBottomNavItems(t).filter(
+  const visibleMain = getMainNavItems().filter(
     (item) => !item.roles || item.roles.includes(role)
   );
 
@@ -222,29 +114,10 @@ function SidebarContent({ role, pathname, locale, onItemClick }: SidebarContentP
             locale={locale}
             onClick={onItemClick}
             messagingUnreadCount={unreadCount}
+            t={t}
           />
         ))}
       </nav>
-
-      {/* Bottom navigation */}
-      <div>
-        <Separator />
-        <nav
-          data-testid="sidebar-nav-bottom"
-          className="flex flex-col gap-1 p-4"
-        >
-          {visibleBottom.map((item) => (
-            <SidebarNavItem
-              key={item.href}
-              item={item}
-              isActive={pathname.startsWith(`/${locale}${item.href}`)}
-              role={role}
-              locale={locale}
-              onClick={onItemClick}
-            />
-          ))}
-        </nav>
-      </div>
     </div>
   );
 }

@@ -90,14 +90,13 @@ export default function DashboardHomePage() {
         </p>
       </div>
 
+      <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
+
       <StatsCards role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
       <SetupChecklist role={role} />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
-        <RecentActivity />
-      </div>
+      <RecentActivity />
 
       <AnalyticsSection />
     </PageContainer>

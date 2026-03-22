@@ -18,6 +18,7 @@ import { MobileSidebarContent } from "./Sidebar";
 import { cn } from "@/lib/utils";
 import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
 import { ClinicSwitcher } from "./ClinicSwitcher";
+import { getMainNavItems } from "./nav-items";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -27,15 +28,9 @@ export function Header() {
   const { unreadCount } = useMessagingSseContext();
   const t = useTranslations("nav");
 
-  const navItems = [
-    { href: "/dashboard", label: t("dashboard") },
-    { href: "/appointments", label: t("appointments") },
-    { href: "/messages", label: t("messages"), badge: unreadCount > 0 ? unreadCount : undefined },
-    { href: "/medical-records", label: t("medical_records") },
-    { href: "/patients", label: t("patients") },
-    { href: "/billing", label: t("billing") },
-    { href: "/stock", label: t("stock") },
-  ];
+  const navItems = getMainNavItems().filter(
+    (item) => !item.roles || item.roles.includes(role)
+  );
 
   return (
     <header
@@ -60,6 +55,8 @@ export function Header() {
         <nav className="hidden lg:flex items-center gap-1 h-full ml-4">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(`/${locale}${item.href}`);
+            const isMessages = item.href === "/messages";
+            const badge = isMessages && unreadCount > 0 ? unreadCount : undefined;
             return (
               <Link
                 key={item.href}
@@ -70,10 +67,10 @@ export function Header() {
                   isActive ? "text-primary" : "text-muted-foreground"
                 )}
               >
-                {item.label}
-                {item.badge && (
+                {t(item.labelKey)}
+                {badge && (
                   <span className="ml-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground px-1">
-                    {item.badge}
+                    {badge}
                   </span>
                 )}
                 {/* Active indicator bar at bottom */}
