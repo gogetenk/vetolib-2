@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
-import { CalendarDays, ListChecks, Clock } from 'lucide-react'
+import { CalendarDays, ListChecks, Clock, MapPin, Phone } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { LtrText } from '@/components/ui/ltr-text'
 import { format } from 'date-fns'
+import { getPortalClinicInfo, type PortalClinicInfoDto } from '@/lib/api/portal'
 
 interface NextAppointment {
   id: string
@@ -20,6 +21,7 @@ export function BookingLanding() {
   const t = useTranslations('portal.booking')
   const router = useRouter()
   const params = useParams<{ locale: string; clinicSlug: string }>()
+  const [clinicInfo, setClinicInfo] = useState<PortalClinicInfoDto | null>(null)
   const [nextAppointment] = useState<NextAppointment | null>(() => {
     if (typeof window === 'undefined') return null
     try {
@@ -29,6 +31,14 @@ export function BookingLanding() {
       return null
     }
   })
+
+  useEffect(() => {
+    getPortalClinicInfo()
+      .then(setClinicInfo)
+      .catch(() => {
+        /* silently ignore */
+      })
+  }, [])
 
   const base = `/${params.locale}/portal/${params.clinicSlug}/book`
 
@@ -45,6 +55,35 @@ export function BookingLanding() {
           {t('landing.subtitle')}
         </p>
       </div>
+
+      {/* Clinic Info Card */}
+      {clinicInfo && (
+        <Card className="rounded-xl shadow-sm border-border/80" data-testid="clinic-info-card">
+          <CardContent className="py-4 space-y-2">
+            <h2 className="text-[15px] font-semibold text-foreground" data-testid="clinic-info-name">
+              {clinicInfo.name}
+            </h2>
+            <div className="flex items-start gap-2 text-[13px] text-muted-foreground">
+              <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <span data-testid="clinic-info-address">{clinicInfo.address}</span>
+            </div>
+            <div className="flex items-center gap-2 text-[13px]">
+              <Phone className="w-4 h-4 flex-shrink-0 text-muted-foreground" />
+              <a
+                href={`tel:${clinicInfo.phone.replace(/\s/g, '')}`}
+                className="text-primary hover:underline"
+                data-testid="clinic-info-phone"
+              >
+                <LtrText>{clinicInfo.phone}</LtrText>
+              </a>
+            </div>
+            <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
+              <Clock className="w-4 h-4 flex-shrink-0" />
+              <span data-testid="clinic-info-hours">{clinicInfo.openingHours}</span>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Next Appointment preview card */}
       {nextAppointment && (
@@ -99,13 +138,23 @@ export function BookingLanding() {
           </div>
         </div>
 
-        {/* Book New Appointment card -- visual only, no action yet */}
+        {/* Book New Appointment card */}
         <div
+          role="button"
+          tabIndex={0}
           data-testid="booking-new-appointment-card"
-          className="flex flex-col gap-3 rounded-xl border border-border/80 bg-white p-6 shadow-sm opacity-60 cursor-not-allowed"
-          aria-disabled="true"
+          className="flex flex-col gap-3 rounded-xl border border-border/80 bg-white p-6 shadow-sm hover:border-primary/40 hover:shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 min-h-[44px]"
+          onClick={() => router.push(`${base}/new`)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              router.push(`${base}/new`)
+            } else if (e.key === ' ') {
+              e.preventDefault()
+              router.push(`${base}/new`)
+            }
+          }}
         >
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-muted">
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
             <CalendarDays className="w-7 h-7 text-primary" />
           </div>
           <div>

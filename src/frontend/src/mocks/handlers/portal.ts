@@ -232,6 +232,21 @@ export const portalHandlers = [
     })
   }),
 
+
+  // GET /api/v1/portal/clinic-info
+  http.get(`${BASE}/clinic-info`, async ({ request }) => {
+    await delay(100)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    return HttpResponse.json({
+      name: 'Desert Paws Veterinary Clinic',
+      address: 'Al Wasl Road, Jumeirah, Dubai, UAE',
+      phone: '+971 4 123 4567',
+      openingHours: 'Sun–Thu 08:00–20:00, Fri 08:00–12:00',
+    })
+  }),
+
   // GET /api/v1/portal/pets
   http.get(`${BASE}/pets`, async ({ request }) => {
     await delay(100)
