@@ -85,8 +85,20 @@ export function NewMessageForm() {
       })
       setSuccess(true)
     } catch (err) {
-      if (err instanceof ApiError && err.status === 429) {
-        setSubmitError(t('errors.too_many_messages'))
+      if (err instanceof ApiError) {
+        switch (err.status) {
+          case 403:
+            setSubmitError(t('errors.consent_not_given'))
+            break
+          case 422:
+            setSubmitError(t('errors.validation_error'))
+            break
+          case 429:
+            setSubmitError(t('errors.too_many_messages'))
+            break
+          default:
+            setSubmitError(t('errors.send_failed'))
+        }
       } else {
         setSubmitError(t('errors.send_failed'))
       }
