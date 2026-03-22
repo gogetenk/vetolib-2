@@ -4,6 +4,9 @@ import {
   MessageSquare,
   Package,
   Globe,
+  FileText,
+  MessageCircle,
+  Building2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollReveal } from "./ScrollReveal";
@@ -11,6 +14,12 @@ import { ScrollReveal } from "./ScrollReveal";
 interface FeatureCard {
   key: string;
   icon: React.ElementType;
+  title: string;
+  description: string;
+  badge?: string;
+}
+
+interface CardData {
   title: string;
   description: string;
   badge?: string;
@@ -25,6 +34,10 @@ interface Props {
     messaging: { title: string; description: string };
     stock: { title: string; description: string };
     multilingual: { title: string; description: string };
+    ai_soap?: CardData;
+    whatsapp?: CardData;
+    file_attachments?: CardData;
+    multi_clinic?: CardData;
   };
 }
 
@@ -34,6 +47,10 @@ const ICONS: Record<string, React.ElementType> = {
   messaging: MessageSquare,
   stock: Package,
   multilingual: Globe,
+  ai_soap: FileText,
+  whatsapp: MessageCircle,
+  file_attachments: Package,
+  multi_clinic: Building2,
 };
 
 export function FeaturesSection({ title, subtitle, cards }: Props) {
@@ -71,6 +88,25 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
       description: cards.multilingual.description,
     },
   ];
+
+  // Add optional v2/v3 feature cards
+  const optionalCards: Array<{ key: string; data?: CardData }> = [
+    { key: "ai_soap", data: cards.ai_soap },
+    { key: "whatsapp", data: cards.whatsapp },
+    { key: "file_attachments", data: cards.file_attachments },
+    { key: "multi_clinic", data: cards.multi_clinic },
+  ];
+  for (const { key, data } of optionalCards) {
+    if (data) {
+      features.push({
+        key,
+        icon: ICONS[key] || Package,
+        title: data.title,
+        description: data.description,
+        badge: data.badge,
+      });
+    }
+  }
 
   return (
     <section

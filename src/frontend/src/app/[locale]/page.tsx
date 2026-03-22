@@ -94,11 +94,11 @@ const JSON_LD = {
   offers: {
     "@type": "AggregateOffer",
     priceCurrency: "AED",
-    lowPrice: "0",
-    highPrice: "549",
+    lowPrice: "299",
+    highPrice: "649",
   },
   featureList:
-    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, WhatsApp messaging, Arabic RTL support",
+    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, AI SOAP notes, WhatsApp messaging, Stock management, Multi-clinic management, Arabic RTL support",
   availableOnDevice: "Desktop, Tablet, Mobile",
   countriesSupported: "AE",
 };
@@ -382,6 +382,23 @@ export default async function LandingPage({ params }: Props) {
               title: t("new_features.multilingual.title"),
               description: t("new_features.multilingual.description"),
             },
+            ai_soap: {
+              title: t("new_features.ai_soap.title"),
+              description: t("new_features.ai_soap.description"),
+              badge: t("new_features.ai_soap.badge"),
+            },
+            whatsapp: {
+              title: t("new_features.whatsapp.title"),
+              description: t("new_features.whatsapp.description"),
+            },
+            file_attachments: {
+              title: t("new_features.file_attachments.title"),
+              description: t("new_features.file_attachments.description"),
+            },
+            multi_clinic: {
+              title: t("new_features.multi_clinic.title"),
+              description: t("new_features.multi_clinic.description"),
+            },
           }}
         />
 
@@ -482,20 +499,6 @@ export default async function LandingPage({ params }: Props) {
             vat_note: t("pricing.vat_note"),
             early_access_badge: t("pricing_badge.early_access"),
             trial_under_plan: t("pricing_badge.trial_under_plan"),
-            free: {
-              name: t("pricing.free.name"),
-              price_monthly: t("pricing.free.price_monthly"),
-              price_annual: t("pricing.free.price_annual"),
-              per_month: t("pricing.free.per_month"),
-              description: t("pricing.free.description"),
-              features: [
-                t("pricing.free.features.0"),
-                t("pricing.free.features.1"),
-                t("pricing.free.features.2"),
-                t("pricing.free.features.3"),
-              ],
-              cta: t("pricing.free.cta"),
-            },
             starter: {
               name: t("pricing.starter.name"),
               price_monthly: t("pricing.starter.price_monthly"),
@@ -511,6 +514,9 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.starter.features.3"),
                 t("pricing.starter.features.4"),
                 t("pricing.starter.features.5"),
+                t("pricing.starter.features.6"),
+                t("pricing.starter.features.7"),
+                t("pricing.starter.features.8"),
               ],
               cta: t("pricing.starter.cta"),
             },
@@ -532,6 +538,7 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.pro.features.5"),
                 t("pricing.pro.features.6"),
                 t("pricing.pro.features.7"),
+                t("pricing.pro.features.8"),
               ],
               cta: t("pricing.pro.cta"),
             },
@@ -551,6 +558,8 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.enterprise.features.4"),
                 t("pricing.enterprise.features.5"),
                 t("pricing.enterprise.features.6"),
+                t("pricing.enterprise.features.7"),
+                t("pricing.enterprise.features.8"),
               ],
               cta: t("pricing.enterprise.cta"),
             },
@@ -597,6 +606,24 @@ export default async function LandingPage({ params }: Props) {
                 feature: t("competitive.rows.price.feature"),
                 vetolib: "yes",
                 ezyvet: "no",
+                digitail: "partial",
+              },
+              {
+                feature: t("competitive.rows.ai_soap.feature"),
+                vetolib: "yes",
+                ezyvet: "no",
+                digitail: "no",
+              },
+              {
+                feature: t("competitive.rows.multi_clinic.feature"),
+                vetolib: "yes",
+                ezyvet: "yes",
+                digitail: "partial",
+              },
+              {
+                feature: t("competitive.rows.file_attachments.feature"),
+                vetolib: "yes",
+                ezyvet: "partial",
                 digitail: "partial",
               },
             ],
