@@ -111,6 +111,18 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
         {/* Main content */}
         <main className="flex-1 px-4 py-6 max-w-2xl mx-auto w-full pb-20 md:pb-6">
           {children}
+
+          {/* Powered by Vetara badge */}
+          <div className="mt-8 text-center" data-testid="powered-by-vetara">
+            <a
+              href="https://vetara.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[11px] text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+            >
+              Powered by <span className="font-semibold">Vetara</span>
+            </a>
+          </div>
         </main>
       </div>
 
