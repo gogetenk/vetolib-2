@@ -113,6 +113,20 @@ export function exportConversations(): Promise<Blob> {
   return portalFetchBlob(`${BASE}/export`)
 }
 
+
+// ─── Clinic Info ──────────────────────────────────────────────────────────────
+
+export interface PortalClinicInfoDto {
+  name: string
+  address: string
+  phone: string
+  openingHours: string
+}
+
+export function getPortalClinicInfo(): Promise<PortalClinicInfoDto> {
+  return portalFetch<PortalClinicInfoDto>(`${BASE}/clinic-info`)
+}
+
 // ─── Pets ──────────────────────────────────────────────────────────────────────
 
 export function listPortalPets(): Promise<PortalPetDto[]> {

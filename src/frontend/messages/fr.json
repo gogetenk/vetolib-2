@@ -4,8 +4,8 @@
       "title": "Créez votre clinique",
       "heading": "Créer un compte",
       "meta_title": "Créez votre clinique — Vetara",
-      "meta_description": "Commencez votre essai gratuit de 14 jours. Gérez les rendez-vous, dossiers médicaux et la facturation de votre clinique vétérinaire.",
-      "subtitle": "Essai gratuit de 14 jours. Aucune carte bancaire requise.",
+      "meta_description": "Commencez votre essai gratuit de 30 jours. Gérez les rendez-vous, dossiers médicaux et la facturation de votre clinique vétérinaire.",
+      "subtitle": "Essai gratuit de 30 jours. Aucune carte bancaire requise.",
       "clinic_name": "Nom de la clinique",
       "clinic_name_placeholder": "ex. Clinique Vétérinaire des Lilas",
       "email": "E-mail",
@@ -25,7 +25,7 @@
       "strength_number": "1 chiffre",
       "show_password": "Afficher le mot de passe",
       "hide_password": "Masquer le mot de passe",
-      "welcome_toast": "Bienvenue ! Votre essai gratuit de 14 jours a commencé.",
+      "welcome_toast": "Bienvenue ! Votre essai gratuit de 30 jours a commencé.",
       "errors": {
         "clinic_name_required": "Le nom de la clinique est requis",
         "email_required": "Veuillez saisir une adresse e-mail valide",
@@ -1228,7 +1228,7 @@
     },
     "final_cta": {
       "headline": "Arrêtez de gérer votre clinique avec des tableurs.",
-      "subtitle": "Rejoignez plus de 50 cliniques vétérinaires qui économisent 2 heures par jour sur les tâches administratives. Essai gratuit de 14 jours — aucune carte bancaire requise.",
+      "subtitle": "Rejoignez plus de 50 cliniques vétérinaires qui économisent 2 heures par jour sur les tâches administratives. Essai gratuit de 30 jours — aucune carte bancaire requise.",
       "cta": "Essai gratuit — Sans carte bancaire",
       "reassurance": "Annulez à tout moment. Vos données vous appartiennent — toujours."
     },
