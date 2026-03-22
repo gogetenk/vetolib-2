@@ -1256,7 +1256,8 @@
         "privacy": "سياسة الخصوصية",
         "terms": "شروط الخدمة",
         "dpa": "اتفاقية معالجة البيانات"
-      }
+      },
+      "lang_fr": "FR"
     },
     "sticky_cta": {
       "tagline": "وفّر ساعتين يومياً في إدارة العيادة",
@@ -1281,7 +1282,7 @@
   "portal": {
     "header": {
       "language": "اللغة",
-      "arabic_label": "\u0639\u0631\u0628\u064a"
+      "arabic_label": "عربي"
     },
     "nav": {
       "conversations": "المحادثات",

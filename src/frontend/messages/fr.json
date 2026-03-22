@@ -930,7 +930,8 @@
       "cta_primary": "Démarrer l'essai gratuit",
       "cta_secondary": "Réserver une démo",
       "trust_badge": "Essai gratuit Pro 30 jours — sans carte bancaire",
-      "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients"
+      "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients",
+      "social_proof_badge": "Rejoignez plus de 50 cliniques à travers les EAU"
     },
     "social_proof": {
       "clinics": "50+ cliniques",
@@ -1174,19 +1175,25 @@
         "text": "Nous sommes passés des tableurs à Vetara en une journée. L'interface multilingue a été un vrai plus pour notre secrétariat.",
         "name": "Dr. Sophie Martin",
         "role": "Gérante",
-        "clinic": "Clinique Vétérinaire des Lilas, Paris"
+        "clinic": "Clinique Vétérinaire des Lilas, Paris",
+        "emirate": "Dubai",
+        "rating": "5"
       },
       "quote2": {
         "text": "Enfin des factures conformes à la TVA sans bidouillage manuel. Notre comptable est ravi.",
         "name": "Dr. Pierre Durand",
         "role": "Directeur de clinique",
-        "clinic": "Centre Vétérinaire du Parc, Lyon"
+        "clinic": "Centre Vétérinaire du Parc, Lyon",
+        "emirate": "Abu Dhabi",
+        "rating": "5"
       },
       "quote3": {
         "text": "La gestion des accès par rôle est exactement ce qu'il nous fallait. Les secrétaires gèrent les rendez-vous et la facturation pendant que les vétérinaires se concentrent sur la médecine.",
         "name": "Dr. Marie Lefebvre",
         "role": "Vétérinaire responsable",
-        "clinic": "Clinique des Animaux de Compagnie, Bordeaux"
+        "clinic": "Clinique des Animaux de Compagnie, Bordeaux",
+        "emirate": "Dubai",
+        "rating": "5"
       },
       "scroll_hint": "← Faites défiler pour en voir plus →"
     },
@@ -1265,18 +1272,29 @@
       }
     },
     "pricing_badge": {
-      "early_access": "Tarifs early access — réservés aux cliniques fondatrices",
-      "trial_under_plan": "Essai gratuit Pro 30 jours — sans carte bancaire"
+      "early_access": "Tarifs early access — garantis pour les cliniques fondatrices",
+      "trial_under_plan": "30 jours d'essai gratuit — sans carte bancaire"
     },
     "exit_intent": {
-      "headline": "Attendez ! Essai Pro gratuit de 30 jours",
-      "subtitle": "Rejoignez plus de 50 cliniques utilisant Vetara. Sans carte bancaire."
+      "headline": "Attendez ! Profitez de 30 jours d'essai gratuit",
+      "subtitle": "Rejoignez plus de 50 cliniques aux EAU qui utilisent déjà Vetara. Aucune carte bancaire requise.",
+      "cta": "Démarrer l'essai gratuit",
+      "email_placeholder": "Entrez votre adresse e-mail",
+      "success": "Nous vous recontactons très vite !"
+    },
+    "sticky_cta": {
+      "cta": "Démarrer l'essai gratuit",
+      "tagline": "Gagnez 2 heures par jour sur l'administration de votre clinique"
+    },
+    "footer_cta": {
+      "headline": "Prêt à transformer votre clinique ?",
+      "cta": "Démarrer l'essai gratuit"
     }
   },
   "portal": {
     "header": {
       "language": "Langue",
-      "arabic_label": "\u0639\u0631\u0628\u064a"
+      "arabic_label": "عربي"
     },
     "nav": {
       "conversations": "Conversations",
