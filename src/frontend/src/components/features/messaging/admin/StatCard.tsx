@@ -11,7 +11,7 @@ interface StatCardProps {
 
 export function StatCard({ title, value, description, className, testId }: StatCardProps) {
   return (
-    <Card className={cn("bg-white border-border/80 rounded-xl shadow-sm", className)} data-testid={testId ?? "stat-card"}>
+    <Card className={cn("border-border/80 shadow-sm", className)} data-testid={testId ?? "stat-card"}>
       <CardHeader className="pb-2">
         <CardTitle className="text-[13px] font-semibold text-muted-foreground">
           {title}

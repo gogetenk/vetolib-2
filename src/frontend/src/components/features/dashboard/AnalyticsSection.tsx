@@ -103,7 +103,7 @@ export function AnalyticsSection() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* No-show rate stat card */}
-        <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="analytics-no-show-card">
+        <Card className="border-border/80 shadow-sm" data-testid="analytics-no-show-card">
           <CardHeader className="pb-2">
             <CardTitle className="text-[13px] font-semibold text-muted-foreground">
               {t('no_show_rate')}
@@ -124,7 +124,7 @@ export function AnalyticsSection() {
         </Card>
 
         {/* Patients by species — pie chart */}
-        <Card className="lg:col-span-2 bg-white border-border/80 rounded-xl shadow-sm" data-testid="analytics-species-card">
+        <Card className="lg:col-span-2 border-border/80 shadow-sm" data-testid="analytics-species-card">
           <CardHeader className="pb-2">
             <CardTitle className="text-[13px] font-semibold text-muted-foreground">
               {t('patients_by_species')}
@@ -172,7 +172,7 @@ export function AnalyticsSection() {
       </div>
 
       {/* Revenue by month — bar chart */}
-      <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="analytics-revenue-card">
+      <Card className="border-border/80 shadow-sm" data-testid="analytics-revenue-card">
         <CardHeader className="pb-2">
           <CardTitle className="text-[13px] font-semibold text-muted-foreground">
             {t('revenue_by_month')} ({t('currency')})

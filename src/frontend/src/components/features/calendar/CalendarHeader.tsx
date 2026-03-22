@@ -73,37 +73,37 @@ export function CalendarHeader({
         <div className="flex items-center gap-2 bg-white rounded-full border border-border/80 p-1 shadow-sm">
           {/* Vet filter dropdown (like Weda personnel filter) */}
           <div className="relative" ref={filterRef} data-testid="calendar-vet-filter">
-            <button
+            <Button variant="ghost"
               className="flex items-center gap-2 rounded-full px-4 py-1.5 text-[13px] font-semibold text-foreground hover:bg-muted transition-all duration-200"
               onClick={() => setIsFilterOpen((prev) => !prev)}
               data-testid="calendar-vet-filter-btn"
             >
               {t('personal')}
               <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`} />
-            </button>
+            </Button>
 
             {/* Dropdown */}
             <div className={`absolute left-0 top-full mt-2 z-50 min-w-56 rounded-xl border border-border/80 bg-white p-2 shadow-lg transition-all duration-200 origin-top-left ${isFilterOpen ? 'opacity-100 scale-y-100 translate-y-0' : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'}`}>
-              <button
+              <Button variant="ghost"
                 className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-muted ${selectedVetIds.length === 0 ? 'font-semibold text-primary bg-primary/10' : 'text-foreground'}`}
                 onClick={() => onVetFilterChange([])}
               >
                 {t('allVets')}
-              </button>
+              </Button>
               {vets.map((vet) => (
-                <button
+                <Button variant="ghost"
                   key={vet.id}
                   className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-muted mt-1 ${selectedVetIds.includes(vet.id) ? 'font-semibold text-primary bg-primary/10' : 'text-foreground'}`}
                   onClick={() => handleVetToggle(vet.id)}
                 >
                   {vet.name}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
-          <button className="px-4 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted">
+          <Button variant="ghost" className="px-4 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground rounded-full hover:bg-muted">
             {t('team')}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -111,7 +111,7 @@ export function CalendarHeader({
       <div className="flex items-center justify-between px-2">
         {/* Left: Aujourd'hui */}
         <div className="flex-1 flex justify-start items-center gap-2">
-          <Button variant="outline" onClick={onToday} className="rounded-full px-4 md:px-6 font-semibold bg-primary text-primary-foreground border-primary hover:bg-primary/90 shadow-sm h-10">
+          <Button onClick={onToday} className="rounded-full px-4 md:px-6 font-semibold shadow-sm h-10">
             {t('today')}
           </Button>
         </div>
@@ -132,7 +132,7 @@ export function CalendarHeader({
           {/* View toggle -- hidden on mobile */}
           <div className="hidden md:flex rounded-full border border-border/80 bg-white p-1 shadow-sm h-10 items-center">
             {views.map((view) => (
-              <button
+              <Button variant="ghost"
                 key={view.key}
                 className={`px-4 py-1.5 text-[13px] font-semibold rounded-full transition-all duration-200 h-full ${
                   activeView === view.key
@@ -142,13 +142,13 @@ export function CalendarHeader({
                 onClick={() => onViewChange(view.key)}
               >
                 {view.label}
-              </button>
+              </Button>
             ))}
           </div>
 
           {/* New Appointment Button with Glow */}
           <Button 
-            className="rounded-full gap-2 px-3 md:px-6 h-10 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5 transition-all duration-200"
+            className="rounded-full gap-2 px-3 md:px-6 h-10 font-semibold shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5"
             onClick={onNewAppointment}
           >
             <Plus className="size-4" />

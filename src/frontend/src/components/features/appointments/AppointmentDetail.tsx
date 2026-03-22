@@ -112,7 +112,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
 
   return (
     <>
-      <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="appointment-detail">
+      <Card className="border-border/80 shadow-sm" data-testid="appointment-detail">
         <CardHeader className="flex flex-row items-start justify-between">
           <div>
             <CardTitle className="text-[18px] font-bold text-foreground" data-testid="detail-patient-name">{appointment.patientName}</CardTitle>

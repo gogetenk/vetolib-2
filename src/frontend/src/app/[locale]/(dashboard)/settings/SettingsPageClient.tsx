@@ -72,7 +72,7 @@ export default function SettingsPageClient() {
             className="block group"
             data-testid={link.testId}
           >
-            <Card className="h-full bg-white border-border/80 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:border-primary/30 cursor-pointer">
+            <Card className="h-full border-border/80 shadow-sm transition-all duration-200 hover:shadow-md hover:border-primary/30 cursor-pointer">
               <CardHeader>
                 <div className="flex items-start gap-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/15 transition-colors">

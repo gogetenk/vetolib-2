@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
 import { getConsultationColor } from './consultation-colors'
 import { transitionAppointment, cancelAppointment } from '@/lib/api/appointments'
 import type { AppointmentStatus, AppointmentAction } from '@/lib/api/appointments'
@@ -213,7 +214,7 @@ export function AppointmentDetailSheet({
                 </div>
                 
                 <Link href={`/${locale}/patients/${appointment.patientId ?? ''}`}>
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-11 shadow-sm mt-2 flex items-center gap-2">
+                  <Button size="lg" className="w-full font-semibold rounded-xl h-11 shadow-sm mt-2 flex items-center gap-2">
                     Consulter le dossier patient
                     <ExternalLinkIcon className="w-4 h-4" />
                   </Button>
@@ -232,7 +233,7 @@ export function AppointmentDetailSheet({
                     <span className="w-1 h-5 bg-primary rounded-full"></span>
                     Le rendez-vous
                   </h3>
-                  <Badge className={`${STATUS_BADGE_VARIANT[appointment.status]} border-0 rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider`}>
+                  <Badge className={`${STATUS_BADGE_VARIANT[appointment.status]} border-0 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider`}>
                     {appointment.status.replace('_', ' ')}
                   </Badge>
                 </div>
@@ -274,15 +275,15 @@ export function AppointmentDetailSheet({
                   </div>
                   {/* Fake input for discussion like Weda */}
                   <div className="relative mt-auto border-t border-border/50 pt-3">
-                    <input 
+                    <Input 
                       type="text" 
                       placeholder="Écrire une note..." 
-                      className="w-full bg-muted/50 border border-border rounded-xl pl-4 pr-12 py-2.5 text-[13px] focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="w-full bg-muted/50 rounded-xl pl-4 pr-12 py-2.5 text-[13px]"
                       disabled
                     />
-                    <button className="absolute right-1.5 top-[18px] w-7 h-7 bg-primary text-primary-foreground rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors" disabled>
+                    <Button size="icon-sm" className="absolute right-1.5 top-[18px] rounded-lg" disabled>
                       <SendIcon className="w-3.5 h-3.5 ml-0.5" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

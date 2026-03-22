@@ -40,7 +40,7 @@ export default function ProfilePageClient() {
         </p>
       </div>
 
-      <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="profile-card">
+      <Card className="border-border/80 shadow-sm" data-testid="profile-card">
         <CardHeader>
           <CardTitle className="text-[15px] font-bold text-foreground">Account Details</CardTitle>
           <CardDescription className="text-[13px] text-muted-foreground">Your personal information and role within the clinic.</CardDescription>
@@ -94,7 +94,7 @@ export default function ProfilePageClient() {
         </CardContent>
       </Card>
 
-      <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="profile-security-card">
+      <Card className="border-border/80 shadow-sm" data-testid="profile-security-card">
         <CardHeader>
           <CardTitle className="text-[15px] font-bold text-foreground">Security</CardTitle>
           <CardDescription className="text-[13px] text-muted-foreground">Manage your password and security settings.</CardDescription>

@@ -254,7 +254,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       )}
 
       {/* Header — single row: invoice number (left), status (center), date (right) */}
-      <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+      <Card className="border-border/80 shadow-sm">
         <CardHeader>
           <div className="flex items-center justify-between" data-testid="invoice-detail-header">
             <span className="text-[16px] font-bold text-foreground" data-testid="invoice-detail-number">
@@ -279,7 +279,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       </Card>
 
       {/* Client Info + Clinic */}
-      <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+      <Card className="border-border/80 shadow-sm">
         <CardHeader className="pb-2">
           <CardTitle className="text-[15px] font-bold text-foreground">{t("client")}</CardTitle>
         </CardHeader>
@@ -298,7 +298,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       </Card>
 
       {/* Line Items */}
-      <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+      <Card className="border-border/80 shadow-sm">
         <CardHeader className="pb-2">
           <CardTitle className="text-[15px] font-bold text-foreground">{t("items")}</CardTitle>
         </CardHeader>
@@ -346,7 +346,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
 
       {/* Notes */}
       {invoice.notes && (
-        <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+        <Card className="border-border/80 shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-[15px] font-bold text-foreground">{t("notes")}</CardTitle>
           </CardHeader>

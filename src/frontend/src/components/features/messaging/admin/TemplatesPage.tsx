@@ -100,7 +100,7 @@ export function TemplatesPage() {
           </h2>
           <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("templates.subtitle")}</p>
         </div>
-        <Button data-testid="add-template-btn" onClick={handleAddClick} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm">
+        <Button data-testid="add-template-btn" onClick={handleAddClick} className="font-semibold rounded-xl h-10 px-5 shadow-sm">
           {t("templates.add")}
         </Button>
       </div>

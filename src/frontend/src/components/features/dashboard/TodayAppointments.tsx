@@ -98,7 +98,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   }
 
   return (
-    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="today-appointments-card">
+    <Card className="border-border/80 shadow-sm" data-testid="today-appointments-card">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-[15px] font-bold text-foreground flex items-center gap-2">
           <span className="w-1 h-4 bg-primary rounded-full"></span>

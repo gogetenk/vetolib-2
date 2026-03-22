@@ -126,7 +126,7 @@ export function InvoiceForm() {
     <form onSubmit={handleSubmit} data-testid="invoice-form">
       <div className="space-y-6">
         {/* Patient Selection */}
-        <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+        <Card className="border-border/80 shadow-sm">
           <CardHeader>
             <CardTitle className="text-[15px] font-bold text-foreground">{t('patient_section')}</CardTitle>
           </CardHeader>
@@ -190,7 +190,7 @@ export function InvoiceForm() {
         </Card>
 
         {/* Line Items */}
-        <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+        <Card className="border-border/80 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-[15px] font-bold text-foreground">{t('items_section')}</CardTitle>
@@ -286,7 +286,7 @@ export function InvoiceForm() {
         </Card>
 
         {/* Notes */}
-        <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+        <Card className="border-border/80 shadow-sm">
           <CardHeader>
             <CardTitle className="text-[15px] font-bold text-foreground">{t('notes_section')}</CardTitle>
           </CardHeader>

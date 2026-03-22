@@ -81,7 +81,7 @@ export function SetupChecklist({ role }: SetupChecklistProps) {
   }
 
   return (
-    <Card data-testid="setup-checklist" id="setup-checklist" className="w-full bg-white border-border/80 rounded-xl shadow-sm">
+    <Card data-testid="setup-checklist" id="setup-checklist" className="w-full border-border/80 shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <h2 className="text-[15px] font-bold leading-none tracking-tight text-foreground">

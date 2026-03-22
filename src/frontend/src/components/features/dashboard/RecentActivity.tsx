@@ -62,7 +62,7 @@ export function RecentActivity() {
   }, [load])
 
   return (
-    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="recent-activity-card">
+    <Card className="border-border/80 shadow-sm" data-testid="recent-activity-card">
       <CardHeader className="pb-2">
         <CardTitle className="text-[15px] font-bold text-foreground flex items-center gap-2">
           <span className="w-1 h-4 bg-primary rounded-full"></span>

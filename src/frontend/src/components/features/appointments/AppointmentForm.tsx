@@ -121,7 +121,7 @@ export function AppointmentForm() {
   }
 
   return (
-    <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+    <Card className="border-border/80 shadow-sm">
       <CardHeader>
         <CardTitle className="text-[18px] font-bold text-foreground">{t('title')}</CardTitle>
       </CardHeader>

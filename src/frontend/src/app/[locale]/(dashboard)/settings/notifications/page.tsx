@@ -98,7 +98,7 @@ export default function NotificationSettingsPage() {
 
       {/* Appointment Reminders */}
       <Card
-        className="bg-white border-border/80 rounded-xl shadow-sm"
+        className="border-border/80 shadow-sm"
         data-testid="appointment-reminders-section"
       >
         <CardHeader>
@@ -168,7 +168,7 @@ export default function NotificationSettingsPage() {
 
       {/* Vaccination Reminders */}
       <Card
-        className="bg-white border-border/80 rounded-xl shadow-sm"
+        className="border-border/80 shadow-sm"
         data-testid="vaccination-reminders-section"
       >
         <CardHeader>
@@ -205,7 +205,7 @@ export default function NotificationSettingsPage() {
 
       {/* Follow-up Reminders */}
       <Card
-        className="bg-white border-border/80 rounded-xl shadow-sm"
+        className="border-border/80 shadow-sm"
         data-testid="followup-reminders-section"
       >
         <CardHeader>
@@ -288,7 +288,7 @@ export default function NotificationSettingsPage() {
 
       {/* Reminder Logs */}
       <Card
-        className="bg-white border-border/80 rounded-xl shadow-sm"
+        className="border-border/80 shadow-sm"
         data-testid="reminder-logs-section"
       >
         <CardHeader>
