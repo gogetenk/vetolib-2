@@ -48,16 +48,24 @@ internal class Owner : BaseEntity, IMultiTenant
         return Result<Owner>.Success(owner);
     }
 
-    public void UpdatePhone(string phone)
+    public Result UpdatePhone(string phone)
     {
+        if (string.IsNullOrWhiteSpace(phone))
+            return Result.Invalid(new ValidationError(nameof(phone), "Phone cannot be empty"));
+
         Phone = phone.Trim();
+        return Result.Success();
     }
 
-    public void UpdateName(string fullName)
+    public Result UpdateName(string fullName)
     {
+        if (string.IsNullOrWhiteSpace(fullName))
+            return Result.Invalid(new ValidationError(nameof(fullName), "Name cannot be empty"));
+
         var parts = fullName.Trim().Split(' ', 2);
         FirstName = parts[0];
         LastName = parts.Length > 1 ? parts[1] : LastName;
+        return Result.Success();
     }
 
     public OwnerDto ToDto()

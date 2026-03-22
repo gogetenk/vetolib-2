@@ -59,9 +59,13 @@ internal class MedicalRecord : BaseEntity, IMultiTenant, IAggregateRoot
         return Result<MedicalRecord>.Success(record);
     }
 
-    public void AddPrescription(Prescription prescription)
+    public Result AddPrescription(Prescription prescription)
     {
+        if (prescription is null)
+            return Result.Error("Prescription cannot be null");
+
         _prescriptions.Add(prescription);
+        return Result.Success();
     }
 
     public MedicalRecordDto ToDto()

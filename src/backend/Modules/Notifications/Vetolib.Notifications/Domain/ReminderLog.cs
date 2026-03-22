@@ -43,15 +43,23 @@ internal class ReminderLog : BaseEntity, IMultiTenant
         return Result<ReminderLog>.Success(log);
     }
 
-    public void MarkSent()
+    public Result MarkSent()
     {
+        if (DeliveryStatus == DeliveryStatus.Sent)
+            return Result.Error("Reminder has already been marked as sent");
+
         DeliveryStatus = DeliveryStatus.Sent;
         UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
     }
 
-    public void MarkFailed()
+    public Result MarkFailed()
     {
+        if (DeliveryStatus == DeliveryStatus.Failed)
+            return Result.Error("Reminder has already been marked as failed");
+
         DeliveryStatus = DeliveryStatus.Failed;
         UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
     }
 }

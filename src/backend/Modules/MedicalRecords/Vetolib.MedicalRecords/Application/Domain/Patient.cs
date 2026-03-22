@@ -81,14 +81,25 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
-    public void SetWeight(decimal weightKg)
+    public Result SetWeight(decimal weightKg)
     {
+        if (weightKg <= 0)
+            return Result.Invalid(new ValidationError(nameof(weightKg), "Weight must be greater than zero"));
+
         WeightKg = weightKg;
+        return Result.Success();
     }
 
-    public void AddOwner(PatientOwner patientOwner)
+    public Result AddOwner(PatientOwner patientOwner)
     {
+        if (patientOwner is null)
+            return Result.Error("PatientOwner cannot be null");
+
+        if (_patientOwners.Any(po => po.OwnerId == patientOwner.OwnerId))
+            return Result.Error("This owner is already linked to the patient");
+
         _patientOwners.Add(patientOwner);
+        return Result.Success();
     }
 
     public PatientDto ToDto()
