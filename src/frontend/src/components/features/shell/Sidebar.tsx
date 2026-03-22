@@ -7,7 +7,6 @@ import {
   CalendarDays,
   LayoutDashboard,
   PawPrint,
-  ClipboardList,
   CreditCard,
   Settings,
   User,
@@ -53,17 +52,6 @@ function getMainNavItems(t: (key: string) => string): NavItem[] {
       label: t("patients"),
       icon: <PawPrint className="h-5 w-5" />,
       testId: "nav-patients",
-    },
-    {
-      href: "/medical-records",
-      label: t("medical_records"),
-      icon: <ClipboardList className="h-5 w-5" />,
-      testId: "nav-medical-records",
-      // RECEPTIONIST cannot see medical records
-      roles: ["VET", "ASSISTANT"],
-      badge: t("read_only"),
-      // badge only shown for ASSISTANT role
-      badgeForRoles: ["ASSISTANT"],
     },
     {
       href: "/billing",

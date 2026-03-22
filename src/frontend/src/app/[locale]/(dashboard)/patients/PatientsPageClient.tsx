@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { Plus, Upload, ClipboardList } from 'lucide-react'
+import { Plus, Upload, ClipboardList, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { PatientCard } from '@/components/features/patients/PatientCard'
@@ -23,20 +23,26 @@ export default function PatientsPageClient() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showImportDialog, setShowImportDialog] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalCount, setTotalCount] = useState(0)
+  const pageSize = 12
   const role = useRole()
 
   const canWrite = role === 'VET' || role === 'ADMIN'
 
-  const fetchPatients = useCallback(async (search?: string): Promise<number> => {
+  const fetchPatients = useCallback(async (search?: string, page = 1): Promise<number> => {
     setIsLoading(true)
     setError(null)
     try {
-      const result = await getPatients({ search: search || undefined })
+      const result = await getPatients({ search: search || undefined, page, pageSize })
       setPatients(result.items)
+      setTotalCount(result.totalCount)
+      setCurrentPage(result.page)
       return result.items.length
     } catch {
       setError('Failed to load patients')
       setPatients([])
+      setTotalCount(0)
       return 0
     } finally {
       setIsLoading(false)
@@ -49,14 +55,15 @@ export default function PatientsPageClient() {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
+      setCurrentPage(1)
       if (searchQuery.length > 0) {
-        const count = await fetchPatients(searchQuery)
+        const count = await fetchPatients(searchQuery, 1)
         trackEvent(AnalyticsEvents.PATIENT_SEARCHED, {
           query_length: String(searchQuery.length),
           has_results: String(count > 0),
         })
       } else {
-        fetchPatients(searchQuery)
+        fetchPatients(searchQuery, 1)
       }
     }, 300)
     return () => clearTimeout(timer)
@@ -105,9 +112,9 @@ export default function PatientsPageClient() {
           data-testid="search-input"
           className="w-full bg-white border-border/80 rounded-xl h-11 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-[#303ef5]/20 focus:border-[#303ef5]/50 focus:shadow-md"
         />
-        {!isLoading && !error && patients.length > 0 && (
+        {!isLoading && !error && totalCount > 0 && (
           <p className="text-[13px] text-muted-foreground font-medium" data-testid="patients-count">
-            {patients.length} {patients.length === 1 ? 'patient' : 'patients'}
+            {totalCount} {totalCount === 1 ? 'patient' : 'patients'}
           </p>
         )}
       </div>
@@ -160,6 +167,40 @@ export default function PatientsPageClient() {
           ))}
         </div>
       )}
+
+      {/* Pagination */}
+      {!isLoading && !error && totalCount > pageSize && (() => {
+        const totalPages = Math.ceil(totalCount / pageSize)
+        return (
+          <div className="flex items-center justify-center gap-2 pt-2" data-testid="patients-pagination">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={currentPage <= 1}
+              onClick={() => fetchPatients(searchQuery, currentPage - 1)}
+              data-testid="pagination-prev"
+              className="rounded-xl h-9 px-3"
+            >
+              <ChevronLeft className="h-4 w-4 me-1" />
+              Previous
+            </Button>
+            <span className="text-[13px] text-muted-foreground font-medium px-3" data-testid="pagination-info">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={currentPage >= totalPages}
+              onClick={() => fetchPatients(searchQuery, currentPage + 1)}
+              data-testid="pagination-next"
+              className="rounded-xl h-9 px-3"
+            >
+              Next
+              <ChevronRight className="h-4 w-4 ms-1" />
+            </Button>
+          </div>
+        )
+      })()}
 
       {canWrite && (
         <CsvImportDialog

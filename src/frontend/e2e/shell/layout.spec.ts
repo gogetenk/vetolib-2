@@ -21,29 +21,6 @@ const FAKE_VET_TOKEN =
   ).replace(/=/g, "") +
   ".fake-signature";
 
-const FAKE_RECEPTIONIST_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9." +
-  btoa(
-    JSON.stringify({
-      sub: "sara@vetclinic-dubai.com",
-      name: "Sara Al Zaabi",
-      role: "RECEPTIONIST",
-      exp: Math.floor(Date.now() / 1000) + 3600,
-    })
-  ).replace(/=/g, "") +
-  ".fake-signature";
-
-const FAKE_ASSISTANT_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9." +
-  btoa(
-    JSON.stringify({
-      sub: "khalid@vetclinic-dubai.com",
-      name: "Khalid Al Hamdan",
-      role: "ASSISTANT",
-      exp: Math.floor(Date.now() / 1000) + 3600,
-    })
-  ).replace(/=/g, "") +
-  ".fake-signature";
 
 async function loginAs(
   page: import("@playwright/test").Page,
@@ -80,7 +57,6 @@ test.describe("Dashboard Layout — Shell", () => {
     await expect(page.getByTestId("dashboard-sidebar")).toBeVisible();
     await expect(page.getByTestId("nav-appointments")).toBeVisible();
     await expect(page.getByTestId("nav-patients")).toBeVisible();
-    await expect(page.getByTestId("nav-medical-records")).toBeVisible();
     await expect(page.getByTestId("nav-billing")).toBeVisible();
   });
 
@@ -88,27 +64,6 @@ test.describe("Dashboard Layout — Shell", () => {
     await loginAs(page, FAKE_VET_TOKEN);
     const appointmentsLink = page.getByTestId("nav-appointments");
     await expect(appointmentsLink).toHaveAttribute("aria-current", "page");
-  });
-
-  test("RECEPTIONIST does not see Medical Records in sidebar", async ({
-    page,
-  }) => {
-    await loginAs(page, FAKE_RECEPTIONIST_TOKEN);
-    await expect(page.getByTestId("nav-appointments")).toBeVisible();
-    await expect(page.getByTestId("nav-medical-records")).not.toBeVisible();
-  });
-
-  test("ASSISTANT sees Medical Records with Read only badge", async ({
-    page,
-  }) => {
-    await loginAs(page, FAKE_ASSISTANT_TOKEN);
-    await expect(page.getByTestId("nav-medical-records")).toBeVisible();
-    await expect(
-      page.getByTestId("nav-medical-records-badge")
-    ).toBeVisible();
-    await expect(page.getByTestId("nav-medical-records-badge")).toHaveText(
-      "Read only"
-    );
   });
 
   test("UserMenu dropdown opens and shows sign out option", async ({
