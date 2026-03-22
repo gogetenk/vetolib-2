@@ -2,6 +2,7 @@ using Ardalis.Result;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Vetolib.Messaging.Application.Domain;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Contracts;
@@ -34,19 +35,28 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ITriageOrchestrator _triageOrchestrator;
     private readonly IMessageRouter _router;
+    private readonly IMessageClassifier _classifier;
+    private readonly IPublisher _publisher;
+    private readonly ILogger<CreateOwnerConversationHandler> _logger;
 
     public CreateOwnerConversationHandler(
         MessagingDbContext context,
         IBusinessHoursChecker businessHoursChecker,
         IPublishEndpoint publishEndpoint,
         ITriageOrchestrator triageOrchestrator,
-        IMessageRouter router)
+        IMessageRouter router,
+        IMessageClassifier classifier,
+        IPublisher publisher,
+        ILogger<CreateOwnerConversationHandler> logger)
     {
         _context = context;
         _businessHoursChecker = businessHoursChecker;
         _publishEndpoint = publishEndpoint;
         _triageOrchestrator = triageOrchestrator;
         _router = router;
+        _classifier = classifier;
+        _publisher = publisher;
+        _logger = logger;
     }
 
     public async Task<Result<CreateOwnerConversationResponse>> Handle(
@@ -113,6 +123,39 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
 
         // 6. AI triage — updates category, confidence, and routing (falls back gracefully)
         await _triageOrchestrator.ApplyTriageAsync(conversation, request.Body, cancellationToken);
+
+        // 6b. Classify the first message (AI classification is fire-and-forget safe)
+        try
+        {
+            var classification = await _classifier.ClassifyAsync(
+                request.Body, subject, cancellationToken);
+
+            if (classification is not null)
+            {
+                var flagForReview = classification.Confidence < 0.6;
+                messageResult.Value.ApplyClassification(
+                    classification.Urgency,
+                    classification.Category,
+                    classification.Confidence,
+                    flagForReview);
+
+                // Publish urgent classification event
+                if (classification.Urgency == ClassifiedUrgency.Critical)
+                {
+                    var classPreview = request.Body.Length > 100 ? request.Body[..100] + "..." : request.Body;
+                    await _publisher.Publish(new UrgentMessageClassifiedEvent(
+                        messageResult.Value.Id,
+                        conversation.Id,
+                        request.ClinicId,
+                        classification.Urgency,
+                        classPreview), cancellationToken);
+                }
+            }
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            _logger.LogWarning(ex, "Message classification failed for new conversation. Continuing without classification.");
+        }
 
         _context.Conversations.Add(conversation);
 
