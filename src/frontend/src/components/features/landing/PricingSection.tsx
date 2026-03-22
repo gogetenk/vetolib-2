@@ -89,7 +89,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                 aria-pressed={!annual}
                 className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                   !annual
-                    ? "bg-emerald-700 text-white shadow"
+                    ? "bg-primary text-white shadow"
                     : "text-stone-600 hover:text-stone-900"
                 }`}
               >
@@ -102,13 +102,13 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                 aria-pressed={annual}
                 className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                   annual
-                    ? "bg-emerald-700 text-white shadow"
+                    ? "bg-primary text-white shadow"
                     : "text-stone-600 hover:text-stone-900"
                 }`}
               >
                 {m.toggle_annual}
                 {!annual && (
-                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+                  <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold text-primary">
                     {m.annual_savings}
                   </span>
                 )}
@@ -125,13 +125,13 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                 data-testid={`pricing-plan-${key}`}
                 className={`flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
                   highlighted
-                    ? "relative border-2 border-emerald-700 shadow-lg"
+                    ? "relative border-2 border-primary shadow-lg"
                     : "border border-stone-200 shadow-sm"
                 }`}
               >
                 {plan.badge && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-emerald-700 px-4 py-1 text-xs font-semibold text-white">
+                    <Badge className="bg-primary px-4 py-1 text-xs font-semibold text-white">
                       {plan.badge}
                     </Badge>
                   </div>
@@ -139,7 +139,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                 <CardHeader className={`p-6 pb-0 ${plan.badge ? "pt-8" : ""}`}>
                   <p
                     className={`text-sm font-semibold uppercase tracking-wide ${
-                      highlighted ? "text-emerald-700" : "text-stone-500"
+                      highlighted ? "text-primary" : "text-stone-500"
                     }`}
                   >
                     {plan.name}
@@ -165,7 +165,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <Check
-                          className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"
+                          className="mt-0.5 h-4 w-4 shrink-0 text-primary/85"
                           aria-hidden="true"
                         />
                         <span className="text-sm text-stone-700">{feature}</span>
@@ -196,8 +196,8 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                         variant={ctaVariant}
                         className={`w-full font-semibold ${
                           highlighted
-                            ? "bg-emerald-700 text-white hover:bg-emerald-800"
-                            : "border-emerald-700 text-emerald-700 hover:bg-emerald-50"
+                            ? "bg-primary text-white hover:bg-primary/90"
+                            : "border-primary text-primary hover:bg-accent"
                         }`}
                         data-testid={`btn-pricing-${key}`}
                       >

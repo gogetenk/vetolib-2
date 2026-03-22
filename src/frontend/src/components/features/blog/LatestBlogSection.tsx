@@ -39,7 +39,7 @@ export function LatestBlogSection({ locale }: LatestBlogSectionProps) {
         <div className="mt-10 text-center">
           <Link
             href={`/${locale}/blog`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/90 transition-colors"
             data-testid="landing-blog-view-all"
           >
             View all articles

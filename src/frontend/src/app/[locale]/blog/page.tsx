@@ -38,7 +38,7 @@ export default async function BlogListPage({ params, searchParams }: Props) {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <Link
             href={`/${locale}`}
-            className="text-xl font-bold tracking-tight text-emerald-700"
+            className="text-xl font-bold tracking-tight text-primary"
             data-testid="blog-nav-logo"
           >
             Vetara
@@ -46,14 +46,14 @@ export default async function BlogListPage({ params, searchParams }: Props) {
           <div className="flex items-center gap-4">
             <Link
               href={`/${locale}`}
-              className="text-sm font-medium text-stone-600 hover:text-emerald-700 transition-colors"
+              className="text-sm font-medium text-stone-600 hover:text-primary transition-colors"
               data-testid="blog-nav-home"
             >
               Home
             </Link>
             <Link
               href={`/${locale}/blog`}
-              className="text-sm font-medium text-emerald-700"
+              className="text-sm font-medium text-primary"
               data-testid="blog-nav-blog"
             >
               Blog

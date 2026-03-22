@@ -106,7 +106,7 @@ export default async function BlogArticlePage({ params }: Props) {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <Link
             href={`/${locale}`}
-            className="text-xl font-bold tracking-tight text-emerald-700"
+            className="text-xl font-bold tracking-tight text-primary"
             data-testid="article-nav-logo"
           >
             Vetara
@@ -114,14 +114,14 @@ export default async function BlogArticlePage({ params }: Props) {
           <div className="flex items-center gap-4">
             <Link
               href={`/${locale}`}
-              className="text-sm font-medium text-stone-600 hover:text-emerald-700 transition-colors"
+              className="text-sm font-medium text-stone-600 hover:text-primary transition-colors"
               data-testid="article-nav-home"
             >
               Home
             </Link>
             <Link
               href={`/${locale}/blog`}
-              className="text-sm font-medium text-stone-600 hover:text-emerald-700 transition-colors"
+              className="text-sm font-medium text-stone-600 hover:text-primary transition-colors"
               data-testid="article-nav-blog"
             >
               Blog
@@ -133,7 +133,7 @@ export default async function BlogArticlePage({ params }: Props) {
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <Link
           href={`/${locale}/blog`}
-          className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 hover:text-emerald-800 transition-colors"
+          className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/90 transition-colors"
           data-testid="article-back-link"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -148,7 +148,7 @@ export default async function BlogArticlePage({ params }: Props) {
                   <Link
                     key={tag}
                     href={`/${locale}/blog?tag=${encodeURIComponent(tag)}`}
-                    className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-100 transition-colors"
+                    className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-primary hover:bg-secondary transition-colors"
                     data-testid={`article-tag-${tag.toLowerCase().replace(/\s+/g, "-")}`}
                   >
                     {tag}
@@ -181,16 +181,16 @@ export default async function BlogArticlePage({ params }: Props) {
             </header>
 
             <div
-              className="mb-10 aspect-[16/9] w-full rounded-xl bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center"
+              className="mb-10 aspect-[16/9] w-full rounded-xl bg-gradient-to-br from-secondary to-accent/50 flex items-center justify-center"
               data-testid="article-featured-image"
             >
-              <span className="text-lg font-medium text-emerald-700/50">
+              <span className="text-lg font-medium text-primary/50">
                 Featured Image
               </span>
             </div>
 
             <div
-              className="prose prose-stone prose-lg max-w-none prose-headings:scroll-mt-20 prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:leading-relaxed prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline prose-strong:text-stone-900 prose-table:text-sm prose-th:bg-stone-50 prose-th:p-3 prose-td:p-3"
+              className="prose prose-stone prose-lg max-w-none prose-headings:scroll-mt-20 prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-stone-900 prose-table:text-sm prose-th:bg-stone-50 prose-th:p-3 prose-td:p-3"
               dangerouslySetInnerHTML={{ __html: article.content }}
               data-testid="article-body"
             />
@@ -199,7 +199,7 @@ export default async function BlogArticlePage({ params }: Props) {
               className="mt-12 flex items-center gap-4 rounded-xl border border-stone-100 bg-stone-50 p-6"
               data-testid="article-author"
             >
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-lg font-bold text-emerald-700">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-secondary text-lg font-bold text-primary">
                 {article.author.name
                   .split(" ")
                   .map((n) => n[0])

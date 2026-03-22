@@ -23,7 +23,7 @@ export function FinalCtaSection({
   return (
     <section
       data-testid="section-final-cta"
-      className="bg-emerald-700 py-20 sm:py-28"
+      className="bg-primary py-20 sm:py-28"
     >
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
         <ScrollReveal direction="fade-up">
@@ -32,7 +32,7 @@ export function FinalCtaSection({
           </h2>
         </ScrollReveal>
         <ScrollReveal direction="fade-up" delay={150}>
-          <p className="mt-6 text-lg leading-relaxed text-emerald-100">
+          <p className="mt-6 text-lg leading-relaxed text-primary-foreground">
             {subtitle}
           </p>
         </ScrollReveal>
@@ -41,7 +41,7 @@ export function FinalCtaSection({
             <Link href={loginHref} data-testid="final-cta-button">
               <Button
                 size="lg"
-                className="bg-white px-10 text-base font-semibold text-emerald-700 transition-all duration-300 hover:bg-emerald-50 hover:shadow-lg hover:shadow-white/25 hover:scale-[1.02]"
+                className="bg-white px-10 text-base font-semibold text-primary transition-all duration-300 hover:bg-accent hover:shadow-lg hover:shadow-white/25 hover:scale-[1.02]"
                 onClick={() => trackEvent(AnalyticsEvents.CTA_FINAL)}
                 data-testid="btn-final-cta"
               >
@@ -49,7 +49,7 @@ export function FinalCtaSection({
               </Button>
             </Link>
           </div>
-          <p className="mt-4 text-sm text-emerald-200">{reassurance}</p>
+          <p className="mt-4 text-sm text-primary-foreground/70">{reassurance}</p>
         </ScrollReveal>
       </div>
     </section>

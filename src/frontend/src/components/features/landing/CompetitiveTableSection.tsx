@@ -32,8 +32,8 @@ function StatusIcon({ status }: { status: CellStatus }) {
   switch (status) {
     case "yes":
       return (
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100">
-          <Check className="h-4 w-4 text-emerald-700" aria-label="Yes" />
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-secondary">
+          <Check className="h-4 w-4 text-primary" aria-label="Yes" />
         </span>
       );
     case "no":
@@ -78,7 +78,7 @@ export function CompetitiveTableSection({ messages: m }: Props) {
                   <th className="px-6 py-4 text-start font-semibold text-stone-700">
                     {m.columns.feature}
                   </th>
-                  <th className="px-4 py-4 text-center font-bold text-emerald-700">
+                  <th className="px-4 py-4 text-center font-bold text-primary">
                     {m.columns.vetolib}
                   </th>
                   <th className="px-4 py-4 text-center font-semibold text-stone-500">

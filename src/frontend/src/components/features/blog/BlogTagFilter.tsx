@@ -18,7 +18,7 @@ export function BlogTagFilter({ tags, activeTag, locale }: BlogTagFilterProps) {
         href={`/${locale}/blog`}
         className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
           !activeTag
-            ? "bg-emerald-700 text-white"
+            ? "bg-primary text-white"
             : "bg-stone-100 text-stone-600 hover:bg-stone-200"
         }`}
         data-testid="blog-tag-all"
@@ -31,7 +31,7 @@ export function BlogTagFilter({ tags, activeTag, locale }: BlogTagFilterProps) {
           href={`/${locale}/blog?tag=${encodeURIComponent(tag)}`}
           className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
             activeTag === tag
-              ? "bg-emerald-700 text-white"
+              ? "bg-primary text-white"
               : "bg-stone-100 text-stone-600 hover:bg-stone-200"
           }`}
           data-testid={`blog-tag-${tag.toLowerCase().replace(/\s+/g, "-")}`}
