@@ -15,8 +15,8 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s — Vetolib",
-    default: "Vetolib — Veterinary Clinic Management",
+    template: "%s — Vetara",
+    default: "Vetara — Veterinary Clinic Management",
   },
   description:
     "Manage appointments, patients, medical records, and billing for your veterinary clinic.",

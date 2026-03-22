@@ -2,7 +2,7 @@
   <rect width="720" height="460" fill="#f0fdf4"/>
   <!-- Header bar -->
   <rect x="0" y="0" width="720" height="48" fill="#065f46"/>
-  <text x="24" y="30" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="white">Vetolib</text>
+  <text x="24" y="30" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="white">Vetara</text>
   <rect x="580" y="12" width="120" height="24" rx="4" fill="#10b981"/>
   <text x="640" y="28" font-family="system-ui, sans-serif" font-size="11" fill="white" text-anchor="middle">New Appointment</text>
 

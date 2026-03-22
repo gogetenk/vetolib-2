@@ -45,7 +45,7 @@ export function MobileLandingNav({ links, signInLabel, ctaLabel, loginHref, sign
         <SheetContent side="right" data-testid="landing-mobile-menu-sheet" className="w-72">
           <SheetHeader className="border-b pb-4">
             <SheetTitle className="text-lg font-bold text-emerald-700">
-              Vetolib
+              Vetara
             </SheetTitle>
           </SheetHeader>
           <nav className="flex flex-col gap-2 pt-4">

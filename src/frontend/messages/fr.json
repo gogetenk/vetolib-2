@@ -3,7 +3,7 @@
     "signup": {
       "title": "Créez votre clinique",
       "heading": "Créer un compte",
-      "meta_title": "Créez votre clinique — Vetolib",
+      "meta_title": "Créez votre clinique — Vetara",
       "meta_description": "Commencez votre essai gratuit de 14 jours. Gérez les rendez-vous, dossiers médicaux et la facturation de votre clinique vétérinaire.",
       "subtitle": "Essai gratuit de 14 jours. Aucune carte bancaire requise.",
       "clinic_name": "Nom de la clinique",
@@ -909,7 +909,7 @@
   },
   "landing": {
     "meta": {
-      "title": "Vetolib — La plateforme intelligente de gestion de clinique vétérinaire",
+      "title": "Vetara — La plateforme intelligente de gestion de clinique vétérinaire",
       "description": "Plateforme de gestion de clinique vétérinaire — triage IA, intégration WhatsApp, support français + anglais + arabe, et facturation conforme TVA. Offre gratuite disponible."
     },
     "nav": {
@@ -925,7 +925,7 @@
       "cta_primary": "Démarrer l'essai gratuit",
       "cta_secondary": "Réserver une démo",
       "trust_badge": "Utilisé par plus de 50 cliniques",
-      "image_alt": "Tableau de bord Vetolib affichant les rendez-vous et les dossiers de santé des patients"
+      "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients"
     },
     "social_proof": {
       "clinics": "50+ cliniques",
@@ -939,7 +939,7 @@
     },
     "new_features": {
       "title": "Conçu pour la clinique vétérinaire de demain",
-      "subtitle": "Vetolib combine des dossiers de santé animale partagés, des outils IA intelligents et une gestion fluide de la clinique — le tout en une seule plateforme.",
+      "subtitle": "Vetara combine des dossiers de santé animale partagés, des outils IA intelligents et une gestion fluide de la clinique — le tout en une seule plateforme.",
       "health_passport": {
         "title": "Passeport santé animal partagé",
         "description": "Chaque animal dispose d'un dossier de santé permanent accessible depuis n'importe quelle clinique — avec le consentement du propriétaire. Consultations, vaccinations, prescriptions et diagnostics, toujours disponibles où que l'animal soit vu.",
@@ -1093,11 +1093,11 @@
       }
     },
     "competitive": {
-      "title": "Pourquoi Vetolib ?",
-      "subtitle": "Découvrez comment Vetolib se compare aux autres solutions de gestion vétérinaire.",
+      "title": "Pourquoi Vetara ?",
+      "subtitle": "Découvrez comment Vetara se compare aux autres solutions de gestion vétérinaire.",
       "columns": {
         "feature": "Fonctionnalité",
-        "vetolib": "Vetolib",
+        "vetolib": "Vetara",
         "ezyvet": "ezyVet",
         "digitail": "Digitail"
       },
@@ -1120,7 +1120,7 @@
     },
     "demo_form": {
       "title": "Réserver une démo",
-      "subtitle": "Découvrez Vetolib en action. Remplissez le formulaire et notre équipe planifiera une présentation personnalisée.",
+      "subtitle": "Découvrez Vetara en action. Remplissez le formulaire et notre équipe planifiera une présentation personnalisée.",
       "clinic_name": "Nom de la clinique",
       "clinic_name_placeholder": "ex. Clinique Vétérinaire des Lilas",
       "email": "E-mail",
@@ -1135,10 +1135,10 @@
     },
     "testimonials": {
       "title": "Des cliniques vétérinaires nous font confiance",
-      "subtitle": "Découvrez ce que les propriétaires et responsables de cliniques disent de Vetolib.",
+      "subtitle": "Découvrez ce que les propriétaires et responsables de cliniques disent de Vetara.",
       "disclaimer": "Ces témoignages sont des exemples illustratifs. De vrais témoignages seront ajoutés avant le lancement.",
       "quote1": {
-        "text": "Nous sommes passés des tableurs à Vetolib en une journée. L'interface multilingue a été un vrai plus pour notre secrétariat.",
+        "text": "Nous sommes passés des tableurs à Vetara en une journée. L'interface multilingue a été un vrai plus pour notre secrétariat.",
         "name": "Dr. Sophie Martin",
         "role": "Gérante",
         "clinic": "Clinique Vétérinaire des Lilas, Paris"
@@ -1161,12 +1161,12 @@
       "title": "Questions fréquentes",
       "subtitle": "Tout ce que vous devez savoir avant de vous lancer.",
       "0": {
-        "question": "Vetolib est-il conforme à la réglementation française sur la TVA ?",
+        "question": "Vetara est-il conforme à la réglementation française sur la TVA ?",
         "answer": "Oui. Chaque facture inclut le calcul automatique de la TVA à 20 % et le numéro SIRET de votre clinique, conformément à la réglementation fiscale en vigueur."
       },
       "1": {
-        "question": "Puis-je utiliser Vetolib en français ?",
-        "answer": "Absolument. Vetolib est entièrement disponible en français, anglais et arabe avec un support complet RTL (droite à gauche). Vous pouvez changer de langue à tout moment."
+        "question": "Puis-je utiliser Vetara en français ?",
+        "answer": "Absolument. Vetara est entièrement disponible en français, anglais et arabe avec un support complet RTL (droite à gauche). Vous pouvez changer de langue à tout moment."
       },
       "2": {
         "question": "Comment les données de ma clinique sont-elles sécurisées ?",
@@ -1182,7 +1182,7 @@
       },
       "5": {
         "question": "Existe-t-il une application mobile ?",
-        "answer": "Vetolib est une application web responsive qui fonctionne sur tout appareil — ordinateur, tablette ou téléphone — via votre navigateur. Aucune installation d'application requise."
+        "answer": "Vetara est une application web responsive qui fonctionne sur tout appareil — ordinateur, tablette ou téléphone — via votre navigateur. Aucune installation d'application requise."
       },
       "6": {
         "question": "Que se passe-t-il après l'essai gratuit ?",
@@ -1200,7 +1200,7 @@
       "reassurance": "Annulez à tout moment. Vos données vous appartiennent — toujours."
     },
     "footer": {
-      "copyright": "© 2026 Vetolib.",
+      "copyright": "© 2026 Vetara.",
       "tagline": "Conçu pour les cliniques vétérinaires.",
       "lang_en": "EN",
       "lang_ar": "AR",
@@ -1509,7 +1509,7 @@
       "progress": "{completed} sur {total} terminé(s)",
       "dismiss": "Masquer la checklist",
       "completed_title": "Tout est prêt !",
-      "completed_body": "Vous avez terminé la configuration. Profitez de Vetolib.",
+      "completed_body": "Vous avez terminé la configuration. Profitez de Vetara.",
       "steps": {
         "admin": {
           "invite_team_member": "Invitez votre premier membre d'équipe",
@@ -1549,7 +1549,7 @@
         "title": "Aucun rendez-vous pour le moment",
         "description": "Prenez votre premier rendez-vous pour commencer à remplir votre planning.",
         "cta": "Nouveau rendez-vous",
-        "tip": "Astuce : Vetolib détecte automatiquement les conflits de planning — fini les doubles réservations."
+        "tip": "Astuce : Vetara détecte automatiquement les conflits de planning — fini les doubles réservations."
       },
       "billing": {
         "title": "Aucune facture pour le moment",

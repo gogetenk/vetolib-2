@@ -109,7 +109,7 @@ export function Header() {
           <SheetHeader className="p-4 border-b">
             <SheetTitle className="flex items-center gap-2 text-foreground">
               <PawPrint className="h-5 w-5" />
-              Vetolib
+              Vetara
             </SheetTitle>
           </SheetHeader>
           <div className="flex-1 overflow-y-auto">

@@ -3,7 +3,7 @@
     "signup": {
       "title": "Create Your Clinic",
       "heading": "Create Account",
-      "meta_title": "Create Your Clinic — Vetolib",
+      "meta_title": "Create Your Clinic — Vetara",
       "meta_description": "Start your free 14-day trial. Manage appointments, medical records, and billing for your veterinary clinic in the UAE.",
       "subtitle": "Start your 14-day free trial. No credit card required.",
       "clinic_name": "Clinic Name",
@@ -909,7 +909,7 @@
   },
   "landing": {
     "meta": {
-      "title": "Vetolib — The Smart Veterinary Practice Management Platform",
+      "title": "Vetara — The Smart Veterinary Practice Management Platform",
       "description": "UAE veterinary clinic management platform — AI triage, WhatsApp integration, Arabic + English support, and VAT-compliant invoicing. Free plan available."
     },
     "nav": {
@@ -926,7 +926,7 @@
       "cta_secondary": "Book a Demo",
       "trust_badge": "14-day free trial — no credit card required",
       "social_proof_badge": "Join 50+ clinics across the UAE",
-      "image_alt": "Vetolib dashboard showing appointments and patient health records"
+      "image_alt": "Vetara dashboard showing appointments and patient health records"
     },
     "social_proof": {
       "clinics": "50+ clinics",
@@ -940,7 +940,7 @@
     },
     "new_features": {
       "title": "Built for Tomorrow's Veterinary Clinic",
-      "subtitle": "Vetolib combines shared animal health records, intelligent AI tools, and seamless clinic operations — all in one platform.",
+      "subtitle": "Vetara combines shared animal health records, intelligent AI tools, and seamless clinic operations — all in one platform.",
       "health_passport": {
         "title": "Shared Animal Health Passport",
         "description": "Every animal carries a permanent health record accessible across any clinic — with owner consent. Consultations, vaccinations, prescriptions, and diagnoses, always available wherever the animal is seen.",
@@ -1094,11 +1094,11 @@
       }
     },
     "competitive": {
-      "title": "Why Vetolib?",
-      "subtitle": "See how Vetolib compares to other veterinary practice management solutions.",
+      "title": "Why Vetara?",
+      "subtitle": "See how Vetara compares to other veterinary practice management solutions.",
       "columns": {
         "feature": "Feature",
-        "vetolib": "Vetolib",
+        "vetolib": "Vetara",
         "ezyvet": "ezyVet",
         "digitail": "Digitail"
       },
@@ -1131,7 +1131,7 @@
     },
     "demo_form": {
       "title": "Book a Demo",
-      "subtitle": "See Vetolib in action. Fill in the form and our team will schedule a personalized walkthrough.",
+      "subtitle": "See Vetara in action. Fill in the form and our team will schedule a personalized walkthrough.",
       "clinic_name": "Clinic Name",
       "clinic_name_placeholder": "e.g. Al Barsha Veterinary Clinic",
       "email": "Email",
@@ -1146,10 +1146,10 @@
     },
     "testimonials": {
       "title": "Trusted by Veterinary Clinics Across the UAE",
-      "subtitle": "See what clinic owners and managers say about Vetolib.",
+      "subtitle": "See what clinic owners and managers say about Vetara.",
       "disclaimer": "These testimonials are illustrative examples. Real testimonials will be added before launch.",
       "quote1": {
-        "text": "We switched from spreadsheets to Vetolib in a day. The Arabic interface was a game-changer for our reception staff.",
+        "text": "We switched from spreadsheets to Vetara in a day. The Arabic interface was a game-changer for our reception staff.",
         "name": "Dr. Fatima Al-Rashidi",
         "role": "Owner",
         "clinic": "Al Barsha Veterinary Clinic",
@@ -1178,12 +1178,12 @@
       "title": "Frequently Asked Questions",
       "subtitle": "Everything you need to know before getting started.",
       "0": {
-        "question": "Is Vetolib compliant with UAE VAT regulations?",
+        "question": "Is Vetara compliant with UAE VAT regulations?",
         "answer": "Yes. Every invoice includes automatic 5% VAT calculation and your clinic's Tax Registration Number (TRN), as required by the Federal Tax Authority (FTA)."
       },
       "1": {
-        "question": "Can I use Vetolib in Arabic?",
-        "answer": "Absolutely. Vetolib is fully bilingual English/Arabic with complete RTL (right-to-left) support. You can switch languages at any time."
+        "question": "Can I use Vetara in Arabic?",
+        "answer": "Absolutely. Vetara is fully bilingual English/Arabic with complete RTL (right-to-left) support. You can switch languages at any time."
       },
       "2": {
         "question": "How is my clinic data secured?",
@@ -1199,7 +1199,7 @@
       },
       "5": {
         "question": "Is there a mobile app?",
-        "answer": "Vetolib is a responsive web application that works on any device — desktop, tablet, or phone — through your browser. No app installation required."
+        "answer": "Vetara is a responsive web application that works on any device — desktop, tablet, or phone — through your browser. No app installation required."
       },
       "6": {
         "question": "What happens after the free trial?",
@@ -1216,7 +1216,7 @@
     },
     "exit_intent": {
       "headline": "Wait! Start your free 14-day trial",
-      "subtitle": "Join 50+ UAE clinics already using Vetolib. No credit card required.",
+      "subtitle": "Join 50+ UAE clinics already using Vetara. No credit card required.",
       "email_placeholder": "Enter your email address",
       "cta": "Start Free Trial",
       "success": "We'll be in touch shortly!"
@@ -1236,7 +1236,7 @@
       "cta": "Start Free Trial"
     },
     "footer": {
-      "copyright": "© 2026 Vetolib.",
+      "copyright": "© 2026 Vetara.",
       "tagline": "Made for veterinary clinics in the UAE.",
       "lang_en": "EN",
       "lang_fr": "FR",
@@ -1545,7 +1545,7 @@
       "progress": "{completed} of {total} completed",
       "dismiss": "Dismiss checklist",
       "completed_title": "You're all set!",
-      "completed_body": "You've completed the setup. Enjoy using Vetolib.",
+      "completed_body": "You've completed the setup. Enjoy using Vetara.",
       "steps": {
         "admin": {
           "invite_team_member": "Invite your first team member",
@@ -1585,7 +1585,7 @@
         "title": "No appointments yet",
         "description": "Book your first appointment to get your schedule started.",
         "cta": "New Appointment",
-        "tip": "Tip: Vetolib detects scheduling conflicts automatically — no more double bookings."
+        "tip": "Tip: Vetara detects scheduling conflicts automatically — no more double bookings."
       },
       "billing": {
         "title": "No invoices yet",

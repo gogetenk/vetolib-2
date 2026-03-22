@@ -252,7 +252,7 @@ export const messagingHandlers = [
       clinicId: 'clinic-001',
       ownerId: body.ownerId,
       ownerName: body.ownerName,
-      ownerEmail: `${body.ownerId}@portal.vetolib.ae`,
+      ownerEmail: `${body.ownerId}@portal.vetara.ae`,
       patientId: body.patientId,
       patientName: null,
       subject: body.subject,
