@@ -67,7 +67,7 @@ Feature: Loyalty Program
     And she earned 100 points on 15 December 2025
     When the nightly expiration job runs on 2 March 2026
     Then her total balance should still include the 300 points from March 2025
-    Because her account had activity within the last 12 months
+    And her account had activity within the last 12 months
 
   # --- Admin Configuration ---
 

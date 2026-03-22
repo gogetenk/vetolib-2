@@ -87,7 +87,7 @@ internal sealed class TriageOrchestrator : ITriageOrchestrator
         var isUncertain = triage.Confidence < _uncertaintyThreshold;
         var category = ResolveCategory(triage.Category, triage.Confidence, isUncertain, conversation.Category);
 
-        conversation.ChangeCategory(category);
+        conversation.UpdateCategory(category);
         conversation.SetTriageResult((decimal)triage.Confidence, isUncertain);
         conversation.AssignTo(null, _router.GetAssignedRole(category));
     }

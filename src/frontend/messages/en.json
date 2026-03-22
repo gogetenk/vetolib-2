@@ -449,6 +449,9 @@
       "loading": "Loading analytics...",
       "error": "Failed to load analytics",
       "months": {
+        "10": "Oct",
+        "11": "Nov",
+        "12": "Dec",
         "01": "Jan",
         "02": "Feb",
         "03": "Mar",
@@ -457,10 +460,7 @@
         "06": "Jun",
         "07": "Jul",
         "08": "Aug",
-        "09": "Sep",
-        "10": "Oct",
-        "11": "Nov",
-        "12": "Dec"
+        "09": "Sep"
       }
     }
   },
@@ -913,7 +913,7 @@
   "landing": {
     "meta": {
       "title": "Vetara — The Smart Veterinary Practice Management Platform",
-      "description": "UAE veterinary clinic management platform — AI triage, WhatsApp integration, Arabic + English support, and VAT-compliant invoicing. Free plan available."
+      "description": "UAE veterinary clinic management platform — AI triage, AI SOAP notes, WhatsApp integration, Arabic + English support, and VAT-compliant invoicing. 30-day free trial."
     },
     "nav": {
       "features": "Features",
@@ -927,7 +927,7 @@
       "subtitle": "Appointments, medical records, VAT-compliant invoicing, and team management — all in one platform built for UAE clinics. Setup in under 2 minutes.",
       "cta_primary": "Start Free Trial",
       "cta_secondary": "Book a Demo",
-      "trust_badge": "14-day free trial — no credit card required",
+      "trust_badge": "30-day free Pro trial — no credit card required",
       "social_proof_badge": "Join 50+ clinics across the UAE",
       "image_alt": "Vetara dashboard showing appointments and patient health records"
     },
@@ -965,6 +965,23 @@
       "multilingual": {
         "title": "Multi-Language by Design",
         "description": "Full English and Arabic support with RTL layout — extending to more languages. Your staff and clients communicate in the language they prefer."
+      },
+      "ai_soap": {
+        "title": "AI SOAP Notes",
+        "description": "Auto-generate structured consultation reports from voice or text input. Save over an hour per day on documentation — so you can focus on care, not paperwork.",
+        "badge": "Pro plan"
+      },
+      "whatsapp": {
+        "title": "WhatsApp Integration",
+        "description": "Automated appointment reminders, post-consultation follow-ups, and vaccination recall via WhatsApp — the communication channel your clients already use daily."
+      },
+      "file_attachments": {
+        "title": "File Attachments",
+        "description": "Share lab results, X-rays, and documents directly within patient records. Owners access files securely through the client portal."
+      },
+      "multi_clinic": {
+        "title": "Multi-Clinic Switcher",
+        "description": "Manage multiple sites from a single dashboard. Consolidated reporting, shared patient records, and centralised team management for veterinary groups."
       }
     },
     "features": {
@@ -1001,7 +1018,7 @@
       "step1": {
         "number": "01",
         "title": "Sign Up in 2 Minutes",
-        "description": "Create your clinic account. No credit card required for the free trial."
+        "description": "Create your clinic account. No credit card required for the 30-day Pro trial."
       },
       "step2": {
         "number": "02",
@@ -1017,81 +1034,73 @@
     },
     "pricing": {
       "title": "Simple, Transparent Pricing",
-      "subtitle": "Start free and upgrade as you grow. All paid plans include a 14-day free trial.",
+      "subtitle": "Per-vet pricing with no hidden fees. All plans include a 30-day free Pro trial.",
       "toggle_monthly": "Monthly",
       "toggle_annual": "Annual",
-      "annual_savings": "Save 17%",
-      "trial_note": "All paid plans include 14-day free trial. No credit card required.",
+      "annual_savings": "Save 15%",
+      "trial_note": "30-day free Pro trial on all plans — no credit card required.",
       "vat_note": "Prices excl. VAT 5%.",
-      "free": {
-        "name": "Free",
-        "price_monthly": "AED 0",
-        "price_annual": "AED 0",
-        "per_month": "/month",
-        "description": "For solo vets getting started.",
-        "features": [
-          "1 veterinarian",
-          "Up to 50 patients",
-          "Basic scheduling",
-          "Community support"
-        ],
-        "cta": "Get Started Free"
-      },
       "starter": {
         "name": "Starter",
-        "price_monthly": "AED 109",
-        "price_annual": "AED 91",
-        "usd_hint_monthly": "~$29 USD/mo",
-        "usd_hint_annual": "~$24 USD/mo",
-        "per_month": "/month",
-        "description": "For small clinics with 1-3 vets.",
+        "price_monthly": "AED 299",
+        "price_annual": "AED 254",
+        "usd_hint_monthly": "~$81 USD/vet/mo",
+        "usd_hint_annual": "~$69 USD/vet/mo",
+        "per_month": "/vet/month",
+        "description": "For solo vets and small clinics (up to 5 vets).",
         "features": [
-          "Up to 3 veterinarians",
-          "500 patients",
-          "WhatsApp notifications",
+          "Up to 5 veterinarians",
+          "Unlimited patients",
+          "Smart scheduling with conflict detection",
+          "SOAP medical records & vaccination tracking",
           "UAE-compliant invoicing (VAT 5%)",
-          "Email support (48h response)",
-          "5 GB storage"
+          "Client booking portal",
+          "Email notifications & reminders",
+          "Bilingual EN + AR interface",
+          "Email support (24h response)"
         ],
         "cta": "Start Free Trial"
       },
       "pro": {
         "name": "Pro",
         "badge": "Most Popular",
-        "price_monthly": "AED 289",
-        "price_annual": "AED 241",
-        "usd_hint_monthly": "~$79 USD/mo",
-        "usd_hint_annual": "~$66 USD/mo",
-        "per_month": "/month",
-        "description": "For established clinics needing full power.",
+        "price_monthly": "AED 449",
+        "price_annual": "AED 382",
+        "usd_hint_monthly": "~$122 USD/vet/mo",
+        "usd_hint_annual": "~$104 USD/vet/mo",
+        "per_month": "/vet/month",
+        "description": "For growing clinics needing AI and automation (up to 15 vets).",
         "features": [
-          "Unlimited veterinarians",
-          "Unlimited patients",
-          "AI triage & drug interactions",
-          "Full WhatsApp integration",
-          "Custom PDF invoices with logo",
-          "Advanced team management (RBAC)",
-          "Priority support (12h response)",
-          "25 GB storage"
+          "Everything in Starter, plus:",
+          "AI SOAP Notes / Scribe",
+          "AI triage & no-show prediction",
+          "Stock & inventory management",
+          "WhatsApp integration (reminders & follow-ups)",
+          "Advanced reporting (revenue per vet, trends)",
+          "Ramadan & Sun-Thu scheduling",
+          "Up to 15 veterinarians",
+          "Priority support (4h response)"
         ],
         "cta": "Start Free Trial"
       },
       "enterprise": {
         "name": "Enterprise",
-        "price_monthly": "AED 549",
-        "price_annual": "AED 459",
-        "usd_hint_monthly": "~$149 USD/mo",
-        "usd_hint_annual": "~$125 USD/mo",
-        "per_month": "/month",
-        "description": "For multi-clinic groups and veterinary chains.",
+        "price_monthly": "AED 649",
+        "price_annual": "AED 552",
+        "usd_hint_monthly": "~$177 USD/vet/mo",
+        "usd_hint_annual": "~$150 USD/vet/mo",
+        "per_month": "/vet/month",
+        "description": "For multi-site groups and veterinary hospitals. Unlimited vets.",
         "features": [
-          "Multi-clinic management",
-          "API access for integrations",
-          "Single Sign-On (SSO)",
+          "Everything in Pro, plus:",
+          "Multi-site management & consolidated reporting",
+          "REST API access for custom integrations",
+          "Custom roles & permissions",
           "Dedicated account manager",
           "99.9% SLA guarantee",
-          "Phone support (4h response)",
-          "Unlimited storage"
+          "Unlimited veterinarians",
+          "Premium support (phone, 1h response)",
+          "Assisted onboarding & data migration"
         ],
         "cta": "Contact Sales"
       }
@@ -1120,6 +1129,15 @@
         },
         "price": {
           "feature": "Affordable Pricing"
+        },
+        "ai_soap": {
+          "feature": "AI SOAP Notes"
+        },
+        "multi_clinic": {
+          "feature": "Multi-Clinic Management"
+        },
+        "file_attachments": {
+          "feature": "File Attachments"
         }
       }
     },
@@ -1178,8 +1196,6 @@
       "scroll_hint": "Scroll to see more"
     },
     "faq": {
-      "title": "Frequently Asked Questions",
-      "subtitle": "Everything you need to know before getting started.",
       "0": {
         "question": "Is Vetara compliant with UAE VAT regulations?",
         "answer": "Yes. Every invoice includes automatic 5% VAT calculation and your clinic's Tax Registration Number (TRN), as required by the Federal Tax Authority (FTA)."
@@ -1206,19 +1222,21 @@
       },
       "6": {
         "question": "What happens after the free trial?",
-        "answer": "After 14 days, you choose a plan or your account is paused (not deleted). Your data is preserved for 90 days so you can reactivate anytime."
+        "answer": "After 30 days, you choose a plan or your account defaults to Starter (no surprise charges). Your data is preserved for 30 days after expiration so you can reactivate anytime."
       },
       "7": {
         "question": "Do you offer training?",
         "answer": "All plans include access to our help center and video tutorials. Pro and Enterprise plans include live onboarding sessions with our team."
-      }
+      },
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know before getting started."
     },
     "sticky_cta": {
       "tagline": "Save 2 hours a day on clinic admin",
       "cta": "Start Free Trial"
     },
     "exit_intent": {
-      "headline": "Wait! Start your free 14-day trial",
+      "headline": "Wait! Start your free 30-day Pro trial",
       "subtitle": "Join 50+ UAE clinics already using Vetara. No credit card required.",
       "email_placeholder": "Enter your email address",
       "cta": "Start Free Trial",
@@ -1226,7 +1244,7 @@
     },
     "pricing_badge": {
       "early_access": "Early access pricing — locked for founding clinics",
-      "trial_under_plan": "14-day free trial — no credit card required"
+      "trial_under_plan": "30-day free Pro trial — no credit card required"
     },
     "final_cta": {
       "headline": "Stop Managing Your Clinic with Spreadsheets.",
@@ -1273,7 +1291,8 @@
   },
   "portal": {
     "header": {
-      "language": "Language"
+      "language": "Language",
+      "arabic_label": "\u0639\u0631\u0628\u064a"
     },
     "nav": {
       "conversations": "Conversations",
@@ -1295,7 +1314,8 @@
       },
       "unread": "{count} unread",
       "last_message": "Last message: {date}",
-      "download_all": "Download all my conversations"
+      "download_all": "Download all my conversations",
+      "error_generic": "Something went wrong. Please try again later."
     },
     "consent": {
       "title": "Messaging Terms & Conditions",
@@ -1304,6 +1324,7 @@
       "accept_label": "I accept the messaging terms and conditions",
       "continue": "Continue",
       "must_accept": "You must accept the terms to continue.",
+      "consent_failed": "Failed to record your consent. Please try again.",
       "emergency_title": "Emergency?",
       "emergency_body": "If your pet is experiencing a medical emergency, please call the clinic directly instead of using this messaging service."
     },
@@ -1345,7 +1366,9 @@
         "subject_required": "Please enter a subject",
         "category_required": "Please select a category",
         "message_required": "Please enter a message",
-        "send_failed": "Failed to send your message. Please try again."
+        "send_failed": "Failed to send your message. Please try again.",
+        "consent_not_given": "You must accept the messaging terms before sending a message.",
+        "validation_error": "Please check your message and try again."
       }
     },
     "conversation": {
@@ -1438,7 +1461,8 @@
           "reasonLabel": "Reason",
           "termsText": "I confirm that the information above is accurate and I agree to the appointment terms. Cancellations must be made at least 24 hours in advance.",
           "termsLinkText": "appointment terms",
-          "submitError": "Failed to book your appointment. Please try again."
+          "submitError": "Failed to book your appointment. Please try again.",
+          "duration_minutes": "{n} min"
         },
         "success": {
           "title": "Booking Confirmed!",

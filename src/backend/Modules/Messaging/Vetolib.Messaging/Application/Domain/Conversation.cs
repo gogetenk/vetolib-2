@@ -1,5 +1,4 @@
 using Ardalis.Result;
-using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Shared.Kernel;
 
@@ -129,20 +128,15 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
-    public Result ChangeCategory(MessageCategory newCategory)
-    {
-        Category = newCategory;
-        return Result.Success();
-    }
-
     /// <summary>
-    /// Re-categorizes the conversation (human-verified). Resets IsTriageUncertain
-    /// and updates routing role based on the new category.
+    /// Updates the conversation category. When <paramref name="resetUncertainty"/> is true,
+    /// also clears the IsTriageUncertain flag (used for human-verified recategorization).
     /// </summary>
-    public Result UpdateCategory(MessageCategory newCategory)
+    public Result UpdateCategory(MessageCategory newCategory, bool resetUncertainty = false)
     {
         Category = newCategory;
-        IsTriageUncertain = false;
+        if (resetUncertainty)
+            IsTriageUncertain = false;
         return Result.Success();
     }
 

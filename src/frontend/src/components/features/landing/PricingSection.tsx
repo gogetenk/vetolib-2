@@ -31,7 +31,6 @@ interface PricingMessages {
   vat_note: string;
   early_access_badge?: string;
   trial_under_plan?: string;
-  free: PlanMessages;
   starter: PlanMessages;
   pro: PlanMessages;
   enterprise: PlanMessages;
@@ -52,7 +51,6 @@ export function PricingSection({ messages: m, loginHref }: Props) {
     ctaVariant: "outline" | "default" | "ghost";
     isEnterprise: boolean;
   }> = [
-    { key: "free", plan: m.free, highlighted: false, ctaVariant: "outline", isEnterprise: false },
     { key: "starter", plan: m.starter, highlighted: false, ctaVariant: "outline", isEnterprise: false },
     { key: "pro", plan: m.pro, highlighted: true, ctaVariant: "default", isEnterprise: false },
     { key: "enterprise", plan: m.enterprise, highlighted: false, ctaVariant: "outline", isEnterprise: true },
@@ -120,7 +118,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
         </ScrollReveal>
 
         {/* Plans grid */}
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {plans.map(({ key, plan, highlighted, ctaVariant, isEnterprise }, idx) => (
             <ScrollReveal key={key} direction="fade-up" delay={idx * 100}>
               <Card

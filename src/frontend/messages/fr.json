@@ -4,8 +4,8 @@
       "title": "Créez votre clinique",
       "heading": "Créer un compte",
       "meta_title": "Créez votre clinique — Vetara",
-      "meta_description": "Commencez votre essai gratuit de 30 jours. Gérez les rendez-vous, dossiers médicaux et la facturation de votre clinique vétérinaire.",
-      "subtitle": "Essai gratuit de 30 jours. Aucune carte bancaire requise.",
+      "meta_description": "Commencez votre essai gratuit de 14 jours. Gérez les rendez-vous, dossiers médicaux et la facturation de votre clinique vétérinaire.",
+      "subtitle": "Essai gratuit de 14 jours. Aucune carte bancaire requise.",
       "clinic_name": "Nom de la clinique",
       "clinic_name_placeholder": "ex. Clinique Vétérinaire des Lilas",
       "email": "E-mail",
@@ -25,7 +25,7 @@
       "strength_number": "1 chiffre",
       "show_password": "Afficher le mot de passe",
       "hide_password": "Masquer le mot de passe",
-      "welcome_toast": "Bienvenue ! Votre essai gratuit de 30 jours a commencé.",
+      "welcome_toast": "Bienvenue ! Votre essai gratuit de 14 jours a commencé.",
       "errors": {
         "clinic_name_required": "Le nom de la clinique est requis",
         "email_required": "Veuillez saisir une adresse e-mail valide",
@@ -85,11 +85,10 @@
     "title": "Rendez-vous",
     "new": "Nouveau rendez-vous",
     "all_statuses": "Tous les statuts",
-    "search_placeholder": "Rechercher par n° facture ou patient...",
+    "search_placeholder": "Rechercher un patient ou un propriétaire...",
     "search_aria": "Rechercher des factures",
     "filter_by_status": "Filtrer par statut",
     "clear_date": "Effacer la date",
-    "search_placeholder": "Rechercher un patient ou un propriétaire...",
     "loading": "Chargement...",
     "no_appointments": "Aucun rendez-vous trouvé",
     "page_of": "Page {page} sur {total} ({count} au total)",
@@ -452,6 +451,9 @@
       "loading": "Chargement des statistiques...",
       "error": "Échec du chargement des statistiques",
       "months": {
+        "10": "Oct.",
+        "11": "Nov.",
+        "12": "Déc.",
         "01": "Jan.",
         "02": "Fév.",
         "03": "Mars",
@@ -460,10 +462,7 @@
         "06": "Juin",
         "07": "Juil.",
         "08": "Août",
-        "09": "Sep.",
-        "10": "Oct.",
-        "11": "Nov.",
-        "12": "Déc."
+        "09": "Sep."
       }
     }
   },
@@ -916,7 +915,7 @@
   "landing": {
     "meta": {
       "title": "Vetara — La plateforme intelligente de gestion de clinique vétérinaire",
-      "description": "Plateforme de gestion de clinique vétérinaire — triage IA, intégration WhatsApp, support français + anglais + arabe, et facturation conforme TVA. Offre gratuite disponible."
+      "description": "Plateforme de gestion de clinique vétérinaire — triage IA, notes SOAP automatiques, intégration WhatsApp, support français + anglais + arabe, et facturation conforme TVA. Essai gratuit 30 jours."
     },
     "nav": {
       "features": "Fonctionnalités",
@@ -930,7 +929,7 @@
       "subtitle": "Rendez-vous, dossiers médicaux, facturation conforme TVA et gestion d'équipe — le tout sur une seule plateforme. Installation en moins de 2 minutes.",
       "cta_primary": "Démarrer l'essai gratuit",
       "cta_secondary": "Réserver une démo",
-      "trust_badge": "Utilisé par plus de 50 cliniques",
+      "trust_badge": "Essai gratuit Pro 30 jours — sans carte bancaire",
       "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients"
     },
     "social_proof": {
@@ -967,6 +966,23 @@
       "multilingual": {
         "title": "Multilingue par nature",
         "description": "Support complet en français, anglais et arabe avec mise en page RTL — extensible à d'autres langues. Votre équipe et vos clients communiquent dans la langue de leur choix."
+      },
+      "ai_soap": {
+        "title": "Notes SOAP par IA",
+        "description": "Générez automatiquement des comptes-rendus de consultation structurés à partir de la voix ou du texte. Économisez plus d'une heure par jour sur la documentation.",
+        "badge": "Forfait Pro"
+      },
+      "whatsapp": {
+        "title": "Intégration WhatsApp",
+        "description": "Rappels de rendez-vous automatiques, suivis post-consultation et rappels vaccinaux via WhatsApp — le canal que vos clients utilisent déjà quotidiennement."
+      },
+      "file_attachments": {
+        "title": "Pièces jointes",
+        "description": "Partagez résultats de labo, radiographies et documents directement dans les dossiers patients. Les propriétaires accèdent aux fichiers de manière sécurisée via le portail client."
+      },
+      "multi_clinic": {
+        "title": "Sélecteur multi-cliniques",
+        "description": "Gérez plusieurs sites depuis un tableau de bord unique. Reporting consolidé, dossiers patients partagés et gestion d'équipe centralisée pour les groupes vétérinaires."
       }
     },
     "features": {
@@ -1003,7 +1019,7 @@
       "step1": {
         "number": "01",
         "title": "Inscrivez-vous en 2 minutes",
-        "description": "Créez votre compte clinique. Aucune carte bancaire requise pour l'essai gratuit."
+        "description": "Créez votre compte clinique. Aucune carte bancaire requise pour l'essai gratuit Pro de 30 jours."
       },
       "step2": {
         "number": "02",
@@ -1019,81 +1035,73 @@
     },
     "pricing": {
       "title": "Tarification simple et transparente",
-      "subtitle": "Commencez gratuitement et évoluez selon vos besoins. Tous les forfaits payants incluent un essai gratuit de 30 jours.",
+      "subtitle": "Tarification par vétérinaire, sans frais cachés. Tous les forfaits incluent un essai gratuit Pro de 30 jours.",
       "toggle_monthly": "Mensuel",
       "toggle_annual": "Annuel",
-      "annual_savings": "Économisez 17 %",
-      "trial_note": "Tous les forfaits payants incluent un essai gratuit de 30 jours. Aucune carte bancaire requise.",
+      "annual_savings": "Économisez 15 %",
+      "trial_note": "Essai gratuit Pro de 30 jours pour tous les forfaits — sans carte bancaire.",
       "vat_note": "Prix HT, TVA 20 % en sus.",
-      "free": {
-        "name": "Gratuit",
-        "price_monthly": "0 EUR",
-        "price_annual": "0 EUR",
-        "per_month": "/mois",
-        "description": "Pour les vétérinaires indépendants qui débutent.",
-        "features": [
-          "1 vétérinaire",
-          "Jusqu'à 50 patients",
-          "Planning de base",
-          "Support communautaire"
-        ],
-        "cta": "Démarrer gratuitement"
-      },
       "starter": {
         "name": "Starter",
-        "price_monthly": "29 EUR",
-        "price_annual": "24 EUR",
-        "usd_hint_monthly": "~29 USD/mois",
-        "usd_hint_annual": "~24 USD/mois",
-        "per_month": "/mois",
-        "description": "Pour les petites cliniques avec 1 à 3 vétérinaires.",
+        "price_monthly": "69 EUR",
+        "price_annual": "59 EUR",
+        "usd_hint_monthly": "~81 USD/vét/mois",
+        "usd_hint_annual": "~69 USD/vét/mois",
+        "per_month": "/vét/mois",
+        "description": "Pour les vétérinaires indépendants et petites cliniques (max 5 vétérinaires).",
         "features": [
-          "Jusqu'à 3 vétérinaires",
-          "500 patients",
-          "Notifications WhatsApp",
+          "Jusqu'à 5 vétérinaires",
+          "Patients illimités",
+          "Planning intelligent avec détection de conflits",
+          "Dossiers médicaux SOAP et suivi vaccinal",
           "Facturation conforme TVA (20 %)",
-          "Support par e-mail (réponse sous 48 h)",
-          "5 Go de stockage"
+          "Portail de réservation client",
+          "Notifications et rappels par e-mail",
+          "Interface bilingue FR + EN",
+          "Support par e-mail (réponse sous 24 h)"
         ],
         "cta": "Démarrer l'essai gratuit"
       },
       "pro": {
         "name": "Pro",
         "badge": "Le plus populaire",
-        "price_monthly": "79 EUR",
-        "price_annual": "66 EUR",
-        "usd_hint_monthly": "~79 USD/mois",
-        "usd_hint_annual": "~66 USD/mois",
-        "per_month": "/mois",
-        "description": "Pour les cliniques établies qui ont besoin de toute la puissance.",
+        "price_monthly": "99 EUR",
+        "price_annual": "84 EUR",
+        "usd_hint_monthly": "~122 USD/vét/mois",
+        "usd_hint_annual": "~104 USD/vét/mois",
+        "per_month": "/vét/mois",
+        "description": "Pour les cliniques en croissance avec IA et automatisation (max 15 vétérinaires).",
         "features": [
-          "Vétérinaires illimités",
-          "Patients illimités",
-          "Triage IA et interactions médicamenteuses",
-          "Intégration WhatsApp complète",
-          "Factures PDF personnalisées avec logo",
-          "Gestion d'équipe avancée (RBAC)",
-          "Support prioritaire (réponse sous 12 h)",
-          "25 Go de stockage"
+          "Tout ce qui est dans Starter, plus :",
+          "Notes SOAP automatiques par IA",
+          "Triage IA et prédiction des absences",
+          "Gestion des stocks et inventaire",
+          "Intégration WhatsApp (rappels et suivis)",
+          "Reporting avancé (CA par vét, tendances)",
+          "Horaires Ramadan et dim-jeu configurables",
+          "Jusqu'à 15 vétérinaires",
+          "Support prioritaire (réponse sous 4 h)"
         ],
         "cta": "Démarrer l'essai gratuit"
       },
       "enterprise": {
         "name": "Entreprise",
         "price_monthly": "149 EUR",
-        "price_annual": "125 EUR",
-        "usd_hint_monthly": "~149 USD/mois",
-        "usd_hint_annual": "~125 USD/mois",
-        "per_month": "/mois",
-        "description": "Pour les groupes multi-cliniques et les chaînes vétérinaires.",
+        "price_annual": "127 EUR",
+        "usd_hint_monthly": "~177 USD/vét/mois",
+        "usd_hint_annual": "~150 USD/vét/mois",
+        "per_month": "/vét/mois",
+        "description": "Pour les groupes multi-sites et hôpitaux vétérinaires. Vétérinaires illimités.",
         "features": [
-          "Gestion multi-clinique",
-          "Accès API pour les intégrations",
-          "Authentification unique (SSO)",
+          "Tout ce qui est dans Pro, plus :",
+          "Gestion multi-sites et reporting consolidé",
+          "Accès API REST pour intégrations custom",
+          "Rôles et permissions personnalisés",
           "Chargé de compte dédié",
-          "SLA garanti à 99,9 %",
-          "Support téléphonique (réponse sous 4 h)",
-          "Stockage illimité"
+          "SLA garanti 99,9 %",
+          "Vétérinaires illimités",
+          "Support premium (téléphone, réponse sous 1 h)",
+          "Onboarding assisté et migration de données"
         ],
         "cta": "Contacter l'équipe commerciale"
       }
@@ -1108,11 +1116,30 @@
         "digitail": "Digitail"
       },
       "rows": {
-        "arabic": { "feature": "Arabe + Anglais + Français" },
-        "whatsapp": { "feature": "Intégration WhatsApp" },
-        "ai_triage": { "feature": "Triage IA" },
-        "uae_optimized": { "feature": "Optimisé international" },
-        "price": { "feature": "Tarifs abordables" }
+        "arabic": {
+          "feature": "Arabe + Anglais + Français"
+        },
+        "whatsapp": {
+          "feature": "Intégration WhatsApp"
+        },
+        "ai_triage": {
+          "feature": "Triage IA"
+        },
+        "uae_optimized": {
+          "feature": "Optimisé international"
+        },
+        "price": {
+          "feature": "Tarifs abordables"
+        },
+        "ai_soap": {
+          "feature": "Notes SOAP par IA"
+        },
+        "multi_clinic": {
+          "feature": "Gestion multi-clinique"
+        },
+        "file_attachments": {
+          "feature": "Pièces jointes"
+        }
       }
     },
     "trust_signals": {
@@ -1164,8 +1191,6 @@
       "scroll_hint": "← Faites défiler pour en voir plus →"
     },
     "faq": {
-      "title": "Questions fréquentes",
-      "subtitle": "Tout ce que vous devez savoir avant de vous lancer.",
       "0": {
         "question": "Vetara est-il conforme à la réglementation française sur la TVA ?",
         "answer": "Oui. Chaque facture inclut le calcul automatique de la TVA à 20 % et le numéro SIRET de votre clinique, conformément à la réglementation fiscale en vigueur."
@@ -1192,16 +1217,18 @@
       },
       "6": {
         "question": "Que se passe-t-il après l'essai gratuit ?",
-        "answer": "Après 30 jours, vous choisissez un forfait ou votre compte est mis en pause (pas supprimé). Vos données sont conservées pendant 90 jours afin que vous puissiez réactiver à tout moment."
+        "answer": "Après 30 jours, vous choisissez un forfait ou votre compte passe en Starter par défaut (pas de facturation surprise). Vos données sont conservées 30 jours après expiration pour réactivation."
       },
       "7": {
         "question": "Proposez-vous de la formation ?",
         "answer": "Tous les forfaits incluent l'accès à notre centre d'aide et à nos tutoriels vidéo. Les forfaits Pro et Entreprise incluent des sessions d'accompagnement en direct avec notre équipe."
-      }
+      },
+      "title": "Questions fréquentes",
+      "subtitle": "Tout ce que vous devez savoir avant de vous lancer."
     },
     "final_cta": {
       "headline": "Arrêtez de gérer votre clinique avec des tableurs.",
-      "subtitle": "Rejoignez plus de 50 cliniques vétérinaires qui économisent 2 heures par jour sur les tâches administratives. Essai gratuit de 30 jours — aucune carte bancaire requise.",
+      "subtitle": "Rejoignez plus de 50 cliniques vétérinaires qui économisent 2 heures par jour sur les tâches administratives. Essai gratuit de 14 jours — aucune carte bancaire requise.",
       "cta": "Essai gratuit — Sans carte bancaire",
       "reassurance": "Annulez à tout moment. Vos données vous appartiennent — toujours."
     },
@@ -1236,11 +1263,20 @@
         "terms": "Conditions d'utilisation",
         "dpa": "Accord de traitement des données"
       }
+    },
+    "pricing_badge": {
+      "early_access": "Tarifs early access — réservés aux cliniques fondatrices",
+      "trial_under_plan": "Essai gratuit Pro 30 jours — sans carte bancaire"
+    },
+    "exit_intent": {
+      "headline": "Attendez ! Essai Pro gratuit de 30 jours",
+      "subtitle": "Rejoignez plus de 50 cliniques utilisant Vetara. Sans carte bancaire."
     }
   },
   "portal": {
     "header": {
-      "language": "Langue"
+      "language": "Langue",
+      "arabic_label": "\u0639\u0631\u0628\u064a"
     },
     "nav": {
       "conversations": "Conversations",
@@ -1262,7 +1298,8 @@
       },
       "unread": "{count} non lu(s)",
       "last_message": "Dernier message : {date}",
-      "download_all": "Télécharger toutes mes conversations"
+      "download_all": "Télécharger toutes mes conversations",
+      "error_generic": "Une erreur est survenue. Veuillez réessayer plus tard."
     },
     "consent": {
       "title": "Conditions d'utilisation de la messagerie",
@@ -1271,6 +1308,7 @@
       "accept_label": "J'accepte les conditions d'utilisation de la messagerie",
       "continue": "Continuer",
       "must_accept": "Vous devez accepter les conditions pour continuer.",
+      "consent_failed": "Impossible d'enregistrer votre consentement. Veuillez réessayer.",
       "emergency_title": "Urgence ?",
       "emergency_body": "Si votre animal est en situation d'urgence médicale, veuillez appeler directement la clinique au lieu d'utiliser ce service de messagerie."
     },
@@ -1312,7 +1350,9 @@
         "subject_required": "Veuillez saisir un objet",
         "category_required": "Veuillez sélectionner une catégorie",
         "message_required": "Veuillez saisir un message",
-        "send_failed": "Échec de l'envoi de votre message. Veuillez réessayer."
+        "send_failed": "Échec de l'envoi de votre message. Veuillez réessayer.",
+        "consent_not_given": "Vous devez accepter les conditions de messagerie avant d'envoyer un message.",
+        "validation_error": "Veuillez vérifier votre message et réessayer."
       }
     },
     "conversation": {
@@ -1405,7 +1445,8 @@
           "reasonLabel": "Motif",
           "termsText": "Je confirme que les informations ci-dessus sont exactes et j'accepte les conditions de rendez-vous. Les annulations doivent être effectuées au moins 24 heures à l'avance.",
           "termsLinkText": "conditions de rendez-vous",
-          "submitError": "Échec de la réservation. Veuillez réessayer."
+          "submitError": "Échec de la réservation. Veuillez réessayer.",
+          "duration_minutes": "{n} min"
         },
         "success": {
           "title": "Réservation confirmée !",
