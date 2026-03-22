@@ -9,6 +9,7 @@ import { ErrorState } from '@/components/ui/error-state'
 import { LtrText } from '@/components/ui/ltr-text'
 import { useTranslations } from 'next-intl'
 import { Calendar, Clock, Users, DollarSign } from 'lucide-react'
+import { useAhaMoment } from '@/hooks/use-aha-moment'
 
 type UserRole = 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'
 
@@ -22,6 +23,7 @@ function formatAed(amount: number): string {
 
 export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
   const t = useTranslations('dashboard.stats')
+  const { triggerAha } = useAhaMoment()
   const [stats, setStats] = useState<DashboardStatsDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -30,13 +32,16 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
     try {
       const result = await getDashboardStats()
       setStats(result)
+      if (result.totalPatients >= 10) {
+        triggerAha('ten_patients')
+      }
       setError(null)
     } catch {
       setError('Failed to load stats')
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [triggerAha])
 
   useEffect(() => {
     load()

@@ -84,4 +84,11 @@ export const AnalyticsEvents = {
   // AI Triage
   AI_TRIAGE_ACCEPTED: "ai_triage_accepted",
   AI_TRIAGE_OVERRIDDEN: "ai_triage_overridden",
+
+  // Aha moments
+  AHA_FIRST_APPOINTMENT: "aha_first_appointment",
+  AHA_FIRST_SOAP: "aha_first_soap",
+  AHA_FIRST_WHATSAPP_REMINDER: "aha_first_whatsapp_reminder",
+  AHA_TEN_PATIENTS: "aha_ten_patients",
+  AHA_FIRST_INVOICE_PAID: "aha_first_invoice_paid",
 } as const;

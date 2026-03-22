@@ -1801,5 +1801,27 @@
       "load_failed": "Failed to load reminder settings.",
       "save_failed": "Failed to save reminder settings."
     }
+  },
+  "aha_moments": {
+    "first_appointment": {
+      "title": "First appointment created!",
+      "description": "You just saved 2 minutes vs phone booking!"
+    },
+    "first_soap": {
+      "title": "AI SOAP notes ready!",
+      "description": "AI wrote your report in 5 seconds."
+    },
+    "first_whatsapp_reminder": {
+      "title": "WhatsApp reminder sent!",
+      "description": "Your client was reminded automatically."
+    },
+    "ten_patients": {
+      "title": "10 patients in Vetara!",
+      "description": "Your data is growing — keep going!"
+    },
+    "first_invoice_paid": {
+      "title": "First invoice paid!",
+      "description": "Revenue tracked automatically."
+    }
   }
 }

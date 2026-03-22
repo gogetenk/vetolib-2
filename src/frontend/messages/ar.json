@@ -1802,5 +1802,27 @@
       "load_failed": "فشل تحميل إعدادات التذكيرات.",
       "save_failed": "فشل حفظ إعدادات التذكيرات."
     }
+  },
+  "aha_moments": {
+    "first_appointment": {
+      "title": "تم إنشاء أول موعد!",
+      "description": "لقد وفرت دقيقتين مقارنة بالحجز عبر الهاتف!"
+    },
+    "first_soap": {
+      "title": "ملاحظات SOAP الذكية جاهزة!",
+      "description": "كتب الذكاء الاصطناعي تقريرك في 5 ثوانٍ."
+    },
+    "first_whatsapp_reminder": {
+      "title": "تم إرسال تذكير واتساب!",
+      "description": "تم تذكير عميلك تلقائيًا."
+    },
+    "ten_patients": {
+      "title": "10 مرضى في Vetara!",
+      "description": "بياناتك تنمو — استمر!"
+    },
+    "first_invoice_paid": {
+      "title": "تم دفع أول فاتورة!",
+      "description": "يتم تتبع الإيرادات تلقائيًا."
+    }
   }
 }

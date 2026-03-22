@@ -1785,5 +1785,27 @@
       "load_failed": "Échec du chargement des paramètres de rappel.",
       "save_failed": "Échec de l'enregistrement des paramètres de rappel."
     }
+  },
+  "aha_moments": {
+    "first_appointment": {
+      "title": "Premier rendez-vous créé !",
+      "description": "Vous venez de gagner 2 minutes par rapport à une réservation par téléphone !"
+    },
+    "first_soap": {
+      "title": "Notes SOAP IA prêtes !",
+      "description": "L'IA a rédigé votre rapport en 5 secondes."
+    },
+    "first_whatsapp_reminder": {
+      "title": "Rappel WhatsApp envoyé !",
+      "description": "Votre client a été rappelé automatiquement."
+    },
+    "ten_patients": {
+      "title": "10 patients dans Vetara !",
+      "description": "Vos données grandissent — continuez !"
+    },
+    "first_invoice_paid": {
+      "title": "Première facture payée !",
+      "description": "Revenus suivis automatiquement."
+    }
   }
 }
