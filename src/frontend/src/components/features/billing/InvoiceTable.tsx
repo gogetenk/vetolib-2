@@ -144,7 +144,7 @@ export function InvoiceTable() {
         {loading && (
           <div data-testid="invoices-loading" className="space-y-3 py-2">
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-10 w-full" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
+              <Skeleton key={i} className="h-12 w-full" style={{ animationDelay: `${(i - 1) * 100}ms` }} />
             ))}
           </div>
         )}
@@ -188,13 +188,13 @@ export function InvoiceTable() {
             <Table className="hidden md:table" data-testid="invoice-table">
               <TableHeader>
                 <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.invoice')}</TableHead>
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.patient')}</TableHead>
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.date')}</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.subtotal')}</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.vat')}</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.total')}</TableHead>
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.status')}</TableHead>
+                  <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.invoice')}</TableHead>
+                  <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.patient')}</TableHead>
+                  <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.date')}</TableHead>
+                  <TableHead className="h-12 px-4 text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.subtotal')}</TableHead>
+                  <TableHead className="h-12 px-4 text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.vat')}</TableHead>
+                  <TableHead className="h-12 px-4 text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.total')}</TableHead>
+                  <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.status')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -216,24 +216,24 @@ export function InvoiceTable() {
                   <TableRow
                     key={inv.id}
                     data-testid={`invoice-row-${inv.id}`}
-                    className="hover:bg-muted/50 cursor-pointer transition-colors border-border/30"
+                    className="group hover:bg-muted/50 cursor-pointer transition-colors border-border/30"
                     onClick={() => router.push(`/${locale}/billing/${inv.id}`)}
                   >
-                    <TableCell className="font-mono text-[13px] font-semibold text-foreground" data-testid="invoice-number">
+                    <TableCell className="py-3 px-4 font-mono text-[13px] font-semibold text-foreground" data-testid="invoice-number">
                       <LtrText>{inv.invoiceNumber}</LtrText>
                     </TableCell>
-                    <TableCell className="text-[13px] text-foreground font-medium" data-testid="invoice-patient">{inv.patientName}</TableCell>
-                    <TableCell className="text-[13px] text-muted-foreground" data-testid="invoice-date"><LtrText>{formatDate(inv.createdAt)}</LtrText></TableCell>
-                    <TableCell className="text-end tabular-nums text-[13px] text-foreground" data-testid="invoice-subtotal">
+                    <TableCell className="py-3 px-4 text-[13px] text-foreground font-medium" data-testid="invoice-patient">{inv.patientName}</TableCell>
+                    <TableCell className="py-3 px-4 text-[13px] text-muted-foreground" data-testid="invoice-date"><LtrText>{formatDate(inv.createdAt)}</LtrText></TableCell>
+                    <TableCell className="py-3 px-4 text-end tabular-nums text-[13px] text-foreground" data-testid="invoice-subtotal">
                       <LtrText>{formatAED(inv.subtotal)}</LtrText>
                     </TableCell>
-                    <TableCell className="text-end tabular-nums text-[13px] text-muted-foreground" data-testid="invoice-vat">
+                    <TableCell className="py-3 px-4 text-end tabular-nums text-[13px] text-muted-foreground" data-testid="invoice-vat">
                       <LtrText>{formatAED(inv.vatAmount)}</LtrText>
                     </TableCell>
-                    <TableCell className="text-end tabular-nums text-[13px] font-bold text-foreground" data-testid="invoice-total">
+                    <TableCell className="py-3 px-4 text-end tabular-nums text-[13px] font-bold text-foreground" data-testid="invoice-total">
                       <LtrText>{formatAED(inv.total)}</LtrText>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="py-3 px-4">
                       <StatusBadge status={inv.status} />
                     </TableCell>
                   </TableRow>

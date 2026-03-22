@@ -123,7 +123,7 @@ export default function PatientsPageClient() {
       {isLoading ? (
         <div
           data-testid="patients-loading"
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
           {[1, 2, 3, 4].map((i) => (
             <div
@@ -161,7 +161,7 @@ export default function PatientsPageClient() {
       ) : (
         <div
           data-testid="patients-table"
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-300"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-300"
         >
           {patients.map((patient) => (
             <PatientCard key={patient.id} patient={patient} />

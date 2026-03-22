@@ -80,16 +80,16 @@ export function TeamTable({
         <Table data-testid="team-table">
           <TableHeader>
             <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
-              <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider">Collaborateurs</TableHead>
-              <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider">Niveau de visibilité</TableHead>
-              <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider text-center">Statut</TableHead>
-              {isAdmin && <TableHead className="h-12 px-6 text-[11px] font-bold text-foreground uppercase tracking-wider text-right w-24"></TableHead>}
+              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">Collaborateurs</TableHead>
+              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">Niveau de visibilité</TableHead>
+              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-center">Statut</TableHead>
+              {isAdmin && <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-right w-24"></TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user.id} data-testid={`user-row-${user.id}`} className="hover:bg-muted/50 border-border/30 transition-colors">
-                <TableCell className="px-6 py-4" data-testid={`user-name-${user.id}`}>
+              <TableRow key={user.id} data-testid={`user-row-${user.id}`} className="group hover:bg-muted/50 border-border/30 transition-colors">
+                <TableCell className="px-4 py-3" data-testid={`user-name-${user.id}`}>
                   <div className="flex items-center gap-4">
                     <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold", roleBadgeClass(user.role))}>
                       {getInitials(user.fullName)}
@@ -100,10 +100,10 @@ export function TeamTable({
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="px-6 py-4 text-[13px] text-muted-foreground font-medium">
+                <TableCell className="px-4 py-3 text-[13px] text-muted-foreground font-medium">
                   Tous détails
                 </TableCell>
-                <TableCell className="px-6 py-4 text-center">
+                <TableCell className="px-4 py-3 text-center">
                   <button
                     data-testid={`user-status-toggle-${user.id}`}
                     onClick={() => isAdmin && handleDeactivate(user)}
@@ -126,7 +126,7 @@ export function TeamTable({
                   </button>
                 </TableCell>
                 {isAdmin && (
-                  <TableCell className="px-6 py-4 text-right">
+                  <TableCell className="px-4 py-3 text-right">
                     <Button
                       variant="ghost"
                       size="icon-sm"
