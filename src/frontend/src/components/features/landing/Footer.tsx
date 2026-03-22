@@ -105,10 +105,10 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
       <ScrollReveal direction="fade-up">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         {footerCta && (
-          <div data-testid="footer-cta" className="mb-10 flex flex-col items-center gap-4 rounded-2xl bg-emerald-50 px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-start">
+          <div data-testid="footer-cta" className="mb-10 flex flex-col items-center gap-4 rounded-2xl bg-accent px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-start">
             <p className="text-lg font-semibold text-stone-900">{footerCta.headline}</p>
             <Link href={signupHref}>
-              <Button className="bg-emerald-700 px-8 font-semibold text-white hover:bg-emerald-800" data-testid="btn-footer-cta">{footerCta.cta}</Button>
+              <Button className="bg-primary px-8 font-semibold text-white hover:bg-primary/90" data-testid="btn-footer-cta">{footerCta.cta}</Button>
             </Link>
           </div>
         )}
@@ -134,7 +134,7 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
                       ) : (
                         <a
                           href={link.href}
-                          className="text-sm text-stone-600 transition-colors hover:text-emerald-700"
+                          className="text-sm text-stone-600 transition-colors hover:text-primary"
                         >
                           {link.label}
                         </a>
@@ -152,7 +152,7 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
             {/* Brand + copyright */}
             <div>
-              <p className="text-sm font-bold text-emerald-700">Vetara</p>
+              <p className="text-sm font-bold text-primary">Vetara</p>
               <p className="mt-1 text-xs text-stone-400">
                 &copy; 2026 Vetara. {m.tagline}
               </p>
@@ -165,13 +165,13 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
             >
               <a
                 href={`mailto:${m.contact_hello}`}
-                className="hover:text-emerald-700"
+                className="hover:text-primary"
               >
                 {m.contact_hello}
               </a>
               <a
                 href={`mailto:${m.contact_support}`}
-                className="hover:text-emerald-700"
+                className="hover:text-primary"
               >
                 {m.contact_support}
               </a>
@@ -187,8 +187,8 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
                 data-testid="footer-lang-en"
                 className={`text-xs font-medium transition-colors ${
                   locale === "en"
-                    ? "text-emerald-700"
-                    : "text-stone-400 hover:text-emerald-700"
+                    ? "text-primary"
+                    : "text-stone-400 hover:text-primary"
                 }`}
               >
                 EN
@@ -199,8 +199,8 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
                 data-testid="footer-lang-ar"
                 className={`text-xs font-medium transition-colors ${
                   locale === "ar"
-                    ? "text-emerald-700"
-                    : "text-stone-400 hover:text-emerald-700"
+                    ? "text-primary"
+                    : "text-stone-400 hover:text-primary"
                 }`}
               >
                 AR

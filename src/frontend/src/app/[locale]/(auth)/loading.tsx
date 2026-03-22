@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function AuthLoading() {
   return (
     <div
-      className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-emerald-50/30"
+      className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-accent/30"
       data-testid="auth-loading"
     >
       <div className="w-full max-w-md px-4 animate-auth-card-in">

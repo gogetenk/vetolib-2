@@ -28,7 +28,7 @@ export function TrustSignalsSection({ messages: m }: Props) {
   return (
     <section
       data-testid="section-trust-signals"
-      className="border-y border-stone-100 bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-16 sm:py-20"
+      className="border-y border-stone-100 bg-gradient-to-br from-secondary/50 via-white to-accent/50 py-16 sm:py-20"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="fade-up">
@@ -44,7 +44,7 @@ export function TrustSignalsSection({ messages: m }: Props) {
                 data-testid={`trust-badge-${key}`}
                 className="flex flex-col items-center gap-3 rounded-2xl border border-stone-100 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-primary">
                   <Icon className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <span className="text-center text-sm font-semibold text-stone-800">

@@ -46,7 +46,7 @@ export function BlogTableOfContents({ content }: BlogTableOfContentsProps) {
           >
             <a
               href={`#${heading.id}`}
-              className="block text-sm text-stone-500 hover:text-emerald-700 transition-colors leading-snug"
+              className="block text-sm text-stone-500 hover:text-primary transition-colors leading-snug"
               data-testid={`toc-link-${heading.id}`}
             >
               {heading.text}

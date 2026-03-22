@@ -112,7 +112,7 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
     <section
       id="features"
       data-testid="section-features"
-      className="bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-20 sm:py-28"
+      className="bg-gradient-to-br from-secondary/50 via-white to-accent/50 py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="fade-up">
@@ -134,7 +134,7 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
                 data-testid={`new-feature-card-${key}`}
                 className={`group relative border shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
                   key === "health_passport"
-                    ? "border-emerald-200 bg-white lg:col-span-1"
+                    ? "border-primary/20 bg-white lg:col-span-1"
                     : "border-stone-100 bg-white"
                 }`}
               >
@@ -142,16 +142,16 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
                   {badge && (
                     <span
                       data-testid={`new-feature-badge-${key}`}
-                      className="mb-3 inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800"
+                      className="mb-3 inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-primary"
                     >
                       {badge}
                     </span>
                   )}
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110 ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:bg-secondary group-hover:scale-110 ${
                       key === "health_passport"
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-emerald-50 text-emerald-700"
+                        ? "bg-secondary text-primary"
+                        : "bg-accent text-primary"
                     }`}
                   >
                     <Icon className="h-6 w-6" aria-hidden="true" />

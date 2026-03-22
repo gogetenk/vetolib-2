@@ -123,42 +123,42 @@ export default async function LandingPage({ params }: Props) {
       <header className="sticky top-0 z-50 border-b border-stone-100 bg-white/80 backdrop-blur-md transition-all duration-300">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-bold tracking-tight text-emerald-700">
+            <span className="text-xl font-bold tracking-tight text-primary">
               Vetara
             </span>
           </div>
           <div className="hidden items-center gap-6 md:flex">
             <a
               href="#features"
-              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-features"
             >
               {t("nav.features")}
             </a>
             <a
               href="#pricing"
-              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-pricing"
             >
               {t("nav.pricing")}
             </a>
             <a
               href="#demo"
-              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-demo"
             >
               {t("nav.demo")}
             </a>
             <a
               href="#faq"
-              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-faq"
             >
               {t("nav.faq")}
             </a>
             <Link
               href={`/${locale}/blog`}
-              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-emerald-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-700 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-blog"
             >
               Blog
@@ -172,7 +172,7 @@ export default async function LandingPage({ params }: Props) {
             <Link href={signupHref} data-testid="nav-cta-start-trial">
               <Button
                 size="sm"
-                className="bg-emerald-700 text-white transition-all duration-200 hover:bg-emerald-800 hover:shadow-md hover:shadow-emerald-700/20 hover:scale-[1.02]"
+                className="bg-primary text-white transition-all duration-200 hover:bg-primary/90 hover:shadow-md hover:shadow-primary/20 hover:scale-[1.02]"
                 data-testid="btn-nav-start-trial"
               >
                 {t("hero.cta_primary")}
@@ -203,7 +203,7 @@ export default async function LandingPage({ params }: Props) {
         {/* ── Hero ───────────────────────────────────────────────────── */}
         <section
           data-testid="section-hero"
-          className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-teal-50"
+          className="relative overflow-hidden bg-gradient-to-br from-secondary/50 via-white to-accent/50"
         >
           <div className="mx-auto max-w-7xl px-4 pb-16 pt-16 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8 lg:pb-32 lg:pt-24">
             <div className="grid items-center gap-12 lg:grid-cols-2">
@@ -222,20 +222,20 @@ export default async function LandingPage({ params }: Props) {
                 <HeroStagger index={2}>
                   <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
                     <Link href={signupHref} data-testid="hero-cta-start-trial">
-                      <Button size="lg" className="group/cta relative w-full overflow-hidden bg-emerald-700 px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-emerald-800 hover:shadow-lg hover:shadow-emerald-700/25 hover:scale-[1.02] sm:w-auto" data-testid="btn-hero-start-trial">{t("hero.cta_primary")}</Button>
+                      <Button size="lg" className="group/cta relative w-full overflow-hidden bg-primary px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] sm:w-auto" data-testid="btn-hero-start-trial">{t("hero.cta_primary")}</Button>
                     </Link>
                   </div>
                 </HeroStagger>
                 <HeroStagger index={3}>
                   <div className="mt-5 flex flex-col items-center gap-2 lg:items-start">
                     <p data-testid="hero-trust-badge" className="flex items-center gap-1.5 text-sm text-stone-500">
-                      <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
+                      <ShieldCheck className="h-4 w-4 shrink-0 text-primary/85" aria-hidden="true" />
                       {t("hero.trust_badge")}
                     </p>
-                    <p data-testid="hero-social-proof-badge" className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
+                    <p data-testid="hero-social-proof-badge" className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-sm font-medium text-primary">
                       <span className="relative flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60 opacity-75" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
                       </span>
                       {t("hero.social_proof_badge")}
                     </p>
@@ -274,7 +274,7 @@ export default async function LandingPage({ params }: Props) {
                     className="flex flex-col items-center text-center"
                     data-testid={`social-proof-${stat}`}
                   >
-                    <dt className="text-2xl font-extrabold text-emerald-700 sm:text-3xl">
+                    <dt className="text-2xl font-extrabold text-primary sm:text-3xl">
                       <AnimatedStat
                         value={t(`social_proof.${stat}`)}
                         delay={index * 150}
@@ -340,7 +340,7 @@ export default async function LandingPage({ params }: Props) {
         {/* ── How It Works ───────────────────────────────────────────── */}
         <section
           data-testid="section-how-it-works"
-          className="bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-20 sm:py-28"
+          className="bg-gradient-to-br from-secondary/50 via-white to-accent/50 py-20 sm:py-28"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <ScrollReveal direction="fade-up">
@@ -358,7 +358,7 @@ export default async function LandingPage({ params }: Props) {
             <div className="relative mt-16">
               {/* Connector line — desktop only */}
               <div
-                className="absolute left-0 right-0 top-10 hidden h-px bg-emerald-200 lg:block"
+                className="absolute left-0 right-0 top-10 hidden h-px bg-primary/20 lg:block"
                 aria-hidden="true"
               />
 
@@ -384,12 +384,12 @@ export default async function LandingPage({ params }: Props) {
                       data-testid={`how-it-works-${key}`}
                       className="flex flex-col items-center text-center"
                     >
-                      <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-4 border-emerald-100 bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                      <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-4 border-primary/15 bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
                         <Icon
-                          className="h-8 w-8 text-emerald-700"
+                          className="h-8 w-8 text-primary"
                           aria-hidden="true"
                         />
-                        <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-700 text-xs font-bold text-white">
+                        <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
                           {t(`how_it_works.${key}.number`)}
                         </span>
                       </div>
@@ -410,7 +410,7 @@ export default async function LandingPage({ params }: Props) {
                 <Link href={signupHref} data-testid="how-it-works-cta">
                   <Button
                     size="lg"
-                    className="bg-emerald-700 px-10 text-base font-semibold text-white transition-all duration-300 hover:bg-emerald-800 hover:shadow-lg hover:shadow-emerald-700/25 hover:scale-[1.02]"
+                    className="bg-primary px-10 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02]"
                     data-testid="btn-how-it-works-start-trial"
                   >
                     {t("how_it_works.cta")}
