@@ -86,7 +86,7 @@ export function MonthCalendarBody({ year, month, appointments, onDayClick, onApp
             <div
               key={i}
               className={`py-2.5 text-center text-[11px] font-bold text-foreground uppercase tracking-wider ${
-                isWeekendDay ? 'bg-[#f9fafb]' : 'bg-muted'
+                isWeekendDay ? 'bg-muted/50' : 'bg-muted'
               }`}
             >
               {name}

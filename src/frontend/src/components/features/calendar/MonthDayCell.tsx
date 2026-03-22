@@ -60,7 +60,7 @@ export function MonthDayCell({
       data-testid={`month-day-cell-${dateKey}`}
       className={`min-h-24 border-b border-e border-border/30 p-1 cursor-pointer transition-all duration-200 ease-in-out hover:bg-muted/50 relative ${
         isToday ? 'bg-primary/10' : ''
-      } ${isWeekend ? 'bg-[#f9fafb]' : ''} ${!isCurrentMonth ? 'opacity-40' : ''}`}
+      } ${isWeekend ? 'bg-muted/50' : ''} ${!isCurrentMonth ? 'opacity-40' : ''}`}
       onClick={() => onDayClick(date)}
     >
       {/* Day number */}

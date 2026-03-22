@@ -129,7 +129,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
             <div
               key={day.date.toISOString()}
               className={`flex-1 min-w-28 border-e border-border/30 last:border-e-0 ${
-                day.isWeekend ? 'bg-[#f9fafb]' : ''
+                day.isWeekend ? 'bg-muted/50' : ''
               }`}
               data-testid={`calendar-day-column-${day.dayIndex}`}
             >
@@ -168,7 +168,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                   return (
                     <div
                       key={i}
-                      className={`h-16 border-b border-border/20 ${offHours ? 'bg-[#f9fafb]' : ''} ${
+                      className={`h-16 border-b border-border/20 ${offHours ? 'bg-muted/50' : ''} ${
                         day.isWeekend ? 'cursor-not-allowed' : ''
                       }`}
                     >

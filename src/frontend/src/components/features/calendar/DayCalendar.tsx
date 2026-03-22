@@ -203,7 +203,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
             const isBottomHovered = hoveredSlot === bottomHalfKey
 
             return (
-              <div key={i} className={`h-16 border-b border-border/20 ${offHours ? 'bg-[#f9fafb]' : ''}`}>
+              <div key={i} className={`h-16 border-b border-border/20 ${offHours ? 'bg-muted/50' : ''}`}>
                 {/* Top half */}
                 <div
                   className={`h-8 relative transition-colors duration-200 ease-in-out border-b border-border/10 ${

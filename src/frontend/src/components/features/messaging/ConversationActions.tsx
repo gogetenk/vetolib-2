@@ -118,7 +118,7 @@ export function ConversationActions({
                   className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted transition-colors"
                   onClick={() => { void onStatusChange('Resolved'); setOpen(false) }}
                 >
-                  <CheckCircle className="h-4 w-4 text-[#22c55e]" />
+                  <CheckCircle className="h-4 w-4 text-green-500" />
                   {t('action_resolve')}
                 </button>
               )}
@@ -156,7 +156,7 @@ export function ConversationActions({
                 type="button"
                 role="menuitem"
                 data-testid="mark-spam-btn"
-                className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-[#ef4444] hover:bg-red-50 transition-colors"
+                className="flex w-full items-center gap-2 px-3 py-2 text-[13px] font-medium text-destructive hover:bg-red-50 transition-colors"
                 onClick={() => { void onMarkSpam(); setOpen(false) }}
               >
                 <AlertTriangle className="h-4 w-4" />
