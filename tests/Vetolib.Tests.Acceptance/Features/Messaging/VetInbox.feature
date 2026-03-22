@@ -1,4 +1,4 @@
-@wip
+
 Feature: Veterinarian Messaging Inbox
   As a veterinarian
   I want to see and respond to medical messages with full patient context

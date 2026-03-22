@@ -1,4 +1,4 @@
-@wip
+
 Feature: Owner Messaging Portal
   As a pet owner
   I want to send messages to my veterinary clinic
