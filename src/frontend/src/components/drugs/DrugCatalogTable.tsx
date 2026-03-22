@@ -99,7 +99,7 @@ export function DrugCatalogTable({
       Antiparasitic: 'bg-purple-50 text-purple-700 border-purple-200',
       AntiInflammatory: 'bg-orange-50 text-orange-700 border-orange-200',
       Analgesic: 'bg-rose-50 text-rose-700 border-rose-200',
-      Vaccine: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      Vaccine: 'bg-success/10 text-success border-success/25',
       Antifungal: 'bg-amber-50 text-amber-700 border-amber-200',
       Cardiac: 'bg-red-50 text-red-700 border-red-200',
       Dermatological: 'bg-teal-50 text-teal-700 border-teal-200',
@@ -296,7 +296,7 @@ export function DrugCatalogTable({
                         Rx
                       </Badge>
                     ) : (
-                      <Badge className="rounded-md text-[10px] font-bold uppercase tracking-wider border bg-emerald-50 text-emerald-700 border-emerald-200">
+                      <Badge className="rounded-md text-[10px] font-bold uppercase tracking-wider border bg-success/10 text-success border-success/25">
                         OTC
                       </Badge>
                     )}

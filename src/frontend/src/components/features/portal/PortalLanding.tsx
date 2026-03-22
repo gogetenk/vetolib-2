@@ -11,7 +11,7 @@ import { ApiError } from '@/lib/api/client'
 import type { PortalConversationDto, ConversationStatus } from '@/lib/api/messaging-types'
 
 const STATUS_COLORS: Record<ConversationStatus, string> = {
-  Open: 'bg-emerald-100 text-emerald-800',
+  Open: 'bg-success/15 text-success',
   InProgress: 'bg-blue-100 text-blue-800',
   Resolved: 'bg-muted text-muted-foreground',
   Closed: 'bg-muted text-muted-foreground',

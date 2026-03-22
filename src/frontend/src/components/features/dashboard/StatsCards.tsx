@@ -150,7 +150,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
                 {t('total_patients')}
               </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-success/10">
                 <Users className="h-4 w-4 text-green-500" aria-hidden="true" />
               </div>
             </div>
@@ -174,7 +174,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
                 {t('todays_revenue')}
               </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-success/10">
                 <DollarSign className="h-4 w-4 text-green-500" aria-hidden="true" />
               </div>
             </div>

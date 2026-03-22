@@ -39,7 +39,7 @@ const STATUS_VARIANTS: Record<
 
 const CONSULTATION_TYPE_COLORS: Record<ConsultationType, { dot: string; badge: string; text: string }> = {
   GENERAL: { dot: 'bg-blue-400', badge: 'bg-blue-100 text-blue-700', text: 'General' },
-  VACCINATION: { dot: 'bg-emerald-400', badge: 'bg-emerald-100 text-emerald-700', text: 'Vaccination' },
+  VACCINATION: { dot: 'bg-success', badge: 'bg-success/15 text-success', text: 'Vaccination' },
   SURGERY: { dot: 'bg-red-400', badge: 'bg-red-100 text-red-700', text: 'Surgery' },
   EMERGENCY: { dot: 'bg-rose-500', badge: 'bg-rose-100 text-rose-700', text: 'Emergency' },
   FOLLOWUP: { dot: 'bg-violet-400', badge: 'bg-violet-100 text-violet-700', text: 'Follow-up' },

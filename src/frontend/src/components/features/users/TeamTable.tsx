@@ -33,7 +33,7 @@ function roleBadgeClass(role: UserRole): string {
     case "VET":
       return "bg-primary/10 text-primary"
     case "ASSISTANT":
-      return "bg-emerald-50 text-green-500"
+      return "bg-success/10 text-success"
     case "RECEPTIONIST":
       return "bg-orange-50 text-orange-500"
     default:

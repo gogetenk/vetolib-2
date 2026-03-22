@@ -66,7 +66,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
       )
     }
     return (
-      <Badge className={`${base} bg-emerald-50 text-emerald-700 border-emerald-200`} data-testid={`badge-ok-${item.id}`}>
+      <Badge className={`${base} bg-success/10 text-success border-success/25`} data-testid={`badge-ok-${item.id}`}>
         {t('status.ok')}
       </Badge>
     )

@@ -13,7 +13,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group"
       icons={{
         success: (
-          <CircleCheckIcon className="size-4 text-emerald-500" />
+          <CircleCheckIcon className="size-4 text-success" />
         ),
         info: (
           <InfoIcon className="size-4 text-blue-500" />

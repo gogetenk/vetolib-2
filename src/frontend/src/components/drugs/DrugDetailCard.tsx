@@ -47,7 +47,7 @@ export function DrugDetailCard({ drug }: DrugDetailCardProps) {
             </Badge>
           ) : (
             <Badge
-              className="rounded-md text-[10px] font-bold uppercase tracking-wider border bg-emerald-50 text-emerald-700 border-emerald-200"
+              className="rounded-md text-[10px] font-bold uppercase tracking-wider border bg-success/10 text-success border-success/25"
               data-testid="drug-detail-otc"
             >
               OTC

@@ -40,7 +40,7 @@ const SPECIES_EMOJI: Record<string, string> = {
 const STATUS_BADGE_VARIANT: Record<AppointmentStatus, string> = {
   SCHEDULED: 'bg-primary/10 text-primary',
   CHECKED_IN: 'bg-orange-50 text-orange-500',
-  IN_PROGRESS: 'bg-emerald-50 text-green-500',
+  IN_PROGRESS: 'bg-success/10 text-success',
   COMPLETED: 'bg-muted text-muted-foreground',
   CANCELLED: 'bg-red-50 text-red-500',
 }

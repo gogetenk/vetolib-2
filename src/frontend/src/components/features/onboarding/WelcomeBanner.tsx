@@ -97,7 +97,7 @@ export function WelcomeBanner({ role, clinicName }: WelcomeBannerProps) {
       data-testid="welcome-banner"
       role="banner"
       className={[
-        'relative flex items-center gap-4 rounded-xl border border-border/80 bg-emerald-50 p-5 shadow-sm',
+        'relative flex items-center gap-4 rounded-xl border border-border/80 bg-primary/5 p-5 shadow-sm',
         'transition-opacity duration-200',
         animatingOut ? 'opacity-0' : 'opacity-100',
       ].join(' ')}
