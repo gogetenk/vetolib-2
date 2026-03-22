@@ -10,6 +10,8 @@ using Vetolib.Messaging.Application.Commands.ConvertToAppointment;
 using Vetolib.Messaging.Application.Commands.CreateOutboundConversation;
 using Vetolib.Messaging.Application.Commands.CreateTemplate;
 using Vetolib.Messaging.Application.Commands.UploadFiles;
+using Vetolib.Messaging.Application.Commands.OverrideClassification;
+using Vetolib.Messaging.Application.Commands.ClassificationFeedback;
 using Vetolib.Messaging.Application.Commands.DeleteTemplate;
 using Vetolib.Messaging.Application.Commands.MarkAsSpam;
 using Vetolib.Messaging.Application.Commands.RecategorizeConversation;
@@ -20,6 +22,7 @@ using Vetolib.Messaging.Application.Commands.UpdateTemplate;
 using Vetolib.Messaging.Application.Queries.GetConversationById;
 using Vetolib.Messaging.Application.Queries.GetConversationSummary;
 using Vetolib.Messaging.Application.Queries.GetMessagingHours;
+using Vetolib.Messaging.Application.Queries.GetClassificationAccuracy;
 using Vetolib.Messaging.Application.Queries.GetTriageStats;
 using Vetolib.Messaging.Application.Queries.ListConversations;
 using Vetolib.Messaging.Application.Queries.ListTemplates;
@@ -166,6 +169,42 @@ internal static class MessagingEndpoints
         group.MapGet("/conversations/{id:guid}/summary", async (Guid id, ISender sender, CancellationToken ct) =>
             (await sender.Send(new GetConversationSummaryQuery(id), ct)).ToMinimalApiResult()
         ).WithName("GetConversationSummary");
+
+        // -----------------------------------------------------------------------
+        // Staff: Message Classification
+        // -----------------------------------------------------------------------
+
+        // PATCH /conversations/{id}/messages/{messageId}/classify — override classification (Vet/Admin)
+        group.MapPatch("/conversations/{id:guid}/messages/{messageId:guid}/classify", async (
+            Guid id,
+            Guid messageId,
+            ClassifyMessageOverrideRequest request,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            var cmd = new OverrideClassificationCommand(id, messageId, request.Urgency, request.Category);
+            return (await sender.Send(cmd, ct)).ToMinimalApiResult();
+        }).RequireAuthorization(policy => policy.RequireRole("Vet", AdminRole))
+          .WithName("OverrideClassification");
+
+        // POST /conversations/{id}/messages/{messageId}/classify/feedback — classification feedback
+        group.MapPost("/conversations/{id:guid}/messages/{messageId:guid}/classify/feedback", async (
+            Guid id,
+            Guid messageId,
+            ClassificationFeedbackRequest request,
+            ISender sender,
+            CancellationToken ct) =>
+        {
+            var cmd = new ClassificationFeedbackCommand(id, messageId, request.IsCorrect);
+            return (await sender.Send(cmd, ct)).ToMinimalApiResult();
+        }).RequireAuthorization("ClinicStaff")
+          .WithName("ClassificationFeedback");
+
+        // GET /stats/classification-accuracy — classification accuracy report (Admin)
+        group.MapGet("/stats/classification-accuracy", async (ISender sender, CancellationToken ct) =>
+            (await sender.Send(new GetClassificationAccuracyQuery(), ct)).ToMinimalApiResult())
+            .RequireAuthorization(policy => policy.RequireRole(AdminRole))
+            .WithName("GetClassificationAccuracy");
 
         // -----------------------------------------------------------------------
         // Staff: File Upload
