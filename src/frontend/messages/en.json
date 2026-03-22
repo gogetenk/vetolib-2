@@ -677,6 +677,24 @@
       "Feedback": "Feedback",
       "Other": "Other"
     },
+    "classification": {
+      "urgency": {
+        "Critical": "Critical",
+        "High": "High",
+        "Normal": "Normal",
+        "Low": "Low"
+      },
+      "needs_review": "Needs review",
+      "feedback_accurate": "Classification is accurate",
+      "feedback_inaccurate": "Classification is inaccurate",
+      "override": "Override classification",
+      "urgency_label": "Urgency",
+      "category_label": "Category",
+      "cancel": "Cancel",
+      "save": "Apply",
+      "saving": "Saving...",
+      "overridden": "overridden"
+    },
     "errors": {
       "load_failed": "Failed to load conversations.",
       "status_failed": "Failed to update status.",
@@ -772,7 +790,15 @@
       "by_category": "Messages by Category",
       "volume_per_day": "Volume per Day (last 30 days)",
       "tooltip_count": "messages",
-      "tooltip_messages": "messages"
+      "tooltip_messages": "messages",
+      "classification_accuracy_title": "Classification Accuracy",
+      "classification_total": "Total Classified",
+      "classification_accuracy": "Accuracy",
+      "classification_feedback_count": "Feedback Received",
+      "classification_col_category": "Category",
+      "classification_col_classified": "Classified",
+      "classification_col_accurate": "Accurate",
+      "classification_col_accuracy": "Accuracy %"
     },
     "whatsapp": {
       "title": "WhatsApp Integration",

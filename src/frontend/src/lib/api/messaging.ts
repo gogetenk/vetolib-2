@@ -21,6 +21,9 @@ import type {
   WhatsAppTestRequest,
   WhatsAppTestResult,
   UploadFilesResponse,
+  ClassifyMessageRequest,
+  ClassificationFeedbackRequest,
+  ClassificationAccuracyDto,
 } from './messaging-types'
 import type { PagedResult } from './types'
 
@@ -94,6 +97,31 @@ export function createOutboundConversation(
 
 export function getConversationSummary(id: string): Promise<{ summary: string }> {
   return apiGet<{ summary: string }>(`${BASE}/conversations/${id}/summary`)
+}
+
+// ─── Message Classification ──────────────────────────────────────────────────
+
+export function classifyMessage(
+  conversationId: string,
+  messageId: string,
+  body: ClassifyMessageRequest
+): Promise<MessageDto> {
+  return apiPatch<MessageDto>(
+    `${BASE}/conversations/${conversationId}/messages/${messageId}/classify`,
+    body
+  )
+}
+
+export function sendClassificationFeedback(
+  conversationId: string,
+  messageId: string,
+  body: ClassificationFeedbackRequest
+): Promise<void> {
+  return apiPost(`${BASE}/conversations/${conversationId}/messages/${messageId}/classify/feedback`, body) as Promise<void>
+}
+
+export function getClassificationAccuracy(): Promise<ClassificationAccuracyDto> {
+  return apiGet<ClassificationAccuracyDto>(`${BASE}/stats/classification-accuracy`)
 }
 
 // ─── File Upload ─────────────────────────────────────────────────────────────

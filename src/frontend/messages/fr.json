@@ -677,6 +677,24 @@
       "Feedback": "Retour d'expérience",
       "Other": "Autre"
     },
+    "classification": {
+      "urgency": {
+        "Critical": "Critique",
+        "High": "Élevé",
+        "Normal": "Normal",
+        "Low": "Faible"
+      },
+      "needs_review": "À vérifier",
+      "feedback_accurate": "Classification correcte",
+      "feedback_inaccurate": "Classification incorrecte",
+      "override": "Modifier la classification",
+      "urgency_label": "Urgence",
+      "category_label": "Catégorie",
+      "cancel": "Annuler",
+      "save": "Appliquer",
+      "saving": "Enregistrement...",
+      "overridden": "modifié"
+    },
     "errors": {
       "load_failed": "Échec du chargement des conversations.",
       "status_failed": "Échec de la mise à jour du statut.",
@@ -772,7 +790,15 @@
       "by_category": "Messages par catégorie",
       "volume_per_day": "Volume par jour (30 derniers jours)",
       "tooltip_count": "messages",
-      "tooltip_messages": "messages"
+      "tooltip_messages": "messages",
+      "classification_accuracy_title": "Précision de la classification",
+      "classification_total": "Total classifié",
+      "classification_accuracy": "Précision",
+      "classification_feedback_count": "Retours reçus",
+      "classification_col_category": "Catégorie",
+      "classification_col_classified": "Classifié",
+      "classification_col_accurate": "Correct",
+      "classification_col_accuracy": "% Précision"
     },
     "whatsapp": {
       "title": "Intégration WhatsApp",

@@ -11,7 +11,24 @@ import type {
   PortalMessageDto,
   PortalPetDto,
   AiSuggestion,
+  MessageClassificationDto,
 } from '@/lib/api/messaging-types'
+
+// ─── Classification helpers ──────────────────────────────────────────────────
+
+function makeClassification(
+  urgency: MessageClassificationDto['urgency'],
+  category: MessageClassificationDto['category'],
+  confidence: number,
+): MessageClassificationDto {
+  return {
+    urgency,
+    category,
+    confidence,
+    overriddenByUserId: null,
+    overriddenAt: null,
+  }
+}
 
 // ─── Conversations ────────────────────────────────────────────────────────────
 
@@ -208,6 +225,7 @@ export const MOCK_MESSAGES: Record<string, MessageDto[]> = {
       isInternalNote: false,
       sentAt: new Date('2026-03-10T07:45:00+04:00').toISOString(),
       attachments: [],
+      classification: makeClassification('Critical', 'MedicalUrgency', 0.91),
     },
   ],
   'conv-0000-0000-0000-000000000002': [
@@ -229,6 +247,7 @@ export const MOCK_MESSAGES: Record<string, MessageDto[]> = {
           url: '/mock-attachments/luna_stitches.jpg',
         },
       ],
+      classification: makeClassification('High', 'PostOperativeFollowUp', 0.88),
     },
     {
       id: 'msg-002-02',
@@ -305,6 +324,7 @@ export const MOCK_MESSAGES: Record<string, MessageDto[]> = {
       isInternalNote: false,
       sentAt: new Date('2026-03-10T08:10:00+04:00').toISOString(),
       attachments: [],
+      classification: makeClassification('Normal', 'AppointmentRequest', 0.95),
     },
   ],
   'conv-0000-0000-0000-000000000004': [
@@ -318,6 +338,7 @@ export const MOCK_MESSAGES: Record<string, MessageDto[]> = {
       isInternalNote: false,
       sentAt: new Date('2026-03-09T10:00:00+04:00').toISOString(),
       attachments: [],
+      classification: makeClassification('Low', 'Administrative', 0.93),
     },
     {
       id: 'msg-004-02',
@@ -342,6 +363,7 @@ export const MOCK_MESSAGES: Record<string, MessageDto[]> = {
       isInternalNote: false,
       sentAt: new Date('2026-03-10T06:30:00+04:00').toISOString(),
       attachments: [],
+      classification: makeClassification('Low', 'Administrative', 0.62),
     },
   ],
   'conv-0000-0000-0000-000000000006': [
@@ -355,6 +377,7 @@ export const MOCK_MESSAGES: Record<string, MessageDto[]> = {
       isInternalNote: false,
       sentAt: new Date('2026-03-10T08:00:00+04:00').toISOString(),
       attachments: [],
+      classification: makeClassification('Normal', 'MedicalQuestion', 0.84),
     },
     {
       id: 'msg-006-02',
@@ -401,6 +424,7 @@ export const MOCK_MESSAGES: Record<string, MessageDto[]> = {
       isInternalNote: false,
       sentAt: new Date('2026-03-08T15:00:00+04:00').toISOString(),
       attachments: [],
+      classification: makeClassification('Low', 'Feedback', 0.97),
     },
   ],
 }

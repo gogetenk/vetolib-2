@@ -16,6 +16,8 @@ import type {
   MessagingHoursDto,
   MessageCategory,
   ConversationStatus,
+  ClassificationUrgency,
+  ClassificationCategory,
 } from '@/lib/api/messaging-types'
 import type { PagedResult } from '@/lib/api/types'
 
@@ -513,6 +515,55 @@ export const messagingHandlers = [
     return HttpResponse.json({
       success: true,
       message: 'Template sent to +971-50-123-4567',
+    })
+  }),
+
+  // PATCH /api/v1/messaging/conversations/:id/messages/:messageId/classify
+  http.patch(`${BASE}/conversations/:id/messages/:messageId/classify`, async ({ params, request }) => {
+    await delay(150)
+    const convId = params.id as string
+    const messageId = params.messageId as string
+    const messages = messageStore[convId]
+    if (!messages) return new HttpResponse(null, { status: 404 })
+
+    const msg = messages.find(m => m.id === messageId)
+    if (!msg) return new HttpResponse(null, { status: 404 })
+
+    const body = await request.json() as { urgency: ClassificationUrgency; category: ClassificationCategory }
+    msg.classification = {
+      urgency: body.urgency,
+      category: body.category,
+      confidence: 1.0,
+      overriddenByUserId: 'user-staff-current',
+      overriddenAt: new Date().toISOString(),
+    }
+    return HttpResponse.json(msg)
+  }),
+
+  // POST /api/v1/messaging/conversations/:id/messages/:messageId/classify/feedback
+  http.post(`${BASE}/conversations/:id/messages/:messageId/classify/feedback`, async () => {
+    await delay(100)
+    return new HttpResponse(null, { status: 200 })
+  }),
+
+  // GET /api/v1/messaging/stats/classification-accuracy
+  http.get(`${BASE}/stats/classification-accuracy`, async () => {
+    await delay(200)
+    return HttpResponse.json({
+      totalClassified: 284,
+      totalFeedback: 142,
+      accurateCount: 121,
+      inaccurateCount: 21,
+      accuracyPercent: 85.2,
+      byCategory: [
+        { category: 'MedicalUrgency', totalClassified: 38, accurateCount: 35, accuracyPercent: 92.1 },
+        { category: 'PostOperativeFollowUp', totalClassified: 42, accurateCount: 37, accuracyPercent: 88.1 },
+        { category: 'MedicalQuestion', totalClassified: 55, accurateCount: 48, accuracyPercent: 87.3 },
+        { category: 'AppointmentRequest', totalClassified: 68, accurateCount: 60, accuracyPercent: 88.2 },
+        { category: 'Administrative', totalClassified: 52, accurateCount: 42, accuracyPercent: 80.8 },
+        { category: 'Feedback', totalClassified: 18, accurateCount: 14, accuracyPercent: 77.8 },
+        { category: 'Other', totalClassified: 11, accurateCount: 6, accuracyPercent: 54.5 },
+      ],
     })
   }),
 

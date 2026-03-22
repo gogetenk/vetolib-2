@@ -40,6 +40,7 @@ export interface MessageDto {
   isInternalNote: boolean
   sentAt: string
   attachments: MessageAttachmentDto[]
+  classification?: MessageClassificationDto | null
 }
 
 export interface ConversationDto {
@@ -134,6 +135,53 @@ export interface PatientContextDto {
   knownAllergies: string[]
   vaccinationHistory: string[]
   outstandingInvoicesAed: number
+}
+
+// ─── Classification ─────────────────────────────────────────────────────
+
+export type ClassificationUrgency = 'Critical' | 'High' | 'Normal' | 'Low'
+
+export type ClassificationCategory =
+  | 'MedicalUrgency'
+  | 'PostOperativeFollowUp'
+  | 'MedicalQuestion'
+  | 'AppointmentRequest'
+  | 'Administrative'
+  | 'Feedback'
+  | 'Other'
+
+export interface MessageClassificationDto {
+  urgency: ClassificationUrgency
+  category: ClassificationCategory
+  confidence: number
+  overriddenByUserId: string | null
+  overriddenAt: string | null
+}
+
+export interface ClassifyMessageRequest {
+  urgency: ClassificationUrgency
+  category: ClassificationCategory
+}
+
+export interface ClassificationFeedbackRequest {
+  isAccurate: boolean
+  comment?: string | null
+}
+
+export interface ClassificationAccuracyDto {
+  totalClassified: number
+  totalFeedback: number
+  accurateCount: number
+  inaccurateCount: number
+  accuracyPercent: number
+  byCategory: ClassificationCategoryAccuracy[]
+}
+
+export interface ClassificationCategoryAccuracy {
+  category: ClassificationCategory
+  totalClassified: number
+  accurateCount: number
+  accuracyPercent: number
 }
 
 // ─── Request types ───────────────────────────────────────────────────────────

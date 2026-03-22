@@ -16,8 +16,8 @@ import {
 } from "recharts"
 import { PageContainer } from "@/components/ui/page-container"
 import { StatCard } from "./StatCard"
-import { getTriageStats } from "@/lib/api/messaging"
-import type { TriageStatsDto } from "@/lib/api/messaging-types"
+import { getTriageStats, getClassificationAccuracy } from "@/lib/api/messaging"
+import type { TriageStatsDto, ClassificationAccuracyDto } from "@/lib/api/messaging-types"
 
 // Using theme colors instead of hardcoded hex colors for better integration
 const CATEGORY_COLORS: Record<string, string> = {
@@ -41,6 +41,7 @@ export function TriageStatsPage() {
   const t = useTranslations("messaging_admin.stats")
   const tCat = useTranslations("messaging.category")
   const [stats, setStats] = useState<TriageStatsDto | null>(null)
+  const [classificationStats, setClassificationStats] = useState<ClassificationAccuracyDto | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
 
@@ -48,8 +49,12 @@ export function TriageStatsPage() {
     try {
       setIsLoading(true)
       setError(false)
-      const data = await getTriageStats()
+      const [data, classData] = await Promise.all([
+        getTriageStats(),
+        getClassificationAccuracy(),
+      ])
       setStats(data)
+      setClassificationStats(classData)
     } catch {
       setError(true)
     } finally {
@@ -197,6 +202,54 @@ export function TriageStatsPage() {
           </LineChart>
         </ResponsiveContainer>
       </div>
+      {/* Classification Accuracy Section */}
+      {classificationStats && (
+        <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-classification-accuracy">
+          <h3 className="text-[14px] font-bold text-foreground mb-4">{t("classification_accuracy_title")}</h3>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 mb-4">
+            <div className="text-center p-3 rounded-lg bg-muted/50" data-testid="classification-total">
+              <p className="text-2xl font-bold text-foreground">{classificationStats.totalClassified}</p>
+              <p className="text-[11px] text-muted-foreground">{t("classification_total")}</p>
+            </div>
+            <div className="text-center p-3 rounded-lg bg-muted/50" data-testid="classification-accuracy-pct">
+              <p className="text-2xl font-bold text-foreground">{classificationStats.accuracyPercent.toFixed(1)}%</p>
+              <p className="text-[11px] text-muted-foreground">{t("classification_accuracy")}</p>
+            </div>
+            <div className="text-center p-3 rounded-lg bg-muted/50" data-testid="classification-feedback-count">
+              <p className="text-2xl font-bold text-foreground">{classificationStats.totalFeedback}</p>
+              <p className="text-[11px] text-muted-foreground">{t("classification_feedback_count")}</p>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-[12px]" data-testid="classification-by-category-table">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left py-2 text-muted-foreground font-medium">{t("classification_col_category")}</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">{t("classification_col_classified")}</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">{t("classification_col_accurate")}</th>
+                  <th className="text-right py-2 text-muted-foreground font-medium">{t("classification_col_accuracy")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {classificationStats.byCategory.map((cat) => (
+                  <tr key={cat.category} className="border-b border-border/50">
+                    <td className="py-2 text-foreground">{tCat(cat.category)}</td>
+                    <td className="py-2 text-right text-foreground">{cat.totalClassified}</td>
+                    <td className="py-2 text-right text-foreground">{cat.accurateCount}</td>
+                    <td className="py-2 text-right">
+                      <span className={cat.accuracyPercent >= 85 ? 'text-green-700' : cat.accuracyPercent >= 70 ? 'text-amber-700' : 'text-red-700'}>
+                        {cat.accuracyPercent.toFixed(1)}%
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </PageContainer>
   )
 }

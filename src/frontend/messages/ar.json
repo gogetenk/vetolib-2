@@ -677,6 +677,24 @@
       "Feedback": "ملاحظات",
       "Other": "أخرى"
     },
+    "classification": {
+      "urgency": {
+        "Critical": "حرج",
+        "High": "مرتفع",
+        "Normal": "عادي",
+        "Low": "منخفض"
+      },
+      "needs_review": "يحتاج مراجعة",
+      "feedback_accurate": "التصنيف دقيق",
+      "feedback_inaccurate": "التصنيف غير دقيق",
+      "override": "تعديل التصنيف",
+      "urgency_label": "الأولوية",
+      "category_label": "الفئة",
+      "cancel": "إلغاء",
+      "save": "تطبيق",
+      "saving": "جارٍ الحفظ...",
+      "overridden": "تم التعديل"
+    },
     "errors": {
       "load_failed": "فشل تحميل المحادثات.",
       "status_failed": "فشل تحديث الحالة.",
@@ -772,7 +790,15 @@
       "by_category": "الرسائل حسب الفئة",
       "volume_per_day": "الحجم اليومي (آخر 30 يوماً)",
       "tooltip_count": "رسائل",
-      "tooltip_messages": "رسائل"
+      "tooltip_messages": "رسائل",
+      "classification_accuracy_title": "دقة التصنيف",
+      "classification_total": "إجمالي المصنف",
+      "classification_accuracy": "الدقة",
+      "classification_feedback_count": "الملاحظات المستلمة",
+      "classification_col_category": "الفئة",
+      "classification_col_classified": "المصنف",
+      "classification_col_accurate": "الدقيق",
+      "classification_col_accuracy": "نسبة الدقة"
     },
     "whatsapp": {
       "title": "تكامل واتساب",

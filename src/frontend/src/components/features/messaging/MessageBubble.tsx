@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { MessageDto, MessageAttachmentDto } from '@/lib/api/messaging-types'
+import type { MessageDto, MessageAttachmentDto, MessageClassificationDto } from '@/lib/api/messaging-types'
+import { MessageClassificationBadges } from './MessageClassification'
 
 // ─── Relative time formatter ──────────────────────────────────────────────────
 
@@ -134,15 +135,22 @@ function DownloadAllButton({ attachments }: { attachments: MessageAttachmentDto[
 
 interface MessageBubbleProps {
   message: MessageDto
+  onClassificationUpdate?: (messageId: string, classification: MessageClassificationDto) => void
 }
 
-export function MessageBubble({ message }: MessageBubbleProps) {
+export function MessageBubble({ message, onClassificationUpdate }: MessageBubbleProps) {
   const t = useTranslations('messaging')
   const [showFullDate, setShowFullDate] = useState(false)
+  const [localClassification, setLocalClassification] = useState(message.classification ?? null)
 
   const isOwner = message.sender === 'Owner'
   const isSystem = message.sender === 'System'
   const isInternalNote = message.isInternalNote
+
+  const handleClassificationUpdate = (updated: MessageClassificationDto) => {
+    setLocalClassification(updated)
+    onClassificationUpdate?.(message.id, updated)
+  }
 
   // System messages: centered, no bubble
   if (isSystem) {
@@ -229,6 +237,15 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           >
             {showFullDate ? formatFullDate(message.sentAt) : formatRelativeTime(message.sentAt)}
           </button>
+          {localClassification && (
+            <MessageClassificationBadges
+              messageId={message.id}
+              conversationId={message.conversationId}
+              classification={localClassification}
+              align="left"
+              onClassificationUpdate={handleClassificationUpdate}
+            />
+          )}
         </div>
       </div>
     )
@@ -276,6 +293,15 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             {showFullDate ? formatFullDate(message.sentAt) : formatRelativeTime(message.sentAt)}
           </button>
         </div>
+        {localClassification && (
+          <MessageClassificationBadges
+            messageId={message.id}
+            conversationId={message.conversationId}
+            classification={localClassification}
+            align="right"
+            onClassificationUpdate={handleClassificationUpdate}
+          />
+        )}
       </div>
     </div>
   )
