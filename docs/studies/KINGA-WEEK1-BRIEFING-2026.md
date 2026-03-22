@@ -50,7 +50,7 @@ Hi! I'm Kinga from Vetara.
 
 We've built the first vet clinic software with Arabic + English, WhatsApp booking, and AI scheduling — designed specifically for the UAE.
 
-Clinics using us cut their admin time in half.
+Clinics using us cut their admin time in half. And you can try it free for 30 days — no credit card needed.
 
 Would you have 15 minutes this week for a quick demo? I can come to your clinic or do it on a video call.
 
@@ -74,7 +74,7 @@ What makes us different:
 - AI scheduling reduces no-shows and optimizes your calendar
 - Digital medical records, billing, and inventory in one place
 
-We're currently onboarding our first clinics in Dubai and offering a free pilot program.
+We're currently onboarding our first clinics in Dubai. You can start with a 30-day free Pro trial — no credit card needed.
 
 Would you have 15 minutes this week for a quick demo? I can visit your clinic or set up a video call — whichever is easier.
 
@@ -90,7 +90,7 @@ WHAT TO SAY IN PERSON (3 points)
 
 1. THEIR PAIN: "Most vet clinics here still manage bookings by phone and WhatsApp manually, and there's no software that works in Arabic. That means hours of admin every day."
 
-2. OUR SOLUTION: "Vetara is the first vet clinic software built for the UAE — Arabic and English, clients book through WhatsApp automatically, and AI handles your scheduling. Everything in one place: appointments, medical records, billing, inventory."
+2. OUR SOLUTION: "Vetara is the first vet clinic software built for the UAE — Arabic and English, clients book through WhatsApp automatically, and AI handles your scheduling. Everything in one place: appointments, medical records, billing, inventory. Starting at 299 AED per vet per month, and you can try Pro free for 30 days — no credit card."
 
 3. THE ASK: "Can we do a 15-minute demo this week? I can show you exactly how it works with your workflow. No commitment — just a look."
 
@@ -156,7 +156,7 @@ OBJECTION HANDLING
 -> "That's great — what do you use? Most systems we've seen weren't built for the UAE market. They don't support Arabic, don't integrate WhatsApp, and weren't designed for how clinics here actually work. We're not asking you to switch today — just take a 15-minute look and see if there's a gap we can fill."
 
 "How much does it cost?"
--> "We're currently running a free pilot program for our first clinics in Dubai. Zero cost, zero commitment. After the pilot, pricing starts at a fraction of what you'd pay for imported software that doesn't even support Arabic. Let me show you the demo first — pricing is easy once you see the value."
+-> "We offer a 30-day free Pro trial — no credit card needed, you get the full experience. After that, pricing is simple: 299 AED/vet/month for Starter (~$81), 449 AED/vet/month for Pro (~$122) with AI and WhatsApp, or 649 AED/vet/month for Enterprise (~$177) if you have multiple sites. Only vets count — assistants and receptionists are free. That's a fraction of what ezyVet or Vetspire charge, and we actually support Arabic. Let me show you the demo first — pricing is easy once you see the value."
 
 "We're too busy right now"
 -> "That's exactly why we built Vetara — to give you back time. The demo is only 15 minutes, and I can come to your clinic between appointments. If this week doesn't work, how about early next week? I'll work around your schedule."
