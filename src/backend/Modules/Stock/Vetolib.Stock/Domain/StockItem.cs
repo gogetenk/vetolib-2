@@ -98,9 +98,14 @@ internal class StockItem : BaseEntity, IMultiTenant
     }
 
     public bool IsLowStock => Quantity < MinThreshold;
-    public bool IsExpiringSoon => ExpiryDate.HasValue && ExpiryDate.Value <= DateTime.UtcNow.AddDays(30);
+    /// <summary>
+    /// Check if item is expiring within the given warning window.
+    /// Default: 30 days. Callers should pass the configured value from StockOptions.
+    /// </summary>
+    public bool IsExpiringSoon(int expiryWarningDays = 30) =>
+        ExpiryDate.HasValue && ExpiryDate.Value <= DateTime.UtcNow.AddDays(expiryWarningDays);
 
-    public StockItemDto ToDto() => new(
+    public StockItemDto ToDto(int expiryWarningDays = 30) => new(
         Id,
         ClinicId,
         Name,
@@ -110,7 +115,7 @@ internal class StockItem : BaseEntity, IMultiTenant
         MinThreshold,
         ExpiryDate,
         IsLowStock,
-        IsExpiringSoon,
+        IsExpiringSoon(expiryWarningDays),
         CreatedAt,
         UpdatedAt,
         DrugCatalogEntryId

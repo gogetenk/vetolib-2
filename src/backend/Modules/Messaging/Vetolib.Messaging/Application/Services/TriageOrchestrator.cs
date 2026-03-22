@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Vetolib.AI.Contracts;
 using Vetolib.Messaging.Application.Domain;
 using Vetolib.Messaging.Contracts;
@@ -9,12 +10,12 @@ namespace Vetolib.Messaging.Application.Services;
 /// Orchestrates AI triage for incoming owner messages.
 /// - Calls IMessageTriageService (optional — falls back if null/unavailable)
 /// - Applies emergency bias: MedicalQuestion vs MedicalUrgency uncertainty → MedicalUrgency
-/// - Marks IsTriageUncertain when confidence &lt; 0.7
+/// - Marks IsTriageUncertain when confidence &lt; configured threshold
 /// - Re-routes conversation via IMessageRouter after triage
 /// </summary>
 internal sealed class TriageOrchestrator : ITriageOrchestrator
 {
-    private const double UncertaintyThreshold = 0.7;
+    private readonly double _uncertaintyThreshold;
 
     private static readonly HashSet<string> MedicalUrgencyAliases =
         new(StringComparer.OrdinalIgnoreCase)
@@ -40,11 +41,13 @@ internal sealed class TriageOrchestrator : ITriageOrchestrator
     public TriageOrchestrator(
         IMessageRouter router,
         ILogger<TriageOrchestrator> logger,
+        IOptions<MessagingOptions> options,
         IMessageTriageService? triageService = null)
     {
         _router = router;
         _logger = logger;
         _triageService = triageService;
+        _uncertaintyThreshold = options.Value.TriageUncertaintyThreshold;
     }
 
     public async Task ApplyTriageAsync(
@@ -81,7 +84,7 @@ internal sealed class TriageOrchestrator : ITriageOrchestrator
             return;
         }
 
-        var isUncertain = triage.Confidence < UncertaintyThreshold;
+        var isUncertain = triage.Confidence < _uncertaintyThreshold;
         var category = ResolveCategory(triage.Category, triage.Confidence, isUncertain, conversation.Category);
 
         conversation.ChangeCategory(category);

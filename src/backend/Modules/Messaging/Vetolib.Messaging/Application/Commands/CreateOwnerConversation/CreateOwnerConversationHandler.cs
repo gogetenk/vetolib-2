@@ -3,6 +3,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Vetolib.Messaging.Application.Domain;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Contracts;
@@ -16,20 +17,6 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
     private const string AutoAcknowledgmentBody =
         "Your message has been received. It will be processed when the clinic reopens.";
 
-    private const int DailyMessageLimit = 5;
-
-    // SLA estimates per category (business hours)
-    private static readonly Dictionary<MessageCategory, string> SlaEstimates = new()
-    {
-        [MessageCategory.MedicalUrgency] = "15 minutes",
-        [MessageCategory.PostOperativeFollowUp] = "2 hours",
-        [MessageCategory.MedicalQuestion] = "8 hours",
-        [MessageCategory.AppointmentRequest] = "4 hours",
-        [MessageCategory.Administrative] = "24 hours",
-        [MessageCategory.Feedback] = "48 hours",
-        [MessageCategory.Other] = "24 hours"
-    };
-
     private readonly MessagingDbContext _context;
     private readonly IBusinessHoursChecker _businessHoursChecker;
     private readonly IPublishEndpoint _publishEndpoint;
@@ -38,6 +25,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
     private readonly IMessageClassifier _classifier;
     private readonly IPublisher _publisher;
     private readonly ILogger<CreateOwnerConversationHandler> _logger;
+    private readonly MessagingOptions _options;
 
     public CreateOwnerConversationHandler(
         MessagingDbContext context,
@@ -47,7 +35,8 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
         IMessageRouter router,
         IMessageClassifier classifier,
         IPublisher publisher,
-        ILogger<CreateOwnerConversationHandler> logger)
+        ILogger<CreateOwnerConversationHandler> logger,
+        IOptions<MessagingOptions> options)
     {
         _context = context;
         _businessHoursChecker = businessHoursChecker;
@@ -57,6 +46,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
         _classifier = classifier;
         _publisher = publisher;
         _logger = logger;
+        _options = options.Value;
     }
 
     public async Task<Result<CreateOwnerConversationResponse>> Handle(
@@ -89,7 +79,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
                   && ownerConversationIds.Contains(m.ConversationId),
                 cancellationToken);
 
-        if (messageCountToday >= DailyMessageLimit)
+        if (messageCountToday >= _options.DailyMessageLimit)
             return Result<CreateOwnerConversationResponse>.Error("DAILY_LIMIT_EXCEEDED:You have reached the daily message limit. Please try again tomorrow.");
 
         // 3. Derive subject from body if not provided
@@ -126,7 +116,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
 
             if (classification is not null)
             {
-                var flagForReview = classification.Confidence < 0.6;
+                var flagForReview = classification.Confidence < _options.ClassificationReviewThreshold;
                 messageResult.Value.ApplyClassification(
                     classification.Urgency,
                     classification.Category,
@@ -183,7 +173,7 @@ internal class CreateOwnerConversationHandler : IRequestHandler<CreateOwnerConve
                 preview), cancellationToken);
         }
 
-        var estimatedResponseTime = SlaEstimates.GetValueOrDefault(conversation.Category, "24 hours");
+        var estimatedResponseTime = _options.SlaEstimates.GetValueOrDefault(conversation.Category.ToString(), "24 hours");
         var assignedRole = conversation.AssignedToRole ?? _router.GetAssignedRole(conversation.Category);
 
         return Result<CreateOwnerConversationResponse>.Success(new CreateOwnerConversationResponse(

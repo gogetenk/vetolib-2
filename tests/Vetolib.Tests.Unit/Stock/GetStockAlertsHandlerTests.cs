@@ -1,8 +1,10 @@
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using Vetolib.Shared.Kernel;
+using Vetolib.Stock.Application;
 using Vetolib.Stock.Application.Queries.GetStockAlerts;
 using Vetolib.Stock.Contracts;
 using Vetolib.Stock.Domain;
@@ -33,7 +35,7 @@ public class GetStockAlertsHandlerTests : IDisposable
             .Options;
 
         _context = new StockDbContext(options, clinicContext, _publisher);
-        _handler = new GetStockAlertsHandler(_context, _publisher);
+        _handler = new GetStockAlertsHandler(_context, _publisher, Options.Create(new StockOptions()));
     }
 
     private StockItem SeedStockItem(

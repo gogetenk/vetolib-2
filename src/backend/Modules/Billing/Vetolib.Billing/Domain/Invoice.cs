@@ -26,7 +26,8 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         Guid animalId,
         string invoiceNumber,
         string itemDescription,
-        decimal itemUnitPrice)
+        decimal itemUnitPrice,
+        decimal taxRate = 0.05m)
     {
         var errors = new List<ValidationError>();
 
@@ -51,7 +52,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         };
 
         // Add the initial item
-        var itemResult = InvoiceItem.Create(invoice.Id, itemDescription, itemUnitPrice);
+        var itemResult = InvoiceItem.Create(invoice.Id, itemDescription, itemUnitPrice, taxRate);
         if (!itemResult.IsSuccess)
             return Result<Invoice>.Invalid(itemResult.ValidationErrors.ToList());
 
@@ -60,7 +61,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         return Result<Invoice>.Success(invoice);
     }
 
-    public Result<InvoiceItem> AddItem(string description, decimal unitPrice)
+    public Result<InvoiceItem> AddItem(string description, decimal unitPrice, decimal taxRate = 0.05m)
     {
         if (Status == InvoiceStatus.Paid)
             return Result<InvoiceItem>.Error("INVOICE_IMMUTABLE:A paid invoice cannot be modified");
@@ -68,7 +69,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         if (Status == InvoiceStatus.Cancelled)
             return Result<InvoiceItem>.Error("INVOICE_CANCELLED:A cancelled invoice cannot be modified");
 
-        var itemResult = InvoiceItem.Create(Id, description, unitPrice);
+        var itemResult = InvoiceItem.Create(Id, description, unitPrice, taxRate);
         if (!itemResult.IsSuccess)
             return itemResult;
 
@@ -76,7 +77,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         return itemResult;
     }
 
-    public Result UpdateStatus(InvoiceStatus newStatus)
+    public Result UpdateStatus(InvoiceStatus newStatus, int dueDateDays = 30)
     {
         if (Status == InvoiceStatus.Paid)
             return Result.Error("INVOICE_IMMUTABLE:A paid invoice cannot be modified");
@@ -103,12 +104,12 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         Status = newStatus;
 
         if (newStatus == InvoiceStatus.Sent)
-            DueDate = DateTime.UtcNow.AddDays(30);
+            DueDate = DateTime.UtcNow.AddDays(dueDateDays);
 
         return Result.Success();
     }
 
-    public InvoiceDto ToDto() => new(
+    public InvoiceDto ToDto(decimal vatRate = 0.05m) => new(
         Id,
         InvoiceNumber,
         AnimalId,
@@ -119,7 +120,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         Status,
         _items.Select(i => i.ToDto()).ToList().AsReadOnly(),
         Subtotal: SubTotal,
-        VatRate: 0.05m,
+        VatRate: vatRate,
         VatAmount: TotalTax,
         Total,
         Notes: null,

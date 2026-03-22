@@ -3,6 +3,8 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using Microsoft.Extensions.Options;
+using Vetolib.Auth.Application;
 using Vetolib.Auth.Application.Commands.Login;
 using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Application.Services;
@@ -52,7 +54,7 @@ public class LoginHandlerTests
         _jwtTokenService.GenerateAccessToken(Arg.Any<User>()).Returns("jwt-access-token");
         _jwtTokenService.GenerateRefreshToken().Returns("refresh-token-value");
 
-        var handler = new LoginHandler(context, _jwtTokenService);
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
         var command = new LoginCommand("admin@desertpaws.ae", "Admin1234!");
 
         // Act
@@ -70,7 +72,7 @@ public class LoginHandlerTests
     {
         // Arrange
         using var context = BuildContext();
-        var handler = new LoginHandler(context, _jwtTokenService);
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
         var command = new LoginCommand("unknown@desertpaws.ae", "Admin1234!");
 
         // Act
@@ -91,7 +93,7 @@ public class LoginHandlerTests
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        var handler = new LoginHandler(context, _jwtTokenService);
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
         var command = new LoginCommand("admin@desertpaws.ae", "WrongPass99!");
 
         // Act
@@ -113,7 +115,7 @@ public class LoginHandlerTests
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        var handler = new LoginHandler(context, _jwtTokenService);
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
         var command = new LoginCommand("admin@desertpaws.ae", "Admin1234!");
 
         // Act
@@ -137,7 +139,7 @@ public class LoginHandlerTests
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        var handler = new LoginHandler(context, _jwtTokenService);
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
         var command = new LoginCommand("admin@desertpaws.ae", "Admin1234!");
 
         // Act
@@ -161,7 +163,7 @@ public class LoginHandlerTests
         _jwtTokenService.GenerateAccessToken(Arg.Any<User>()).Returns("jwt-access-token");
         _jwtTokenService.GenerateRefreshToken().Returns("refresh-token-value");
 
-        var handler = new LoginHandler(context, _jwtTokenService);
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
         var command = new LoginCommand("ADMIN@DesertPaws.AE", "Admin1234!");
 
         // Act

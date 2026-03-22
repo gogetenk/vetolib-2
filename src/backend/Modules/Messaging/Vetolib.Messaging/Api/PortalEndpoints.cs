@@ -44,7 +44,7 @@ internal static class PortalEndpoints
                     clinicId,
                     ownerId,
                     tokenValue,
-                    DateTime.UtcNow.AddDays(90));
+                    DateTime.UtcNow.AddDays(90)); // Test-only endpoint; production token expiry is configured via MessagingOptions
 
                 if (!tokenResult.IsSuccess)
                     return Results.BadRequest(tokenResult.Errors);

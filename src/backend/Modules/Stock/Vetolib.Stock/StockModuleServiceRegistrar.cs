@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Stock.Api;
+using Vetolib.Stock.Application;
 using Vetolib.Stock.Infrastructure;
 
 namespace Vetolib.Stock;
@@ -15,6 +16,9 @@ public static class StockModuleServiceRegistrar
 {
     public static IServiceCollection AddStockModule(this IServiceCollection services, IConfiguration configuration)
     {
+        // Options
+        services.Configure<StockOptions>(configuration.GetSection(StockOptions.SectionName));
+
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(StockModuleServiceRegistrar).Assembly);

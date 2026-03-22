@@ -1,8 +1,10 @@
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using Vetolib.Shared.Kernel;
+using Vetolib.Stock.Application;
 using Vetolib.Stock.Application.Queries.CheckStockAvailability;
 using Vetolib.Stock.Contracts;
 using Vetolib.Stock.Domain;
@@ -37,7 +39,7 @@ public class CheckStockAvailabilityHandlerTests : IDisposable
             .Options;
 
         _context = new StockDbContext(options, clinicContext, publisher);
-        _handler = new CheckStockAvailabilityHandler(_context);
+        _handler = new CheckStockAvailabilityHandler(_context, Options.Create(new StockOptions()));
     }
 
     private StockItem SeedStockItem(

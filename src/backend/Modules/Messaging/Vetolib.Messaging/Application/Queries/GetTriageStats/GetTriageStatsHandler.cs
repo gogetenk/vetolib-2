@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Infrastructure;
 
@@ -9,19 +10,21 @@ namespace Vetolib.Messaging.Application.Queries.GetTriageStats;
 internal class GetTriageStatsHandler : IRequestHandler<GetTriageStatsQuery, Result<TriageStatsDto>>
 {
     private readonly MessagingDbContext _context;
+    private readonly MessagingOptions _options;
 
-    public GetTriageStatsHandler(MessagingDbContext context)
+    public GetTriageStatsHandler(MessagingDbContext context, IOptions<MessagingOptions> options)
     {
         _context = context;
+        _options = options.Value;
     }
 
     public async Task<Result<TriageStatsDto>> Handle(GetTriageStatsQuery query, CancellationToken ct)
     {
-        var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
+        var windowStart = DateTime.UtcNow.AddDays(-_options.TriageStatsWindowDays);
 
         var recentConversations = _context.Conversations
             .AsNoTracking()
-            .Where(c => c.CreatedAt >= thirtyDaysAgo);
+            .Where(c => c.CreatedAt >= windowStart);
 
         // Average first response time — computed via DB aggregation, no Include(Messages)
         var responseTimes = await _context.Messages

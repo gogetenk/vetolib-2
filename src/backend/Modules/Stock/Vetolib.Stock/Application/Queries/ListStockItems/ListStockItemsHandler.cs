@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Stock.Contracts;
 using Vetolib.Stock.Domain;
 using Vetolib.Stock.Infrastructure;
@@ -10,10 +11,12 @@ namespace Vetolib.Stock.Application.Queries.ListStockItems;
 internal class ListStockItemsHandler : IRequestHandler<ListStockItemsQuery, Result<List<StockItemDto>>>
 {
     private readonly StockDbContext _context;
+    private readonly StockOptions _options;
 
-    public ListStockItemsHandler(StockDbContext context)
+    public ListStockItemsHandler(StockDbContext context, IOptions<StockOptions> options)
     {
         _context = context;
+        _options = options.Value;
     }
 
     public async Task<Result<List<StockItemDto>>> Handle(ListStockItemsQuery query, CancellationToken ct)
@@ -31,12 +34,12 @@ internal class ListStockItemsHandler : IRequestHandler<ListStockItemsQuery, Resu
 
         if (query.ExpiringSoon)
         {
-            var threshold = DateTime.UtcNow.AddDays(30);
+            var threshold = DateTime.UtcNow.AddDays(_options.ExpiryWarningDays);
             q = q.Where(x => x.ExpiryDate != null && x.ExpiryDate <= threshold);
         }
 
         var items = await q.ToListAsync(ct);
 
-        return Result<List<StockItemDto>>.Success(items.Select(i => i.ToDto()).ToList());
+        return Result<List<StockItemDto>>.Success(items.Select(i => i.ToDto(_options.ExpiryWarningDays)).ToList());
     }
 }

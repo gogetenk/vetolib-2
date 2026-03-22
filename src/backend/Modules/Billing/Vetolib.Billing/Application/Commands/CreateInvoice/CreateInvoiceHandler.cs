@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Domain;
 using Vetolib.Billing.Infrastructure;
@@ -10,10 +11,12 @@ namespace Vetolib.Billing.Application.Commands.CreateInvoice;
 internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Result<InvoiceDto>>
 {
     private readonly BillingDbContext _context;
+    private readonly BillingOptions _options;
 
-    public CreateInvoiceHandler(BillingDbContext context)
+    public CreateInvoiceHandler(BillingDbContext context, IOptions<BillingOptions> options)
     {
         _context = context;
+        _options = options.Value;
     }
 
     public async Task<Result<InvoiceDto>> Handle(CreateInvoiceCommand cmd, CancellationToken ct)
@@ -42,7 +45,8 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
             cmd.AnimalId,
             numberResult.Value.Value,
             cmd.ItemDescription,
-            cmd.ItemUnitPrice);
+            cmd.ItemUnitPrice,
+            _options.TaxRate);
 
         if (!invoiceResult.IsSuccess)
             return Result<InvoiceDto>.Invalid(invoiceResult.ValidationErrors.ToList());
@@ -50,6 +54,6 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
         _context.Invoices.Add(invoiceResult.Value);
         await _context.SaveChangesAsync(ct);
 
-        return Result<InvoiceDto>.Success(invoiceResult.Value.ToDto());
+        return Result<InvoiceDto>.Success(invoiceResult.Value.ToDto(_options.TaxRate));
     }
 }

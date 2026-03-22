@@ -1,8 +1,10 @@
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using Vetolib.Shared.Kernel;
+using Vetolib.Stock.Application;
 using Vetolib.Stock.Application.Queries.ListStockItems;
 using Vetolib.Stock.Domain;
 using Vetolib.Stock.Infrastructure;
@@ -31,7 +33,7 @@ public class ListStockItemsHandlerTests : IDisposable
             .Options;
 
         _context = new StockDbContext(options, clinicContext, publisher);
-        _handler = new ListStockItemsHandler(_context);
+        _handler = new ListStockItemsHandler(_context, Options.Create(new StockOptions()));
     }
 
     private StockItem SeedStockItem(

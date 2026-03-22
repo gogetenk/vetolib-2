@@ -105,13 +105,13 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         return BCrypt.Net.BCrypt.Verify(password, PasswordHash);
     }
 
-    public Result RecordFailedLogin()
+    public Result RecordFailedLogin(int maxAttempts = 5, int lockoutMinutes = 15)
     {
         FailedLoginAttempts++;
-        if (FailedLoginAttempts >= 5)
+        if (FailedLoginAttempts >= maxAttempts)
         {
             IsLocked = true;
-            LockedUntil = DateTime.UtcNow.AddMinutes(15);
+            LockedUntil = DateTime.UtcNow.AddMinutes(lockoutMinutes);
         }
         return Result.Success();
     }

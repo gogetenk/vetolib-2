@@ -3,6 +3,8 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using Microsoft.Extensions.Options;
+using Vetolib.Billing.Application;
 using Vetolib.Billing.Application.Commands.CreateInvoice;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Infrastructure;
@@ -32,7 +34,7 @@ public class CreateInvoiceHandlerTests : IDisposable
             .Options;
 
         _context = new BillingDbContext(options, clinicContext, publisher);
-        _handler = new CreateInvoiceHandler(_context);
+        _handler = new CreateInvoiceHandler(_context, Options.Create(new BillingOptions()));
     }
 
     private CreateInvoiceCommand BuildCommand(

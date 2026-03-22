@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Billing.Api;
+using Vetolib.Billing.Application;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.Shared.Infrastructure.Behaviors;
 
@@ -15,6 +16,9 @@ public static class ModuleServiceRegistrar
 {
     public static IServiceCollection AddBillingModule(this IServiceCollection services, IConfiguration configuration)
     {
+        // Options
+        services.Configure<BillingOptions>(configuration.GetSection(BillingOptions.SectionName));
+
         // MediatR
         services.AddMediatR(cfg =>
         {
