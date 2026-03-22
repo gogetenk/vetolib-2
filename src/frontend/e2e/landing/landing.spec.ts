@@ -43,23 +43,23 @@ test.describe("Landing page", () => {
     const monthlyBtn = page.getByTestId("pricing-toggle-monthly");
     const annualBtn = page.getByTestId("pricing-toggle-annual");
 
-    // Monthly active by default — starter shows 299 AED
+    // Monthly active by default — starter shows AED 299
     await expect(monthlyBtn).toBeVisible();
     await expect(
       page.getByTestId("pricing-plan-starter")
-    ).toContainText("299 AED");
+    ).toContainText("AED 299");
 
-    // Switch to annual — starter shows 249 AED
+    // Switch to annual — starter shows AED 254
     await annualBtn.click();
     await expect(
       page.getByTestId("pricing-plan-starter")
-    ).toContainText("249 AED");
+    ).toContainText("AED 254");
 
     // Switch back to monthly
     await monthlyBtn.click();
     await expect(
       page.getByTestId("pricing-plan-starter")
-    ).toContainText("299 AED");
+    ).toContainText("AED 299");
   });
 
   test("FAQ accordion expands and collapses items", async ({ page }) => {
