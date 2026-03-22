@@ -86,7 +86,7 @@ export function AppointmentsTable() {
     } finally {
       setIsLoading(false)
     }
-  }, [statusFilter, dateFilter, page])
+  }, [statusFilter, dateFilter, page, t])
 
   useEffect(() => {
     load()

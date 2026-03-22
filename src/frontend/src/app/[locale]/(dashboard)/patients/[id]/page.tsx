@@ -193,7 +193,7 @@ export default function PatientDetailPage() {
         setPrescriptions([])
         toast.error(t('errors.load_failed'))
       })
-  }, [id])
+  }, [id, t])
 
   const canWrite = role === 'VET' || role === 'ADMIN'
 

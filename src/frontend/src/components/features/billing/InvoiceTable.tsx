@@ -32,14 +32,6 @@ import { getInvoices } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus, PagedResult } from '@/lib/api/billing'
 import { useTranslations, useLocale } from 'next-intl'
 
-const STATUS_OPTIONS: { value: InvoiceStatus | 'ALL'; label: string }[] = [
-  { value: 'ALL', label: 'All statuses' },
-  { value: 'DRAFT', label: 'Draft' },
-  { value: 'SENT', label: 'Sent' },
-  { value: 'PAID', label: 'Paid' },
-  { value: 'CANCELLED', label: 'Cancelled' },
-]
-
 const INVOICE_STATUS_STYLES: Record<InvoiceStatus, string> = {
   DRAFT: 'bg-amber-50 text-amber-700',
   SENT: 'bg-primary/10 text-primary',
@@ -48,21 +40,32 @@ const INVOICE_STATUS_STYLES: Record<InvoiceStatus, string> = {
 }
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
+  const tStatus = useTranslations('billing.status')
   const style = INVOICE_STATUS_STYLES[status] ?? 'bg-muted text-muted-foreground'
   return (
     <span
       className={cn('inline-flex items-center rounded-md px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider', style)}
       data-testid={`invoice-status-${status.toLowerCase()}`}
     >
-      {status}
+      {tStatus(status)}
     </span>
   )
 }
 
 export function InvoiceTable() {
+  const t = useTranslations('billing')
   const tEmpty = useTranslations('onboarding.empty.billing')
   const locale = useLocale()
   const router = useRouter()
+
+  const statusOptions: { value: InvoiceStatus | 'ALL'; label: string }[] = [
+    { value: 'ALL', label: t('all_statuses') },
+    { value: 'DRAFT', label: t('status.DRAFT') },
+    { value: 'SENT', label: t('status.SENT') },
+    { value: 'PAID', label: t('status.PAID') },
+    { value: 'CANCELLED', label: t('status.CANCELLED') },
+  ]
+
   const [data, setData] = useState<PagedResult<InvoiceDto> | null>(null)
   const [statusFilter, setStatusFilter] = useState<InvoiceStatus | 'ALL'>('ALL')
   const [searchQuery, setSearchQuery] = useState('')
@@ -76,18 +79,18 @@ export function InvoiceTable() {
       const result = await getInvoices(statusFilter !== 'ALL' ? { status: statusFilter } : undefined)
       setData(result)
     } catch {
-      setError('Failed to load invoices')
+      setError(t('failed_to_load'))
     } finally {
       setLoading(false)
     }
-  }, [statusFilter])
+  }, [statusFilter, t])
 
   useEffect(() => {
     loadInvoices()
   }, [loadInvoices])
 
-  const allInvoices = data?.items ?? []
   const invoices = useMemo(() => {
+    const allInvoices = data?.items ?? []
     if (!searchQuery.trim()) return allInvoices
     const q = searchQuery.toLowerCase()
     return allInvoices.filter(
@@ -95,16 +98,16 @@ export function InvoiceTable() {
         inv.invoiceNumber.toLowerCase().includes(q) ||
         inv.patientName.toLowerCase().includes(q)
     )
-  }, [allInvoices, searchQuery])
+  }, [data?.items, searchQuery])
   const grandTotal = invoices.reduce((sum, inv) => sum + inv.total, 0)
 
   return (
     <Card className="bg-white border-border/80 rounded-xl shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-[15px] font-bold text-foreground">Invoices</CardTitle>
+          <CardTitle className="text-[15px] font-bold text-foreground">{t('invoices')}</CardTitle>
           <Link href={`/${locale}/billing/new`}>
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm" data-testid="new-invoice-btn">+ New Invoice</Button>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm" data-testid="new-invoice-btn">{t('new_invoice')}</Button>
           </Link>
         </div>
         <div className="flex flex-wrap gap-3 mt-3">
@@ -112,8 +115,8 @@ export function InvoiceTable() {
             <Search className="absolute start-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               data-testid="invoice-search"
-              placeholder="Search invoice # or patient..."
-              aria-label="Search invoices"
+              placeholder={t('search_placeholder')}
+              aria-label={t('search_aria')}
               className="w-64 ps-9 bg-white border-border/80 rounded-xl h-10 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -123,11 +126,11 @@ export function InvoiceTable() {
             value={statusFilter}
             onValueChange={(val) => setStatusFilter(val as InvoiceStatus | 'ALL')}
           >
-            <SelectTrigger className="w-48 rounded-xl h-10 border-border/80" aria-label="Filter by status" data-testid="status-filter">
-              <SelectValue placeholder="All statuses" />
+            <SelectTrigger className="w-48 rounded-xl h-10 border-border/80" aria-label={t('filter_by_status')} data-testid="status-filter">
+              <SelectValue placeholder={t('all_statuses')} />
             </SelectTrigger>
             <SelectContent>
-              {STATUS_OPTIONS.map((opt) => (
+              {statusOptions.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value}>
                   {opt.label}
                 </SelectItem>
@@ -147,7 +150,7 @@ export function InvoiceTable() {
         {error && (
           <ErrorState
             data-testid="invoices-error"
-            title="Failed to load invoices"
+            title={t('failed_to_load')}
             description={error}
             onRetry={loadInvoices}
           />
@@ -184,13 +187,13 @@ export function InvoiceTable() {
             <Table className="hidden md:table" data-testid="invoice-table">
               <TableHeader>
                 <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground"># Invoice</TableHead>
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">Patient</TableHead>
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">Date</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Subtotal (excl. VAT)</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">VAT (5%)</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Total AED</TableHead>
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">Status</TableHead>
+                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.invoice')}</TableHead>
+                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.patient')}</TableHead>
+                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.date')}</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.subtotal')}</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.vat')}</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.total')}</TableHead>
+                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t('columns.status')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -240,7 +243,7 @@ export function InvoiceTable() {
               <div className="mt-4 flex justify-end border-t border-border/30 pt-3" data-testid="invoice-summary">
                 <div className="text-end space-y-1" dir="ltr">
                   <p className="text-[13px] text-muted-foreground font-medium">
-                    {invoices.length} invoice{invoices.length !== 1 ? 's' : ''} — Total filtered:
+                    {invoices.length === 1 ? t('invoice_count_singular', { count: invoices.length }) : t('invoice_count_plural', { count: invoices.length })} {t('total_filtered')}
                   </p>
                   <p className="text-lg font-bold text-foreground" data-testid="invoice-grand-total">
                     <LtrText>{formatAED(grandTotal)}</LtrText>
