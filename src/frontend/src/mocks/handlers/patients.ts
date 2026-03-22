@@ -201,7 +201,9 @@ export const patientHandlers = [
   http.get('/api/patients', ({ request }) => {
     const url = new URL(request.url)
     const search = url.searchParams.get('search')?.toLowerCase()
-    const items = search
+    const page = parseInt(url.searchParams.get('page') || '1', 10)
+    const pageSize = parseInt(url.searchParams.get('pageSize') || '20', 10)
+    const filtered = search
       ? MOCK_PATIENTS.filter(
           p =>
             p.name.toLowerCase().includes(search) ||
@@ -209,11 +211,14 @@ export const patientHandlers = [
         )
       : MOCK_PATIENTS
 
+    const start = (page - 1) * pageSize
+    const items = filtered.slice(start, start + pageSize)
+
     return HttpResponse.json<PagedResult<PatientDto>>({
       items,
-      totalCount: items.length,
-      page: 1,
-      pageSize: 20,
+      totalCount: filtered.length,
+      page,
+      pageSize,
     })
   }),
 

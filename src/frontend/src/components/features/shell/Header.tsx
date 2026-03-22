@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, PawPrint } from "lucide-react";
+import { Menu, PawPrint, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -31,8 +31,7 @@ export function Header() {
     { href: "/dashboard", label: t("dashboard") },
     { href: "/appointments", label: t("appointments") },
     { href: "/messages", label: t("messages"), badge: unreadCount > 0 ? unreadCount : undefined },
-    { href: "/medical-records", label: t("medical_records") },
-    { href: "/patients", label: t("patients") },
+{ href: "/patients", label: t("patients") },
     { href: "/billing", label: t("billing") },
     { href: "/stock", label: t("stock") },
   ];
@@ -98,6 +97,22 @@ export function Header() {
         >
           <Menu className="h-5 w-5" />
         </Button>
+
+        {/* Settings shortcut — desktop only */}
+        <Link
+          href={`/${locale}/settings`}
+          data-testid="header-settings-link"
+          className="hidden lg:flex"
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Settings"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+        </Link>
 
         {/* User menu */}
         <UserMenu />
