@@ -102,6 +102,7 @@ internal class SharedSteps
         switch (errorCode)
         {
             case "INSUFFICIENT_PERMISSIONS":
+            case "FORBIDDEN":
                 response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
                 break;
             case "VALIDATION_ERROR":

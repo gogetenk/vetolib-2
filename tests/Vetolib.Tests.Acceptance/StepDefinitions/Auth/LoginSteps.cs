@@ -204,6 +204,7 @@ internal class LoginSteps
         _previousAuthToken = _authToken;
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_authToken!.RefreshToken));
+        _ctx.Set(_response, "LastResponse");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -212,6 +213,7 @@ internal class LoginSteps
         else
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -221,6 +223,8 @@ internal class LoginSteps
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_previousAuthToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"^the user refreshes their session with the expired refresh token$")]
@@ -229,12 +233,15 @@ internal class LoginSteps
         _response = await _client.PostAsJsonAsync("/api/v1/auth/refresh",
             new RefreshTokenRequest(_authToken!.RefreshToken));
         _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        _ctx.Set(_response, "LastResponse");
+        _ctx.Set(_errorResponseBody, "ErrorResponseBody");
     }
 
     [When(@"^the user logs out$")]
     public async Task WhenTheUserLogsOut()
     {
         _response = await _client.PostAsync("/api/v1/auth/logout", null);
+        _ctx.Set(_response, "LastResponse");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -243,6 +250,7 @@ internal class LoginSteps
         else
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -250,6 +258,7 @@ internal class LoginSteps
     public async Task WhenTheUserChecksTheirProfile()
     {
         _response = await _client.GetAsync("/api/v1/auth/me");
+        _ctx.Set(_response, "LastResponse");
 
         if (_response.IsSuccessStatusCode)
         {
@@ -258,6 +267,7 @@ internal class LoginSteps
         else
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
+            _ctx.Set(_errorResponseBody, "ErrorResponseBody");
         }
     }
 
@@ -466,40 +476,9 @@ internal class LoginSteps
             user.VetLicenseNumber.Should().Be(row["VetLicenseNumber"]);
     }
 
-    [Then(@"the system rejects with code ""(.*)""")]
-    public void ThenTheSystemRejectsWithCode(string errorCode)
-    {
-        _response.IsSuccessStatusCode.Should().BeFalse();
-        _errorResponseBody.Should().NotBeNull();
-
-        switch (errorCode)
-        {
-            case "INVALID_CREDENTIALS":
-                _errorResponseBody.Should().Contain("INVALID_CREDENTIALS");
-                break;
-            case "ACCOUNT_LOCKED":
-                _errorResponseBody.Should().Contain("ACCOUNT_LOCKED");
-                break;
-            case "INVALID_REFRESH_TOKEN":
-                _errorResponseBody.Should().Contain("INVALID_REFRESH_TOKEN");
-                break;
-            case "FORBIDDEN":
-                _response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-                break;
-            case "VET_LICENSE_REQUIRED":
-                _errorResponseBody.Should().Contain("VET_LICENSE_REQUIRED");
-                break;
-            case "VALIDATION_ERROR":
-                _response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-                break;
-        }
-    }
-
-    [Then(@"the error message is ""(.*)""")]
-    public void ThenTheErrorMessageIs(string expectedMessage)
-    {
-        _errorResponseBody.Should().Contain(expectedMessage);
-    }
+    // NOTE: "the system rejects with code" and "the error message is" are handled by SharedSteps (unscoped).
+    // When steps in this class store error data in ScenarioContext["LastResponse"] and
+    // ScenarioContext["ErrorResponseBody"] so SharedSteps can read them.
 
     [Then(@"the message indicates the account is locked for 15 minutes")]
     public void ThenTheMessageIndicatesTheAccountIsLockedFor15Minutes()
