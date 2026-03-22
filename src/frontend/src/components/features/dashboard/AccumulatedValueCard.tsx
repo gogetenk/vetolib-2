@@ -87,7 +87,7 @@ export function AccumulatedValueCard() {
 
   return (
     <Card
-      className="bg-white border-border/80 rounded-xl shadow-sm"
+      className="border-border/80 shadow-sm"
       data-testid="accumulated-value-card"
     >
       <CardHeader className="pb-3">

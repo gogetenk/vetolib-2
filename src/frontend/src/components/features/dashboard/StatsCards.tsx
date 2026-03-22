@@ -70,7 +70,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
       data-testid="stats-cards"
     >
       {showAppointments && (
-        <Card className="min-h-[100px] bg-white border-border/80 rounded-xl shadow-sm" data-testid="stat-appointments-today">
+        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-appointments-today">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
@@ -94,7 +94,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
       )}
 
       {showPendingCheckin && (
-        <Card className="min-h-[100px] bg-white border-border/80 rounded-xl shadow-sm" data-testid="stat-pending-checkin">
+        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-pending-checkin">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
@@ -125,7 +125,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
       )}
 
       {showUnpaidInvoices && (
-        <Card className="min-h-[100px] bg-white border-border/80 rounded-xl shadow-sm" data-testid="stat-unpaid-invoices">
+        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-unpaid-invoices">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
@@ -149,7 +149,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
       )}
 
       {showTotalPatients && (
-        <Card className="min-h-[100px] bg-white border-border/80 rounded-xl shadow-sm" data-testid="stat-total-patients">
+        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-total-patients">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
@@ -173,7 +173,7 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
       )}
 
       {showTodaysRevenue && (
-        <Card className="min-h-[100px] bg-white border-border/80 rounded-xl shadow-sm" data-testid="stat-todays-revenue">
+        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-todays-revenue">
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">

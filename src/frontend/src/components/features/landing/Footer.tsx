@@ -108,7 +108,7 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
           <div data-testid="footer-cta" className="mb-10 flex flex-col items-center gap-4 rounded-2xl bg-accent px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-start">
             <p className="text-lg font-semibold text-stone-900">{footerCta.headline}</p>
             <Link href={signupHref}>
-              <Button className="bg-primary px-8 font-semibold text-white hover:bg-primary/90" data-testid="btn-footer-cta">{footerCta.cta}</Button>
+              <Button className="px-8 font-semibold" data-testid="btn-footer-cta">{footerCta.cta}</Button>
             </Link>
           </div>
         )}

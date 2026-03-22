@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Receipt, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import {
@@ -43,12 +44,12 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
   const tStatus = useTranslations('billing.status')
   const style = INVOICE_STATUS_STYLES[status] ?? 'bg-muted text-muted-foreground'
   return (
-    <span
-      className={cn('inline-flex items-center rounded-md px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider', style)}
+    <Badge
+      className={cn('text-[10px] font-bold uppercase tracking-wider border-0', style)}
       data-testid={`invoice-status-${status.toLowerCase()}`}
     >
       {tStatus(status)}
-    </span>
+    </Badge>
   )
 }
 
@@ -102,12 +103,12 @@ export function InvoiceTable() {
   const grandTotal = invoices.reduce((sum, inv) => sum + inv.total, 0)
 
   return (
-    <Card className="bg-white border-border/80 rounded-xl shadow-sm">
+    <Card className="border-border/80 shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-[15px] font-bold text-foreground">{t('invoices')}</CardTitle>
           <Link href={`/${locale}/billing/new`}>
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm" data-testid="new-invoice-btn">{t('new_invoice')}</Button>
+            <Button className="font-semibold rounded-xl h-10 px-5 shadow-sm" data-testid="new-invoice-btn">{t('new_invoice')}</Button>
           </Link>
         </div>
         <div className="flex flex-wrap gap-3 mt-3">

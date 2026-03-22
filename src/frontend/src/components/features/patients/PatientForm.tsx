@@ -150,7 +150,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   const today = new Date().toISOString().split('T')[0]
 
   return (
-    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="patient-form">
+    <Card className="border-border/80 shadow-sm" data-testid="patient-form">
       <CardHeader>
         <CardTitle className="text-[18px] font-bold text-foreground">
           {isEdit ? t('edit_title', { name: patient!.name }) : t('title')}

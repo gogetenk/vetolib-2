@@ -272,7 +272,7 @@ export function MedicalRecordForm({
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <Card className="bg-white border-border/80 rounded-xl shadow-sm" data-testid="medical-record-form">
+    <Card className="border-border/80 shadow-sm" data-testid="medical-record-form">
       <CardHeader>
         <CardTitle className="text-[18px] font-bold text-foreground">New Medical Record — {patientName}</CardTitle>
       </CardHeader>
