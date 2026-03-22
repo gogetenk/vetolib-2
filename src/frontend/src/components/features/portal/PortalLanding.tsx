@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { MessageCircle, Plus, ChevronRight } from 'lucide-react'
@@ -19,11 +19,13 @@ const STATUS_COLORS: Record<ConversationStatus, string> = {
 
 export function PortalLanding() {
   const t = useTranslations('portal.landing')
+  const locale = useLocale()
   const router = useRouter()
   const params = useParams<{ locale: string; clinicSlug: string }>()
   const [conversations, setConversations] = useState<PortalConversationDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [expired, setExpired] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     listPortalConversations()
@@ -31,9 +33,12 @@ export function PortalLanding() {
       .catch((err) => {
         if (err instanceof ApiError && err.status === 401) {
           setExpired(true)
+        } else {
+          setError(t('error_generic'))
         }
       })
       .finally(() => setIsLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function handleNewMessage() {
@@ -54,6 +59,20 @@ export function PortalLanding() {
         <MessageCircle className="w-12 h-12 text-muted-foreground mx-auto" />
         <p className="text-foreground font-medium" data-testid="expired-message">
           {t('link_expired')}
+        </p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div
+        className="text-center py-12 space-y-3"
+        data-testid="portal-error"
+      >
+        <MessageCircle className="w-12 h-12 text-muted-foreground mx-auto" />
+        <p className="text-foreground font-medium" role="alert" data-testid="error-message">
+          {error}
         </p>
       </div>
     )
@@ -124,7 +143,7 @@ export function PortalLanding() {
                   </p>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     {t('last_message', {
-                      date: new Date(conv.lastMessageAt).toLocaleDateString('en-AE', {
+                      date: new Date(conv.lastMessageAt).toLocaleDateString(locale, {
                         day: 'numeric',
                         month: 'short',
                         year: 'numeric',

@@ -26,11 +26,13 @@ export function ConsentScreen() {
     setIsSubmitting(true)
     try {
       await recordConsent({ consentVersion: CONSENT_VERSION })
-      // Mark consent given in session storage
+      // Only mark consent in session storage AFTER API confirms it was recorded
       sessionStorage.setItem('portal_consent_given', 'true')
       router.push(`/${params.locale}/portal/${params.clinicSlug}/new`)
     } catch {
-      setError(t('must_accept'))
+      // API failed — do NOT set sessionStorage, consent is not recorded
+      sessionStorage.removeItem('portal_consent_given')
+      setError(t('consent_failed'))
     } finally {
       setIsSubmitting(false)
     }
