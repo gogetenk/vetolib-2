@@ -266,7 +266,7 @@ export function Sidebar() {
           className="group/logo flex items-center gap-2 font-bold text-xl text-primary transition-all duration-200 ease-in-out hover:opacity-80"
         >
           <PawPrint className="h-6 w-6 transition-transform duration-200 ease-in-out group-hover/logo:rotate-[-8deg] group-hover/logo:scale-110" />
-          <span>Vetolib</span>
+          <span>Vetara</span>
         </Link>
       </div>
       <div className="flex-1 overflow-y-auto px-3">

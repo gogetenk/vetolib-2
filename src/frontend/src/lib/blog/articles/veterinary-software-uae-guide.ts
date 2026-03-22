@@ -68,8 +68,8 @@ export const veterinarySoftwareUaeGuide: BlogArticle = {
 <p>Several cloud-based veterinary platforms serve global markets. These offer modern interfaces and mobile access but are designed primarily for North American or European clinics.</p>
 <p><strong>Best for:</strong> English-only clinics run by expatriate veterinarians who are comfortable with Western-centric workflows.</p>
 
-<h3 id="vetolib">Vetolib -- Built for the Gulf Region</h3>
-<p>Vetolib is a cloud-native <strong>veterinary practice management</strong> platform designed specifically for the UAE and Gulf market. It provides full Arabic and English support, native WhatsApp booking integration, configurable work weeks, VAT-compliant billing, and AI-powered triage.</p>
+<h3 id="vetara">Vetara -- Built for the Gulf Region</h3>
+<p>Vetara is a cloud-native <strong>veterinary practice management</strong> platform designed specifically for the UAE and Gulf market. It provides full Arabic and English support, native WhatsApp booking integration, configurable work weeks, VAT-compliant billing, and AI-powered triage.</p>
 <p><strong>Best for:</strong> Clinics of any size that need a platform built for how veterinary practices actually operate in the UAE.</p>
 
 <h2 id="questions-to-ask">Questions to Ask During a Demo</h2>

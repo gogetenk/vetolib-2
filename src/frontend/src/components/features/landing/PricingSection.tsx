@@ -176,7 +176,7 @@ export function PricingSection({ messages: m, loginHref }: Props) {
                   </ul>
                   {isEnterprise ? (
                     <a
-                      href="mailto:hello@vetolib.ae?subject=Enterprise%20Sales"
+                      href="mailto:hello@vetara.ae?subject=Enterprise%20Sales"
                       className="mt-8 block"
                       data-testid={`pricing-cta-${key}`}
                     >

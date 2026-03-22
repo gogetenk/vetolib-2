@@ -152,9 +152,9 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
             {/* Brand + copyright */}
             <div>
-              <p className="text-sm font-bold text-emerald-700">Vetolib</p>
+              <p className="text-sm font-bold text-emerald-700">Vetara</p>
               <p className="mt-1 text-xs text-stone-400">
-                &copy; 2026 Vetolib. {m.tagline}
+                &copy; 2026 Vetara. {m.tagline}
               </p>
             </div>
 

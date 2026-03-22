@@ -44,14 +44,14 @@ function generateIcal(
     return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
   }
 
-  const uid = `booking-${appointment.id}@vetolib.ae`
+  const uid = `booking-${appointment.id}@vetara.ae`
   const summary = icalEscape(`Vet Appointment — ${pet.name} (${consultationType.name})`)
   const description = icalEscape(`Pet: ${pet.name}\nConsultation: ${consultationType.name}\nVet: ${vetName}${appointment.reason ? `\nReason: ${appointment.reason}` : ''}`)
 
   return [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Vetolib//Booking//EN',
+    'PRODID:-//Vetara//Booking//EN',
     'BEGIN:VEVENT',
     `UID:${uid}`,
     `DTSTAMP:${toIcalDate(new Date())}`,

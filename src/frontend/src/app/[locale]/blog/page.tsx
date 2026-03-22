@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Insights, guides, and best practices for veterinary clinic management in the UAE. Covering AI triage, WhatsApp integration, Arabic software, and more.",
   openGraph: {
-    title: "Blog -- Vetolib",
+    title: "Blog -- Vetara",
     description:
       "Insights, guides, and best practices for veterinary clinic management in the UAE.",
     type: "website",
@@ -41,7 +41,7 @@ export default async function BlogListPage({ params, searchParams }: Props) {
             className="text-xl font-bold tracking-tight text-emerald-700"
             data-testid="blog-nav-logo"
           >
-            Vetolib
+            Vetara
           </Link>
           <div className="flex items-center gap-4">
             <Link
@@ -65,7 +65,7 @@ export default async function BlogListPage({ params, searchParams }: Props) {
       <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-2xl text-center" data-testid="blog-header">
           <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
-            Vetolib Blog
+            Vetara Blog
           </h1>
           <p className="mt-4 text-lg text-stone-600">
             Insights, guides, and best practices for veterinary clinic

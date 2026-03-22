@@ -3,7 +3,7 @@ import { BlogArticle } from "../types";
 export const arabicSoftwareDubaiVet: BlogArticle = {
   slug: "arabic-software-dubai-vet",
   title: "Why Your Dubai Vet Clinic Needs Arabic Software Support",
-  metaTitle: "Arabic Veterinary Software for UAE Clinics | Vetolib",
+  metaTitle: "Arabic Veterinary Software for UAE Clinics | Vetara",
   metaDescription:
     "Why Arabic support matters for vet clinics in the UAE. Staff productivity, client trust, and compliance benefits of bilingual veterinary software.",
   excerpt:
@@ -66,7 +66,7 @@ export const arabicSoftwareDubaiVet: BlogArticle = {
 <li><strong>Does Arabic search work correctly?</strong></li>
 </ol>
 
-<h2 id="vetolib-arabic-first">Vetolib: Arabic-First, Not Arabic-Afterthought</h2>
-<p>Vetolib was built with Arabic and English as equal first-class languages from day one. The RTL layout is native. Translations are done by veterinary professionals. Staff can switch between Arabic and English with a single click.</p>
+<h2 id="vetara-arabic-first">Vetara: Arabic-First, Not Arabic-Afterthought</h2>
+<p>Vetara was built with Arabic and English as equal first-class languages from day one. The RTL layout is native. Translations are done by veterinary professionals. Staff can switch between Arabic and English with a single click.</p>
   `,
 };

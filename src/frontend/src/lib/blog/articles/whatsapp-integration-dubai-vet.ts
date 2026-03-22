@@ -3,7 +3,7 @@ import { BlogArticle } from "../types";
 export const whatsappIntegrationDubaiVet: BlogArticle = {
   slug: "whatsapp-integration-dubai-vet",
   title: "How WhatsApp Integration is Transforming Veterinary Clinics in Dubai",
-  metaTitle: "WhatsApp Booking for Vet Clinics Dubai | Vetolib",
+  metaTitle: "WhatsApp Booking for Vet Clinics Dubai | Vetara",
   metaDescription:
     "Learn how Dubai vet clinics use WhatsApp booking to cut no-shows by 35% and boost client satisfaction. Real use cases and implementation guide.",
   excerpt:
@@ -59,7 +59,7 @@ export const whatsappIntegrationDubaiVet: BlogArticle = {
 <p>For business communication at scale, you need the WhatsApp Business API, which supports automated messages, message templates, and integration with external software.</p>
 
 <h3 id="native-integration">2. A Practice Management Platform with Native Integration</h3>
-<p>Vetolib offers native WhatsApp integration designed specifically for veterinary clinics in the UAE, including support for both English and Arabic message templates.</p>
+<p>Vetara offers native WhatsApp integration designed specifically for veterinary clinics in the UAE, including support for both English and Arabic message templates.</p>
 
 <h3 id="approved-templates">3. Approved Message Templates</h3>
 <p>Common templates for veterinary clinics include appointment confirmation, 24-hour reminder, vaccination due reminder, post-visit follow-up, and invoice/payment receipt.</p>

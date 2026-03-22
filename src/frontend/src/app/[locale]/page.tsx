@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: "/dashboard-placeholder.svg",
           width: 720,
           height: 460,
-          alt: "Vetolib Dashboard",
+          alt: "Vetara Dashboard",
         },
       ],
     },
@@ -85,7 +85,7 @@ const SOCIAL_PROOF_KEYS = [
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Vetolib",
+  name: "Vetara",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description:
@@ -143,7 +143,7 @@ export default async function LandingPage({ params }: Props) {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold tracking-tight text-emerald-700">
-              Vetolib
+              Vetara
             </span>
           </div>
           <div className="hidden items-center gap-6 md:flex">
@@ -720,8 +720,8 @@ export default async function LandingPage({ params }: Props) {
           tagline: t("footer.tagline"),
           lang_en: t("footer.lang_en"),
           lang_ar: t("footer.lang_ar"),
-          contact_hello: "hello@vetolib.ae",
-          contact_support: "support@vetolib.ae",
+          contact_hello: "hello@vetara.ae",
+          contact_support: "support@vetara.ae",
           columns: {
             product: {
               title: t("footer.product.title"),

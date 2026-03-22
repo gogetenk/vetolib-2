@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/en/dashboard/", "/ar/dashboard/"],
       },
     ],
-    sitemap: "https://vetolib.com/sitemap.xml",
+    sitemap: "https://vetara.com/sitemap.xml",
   };
 }

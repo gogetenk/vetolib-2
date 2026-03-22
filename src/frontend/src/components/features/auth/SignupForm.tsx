@@ -120,7 +120,7 @@ export function SignupForm() {
       <Card data-testid="signup-card" className="shadow-lg">
         <CardHeader className="text-center">
           <h1 className="sr-only">{t("heading")}</h1>
-          <CardTitle className="text-2xl font-bold tracking-tight">Vetolib</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight">Vetara</CardTitle>
           <CardDescription>{t("subtitle")}</CardDescription>
         </CardHeader>
         <CardContent>

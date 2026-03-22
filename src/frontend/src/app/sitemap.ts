@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getArticlesSorted } from "@/lib/blog";
 
-const BASE_URL = "https://vetolib.com";
+const BASE_URL = "https://vetara.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const articles = getArticlesSorted();

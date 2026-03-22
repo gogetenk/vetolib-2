@@ -166,7 +166,7 @@ test.describe("Landing page", () => {
     expect(jsonLd).not.toBeNull();
     const parsed = JSON.parse(jsonLd!);
     expect(parsed["@type"]).toBe("SoftwareApplication");
-    expect(parsed.name).toBe("Vetolib");
+    expect(parsed.name).toBe("Vetara");
     expect(parsed.offers.priceCurrency).toBe("AED");
   });
 

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = getArticleBySlug(slug);
   if (!article) return {};
 
-  const canonicalUrl = `https://vetolib.com/en/blog/${article.slug}`;
+  const canonicalUrl = `https://vetara.com/en/blog/${article.slug}`;
 
   return {
     title: article.metaTitle,
@@ -66,14 +66,14 @@ export default async function BlogArticlePage({ params }: Props) {
   }
 
   const relatedArticles = getRelatedArticles(article);
-  const canonicalUrl = `https://vetolib.com/en/blog/${article.slug}`;
+  const canonicalUrl = `https://vetara.com/en/blog/${article.slug}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: article.title,
     description: article.metaDescription,
-    image: `https://vetolib.com${article.featuredImage}`,
+    image: `https://vetara.com${article.featuredImage}`,
     datePublished: article.date,
     author: {
       "@type": "Person",
@@ -82,10 +82,10 @@ export default async function BlogArticlePage({ params }: Props) {
     },
     publisher: {
       "@type": "Organization",
-      name: "Vetolib",
+      name: "Vetara",
       logo: {
         "@type": "ImageObject",
-        url: "https://vetolib.com/logo.png",
+        url: "https://vetara.com/logo.png",
       },
     },
     mainEntityOfPage: {
@@ -109,7 +109,7 @@ export default async function BlogArticlePage({ params }: Props) {
             className="text-xl font-bold tracking-tight text-emerald-700"
             data-testid="article-nav-logo"
           >
-            Vetolib
+            Vetara
           </Link>
           <div className="flex items-center gap-4">
             <Link
