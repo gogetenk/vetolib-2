@@ -33,5 +33,27 @@ internal class MessageConfiguration : IEntityTypeConfiguration<Message>
 
         // Performance: index for ordering messages within a conversation
         builder.HasIndex(m => new { m.ConversationId, m.SentAt });
+
+        // Classification fields
+        builder.Property(m => m.ClassifiedUrgency)
+            .HasConversion<string>();
+
+        builder.Property(m => m.ClassifiedCategory)
+            .HasConversion<string>();
+
+        builder.Property(m => m.ClassifiedConfidence)
+            .HasPrecision(5, 4);
+
+        builder.Property(m => m.OriginalAiUrgency)
+            .HasConversion<string>();
+
+        builder.Property(m => m.OriginalAiCategory)
+            .HasConversion<string>();
+
+        // Index for flagged messages review queue
+        builder.HasIndex(m => m.IsFlaggedForReview);
+
+        // Index for stats queries (accuracy report)
+        builder.HasIndex(m => m.ClassifiedCategory);
     }
 }

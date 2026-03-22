@@ -15,6 +15,20 @@ internal class Message : BaseEntity
     public bool IsInternalNote { get; private set; }
     public DateTime SentAt { get; private set; }
 
+    // Classification AI
+    public ClassifiedUrgency? ClassifiedUrgency { get; private set; }
+    public ClassifiedCategory? ClassifiedCategory { get; private set; }
+    public double? ClassifiedConfidence { get; private set; }
+    public bool IsFlaggedForReview { get; private set; }
+
+    // Override vet
+    public Guid? OverriddenByUserId { get; private set; }
+    public ClassifiedUrgency? OriginalAiUrgency { get; private set; }
+    public ClassifiedCategory? OriginalAiCategory { get; private set; }
+
+    // Feedback
+    public bool? ClassificationFeedbackCorrect { get; private set; }
+
     private readonly List<MessageAttachment> _attachments = [];
     public IReadOnlyList<MessageAttachment> Attachments => _attachments.AsReadOnly();
 
@@ -72,6 +86,62 @@ internal class Message : BaseEntity
         return attachmentResult;
     }
 
+    /// <summary>
+    /// Applies AI classification result. Called once when message is created.
+    /// </summary>
+    public Result ApplyClassification(
+        ClassifiedUrgency urgency,
+        ClassifiedCategory category,
+        double confidence,
+        bool flagForReview)
+    {
+        if (confidence is < 0 or > 1)
+            return Result.Error("INVALID_CONFIDENCE:Confidence must be between 0 and 1");
+
+        ClassifiedUrgency = urgency;
+        ClassifiedCategory = category;
+        ClassifiedConfidence = confidence;
+        IsFlaggedForReview = flagForReview;
+        return Result.Success();
+    }
+
+    /// <summary>
+    /// Vet overrides the AI classification. Original AI values are preserved.
+    /// </summary>
+    public Result OverrideClassification(
+        Guid userId,
+        ClassifiedUrgency newUrgency,
+        ClassifiedCategory newCategory)
+    {
+        if (ClassifiedUrgency is null)
+            return Result.Error("NOT_CLASSIFIED:Message has not been classified yet");
+
+        // Preserve original AI values (only on first override)
+        if (OriginalAiUrgency is null)
+        {
+            OriginalAiUrgency = ClassifiedUrgency;
+            OriginalAiCategory = ClassifiedCategory;
+        }
+
+        OverriddenByUserId = userId;
+        ClassifiedUrgency = newUrgency;
+        ClassifiedCategory = newCategory;
+        IsFlaggedForReview = false; // override resolves review flag
+        return Result.Success();
+    }
+
+    /// <summary>
+    /// Staff confirms or corrects the classification (feedback for training).
+    /// </summary>
+    public Result RecordClassificationFeedback(bool isCorrect)
+    {
+        if (ClassifiedUrgency is null)
+            return Result.Error("NOT_CLASSIFIED:Message has not been classified yet");
+
+        ClassificationFeedbackCorrect = isCorrect;
+        return Result.Success();
+    }
+
     public MessageDto ToDto() => new(
         Id,
         ConversationId,
@@ -79,5 +149,15 @@ internal class Message : BaseEntity
         SenderUserId,
         Body,
         IsInternalNote,
-        SentAt);
+        SentAt,
+        ClassifiedUrgency is not null
+            ? new MessageClassificationDto(
+                ClassifiedUrgency.Value,
+                ClassifiedCategory!.Value,
+                ClassifiedConfidence!.Value,
+                IsFlaggedForReview,
+                OverriddenByUserId,
+                OriginalAiUrgency,
+                OriginalAiCategory)
+            : null);
 }

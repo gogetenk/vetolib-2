@@ -93,14 +93,39 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
+                    b.Property<string>("ClassifiedCategory")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("ClassifiedConfidence")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)");
+
+                    b.Property<string>("ClassifiedUrgency")
+                        .HasColumnType("text");
+
+                    b.Property<bool?>("ClassificationFeedbackCorrect")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("ConversationId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsFlaggedForReview")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsInternalNote")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("OriginalAiCategory")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OriginalAiUrgency")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("OverriddenByUserId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Sender")
                         .IsRequired()
@@ -117,7 +142,11 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassifiedCategory");
+
                     b.HasIndex("ConversationId");
+
+                    b.HasIndex("IsFlaggedForReview");
 
                     b.ToTable("messages", "messaging");
                 });
