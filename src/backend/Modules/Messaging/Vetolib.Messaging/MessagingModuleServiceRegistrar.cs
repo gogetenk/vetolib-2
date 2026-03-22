@@ -82,6 +82,11 @@ public static class MessagingModuleServiceRegistrar
         // Portal context (scoped per request, populated by MagicLinkEndpointFilter)
         services.AddScoped<IPortalContext, PortalContext>();
 
+        // Override IClinicContext with portal-aware version so that the multi-tenant
+        // global query filter works correctly for portal (magic link) requests.
+        // This eliminates the need for IgnoreQueryFilters() in portal handlers.
+        services.AddScoped<Vetolib.Shared.Kernel.IClinicContext, PortalAwareClinicContext>();
+
         // WhatsApp — token encryption
         // In non-Development environments, WhatsApp:EncryptionKey MUST be configured.
         // A random fallback key means encrypted tokens become unrecoverable after restart.

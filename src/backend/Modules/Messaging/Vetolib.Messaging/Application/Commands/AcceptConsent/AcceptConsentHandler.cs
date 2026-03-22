@@ -16,11 +16,10 @@ internal class AcceptConsentHandler : IRequestHandler<AcceptConsentCommand, Resu
 
     public async Task<Result> Handle(AcceptConsentCommand request, CancellationToken cancellationToken)
     {
-        // IgnoreQueryFilters: portal auth bypasses JWT tenant context
+        // ClinicId is handled by the global query filter via PortalAwareClinicContext.
         var token = await _context.OwnerPortalTokens
-            .IgnoreQueryFilters()
             .FirstOrDefaultAsync(
-                t => t.OwnerId == request.OwnerId && t.ClinicId == request.ClinicId,
+                t => t.OwnerId == request.OwnerId,
                 cancellationToken);
 
         if (token is null)
