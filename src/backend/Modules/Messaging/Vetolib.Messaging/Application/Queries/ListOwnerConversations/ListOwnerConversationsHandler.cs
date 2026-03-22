@@ -20,11 +20,9 @@ internal class ListOwnerConversationsHandler
         ListOwnerConversationsQuery request,
         CancellationToken cancellationToken)
     {
-        // IgnoreQueryFilters because the ClinicId filter is based on JWT which is not set for portal auth.
-        // We manually filter by OwnerId and ClinicId from the portal token.
+        // ClinicId is handled by the global query filter via PortalAwareClinicContext.
         var conversations = await _context.Conversations
-            .IgnoreQueryFilters()
-            .Where(c => c.OwnerId == request.OwnerId && c.ClinicId == request.ClinicId)
+            .Where(c => c.OwnerId == request.OwnerId)
             .OrderByDescending(c => c.LastMessageAt ?? c.CreatedAt)
             .AsNoTracking()
             .Select(c => c.ToDto())
