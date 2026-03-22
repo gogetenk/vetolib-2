@@ -25,7 +25,7 @@ export function ErrorState({
     <div
       data-testid={testId}
       className={cn(
-        'flex flex-col items-center justify-center py-12 px-6 text-center gap-4',
+        'flex flex-col items-center justify-center py-16 px-6 text-center gap-4',
         className
       )}
     >

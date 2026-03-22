@@ -204,36 +204,36 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-name">{t('columns.name')}</TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-category">{t('columns.category')}</TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-quantity">{t('columns.quantity')}</TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-threshold">{t('columns.threshold')}</TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-expiry">{t('columns.expiry')}</TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-status">{t('columns.status')}</TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-actions">{t('columns.actions')}</TableHead>
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-name">{t('columns.name')}</TableHead>
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-category">{t('columns.category')}</TableHead>
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-quantity">{t('columns.quantity')}</TableHead>
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-threshold">{t('columns.threshold')}</TableHead>
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-expiry">{t('columns.expiry')}</TableHead>
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-status">{t('columns.status')}</TableHead>
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-actions">{t('columns.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map(item => (
                 <TableRow key={item.id} data-testid={`stock-row-${item.id}`} className="group hover:bg-muted/50 border-border/30 transition-colors">
                   <TableCell
-                    className="text-[13px] font-semibold text-foreground"
+                    className="py-3 px-4 text-[13px] font-semibold text-foreground"
                     data-testid={`stock-name-${item.id}`}
                   >
                     {item.name}
                   </TableCell>
-                  <TableCell className="text-[13px] text-muted-foreground" data-testid={`stock-category-${item.id}`}>
+                  <TableCell className="py-3 px-4 text-[13px] text-muted-foreground" data-testid={`stock-category-${item.id}`}>
                     {t(`categories.${item.category.toLowerCase()}`)}
                   </TableCell>
-                  <TableCell className="text-[13px]" data-testid={`stock-quantity-${item.id}`}>
+                  <TableCell className="py-3 px-4 text-[13px]" data-testid={`stock-quantity-${item.id}`}>
                     <LtrText className={item.isLowStock ? 'font-semibold text-red-700' : 'text-foreground font-semibold tabular-nums'}>
                       {item.quantity} {item.unit}
                     </LtrText>
                   </TableCell>
-                  <TableCell className="text-[13px] text-muted-foreground tabular-nums" data-testid={`stock-threshold-${item.id}`}>
+                  <TableCell className="py-3 px-4 text-[13px] text-muted-foreground tabular-nums" data-testid={`stock-threshold-${item.id}`}>
                     <LtrText>{item.threshold} {item.unit}</LtrText>
                   </TableCell>
-                  <TableCell className="text-[13px]" data-testid={`stock-expiry-${item.id}`}>
+                  <TableCell className="py-3 px-4 text-[13px]" data-testid={`stock-expiry-${item.id}`}>
                     {item.expiryDate ? (
                       <span className={item.isExpiringSoon ? 'font-semibold text-amber-700' : 'text-muted-foreground'}>
                         {item.expiryDate}
@@ -242,10 +242,10 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
                       <span className="text-muted-foreground">—</span>
                     )}
                   </TableCell>
-                  <TableCell data-testid={`stock-status-${item.id}`}>
+                  <TableCell className="py-3 px-4" data-testid={`stock-status-${item.id}`}>
                     {getStatusBadge(item)}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="py-3 px-4">
                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                       <Button
                         size="sm"

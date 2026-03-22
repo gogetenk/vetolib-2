@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -275,7 +276,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
           )}
 
           {/* Actions */}
-          <div className="flex justify-end gap-2">
+          <DialogFooter>
             <Button variant="outline" onClick={handleClose} data-testid="csv-import-cancel" className="rounded-xl font-semibold border-border/80 hover:bg-muted">
               {report ? t('close') : t('cancel')}
             </Button>
@@ -296,7 +297,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
                 )}
               </Button>
             )}
-          </div>
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>

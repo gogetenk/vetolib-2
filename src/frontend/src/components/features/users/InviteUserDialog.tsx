@@ -91,7 +91,7 @@ export function InviteUserDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="rounded-2xl" data-testid="invite-user-dialog">
+      <DialogContent className="rounded-xl" data-testid="invite-user-dialog">
         <DialogHeader>
           <DialogTitle className="text-[18px] font-bold text-foreground">Invite Team Member</DialogTitle>
           <DialogDescription>
