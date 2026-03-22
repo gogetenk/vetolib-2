@@ -280,7 +280,7 @@ Admins can access a consolidated dashboard under **Settings > Clinics > Overview
 4. To add vet seats, click **Add Seats**. Each additional seat is billed at the per-seat rate for your plan.
 5. Invoices for your Vetara subscription are available under **Settings > Subscription > Invoices**. These are your subscription invoices (not to be confused with invoices you send to pet owners).
 
-All plans include a 14-day free trial. No credit card is required to start the trial. You can use all features during the trial period and choose a plan before it expires.`,
+All plans include a 30-day free trial. No credit card is required to start the trial. You can use all features during the trial period and choose a plan before it expires.`,
   },
 
   /* ── FAQ ──────────────────────────────────────────────────────── */
@@ -288,7 +288,7 @@ All plans include a 14-day free trial. No credit card is required to start the t
     id: "3-1",
     section: "faq",
     title: "How much does Vetara cost?",
-    content: `Vetara offers three plans: Starter, Professional, and Enterprise. Pricing depends on the number of veterinarian seats and the features you need. All plans include a 14-day free trial with no credit card required. Visit the **Pricing** page on our website or contact our sales team for a detailed quote. Annual billing includes a discount compared to monthly billing.`,
+    content: `Vetara offers three plans: Starter, Professional, and Enterprise. Pricing depends on the number of veterinarian seats and the features you need. All plans include a 30-day free trial with no credit card required. Visit the **Pricing** page on our website or contact our sales team for a detailed quote. Annual billing includes a discount compared to monthly billing.`,
   },
   {
     id: "3-2",

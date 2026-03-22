@@ -14,7 +14,7 @@ interface Props {
   successMessage: string;
 }
 
-const COOKIE_NAME = "vetolib_exit_intent_dismissed";
+const COOKIE_NAME = "vetara_exit_intent_dismissed";
 const COOKIE_DAYS = 7;
 
 function setCookie(name: string, value: string, days: number) {

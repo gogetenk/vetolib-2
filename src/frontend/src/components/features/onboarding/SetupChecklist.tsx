@@ -9,7 +9,7 @@ import { ChecklistItem } from './ChecklistItem'
 import { ChecklistComplete } from './ChecklistComplete'
 import type { UserRole } from '@/hooks/use-role'
 
-const STORAGE_KEY = 'vetolib-checklist-dismissed'
+const STORAGE_KEY = 'vetara-checklist-dismissed'
 
 // Maps each step ID to the navigation href and role
 const STEP_HREFS: Record<string, string> = {
