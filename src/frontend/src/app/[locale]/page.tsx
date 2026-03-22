@@ -3,9 +3,6 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  CalendarCheck,
-  ClipboardList,
-  FileText,
   Users,
   UserPlus,
   Building2,
@@ -13,7 +10,6 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { PricingSection } from "@/components/features/landing/PricingSection";
 import { FaqSection } from "@/components/features/landing/FaqSection";
 import { FeaturesSection } from "@/components/features/landing/FeaturesSection";
@@ -29,7 +25,6 @@ import {
 import { AnimatedStat } from "@/components/features/landing/AnimatedStat";
 import { TrustSignalsSection } from "@/components/features/landing/TrustSignalsSection";
 import { DemoFormSection } from "@/components/features/landing/DemoFormSection";
-import { CompetitiveTableSection } from "@/components/features/landing/CompetitiveTableSection";
 import { StickyCtaBar } from "@/components/features/landing/StickyCtaBar";
 import { ExitIntentPopup } from "@/components/features/landing/ExitIntentPopup";
 import { LatestBlogSection } from "@/components/features/blog/LatestBlogSection";
@@ -60,20 +55,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
-
-const FEATURE_ICONS = [
-  CalendarCheck,
-  ClipboardList,
-  FileText,
-  Users,
-] as const;
-
-const FEATURE_KEYS = [
-  "scheduling",
-  "medical_records",
-  "invoicing",
-  "team",
-] as const;
 
 const SOCIAL_PROOF_KEYS = [
   { stat: "clinics", label: "clinics_label" },
@@ -309,53 +290,7 @@ export default async function LandingPage({ params }: Props) {
           </div>
         </section>
 
-        {/* ── Features Grid ──────────────────────────────────────────── */}
-        <section
-          id="features"
-          data-testid="section-features"
-          className="bg-white py-20 sm:py-28"
-        >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <ScrollReveal direction="fade-up">
-              <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
-                  {t("features.title")}
-                </h2>
-                <p className="mt-4 text-lg text-stone-600">
-                  {t("features.subtitle")}
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <div className="mt-16 grid gap-6 sm:grid-cols-2">
-              {FEATURE_KEYS.map((key, i) => {
-                const Icon = FEATURE_ICONS[i];
-                return (
-                  <ScrollReveal key={key} delay={i * 100} direction="fade-up">
-                    <Card
-                      className="group border border-stone-100 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-                      data-testid={`feature-card-${key}`}
-                    >
-                      <CardContent className="p-6">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110">
-                          <Icon className="h-6 w-6" aria-hidden="true" />
-                        </div>
-                        <h3 className="mt-4 text-base font-semibold text-stone-900">
-                          {t(`features.${key}.title`)}
-                        </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-stone-600">
-                          {t(`features.${key}.description`)}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </ScrollReveal>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ── New Features ───────────────────────────────────────────── */}
+        {/* ── Features (consolidated) ─────── */}
         <FeaturesSection
           title={t("new_features.title")}
           subtitle={t("new_features.subtitle")}
@@ -486,6 +421,71 @@ export default async function LandingPage({ params }: Props) {
           </div>
         </section>
 
+        {/* ── Trust Signals ────────────────────────────────────────── */}
+        <TrustSignalsSection
+          messages={{
+            title: t("trust_signals.title"),
+            badges: {
+              arabic_english: t("trust_signals.badges.arabic_english"),
+              whatsapp: t("trust_signals.badges.whatsapp"),
+              uae_hosting: t("trust_signals.badges.uae_hosting"),
+              moccae: t("trust_signals.badges.moccae"),
+            },
+          }}
+        />
+
+        {/* ── Testimonials ───────────────────────────────────────────── */}
+        <section
+          data-testid="section-testimonials"
+          className="bg-white py-20 sm:py-28"
+        >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <ScrollReveal direction="fade-up">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
+                  {t("testimonials.title")}
+                </h2>
+                <p className="mt-4 text-lg text-stone-600">
+                  {t("testimonials.subtitle")}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {(["quote1", "quote2", "quote3"] as const).map((key, idx) => {
+                const rating = parseInt(t(`testimonials.${key}.rating`), 10) || 5;
+                return (
+                  <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
+                    <figure data-testid={`testimonial-${key}`} className="flex flex-col rounded-2xl border border-stone-100 bg-stone-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                      <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className={`h-4 w-4 ${i < rating ? "fill-amber-400 text-amber-400" : "fill-stone-200 text-stone-200"}`} aria-hidden="true" />
+                        ))}
+                      </div>
+                      <blockquote className="mt-4 flex-1">
+                        <p className="text-sm leading-relaxed text-stone-700">&ldquo;{t(`testimonials.${key}.text`)}&rdquo;</p>
+                      </blockquote>
+                      <figcaption className="mt-6 flex items-center gap-3 border-t border-stone-100 pt-4">
+                        <Image src={`/avatars/testimonial-${idx + 1}.svg`} alt={t(`testimonials.${key}.name`)} width={40} height={40} className="h-10 w-10 shrink-0 rounded-full object-cover" unoptimized />
+                        <div>
+                          <p className="text-sm font-semibold text-stone-900">{t(`testimonials.${key}.name`)}</p>
+                          <p className="text-xs text-stone-500">{t(`testimonials.${key}.role`)} &bull;{" "}{t(`testimonials.${key}.clinic`)}</p>
+                          <p className="text-xs text-stone-400">{t(`testimonials.${key}.emirate`)}</p>
+                        </div>
+                      </figcaption>
+                    </figure>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+
+            {/* Mobile carousel hint — subtle scroll indicator */}
+            <p className="mt-6 text-center text-xs text-stone-400 sm:hidden">
+              {t("testimonials.scroll_hint")}
+            </p>
+          </div>
+        </section>
+
         {/* ── Pricing ────────────────────────────────────────────────── */}
         <PricingSection
           loginHref={signupHref}
@@ -566,137 +566,6 @@ export default async function LandingPage({ params }: Props) {
           }}
         />
 
-        {/* ── Competitive Table ─────────────────────────────────────── */}
-        <CompetitiveTableSection
-          messages={{
-            title: t("competitive.title"),
-            subtitle: t("competitive.subtitle"),
-            columns: {
-              feature: t("competitive.columns.feature"),
-              vetolib: t("competitive.columns.vetolib"),
-              ezyvet: t("competitive.columns.ezyvet"),
-              digitail: t("competitive.columns.digitail"),
-            },
-            rows: [
-              {
-                feature: t("competitive.rows.arabic.feature"),
-                vetolib: "yes",
-                ezyvet: "no",
-                digitail: "no",
-              },
-              {
-                feature: t("competitive.rows.whatsapp.feature"),
-                vetolib: "yes",
-                ezyvet: "no",
-                digitail: "partial",
-              },
-              {
-                feature: t("competitive.rows.ai_triage.feature"),
-                vetolib: "yes",
-                ezyvet: "no",
-                digitail: "partial",
-              },
-              {
-                feature: t("competitive.rows.uae_optimized.feature"),
-                vetolib: "yes",
-                ezyvet: "partial",
-                digitail: "no",
-              },
-              {
-                feature: t("competitive.rows.price.feature"),
-                vetolib: "yes",
-                ezyvet: "no",
-                digitail: "partial",
-              },
-              {
-                feature: t("competitive.rows.ai_soap.feature"),
-                vetolib: "yes",
-                ezyvet: "no",
-                digitail: "no",
-              },
-              {
-                feature: t("competitive.rows.multi_clinic.feature"),
-                vetolib: "yes",
-                ezyvet: "yes",
-                digitail: "partial",
-              },
-              {
-                feature: t("competitive.rows.file_attachments.feature"),
-                vetolib: "yes",
-                ezyvet: "partial",
-                digitail: "partial",
-              },
-            ],
-          }}
-        />
-
-        {/* ── Trust Signals ────────────────────────────────────────── */}
-        <TrustSignalsSection
-          messages={{
-            title: t("trust_signals.title"),
-            badges: {
-              arabic_english: t("trust_signals.badges.arabic_english"),
-              whatsapp: t("trust_signals.badges.whatsapp"),
-              uae_hosting: t("trust_signals.badges.uae_hosting"),
-              moccae: t("trust_signals.badges.moccae"),
-            },
-          }}
-        />
-
-        {/* ── Testimonials ───────────────────────────────────────────── */}
-        <section
-          data-testid="section-testimonials"
-          className="bg-white py-20 sm:py-28"
-        >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <ScrollReveal direction="fade-up">
-              <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
-                  {t("testimonials.title")}
-                </h2>
-                <p className="mt-4 text-lg text-stone-600">
-                  {t("testimonials.subtitle")}
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {(["quote1", "quote2", "quote3"] as const).map((key, idx) => {
-                const rating = parseInt(t(`testimonials.${key}.rating`), 10) || 5;
-                return (
-                  <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
-                    <figure data-testid={`testimonial-${key}`} className="flex flex-col rounded-2xl border border-stone-100 bg-stone-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
-                      <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className={`h-4 w-4 ${i < rating ? "fill-amber-400 text-amber-400" : "fill-stone-200 text-stone-200"}`} aria-hidden="true" />
-                        ))}
-                      </div>
-                      <blockquote className="mt-4 flex-1">
-                        <p className="text-sm leading-relaxed text-stone-700">&ldquo;{t(`testimonials.${key}.text`)}&rdquo;</p>
-                      </blockquote>
-                      <figcaption className="mt-6 flex items-center gap-3 border-t border-stone-100 pt-4">
-                        <Image src={`/avatars/testimonial-${idx + 1}.svg`} alt={t(`testimonials.${key}.name`)} width={40} height={40} className="h-10 w-10 shrink-0 rounded-full object-cover" unoptimized />
-                        <div>
-                          <p className="text-sm font-semibold text-stone-900">{t(`testimonials.${key}.name`)}</p>
-                          <p className="text-xs text-stone-500">{t(`testimonials.${key}.role`)} &bull;{" "}{t(`testimonials.${key}.clinic`)}</p>
-                          <p className="text-xs text-stone-400">{t(`testimonials.${key}.emirate`)}</p>
-                        </div>
-                      </figcaption>
-                    </figure>
-                  </ScrollReveal>
-                );
-              })}
-            </div>
-
-            {/* Mobile carousel hint — subtle scroll indicator */}
-            <p className="mt-6 text-center text-xs text-stone-400 sm:hidden">
-              {t("testimonials.scroll_hint")}
-            </p>
-          </div>
-        </section>
-
-        {/* ── Latest from the Blog ────────────────────────────────── */}
-        <LatestBlogSection locale={locale} />
 
         {/* ── Demo Form ────────────────────────────────────────────── */}
         <DemoFormSection
@@ -723,6 +592,9 @@ export default async function LandingPage({ params }: Props) {
           subtitle={t("faq.subtitle")}
           items={faqItems}
         />
+
+        {/* ── Latest from the Blog ────────────────────────────────── */}
+        <LatestBlogSection locale={locale} />
 
         {/* ── Final CTA ──────────────────────────────────────────────── */}
         <FinalCtaSection

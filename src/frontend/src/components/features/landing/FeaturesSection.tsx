@@ -110,8 +110,8 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
 
   return (
     <section
-      id="new-features"
-      data-testid="section-new-features"
+      id="features"
+      data-testid="section-features"
       className="bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
