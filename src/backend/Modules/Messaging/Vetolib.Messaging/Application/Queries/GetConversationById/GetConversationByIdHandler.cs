@@ -96,7 +96,7 @@ internal class GetConversationByIdHandler : IRequestHandler<GetConversationByIdQ
         // Load patient context when the conversation is linked to a patient.
         // Receptionist sees basic info only (includeFullMedicalContext = false).
         // Vet/Admin sees full medical context.
-        PatientContextDto? patientContext = null;
+        ConversationPatientContextDto? patientContext = null;
         if (conversation.PatientId.HasValue)
         {
             var includeFullMedical = role is "Vet" or "Admin";
@@ -108,7 +108,13 @@ internal class GetConversationByIdHandler : IRequestHandler<GetConversationByIdQ
                     ct);
 
                 if (contextResult.IsSuccess)
-                    patientContext = contextResult.Value;
+                {
+                    var src = contextResult.Value;
+                    patientContext = new ConversationPatientContextDto(
+                        src.PatientId, src.Name, src.Species, src.AgeYears,
+                        src.LastExaminedAt, src.ActiveMedications,
+                        src.KnownAllergies, src.VaccinationHistory);
+                }
             }
             catch (Exception ex)
             {
