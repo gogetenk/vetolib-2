@@ -5,6 +5,7 @@ import { StatsCards } from '@/components/features/dashboard/StatsCards'
 import { TodayAppointments } from '@/components/features/dashboard/TodayAppointments'
 import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
 import { AnalyticsSection } from '@/components/features/dashboard/AnalyticsSection'
+import { AccumulatedValueCard } from '@/components/features/dashboard/AccumulatedValueCard'
 import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
 import { SetupChecklist } from '@/components/features/onboarding/SetupChecklist'
 import { PageContainer } from '@/components/ui/page-container'
@@ -98,6 +99,8 @@ export default function DashboardHomePage() {
         <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
         <RecentActivity />
       </div>
+
+      <AccumulatedValueCard />
 
       <AnalyticsSection />
     </PageContainer>

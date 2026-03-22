@@ -441,6 +441,14 @@
       "title": "النشاط الأخير",
       "empty": "لا يوجد نشاط حديث"
     },
+    "accumulated_value": {
+      "title": "بيانات فيتارا الخاصة بك",
+      "member_since": "عضو منذ {date}",
+      "patients": "الحيوانات",
+      "medical_records": "السجلات الطبية",
+      "invoices": "الفواتير",
+      "appointments": "المواعيد"
+    },
     "analytics": {
       "title": "التحليلات",
       "revenue_by_month": "الإيرادات الشهرية",
@@ -1801,6 +1809,28 @@
     "errors": {
       "load_failed": "فشل تحميل إعدادات التذكيرات.",
       "save_failed": "فشل حفظ إعدادات التذكيرات."
+    }
+  },
+  "aha_moments": {
+    "first_appointment": {
+      "title": "تم إنشاء أول موعد!",
+      "description": "لقد وفرت دقيقتين مقارنة بالحجز عبر الهاتف!"
+    },
+    "first_soap": {
+      "title": "ملاحظات SOAP الذكية جاهزة!",
+      "description": "كتب الذكاء الاصطناعي تقريرك في 5 ثوانٍ."
+    },
+    "first_whatsapp_reminder": {
+      "title": "تم إرسال تذكير واتساب!",
+      "description": "تم تذكير عميلك تلقائيًا."
+    },
+    "ten_patients": {
+      "title": "10 مرضى في Vetara!",
+      "description": "بياناتك تنمو — استمر!"
+    },
+    "first_invoice_paid": {
+      "title": "تم دفع أول فاتورة!",
+      "description": "يتم تتبع الإيرادات تلقائيًا."
     }
   }
 }

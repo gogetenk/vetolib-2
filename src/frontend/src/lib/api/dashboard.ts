@@ -75,3 +75,15 @@ export interface DashboardAnalyticsDto {
 export async function getDashboardAnalytics(): Promise<DashboardAnalyticsDto> {
   return apiGet<DashboardAnalyticsDto>('/api/dashboard/analytics')
 }
+
+export interface AccumulatedValueDto {
+  totalPatients: number
+  totalMedicalRecords: number
+  totalInvoices: number
+  totalAppointments: number
+  memberSince: string // ISO date string
+}
+
+export async function getAccumulatedValue(): Promise<AccumulatedValueDto> {
+  return apiGet<AccumulatedValueDto>('/api/dashboard/accumulated-value')
+}

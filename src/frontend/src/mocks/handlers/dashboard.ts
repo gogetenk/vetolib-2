@@ -4,6 +4,7 @@ import type {
   TodayAppointmentDto,
   ActivityDto,
   DashboardAnalyticsDto,
+  AccumulatedValueDto,
 } from '@/lib/api/dashboard'
 
 const MOCK_STATS: DashboardStatsDto = {
@@ -155,6 +156,14 @@ const MOCK_RECENT_ACTIVITY: ActivityDto[] = [
   },
 ]
 
+const MOCK_ACCUMULATED_VALUE: AccumulatedValueDto = {
+  totalPatients: 127,
+  totalMedicalRecords: 843,
+  totalInvoices: 612,
+  totalAppointments: 1_254,
+  memberSince: '2024-09-15T00:00:00+04:00',
+}
+
 const MOCK_ANALYTICS: DashboardAnalyticsDto = {
   revenueByMonth: [
     { month: '2025-10', total: 41000 },
@@ -198,5 +207,11 @@ export const dashboardHandlers = [
   http.get('/api/dashboard/analytics', async () => {
     await delay(200)
     return HttpResponse.json<DashboardAnalyticsDto>(MOCK_ANALYTICS)
+  }),
+
+  // GET /api/dashboard/accumulated-value
+  http.get('/api/dashboard/accumulated-value', async () => {
+    await delay(150)
+    return HttpResponse.json<AccumulatedValueDto>(MOCK_ACCUMULATED_VALUE)
   }),
 ]
