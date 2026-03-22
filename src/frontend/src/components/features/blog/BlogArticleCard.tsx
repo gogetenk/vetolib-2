@@ -15,8 +15,8 @@ export function BlogArticleCard({ article, locale }: BlogArticleCardProps) {
       data-testid={`blog-card-${article.slug}`}
     >
       {/* Image placeholder */}
-      <div className="aspect-[16/9] w-full bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center">
-        <span className="text-sm font-medium text-emerald-700/40">
+      <div className="aspect-[16/9] w-full bg-gradient-to-br from-secondary to-accent/50 flex items-center justify-center">
+        <span className="text-sm font-medium text-primary/40">
           {article.title.slice(0, 30)}...
         </span>
       </div>
@@ -27,7 +27,7 @@ export function BlogArticleCard({ article, locale }: BlogArticleCardProps) {
           {article.tags.slice(0, 2).map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700"
+              className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-medium text-primary"
             >
               {tag}
             </span>
@@ -36,7 +36,7 @@ export function BlogArticleCard({ article, locale }: BlogArticleCardProps) {
 
         {/* Title */}
         <h2
-          className="text-lg font-semibold text-stone-900 group-hover:text-emerald-700 transition-colors line-clamp-2"
+          className="text-lg font-semibold text-stone-900 group-hover:text-primary transition-colors line-clamp-2"
           data-testid={`blog-card-title-${article.slug}`}
         >
           {article.title}

@@ -235,7 +235,7 @@ export function SignupForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 transition-all duration-200 hover:text-stone-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 transition-all duration-200 hover:text-stone-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   data-testid="password-toggle"
                   aria-label={showPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showPassword}
@@ -263,7 +263,7 @@ export function SignupForm() {
                               ? "bg-red-400"
                               : strengthScore === 2
                                 ? "bg-yellow-400"
-                                : "bg-emerald-500"
+                                : "bg-primary"
                             : "bg-stone-200"
                         }`}
                         data-testid={`strength-bar-${level}`}
@@ -272,19 +272,19 @@ export function SignupForm() {
                   </div>
                   <ul className="space-y-1 text-xs">
                     <li
-                      className={`transition-colors duration-200 ${passwordStrength.hasMin ? "text-emerald-600" : "text-stone-500"}`}
+                      className={`transition-colors duration-200 ${passwordStrength.hasMin ? "text-primary/85" : "text-stone-500"}`}
                       data-testid="strength-min"
                     >
                       {passwordStrength.hasMin ? "\u2713" : "\u25CB"} {t("strength_min")}
                     </li>
                     <li
-                      className={`transition-colors duration-200 ${passwordStrength.hasUpper ? "text-emerald-600" : "text-stone-500"}`}
+                      className={`transition-colors duration-200 ${passwordStrength.hasUpper ? "text-primary/85" : "text-stone-500"}`}
                       data-testid="strength-upper"
                     >
                       {passwordStrength.hasUpper ? "\u2713" : "\u25CB"} {t("strength_upper")}
                     </li>
                     <li
-                      className={`transition-colors duration-200 ${passwordStrength.hasNumber ? "text-emerald-600" : "text-stone-500"}`}
+                      className={`transition-colors duration-200 ${passwordStrength.hasNumber ? "text-primary/85" : "text-stone-500"}`}
                       data-testid="strength-number"
                     >
                       {passwordStrength.hasNumber ? "\u2713" : "\u25CB"} {t("strength_number")}
@@ -322,7 +322,7 @@ export function SignupForm() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 transition-all duration-200 hover:text-stone-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 transition-all duration-200 hover:text-stone-600 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   data-testid="confirm-password-toggle"
                   aria-label={showConfirmPassword ? t("hide_password") : t("show_password")}
                   aria-pressed={showConfirmPassword}
@@ -351,7 +351,7 @@ export function SignupForm() {
             {/* Submit */}
             <Button
               type="submit"
-              className="w-full bg-emerald-700 text-white hover:bg-emerald-800 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
+              className="w-full bg-primary text-white hover:bg-primary/90 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
               data-testid="signup-submit-button"
               disabled={isSubmitting}
             >
@@ -371,7 +371,7 @@ export function SignupForm() {
             {t("already_have_account")}{" "}
             <Link
               href={`/${locale}/login`}
-              className="auth-link-underline font-medium text-emerald-700 transition-colors duration-200 hover:text-emerald-800"
+              className="auth-link-underline font-medium text-primary transition-colors duration-200 hover:text-primary/90"
               data-testid="signin-link"
             >
               {t("sign_in")}

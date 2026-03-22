@@ -109,7 +109,7 @@ export function DemoFormSection({ messages: m }: Props) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-emerald-700 font-semibold text-white transition-all duration-200 hover:bg-emerald-800 hover:shadow-md"
+              className="w-full bg-primary font-semibold text-white transition-all duration-200 hover:bg-primary/90 hover:shadow-md"
               data-testid="demo-submit-btn"
             >
               {loading ? "..." : m.submit}

@@ -31,8 +31,8 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         data-testid="lang-switch-en"
         className={`text-xs font-medium transition-all duration-200 ${
           locale === "en"
-            ? "text-emerald-700 scale-105"
-            : "text-stone-400 hover:text-emerald-700 hover:scale-105"
+            ? "text-primary scale-105"
+            : "text-stone-400 hover:text-primary hover:scale-105"
         }`}
       >
         EN
@@ -43,8 +43,8 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         data-testid="lang-switch-fr"
         className={`text-xs font-medium transition-all duration-200 ${
           locale === "fr"
-            ? "text-emerald-700 scale-105"
-            : "text-stone-400 hover:text-emerald-700 hover:scale-105"
+            ? "text-primary scale-105"
+            : "text-stone-400 hover:text-primary hover:scale-105"
         }`}
       >
         FR
@@ -55,8 +55,8 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         data-testid="lang-switch-ar"
         className={`text-xs font-medium transition-all duration-200 ${
           locale === "ar"
-            ? "text-emerald-700 scale-105"
-            : "text-stone-400 hover:text-emerald-700 hover:scale-105"
+            ? "text-primary scale-105"
+            : "text-stone-400 hover:text-primary hover:scale-105"
         }`}
       >
         AR

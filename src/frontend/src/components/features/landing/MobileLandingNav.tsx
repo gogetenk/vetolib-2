@@ -44,7 +44,7 @@ export function MobileLandingNav({ links, signInLabel, ctaLabel, loginHref, sign
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="right" data-testid="landing-mobile-menu-sheet" className="w-72">
           <SheetHeader className="border-b pb-4">
-            <SheetTitle className="text-lg font-bold text-emerald-700">
+            <SheetTitle className="text-lg font-bold text-primary">
               Vetara
             </SheetTitle>
           </SheetHeader>
@@ -54,7 +54,7 @@ export function MobileLandingNav({ links, signInLabel, ctaLabel, loginHref, sign
                 key={link.testId}
                 href={link.href}
                 data-testid={`${link.testId}-mobile`}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-stone-600 transition-colors hover:bg-accent hover:text-primary"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
@@ -72,7 +72,7 @@ export function MobileLandingNav({ links, signInLabel, ctaLabel, loginHref, sign
               <Link
                 href={signupHref}
                 onClick={() => setOpen(false)}
-                className="inline-flex items-center justify-center rounded-md bg-emerald-700 text-white px-4 py-2 text-sm font-medium hover:bg-emerald-800 w-full"
+                className="inline-flex items-center justify-center rounded-md bg-primary text-white px-4 py-2 text-sm font-medium hover:bg-primary/90 w-full"
                 data-testid="btn-mobile-start-trial"
               >
                 {ctaLabel}
