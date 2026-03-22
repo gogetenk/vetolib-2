@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Application.Services;
 using Vetolib.Auth.Contracts;
@@ -13,11 +14,13 @@ internal class RegisterClinicHandler : IRequestHandler<RegisterClinicCommand, Re
 {
     private readonly AuthDbContext _context;
     private readonly IJwtTokenService _jwtTokenService;
+    private readonly AuthSecurityOptions _securityOptions;
 
-    public RegisterClinicHandler(AuthDbContext context, IJwtTokenService jwtTokenService)
+    public RegisterClinicHandler(AuthDbContext context, IJwtTokenService jwtTokenService, IOptions<AuthSecurityOptions> securityOptions)
     {
         _context = context;
         _jwtTokenService = jwtTokenService;
+        _securityOptions = securityOptions.Value;
     }
 
     public async Task<Result<RegisterClinicResponse>> Handle(RegisterClinicCommand cmd, CancellationToken ct)
@@ -31,7 +34,7 @@ internal class RegisterClinicHandler : IRequestHandler<RegisterClinicCommand, Re
             return Result<RegisterClinicResponse>.Error("EMAIL_EXISTS:This email is already registered");
 
         // Create the clinic (new tenant)
-        var clinicResult = Clinic.Create(cmd.ClinicName);
+        var clinicResult = Clinic.Create(cmd.ClinicName, _securityOptions.TrialDays);
         if (!clinicResult.IsSuccess)
             return clinicResult.Map(_ => (RegisterClinicResponse)null!);
 

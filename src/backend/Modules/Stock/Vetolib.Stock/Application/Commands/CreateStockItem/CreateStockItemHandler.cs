@@ -1,5 +1,6 @@
 using Ardalis.Result;
 using MediatR;
+using Microsoft.Extensions.Options;
 using Vetolib.Shared.Kernel;
 using Vetolib.Stock.Contracts;
 using Vetolib.Stock.Domain;
@@ -11,11 +12,13 @@ internal class CreateStockItemHandler : IRequestHandler<CreateStockItemCommand, 
 {
     private readonly StockDbContext _context;
     private readonly IClinicContext _clinicContext;
+    private readonly StockOptions _options;
 
-    public CreateStockItemHandler(StockDbContext context, IClinicContext clinicContext)
+    public CreateStockItemHandler(StockDbContext context, IClinicContext clinicContext, IOptions<StockOptions> options)
     {
         _context = context;
         _clinicContext = clinicContext;
+        _options = options.Value;
     }
 
     public async Task<Result<StockItemDto>> Handle(CreateStockItemCommand cmd, CancellationToken ct)
@@ -36,6 +39,6 @@ internal class CreateStockItemHandler : IRequestHandler<CreateStockItemCommand, 
         _context.StockItems.Add(itemResult.Value);
         await _context.SaveChangesAsync(ct);
 
-        return Result<StockItemDto>.Success(itemResult.Value.ToDto());
+        return Result<StockItemDto>.Success(itemResult.Value.ToDto(_options.ExpiryWarningDays));
     }
 }

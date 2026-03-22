@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Auth.Application.Services;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
@@ -11,11 +12,13 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
 {
     private readonly AuthDbContext _context;
     private readonly IJwtTokenService _jwtTokenService;
+    private readonly AuthSecurityOptions _securityOptions;
 
-    public LoginHandler(AuthDbContext context, IJwtTokenService jwtTokenService)
+    public LoginHandler(AuthDbContext context, IJwtTokenService jwtTokenService, IOptions<AuthSecurityOptions> securityOptions)
     {
         _context = context;
         _jwtTokenService = jwtTokenService;
+        _securityOptions = securityOptions.Value;
     }
 
     public async Task<Result<AuthTokenDto>> Handle(LoginCommand cmd, CancellationToken ct)
@@ -48,7 +51,7 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
         // Verify password
         if (!user.VerifyPassword(cmd.Password))
         {
-            user.RecordFailedLogin();
+            user.RecordFailedLogin(_securityOptions.MaxFailedLoginAttempts, _securityOptions.LockoutMinutes);
             await _context.SaveChangesAsync(ct);
 
             if (user.IsCurrentlyLocked())

@@ -20,7 +20,8 @@ internal class PendingUpload : BaseEntity, IMultiTenant
         string fileName,
         string contentType,
         long fileSizeBytes,
-        string storagePath)
+        string storagePath,
+        int expiryHours = 24)
     {
         var errors = new List<ValidationError>();
 
@@ -51,7 +52,7 @@ internal class PendingUpload : BaseEntity, IMultiTenant
             FileSizeBytes = fileSizeBytes,
             StoragePath = storagePath,
             UploadedAt = now,
-            ExpiresAt = now.AddHours(24)
+            ExpiresAt = now.AddHours(expiryHours)
         });
     }
 }

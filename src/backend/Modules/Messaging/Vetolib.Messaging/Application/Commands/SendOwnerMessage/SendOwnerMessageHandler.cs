@@ -2,6 +2,7 @@ using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Contracts.Events;
@@ -11,26 +12,27 @@ namespace Vetolib.Messaging.Application.Commands.SendOwnerMessage;
 
 internal class SendOwnerMessageHandler : IRequestHandler<SendOwnerMessageCommand, Result<Guid>>
 {
-    private const int DailyMessageLimit = 5;
-
     private readonly MessagingDbContext _context;
     private readonly ITriageOrchestrator _triageOrchestrator;
     private readonly IMessageClassifier _classifier;
     private readonly IPublisher _publisher;
     private readonly ILogger<SendOwnerMessageHandler> _logger;
+    private readonly MessagingOptions _options;
 
     public SendOwnerMessageHandler(
         MessagingDbContext context,
         ITriageOrchestrator triageOrchestrator,
         IMessageClassifier classifier,
         IPublisher publisher,
-        ILogger<SendOwnerMessageHandler> logger)
+        ILogger<SendOwnerMessageHandler> logger,
+        IOptions<MessagingOptions> options)
     {
         _context = context;
         _triageOrchestrator = triageOrchestrator;
         _classifier = classifier;
         _publisher = publisher;
         _logger = logger;
+        _options = options.Value;
     }
 
     public async Task<Result<Guid>> Handle(
@@ -65,7 +67,7 @@ internal class SendOwnerMessageHandler : IRequestHandler<SendOwnerMessageCommand
                   && ownerConversationIds.Contains(m.ConversationId),
                 cancellationToken);
 
-        if (messageCountToday >= DailyMessageLimit)
+        if (messageCountToday >= _options.DailyMessageLimit)
             return Result<Guid>.Error("DAILY_LIMIT_EXCEEDED:You have reached the daily message limit. Please try again tomorrow.");
 
         // 3. If conversation was Resolved, reopen it
@@ -91,7 +93,7 @@ internal class SendOwnerMessageHandler : IRequestHandler<SendOwnerMessageCommand
 
             if (classification is not null)
             {
-                var flagForReview = classification.Confidence < 0.6;
+                var flagForReview = classification.Confidence < _options.ClassificationReviewThreshold;
                 message.ApplyClassification(
                     classification.Urgency,
                     classification.Category,

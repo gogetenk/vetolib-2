@@ -1,5 +1,6 @@
 using Ardalis.Result;
 using MediatR;
+using Microsoft.Extensions.Options;
 using Vetolib.Agenda.Contracts;
 using Vetolib.AI.Application.ML;
 using Vetolib.AI.Application.Services;
@@ -10,20 +11,21 @@ namespace Vetolib.AI.Application.Commands.PredictNoShow;
 
 internal class PredictNoShowHandler : IRequestHandler<PredictNoShowCommand, Result<NoShowPredictionDto>>
 {
-    private const int MinimumHistoricalAppointments = 50;
-
     private readonly IAppointmentReader _reader;
     private readonly INoShowPredictionService _predictionService;
     private readonly IPreferenceChecker _preferenceChecker;
+    private readonly AIOptions _options;
 
     public PredictNoShowHandler(
         IAppointmentReader reader,
         INoShowPredictionService predictionService,
-        IPreferenceChecker preferenceChecker)
+        IPreferenceChecker preferenceChecker,
+        IOptions<AIOptions> options)
     {
         _reader = reader;
         _predictionService = predictionService;
         _preferenceChecker = preferenceChecker;
+        _options = options.Value;
     }
 
     public async Task<Result<NoShowPredictionDto>> Handle(
@@ -40,7 +42,7 @@ internal class PredictNoShowHandler : IRequestHandler<PredictNoShowCommand, Resu
 
         // Cold start check — not enough historical data to make reliable predictions
         var totalCompleted = await _reader.GetCompletedAppointmentCountAsync(ct);
-        if (totalCompleted < MinimumHistoricalAppointments)
+        if (totalCompleted < _options.MinimumHistoricalAppointments)
             return Result<NoShowPredictionDto>.Error("INSUFFICIENT_DATA");
 
         var features = await _reader.GetFeaturesForPredictionAsync(command.AppointmentId, ct);

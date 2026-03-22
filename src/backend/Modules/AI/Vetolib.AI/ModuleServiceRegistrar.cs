@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using Microsoft.Extensions.ML;
 using Vetolib.AI.Api;
+using Vetolib.AI.Application;
 using Vetolib.AI.Application.ML;
 using Vetolib.AI.Application.Services;
 using Vetolib.AI.Contracts;
@@ -23,6 +24,9 @@ public static class ModuleServiceRegistrar
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        // Options
+        services.Configure<AIOptions>(configuration.GetSection(AIOptions.SectionName));
+
         // MediatR
         services.AddMediatR(cfg =>
         {

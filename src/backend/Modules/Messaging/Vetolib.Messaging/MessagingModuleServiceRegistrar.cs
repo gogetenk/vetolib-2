@@ -10,6 +10,7 @@ using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.Timeout;
 using Vetolib.Messaging.Api;
+using Vetolib.Messaging.Application;
 using Vetolib.Messaging.Application.Services;
 using Vetolib.Messaging.Application.Services.SSE;
 using Vetolib.Messaging.Contracts;
@@ -22,6 +23,9 @@ public static class MessagingModuleServiceRegistrar
 {
     public static IServiceCollection AddMessagingModule(this IServiceCollection services, IConfiguration configuration)
     {
+        // Options
+        services.Configure<MessagingOptions>(configuration.GetSection(MessagingOptions.SectionName));
+
         // File storage — Azure Blob when connection string is configured, otherwise local
         var azureSection = configuration.GetSection(AzureBlobStorageOptions.SectionName);
         if (!string.IsNullOrEmpty(azureSection[nameof(AzureBlobStorageOptions.ConnectionString)]))

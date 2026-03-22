@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Stock.Contracts;
 using Vetolib.Stock.Infrastructure;
 
@@ -9,10 +10,12 @@ namespace Vetolib.Stock.Application.Commands.UpdateStockItem;
 internal class UpdateStockItemHandler : IRequestHandler<UpdateStockItemCommand, Result<StockItemDto>>
 {
     private readonly StockDbContext _context;
+    private readonly StockOptions _options;
 
-    public UpdateStockItemHandler(StockDbContext context)
+    public UpdateStockItemHandler(StockDbContext context, IOptions<StockOptions> options)
     {
         _context = context;
+        _options = options.Value;
     }
 
     public async Task<Result<StockItemDto>> Handle(UpdateStockItemCommand cmd, CancellationToken ct)
@@ -27,6 +30,6 @@ internal class UpdateStockItemHandler : IRequestHandler<UpdateStockItemCommand, 
 
         await _context.SaveChangesAsync(ct);
 
-        return Result<StockItemDto>.Success(item.ToDto());
+        return Result<StockItemDto>.Success(item.ToDto(_options.ExpiryWarningDays));
     }
 }

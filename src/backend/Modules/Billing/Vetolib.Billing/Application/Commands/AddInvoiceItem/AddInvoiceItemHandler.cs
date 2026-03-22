@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Infrastructure;
 
@@ -9,10 +10,12 @@ namespace Vetolib.Billing.Application.Commands.AddInvoiceItem;
 internal class AddInvoiceItemHandler : IRequestHandler<AddInvoiceItemCommand, Result<InvoiceDto>>
 {
     private readonly BillingDbContext _context;
+    private readonly BillingOptions _options;
 
-    public AddInvoiceItemHandler(BillingDbContext context)
+    public AddInvoiceItemHandler(BillingDbContext context, IOptions<BillingOptions> options)
     {
         _context = context;
+        _options = options.Value;
     }
 
     public async Task<Result<InvoiceDto>> Handle(AddInvoiceItemCommand cmd, CancellationToken ct)
@@ -24,7 +27,7 @@ internal class AddInvoiceItemHandler : IRequestHandler<AddInvoiceItemCommand, Re
         if (invoice is null)
             return Result<InvoiceDto>.NotFound("INVOICE_NOT_FOUND:Invoice not found");
 
-        var itemResult = invoice.AddItem(cmd.Description, cmd.UnitPrice);
+        var itemResult = invoice.AddItem(cmd.Description, cmd.UnitPrice, _options.TaxRate);
         if (!itemResult.IsSuccess)
             return Result<InvoiceDto>.Error(string.Join("; ", itemResult.Errors));
 
@@ -32,6 +35,6 @@ internal class AddInvoiceItemHandler : IRequestHandler<AddInvoiceItemCommand, Re
         _context.InvoiceItems.Add(itemResult.Value);
         await _context.SaveChangesAsync(ct);
 
-        return Result<InvoiceDto>.Success(invoice.ToDto());
+        return Result<InvoiceDto>.Success(invoice.ToDto(_options.TaxRate));
     }
 }

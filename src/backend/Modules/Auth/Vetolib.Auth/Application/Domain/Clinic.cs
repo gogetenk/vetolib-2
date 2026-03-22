@@ -17,9 +17,9 @@ internal class Clinic : BaseEntity, IAggregateRoot
     private Clinic() { } // EF Core constructor
 
     /// <summary>
-    /// Creates a new clinic with a 14-day Pro trial.
+    /// Creates a new clinic with a configurable Pro trial period.
     /// </summary>
-    public static Result<Clinic> Create(string name)
+    public static Result<Clinic> Create(string name, int trialDays = 14)
     {
         var errors = new List<ValidationError>();
 
@@ -33,7 +33,7 @@ internal class Clinic : BaseEntity, IAggregateRoot
         {
             Name = name.Trim(),
             SubscriptionPlan = Contracts.SubscriptionPlan.Pro,
-            TrialEndsAt = DateTime.UtcNow.AddDays(14)
+            TrialEndsAt = DateTime.UtcNow.AddDays(trialDays)
         };
 
         return Result<Clinic>.Success(clinic);

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Vetolib.Auth.Api;
+using Vetolib.Auth.Application;
 using Vetolib.Auth.Application.Services;
 using Vetolib.Shared.Infrastructure.Behaviors;
 using Vetolib.Auth.Contracts;
@@ -20,6 +21,9 @@ public static class AuthModuleServiceRegistrar
 {
     public static IServiceCollection AddAuthModule(this IServiceCollection services, IConfiguration config)
     {
+        // Options
+        services.Configure<AuthSecurityOptions>(config.GetSection(AuthSecurityOptions.SectionName));
+
         // MediatR
         services.AddMediatR(cfg =>
         {

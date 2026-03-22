@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Vetolib.Auth.Application.Domain;
 
@@ -11,10 +12,12 @@ namespace Vetolib.Auth.Application.Services;
 internal class JwtTokenService : IJwtTokenService
 {
     private readonly IConfiguration _configuration;
+    private readonly AuthSecurityOptions _securityOptions;
 
-    public JwtTokenService(IConfiguration configuration)
+    public JwtTokenService(IConfiguration configuration, IOptions<AuthSecurityOptions> securityOptions)
     {
         _configuration = configuration;
+        _securityOptions = securityOptions.Value;
     }
 
     public string GenerateAccessToken(User user)
@@ -47,7 +50,7 @@ internal class JwtTokenService : IJwtTokenService
             audience: _configuration["Jwt:Audience"] ?? "Vetolib",
             claims: claimsList.ToArray(),
             notBefore: now,
-            expires: now.AddMinutes(15),
+            expires: now.AddMinutes(_securityOptions.TokenExpirationMinutes),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);

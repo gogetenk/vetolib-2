@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Vetolib.Messaging.Contracts;
 using Vetolib.Messaging.Contracts.Events;
 using Vetolib.Messaging.Infrastructure;
@@ -10,31 +11,34 @@ using Vetolib.Messaging.Infrastructure;
 namespace Vetolib.Messaging.Application.Services;
 
 /// <summary>
-/// Background service that scans every minute for MedicalUrgency conversations
-/// that have been open for more than 10 minutes without a vet viewing them,
+/// Background service that scans periodically for MedicalUrgency conversations
+/// that have been open beyond the configured escalation threshold without a vet viewing them,
 /// and publishes an EmergencyEscalationEvent once per conversation.
 /// </summary>
 internal class EmergencyEscalationBackgroundService : BackgroundService
 {
-    private static readonly TimeSpan ScanInterval = TimeSpan.FromMinutes(1);
-    private static readonly TimeSpan EscalationThreshold = TimeSpan.FromMinutes(10);
+    private readonly TimeSpan _scanInterval;
+    private readonly TimeSpan _escalationThreshold;
 
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<EmergencyEscalationBackgroundService> _logger;
 
     public EmergencyEscalationBackgroundService(
         IServiceScopeFactory scopeFactory,
-        ILogger<EmergencyEscalationBackgroundService> logger)
+        ILogger<EmergencyEscalationBackgroundService> logger,
+        IOptions<MessagingOptions> options)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
+        _scanInterval = TimeSpan.FromMinutes(options.Value.EscalationScanIntervalMinutes);
+        _escalationThreshold = TimeSpan.FromMinutes(options.Value.EmergencyEscalationMinutes);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("EmergencyEscalationBackgroundService started");
 
-        using var timer = new PeriodicTimer(ScanInterval);
+        using var timer = new PeriodicTimer(_scanInterval);
 
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
         {
@@ -50,7 +54,7 @@ internal class EmergencyEscalationBackgroundService : BackgroundService
             var context = scope.ServiceProvider.GetRequiredService<MessagingDbContext>();
             var publishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
 
-            var threshold = DateTime.UtcNow - EscalationThreshold;
+            var threshold = DateTime.UtcNow - _escalationThreshold;
 
             // Find MedicalUrgency conversations that are Open, older than 10 minutes,
             // and have not yet been escalated.

@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Stock.Contracts;
 using Vetolib.Stock.Domain;
 using Vetolib.Stock.Infrastructure;
@@ -10,10 +11,12 @@ namespace Vetolib.Stock.Application.Queries.CheckStockAvailability;
 internal class CheckStockAvailabilityHandler : IRequestHandler<CheckStockAvailabilityQuery, Result<StockAvailabilityResult>>
 {
     private readonly StockDbContext _context;
+    private readonly StockOptions _options;
 
-    public CheckStockAvailabilityHandler(StockDbContext context)
+    public CheckStockAvailabilityHandler(StockDbContext context, IOptions<StockOptions> options)
     {
         _context = context;
+        _options = options.Value;
     }
 
     public async Task<Result<StockAvailabilityResult>> Handle(CheckStockAvailabilityQuery query, CancellationToken ct)
@@ -38,7 +41,7 @@ internal class CheckStockAvailabilityHandler : IRequestHandler<CheckStockAvailab
                 Quantity: primaryItem?.Quantity ?? 0,
                 Unit: primaryItem?.Unit ?? string.Empty,
                 IsLowStock: primaryItem?.IsLowStock ?? true,
-                IsExpiringSoon: primaryItem?.IsExpiringSoon ?? false,
+                IsExpiringSoon: primaryItem?.IsExpiringSoon(_options.ExpiryWarningDays) ?? false,
                 Alternatives: alternatives,
                 StockItemId: primaryItem?.Id));
         }
@@ -48,7 +51,7 @@ internal class CheckStockAvailabilityHandler : IRequestHandler<CheckStockAvailab
             Quantity: primaryItem.Quantity,
             Unit: primaryItem.Unit,
             IsLowStock: primaryItem.IsLowStock,
-            IsExpiringSoon: primaryItem.IsExpiringSoon,
+            IsExpiringSoon: primaryItem.IsExpiringSoon(_options.ExpiryWarningDays),
             Alternatives: [],
             StockItemId: primaryItem.Id));
     }

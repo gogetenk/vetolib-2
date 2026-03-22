@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Shared.Kernel;
 using Vetolib.Stock.Contracts;
 using Vetolib.Stock.Domain;
@@ -13,12 +14,14 @@ internal class RecordStockMovementHandler : IRequestHandler<RecordStockMovementC
     private readonly StockDbContext _context;
     private readonly IUserContext _userContext;
     private readonly IPublisher _publisher;
+    private readonly StockOptions _options;
 
-    public RecordStockMovementHandler(StockDbContext context, IUserContext userContext, IPublisher publisher)
+    public RecordStockMovementHandler(StockDbContext context, IUserContext userContext, IPublisher publisher, IOptions<StockOptions> options)
     {
         _context = context;
         _userContext = userContext;
         _publisher = publisher;
+        _options = options.Value;
     }
 
     public async Task<Result<StockItemDto>> Handle(RecordStockMovementCommand cmd, CancellationToken ct)
@@ -58,6 +61,6 @@ internal class RecordStockMovementHandler : IRequestHandler<RecordStockMovementC
                 item.MinThreshold), ct);
         }
 
-        return Result<StockItemDto>.Success(item.ToDto());
+        return Result<StockItemDto>.Success(item.ToDto(_options.ExpiryWarningDays));
     }
 }

@@ -3,6 +3,8 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using Microsoft.Extensions.Options;
+using Vetolib.Billing.Application;
 using Vetolib.Billing.Application.Commands.UpdateInvoiceStatus;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Domain;
@@ -35,7 +37,7 @@ public class UpdateInvoiceStatusHandlerTests : IDisposable
             .Options;
 
         _context = new BillingDbContext(options, clinicContext, publisher);
-        _handler = new UpdateInvoiceStatusHandler(_context);
+        _handler = new UpdateInvoiceStatusHandler(_context, Options.Create(new BillingOptions()));
 
         SeedDraftInvoice();
     }

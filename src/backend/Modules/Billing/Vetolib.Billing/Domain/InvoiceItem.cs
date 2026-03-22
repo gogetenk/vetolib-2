@@ -6,8 +6,6 @@ namespace Vetolib.Billing.Domain;
 
 internal class InvoiceItem : BaseEntity
 {
-    private const decimal TaxRate = 0.05m; // UAE VAT 5%
-
     public Guid InvoiceId { get; private set; }
     public string Description { get; private set; } = string.Empty;
     public decimal UnitPriceExclTax { get; private set; }
@@ -16,7 +14,7 @@ internal class InvoiceItem : BaseEntity
 
     private InvoiceItem() { } // EF Core
 
-    public static Result<InvoiceItem> Create(Guid invoiceId, string description, decimal unitPrice)
+    public static Result<InvoiceItem> Create(Guid invoiceId, string description, decimal unitPrice, decimal taxRate = 0.05m)
     {
         var errors = new List<ValidationError>();
 
@@ -32,7 +30,7 @@ internal class InvoiceItem : BaseEntity
         if (errors.Count > 0)
             return Result<InvoiceItem>.Invalid(errors);
 
-        var taxAmount = Math.Round(unitPrice * TaxRate, 2);
+        var taxAmount = Math.Round(unitPrice * taxRate, 2);
 
         var item = new InvoiceItem
         {
