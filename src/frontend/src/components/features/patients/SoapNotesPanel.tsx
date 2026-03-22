@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { generateSoapNotes } from '@/lib/api/ai-soap-notes'
 import type { SoapNotesRequest, SoapNotesResponse } from '@/lib/api/ai-soap-notes'
+import { useAhaMoment } from '@/hooks/use-aha-moment'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -32,6 +33,7 @@ interface SoapNotesPanelProps {
 
 export function SoapNotesPanel({ requestData, onAccept, open }: SoapNotesPanelProps) {
   const t = useTranslations('soap_notes')
+  const { triggerAha } = useAhaMoment()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [generated, setGenerated] = useState(false)
@@ -70,6 +72,7 @@ export function SoapNotesPanel({ requestData, onAccept, open }: SoapNotesPanelPr
   }
 
   const handleAccept = () => {
+    triggerAha('first_soap')
     onAccept(values)
   }
 

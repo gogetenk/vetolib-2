@@ -39,6 +39,7 @@ import {
 } from '@/lib/api/billing'
 import type { InvoiceDto, InvoiceStatus } from '@/lib/api/billing'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
+import { useAhaMoment } from '@/hooks/use-aha-moment'
 
 const STATUS_BADGE_STYLES: Record<InvoiceStatus, string> = {
   DRAFT: 'bg-amber-50 text-amber-700 border-amber-200',
@@ -69,6 +70,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
   const locale = useLocale()
   const t = useTranslations('billing.detail')
   const tBilling = useTranslations('billing')
+  const { triggerAha } = useAhaMoment()
 
   const [invoice, setInvoice] = useState<InvoiceDto | null>(null)
   const [loading, setLoading] = useState(true)
@@ -142,6 +144,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
         from_status: fromStatus,
         to_status: updated.status,
       })
+      triggerAha('first_invoice_paid')
       setInvoice(updated)
     } catch {
       const msg = t('errors.paid_failed')

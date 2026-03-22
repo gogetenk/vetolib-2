@@ -24,6 +24,7 @@ import { createAppointment, getVets } from '@/lib/api/appointments'
 import type { VetDto, Species } from '@/lib/api/appointments'
 import { ApiError } from '@/lib/api/client'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
+import { useAhaMoment } from '@/hooks/use-aha-moment'
 import { useTranslations } from 'next-intl'
 
 const SPECIES_OPTIONS: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic']
@@ -52,6 +53,7 @@ type FormValues = z.infer<typeof schema>
 export function AppointmentForm() {
   const router = useRouter()
   const t = useTranslations('appointments.form')
+  const { triggerAha } = useAhaMoment()
   const [vets, setVets] = useState<VetDto[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { shakeForm: hasShake, triggerShake } = useFormShake()
@@ -104,6 +106,7 @@ export function AppointmentForm() {
         has_notes: String(Boolean(values.notes)),
       })
       toast.success(t('toast.created'))
+      triggerAha('first_appointment')
       router.push('/appointments')
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {

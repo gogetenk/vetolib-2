@@ -25,9 +25,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useAhaMoment } from "@/hooks/use-aha-moment"
 
 export default function NotificationSettingsPage() {
   const t = useTranslations("reminder_settings")
+  const { triggerAha } = useAhaMoment()
 
   const [config, setConfig] = useState<ReminderConfigDto | null>(null)
   const [logs, setLogs] = useState<ReminderLogDto[]>([])
@@ -43,12 +45,15 @@ export default function NotificationSettingsPage() {
       ])
       setConfig(configData)
       setLogs(logsData)
+      if (logsData.some((log) => log.status === "sent")) {
+        triggerAha("first_whatsapp_reminder")
+      }
     } catch {
       toast.error(t("errors.load_failed"))
     } finally {
       setIsLoading(false)
     }
-  }, [t])
+  }, [t, triggerAha])
 
   useEffect(() => {
     loadData()
