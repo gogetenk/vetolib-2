@@ -68,8 +68,8 @@ export function CalendarHeader({
 
   return (
     <div className="flex flex-col gap-4 pb-4 bg-white" data-testid="calendar-header">
-      {/* Top row: Personnel filter (left) */}
-      <div className="flex items-center gap-4 px-2">
+      {/* Top row: Personnel filter -- hidden on mobile */}
+      <div className="hidden md:flex items-center gap-4 px-2">
         <div className="flex items-center gap-2 bg-white rounded-full border border-border/80 p-1 shadow-sm">
           {/* Vet filter dropdown (like Weda personnel filter) */}
           <div className="relative" ref={filterRef} data-testid="calendar-vet-filter">
@@ -110,18 +110,18 @@ export function CalendarHeader({
       {/* Bottom row: Today, Navigation, View Toggle, New Appointment */}
       <div className="flex items-center justify-between px-2">
         {/* Left: Aujourd'hui */}
-        <div className="flex-1 flex justify-start">
-          <Button variant="outline" onClick={onToday} className="rounded-full px-6 font-semibold bg-primary text-primary-foreground border-primary hover:bg-primary/90 shadow-sm h-10">
+        <div className="flex-1 flex justify-start items-center gap-2">
+          <Button variant="outline" onClick={onToday} className="rounded-full px-4 md:px-6 font-semibold bg-primary text-primary-foreground border-primary hover:bg-primary/90 shadow-sm h-10">
             {t('today')}
           </Button>
         </div>
 
         {/* Center: Navigation & Date */}
-        <div className="flex-1 flex justify-center items-center gap-4">
+        <div className="flex-1 flex justify-center items-center gap-2 md:gap-4">
           <Button variant="ghost" size="icon" onClick={onPrev} aria-label="Previous" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
             {isRtl ? <ChevronRight className="size-5" /> : <ChevronLeft className="size-5" />}
           </Button>
-          <span className="text-[15px] font-semibold min-w-[200px] text-center text-foreground">{dateLabel}</span>
+          <span className="text-[13px] md:text-[15px] font-semibold min-w-0 md:min-w-[200px] text-center text-foreground">{dateLabel}</span>
           <Button variant="ghost" size="icon" onClick={onNext} aria-label="Next" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
             {isRtl ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
           </Button>
@@ -129,8 +129,8 @@ export function CalendarHeader({
 
         {/* Right: View toggle & New Appt */}
         <div className="flex-1 flex justify-end items-center gap-4">
-          {/* View toggle */}
-          <div className="flex rounded-full border border-border/80 bg-white p-1 shadow-sm h-10 items-center">
+          {/* View toggle -- hidden on mobile */}
+          <div className="hidden md:flex rounded-full border border-border/80 bg-white p-1 shadow-sm h-10 items-center">
             {views.map((view) => (
               <button
                 key={view.key}
@@ -148,11 +148,12 @@ export function CalendarHeader({
 
           {/* New Appointment Button with Glow */}
           <Button 
-            className="rounded-full gap-2 px-6 h-10 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5 transition-all duration-200"
+            className="rounded-full gap-2 px-3 md:px-6 h-10 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5 transition-all duration-200"
             onClick={onNewAppointment}
           >
             <Plus className="size-4" />
-            {t('newAppointment')}
+            <span className="hidden md:inline">
+            {t('newAppointment')}</span>
           </Button>
         </div>
       </div>

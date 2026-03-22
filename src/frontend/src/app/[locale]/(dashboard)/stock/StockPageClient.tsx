@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
+import { PageContainer } from '@/components/ui/page-container'
 import { StockTable } from '@/components/features/stock/StockTable'
 import { StockAlerts } from '@/components/features/stock/StockAlerts'
 import { StockItemForm } from '@/components/features/stock/StockItemForm'
@@ -92,10 +93,10 @@ export default function StockPageClient() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="stock-page">
+    <PageContainer data-testid="stock-page">
       <div className="flex items-center justify-between">
-        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2" data-testid="stock-title">
-          <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
+        <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2" data-testid="stock-title">
+          <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t('title')}
         </h1>
         <div className="flex items-center gap-2">
@@ -103,7 +104,7 @@ export default function StockPageClient() {
             <Button
               variant="outline"
               data-testid="btn-stock-history"
-              className="rounded-xl border-border/80 text-[13px] font-semibold hover:bg-[#f4f6f9] h-10 px-5"
+              className="rounded-xl border-border/80 text-[13px] font-semibold hover:bg-muted h-10 px-5"
             >
               <History className="me-1.5 h-4 w-4" />
               {t('history_link')}
@@ -112,7 +113,7 @@ export default function StockPageClient() {
           <Button
             onClick={() => setShowAddForm(true)}
             data-testid="btn-add-stock-item"
-            className="bg-[#303ef5] hover:bg-[#2530c4] text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
+            className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-10 px-5 shadow-sm"
           >
             <Plus className="me-1.5 h-4 w-4" />
             {t('add_item')}
@@ -164,6 +165,6 @@ export default function StockPageClient() {
         item={movementItem}
         onSubmit={handleMovementSubmit}
       />
-    </div>
+    </PageContainer>
   )
 }

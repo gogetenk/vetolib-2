@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
@@ -48,13 +48,14 @@ const STATUS_BADGE_STYLES: Record<InvoiceStatus, string> = {
 }
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
+  const tStatus = useTranslations('billing.status')
   const style = STATUS_BADGE_STYLES[status] ?? 'bg-muted text-muted-foreground border-border/50'
   return (
     <span
       className={cn('inline-flex items-center rounded-md px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider border', style)}
       data-testid="invoice-detail-status"
     >
-      {status}
+      {tStatus(status)}
     </span>
   )
 }
@@ -66,6 +67,8 @@ interface InvoiceDetailProps {
 export function InvoiceDetail({ id }: InvoiceDetailProps) {
   const router = useRouter()
   const locale = useLocale()
+  const t = useTranslations('billing.detail')
+  const tBilling = useTranslations('billing')
 
   const [invoice, setInvoice] = useState<InvoiceDto | null>(null)
   const [loading, setLoading] = useState(true)
@@ -81,11 +84,11 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       const data = await getInvoice(id)
       setInvoice(data)
     } catch {
-      setLoadError('Invoice not found')
+      setLoadError(t('errors.not_found'))
     } finally {
       setLoading(false)
     }
-  }, [id])
+  }, [id, t])
 
   useEffect(() => {
     loadInvoice()
@@ -101,7 +104,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
         const data = await getInvoice(id)
         setInvoice(data)
       } catch {
-        setLoadError('Invoice not found')
+        setLoadError(t('errors.not_found'))
       } finally {
         setLoading(false)
       }
@@ -121,7 +124,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       })
       setInvoice(updated)
     } catch {
-      const msg = 'Failed to send invoice'
+      const msg = t('errors.send_failed')
       setLastActionError(msg)
       toast.error(msg)
     } finally {
@@ -141,7 +144,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       })
       setInvoice(updated)
     } catch {
-      const msg = 'Failed to mark as paid'
+      const msg = t('errors.paid_failed')
       setLastActionError(msg)
       toast.error(msg)
     } finally {
@@ -161,7 +164,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       })
       setInvoice(updated)
     } catch {
-      const msg = 'Failed to cancel invoice'
+      const msg = t('errors.cancel_failed')
       setLastActionError(msg)
       toast.error(msg)
     } finally {
@@ -182,7 +185,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       await deleteInvoice(invoice.id)
       router.push(`/${locale}/billing`)
     } catch {
-      const msg = 'Failed to delete invoice'
+      const msg = t('errors.delete_failed')
       setLastActionError(msg)
       toast.error(msg)
       setActionLoading(false)
@@ -202,7 +205,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       URL.revokeObjectURL(url)
       trackEvent(AnalyticsEvents.INVOICE_PDF_DOWNLOADED)
     } catch {
-      const msg = 'Failed to download PDF'
+      const msg = t('errors.pdf_failed')
       setLastActionError(msg)
       toast.error(msg)
     } finally {
@@ -224,7 +227,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
     return (
       <ErrorState
         data-testid="invoice-detail-error"
-        title="Invoice not found"
+        title={t("errors.not_found")}
         description={loadError}
         onRetry={loadInvoice}
       />
@@ -259,12 +262,12 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               <LtrText>{formatDate(invoice.createdAt)}</LtrText>
               {invoice.dueDate && (
                 <p className="text-muted-foreground/70" data-testid="invoice-due-date">
-                  Due: <LtrText>{formatDate(invoice.dueDate)}</LtrText>
+                  {t('due')} <LtrText>{formatDate(invoice.dueDate)}</LtrText>
                 </p>
               )}
               {invoice.paidAt && (
                 <p className="text-emerald-600 font-semibold" data-testid="invoice-paid-date">
-                  Paid: <LtrText>{formatDate(invoice.paidAt)}</LtrText>
+                  {t('paid_on')} <LtrText>{formatDate(invoice.paidAt)}</LtrText>
                 </p>
               )}
             </div>
@@ -275,13 +278,13 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Client Info + Clinic */}
       <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-[15px] font-bold text-foreground">Client</CardTitle>
+          <CardTitle className="text-[15px] font-bold text-foreground">{t("client")}</CardTitle>
         </CardHeader>
         <CardContent className="flex justify-between">
           <div>
             <p className="font-semibold text-[14px] text-foreground" data-testid="invoice-owner-name">{invoice.ownerName}</p>
             <p className="text-[13px] text-muted-foreground" data-testid="invoice-owner-phone"><LtrText>{invoice.ownerPhone}</LtrText></p>
-            <p className="text-[13px] text-muted-foreground">Patient: <span className="font-semibold text-foreground" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
+            <p className="text-[13px] text-muted-foreground">{t('patient')} <span className="font-semibold text-foreground" data-testid="invoice-patient-name">{invoice.patientName}</span></p>
           </div>
           <div className="text-end text-[13px] text-muted-foreground">
             <p className="font-semibold text-foreground">Happy Paws Veterinary</p>
@@ -294,17 +297,17 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {/* Line Items */}
       <Card className="bg-white border-border/80 rounded-xl shadow-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-[15px] font-bold text-foreground">Items</CardTitle>
+          <CardTitle className="text-[15px] font-bold text-foreground">{t("items")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="border border-border/80 rounded-xl overflow-hidden">
             <Table data-testid="invoice-items-table">
               <TableHeader>
                 <TableRow className="bg-muted">
-                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">Description</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Qty</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Unit Price</TableHead>
-                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">Subtotal</TableHead>
+                  <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground">{t("description")}</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t("qty")}</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t("unit_price")}</TableHead>
+                  <TableHead className="text-end text-[11px] font-bold uppercase tracking-wider text-foreground">{t("subtotal")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -323,15 +326,15 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
           {/* Totals */}
           <div className="mt-4 rounded-xl bg-muted border border-border/50 px-4 py-3 space-y-1.5 text-[13px] max-w-xs ms-auto" data-testid="detail-totals">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Subtotal (excl. VAT)</span>
+              <span className="text-muted-foreground">{t('subtotal_ht')}</span>
               <LtrText className="font-semibold text-foreground tabular-nums" data-testid="detail-subtotal">{formatAED(invoice.subtotal)}</LtrText>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">VAT (5%)</span>
+              <span className="text-muted-foreground">{tBilling('vat')}</span>
               <LtrText className="text-muted-foreground tabular-nums" data-testid="detail-vat">{formatAED(invoice.vatAmount)}</LtrText>
             </div>
             <div className="flex justify-between font-bold text-[15px] text-foreground border-t border-border/50 pt-1.5">
-              <span>Total AED</span>
+              <span>{tBilling('total')}</span>
               <LtrText className="tabular-nums" data-testid="detail-total">{formatAED(invoice.total)}</LtrText>
             </div>
           </div>
@@ -342,7 +345,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       {invoice.notes && (
         <Card className="bg-white border-border/80 rounded-xl shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-[15px] font-bold text-foreground">Notes</CardTitle>
+            <CardTitle className="text-[15px] font-bold text-foreground">{t("notes")}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-[13px] text-muted-foreground" data-testid="invoice-notes">{invoice.notes}</p>
@@ -354,7 +357,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
       <div className="flex gap-3 flex-wrap" data-testid="invoice-actions">
         <Link href={`/${locale}/billing`}>
           <Button variant="outline" data-testid="back-to-billing-btn" className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted group/back">
-            <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" /> Back to Billing
+            <ArrowLeft className="h-4 w-4 me-1 transition-transform duration-200 ease-in-out group-hover/back:-translate-x-0.5 rtl:group-hover/back:translate-x-0.5" /> {t('back_to_billing')}
           </Button>
         </Link>
 
@@ -366,7 +369,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               disabled={actionLoading}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
-              Send
+              {t("send")}
             </Button>
             <Button
               variant="destructive"
@@ -375,7 +378,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               disabled={actionLoading}
               className="rounded-xl h-10 px-5 font-semibold"
             >
-              Delete
+              {t("delete")}
             </Button>
           </>
         )}
@@ -388,7 +391,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               disabled={actionLoading}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
             >
-              Mark as Paid
+              {t("mark_as_paid")}
             </Button>
             <Button
               variant="outline"
@@ -397,7 +400,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
               disabled={actionLoading}
               className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
             >
-              Cancel
+              {t("cancel")}
             </Button>
           </>
         )}
@@ -410,7 +413,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             disabled={actionLoading}
             className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
           >
-            Download PDF
+            {t("download_pdf")}
           </Button>
         )}
       </div>
@@ -419,9 +422,9 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
     <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
       <DialogContent data-testid="delete-confirm-dialog" className="rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-foreground font-bold">Delete Invoice</DialogTitle>
+          <DialogTitle className="text-foreground font-bold">{t("delete")}</DialogTitle>
           <DialogDescription className="text-muted-foreground text-[13px]">
-            This action cannot be undone. The invoice will be permanently deleted.
+            {t("delete_confirm")}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -431,7 +434,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             onClick={() => setDeleteDialogOpen(false)}
             className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
           >
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             variant="destructive"
@@ -440,7 +443,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
             disabled={actionLoading}
             className="rounded-xl h-10 px-5 font-semibold"
           >
-            Delete
+            {t("delete")}
           </Button>
         </DialogFooter>
       </DialogContent>

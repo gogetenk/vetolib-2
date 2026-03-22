@@ -29,13 +29,13 @@ interface TeamTableProps {
 function roleBadgeClass(role: UserRole): string {
   switch (role) {
     case "ADMIN":
-      return "bg-[#fef2f2] text-[#ef4444]"
+      return "bg-red-50 text-red-500"
     case "VET":
       return "bg-primary/10 text-primary"
     case "ASSISTANT":
-      return "bg-[#e8f6f0] text-[#22c55e]"
+      return "bg-emerald-50 text-green-500"
     case "RECEPTIONIST":
-      return "bg-[#fff7ed] text-[#f97316]"
+      return "bg-orange-50 text-orange-500"
     default:
       return "bg-muted text-muted-foreground"
   }

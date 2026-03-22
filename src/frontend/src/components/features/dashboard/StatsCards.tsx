@@ -95,8 +95,8 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
                 {t('pending_checkin')}
               </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#fff7ed]">
-                <Clock className="h-4 w-4 text-[#f97316]" aria-hidden="true" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50">
+                <Clock className="h-4 w-4 text-orange-500" aria-hidden="true" />
               </div>
             </div>
           </CardHeader>
@@ -126,8 +126,8 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
                 {t('unpaid_invoices')}
               </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#fef2f2]">
-                <DollarSign className="h-4 w-4 text-[#ef4444]" aria-hidden="true" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50">
+                <DollarSign className="h-4 w-4 text-red-500" aria-hidden="true" />
               </div>
             </div>
           </CardHeader>
@@ -150,8 +150,8 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
                 {t('total_patients')}
               </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#e8f6f0]">
-                <Users className="h-4 w-4 text-[#22c55e]" aria-hidden="true" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
+                <Users className="h-4 w-4 text-green-500" aria-hidden="true" />
               </div>
             </div>
           </CardHeader>
@@ -174,8 +174,8 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
               <CardTitle className="text-[13px] font-semibold text-muted-foreground">
                 {t('todays_revenue')}
               </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#e8f6f0]">
-                <DollarSign className="h-4 w-4 text-[#22c55e]" aria-hidden="true" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
+                <DollarSign className="h-4 w-4 text-green-500" aria-hidden="true" />
               </div>
             </div>
           </CardHeader>

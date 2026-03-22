@@ -39,10 +39,10 @@ const SPECIES_EMOJI: Record<string, string> = {
 
 const STATUS_BADGE_VARIANT: Record<AppointmentStatus, string> = {
   SCHEDULED: 'bg-primary/10 text-primary',
-  CHECKED_IN: 'bg-[#fff7ed] text-[#f97316]',
-  IN_PROGRESS: 'bg-[#e8f6f0] text-[#22c55e]',
+  CHECKED_IN: 'bg-orange-50 text-orange-500',
+  IN_PROGRESS: 'bg-emerald-50 text-green-500',
   COMPLETED: 'bg-muted text-muted-foreground',
-  CANCELLED: 'bg-[#fef2f2] text-[#ef4444]',
+  CANCELLED: 'bg-red-50 text-red-500',
 }
 
 interface AppointmentDetailSheetProps {

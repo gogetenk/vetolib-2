@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { Settings, Users, MessageSquare, Bell, type LucideIcon } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { PageContainer } from "@/components/ui/page-container"
 
 interface SettingsLink {
   href: string
@@ -52,9 +53,9 @@ export default function SettingsPageClient() {
   const localePrefix = pathname.replace(/\/settings$/, "")
 
   return (
-    <div className="p-6 lg:p-8 space-y-6" data-testid="settings-index-page">
+    <PageContainer data-testid="settings-index-page">
       <div>
-        <h1 className="text-[22px] font-bold text-[#061e44] flex items-center gap-2">
+        <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2">
           <span className="w-1 h-5 bg-[#303ef5] rounded-full"></span>
           {t("title")}
         </h1>
@@ -71,14 +72,14 @@ export default function SettingsPageClient() {
             className="block group"
             data-testid={link.testId}
           >
-            <Card className="h-full bg-white border-border/80 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:border-[#303ef5]/30 cursor-pointer">
+            <Card className="h-full bg-white border-border/80 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:border-primary/30 cursor-pointer">
               <CardHeader>
                 <div className="flex items-start gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#eef2fd] group-hover:bg-[#303ef5]/15 transition-colors">
-                    <link.icon className="h-5 w-5 text-[#303ef5]" />
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/15 transition-colors">
+                    <link.icon className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <CardTitle className="text-[15px] font-bold text-[#061e44]">{t(link.titleKey)}</CardTitle>
+                    <CardTitle className="text-[15px] font-bold text-foreground">{t(link.titleKey)}</CardTitle>
                     <CardDescription className="mt-1 text-[13px] text-muted-foreground">
                       {t(link.descriptionKey)}
                     </CardDescription>
@@ -89,6 +90,6 @@ export default function SettingsPageClient() {
           </Link>
         ))}
       </div>
-    </div>
+    </PageContainer>
   )
 }
