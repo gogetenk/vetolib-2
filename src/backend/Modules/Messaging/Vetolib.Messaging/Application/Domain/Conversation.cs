@@ -178,7 +178,7 @@ internal class Conversation : BaseEntity, IMultiTenant, IAggregateRoot
     public ConversationWithMessagesDto ToDetailDto(
         bool includeInternalNotes = true,
         IReadOnlyList<string>? aiSuggestedReplies = null,
-        PatientContextDto? patientContext = null) => new(
+        ConversationPatientContextDto? patientContext = null) => new(
         Id,
         ClinicId,
         OwnerId,
