@@ -25,7 +25,7 @@ function inferRecordType(reason: string): RecordType {
 
 function getAccentColor(type: RecordType): string {
   switch (type) {
-    case 'vaccination': return 'bg-emerald-400'
+    case 'vaccination': return 'bg-success'
     case 'surgery': return 'bg-rose-400'
     case 'emergency': return 'bg-amber-400'
     case 'checkup': return 'bg-blue-400'

@@ -68,7 +68,7 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
             <div className="mt-2 text-[13px] space-y-1">
               <p>
                 <span className="text-muted-foreground">{t('columns.quantity')}: </span>
-                <span className={`font-semibold tabular-nums ${m.type === 'INCOMING' ? 'text-emerald-700' : m.type === 'LOSS' ? 'text-red-700' : 'text-foreground'}`}>
+                <span className={`font-semibold tabular-nums ${m.type === 'INCOMING' ? 'text-success' : m.type === 'LOSS' ? 'text-red-700' : 'text-foreground'}`}>
                   {getQuantitySign(m.type)}{m.quantity}
                 </span>
                 <span className="text-muted-foreground"> ({m.previousQuantity} &rarr; {m.newQuantity})</span>
@@ -144,7 +144,7 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
                   <MovementTypeBadge type={m.type} translatedLabel={t(`types.${m.type.toLowerCase()}`)} />
                 </TableCell>
                 <TableCell className="text-[13px] tabular-nums" data-testid={`movement-qty-${m.id}`}>
-                  <span className={`font-semibold ${m.type === 'INCOMING' ? 'text-emerald-700' : m.type === 'LOSS' ? 'text-red-700' : m.type === 'RETURN' ? 'text-purple-700' : 'text-foreground'}`}>
+                  <span className={`font-semibold ${m.type === 'INCOMING' ? 'text-success' : m.type === 'LOSS' ? 'text-red-700' : m.type === 'RETURN' ? 'text-purple-700' : 'text-foreground'}`}>
                     {getQuantitySign(m.type)}{m.quantity}
                   </span>
                 </TableCell>

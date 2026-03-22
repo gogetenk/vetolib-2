@@ -17,7 +17,7 @@ const ACTIVITY_ICONS: Record<ActivityType, string> = {
 
 const ACTIVITY_BORDER_COLORS: Record<ActivityType, string> = {
   APPOINTMENT: 'border-s-blue-400',
-  MEDICAL: 'border-s-emerald-400',
+  MEDICAL: 'border-s-success',
   BILLING: 'border-s-amber-400',
   MESSAGE: 'border-s-violet-400',
 }

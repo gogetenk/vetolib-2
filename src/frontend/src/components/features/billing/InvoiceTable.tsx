@@ -35,7 +35,7 @@ import { useTranslations, useLocale } from 'next-intl'
 const INVOICE_STATUS_STYLES: Record<InvoiceStatus, string> = {
   DRAFT: 'bg-amber-50 text-amber-700',
   SENT: 'bg-primary/10 text-primary',
-  PAID: 'bg-emerald-50 text-emerald-700',
+  PAID: 'bg-success/10 text-success',
   CANCELLED: 'bg-muted text-muted-foreground',
 }
 

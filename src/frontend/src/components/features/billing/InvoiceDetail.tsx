@@ -43,7 +43,7 @@ import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 const STATUS_BADGE_STYLES: Record<InvoiceStatus, string> = {
   DRAFT: 'bg-amber-50 text-amber-700 border-amber-200',
   SENT: 'bg-primary/10 text-primary border-primary/30',
-  PAID: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  PAID: 'bg-success/10 text-success border-success/25',
   CANCELLED: 'bg-muted text-muted-foreground border-border/50',
 }
 
@@ -266,7 +266,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
                 </p>
               )}
               {invoice.paidAt && (
-                <p className="text-emerald-600 font-semibold" data-testid="invoice-paid-date">
+                <p className="text-success font-semibold" data-testid="invoice-paid-date">
                   {t('paid_on')} <LtrText>{formatDate(invoice.paidAt)}</LtrText>
                 </p>
               )}

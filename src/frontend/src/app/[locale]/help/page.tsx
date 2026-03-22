@@ -628,7 +628,7 @@ export default function HelpCenterPage() {
               className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 activeSection === section.key ||
                 activeArticle?.section === section.key
-                  ? "bg-emerald-50 text-emerald-700"
+                  ? "bg-primary/5 text-primary"
                   : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"
               }`}
               data-testid={`help-section-${section.key}`}
@@ -652,7 +652,7 @@ export default function HelpCenterPage() {
                       onClick={() => handleArticleClick(article.id)}
                       className={`block w-full rounded-md px-2.5 py-1.5 text-left text-sm transition-colors ${
                         activeArticleId === article.id
-                          ? "bg-emerald-50 font-medium text-emerald-700"
+                          ? "bg-primary/5 font-medium text-primary"
                           : "text-stone-500 hover:bg-stone-50 hover:text-stone-700"
                       }`}
                       data-testid={`help-article-${article.id}`}
@@ -681,7 +681,7 @@ export default function HelpCenterPage() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <Link
             href="/"
-            className="text-xl font-bold tracking-tight text-emerald-700"
+            className="text-xl font-bold tracking-tight text-primary"
             data-testid="help-nav-logo"
           >
             Vetara
@@ -689,13 +689,13 @@ export default function HelpCenterPage() {
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="text-sm font-medium text-stone-600 transition-colors hover:text-emerald-700"
+              className="text-sm font-medium text-stone-600 transition-colors hover:text-primary"
               data-testid="help-nav-home"
             >
               Home
             </Link>
             <span
-              className="text-sm font-medium text-emerald-700"
+              className="text-sm font-medium text-primary"
               data-testid="help-nav-help"
             >
               Help Center
@@ -705,7 +705,7 @@ export default function HelpCenterPage() {
       </header>
 
       {/* ── Hero ── */}
-      <section className="border-b border-stone-100 bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-12 sm:py-16">
+      <section className="border-b border-stone-100 bg-gradient-to-br from-primary/5 via-white to-teal-50 py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h1
@@ -780,14 +780,14 @@ export default function HelpCenterPage() {
               <article data-testid="help-article-detail">
                 <button
                   onClick={handleBackToList}
-                  className="mb-4 flex items-center gap-1.5 text-sm font-medium text-emerald-700 transition-colors hover:text-emerald-800"
+                  className="mb-4 flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/90"
                   data-testid="help-back-btn"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   Back to articles
                 </button>
                 <div className="mb-2">
-                  <span className="inline-block rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+                  <span className="inline-block rounded-full bg-primary/5 px-2.5 py-0.5 text-xs font-medium text-primary">
                     {SECTIONS.find((s) => s.key === activeArticle.section)
                       ?.label ?? activeArticle.section}
                   </span>
@@ -809,7 +809,7 @@ export default function HelpCenterPage() {
                   return (
                     <div key={section.key} className="mb-10">
                       <div className="mb-4 flex items-center gap-2">
-                        <Icon className="h-5 w-5 text-emerald-700" />
+                        <Icon className="h-5 w-5 text-primary" />
                         <h2 className="text-lg font-semibold text-stone-900">
                           {section.label}
                         </h2>
@@ -822,18 +822,18 @@ export default function HelpCenterPage() {
                           <button
                             key={article.id}
                             onClick={() => handleArticleClick(article.id)}
-                            className="group flex items-start gap-3 rounded-xl border border-stone-100 bg-white p-4 text-left transition-all hover:border-emerald-200 hover:shadow-sm"
+                            className="group flex items-start gap-3 rounded-xl border border-stone-100 bg-white p-4 text-left transition-all hover:border-primary/20 hover:shadow-sm"
                             data-testid={`help-card-${article.id}`}
                           >
                             <div className="flex-1">
-                              <h3 className="text-sm font-medium text-stone-900 group-hover:text-emerald-700">
+                              <h3 className="text-sm font-medium text-stone-900 group-hover:text-primary">
                                 {article.title}
                               </h3>
                               <p className="mt-1 line-clamp-2 text-xs text-stone-500">
                                 {article.content.slice(0, 120)}...
                               </p>
                             </div>
-                            <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-stone-300 group-hover:text-emerald-500" />
+                            <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-stone-300 group-hover:text-primary" />
                           </button>
                         ))}
                       </div>
@@ -868,7 +868,7 @@ export default function HelpCenterPage() {
               <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                 <a
                   href="mailto:support@vetara.ae"
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-800"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
                   data-testid="help-contact-email"
                 >
                   Email Support

@@ -4,23 +4,23 @@ const STATUS_COLORS: Record<string, string> = {
   // Invoice statuses
   draft: 'bg-amber-100 text-amber-700',
   sent: 'bg-blue-100 text-blue-700',
-  paid: 'bg-emerald-100 text-emerald-700',
+  paid: 'bg-success/15 text-success',
   overdue: 'bg-red-100 text-red-700',
   // Appointment statuses
   scheduled: 'bg-blue-100 text-blue-700',
   checked_in: 'bg-indigo-100 text-indigo-700',
   in_progress: 'bg-amber-100 text-amber-700',
-  completed: 'bg-emerald-100 text-emerald-700',
+  completed: 'bg-success/15 text-success',
   cancelled: 'bg-red-100 text-red-700',
   // Message statuses
-  open: 'bg-emerald-100 text-emerald-700',
+  open: 'bg-success/15 text-success',
   resolved: 'bg-stone-100 text-stone-600',
   closed: 'bg-stone-100 text-stone-500',
   // Generic
-  active: 'bg-emerald-100 text-emerald-700',
+  active: 'bg-success/15 text-success',
   inactive: 'bg-stone-100 text-stone-500',
   low_stock: 'bg-red-100 text-red-700',
-  ok: 'bg-emerald-100 text-emerald-700',
+  ok: 'bg-success/15 text-success',
   expiring_soon: 'bg-amber-100 text-amber-700',
 }
 

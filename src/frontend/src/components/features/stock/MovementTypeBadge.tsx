@@ -4,7 +4,7 @@ import type { FullMovementType } from '@/lib/api/stock'
 const BADGE_CONFIG: Record<FullMovementType, { label: string; className: string }> = {
   INCOMING: {
     label: 'Incoming',
-    className: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    className: 'bg-success/10 text-success border-success/25',
   },
   OUTGOING: {
     label: 'Outgoing',

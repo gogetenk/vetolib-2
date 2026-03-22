@@ -16,7 +16,7 @@ const PAST_STATUSES: BookingAppointmentStatus[] = ['Completed', 'Cancelled', 'No
 
 const STATUS_STYLES: Record<BookingAppointmentStatus, string> = {
   Scheduled: 'bg-blue-100 text-blue-800',
-  CheckedIn: 'bg-emerald-100 text-emerald-800',
+  CheckedIn: 'bg-success/15 text-success',
   Completed: 'bg-muted text-muted-foreground',
   Cancelled: 'bg-red-100 text-red-700',
   NoShow: 'bg-orange-100 text-orange-700',

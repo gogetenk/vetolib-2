@@ -23,7 +23,7 @@ export function EmptyState({ icon: Icon, title, description, actionLabel, onActi
       {description && <p className="mt-1 max-w-sm text-sm text-stone-500">{description}</p>}
       {actionLabel && (onAction || actionHref) && (
         <Button
-          className="mt-4 bg-emerald-700 hover:bg-emerald-800 text-white"
+          className="mt-4 bg-primary hover:bg-primary/90 text-primary-foreground"
           onClick={onAction}
           data-testid={props['data-testid'] ? `${props['data-testid']}-action` : undefined}
         >

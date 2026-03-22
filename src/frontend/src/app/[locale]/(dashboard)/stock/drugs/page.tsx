@@ -103,7 +103,7 @@ export default function DrugCatalogPage() {
         </div>
         <div className="bg-white border border-border/80 rounded-xl px-4 py-3 shadow-sm">
           <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('stats.otc')}</p>
-          <p className="text-lg font-bold text-emerald-700 tabular-nums" data-testid="stat-otc-drugs">
+          <p className="text-lg font-bold text-success tabular-nums" data-testid="stat-otc-drugs">
             {drugs.filter(d => !d.requiresPrescription).length}
           </p>
         </div>
