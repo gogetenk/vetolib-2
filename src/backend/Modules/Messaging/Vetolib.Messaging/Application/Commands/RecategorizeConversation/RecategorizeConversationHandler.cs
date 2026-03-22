@@ -24,7 +24,7 @@ internal class RecategorizeConversationHandler : IRequestHandler<RecategorizeCon
         if (conversation is null)
             return Result<ConversationDto>.NotFound();
 
-        var result = conversation.ChangeCategory(cmd.NewCategory);
+        var result = conversation.UpdateCategory(cmd.NewCategory, resetUncertainty: true);
 
         if (!result.IsSuccess)
             return Result<ConversationDto>.Error(string.Join("; ", result.Errors));

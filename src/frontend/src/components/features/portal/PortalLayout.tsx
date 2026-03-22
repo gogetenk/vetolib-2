@@ -77,7 +77,7 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
           className="flex items-center gap-1 text-muted-foreground hover:text-foreground"
         >
           <Globe className="h-4 w-4" />
-          <span className="text-xs">{isAr ? 'English' : '\u0639\u0631\u0628\u064a'}</span>
+          <span className="text-xs">{isAr ? 'English' : t('arabic_label')}</span>
           <span className="sr-only">{t('language')}</span>
         </Button>
       </header>
