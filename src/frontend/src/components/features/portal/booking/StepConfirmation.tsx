@@ -9,15 +9,15 @@ import type { BookingPetDto, ConsultationTypeDto, VeterinarianDto, BookingSlot, 
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function formatDateTime(isoStr: string): { date: string; time: string } {
-  const date = new Date(isoStr).toLocaleDateString('en-AE', {
+function formatDateTime(isoStr: string, locale: string): { date: string; time: string } {
+  const date = new Date(isoStr).toLocaleDateString(locale, {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     timeZone: 'Asia/Dubai',
   })
-  const time = new Date(isoStr).toLocaleTimeString('en-AE', {
+  const time = new Date(isoStr).toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
@@ -55,7 +55,7 @@ export function StepConfirmation({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const { date, time } = formatDateTime(slot.startsAt)
+  const { date, time } = formatDateTime(slot.startsAt, 'en-AE')
   const vetName = vet?.name ?? slot.vetName
 
   async function handleConfirm() {
@@ -156,7 +156,7 @@ export function StepConfirmation({
                 className="text-sm font-medium text-foreground"
                 data-testid="summary-time"
               >
-                {time} <span className="text-xs text-muted-foreground">({consultationType.durationMinutes} min)</span>
+                {time} <span className="text-xs text-muted-foreground">({t('duration_minutes', { n: consultationType.durationMinutes })})</span>
               </dd>
             </div>
           </div>
