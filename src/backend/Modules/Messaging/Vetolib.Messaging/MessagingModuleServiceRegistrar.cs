@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http.Resilience;
@@ -50,6 +51,24 @@ public static class MessagingModuleServiceRegistrar
         // AI triage routing services
         services.AddScoped<IMessageRouter, MessageRouter>();
         services.AddScoped<ITriageOrchestrator, TriageOrchestrator>();
+
+        // Message classification — AI-backed with keyword fallback via circuit breaker
+        services.AddScoped<KeywordFallbackClassifier>();
+        var chatClientRegistered = services.Any(s => s.ServiceType == typeof(IChatClient));
+        if (chatClientRegistered)
+        {
+            services.AddScoped<ClaudeMessageClassifier>();
+            services.AddScoped<IMessageClassifier>(sp =>
+                new ResilientMessageClassifier(
+                    sp.GetRequiredService<ClaudeMessageClassifier>(),
+                    sp.GetRequiredService<KeywordFallbackClassifier>(),
+                    sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<ResilientMessageClassifier>>()));
+        }
+        else
+        {
+            services.AddScoped<IMessageClassifier>(sp =>
+                sp.GetRequiredService<KeywordFallbackClassifier>());
+        }
 
         // Emergency escalation background service
         services.AddHostedService<EmergencyEscalationBackgroundService>();
