@@ -39,7 +39,7 @@ export function MessagingHoursPage() {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [t])
 
   useEffect(() => {
     load()

@@ -56,6 +56,7 @@ export function StepConsultationType({
       })
 
     return () => { cancelled = true }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- onVetsCached is a callback prop that may not be memoized by the parent; including it would cause infinite re-fetches
   }, [])
 
   if (isLoading) {

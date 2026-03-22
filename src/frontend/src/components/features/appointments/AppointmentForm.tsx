@@ -83,7 +83,7 @@ export function AppointmentForm() {
     getVets().then(setVets).catch(() => {
       toast.error(t('toast.load_vets_failed'))
     })
-  }, [])
+  }, [t])
 
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true)

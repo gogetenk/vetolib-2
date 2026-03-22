@@ -20,7 +20,7 @@ const RECEPTIONIST_TOKEN = makeToken('RECEPTIONIST', 'Khalid Al-Nuaimi', 'recept
 const ASSISTANT_TOKEN = makeToken('ASSISTANT', 'Mariam Al-Zaabi', 'assistant@desertpaws.ae')
 
 const MAX_PATIENT_ID = 'pat-0000-0000-0000-000000000001'
-const _LUNA_PATIENT_ID = 'pat-0000-0000-0000-000000000002'
+// const _LUNA_PATIENT_ID = 'pat-0000-0000-0000-000000000002'
 const CAMEL_PATIENT_ID = 'pat-0000-0000-0000-000000000005'
 
 /** Wait for MSW service worker to be active before asserting data-driven UI. */

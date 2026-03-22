@@ -30,6 +30,7 @@ interface ApiSession {
   invoiceNumber: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- utility kept for future recette tests
 async function _setupBillingData(page: Page): Promise<ApiSession> {
   // Login as vet to create patient
   const vetLogin = await page.request.post(`${BACKEND_URL}/api/auth/login`, {
