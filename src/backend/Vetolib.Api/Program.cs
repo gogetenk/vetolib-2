@@ -19,6 +19,7 @@ using Vetolib.AI.Infrastructure;
 using Vetolib.Messaging;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications;
+using Vetolib.Notifications.Infrastructure;
 using Vetolib.Stock;
 using Vetolib.Stock.Infrastructure;
 using Vetolib.Preferences;
@@ -104,6 +105,7 @@ builder.AddNpgsqlDbContext<BillingDbContext>("vetolibdb", settings => settings.D
 // Audit context — dedicated context for the shared.audit_log table
 builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 builder.AddNpgsqlDbContext<MessagingDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.AddNpgsqlDbContext<NotificationsDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Multi-tenancy
 builder.Services.AddHttpContextAccessor();
@@ -124,6 +126,34 @@ builder.Services.AddMassTransit(x =>
 {
     // Auto-register all consumers from the Notifications module assembly
     x.AddConsumers(typeof(NotificationsModuleServiceRegistrar).Assembly);
+
+    // EF Core Outbox — guarantees at-least-once delivery for integration events.
+    // Each module DbContext that publishes events gets its own outbox tables.
+    x.AddEntityFrameworkOutbox<AuthDbContext>(o =>
+    {
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+    x.AddEntityFrameworkOutbox<AgendaDbContext>(o =>
+    {
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+    x.AddEntityFrameworkOutbox<BillingDbContext>(o =>
+    {
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+    x.AddEntityFrameworkOutbox<NotificationsDbContext>(o =>
+    {
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
+    x.AddEntityFrameworkOutbox<MessagingDbContext>(o =>
+    {
+        o.UsePostgres();
+        o.UseBusOutbox();
+    });
 
     // Use RabbitMQ transport (connection string injected by Aspire via "rabbitmq" resource)
     var rabbitMqConnectionString = builder.Configuration.GetConnectionString("rabbitmq");

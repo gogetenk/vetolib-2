@@ -1,3 +1,4 @@
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Billing.Domain;
@@ -23,5 +24,10 @@ internal class BillingDbContext : MultiTenantDbContext
     {
         base.OnModelCreating(builder); // MUST call base first for tenant filter
         builder.ApplyConfigurationsFromAssembly(typeof(BillingDbContext).Assembly);
+
+        // Register MassTransit outbox tables in the "billing" schema
+        builder.AddInboxStateEntity(b => b.ToTable("inbox_state", "billing"));
+        builder.AddOutboxMessageEntity(b => b.ToTable("outbox_message", "billing"));
+        builder.AddOutboxStateEntity(b => b.ToTable("outbox_state", "billing"));
     }
 }
