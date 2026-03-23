@@ -11,6 +11,8 @@ internal class BillingDbContext : MultiTenantDbContext
 {
     public DbSet<Invoice> Invoices => Set<Invoice>();
     public DbSet<InvoiceItem> InvoiceItems => Set<InvoiceItem>();
+    public DbSet<EReportingPeriod> EReportingPeriods => Set<EReportingPeriod>();
+    public DbSet<EReportingTaxBreakdown> EReportingTaxBreakdowns => Set<EReportingTaxBreakdown>();
 
     public BillingDbContext(
         DbContextOptions<BillingDbContext> options,
