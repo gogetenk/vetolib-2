@@ -2,6 +2,7 @@ using Ardalis.Result;
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using Vetolib.Billing.Application;
 using Vetolib.Billing.Application.Commands.CreateInvoice;
@@ -33,7 +34,8 @@ public class CreateInvoiceHandlerTests : IDisposable
             .Options;
 
         _context = new BillingDbContext(options, clinicContext, publisher);
-        _handler = new CreateInvoiceHandler(_context, new CountryTaxResolver());
+        var billingOptions = Options.Create(new BillingOptions());
+        _handler = new CreateInvoiceHandler(_context, new CountryTaxResolver(), billingOptions);
     }
 
     private CreateInvoiceCommand BuildCommand(
@@ -42,14 +44,20 @@ public class CreateInvoiceHandlerTests : IDisposable
         string description = "Consultation veterinaire",
         decimal unitPrice = 150m,
         string countryCode = "AE",
-        TaxCategory taxCategory = TaxCategory.Standard)
+        TaxCategory taxCategory = TaxCategory.Standard,
+        string? sellerSiren = null,
+        string? sellerVatNumber = null,
+        OperationType? operationType = null)
         => new(
             ClinicId: clinicId ?? ClinicId,
             AnimalId: animalId ?? AnimalId,
             ItemDescription: description,
             ItemUnitPrice: unitPrice,
             CountryCode: countryCode,
-            ItemTaxCategory: taxCategory);
+            ItemTaxCategory: taxCategory,
+            SellerSiren: sellerSiren,
+            SellerVatNumber: sellerVatNumber,
+            OperationType: operationType);
 
     [Fact]
     public async Task Handle_HappyPath_ReturnsSuccessWithDraftStatus()
@@ -153,7 +161,8 @@ public class CreateInvoiceHandlerTests : IDisposable
     [Fact]
     public async Task Handle_France_AppliesStandard20PercentTax()
     {
-        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR");
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR",
+            sellerSiren: "123456789", sellerVatNumber: "FR12345678901", operationType: OperationType.Service);
 
         var result = await _handler.Handle(cmd, CancellationToken.None);
 
@@ -166,7 +175,8 @@ public class CreateInvoiceHandlerTests : IDisposable
     [Fact]
     public async Task Handle_France_ReducedRate_Applies10Percent()
     {
-        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR", taxCategory: TaxCategory.Reduced);
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR", taxCategory: TaxCategory.Reduced,
+            sellerSiren: "123456789", sellerVatNumber: "FR12345678901", operationType: OperationType.Service);
 
         var result = await _handler.Handle(cmd, CancellationToken.None);
 
@@ -190,7 +200,8 @@ public class CreateInvoiceHandlerTests : IDisposable
     [Fact]
     public async Task Handle_ZeroTaxCategory_AppliesZeroTax()
     {
-        var cmd = BuildCommand(unitPrice: 200m, countryCode: "FR", taxCategory: TaxCategory.Zero);
+        var cmd = BuildCommand(unitPrice: 200m, countryCode: "FR", taxCategory: TaxCategory.Zero,
+            sellerSiren: "123456789", sellerVatNumber: "FR12345678901", operationType: OperationType.Service);
 
         var result = await _handler.Handle(cmd, CancellationToken.None);
 
@@ -202,7 +213,8 @@ public class CreateInvoiceHandlerTests : IDisposable
     [Fact]
     public async Task Handle_ItemDtoContainsTaxCategoryAndRate()
     {
-        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR", taxCategory: TaxCategory.SuperReduced);
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR", taxCategory: TaxCategory.SuperReduced,
+            sellerSiren: "123456789", sellerVatNumber: "FR12345678901", operationType: OperationType.Service);
 
         var result = await _handler.Handle(cmd, CancellationToken.None);
 

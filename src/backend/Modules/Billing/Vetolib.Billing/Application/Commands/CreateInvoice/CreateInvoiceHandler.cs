@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Domain;
 using Vetolib.Billing.Infrastructure;
@@ -11,11 +12,13 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
 {
     private readonly BillingDbContext _context;
     private readonly ICountryTaxResolver _taxResolver;
+    private readonly BillingOptions _options;
 
-    public CreateInvoiceHandler(BillingDbContext context, ICountryTaxResolver taxResolver)
+    public CreateInvoiceHandler(BillingDbContext context, ICountryTaxResolver taxResolver, IOptions<BillingOptions> options)
     {
         _context = context;
         _taxResolver = taxResolver;
+        _options = options.Value;
     }
 
     public async Task<Result<InvoiceDto>> Handle(CreateInvoiceCommand cmd, CancellationToken ct)
@@ -48,8 +51,19 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
             cmd.ItemDescription,
             cmd.ItemUnitPrice,
             taxRate,
+            _options.CurrencyCode,
             cmd.CountryCode,
-            cmd.ItemTaxCategory);
+            cmd.ItemTaxCategory,
+            buyerName: cmd.BuyerName,
+            invoiceTypeCode: cmd.InvoiceTypeCode,
+            sellerSiren: cmd.SellerSiren,
+            sellerVatNumber: cmd.SellerVatNumber,
+            buyerSiren: cmd.BuyerSiren,
+            buyerVatNumber: cmd.BuyerVatNumber,
+            buyerAddress: cmd.BuyerAddress,
+            operationType: cmd.OperationType,
+            paymentTerms: cmd.PaymentTerms,
+            purchaseOrderReference: cmd.PurchaseOrderReference);
 
         if (!invoiceResult.IsSuccess)
             return Result<InvoiceDto>.Invalid(invoiceResult.ValidationErrors.ToList());

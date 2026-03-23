@@ -30,6 +30,7 @@ public class InvoicePdfTests
         PaidAt: null,
         DueDate: new DateTime(2026, 4, 8, 0, 0, 0, DateTimeKind.Utc),
         ClinicId: Guid.NewGuid(),
+        CurrencyCode: "AED",
         CountryCode: "AE");
 
     [Fact]

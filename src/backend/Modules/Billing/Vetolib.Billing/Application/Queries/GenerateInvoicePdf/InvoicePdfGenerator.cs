@@ -20,7 +20,11 @@ internal static class InvoicePdfGenerator
                 page.DefaultTextStyle(x => x.FontSize(10));
 
                 page.Header().Element(c => ComposeHeader(c, clinicName, taxRegistrationNumber));
-                page.Content().Element(content => ComposeContent(content, invoice));
+                page.Content().Column(content =>
+                {
+                    content.Item().Element(c => ComposeContent(c, invoice));
+                    content.Item().Element(c => ComposeLegalMentions(c, invoice));
+                });
                 page.Footer().Column(footer =>
                 {
                     footer.Item().AlignCenter().Text(x =>
@@ -55,6 +59,45 @@ internal static class InvoicePdfGenerator
                         col.Item().Text($"TRN: {taxRegistrationNumber}").FontColor(Colors.Grey.Darken1);
                 });
             });
+    }
+
+    private static void ComposeLegalMentions(IContainer container, InvoiceDto invoice)
+    {
+        container.PaddingTop(16).Column(col =>
+        {
+            // Seller info
+            if (!string.IsNullOrWhiteSpace(invoice.SellerSiren))
+                col.Item().Text($"Seller SIREN: {invoice.SellerSiren}").FontSize(8).FontColor(Colors.Grey.Darken1);
+            if (!string.IsNullOrWhiteSpace(invoice.SellerVatNumber))
+                col.Item().Text($"Seller VAT: {invoice.SellerVatNumber}").FontSize(8).FontColor(Colors.Grey.Darken1);
+
+            // Buyer info
+            if (!string.IsNullOrWhiteSpace(invoice.BuyerName))
+                col.Item().PaddingTop(4).Text($"Buyer: {invoice.BuyerName}").FontSize(9);
+            if (!string.IsNullOrWhiteSpace(invoice.BuyerAddress))
+                col.Item().Text(invoice.BuyerAddress).FontSize(8).FontColor(Colors.Grey.Darken1);
+            if (!string.IsNullOrWhiteSpace(invoice.BuyerSiren))
+                col.Item().Text($"Buyer SIREN: {invoice.BuyerSiren}").FontSize(8).FontColor(Colors.Grey.Darken1);
+            if (!string.IsNullOrWhiteSpace(invoice.BuyerVatNumber))
+                col.Item().Text($"Buyer VAT: {invoice.BuyerVatNumber}").FontSize(8).FontColor(Colors.Grey.Darken1);
+
+            // Payment terms
+            if (!string.IsNullOrWhiteSpace(invoice.PaymentTerms))
+                col.Item().PaddingTop(4).Text($"Payment terms: {invoice.PaymentTerms}").FontSize(8);
+
+            // Purchase order reference
+            if (!string.IsNullOrWhiteSpace(invoice.PurchaseOrderReference))
+                col.Item().Text($"PO Ref: {invoice.PurchaseOrderReference}").FontSize(8);
+
+            // Invoice type
+            var typeLabel = invoice.InvoiceTypeCode switch
+            {
+                "381" => "CREDIT NOTE",
+                _ => "INVOICE"
+            };
+            col.Item().PaddingTop(4).Text($"Document type: {typeLabel} ({invoice.InvoiceTypeCode})")
+                .FontSize(8).FontColor(Colors.Grey.Darken1);
+        });
     }
 
     private static void ComposeContent(IContainer container, InvoiceDto invoice)
@@ -113,9 +156,9 @@ internal static class InvoicePdfGenerator
                 {
                     header.Cell().Element(HeaderCell).Text("#");
                     header.Cell().Element(HeaderCell).Text("Description");
-                    header.Cell().Element(HeaderCell).AlignRight().Text("Unit (excl.)");
+                    header.Cell().Element(HeaderCell).AlignRight().Text($"Unit ({invoice.CurrencyCode} excl.)");
                     header.Cell().Element(HeaderCell).AlignRight().Text("Tax %");
-                    header.Cell().Element(HeaderCell).AlignRight().Text("Total incl.");
+                    header.Cell().Element(HeaderCell).AlignRight().Text($"Total incl. ({invoice.CurrencyCode})");
                 });
 
                 static IContainer DataCell(IContainer c) =>
@@ -138,12 +181,12 @@ internal static class InvoicePdfGenerator
                 totals.Item().PaddingHorizontal(4).Row(r =>
                 {
                     r.RelativeItem().AlignRight().Text("Subtotal:");
-                    r.ConstantItem(120).AlignRight().Text($"{invoice.Subtotal:F2} AED");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.Subtotal:F2} {invoice.CurrencyCode}");
                 });
                 totals.Item().PaddingHorizontal(4).Row(r =>
                 {
                     r.RelativeItem().AlignRight().Text("Tax:");
-                    r.ConstantItem(120).AlignRight().Text($"{invoice.VatAmount:F2} AED");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.VatAmount:F2} {invoice.CurrencyCode}");
                 });
                 totals.Item()
                     .BorderTop(1).BorderColor(Colors.Grey.Medium)
@@ -151,7 +194,7 @@ internal static class InvoicePdfGenerator
                     .Row(r =>
                     {
                         r.RelativeItem().AlignRight().Text("TOTAL:").Bold();
-                        r.ConstantItem(120).AlignRight().Text($"{invoice.Total:F2} AED").Bold();
+                        r.ConstantItem(120).AlignRight().Text($"{invoice.Total:F2} {invoice.CurrencyCode}").Bold();
                     });
             });
         });
