@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Billing.Api;
 using Vetolib.Billing.Application;
+using Vetolib.Billing.Application.Queries.GenerateInvoicePdf;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.Shared.Infrastructure.Behaviors;
@@ -22,6 +23,9 @@ public static class ModuleServiceRegistrar
 
         // Tax resolver
         services.AddSingleton<ICountryTaxResolver, CountryTaxResolver>();
+
+        // PDF generators
+        services.AddSingleton<InvoicePdfGeneratorFactory>();
 
         // MediatR
         services.AddMediatR(cfg =>
