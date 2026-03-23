@@ -18,4 +18,5 @@ public record InvoiceDto(
     DateTime CreatedAt,
     DateTime? PaidAt,
     DateTime? DueDate,
-    Guid ClinicId);
+    Guid ClinicId,
+    string CurrencyCode = "AED");

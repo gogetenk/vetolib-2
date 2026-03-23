@@ -46,7 +46,8 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
             numberResult.Value.Value,
             cmd.ItemDescription,
             cmd.ItemUnitPrice,
-            _options.TaxRate);
+            _options.TaxRate,
+            _options.CurrencyCode);
 
         if (!invoiceResult.IsSuccess)
             return Result<InvoiceDto>.Invalid(invoiceResult.ValidationErrors.ToList());

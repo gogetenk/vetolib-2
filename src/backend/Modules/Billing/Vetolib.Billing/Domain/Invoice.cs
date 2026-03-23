@@ -11,6 +11,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public string InvoiceNumber { get; private set; } = string.Empty;
     public InvoiceStatus Status { get; private set; }
     public DateTime? DueDate { get; private set; }
+    public string CurrencyCode { get; private set; } = "AED";
 
     private readonly List<InvoiceItem> _items = [];
     public IReadOnlyList<InvoiceItem> Items => _items.AsReadOnly();
@@ -27,7 +28,8 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         string invoiceNumber,
         string itemDescription,
         decimal itemUnitPrice,
-        decimal taxRate = 0.05m)
+        decimal taxRate = 0.05m,
+        string currencyCode = "AED")
     {
         var errors = new List<ValidationError>();
 
@@ -48,7 +50,8 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
             ClinicId = clinicId,
             AnimalId = animalId,
             InvoiceNumber = invoiceNumber,
-            Status = InvoiceStatus.Draft
+            Status = InvoiceStatus.Draft,
+            CurrencyCode = currencyCode
         };
 
         // Add the initial item
@@ -127,5 +130,6 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         CreatedAt,
         PaidAt: null,
         DueDate,
-        ClinicId);
+        ClinicId,
+        CurrencyCode);
 }
