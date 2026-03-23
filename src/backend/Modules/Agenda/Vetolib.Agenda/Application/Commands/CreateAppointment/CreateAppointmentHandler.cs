@@ -22,7 +22,7 @@ internal class CreateAppointmentHandler : IRequestHandler<CreateAppointmentComma
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         if (cmd.Date < today)
         {
-            return Result<AppointmentDto>.Error("PAST_DATE_NOT_ALLOWED:Impossible de creer un rendez-vous dans le passe");
+            return Result<AppointmentDto>.Error("PAST_DATE_NOT_ALLOWED:Cannot create an appointment in the past");
         }
 
         // Validate: must be within business hours
@@ -31,7 +31,7 @@ internal class CreateAppointmentHandler : IRequestHandler<CreateAppointmentComma
         if (!schedule.IsWithinBusinessHours(cmd.StartTime, endTime))
         {
             return Result<AppointmentDto>.Error(
-                $"OUTSIDE_BUSINESS_HOURS:Ce creneau est en dehors des horaires d'ouverture ({schedule.FormatHours()})");
+                $"OUTSIDE_BUSINESS_HOURS:This time slot is outside of business hours ({schedule.FormatHours()})");
         }
 
         // Validate: no conflict with existing appointments for the same vet on the same day
@@ -49,11 +49,11 @@ internal class CreateAppointmentHandler : IRequestHandler<CreateAppointmentComma
             // Find next available slots
             var nextSlots = FindNextAvailableSlots(conflictingAppointments, cmd.StartTime, cmd.DurationMinutes, schedule, 3);
             var slotsText = nextSlots.Count > 0
-                ? " Prochains creneaux disponibles: " + string.Join(", ", nextSlots.Select(s => s.ToString("HH:mm")))
+                ? " Next available slots: " + string.Join(", ", nextSlots.Select(s => s.ToString("HH:mm")))
                 : "";
 
             return Result<AppointmentDto>.Error(
-                $"APPOINTMENT_CONFLICT:Ce creneau est deja pris pour ce veterinaire.{slotsText}");
+                $"APPOINTMENT_CONFLICT:This time slot is already taken for this veterinarian.{slotsText}");
         }
 
         // Create appointment via domain factory
