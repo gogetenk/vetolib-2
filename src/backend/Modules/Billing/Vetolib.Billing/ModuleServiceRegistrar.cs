@@ -9,6 +9,7 @@ using Vetolib.Billing.Api;
 using Vetolib.Billing.Application;
 using Vetolib.Billing.Application.Queries.GenerateInvoicePdf;
 using Vetolib.Billing.Contracts;
+using Vetolib.Billing.Contracts.EInvoicing;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.Billing.Infrastructure.Jobs;
 using Vetolib.Shared.Infrastructure.Behaviors;
@@ -34,6 +35,9 @@ public static class ModuleServiceRegistrar
 
         // E-reporting background job
         services.AddHostedService<EReportingJob>();
+
+        // E-invoicing gateway (mock for now — will be replaced by real PDP implementation)
+        services.AddSingleton<IEInvoicingGateway, MockEInvoicingGateway>();
 
         // MediatR
         services.AddMediatR(cfg =>

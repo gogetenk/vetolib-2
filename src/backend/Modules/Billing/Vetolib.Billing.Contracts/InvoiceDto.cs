@@ -1,3 +1,5 @@
+using Vetolib.Billing.Contracts.EInvoicing;
+
 namespace Vetolib.Billing.Contracts;
 
 public record InvoiceDto(
@@ -30,4 +32,6 @@ public record InvoiceDto(
     string InvoiceTypeCode = "380",
     string? PaymentTerms = null,
     string CountryCode = "AE",
-    string? PurchaseOrderReference = null);
+    string? PurchaseOrderReference = null,
+    EInvoicingPlatformStatus? EInvoicingStatus = null,
+    string? PlatformInvoiceId = null);
