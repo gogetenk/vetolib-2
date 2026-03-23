@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.Billing.Application.Commands.AddInvoiceItem;
 using Vetolib.Billing.Application.Commands.CreateInvoice;
+using Vetolib.Billing.Application.Commands.SubmitToEInvoicing;
 using Vetolib.Billing.Application.Commands.UpdateInvoiceStatus;
 using Vetolib.Billing.Application.Queries.GenerateInvoicePdf;
+using Vetolib.Billing.Application.Queries.GetEInvoicingStatus;
 using Vetolib.Billing.Application.Queries.GetInvoiceById;
 using Vetolib.Billing.Application.Queries.ListInvoices;
 using Vetolib.Billing.Contracts;
@@ -40,6 +42,13 @@ internal static class InvoiceEndpoints
 
         group.MapGet("/{id:guid}/pdf", DownloadInvoicePdf)
             .WithName("DownloadInvoicePdf");
+
+        group.MapPost("/{id:guid}/submit-einvoicing", SubmitToEInvoicing)
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet"))
+            .WithName("SubmitToEInvoicing");
+
+        group.MapGet("/{id:guid}/einvoicing-status", GetEInvoicingStatus)
+            .WithName("GetEInvoicingStatus");
 
         return app;
     }
@@ -105,4 +114,16 @@ internal static class InvoiceEndpoints
             contentType: "application/pdf",
             fileDownloadName: $"invoice-{result.Value.InvoiceNumber}.pdf");
     }
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> SubmitToEInvoicing(
+        Guid id,
+        ISender sender)
+        => (await sender.Send(new SubmitToEInvoicingCommand(id)))
+            .ToMinimalApiResult();
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> GetEInvoicingStatus(
+        Guid id,
+        ISender sender)
+        => (await sender.Send(new GetEInvoicingStatusQuery(id)))
+            .ToMinimalApiResult();
 }
