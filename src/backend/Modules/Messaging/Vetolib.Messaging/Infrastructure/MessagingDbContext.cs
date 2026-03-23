@@ -1,3 +1,4 @@
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Messaging.Application.Domain;
@@ -32,5 +33,10 @@ internal class MessagingDbContext : MultiTenantDbContext
         base.OnModelCreating(builder); // MUST call base first for tenant filter
         builder.HasDefaultSchema("messaging");
         builder.ApplyConfigurationsFromAssembly(typeof(MessagingDbContext).Assembly);
+
+        // Register MassTransit outbox tables in the "messaging" schema
+        builder.AddInboxStateEntity(b => b.ToTable("inbox_state", "messaging"));
+        builder.AddOutboxMessageEntity(b => b.ToTable("outbox_message", "messaging"));
+        builder.AddOutboxStateEntity(b => b.ToTable("outbox_state", "messaging"));
     }
 }
