@@ -101,7 +101,7 @@ public static class MessagingModuleServiceRegistrar
             var keyBytes = Convert.FromBase64String(encryptionKeyBase64);
             services.AddSingleton<ITokenEncryptor>(new AesTokenEncryptor(keyBytes));
         }
-        else if (string.Equals(aspnetEnv, "Development", StringComparison.OrdinalIgnoreCase))
+        else if (string.IsNullOrEmpty(aspnetEnv) || string.Equals(aspnetEnv, "Development", StringComparison.OrdinalIgnoreCase))
         {
             // Dev/test only: generate a random key (tokens will be lost on restart)
             var devKey = new byte[32];
