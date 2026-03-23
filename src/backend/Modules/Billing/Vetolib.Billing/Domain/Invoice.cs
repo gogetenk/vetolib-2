@@ -1,5 +1,6 @@
 using Ardalis.Result;
 using Vetolib.Billing.Contracts;
+using Vetolib.Billing.Contracts.EInvoicing;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Billing.Domain;
@@ -25,6 +26,10 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public string InvoiceTypeCode { get; private set; } = "380";
     public string? PaymentTerms { get; private set; }
     public string? PurchaseOrderReference { get; private set; }
+
+    // E-invoicing gateway status
+    public EInvoicingPlatformStatus? EInvoicingStatus { get; private set; }
+    public string? PlatformInvoiceId { get; private set; }
 
     private readonly List<InvoiceItem> _items = [];
     public IReadOnlyList<InvoiceItem> Items => _items.AsReadOnly();
@@ -135,6 +140,28 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         return itemResult;
     }
 
+    public Result MarkEInvoicingSubmitted(string platformInvoiceId, EInvoicingPlatformStatus status)
+    {
+        if (CountryCode != "FR")
+            return Result.Error("EINVOICING_NOT_APPLICABLE:E-invoicing is only applicable for French invoices");
+
+        if (EInvoicingStatus is not null)
+            return Result.Error("EINVOICING_ALREADY_SUBMITTED:Invoice has already been submitted to e-invoicing platform");
+
+        PlatformInvoiceId = platformInvoiceId;
+        EInvoicingStatus = status;
+        return Result.Success();
+    }
+
+    public Result UpdateEInvoicingStatus(EInvoicingPlatformStatus status, string? rejectionReason = null)
+    {
+        if (PlatformInvoiceId is null)
+            return Result.Error("EINVOICING_NOT_SUBMITTED:Invoice has not been submitted to e-invoicing platform");
+
+        EInvoicingStatus = status;
+        return Result.Success();
+    }
+
     public Result UpdateStatus(InvoiceStatus newStatus, int dueDateDays = 30)
     {
         if (Status == InvoiceStatus.Paid)
@@ -197,5 +224,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         InvoiceTypeCode,
         PaymentTerms,
         CountryCode,
-        PurchaseOrderReference);
+        PurchaseOrderReference,
+        EInvoicingStatus,
+        PlatformInvoiceId);
 }

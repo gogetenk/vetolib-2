@@ -72,6 +72,13 @@ internal class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
         builder.Property(i => i.PurchaseOrderReference)
             .HasMaxLength(100);
 
+        builder.Property(i => i.EInvoicingStatus)
+            .HasConversion<string>()
+            .HasMaxLength(20);
+
+        builder.Property(i => i.PlatformInvoiceId)
+            .HasMaxLength(100);
+
         builder.HasMany(i => i.Items)
             .WithOne()
             .HasForeignKey(ii => ii.InvoiceId)
