@@ -7,4 +7,5 @@ namespace Vetolib.Billing.Application.Commands.AddInvoiceItem;
 internal record AddInvoiceItemCommand(
     Guid InvoiceId,
     string Description,
-    decimal UnitPrice) : IRequest<Result<InvoiceDto>>;
+    decimal UnitPrice,
+    TaxCategory TaxCategory = TaxCategory.Standard) : IRequest<Result<InvoiceDto>>;

@@ -35,6 +35,11 @@ internal class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
         builder.Navigation(i => i.Items)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
+        builder.Property(i => i.CountryCode)
+            .IsRequired()
+            .HasMaxLength(3)
+            .HasDefaultValue("AE");
+
         builder.HasIndex(i => new { i.ClinicId, i.InvoiceNumber })
             .IsUnique();
 

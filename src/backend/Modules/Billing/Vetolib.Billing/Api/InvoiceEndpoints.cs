@@ -52,7 +52,9 @@ internal static class InvoiceEndpoints
             clinicContext.ClinicId,
             request.AnimalId,
             request.ItemDescription,
-            request.ItemUnitPrice)))
+            request.ItemUnitPrice,
+            request.CountryCode,
+            request.ItemTaxCategory)))
             .ToMinimalApiResult();
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> ListInvoices(
@@ -77,7 +79,7 @@ internal static class InvoiceEndpoints
         Guid id,
         AddInvoiceItemRequest request,
         ISender sender)
-        => (await sender.Send(new AddInvoiceItemCommand(id, request.Description, request.UnitPrice)))
+        => (await sender.Send(new AddInvoiceItemCommand(id, request.Description, request.UnitPrice, request.TaxCategory)))
             .ToMinimalApiResult();
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> DownloadInvoicePdf(

@@ -5,4 +5,6 @@ public record InvoiceItemDto(
     string Description,
     int Quantity,
     decimal UnitPriceExclTax,
-    decimal TotalInclTax);
+    decimal TotalInclTax,
+    TaxCategory TaxCategory,
+    decimal TaxRate);

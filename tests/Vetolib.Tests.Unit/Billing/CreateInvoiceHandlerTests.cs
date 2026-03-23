@@ -3,7 +3,6 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using Microsoft.Extensions.Options;
 using Vetolib.Billing.Application;
 using Vetolib.Billing.Application.Commands.CreateInvoice;
 using Vetolib.Billing.Contracts;
@@ -34,19 +33,23 @@ public class CreateInvoiceHandlerTests : IDisposable
             .Options;
 
         _context = new BillingDbContext(options, clinicContext, publisher);
-        _handler = new CreateInvoiceHandler(_context, Options.Create(new BillingOptions()));
+        _handler = new CreateInvoiceHandler(_context, new CountryTaxResolver());
     }
 
     private CreateInvoiceCommand BuildCommand(
         Guid? clinicId = null,
         Guid? animalId = null,
-        string description = "Consultation vétérinaire",
-        decimal unitPrice = 150m)
+        string description = "Consultation veterinaire",
+        decimal unitPrice = 150m,
+        string countryCode = "AE",
+        TaxCategory taxCategory = TaxCategory.Standard)
         => new(
             ClinicId: clinicId ?? ClinicId,
             AnimalId: animalId ?? AnimalId,
             ItemDescription: description,
-            ItemUnitPrice: unitPrice);
+            ItemUnitPrice: unitPrice,
+            CountryCode: countryCode,
+            ItemTaxCategory: taxCategory);
 
     [Fact]
     public async Task Handle_HappyPath_ReturnsSuccessWithDraftStatus()
@@ -132,6 +135,81 @@ public class CreateInvoiceHandlerTests : IDisposable
         result.IsSuccess.Should().BeTrue();
         var saved = await _context.Invoices.FindAsync(result.Value.Id);
         saved.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task Handle_UAE_AppliesStandard5PercentTax()
+    {
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "AE");
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.VatAmount.Should().Be(5.00m);
+        result.Value.Total.Should().Be(105.00m);
+        result.Value.CountryCode.Should().Be("AE");
+    }
+
+    [Fact]
+    public async Task Handle_France_AppliesStandard20PercentTax()
+    {
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR");
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.VatAmount.Should().Be(20.00m);
+        result.Value.Total.Should().Be(120.00m);
+        result.Value.CountryCode.Should().Be("FR");
+    }
+
+    [Fact]
+    public async Task Handle_France_ReducedRate_Applies10Percent()
+    {
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR", taxCategory: TaxCategory.Reduced);
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.VatAmount.Should().Be(10.00m);
+        result.Value.Total.Should().Be(110.00m);
+    }
+
+    [Fact]
+    public async Task Handle_Poland_AppliesStandard23PercentTax()
+    {
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "PL");
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.VatAmount.Should().Be(23.00m);
+        result.Value.Total.Should().Be(123.00m);
+    }
+
+    [Fact]
+    public async Task Handle_ZeroTaxCategory_AppliesZeroTax()
+    {
+        var cmd = BuildCommand(unitPrice: 200m, countryCode: "FR", taxCategory: TaxCategory.Zero);
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.VatAmount.Should().Be(0m);
+        result.Value.Total.Should().Be(200m);
+    }
+
+    [Fact]
+    public async Task Handle_ItemDtoContainsTaxCategoryAndRate()
+    {
+        var cmd = BuildCommand(unitPrice: 100m, countryCode: "FR", taxCategory: TaxCategory.SuperReduced);
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        var item = result.Value.Items.First();
+        item.TaxCategory.Should().Be(TaxCategory.SuperReduced);
+        item.TaxRate.Should().Be(0.055m);
     }
 
     public void Dispose() => _context.Dispose();

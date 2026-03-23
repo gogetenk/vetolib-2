@@ -8,4 +8,6 @@ internal record CreateInvoiceCommand(
     Guid ClinicId,
     Guid AnimalId,
     string ItemDescription,
-    decimal ItemUnitPrice) : IRequest<Result<InvoiceDto>>;
+    decimal ItemUnitPrice,
+    string CountryCode = "AE",
+    TaxCategory ItemTaxCategory = TaxCategory.Standard) : IRequest<Result<InvoiceDto>>;

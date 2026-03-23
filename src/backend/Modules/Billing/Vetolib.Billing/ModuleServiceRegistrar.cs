@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Billing.Api;
 using Vetolib.Billing.Application;
+using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.Shared.Infrastructure.Behaviors;
 
@@ -18,6 +19,9 @@ public static class ModuleServiceRegistrar
     {
         // Options
         services.Configure<BillingOptions>(configuration.GetSection(BillingOptions.SectionName));
+
+        // Tax resolver
+        services.AddSingleton<ICountryTaxResolver, CountryTaxResolver>();
 
         // MediatR
         services.AddMediatR(cfg =>

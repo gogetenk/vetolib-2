@@ -11,10 +11,17 @@ internal class InvoiceItem : BaseEntity
     public decimal UnitPriceExclTax { get; private set; }
     public decimal TaxAmount { get; private set; }
     public decimal TotalInclTax { get; private set; }
+    public TaxCategory TaxCategory { get; private set; }
+    public decimal TaxRate { get; private set; }
 
     private InvoiceItem() { } // EF Core
 
-    public static Result<InvoiceItem> Create(Guid invoiceId, string description, decimal unitPrice, decimal taxRate = 0.05m)
+    public static Result<InvoiceItem> Create(
+        Guid invoiceId,
+        string description,
+        decimal unitPrice,
+        decimal taxRate,
+        TaxCategory taxCategory = TaxCategory.Standard)
     {
         var errors = new List<ValidationError>();
 
@@ -27,6 +34,9 @@ internal class InvoiceItem : BaseEntity
         if (unitPrice <= 0)
             errors.Add(new ValidationError(nameof(unitPrice), "Unit price must be positive"));
 
+        if (taxRate < 0)
+            errors.Add(new ValidationError(nameof(taxRate), "Tax rate cannot be negative"));
+
         if (errors.Count > 0)
             return Result<InvoiceItem>.Invalid(errors);
 
@@ -37,6 +47,8 @@ internal class InvoiceItem : BaseEntity
             InvoiceId = invoiceId,
             Description = description,
             UnitPriceExclTax = unitPrice,
+            TaxRate = taxRate,
+            TaxCategory = taxCategory,
             TaxAmount = taxAmount,
             TotalInclTax = unitPrice + taxAmount
         };
@@ -49,5 +61,7 @@ internal class InvoiceItem : BaseEntity
         Description,
         1,
         UnitPriceExclTax,
-        TotalInclTax);
+        TotalInclTax,
+        TaxCategory,
+        TaxRate);
 }

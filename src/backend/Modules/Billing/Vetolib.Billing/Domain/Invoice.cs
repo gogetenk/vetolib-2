@@ -11,6 +11,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public string InvoiceNumber { get; private set; } = string.Empty;
     public InvoiceStatus Status { get; private set; }
     public DateTime? DueDate { get; private set; }
+    public string CountryCode { get; private set; } = "AE";
 
     private readonly List<InvoiceItem> _items = [];
     public IReadOnlyList<InvoiceItem> Items => _items.AsReadOnly();
@@ -27,7 +28,9 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         string invoiceNumber,
         string itemDescription,
         decimal itemUnitPrice,
-        decimal taxRate = 0.05m)
+        decimal taxRate,
+        string countryCode = "AE",
+        TaxCategory itemTaxCategory = TaxCategory.Standard)
     {
         var errors = new List<ValidationError>();
 
@@ -40,6 +43,9 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         if (string.IsNullOrWhiteSpace(invoiceNumber))
             errors.Add(new ValidationError(nameof(invoiceNumber), "Invoice number is required"));
 
+        if (string.IsNullOrWhiteSpace(countryCode))
+            errors.Add(new ValidationError(nameof(countryCode), "Country code is required"));
+
         if (errors.Count > 0)
             return Result<Invoice>.Invalid(errors);
 
@@ -48,11 +54,12 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
             ClinicId = clinicId,
             AnimalId = animalId,
             InvoiceNumber = invoiceNumber,
-            Status = InvoiceStatus.Draft
+            Status = InvoiceStatus.Draft,
+            CountryCode = countryCode.ToUpperInvariant()
         };
 
         // Add the initial item
-        var itemResult = InvoiceItem.Create(invoice.Id, itemDescription, itemUnitPrice, taxRate);
+        var itemResult = InvoiceItem.Create(invoice.Id, itemDescription, itemUnitPrice, taxRate, itemTaxCategory);
         if (!itemResult.IsSuccess)
             return Result<Invoice>.Invalid(itemResult.ValidationErrors.ToList());
 
@@ -61,7 +68,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         return Result<Invoice>.Success(invoice);
     }
 
-    public Result<InvoiceItem> AddItem(string description, decimal unitPrice, decimal taxRate = 0.05m)
+    public Result<InvoiceItem> AddItem(string description, decimal unitPrice, decimal taxRate, TaxCategory taxCategory = TaxCategory.Standard)
     {
         if (Status == InvoiceStatus.Paid)
             return Result<InvoiceItem>.Error("INVOICE_IMMUTABLE:A paid invoice cannot be modified");
@@ -69,7 +76,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         if (Status == InvoiceStatus.Cancelled)
             return Result<InvoiceItem>.Error("INVOICE_CANCELLED:A cancelled invoice cannot be modified");
 
-        var itemResult = InvoiceItem.Create(Id, description, unitPrice, taxRate);
+        var itemResult = InvoiceItem.Create(Id, description, unitPrice, taxRate, taxCategory);
         if (!itemResult.IsSuccess)
             return itemResult;
 
@@ -109,7 +116,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
-    public InvoiceDto ToDto(decimal vatRate = 0.05m) => new(
+    public InvoiceDto ToDto() => new(
         Id,
         InvoiceNumber,
         AnimalId,
@@ -120,12 +127,13 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         Status,
         _items.Select(i => i.ToDto()).ToList().AsReadOnly(),
         Subtotal: SubTotal,
-        VatRate: vatRate,
+        VatRate: _items.Count > 0 ? _items[0].TaxRate : 0m,
         VatAmount: TotalTax,
         Total,
         Notes: null,
         CreatedAt,
         PaidAt: null,
         DueDate,
-        ClinicId);
+        ClinicId,
+        CountryCode);
 }
