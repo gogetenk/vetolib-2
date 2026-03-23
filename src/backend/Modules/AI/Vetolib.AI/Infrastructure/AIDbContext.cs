@@ -9,6 +9,7 @@ namespace Vetolib.AI.Infrastructure;
 internal class AIDbContext : MultiTenantDbContext
 {
     public DbSet<TriageResult> TriageResults => Set<TriageResult>();
+    public DbSet<HealthAlert> HealthAlerts => Set<HealthAlert>();
 
     public AIDbContext(
         DbContextOptions<AIDbContext> options,
