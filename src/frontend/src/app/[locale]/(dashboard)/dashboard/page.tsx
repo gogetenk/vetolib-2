@@ -6,6 +6,7 @@ import { TodayAppointments } from '@/components/features/dashboard/TodayAppointm
 import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
 import { AnalyticsSection } from '@/components/features/dashboard/AnalyticsSection'
 import { AccumulatedValueCard } from '@/components/features/dashboard/AccumulatedValueCard'
+import { HealthAlertPanel } from '@/components/features/dashboard/HealthAlertPanel'
 import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
 import { SetupChecklist } from '@/components/features/onboarding/SetupChecklist'
 import { PageContainer } from '@/components/ui/page-container'
@@ -94,6 +95,8 @@ export default function DashboardHomePage() {
       <StatsCards role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
       <SetupChecklist role={role} />
+
+      <HealthAlertPanel />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
