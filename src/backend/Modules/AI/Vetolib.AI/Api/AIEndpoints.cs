@@ -20,6 +20,9 @@ internal static class AIEndpoints
 {
     internal static IEndpointRouteBuilder MapAIApiEndpoints(this IEndpointRouteBuilder app)
     {
+        // Health Alert endpoints are in a separate file for clarity
+        app.MapHealthAlertEndpoints();
+
         var group = app.MapGroup("/api/v1/ai")
             .RequireAuthorization("ClinicStaff")
             .RequireRateLimiting("api")
