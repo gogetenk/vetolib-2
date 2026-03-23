@@ -11,6 +11,7 @@ using Microsoft.Extensions.ML;
 using Vetolib.AI.Api;
 using Vetolib.AI.Application;
 using Vetolib.AI.Application.ML;
+using Vetolib.AI.Application.Rules;
 using Vetolib.AI.Application.Services;
 using Vetolib.AI.Contracts;
 using Vetolib.AI.Infrastructure;
@@ -109,6 +110,27 @@ public static class ModuleServiceRegistrar
             services.AddScoped<ISoapNotesGenerator, TemplateSoapNotesGenerator>();
         }
 
+        // Health Alert Rules — 10 rule-based alert generators
+        services.AddTransient<IHealthAlertRule, CatRenalScreeningRule>();
+        services.AddTransient<IHealthAlertRule, CardiacBreedRule>();
+        services.AddTransient<IHealthAlertRule, HipDysplasiaRule>();
+        services.AddTransient<IHealthAlertRule, BrachycephalicAirwayRule>();
+        services.AddTransient<IHealthAlertRule, DentalProphylaxisRule>();
+        services.AddTransient<IHealthAlertRule, SeniorWellnessRule>();
+        services.AddTransient<IHealthAlertRule, VaccinationOverdueRule>();
+        services.AddTransient<IHealthAlertRule, WeightTrendRule>();
+        services.AddTransient<IHealthAlertRule, DiabetesRiskRule>();
+        services.AddTransient<IHealthAlertRule, ArthritisFollowUpRule>();
+
+        // Health Alert Background Job
+        services.Configure<HealthAlertJobOptions>(configuration.GetSection(HealthAlertJobOptions.SectionName));
+        var jobOptions = new HealthAlertJobOptions();
+        configuration.GetSection(HealthAlertJobOptions.SectionName).Bind(jobOptions);
+        if (jobOptions.Enabled)
+        {
+            services.AddHostedService<HealthAlertGeneratorJob>();
+        }
+
         return services;
     }
 
@@ -126,6 +148,7 @@ public static class ModuleServiceRegistrar
     public static IEndpointRouteBuilder MapAIEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapAIApiEndpoints();
+        app.MapHealthAlertEndpoints();
         return app;
     }
 }
