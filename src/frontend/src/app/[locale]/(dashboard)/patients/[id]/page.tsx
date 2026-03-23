@@ -18,8 +18,9 @@ import { PageContainer } from '@/components/ui/page-container'
 import { useRole } from '@/hooks/use-role'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
+import { PatientHealthAlerts } from '@/components/features/patients/PatientHealthAlerts'
 
-type TabId = 'medical-records' | 'prescriptions' | 'vaccinations'
+type TabId = 'medical-records' | 'prescriptions' | 'vaccinations' | 'health-alerts'
 
 function calculateAge(dateOfBirth: string): string {
   const birth = new Date(dateOfBirth)
@@ -201,6 +202,7 @@ export default function PatientDetailPage() {
     { id: 'medical-records', label: 'Medical Records', testId: 'tab-medical-records' },
     { id: 'prescriptions', label: 'Prescriptions', testId: 'tab-prescriptions' },
     { id: 'vaccinations', label: 'Vaccinations', testId: 'tab-vaccinations' },
+    { id: 'health-alerts', label: 'Health Alerts', testId: 'tab-health-alerts' },
   ]
 
   if (isLoadingPatient) {
@@ -392,6 +394,11 @@ export default function PatientDetailPage() {
           {activeTab === 'vaccinations' && (
             <div id="panel-vaccinations" role="tabpanel" aria-labelledby="tab-vaccinations" data-testid="tabpanel-vaccinations" className="animate-in fade-in duration-200">
               <VaccinationsTab vaccinations={vaccinations} />
+            </div>
+          )}
+          {activeTab === 'health-alerts' && (
+            <div id="panel-health-alerts" role="tabpanel" aria-labelledby="tab-health-alerts" data-testid="tabpanel-health-alerts" className="animate-in fade-in duration-200">
+              <PatientHealthAlerts patientId={id} />
             </div>
           )}
         </div>
