@@ -18,4 +18,15 @@ public record InvoiceDto(
     DateTime CreatedAt,
     DateTime? PaidAt,
     DateTime? DueDate,
-    Guid ClinicId);
+    Guid ClinicId,
+    string? SellerSiren = null,
+    string? SellerVatNumber = null,
+    string? BuyerSiren = null,
+    string? BuyerVatNumber = null,
+    string BuyerName = "",
+    string? BuyerAddress = null,
+    OperationType? OperationType = null,
+    string InvoiceTypeCode = "380",
+    string? PaymentTerms = null,
+    string CountryCode = "AE",
+    string? PurchaseOrderReference = null);

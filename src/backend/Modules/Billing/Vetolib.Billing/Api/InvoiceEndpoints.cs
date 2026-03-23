@@ -52,7 +52,18 @@ internal static class InvoiceEndpoints
             clinicContext.ClinicId,
             request.AnimalId,
             request.ItemDescription,
-            request.ItemUnitPrice)))
+            request.ItemUnitPrice,
+            BuyerName: request.BuyerName,
+            CountryCode: request.CountryCode,
+            InvoiceTypeCode: request.InvoiceTypeCode,
+            SellerSiren: request.SellerSiren,
+            SellerVatNumber: request.SellerVatNumber,
+            BuyerSiren: request.BuyerSiren,
+            BuyerVatNumber: request.BuyerVatNumber,
+            BuyerAddress: request.BuyerAddress,
+            OperationType: request.OperationType,
+            PaymentTerms: request.PaymentTerms,
+            PurchaseOrderReference: request.PurchaseOrderReference)))
             .ToMinimalApiResult();
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> ListInvoices(

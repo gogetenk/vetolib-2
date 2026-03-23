@@ -12,6 +12,19 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public InvoiceStatus Status { get; private set; }
     public DateTime? DueDate { get; private set; }
 
+    // E-invoicing fields (EN16931 / Factur-X)
+    public string? SellerSiren { get; private set; }
+    public string? SellerVatNumber { get; private set; }
+    public string? BuyerSiren { get; private set; }
+    public string? BuyerVatNumber { get; private set; }
+    public string BuyerName { get; private set; } = string.Empty;
+    public string? BuyerAddress { get; private set; }
+    public OperationType? OperationType { get; private set; }
+    public string InvoiceTypeCode { get; private set; } = "380";
+    public string? PaymentTerms { get; private set; }
+    public string CountryCode { get; private set; } = "AE";
+    public string? PurchaseOrderReference { get; private set; }
+
     private readonly List<InvoiceItem> _items = [];
     public IReadOnlyList<InvoiceItem> Items => _items.AsReadOnly();
 
@@ -27,7 +40,18 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         string invoiceNumber,
         string itemDescription,
         decimal itemUnitPrice,
-        decimal taxRate = 0.05m)
+        decimal taxRate = 0.05m,
+        string buyerName = "",
+        string countryCode = "AE",
+        string invoiceTypeCode = "380",
+        string? sellerSiren = null,
+        string? sellerVatNumber = null,
+        string? buyerSiren = null,
+        string? buyerVatNumber = null,
+        string? buyerAddress = null,
+        OperationType? operationType = null,
+        string? paymentTerms = null,
+        string? purchaseOrderReference = null)
     {
         var errors = new List<ValidationError>();
 
@@ -40,6 +64,25 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         if (string.IsNullOrWhiteSpace(invoiceNumber))
             errors.Add(new ValidationError(nameof(invoiceNumber), "Invoice number is required"));
 
+        if (string.IsNullOrWhiteSpace(countryCode) || countryCode.Length != 2)
+            errors.Add(new ValidationError(nameof(countryCode), "CountryCode must be a 2-letter ISO 3166-1 alpha-2 code"));
+
+        if (string.IsNullOrWhiteSpace(invoiceTypeCode))
+            errors.Add(new ValidationError(nameof(invoiceTypeCode), "InvoiceTypeCode is required"));
+
+        // FR-specific mandatory fields
+        if (countryCode == "FR")
+        {
+            if (string.IsNullOrWhiteSpace(sellerSiren) || !System.Text.RegularExpressions.Regex.IsMatch(sellerSiren, @"^\d{9}$"))
+                errors.Add(new ValidationError(nameof(sellerSiren), "SellerSiren must be a 9-digit number for French invoices"));
+
+            if (string.IsNullOrWhiteSpace(sellerVatNumber))
+                errors.Add(new ValidationError(nameof(sellerVatNumber), "SellerVatNumber is required for French invoices"));
+
+            if (operationType is null)
+                errors.Add(new ValidationError(nameof(operationType), "OperationType is required for French invoices"));
+        }
+
         if (errors.Count > 0)
             return Result<Invoice>.Invalid(errors);
 
@@ -48,7 +91,18 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
             ClinicId = clinicId,
             AnimalId = animalId,
             InvoiceNumber = invoiceNumber,
-            Status = InvoiceStatus.Draft
+            Status = InvoiceStatus.Draft,
+            BuyerName = buyerName,
+            CountryCode = countryCode.ToUpperInvariant(),
+            InvoiceTypeCode = invoiceTypeCode,
+            SellerSiren = sellerSiren,
+            SellerVatNumber = sellerVatNumber,
+            BuyerSiren = buyerSiren,
+            BuyerVatNumber = buyerVatNumber,
+            BuyerAddress = buyerAddress,
+            OperationType = operationType,
+            PaymentTerms = paymentTerms,
+            PurchaseOrderReference = purchaseOrderReference
         };
 
         // Add the initial item
@@ -127,5 +181,16 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         CreatedAt,
         PaidAt: null,
         DueDate,
-        ClinicId);
+        ClinicId,
+        SellerSiren,
+        SellerVatNumber,
+        BuyerSiren,
+        BuyerVatNumber,
+        BuyerName,
+        BuyerAddress,
+        OperationType,
+        InvoiceTypeCode,
+        PaymentTerms,
+        CountryCode,
+        PurchaseOrderReference);
 }
