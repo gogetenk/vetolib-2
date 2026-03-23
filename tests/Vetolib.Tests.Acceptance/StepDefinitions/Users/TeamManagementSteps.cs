@@ -125,7 +125,10 @@ internal class TeamManagementSteps
     {
         _response = await _client.GetAsync("/api/v1/users");
         if (_response.IsSuccessStatusCode)
-            _userList = await _response.Content.ReadFromJsonAsync<List<UserListItemDto>>(JsonOptions);
+        {
+            var paged = await _response.Content.ReadFromJsonAsync<UserPagedResultDto>(JsonOptions);
+            _userList = paged?.Items?.ToList();
+        }
         else
             _errorBody = await _response.Content.ReadAsStringAsync();
     }
@@ -219,9 +222,9 @@ internal class TeamManagementSteps
     {
         var listResponse = await _client.GetAsync("/api/v1/users");
         listResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        var list = await listResponse.Content.ReadFromJsonAsync<List<UserListItemDto>>(JsonOptions);
-        list.Should().NotBeNull();
-        list!.Should().Contain(u => u.Email == _inviteResponse!.Email);
+        var paged = await listResponse.Content.ReadFromJsonAsync<UserPagedResultDto>(JsonOptions);
+        paged.Should().NotBeNull();
+        paged!.Items.Should().Contain(u => u.Email == _inviteResponse!.Email);
     }
 
     [Then(@"the role change succeeds")]

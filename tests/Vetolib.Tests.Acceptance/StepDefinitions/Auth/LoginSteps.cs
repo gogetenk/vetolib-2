@@ -17,7 +17,7 @@ using Vetolib.Tests.Acceptance.Support;
 namespace Vetolib.Tests.Acceptance.StepDefinitions.Auth;
 
 [Binding]
-[Scope(Feature = "Authentication and JWT token management")]
+[Scope(Feature = "Authentication and session management")]
 internal class LoginSteps
 {
     private readonly ScenarioContext _ctx;

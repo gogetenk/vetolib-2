@@ -447,14 +447,14 @@ internal class AppointmentSteps
     [Then(@"the next available slots are suggested")]
     public void ThenTheNextAvailableSlotsAreSuggested()
     {
-        _errorResponseBody.Should().Contain("Prochains creneaux disponibles");
+        _errorResponseBody.Should().Contain("Next available slots");
     }
 
     [Then(@"the message indicates the hours ""(.*)""")]
     public void ThenTheMessageIndicatesTheHours(string hours)
     {
         // The format from ClinicSchedule.FormatHours() is "09h00 - 18h00"
-        _errorResponseBody.Should().Contain("horaires d'ouverture");
+        _errorResponseBody.Should().Contain("outside of business hours");
     }
 
     [Then(@"the appointment status is ""(.*)""")]
