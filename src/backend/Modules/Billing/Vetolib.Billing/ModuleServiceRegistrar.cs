@@ -10,6 +10,7 @@ using Vetolib.Billing.Application;
 using Vetolib.Billing.Application.Queries.GenerateInvoicePdf;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Infrastructure;
+using Vetolib.Billing.Infrastructure.Jobs;
 using Vetolib.Shared.Infrastructure.Behaviors;
 
 namespace Vetolib.Billing;
@@ -20,12 +21,19 @@ public static class ModuleServiceRegistrar
     {
         // Options
         services.Configure<BillingOptions>(configuration.GetSection(BillingOptions.SectionName));
+        services.Configure<EReportingJobOptions>(configuration.GetSection(EReportingJobOptions.SectionName));
 
         // Tax resolver
         services.AddSingleton<ICountryTaxResolver, CountryTaxResolver>();
 
         // PDF generators
         services.AddSingleton<InvoicePdfGeneratorFactory>();
+
+        // E-reporting gateway (mock — will be replaced by real implementation)
+        services.AddSingleton<IEReportingGateway, MockEReportingGateway>();
+
+        // E-reporting background job
+        services.AddHostedService<EReportingJob>();
 
         // MediatR
         services.AddMediatR(cfg =>
@@ -54,6 +62,7 @@ public static class ModuleServiceRegistrar
     public static IEndpointRouteBuilder MapBillingEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapInvoiceApiEndpoints();
+        app.MapEReportingApiEndpoints();
         return app;
     }
 }
