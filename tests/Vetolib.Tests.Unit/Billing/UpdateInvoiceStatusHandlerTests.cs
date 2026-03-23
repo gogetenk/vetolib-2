@@ -49,7 +49,8 @@ public class UpdateInvoiceStatusHandlerTests : IDisposable
             AnimalId,
             "INV-2026-001",
             "Consultation vétérinaire",
-            300m);
+            300m,
+            0.05m);
 
         invoiceResult.IsSuccess.Should().BeTrue();
         _context.Invoices.Add(invoiceResult.Value);

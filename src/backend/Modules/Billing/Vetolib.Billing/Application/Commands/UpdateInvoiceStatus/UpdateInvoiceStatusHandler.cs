@@ -33,6 +33,6 @@ internal class UpdateInvoiceStatusHandler : IRequestHandler<UpdateInvoiceStatusC
 
         await _context.SaveChangesAsync(ct);
 
-        return Result<InvoiceDto>.Success(invoice.ToDto(_options.TaxRate));
+        return Result<InvoiceDto>.Success(invoice.ToDto());
     }
 }

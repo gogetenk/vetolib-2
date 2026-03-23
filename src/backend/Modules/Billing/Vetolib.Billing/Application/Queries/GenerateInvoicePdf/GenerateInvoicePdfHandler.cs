@@ -2,7 +2,6 @@ using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Infrastructure;
 
@@ -12,13 +11,11 @@ internal class GenerateInvoicePdfHandler : IRequestHandler<GenerateInvoicePdfQue
 {
     private readonly BillingDbContext _context;
     private readonly IConfiguration _configuration;
-    private readonly BillingOptions _billingOptions;
 
-    public GenerateInvoicePdfHandler(BillingDbContext context, IConfiguration configuration, IOptions<BillingOptions> billingOptions)
+    public GenerateInvoicePdfHandler(BillingDbContext context, IConfiguration configuration)
     {
         _context = context;
         _configuration = configuration;
-        _billingOptions = billingOptions.Value;
     }
 
     public async Task<Result<InvoicePdfResult>> Handle(GenerateInvoicePdfQuery query, CancellationToken ct)
@@ -31,7 +28,7 @@ internal class GenerateInvoicePdfHandler : IRequestHandler<GenerateInvoicePdfQue
         if (invoice is null)
             return Result<InvoicePdfResult>.NotFound("INVOICE_NOT_FOUND:Invoice not found");
 
-        var dto = invoice.ToDto(_billingOptions.TaxRate);
+        var dto = invoice.ToDto();
 
         if (dto.Status == InvoiceStatus.Draft)
             return Result<InvoicePdfResult>.Error("INVOICE_DRAFT:Invoice must be sent before downloading");

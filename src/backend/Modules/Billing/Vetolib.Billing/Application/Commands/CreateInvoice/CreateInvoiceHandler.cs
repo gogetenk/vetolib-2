@@ -11,11 +11,13 @@ namespace Vetolib.Billing.Application.Commands.CreateInvoice;
 internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Result<InvoiceDto>>
 {
     private readonly BillingDbContext _context;
+    private readonly ICountryTaxResolver _taxResolver;
     private readonly BillingOptions _options;
 
-    public CreateInvoiceHandler(BillingDbContext context, IOptions<BillingOptions> options)
+    public CreateInvoiceHandler(BillingDbContext context, ICountryTaxResolver taxResolver, IOptions<BillingOptions> options)
     {
         _context = context;
+        _taxResolver = taxResolver;
         _options = options.Value;
     }
 
@@ -40,16 +42,19 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
         if (!numberResult.IsSuccess)
             return Result<InvoiceDto>.Invalid(numberResult.ValidationErrors.ToList());
 
+        var taxRate = _taxResolver.GetTaxRate(cmd.CountryCode, cmd.ItemTaxCategory);
+
         var invoiceResult = Invoice.Create(
             cmd.ClinicId,
             cmd.AnimalId,
             numberResult.Value.Value,
             cmd.ItemDescription,
             cmd.ItemUnitPrice,
-            _options.TaxRate,
+            taxRate,
             _options.CurrencyCode,
+            cmd.CountryCode,
+            cmd.ItemTaxCategory,
             buyerName: cmd.BuyerName,
-            countryCode: cmd.CountryCode,
             invoiceTypeCode: cmd.InvoiceTypeCode,
             sellerSiren: cmd.SellerSiren,
             sellerVatNumber: cmd.SellerVatNumber,
@@ -66,6 +71,6 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
         _context.Invoices.Add(invoiceResult.Value);
         await _context.SaveChangesAsync(ct);
 
-        return Result<InvoiceDto>.Success(invoiceResult.Value.ToDto(_options.TaxRate));
+        return Result<InvoiceDto>.Success(invoiceResult.Value.ToDto());
     }
 }

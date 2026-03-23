@@ -30,5 +30,16 @@ internal class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItem>
         builder.Property(ii => ii.TotalInclTax)
             .IsRequired()
             .HasPrecision(18, 2);
+
+        builder.Property(ii => ii.TaxRate)
+            .IsRequired()
+            .HasPrecision(5, 4)
+            .HasDefaultValue(0.05m);
+
+        builder.Property(ii => ii.TaxCategory)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .HasDefaultValue(Contracts.TaxCategory.Standard);
     }
 }

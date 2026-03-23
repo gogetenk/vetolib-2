@@ -3,7 +3,6 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using Microsoft.Extensions.Options;
 using Vetolib.Billing.Application;
 using Vetolib.Billing.Application.Commands.AddInvoiceItem;
 using Vetolib.Billing.Contracts;
@@ -37,7 +36,7 @@ public class AddInvoiceItemHandlerTests : IDisposable
             .Options;
 
         _context = new BillingDbContext(options, clinicContext, publisher);
-        _handler = new AddInvoiceItemHandler(_context, Options.Create(new BillingOptions()));
+        _handler = new AddInvoiceItemHandler(_context, new CountryTaxResolver());
 
         SeedDraftInvoice();
     }
@@ -49,7 +48,8 @@ public class AddInvoiceItemHandlerTests : IDisposable
             AnimalId,
             "INV-2026-001",
             "Consultation initiale",
-            200m);
+            200m,
+            0.05m);
 
         invoiceResult.IsSuccess.Should().BeTrue();
         _context.Invoices.Add(invoiceResult.Value);
@@ -61,11 +61,13 @@ public class AddInvoiceItemHandlerTests : IDisposable
     private AddInvoiceItemCommand BuildCommand(
         Guid? invoiceId = null,
         string description = "Vaccin antirabique",
-        decimal unitPrice = 80m)
+        decimal unitPrice = 80m,
+        TaxCategory taxCategory = TaxCategory.Standard)
         => new(
             InvoiceId: invoiceId ?? SeededInvoiceId,
             Description: description,
-            UnitPrice: unitPrice);
+            UnitPrice: unitPrice,
+            TaxCategory: taxCategory);
 
     [Fact]
     public async Task Handle_HappyPath_ReturnsSuccess()
@@ -116,7 +118,7 @@ public class AddInvoiceItemHandlerTests : IDisposable
     [Fact]
     public async Task Handle_WhenInvoiceIsPaid_ReturnsError()
     {
-        // Transition Draft → Sent → Paid
+        // Transition Draft -> Sent -> Paid
         await TransitionInvoice(SeededInvoiceId, InvoiceStatus.Sent);
         await TransitionInvoice(SeededInvoiceId, InvoiceStatus.Paid);
 
@@ -141,6 +143,35 @@ public class AddInvoiceItemHandlerTests : IDisposable
         result.IsSuccess.Should().BeFalse();
         result.Status.Should().Be(ResultStatus.Error);
         result.Errors.Should().Contain(e => e.Contains("INVOICE_CANCELLED"));
+    }
+
+    [Fact]
+    public async Task Handle_MixedTaxCategories_CorrectTotals()
+    {
+        // Seeded invoice has 200 @ 5% = 210
+        // Add item with Zero tax
+        var cmd = BuildCommand(description: "Exempt service", unitPrice: 100m, taxCategory: TaxCategory.Zero);
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        // 200 + 100 = 300 subtotal, tax = 10 (from first) + 0 (from second) = 10
+        result.Value.Subtotal.Should().Be(300m);
+        result.Value.VatAmount.Should().Be(10m);
+        result.Value.Total.Should().Be(310m);
+    }
+
+    [Fact]
+    public async Task Handle_NewItem_HasCorrectTaxCategoryInDto()
+    {
+        var cmd = BuildCommand(description: "Zero-rated item", unitPrice: 50m, taxCategory: TaxCategory.Zero);
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        var newItem = result.Value.Items.First(i => i.Description == "Zero-rated item");
+        newItem.TaxCategory.Should().Be(TaxCategory.Zero);
+        newItem.TaxRate.Should().Be(0m);
     }
 
     private async Task TransitionInvoice(Guid invoiceId, InvoiceStatus newStatus)

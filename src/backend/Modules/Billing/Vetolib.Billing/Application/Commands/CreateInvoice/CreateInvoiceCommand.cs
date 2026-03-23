@@ -9,6 +9,7 @@ internal record CreateInvoiceCommand(
     Guid AnimalId,
     string ItemDescription,
     decimal ItemUnitPrice,
+    TaxCategory ItemTaxCategory = TaxCategory.Standard,
     string BuyerName = "",
     string CountryCode = "AE",
     string InvoiceTypeCode = "380",

@@ -2,4 +2,5 @@ namespace Vetolib.Billing.Contracts;
 
 public record AddInvoiceItemRequest(
     string Description,
-    decimal UnitPrice);
+    decimal UnitPrice,
+    TaxCategory TaxCategory = TaxCategory.Standard);
