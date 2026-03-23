@@ -155,7 +155,7 @@ internal static class InvoicePdfGenerator
                 {
                     header.Cell().Element(HeaderCell).Text("#");
                     header.Cell().Element(HeaderCell).Text("Description");
-                    header.Cell().Element(HeaderCell).AlignRight().Text("Unit (AED excl.)");
+                    header.Cell().Element(HeaderCell).AlignRight().Text($"Unit ({invoice.CurrencyCode} excl.)");
                     header.Cell().Element(HeaderCell).AlignRight().Text("Total incl. tax");
                 });
 
@@ -178,12 +178,12 @@ internal static class InvoicePdfGenerator
                 totals.Item().PaddingHorizontal(4).Row(r =>
                 {
                     r.RelativeItem().AlignRight().Text("Subtotal:");
-                    r.ConstantItem(120).AlignRight().Text($"{invoice.Subtotal:F2} AED");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.Subtotal:F2} {invoice.CurrencyCode}");
                 });
                 totals.Item().PaddingHorizontal(4).Row(r =>
                 {
                     r.RelativeItem().AlignRight().Text("Tax:");
-                    r.ConstantItem(120).AlignRight().Text($"{invoice.VatAmount:F2} AED");
+                    r.ConstantItem(120).AlignRight().Text($"{invoice.VatAmount:F2} {invoice.CurrencyCode}");
                 });
                 totals.Item()
                     .BorderTop(1).BorderColor(Colors.Grey.Medium)
@@ -191,7 +191,7 @@ internal static class InvoicePdfGenerator
                     .Row(r =>
                     {
                         r.RelativeItem().AlignRight().Text("TOTAL:").Bold();
-                        r.ConstantItem(120).AlignRight().Text($"{invoice.Total:F2} AED").Bold();
+                        r.ConstantItem(120).AlignRight().Text($"{invoice.Total:F2} {invoice.CurrencyCode}").Bold();
                     });
             });
         });

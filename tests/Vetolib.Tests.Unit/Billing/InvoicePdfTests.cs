@@ -29,7 +29,8 @@ public class InvoicePdfTests
         CreatedAt: new DateTime(2026, 3, 9, 0, 0, 0, DateTimeKind.Utc),
         PaidAt: null,
         DueDate: new DateTime(2026, 4, 8, 0, 0, 0, DateTimeKind.Utc),
-        ClinicId: Guid.NewGuid());
+        ClinicId: Guid.NewGuid(),
+        CurrencyCode: "AED");
 
     [Fact]
     public void Generate_WithSentInvoice_ReturnsBytesGreaterThanZero()

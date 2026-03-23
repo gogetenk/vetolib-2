@@ -19,6 +19,7 @@ public record InvoiceDto(
     DateTime? PaidAt,
     DateTime? DueDate,
     Guid ClinicId,
+    string CurrencyCode = "AED",
     string? SellerSiren = null,
     string? SellerVatNumber = null,
     string? BuyerSiren = null,

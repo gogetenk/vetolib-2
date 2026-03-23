@@ -11,6 +11,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public string InvoiceNumber { get; private set; } = string.Empty;
     public InvoiceStatus Status { get; private set; }
     public DateTime? DueDate { get; private set; }
+    public string CurrencyCode { get; private set; } = "AED";
 
     // E-invoicing fields (EN16931 / Factur-X)
     public string? SellerSiren { get; private set; }
@@ -41,6 +42,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         string itemDescription,
         decimal itemUnitPrice,
         decimal taxRate = 0.05m,
+        string currencyCode = "AED",
         string buyerName = "",
         string countryCode = "AE",
         string invoiceTypeCode = "380",
@@ -92,6 +94,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
             AnimalId = animalId,
             InvoiceNumber = invoiceNumber,
             Status = InvoiceStatus.Draft,
+            CurrencyCode = currencyCode,
             BuyerName = buyerName,
             CountryCode = countryCode.ToUpperInvariant(),
             InvoiceTypeCode = invoiceTypeCode,
@@ -182,6 +185,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         PaidAt: null,
         DueDate,
         ClinicId,
+        CurrencyCode,
         SellerSiren,
         SellerVatNumber,
         BuyerSiren,

@@ -47,6 +47,7 @@ internal class CreateInvoiceHandler : IRequestHandler<CreateInvoiceCommand, Resu
             cmd.ItemDescription,
             cmd.ItemUnitPrice,
             _options.TaxRate,
+            _options.CurrencyCode,
             buyerName: cmd.BuyerName,
             countryCode: cmd.CountryCode,
             invoiceTypeCode: cmd.InvoiceTypeCode,

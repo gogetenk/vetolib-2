@@ -27,6 +27,11 @@ internal class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .HasConversion<string>()
             .HasMaxLength(20);
 
+        builder.Property(i => i.CurrencyCode)
+            .IsRequired()
+            .HasMaxLength(3)
+            .HasDefaultValue("AED");
+
         builder.Property(i => i.SellerSiren)
             .HasMaxLength(9);
 
