@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Vetolib.Billing.Contracts;
 using Vetolib.Billing.Infrastructure;
 
@@ -10,10 +11,12 @@ internal class GetRevenueByMonthHandler
     : IRequestHandler<GetRevenueByMonthQuery, Result<IReadOnlyList<RevenueByMonthDto>>>
 {
     private readonly BillingDbContext _context;
+    private readonly BillingOptions _options;
 
-    public GetRevenueByMonthHandler(BillingDbContext context)
+    public GetRevenueByMonthHandler(BillingDbContext context, IOptions<BillingOptions> options)
     {
         _context = context;
+        _options = options.Value;
     }
 
     public async Task<Result<IReadOnlyList<RevenueByMonthDto>>> Handle(
@@ -54,7 +57,7 @@ internal class GetRevenueByMonthHandler
             result.Add(new RevenueByMonthDto(
                 Month: $"{year:D4}-{monthNum:D2}",
                 Total: row?.Total ?? 0m,
-                Currency: "AED"));
+                Currency: _options.CurrencyCode));
         }
 
         return Result<IReadOnlyList<RevenueByMonthDto>>.Success(result);
