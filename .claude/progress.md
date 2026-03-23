@@ -2,6 +2,39 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
+## 2026-03-23 -- Forge cycle (CI fix + dispatch prep)
+
+- TODO: 12 (6 billing, 4 predictive-health, 1 front-predictive-health, 1 refacto)
+- WIP: 1 (fix-bdd-tests-ci agent)
+- DONE: 234+
+- Agents actifs: 1 (fix 24 BDD tests cassés — worktree)
+- PRs en review: 1 (#96 draft PageContainer)
+- Questions PO: 12 ouvertes
+- develop CI: RED (BDD tests — fix agent dispatché)
+- Disputes: 0
+
+### Actions effectuées
+- Fix WhatsApp EncryptionKey crash (ASPNETCORE_ENVIRONMENT vide en CI) — poussé sur develop
+- Integration tests: 29/29 GREEN (fix confirmé)
+- BDD tests: 103/127 GREEN, 24 RED (pré-existants, masqués par le crash WhatsApp)
+  - TeamManagementSteps: JSON deserialization `List<UserListItemDto>` vs `UserPagedResultDto`
+  - Appointment conflict: message en français au lieu d'anglais
+  - ~21 Auth tests: échec rapide (cause à investiguer)
+- Agent dev dispatché en worktree pour fixer les 24 BDD tests
+
+### Tâches prêtes au dispatch (bloquées par CI RED)
+| Tâche | Module | Prête |
+|---|---|---|
+| back-billing-multi-tax-001 | Billing | OUI |
+| back-billing-multi-currency-002 | Billing | OUI |
+| back-billing-invoice-fields-003 | Billing | OUI |
+| back-predictive-health-001 | AI | OUI |
+| front-predictive-health-001 | Frontend (MSW) | OUI |
+| refacto-20260321-003 | Cross-module | OUI |
+
+### Prochaine action
+Attendre que l'agent BDD fix termine → merger sa PR → vérifier develop GREEN → dispatcher les 6 tâches prêtes en parallèle.
+
 ## 2026-03-12 -- Forge cycle (QA calendar validation)
 
 - TODO: 2 (post-MVP) | WIP: 0 | DONE: 193
