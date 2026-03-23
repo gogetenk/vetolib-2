@@ -11,11 +11,13 @@ internal class GenerateInvoicePdfHandler : IRequestHandler<GenerateInvoicePdfQue
 {
     private readonly BillingDbContext _context;
     private readonly IConfiguration _configuration;
+    private readonly InvoicePdfGeneratorFactory _generatorFactory;
 
-    public GenerateInvoicePdfHandler(BillingDbContext context, IConfiguration configuration)
+    public GenerateInvoicePdfHandler(BillingDbContext context, IConfiguration configuration, InvoicePdfGeneratorFactory generatorFactory)
     {
         _context = context;
         _configuration = configuration;
+        _generatorFactory = generatorFactory;
     }
 
     public async Task<Result<InvoicePdfResult>> Handle(GenerateInvoicePdfQuery query, CancellationToken ct)
@@ -39,7 +41,8 @@ internal class GenerateInvoicePdfHandler : IRequestHandler<GenerateInvoicePdfQue
         var clinicName = _configuration["ClinicName"] ?? "Vetolib Veterinary Clinic";
         var trn = _configuration["TaxRegistrationNumber"] ?? string.Empty;
 
-        var pdfBytes = InvoicePdfGenerator.Generate(dto, clinicName, trn);
+        var generator = _generatorFactory.GetGenerator(dto.CountryCode);
+        var pdfBytes = generator.Generate(dto, clinicName, trn);
         return Result<InvoicePdfResult>.Success(new InvoicePdfResult(pdfBytes, dto.InvoiceNumber));
     }
 }
