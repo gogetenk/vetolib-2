@@ -225,36 +225,36 @@ export function DrugCatalogTable({
             <TableHeader>
               <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
                 <TableHead
-                  className="text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
+                  className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('displayName')}
                   data-testid="th-drug-name"
                 >
                   {t('columns.name')}<SortIcon field="displayName" sortField={sortField} sortDir={sortDir} />
                 </TableHead>
                 <TableHead
-                  className="text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
+                  className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('innName')}
                   data-testid="th-drug-inn"
                 >
                   {t('columns.inn_name')}<SortIcon field="innName" sortField={sortField} sortDir={sortDir} />
                 </TableHead>
                 <TableHead
-                  className="text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
+                  className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('category')}
                   data-testid="th-drug-category"
                 >
                   {t('columns.category')}<SortIcon field="category" sortField={sortField} sortDir={sortDir} />
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-dosage">
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-dosage">
                   {t('columns.dosage')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-species">
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-species">
                   {t('columns.species')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-rx">
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-rx">
                   {t('columns.prescription')}
                 </TableHead>
-                <TableHead className="text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-actions">
+                <TableHead className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground" data-testid="th-drug-actions">
                   {t('columns.actions')}
                 </TableHead>
               </TableRow>
@@ -266,19 +266,19 @@ export function DrugCatalogTable({
                   data-testid={`drug-row-${drug.id}`}
                   className="group hover:bg-muted/50 border-border/30 transition-colors"
                 >
-                  <TableCell className="text-[13px] font-semibold text-foreground" data-testid={`drug-name-${drug.id}`}>
+                  <TableCell className="py-3 px-4 text-[13px] font-semibold text-foreground" data-testid={`drug-name-${drug.id}`}>
                     {drug.displayName}
                   </TableCell>
-                  <TableCell className="text-[13px] text-muted-foreground italic" data-testid={`drug-inn-${drug.id}`}>
+                  <TableCell className="py-3 px-4 text-[13px] text-muted-foreground italic" data-testid={`drug-inn-${drug.id}`}>
                     {drug.innName}
                   </TableCell>
-                  <TableCell data-testid={`drug-category-${drug.id}`}>
+                  <TableCell className="py-3 px-4" data-testid={`drug-category-${drug.id}`}>
                     {getCategoryBadge(drug.category)}
                   </TableCell>
-                  <TableCell className="text-[13px] text-muted-foreground max-w-[200px] truncate" data-testid={`drug-dosage-${drug.id}`}>
+                  <TableCell className="py-3 px-4 text-[13px] text-muted-foreground max-w-[200px] truncate" data-testid={`drug-dosage-${drug.id}`}>
                     {drug.commonDosage}
                   </TableCell>
-                  <TableCell data-testid={`drug-species-${drug.id}`}>
+                  <TableCell className="py-3 px-4" data-testid={`drug-species-${drug.id}`}>
                     <div className="flex flex-wrap gap-1">
                       {drug.dosageGuidelines.map(g => (
                         <span
@@ -290,7 +290,7 @@ export function DrugCatalogTable({
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell data-testid={`drug-rx-${drug.id}`}>
+                  <TableCell className="py-3 px-4" data-testid={`drug-rx-${drug.id}`}>
                     {drug.requiresPrescription ? (
                       <Badge className="rounded-md text-[10px] font-bold uppercase tracking-wider border bg-amber-50 text-amber-700 border-amber-200">
                         Rx
@@ -301,7 +301,7 @@ export function DrugCatalogTable({
                       </Badge>
                     )}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="py-3 px-4">
                     <Button
                       size="sm"
                       variant="outline"

@@ -62,7 +62,7 @@ function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
   }
   return (
     <div data-testid="vaccinations-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
-      <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
         <span>Vaccine</span>
         <span>Date Given</span>
         <span>Next Due</span>
@@ -72,7 +72,7 @@ function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
         <div
           key={vac.id}
           data-testid={`vaccination-${vac.id}`}
-          className="grid grid-cols-4 gap-4 text-[13px] px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-[13px] px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
         >
           <span className="font-semibold text-foreground" data-testid={`vaccination-name-${vac.id}`}>{vac.name}</span>
           <span className="text-muted-foreground" data-testid={`vaccination-date-${vac.id}`}>{formatDate(vac.administeredDate)}</span>
@@ -115,7 +115,7 @@ function PrescriptionsTab({
         </p>
       ) : (
         <div data-testid="prescriptions-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
-          <div className="grid grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
             <span>Medication</span>
             <span>Dosage</span>
             <span>Duration</span>
@@ -126,7 +126,7 @@ function PrescriptionsTab({
             <div
               key={presc.id}
               data-testid={`prescription-${presc.id}`}
-              className="grid grid-cols-5 gap-4 items-center px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
+              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-center px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
             >
               <p className="font-semibold text-[13px] text-foreground truncate" data-testid={`presc-medication-${presc.id}`}>{presc.medication}</p>
               <p className="text-[13px] text-muted-foreground truncate">{presc.dosage}</p>
