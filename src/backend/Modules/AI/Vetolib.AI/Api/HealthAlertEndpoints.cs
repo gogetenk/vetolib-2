@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Vetolib.AI.Application.Commands.AcknowledgeHealthAlert;
 using Vetolib.AI.Application.Commands.ConvertAlertToAppointment;
 using Vetolib.AI.Application.Commands.DismissHealthAlert;
+using Vetolib.AI.Application.Commands.GenerateHealthAlerts;
 using Vetolib.AI.Application.Queries.GetHealthAlerts;
 using Vetolib.AI.Application.Queries.GetPatientHealthAlerts;
 using Vetolib.AI.Contracts;
@@ -27,6 +28,10 @@ internal static class HealthAlertEndpoints
 
         group.MapGet("/patient/{patientId:guid}", GetPatientHealthAlerts)
             .WithName("GetPatientHealthAlerts");
+
+        group.MapPost("/generate", GenerateAlerts)
+            .WithName("GenerateHealthAlerts")
+            .RequireAuthorization("VetOrAdmin");
 
         group.MapPatch("/{id:guid}/dismiss", DismissHealthAlert)
             .WithName("DismissHealthAlert")
@@ -58,6 +63,11 @@ internal static class HealthAlertEndpoints
     {
         var query = new GetPatientHealthAlertsQuery(patientId);
         return (await sender.Send(query)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GenerateAlerts(ISender sender)
+    {
+        return (await sender.Send(new GenerateHealthAlertsCommand())).ToMinimalApiResult();
     }
 
     private static async Task<IResult> DismissHealthAlert(
