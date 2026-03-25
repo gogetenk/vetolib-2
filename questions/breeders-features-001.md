@@ -235,6 +235,26 @@ Quand veux-tu commencer a developper les features eleveurs ? Options :
 
 ---
 
+## Reponse PO
+
+Toutes les questions du fondateur ont recu reponse. Les decisions sont integrees dans la spec `docs/specs/BREEDERS-FEATURES-SPEC.md` :
+
+- **Q1** : Oui, Sex + Microchip dans le MVP immediatement
+- **Q2** : Oui, positionner pour les faucons UAE
+- **Q3** : Non au betail pour l'instant, focus companion + equin + faucons
+- **Q4** : Registres officiels en Phase 3 (pas urgent)
+- **Q5** : Module add-on "Breeding" payant
+- **Q6** : Option A -- F1-F3 maintenant, F4-F6 en Q3 2026
+
+Deliverables produits :
+- `docs/specs/BREEDERS-FEATURES-SPEC.md` -- spec complete avec DTOs, endpoints, regles metier, wireframes
+- 6 fichiers `.feature` Gherkin (53 scenarios, tous en anglais, tous @wip)
+- Enum Species : Cattle/Sheep/Goat EXCLUS (fondateur a dit non au betail)
+
+-> Escalade humain requise : non
+
+---
+
 ## Resume executif
 
 Vetolib couvre aujourd'hui 60% des besoins d'une clinique veterinaire classique (pet owners). Pour les eleveurs, la couverture est proche de 0% -- il manque les fondamentaux (sexe, puce, reproduction, lignees).
