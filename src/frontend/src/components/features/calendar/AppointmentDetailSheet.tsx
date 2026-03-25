@@ -172,7 +172,7 @@ export function AppointmentDetailSheet({
         className="w-[calc(100%-2rem)] sm:w-full sm:max-w-4xl p-0 overflow-hidden bg-card rounded-2xl border-0 shadow-2xl gap-0"
         data-testid="appointment-detail-dialog"
       >
-        <DialogTitle className="sr-only">Détails de rendez-vous</DialogTitle>
+        <DialogTitle className="sr-only">{t('detail.title')}</DialogTitle>
         
         <div className="flex flex-col md:flex-row min-h-[600px]">
           {/* Left Column: Patient & Owner Info */}
@@ -182,25 +182,25 @@ export function AppointmentDetailSheet({
                 {ownerLastName} <span className="font-semibold text-primary">{ownerFirstName}</span> <span className="text-muted-foreground font-normal ml-1">{emoji}</span>
               </h2>
               <p className="text-[13px] text-muted-foreground mt-1 font-medium">
-                Patient: <span className="text-foreground">{appointment.patientName}</span> • {appointment.species}
+                Patient: <span className="text-foreground" data-testid="detail-patient-name">{appointment.patientName}</span> • {appointment.species}
               </p>
             </div>
 
             <div className="space-y-6">
               <div>
-                <h3 className="text-[13px] font-bold text-foreground mb-3">Coordonnées</h3>
+                <h3 className="text-[13px] font-bold text-foreground mb-3">{t('detail.contactInfo')}</h3>
                 <div className="space-y-3.5">
                   <div className="flex items-start gap-3">
                     <MapPinIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                    <span className="text-[14px] text-foreground font-medium">Non renseigné</span>
+                    <span className="text-[14px] text-foreground font-medium">{t('detail.notProvided')}</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <PhoneIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                    <span className="text-[14px] text-foreground font-medium">{appointment.ownerPhone || 'Non renseigné'}</span>
+                    <span className="text-[14px] text-foreground font-medium">{appointment.ownerPhone || t('detail.notProvided')}</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <MailIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                    <span className="text-[14px] text-foreground font-medium">Non renseigné</span>
+                    <span className="text-[14px] text-foreground font-medium">{t('detail.notProvided')}</span>
                   </div>
                 </div>
               </div>
@@ -208,14 +208,14 @@ export function AppointmentDetailSheet({
               <div className="pt-6 border-t border-border/50">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-[13px] font-bold text-foreground">Vétérinaire traitant</h3>
-                    <p className="text-[14px] text-foreground font-medium mt-1">{appointment.vetName}</p>
+                    <h3 className="text-[13px] font-bold text-foreground">{t('detail.attendingVet')}</h3>
+                    <p className="text-[14px] text-foreground font-medium mt-1" data-testid="detail-vet-name">{appointment.vetName}</p>
                   </div>
                 </div>
                 
                 <Link href={`/${locale}/patients/${appointment.patientId ?? ''}`}>
                   <Button size="lg" className="w-full font-semibold rounded-xl h-11 shadow-sm mt-2 flex items-center gap-2">
-                    Consulter le dossier patient
+                    {t('detail.viewPatientRecord')}
                     <ExternalLinkIcon className="w-4 h-4" />
                   </Button>
                 </Link>
@@ -231,7 +231,7 @@ export function AppointmentDetailSheet({
                 <div className="flex items-center justify-between mb-1">
                   <h3 className="text-[18px] font-bold text-foreground flex items-center gap-2">
                     <span className="w-1 h-5 bg-primary rounded-full"></span>
-                    Le rendez-vous
+                    {t('detail.theAppointment')}
                   </h3>
                   <Badge className={`${STATUS_BADGE_VARIANT[appointment.status]} border-0 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider`}>
                     {appointment.status.replace('_', ' ')}
@@ -244,13 +244,13 @@ export function AppointmentDetailSheet({
 
               {/* Consultation Type */}
               <div>
-                <h4 className="text-[13px] font-bold text-foreground mb-2">Type de consultation</h4>
+                <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.consultationType')}</h4>
                 <div className="bg-white border border-border/80 rounded-xl p-3.5 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${color.bg}`}>
                       <div className={`w-3 h-3 rounded-full ${color.dot}`}></div>
                     </div>
-                    <span className="text-[14px] font-semibold text-foreground">{appointment.consultationType}</span>
+                    <span className="text-[14px] font-semibold text-foreground" data-testid="detail-consultation-type">{appointment.consultationType}</span>
                   </div>
                   <Badge variant="outline" className="bg-muted text-muted-foreground border-border/50">
                     {t('detail.minutes', { count: appointment.durationMinutes })}
@@ -260,24 +260,24 @@ export function AppointmentDetailSheet({
 
               {/* Reason */}
               <div>
-                <h4 className="text-[13px] font-bold text-foreground mb-2">Motif</h4>
-                <div className="bg-white border border-border/80 rounded-xl p-4 min-h-[80px] shadow-sm text-[14px] font-medium text-foreground">
-                  {appointment.reason || <span className="text-muted-foreground italic">Aucun motif renseigné</span>}
+                <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.reasonLabel')}</h4>
+                <div className="bg-white border border-border/80 rounded-xl p-4 min-h-[80px] shadow-sm text-[14px] font-medium text-foreground" data-testid="detail-reason">
+                  {appointment.reason || <span className="text-muted-foreground italic">{t('detail.noReasonProvided')}</span>}
                 </div>
               </div>
 
               {/* Notes */}
               <div>
-                <h4 className="text-[13px] font-bold text-foreground mb-2">Notes & Discussion</h4>
+                <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.notesAndDiscussion')}</h4>
                 <div className="bg-white border border-border/80 rounded-xl p-4 min-h-[100px] shadow-sm flex flex-col justify-between">
-                  <div className="text-[14px] font-medium text-foreground mb-4">
-                    {appointment.notes || <span className="text-muted-foreground italic">Aucune note</span>}
+                  <div className="text-[14px] font-medium text-foreground mb-4" data-testid="detail-notes">
+                    {appointment.notes || <span className="text-muted-foreground italic">{t('detail.noNotes')}</span>}
                   </div>
                   {/* Fake input for discussion like Weda */}
                   <div className="relative mt-auto border-t border-border/50 pt-3">
                     <Input 
                       type="text" 
-                      placeholder="Écrire une note..." 
+                      placeholder={t('detail.writeANote')} 
                       className="w-full bg-muted/50 rounded-xl pl-4 pr-12 py-2.5 text-[13px]"
                       disabled
                     />

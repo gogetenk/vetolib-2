@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Clock, ChevronDown, Check } from 'lucide-react'
+import { Clock, Check } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { listPortalConsultationTypes, listPortalVeterinarians } from '@/lib/api/booking'
 import type { ConsultationTypeDto, VeterinarianDto } from '@/lib/api/booking'
@@ -157,32 +164,30 @@ export function StepConsultationType({
       {/* Vet preference (optional) */}
       <div>
         <label
-          htmlFor="vet-preference"
           className="block text-sm font-medium text-foreground mb-1"
         >
           {t('vetLabel')}{' '}
           <span className="font-normal text-muted-foreground">{t('vetOptional')}</span>
         </label>
-        <div className="relative">
-          <select
-            id="vet-preference"
+        <div data-testid="vet-preference-select">
+          <Select
             value={selectedVetId ?? ''}
-            onChange={(e) => onVetChange(e.target.value || null)}
-            data-testid="vet-preference-select"
-            aria-label="Select a preferred veterinarian"
-            className="w-full appearance-none rounded-xl border border-border/80 bg-white px-3 py-2.5 pr-9 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            onValueChange={(v) => onVetChange((v as string) || null)}
           >
-            <option value="">{t('vetNoPreference')}</option>
-            {vets.map((vet) => (
-              <option key={vet.id} value={vet.id} data-testid={`vet-option-${vet.id}`}>
-                {vet.name}
-              </option>
-            ))}
-          </select>
-          <ChevronDown
-            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
-            aria-hidden="true"
-          />
+            <SelectTrigger className="w-full rounded-xl border-border/80 text-sm">
+              <SelectValue>
+                {selectedVetId ? vets.find((v) => v.id === selectedVetId)?.name ?? t('vetNoPreference') : t('vetNoPreference')}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">{t('vetNoPreference')}</SelectItem>
+              {vets.map((vet) => (
+                <SelectItem key={vet.id} value={vet.id} data-testid={`vet-option-${vet.id}`}>
+                  {vet.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 

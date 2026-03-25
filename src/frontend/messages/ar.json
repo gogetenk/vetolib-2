@@ -994,7 +994,18 @@
       "status": "الحالة",
       "reason": "السبب",
       "notes": "الملاحظات",
-      "minutes": "{count} دقيقة"
+      "minutes": "{count} دقيقة",
+      "contactInfo": "معلومات الاتصال",
+      "notProvided": "غير مُدخل",
+      "attendingVet": "الطبيب البيطري المعالج",
+      "viewPatientRecord": "عرض سجل المريض",
+      "theAppointment": "الموعد",
+      "consultationType": "نوع الاستشارة",
+      "reasonLabel": "السبب",
+      "noReasonProvided": "لا يوجد سبب مُدخل",
+      "notesAndDiscussion": "الملاحظات والمناقشة",
+      "noNotes": "لا توجد ملاحظات",
+      "writeANote": "اكتب ملاحظة..."
     }
   },
   "common": {

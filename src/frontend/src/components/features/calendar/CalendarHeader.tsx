@@ -111,18 +111,18 @@ export function CalendarHeader({
       <div className="flex items-center justify-between px-2">
         {/* Left: Aujourd'hui */}
         <div className="flex-1 flex justify-start items-center gap-2">
-          <Button onClick={onToday} className="rounded-full px-4 md:px-6 font-semibold shadow-sm h-10">
+          <Button onClick={onToday} className="rounded-full px-4 md:px-6 font-semibold shadow-sm h-10" data-testid="calendar-today-btn">
             {t('today')}
           </Button>
         </div>
 
         {/* Center: Navigation & Date */}
         <div className="flex-1 flex justify-center items-center gap-2 md:gap-4">
-          <Button variant="ghost" size="icon" onClick={onPrev} aria-label="Previous" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" onClick={onPrev} aria-label="Previous" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground" data-testid="calendar-prev-btn">
             {isRtl ? <ChevronRight className="size-5" /> : <ChevronLeft className="size-5" />}
           </Button>
           <span className="text-[13px] md:text-[15px] font-semibold min-w-0 md:min-w-[200px] text-center text-foreground">{dateLabel}</span>
-          <Button variant="ghost" size="icon" onClick={onNext} aria-label="Next" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" onClick={onNext} aria-label="Next" className="rounded-full hover:bg-muted h-8 w-8 text-muted-foreground hover:text-foreground" data-testid="calendar-next-btn">
             {isRtl ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
           </Button>
         </div>
@@ -147,9 +147,10 @@ export function CalendarHeader({
           </div>
 
           {/* New Appointment Button with Glow */}
-          <Button 
+          <Button
             className="rounded-full gap-2 px-3 md:px-6 h-10 font-semibold shadow-lg hover:shadow-md hover:-translate-y-0.5"
             onClick={onNewAppointment}
+            data-testid="calendar-new-appointment-btn"
           >
             <Plus className="size-4" />
             <span className="hidden md:inline">
