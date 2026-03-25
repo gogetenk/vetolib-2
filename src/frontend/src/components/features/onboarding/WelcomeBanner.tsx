@@ -21,13 +21,13 @@ function VetIllustration() {
       className="shrink-0 opacity-80"
     >
       {/* Paw print outline */}
-      <circle cx="40" cy="45" r="18" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
-      <circle cx="28" cy="28" r="7" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
-      <circle cx="40" cy="23" r="7" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
-      <circle cx="52" cy="28" r="7" fill="#d1fae5" stroke="#10b981" strokeWidth="2" />
+      <circle cx="40" cy="45" r="18" className="fill-primary/20 stroke-primary" strokeWidth="2" />
+      <circle cx="28" cy="28" r="7" className="fill-primary/20 stroke-primary" strokeWidth="2" />
+      <circle cx="40" cy="23" r="7" className="fill-primary/20 stroke-primary" strokeWidth="2" />
+      <circle cx="52" cy="28" r="7" className="fill-primary/20 stroke-primary" strokeWidth="2" />
       {/* Cross / medical symbol */}
-      <rect x="36" y="38" width="8" height="14" rx="2" fill="#10b981" />
-      <rect x="33" y="41" width="14" height="8" rx="2" fill="#10b981" />
+      <rect x="36" y="38" width="8" height="14" rx="2" className="fill-primary" />
+      <rect x="33" y="41" width="14" height="8" rx="2" className="fill-primary" />
     </svg>
   )
 }
