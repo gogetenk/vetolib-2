@@ -41,6 +41,7 @@ function formatTime(isoDate: string): string {
 
 export function RecentActivity() {
   const t = useTranslations('dashboard.recent_activity')
+  const tErr = useTranslations('dashboard.errors')
   const [activities, setActivities] = useState<ActivityDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -79,7 +80,7 @@ export function RecentActivity() {
         ) : error ? (
           <ErrorState
             data-testid="recent-activity-error"
-            title="Failed to load activity"
+            title={tErr('load_activity')}
             description={error}
             onRetry={load}
           />

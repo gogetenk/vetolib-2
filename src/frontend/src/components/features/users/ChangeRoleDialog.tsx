@@ -22,12 +22,9 @@ import {
 import { changeUserRole } from "@/lib/api/users"
 import type { UserDto, UserRole } from "@/lib/api/users"
 import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
+import { useTranslations } from "next-intl"
 
-const ASSIGNABLE_ROLES: { value: Exclude<UserRole, "ADMIN">; label: string }[] = [
-  { value: "VET", label: "Vet" },
-  { value: "ASSISTANT", label: "Assistant" },
-  { value: "RECEPTIONIST", label: "Receptionist" },
-]
+const ASSIGNABLE_ROLE_VALUES: Exclude<UserRole, "ADMIN">[] = ["VET", "ASSISTANT", "RECEPTIONIST"]
 
 interface ChangeRoleDialogProps {
   user: UserDto
@@ -42,6 +39,8 @@ export function ChangeRoleDialog({
   onOpenChange,
   onRoleChanged,
 }: ChangeRoleDialogProps) {
+  const t = useTranslations('team.change_role')
+  const tRoles = useTranslations('team.roles')
   const [selectedRole, setSelectedRole] = useState<string | null>(user.role === "ADMIN" ? "VET" : user.role)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -56,10 +55,10 @@ export function ChangeRoleDialog({
         from_role: fromRole,
         to_role: role,
       })
-      toast.success(`${user.fullName}'s role updated to ${role}`)
+      toast.success(t('success', { fullName: user.fullName, role }))
       onRoleChanged(role as UserRole)
     } catch {
-      toast.error("Failed to change role")
+      toast.error(t('error'))
     } finally {
       setIsSubmitting(false)
     }
@@ -69,15 +68,15 @@ export function ChangeRoleDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-2xl" data-testid="change-role-dialog">
         <DialogHeader>
-          <DialogTitle className="text-[18px] font-bold text-foreground">Change Role</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-foreground">{t('title')}</DialogTitle>
           <DialogDescription>
-            Update the role for <strong>{user.fullName}</strong>
+            {t('description', { fullName: user.fullName })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="space-y-2">
-            <Label htmlFor="role-select">New Role</Label>
+            <Label htmlFor="role-select">{t('label')}</Label>
             <Select
               value={selectedRole}
               onValueChange={(val) => setSelectedRole(val)}
@@ -87,16 +86,16 @@ export function ChangeRoleDialog({
                 data-testid="change-role-select"
                 className="rounded-xl border-border/80 text-[13px]"
               >
-                <SelectValue placeholder="Select a role" />
+                <SelectValue placeholder={t('placeholder')} />
               </SelectTrigger>
               <SelectContent>
-                {ASSIGNABLE_ROLES.map((r) => (
+                {ASSIGNABLE_ROLE_VALUES.map((value) => (
                   <SelectItem
-                    key={r.value}
-                    value={r.value}
-                    data-testid={`role-option-${r.value}`}
+                    key={value}
+                    value={value}
+                    data-testid={`role-option-${value}`}
                   >
-                    {r.label}
+                    {tRoles(value.toLowerCase() as 'vet' | 'assistant' | 'receptionist')}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -112,7 +111,7 @@ export function ChangeRoleDialog({
             disabled={isSubmitting}
             className="rounded-xl font-semibold border-border/80 hover:bg-muted"
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             data-testid="change-role-confirm-btn"
@@ -120,7 +119,7 @@ export function ChangeRoleDialog({
             disabled={isSubmitting}
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
           >
-            {isSubmitting ? "Saving..." : "Save Role"}
+            {isSubmitting ? t('saving') : t('save')}
           </Button>
         </DialogFooter>
       </DialogContent>

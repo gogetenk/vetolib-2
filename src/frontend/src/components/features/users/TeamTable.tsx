@@ -16,6 +16,7 @@ import { deactivateUser } from "@/lib/api/users"
 import type { UserDto, UserRole } from "@/lib/api/users"
 import { cn } from "@/lib/utils"
 import { Pencil } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 interface TeamTableProps {
   users: UserDto[]
@@ -57,6 +58,7 @@ export function TeamTable({
   onRoleChanged,
   onUserDeactivated,
 }: TeamTableProps) {
+  const t = useTranslations('team')
   const [changeRoleUser, setChangeRoleUser] = useState<UserDto | null>(null)
   const [deactivatingId, setDeactivatingId] = useState<string | null>(null)
 
@@ -65,10 +67,10 @@ export function TeamTable({
     setDeactivatingId(user.id)
     try {
       await deactivateUser(user.id)
-      toast.success(`${user.fullName} has been deactivated`)
+      toast.success(t('deactivate_success', { fullName: user.fullName }))
       onUserDeactivated(user.id)
     } catch {
-      toast.error("Failed to deactivate user")
+      toast.error(t('deactivate_error'))
     } finally {
       setDeactivatingId(null)
     }
@@ -80,9 +82,9 @@ export function TeamTable({
         <Table data-testid="team-table">
           <TableHeader>
             <TableRow className="bg-muted hover:bg-muted border-b border-border/50">
-              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">Collaborateurs</TableHead>
-              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">Niveau de visibilité</TableHead>
-              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-center">Statut</TableHead>
+              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">{t('columns.members')}</TableHead>
+              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">{t('columns.visibility')}</TableHead>
+              <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-center">{t('columns.status')}</TableHead>
               {isAdmin && <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-right w-24"></TableHead>}
             </TableRow>
           </TableHeader>
@@ -101,7 +103,7 @@ export function TeamTable({
                   </div>
                 </TableCell>
                 <TableCell className="px-4 py-3 text-[13px] text-muted-foreground font-medium">
-                  Tous détails
+                  {t('visibility_all')}
                 </TableCell>
                 <TableCell className="px-4 py-3 text-center">
                   <button

@@ -285,6 +285,40 @@
     },
     "errors": {
       "load_failed": "Échec du chargement des données patient. Veuillez réessayer."
+    },
+    "detail": {
+      "tabs": {
+        "medical_records": "Medical Records",
+        "prescriptions": "Prescriptions",
+        "vaccinations": "Vaccinations",
+        "health_alerts": "Health Alerts"
+      },
+      "weight_label": "Weight:",
+      "weight_not_recorded": "Not recorded",
+      "edit": "Edit",
+      "edit_patient": "Edit Patient",
+      "new_medical_record": "New Medical Record",
+      "owner": "Owner",
+      "not_found": "Patient not found.",
+      "vaccinations": {
+        "empty": "No vaccination records found.",
+        "columns": {
+          "vaccine": "Vaccine",
+          "date_given": "Date Given",
+          "next_due": "Next Due",
+          "vet": "Vet"
+        }
+      },
+      "prescriptions": {
+        "empty": "No prescriptions found.",
+        "columns": {
+          "medication": "Medication",
+          "dosage": "Dosage",
+          "duration": "Duration",
+          "vet_date": "Vet / Date",
+          "status": "Status"
+        }
+      }
     }
   },
   "drug_selector": {
@@ -318,6 +352,15 @@
     },
     "errors": {
       "load_failed": "Échec du chargement des dossiers médicaux."
+    },
+    "list": {
+      "empty": "No medical records found.",
+      "columns": {
+        "reason": "Reason",
+        "date": "Date",
+        "vitals": "Vitals",
+        "diagnosis": "Diagnosis"
+      }
     }
   },
   "billing": {
@@ -375,7 +418,8 @@
         "cancel_failed": "Échec de l'annulation de la facture",
         "delete_failed": "Échec de la suppression de la facture",
         "pdf_failed": "Échec du téléchargement du PDF"
-      }
+      },
+      "clinic_address": "Dubai, UAE"
     },
     "status": {
       "DRAFT": "Brouillon",
@@ -473,13 +517,70 @@
         "08": "Août",
         "09": "Sep."
       }
+    },
+    "errors": {
+      "load_clinic_data": "Failed to load clinic data",
+      "load_clinic_data_desc": "Could not retrieve your Vetara data.",
+      "load_stats": "Failed to load dashboard stats",
+      "load_stats_desc": "Could not retrieve clinic statistics.",
+      "load_activity": "Failed to load activity"
     }
   },
   "team": {
     "title": "Équipe",
     "subtitle": "Gérez les membres de votre équipe",
     "invite_member": "Inviter un membre",
-    "loading": "Chargement de l'équipe..."
+    "loading": "Chargement de l'équipe...",
+    "columns": {
+      "members": "Team Members",
+      "visibility": "Visibility Level",
+      "status": "Status"
+    },
+    "visibility_all": "Full access",
+    "change_role": {
+      "title": "Change Role",
+      "description": "Update the role for {fullName}",
+      "label": "New Role",
+      "placeholder": "Select a role",
+      "cancel": "Cancel",
+      "save": "Save Role",
+      "saving": "Saving...",
+      "success": "{fullName}'s role updated to {role}",
+      "error": "Failed to change role"
+    },
+    "invite": {
+      "title": "Invite Team Member",
+      "description": "Send an invitation to a new team member. They will receive a temporary password.",
+      "email_label": "Email",
+      "email_placeholder": "colleague@desertpaws.ae",
+      "fullname_label": "Full Name",
+      "fullname_placeholder": "Dr. Fatima Al-Zaabi",
+      "role_label": "Role",
+      "role_placeholder": "Select a role",
+      "cancel": "Cancel",
+      "submit": "Send Invite",
+      "submitting": "Sending...",
+      "success_title": "Invitation sent successfully!",
+      "success_password_hint": "Share this password securely — it won't be shown again.",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "done": "Done",
+      "errors": {
+        "email_invalid": "Please enter a valid email address",
+        "fullname_min": "Full name must be at least 2 characters",
+        "role_required": "Please select a role"
+      }
+    },
+    "roles": {
+      "vet": "Vet",
+      "assistant": "Assistant",
+      "receptionist": "Receptionist"
+    },
+    "deactivate_success": "{fullName} has been deactivated",
+    "deactivate_error": "Failed to deactivate user",
+    "errors": {
+      "load_failed": "Failed to load team members"
+    }
   },
   "stock": {
     "title": "Stock",
@@ -915,7 +1016,8 @@
     "loading": "Chargement...",
     "error": "Une erreur est survenue",
     "view": "Voir",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "toggle_sidebar": "Toggle Sidebar"
   },
   "user_menu": {
     "settings": "Paramètres",
@@ -1285,7 +1387,7 @@
   "portal": {
     "header": {
       "language": "Langue",
-      "arabic_label": "\u0639\u0631\u0628\u064a"
+      "arabic_label": "عربي"
     },
     "nav": {
       "conversations": "Conversations",
@@ -1476,7 +1578,8 @@
       },
       "recommendedSlots": {
         "title": "Créneaux recommandés",
-        "empty": "Aucune suggestion disponible pour le moment."
+        "empty": "Aucune suggestion disponible pour le moment.",
+        "load_error": "Unable to load suggestions. Please try again."
       },
       "confirmation": {
         "title": "Réservation confirmée !",
@@ -1815,6 +1918,70 @@
     "first_invoice_paid": {
       "title": "Première facture payée !",
       "description": "Revenus suivis automatiquement."
+    }
+  },
+  "health_alerts": {
+    "title": "Health Alerts",
+    "empty": "No active health alerts. All patients are up to date.",
+    "severity": {
+      "high": "High Priority",
+      "medium": "Medium Priority",
+      "low": "Low Priority"
+    },
+    "schedule_appointment": "Schedule Appointment",
+    "acknowledge": "Acknowledge",
+    "acknowledged": "Acknowledged",
+    "dismiss": "Dismiss",
+    "dismiss_dialog": {
+      "title": "Dismiss Health Alert",
+      "description": "Dismiss the alert \"{title}\" for {patientName}. Please provide a reason for dismissing this alert.",
+      "reason_label": "Reason",
+      "reason_placeholder": "e.g. Owner confirmed vaccination done at another clinic",
+      "cancel": "Cancel",
+      "dismiss": "Dismiss Alert",
+      "dismissing": "Dismissing...",
+      "success": "Alert dismissed for {patientName}",
+      "error": "Failed to dismiss alert"
+    },
+    "errors": {
+      "load_failed": "Failed to load health alerts",
+      "acknowledge_failed": "Failed to acknowledge alert",
+      "prepare_appointment_failed": "Failed to prepare appointment"
+    }
+  },
+  "medical_record_form": {
+    "title": "New Medical Record — {patientName}",
+    "reason_label": "Reason for Consultation",
+    "reason_placeholder": "e.g. Annual vaccination, Limping",
+    "anamnesis_label": "Anamnesis",
+    "anamnesis_placeholder": "Patient history, owner observations...",
+    "clinical_examination": "Clinical Examination",
+    "weight_label": "Weight (kg)",
+    "temperature_label": "Temperature (°C)",
+    "heart_rate_label": "Heart Rate (bpm)",
+    "diagnosis_label": "Diagnosis",
+    "diagnosis_placeholder": "Clinical findings and diagnosis...",
+    "treatment_label": "Treatment",
+    "treatment_placeholder": "Treatment plan, procedures performed...",
+    "generate_soap": "Generate SOAP Notes",
+    "prescription_label": "Prescription (optional)",
+    "next_visit_label": "Recommended Next Visit",
+    "next_visit_optional": "(optional)",
+    "override_confirmed": "Override confirmed. Justification recorded.",
+    "submit_blocked": "Provide justification for the critical alert above to enable saving.",
+    "submit_blocked_tooltip": "Provide clinical justification before saving",
+    "cancel": "Cancel",
+    "save": "Save Record",
+    "saving": "Saving...",
+    "errors": {
+      "save_failed": "Failed to save record. Please try again.",
+      "reason_required": "Reason is required",
+      "anamnesis_required": "Anamnesis is required",
+      "weight_positive": "Weight must be positive",
+      "temperature_range": "Temperature must be between 35 and 43°C",
+      "heart_rate_positive": "Heart rate must be positive",
+      "diagnosis_required": "Diagnosis is required",
+      "treatment_required": "Treatment is required"
     }
   }
 }

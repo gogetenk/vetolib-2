@@ -291,7 +291,7 @@ export function InvoiceDetail({ id }: InvoiceDetailProps) {
           </div>
           <div className="text-end text-[13px] text-muted-foreground">
             <p className="font-semibold text-foreground">Happy Paws Veterinary</p>
-            <p>Dubai, UAE</p>
+            <p>{t('clinic_address')}</p>
             <LtrText as="p">+971 4 000 0000</LtrText>
           </div>
         </CardContent>

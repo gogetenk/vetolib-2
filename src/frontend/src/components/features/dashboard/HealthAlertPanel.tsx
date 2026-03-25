@@ -9,6 +9,7 @@ import { getHealthAlerts, acknowledgeAlert, convertAlertToAppointment } from '@/
 import type { HealthAlertDto, AlertSeverity } from '@/lib/api/health-alerts'
 import { DismissAlertDialog } from '@/components/features/dashboard/DismissAlertDialog'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 function severityIcon(severity: AlertSeverity) {
   switch (severity) {
@@ -32,18 +33,8 @@ function severityBadgeVariant(severity: AlertSeverity): 'destructive' | 'default
   }
 }
 
-function severityLabel(severity: AlertSeverity): string {
-  switch (severity) {
-    case 'High':
-      return 'High Priority'
-    case 'Medium':
-      return 'Medium Priority'
-    case 'Low':
-      return 'Low Priority'
-  }
-}
-
 export function HealthAlertPanel() {
+  const t = useTranslations('health_alerts')
   const router = useRouter()
   const [alerts, setAlerts] = useState<HealthAlertDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -56,31 +47,31 @@ export function HealthAlertPanel() {
       .catch(() => {
         if (!cancelled) {
           setAlerts([])
-          toast.error('Failed to load health alerts')
+          toast.error(t('errors.load_failed'))
         }
       })
       .finally(() => { if (!cancelled) setIsLoading(false) })
     return () => { cancelled = true }
-  }, [])
+  }, [t])
 
   const handleAcknowledge = useCallback(async (alert: HealthAlertDto) => {
     try {
       await acknowledgeAlert(alert.id)
       setAlerts(prev => prev.map(a => a.id === alert.id ? { ...a, status: 'Acknowledged' as const } : a))
-      toast.success(`Alert acknowledged for ${alert.patientName}`)
+      toast.success(t('dismiss_dialog.success', { patientName: alert.patientName }))
     } catch {
-      toast.error('Failed to acknowledge alert')
+      toast.error(t('errors.acknowledge_failed'))
     }
-  }, [])
+  }, [t])
 
   const handleConvertToAppointment = useCallback(async (alert: HealthAlertDto) => {
     try {
       const preFill = await convertAlertToAppointment(alert.id)
       router.push(`/appointments/new?patientId=${preFill.patientId}&reason=${encodeURIComponent(preFill.reason)}`)
     } catch {
-      toast.error('Failed to prepare appointment')
+      toast.error(t('errors.prepare_appointment_failed'))
     }
-  }, [router])
+  }, [router, t])
 
   const handleDismissConfirm = useCallback(() => {
     if (!dismissingAlert) return
@@ -115,10 +106,10 @@ export function HealthAlertPanel() {
       >
         <div className="flex items-center gap-2 mb-2">
           <ShieldAlert className="h-5 w-5 text-muted-foreground" />
-          <h2 className="text-base font-semibold text-foreground">Health Alerts</h2>
+          <h2 className="text-base font-semibold text-foreground">{t('title')}</h2>
         </div>
         <p className="text-sm text-muted-foreground" data-testid="health-alerts-empty">
-          No active health alerts. All patients are up to date.
+          {t('empty')}
         </p>
       </div>
     )
@@ -132,7 +123,7 @@ export function HealthAlertPanel() {
       <div className="flex items-center justify-between p-4 border-b border-border/50">
         <div className="flex items-center gap-2">
           <ShieldAlert className="h-5 w-5 text-foreground" />
-          <h2 className="text-base font-semibold text-foreground">Health Alerts</h2>
+          <h2 className="text-base font-semibold text-foreground">{t('title')}</h2>
           <Badge
             variant="destructive"
             data-testid="health-alerts-count-badge"
@@ -151,7 +142,7 @@ export function HealthAlertPanel() {
               <div className="flex items-center gap-2 px-4 py-2 bg-muted/50">
                 {severityIcon(severity)}
                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  {severityLabel(severity)}
+                  {t(`severity.${severity.toLowerCase()}`)}
                 </span>
                 <Badge variant={severityBadgeVariant(severity)} className="text-[10px]">
                   {items.length}
@@ -177,7 +168,7 @@ export function HealthAlertPanel() {
                       {alert.status === 'Acknowledged' && (
                         <Badge variant="outline" className="text-[10px]" data-testid={`alert-acknowledged-badge-${alert.id}`}>
                           <CheckCircle className="h-3 w-3 mr-1" />
-                          Acknowledged
+                          {t('acknowledged')}
                         </Badge>
                       )}
                     </div>
@@ -203,7 +194,7 @@ export function HealthAlertPanel() {
                       className="text-xs"
                     >
                       <CalendarPlus className="h-3.5 w-3.5 mr-1" />
-                      Schedule Appointment
+                      {t('schedule_appointment')}
                     </Button>
                     {alert.status !== 'Acknowledged' && (
                       <Button
@@ -214,7 +205,7 @@ export function HealthAlertPanel() {
                         className="text-xs"
                       >
                         <CheckCircle className="h-3.5 w-3.5 mr-1" />
-                        Acknowledge
+                        {t('acknowledge')}
                       </Button>
                     )}
                     <Button
@@ -225,7 +216,7 @@ export function HealthAlertPanel() {
                       className="text-xs text-muted-foreground"
                     >
                       <XCircle className="h-3.5 w-3.5 mr-1" />
-                      Dismiss
+                      {t('dismiss')}
                     </Button>
                   </div>
                 </div>

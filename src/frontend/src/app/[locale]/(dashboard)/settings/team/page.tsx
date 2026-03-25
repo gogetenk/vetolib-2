@@ -113,7 +113,7 @@ export default function TeamPage() {
       ) : error ? (
         <ErrorState
           data-testid="team-error"
-          title="Failed to load team members"
+          title={t('errors.load_failed')}
           description={error}
           onRetry={loadUsers}
         />

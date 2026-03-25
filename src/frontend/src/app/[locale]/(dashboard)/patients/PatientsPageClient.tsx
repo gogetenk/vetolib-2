@@ -41,7 +41,7 @@ export default function PatientsPageClient() {
       setCurrentPage(result.page)
       return result.items.length
     } catch {
-      setError('Failed to load patients')
+      setError(t('errors.load_failed'))
       setPatients([])
       setTotalCount(0)
       return 0
@@ -136,7 +136,7 @@ export default function PatientsPageClient() {
       ) : error ? (
         <ErrorState
           data-testid="patients-error"
-          title="Failed to load patients"
+          title={t('errors.load_failed')}
           description={error}
           onRetry={() => fetchPatients(searchQuery)}
         />

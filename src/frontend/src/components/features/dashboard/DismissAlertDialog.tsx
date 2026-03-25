@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { dismissAlert } from '@/lib/api/health-alerts'
 import type { HealthAlertDto } from '@/lib/api/health-alerts'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 interface DismissAlertDialogProps {
   alert: HealthAlertDto | null
@@ -23,6 +24,7 @@ interface DismissAlertDialogProps {
 }
 
 export function DismissAlertDialog({ alert, onConfirm, onCancel }: DismissAlertDialogProps) {
+  const t = useTranslations('health_alerts.dismiss_dialog')
   const [reason, setReason] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -31,11 +33,11 @@ export function DismissAlertDialog({ alert, onConfirm, onCancel }: DismissAlertD
     setIsSubmitting(true)
     try {
       await dismissAlert(alert.id, reason.trim())
-      toast.success(`Alert dismissed for ${alert.patientName}`)
+      toast.success(t('success', { patientName: alert.patientName }))
       setReason('')
       onConfirm()
     } catch {
-      toast.error('Failed to dismiss alert')
+      toast.error(t('error'))
     } finally {
       setIsSubmitting(false)
     }
@@ -53,19 +55,18 @@ export function DismissAlertDialog({ alert, onConfirm, onCancel }: DismissAlertD
     >
       <DialogContent data-testid="dismiss-alert-dialog">
         <DialogHeader>
-          <DialogTitle>Dismiss Health Alert</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>
-            Dismiss the alert &quot;{alert?.title}&quot; for {alert?.patientName}.
-            Please provide a reason for dismissing this alert.
+            {t('description', { title: alert?.title ?? '', patientName: alert?.patientName ?? '' })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-2">
-          <Label htmlFor="dismiss-reason">Reason</Label>
+          <Label htmlFor="dismiss-reason">{t('reason_label')}</Label>
           <Textarea
             id="dismiss-reason"
             data-testid="dismiss-reason-input"
-            placeholder="e.g. Owner confirmed vaccination done at another clinic"
+            placeholder={t('reason_placeholder')}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             rows={3}
@@ -78,7 +79,7 @@ export function DismissAlertDialog({ alert, onConfirm, onCancel }: DismissAlertD
             onClick={handleClose}
             data-testid="dismiss-cancel-btn"
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             variant="destructive"
@@ -86,7 +87,7 @@ export function DismissAlertDialog({ alert, onConfirm, onCancel }: DismissAlertD
             disabled={!reason.trim() || isSubmitting}
             data-testid="dismiss-confirm-btn"
           >
-            {isSubmitting ? 'Dismissing...' : 'Dismiss Alert'}
+            {isSubmitting ? t('dismissing') : t('dismiss')}
           </Button>
         </DialogFooter>
       </DialogContent>
