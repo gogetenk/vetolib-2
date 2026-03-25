@@ -147,8 +147,7 @@ public static class ModuleServiceRegistrar
 
     public static IEndpointRouteBuilder MapAIEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapAIApiEndpoints();
-        app.MapHealthAlertEndpoints();
+        app.MapAIApiEndpoints(); // This already calls MapHealthAlertEndpoints() internally
         return app;
     }
 }

@@ -69,6 +69,7 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
         try { await agendaCreator.CreateTablesAsync(); } catch { }
 
         var billingDb = scope.ServiceProvider.GetRequiredService<BillingDbContext>();
+        try { await billingDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS billing"); } catch { }
         var billingCreator = billingDb.GetService<IRelationalDatabaseCreator>()!;
         try { await billingCreator.CreateTablesAsync(); } catch { }
 
@@ -81,10 +82,12 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
         try { await auditCreator.CreateTablesAsync(); } catch { }
 
         var notificationsDb = scope.ServiceProvider.GetRequiredService<NotificationsDbContext>();
+        try { await notificationsDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS notifications"); } catch { }
         var notificationsCreator = notificationsDb.GetService<IRelationalDatabaseCreator>()!;
         try { await notificationsCreator.CreateTablesAsync(); } catch { }
 
         var stockDb = scope.ServiceProvider.GetRequiredService<StockDbContext>();
+        try { await stockDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS stock"); } catch { }
         var stockCreator = stockDb.GetService<IRelationalDatabaseCreator>()!;
         try { await stockCreator.CreateTablesAsync(); } catch { }
 
@@ -190,9 +193,14 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
             var massTransitDescriptors = services
                 .Where(d =>
                 {
+                    // Check ServiceType namespace
                     var ns = d.ServiceType.Namespace;
-                    if (ns is not null)
-                        return ns.StartsWith("MassTransit", StringComparison.Ordinal);
+                    if (ns is not null && ns.StartsWith("MassTransit", StringComparison.Ordinal))
+                        return true;
+                    // Check ImplementationType namespace (catches outbox services registered as IHostedService)
+                    var implNs = d.ImplementationType?.Namespace;
+                    if (implNs is not null && implNs.StartsWith("MassTransit", StringComparison.Ordinal))
+                        return true;
                     // Fallback for types with null namespace: use FullName prefix
                     var fullName = d.ServiceType.FullName ?? string.Empty;
                     return fullName.StartsWith("MassTransit.", StringComparison.Ordinal);

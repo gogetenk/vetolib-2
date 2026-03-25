@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.RateLimiting;
@@ -134,6 +135,25 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             foreach (var d in triageDescriptors)
                 services.Remove(d);
             services.AddScoped<IMessageTriageService, FakeMessageTriageService>();
+
+            // Replace MassTransit with InMemory test harness to avoid outbox DI errors.
+            var massTransitDescriptors = services
+                .Where(d =>
+                {
+                    var ns = d.ServiceType.Namespace;
+                    if (ns is not null && ns.StartsWith("MassTransit", StringComparison.Ordinal))
+                        return true;
+                    var implNs = d.ImplementationType?.Namespace;
+                    if (implNs is not null && implNs.StartsWith("MassTransit", StringComparison.Ordinal))
+                        return true;
+                    var fullName = d.ServiceType.FullName ?? string.Empty;
+                    return fullName.StartsWith("MassTransit.", StringComparison.Ordinal);
+                })
+                .ToList();
+            foreach (var d in massTransitDescriptors)
+                services.Remove(d);
+
+            services.AddMassTransitTestHarness();
 
             // Re-wire audit interceptors for MedicalRecordsDbContext so that the audit trail
             // is populated during acceptance tests (the descriptor removal above strips them).
