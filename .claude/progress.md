@@ -2,7 +2,84 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
-## 2026-03-23 -- Forge cycle (BACKLOG CLEARED — 13 PRs merged)
+## 2026-03-25 -- Architecture validation: Breeders features (12 tasks created)
+
+- TODO: 12 (breeders) + 2 (post-MVP)
+- WIP: 0
+- DONE: 230 files
+- PRs en review: 1 (#96 draft PageContainer)
+- Questions PO: 12 ouvertes
+- develop CI: GREEN localement (822 TU + 127 BDD + 29 TI)
+
+### Architecture validation
+
+**Status: OK -- no blocking issues**
+
+Validated against archi-spec.md and CLAUDE.md rules:
+- Ardalis modular monolith (2 assemblies per module): CONFORME
+- Ardalis.Result partout: CONFORME (all factories return Result<T>)
+- Multi-tenancy (ClinicId global query filter): CONFORME (all entities implement IMultiTenant)
+- No Shared/ modification: CONFORME (no changes needed to Shared/)
+- Phase 1 in MedicalRecords: CONFORME
+- Phase 2 in new Breeding module: CONFORME
+- Inter-module communication via Contracts only: CONFORME (IPatientReader already exists)
+- Minimal APIs only: CONFORME
+- BDD-first: CONFORME (53 scenarios in 6 .feature files)
+
+### Architecture notes
+
+1. **PatientDto needs extension**: current PatientDto lacks Sex and MicrochipNumber fields. Task 001 adds these.
+2. **IPatientReader extension**: needs `GetPatientByIdAsync()` method for Breeding module validation. Included in scaffold task 007.
+3. **MODIF_GELE required**: Breeding scaffold (task 007) modifies frozen `Vetolib.Api/Program.cs` -- flagged with MODIF_SHARED authorization.
+4. **No FK cross-module**: Breeding entities reference PatientId as Guid, no FK constraint to MedicalRecords tables (correct per modular monolith pattern).
+5. **Offspring creation**: AddOffspring creates a Patient in MedicalRecords. Needs IPatientCreator interface in MedicalRecords.Contracts or MediatR command forwarding.
+
+### Tasks created
+
+| # | Task | Module | Priority | Dependencies |
+|---|---|---|---|---|
+| 001 | Sex enum + field | MedicalRecords | Critique | aucune |
+| 002 | MicrochipNumber field | MedicalRecords | Critique | aucune |
+| 003 | Species enum expansion | MedicalRecords | Haute | aucune |
+| 004 | Weight history | MedicalRecords | Haute | 001, 002, 003 |
+| 005 | Frontend patient extended | Frontend | Haute | 001, 002, 003 |
+| 006 | Frontend weight chart | Frontend | Haute | 004 |
+| 007 | Breeding module scaffold | Breeding | Critique | 001 |
+| 008 | Litter entity + endpoints | Breeding | Haute | 007 |
+| 009 | Lineage + pedigree | Breeding | Haute | 007, 008 |
+| 010 | Pregnancy tracking | Breeding | Haute | 007 |
+| 011 | HeatCycle tracking | Breeding | Moyenne | 007 |
+| 012 | Frontend breeding dashboard | Frontend | Moyenne | 008, 009, 010, 011 |
+
+### Dispatch graph (recommended parallelism)
+
+```
+WAVE 1 (parallel):  001 + 002 + 003
+                        |
+WAVE 2 (parallel):  004 + 005 + 007
+                        |
+WAVE 3 (parallel):  006 + 008 + 010 + 011
+                        |
+WAVE 4:             009
+                        |
+WAVE 5:             012
+```
+
+### Gherkin coverage
+
+| Feature file | Scenarios | Status |
+|---|---|---|
+| PatientExtendedFields.feature | 11 | @wip, ready |
+| WeightHistory.feature | 8 | @wip, ready |
+| Litter.feature | 9 | @wip, ready |
+| Lineage.feature | 6 | @wip, ready |
+| Pregnancy.feature | 11 | @wip, ready |
+| HeatCycle.feature | 8 | @wip, ready |
+| **Total** | **53** | |
+
+---
+
+## 2026-03-23 -- Forge cycle (BACKLOG CLEARED -- 13 PRs merged)
 
 - TODO: 0
 - WIP: 0
@@ -10,10 +87,10 @@ _Mis a jour par l'orchestrator a chaque cycle._
 - PRs en review: 1 (#96 draft PageContainer)
 - Questions PO: 12 ouvertes
 - develop CI: GREEN localement (822 TU + 127 BDD + 29 TI)
-- **BACKLOG ENTIÈREMENT VIDÉ**
+- **BACKLOG ENTIEREMENT VIDE**
 
-### PRs mergées cette session (13 total)
-| PR | Tâche | Description |
+### PRs mergees cette session (13 total)
+| PR | Tache | Description |
 |---|---|---|
 | #139 | fix-bdd-tests-ci | Fix 24 BDD tests (scope, deserialization, i18n) |
 | #140 | back-billing-multi-currency-002 | Devise configurable (CurrencyCode) |
@@ -24,15 +101,15 @@ _Mis a jour par l'orchestrator a chaque cycle._
 | #145 | front-predictive-health-001 | Health Alerts dashboard MSW + 7 Playwright |
 | #146 | back-predictive-health-002 | IPatientAlertDataReader implementation |
 | #147 | back-predictive-health-003 | Health alerts API endpoints + CQRS (20 TU) |
-| #148 | back-billing-facturx-gen-005 | Générateur Factur-X PDF/A-3 + XML CII |
+| #148 | back-billing-facturx-gen-005 | Generateur Factur-X PDF/A-3 + XML CII |
 | #149 | back-predictive-health-004 | Background job + alert generation (8 TU) |
 | #150 | back-billing-einvoicing-gateway-007 | E-invoicing gateway + mock PDP (13 TU) |
-| #151 | back-billing-ereporting-009 | E-reporting B2C périodique (16 TU) |
+| #151 | back-billing-ereporting-009 | E-reporting B2C periodique (16 TU) |
 
 ### Statistiques session
-- 13 PRs mergées
-- ~150 nouveaux TU (628 → 822)
-- 2 features complètes : Billing e-invoicing FR + Predictive Health Alerts
+- 13 PRs mergees
+- ~150 nouveaux TU (628 -> 822)
+- 2 features completes : Billing e-invoicing FR + Predictive Health Alerts
 - 1 refacto critique (MassTransit outbox)
 - 1 fix CI (WhatsApp EncryptionKey)
 
