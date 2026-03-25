@@ -2,38 +2,39 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
-## 2026-03-23 -- Forge cycle (CI fix + dispatch prep)
+## 2026-03-23 -- Forge cycle (BACKLOG CLEARED — 13 PRs merged)
 
-- TODO: 12 (6 billing, 4 predictive-health, 1 front-predictive-health, 1 refacto)
-- WIP: 1 (fix-bdd-tests-ci agent)
-- DONE: 234+
-- Agents actifs: 1 (fix 24 BDD tests cassés — worktree)
+- TODO: 0
+- WIP: 0
+- DONE: 230 files
 - PRs en review: 1 (#96 draft PageContainer)
 - Questions PO: 12 ouvertes
-- develop CI: RED (BDD tests — fix agent dispatché)
-- Disputes: 0
+- develop CI: GREEN localement (822 TU + 127 BDD + 29 TI)
+- **BACKLOG ENTIÈREMENT VIDÉ**
 
-### Actions effectuées
-- Fix WhatsApp EncryptionKey crash (ASPNETCORE_ENVIRONMENT vide en CI) — poussé sur develop
-- Integration tests: 29/29 GREEN (fix confirmé)
-- BDD tests: 103/127 GREEN, 24 RED (pré-existants, masqués par le crash WhatsApp)
-  - TeamManagementSteps: JSON deserialization `List<UserListItemDto>` vs `UserPagedResultDto`
-  - Appointment conflict: message en français au lieu d'anglais
-  - ~21 Auth tests: échec rapide (cause à investiguer)
-- Agent dev dispatché en worktree pour fixer les 24 BDD tests
-
-### Tâches prêtes au dispatch (bloquées par CI RED)
-| Tâche | Module | Prête |
+### PRs mergées cette session (13 total)
+| PR | Tâche | Description |
 |---|---|---|
-| back-billing-multi-tax-001 | Billing | OUI |
-| back-billing-multi-currency-002 | Billing | OUI |
-| back-billing-invoice-fields-003 | Billing | OUI |
-| back-predictive-health-001 | AI | OUI |
-| front-predictive-health-001 | Frontend (MSW) | OUI |
-| refacto-20260321-003 | Cross-module | OUI |
+| #139 | fix-bdd-tests-ci | Fix 24 BDD tests (scope, deserialization, i18n) |
+| #140 | back-billing-multi-currency-002 | Devise configurable (CurrencyCode) |
+| #141 | back-billing-invoice-fields-003 | Champs e-invoicing EN16931 (11 champs) |
+| #142 | back-billing-multi-tax-001 | TVA multi-pays (TaxCategory, ICountryTaxResolver) |
+| #143 | refacto-outbox-003 | MassTransit outbox (3 modules) |
+| #144 | back-predictive-health-001 | HealthAlert domain + 10 rules + 76 TU |
+| #145 | front-predictive-health-001 | Health Alerts dashboard MSW + 7 Playwright |
+| #146 | back-predictive-health-002 | IPatientAlertDataReader implementation |
+| #147 | back-predictive-health-003 | Health alerts API endpoints + CQRS (20 TU) |
+| #148 | back-billing-facturx-gen-005 | Générateur Factur-X PDF/A-3 + XML CII |
+| #149 | back-predictive-health-004 | Background job + alert generation (8 TU) |
+| #150 | back-billing-einvoicing-gateway-007 | E-invoicing gateway + mock PDP (13 TU) |
+| #151 | back-billing-ereporting-009 | E-reporting B2C périodique (16 TU) |
 
-### Prochaine action
-Attendre que l'agent BDD fix termine → merger sa PR → vérifier develop GREEN → dispatcher les 6 tâches prêtes en parallèle.
+### Statistiques session
+- 13 PRs mergées
+- ~150 nouveaux TU (628 → 822)
+- 2 features complètes : Billing e-invoicing FR + Predictive Health Alerts
+- 1 refacto critique (MassTransit outbox)
+- 1 fix CI (WhatsApp EncryptionKey)
 
 ## 2026-03-12 -- Forge cycle (QA calendar validation)
 
