@@ -1,5 +1,6 @@
 using MassTransit;
 using Microsoft.AspNetCore.RateLimiting;
+using Vetolib.Api;
 using Sentry.OpenTelemetry;
 using Sentry.Serilog;
 using Serilog;
@@ -266,6 +267,11 @@ app.MapStockEndpoints();
 app.MapPreferencesEndpoints();
 
 app.MapOpenApi();
+
+// Database initialization — migrations + seed data
+await DbInitializer.MigrateAllAsync(app.Services);
+await DbInitializer.SeedAsync(app.Services);
+await DbInitializer.SeedDrugCatalogAsync(app.Services);
 
 app.Run();
 
