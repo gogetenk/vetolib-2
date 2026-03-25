@@ -32,6 +32,7 @@ import type {
   StockAlternativeDto,
 } from '@/lib/api/types'
 import type { Species } from '@/lib/api/patients'
+import { useTranslations } from 'next-intl'
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -69,6 +70,7 @@ export function MedicalRecordForm({
   patientWeightKg,
 }: MedicalRecordFormProps) {
   const router = useRouter()
+  const t = useTranslations('medical_record_form')
   const [serverError, setServerError] = useState<string | null>(null)
 
   // Drug selection state
@@ -265,7 +267,7 @@ export function MedicalRecordForm({
       })
       router.push(`/patients/${patientId}`)
     } catch {
-      setServerError('Failed to save record. Please try again.')
+      setServerError(t('errors.save_failed'))
     }
   }
 
@@ -274,7 +276,7 @@ export function MedicalRecordForm({
   return (
     <Card className="border-border/80 shadow-sm" data-testid="medical-record-form">
       <CardHeader>
-        <CardTitle className="text-[18px] font-bold text-foreground">New Medical Record — {patientName}</CardTitle>
+        <CardTitle className="text-[18px] font-bold text-foreground">{t('title', { patientName })}</CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -285,10 +287,10 @@ export function MedicalRecordForm({
         >
           {/* Reason */}
           <div className="space-y-2">
-            <Label htmlFor="reason" className="text-[13px] font-semibold text-foreground">Reason for Consultation</Label>
+            <Label htmlFor="reason" className="text-[13px] font-semibold text-foreground">{t('reason_label')}</Label>
             <Input
               id="reason"
-              placeholder="e.g. Annual vaccination, Limping"
+              placeholder={t('reason_placeholder')}
               data-testid="input-reason"
               aria-invalid={!!errors.reason}
               className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
@@ -303,11 +305,11 @@ export function MedicalRecordForm({
 
           {/* Anamnesis */}
           <div className="space-y-2">
-            <Label htmlFor="anamnesis" className="text-[13px] font-semibold text-foreground">Anamnesis</Label>
+            <Label htmlFor="anamnesis" className="text-[13px] font-semibold text-foreground">{t('anamnesis_label')}</Label>
             <Textarea
               id="anamnesis"
               rows={4}
-              placeholder="Patient history, owner observations..."
+              placeholder={t('anamnesis_placeholder')}
               data-testid="input-anamnesis"
               aria-invalid={!!errors.anamnesis}
               className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
@@ -322,10 +324,10 @@ export function MedicalRecordForm({
 
           {/* Clinical exam */}
           <fieldset className="space-y-3">
-            <legend className="text-[13px] font-bold text-foreground">Clinical Examination</legend>
+            <legend className="text-[13px] font-bold text-foreground">{t('clinical_examination')}</legend>
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="weight" className="text-[13px] font-semibold text-foreground">Weight (kg)</Label>
+                <Label htmlFor="weight" className="text-[13px] font-semibold text-foreground">{t('weight_label')}</Label>
                 <Input
                   id="weight"
                   type="number"
@@ -343,7 +345,7 @@ export function MedicalRecordForm({
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="temperature" className="text-[13px] font-semibold text-foreground">Temperature (°C)</Label>
+                <Label htmlFor="temperature" className="text-[13px] font-semibold text-foreground">{t('temperature_label')}</Label>
                 <Input
                   id="temperature"
                   type="number"
@@ -361,7 +363,7 @@ export function MedicalRecordForm({
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="heartRate" className="text-[13px] font-semibold text-foreground">Heart Rate (bpm)</Label>
+                <Label htmlFor="heartRate" className="text-[13px] font-semibold text-foreground">{t('heart_rate_label')}</Label>
                 <Input
                   id="heartRate"
                   type="number"
@@ -382,11 +384,11 @@ export function MedicalRecordForm({
 
           {/* Diagnosis */}
           <div className="space-y-2">
-            <Label htmlFor="diagnosis" className="text-[13px] font-semibold text-foreground">Diagnosis</Label>
+            <Label htmlFor="diagnosis" className="text-[13px] font-semibold text-foreground">{t('diagnosis_label')}</Label>
             <Textarea
               id="diagnosis"
               rows={3}
-              placeholder="Clinical findings and diagnosis..."
+              placeholder={t('diagnosis_placeholder')}
               data-testid="input-diagnosis"
               aria-invalid={!!errors.diagnosis}
               className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
@@ -401,11 +403,11 @@ export function MedicalRecordForm({
 
           {/* Treatment */}
           <div className="space-y-2">
-            <Label htmlFor="treatment" className="text-[13px] font-semibold text-foreground">Treatment</Label>
+            <Label htmlFor="treatment" className="text-[13px] font-semibold text-foreground">{t('treatment_label')}</Label>
             <Textarea
               id="treatment"
               rows={3}
-              placeholder="Treatment plan, procedures performed..."
+              placeholder={t('treatment_placeholder')}
               data-testid="input-treatment"
               aria-invalid={!!errors.treatment}
               className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
@@ -428,7 +430,7 @@ export function MedicalRecordForm({
                 data-testid="open-soap-btn"
                 className="rounded-xl font-semibold border-blue-200 text-blue-700 hover:bg-blue-50"
               >
-                Generate SOAP Notes
+                {t('generate_soap')}
               </Button>
             )}
             <SoapNotesPanel
@@ -448,7 +450,7 @@ export function MedicalRecordForm({
           {/* Prescription (optional) — Drug Selector + preflight results */}
           <div className="space-y-3" data-testid="prescription-section">
             <DrugSelector
-              label="Prescription (optional)"
+              label={t('prescription_label')}
               onChange={handleDrugChange}
               defaultValue={drugSelection}
             />
@@ -496,7 +498,7 @@ export function MedicalRecordForm({
                 data-testid="override-confirmed-notice"
                 role="status"
               >
-                Override confirmed. Justification recorded.
+                {t('override_confirmed')}
               </p>
             )}
 
@@ -523,7 +525,7 @@ export function MedicalRecordForm({
           {/* Next visit (optional) */}
           <div className="space-y-2">
             <Label htmlFor="nextVisitDate" className="text-[13px] font-semibold text-foreground">
-              Recommended Next Visit <span className="text-muted-foreground font-normal">(optional)</span>
+              {t('next_visit_label')} <span className="text-muted-foreground font-normal">{t('next_visit_optional')}</span>
             </Label>
             <Input
               id="nextVisitDate"
@@ -551,7 +553,7 @@ export function MedicalRecordForm({
                 data-testid="submit-blocked-notice"
                 role="status"
               >
-                Provide justification for the critical alert above to enable saving.
+                {t('submit_blocked')}
               </p>
             )}
             <Button
@@ -561,16 +563,16 @@ export function MedicalRecordForm({
               data-testid="cancel-record-btn"
               className="rounded-xl font-semibold border-border/80 hover:bg-muted"
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting || isSubmitBlocked}
               data-testid="save-record-btn"
-              title={isSubmitBlocked ? 'Provide clinical justification before saving' : undefined}
+              title={isSubmitBlocked ? t('submit_blocked_tooltip') : undefined}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
             >
-              {isSubmitting ? 'Saving...' : 'Save Record'}
+              {isSubmitting ? t('saving') : t('save')}
             </Button>
           </div>
         </form>

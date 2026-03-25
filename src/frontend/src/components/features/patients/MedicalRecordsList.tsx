@@ -2,6 +2,7 @@
 
 import { Syringe, Stethoscope, Scissors, AlertTriangle, FileText } from 'lucide-react'
 import type { MedicalRecordDto } from '@/lib/api/medical-records'
+import { useTranslations } from 'next-intl'
 
 function formatDateTime(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-AE', {
@@ -111,6 +112,8 @@ function MedicalRecordRow({ record }: { record: MedicalRecordDto }) {
 }
 
 export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListProps) {
+  const t = useTranslations('medical_records.list')
+
   if (isLoading) {
     return (
       <div data-testid="medical-records-loading" className="space-y-3">
@@ -127,7 +130,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
         className="text-muted-foreground text-[13px] py-8 text-center animate-in fade-in duration-300"
         data-testid="medical-records-empty"
       >
-        No medical records found.
+        {t('empty')}
       </p>
     )
   }
@@ -136,10 +139,10 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
     <div data-testid="medical-records-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full animate-in fade-in duration-300">
       {/* Header row */}
       <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 ps-5 py-3 bg-muted border-b border-border/50">
-        <span>Reason</span>
-        <span>Date</span>
-        <span>Vitals</span>
-        <span>Diagnosis</span>
+        <span>{t('columns.reason')}</span>
+        <span>{t('columns.date')}</span>
+        <span>{t('columns.vitals')}</span>
+        <span>{t('columns.diagnosis')}</span>
       </div>
       {records.map((record) => (
         <MedicalRecordRow key={record.id} record={record} />

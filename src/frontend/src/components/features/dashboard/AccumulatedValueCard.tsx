@@ -10,6 +10,7 @@ import { Users, FileText, Receipt, CalendarCheck } from 'lucide-react'
 
 export function AccumulatedValueCard() {
   const t = useTranslations('dashboard.accumulated_value')
+  const tErr = useTranslations('dashboard.errors')
   const [data, setData] = useState<AccumulatedValueDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -34,8 +35,8 @@ export function AccumulatedValueCard() {
     return (
       <ErrorState
         data-testid="accumulated-value-error"
-        title="Failed to load clinic data"
-        description="Could not retrieve your Vetara data."
+        title={tErr('load_clinic_data')}
+        description={tErr('load_clinic_data_desc')}
         onRetry={load}
       />
     )

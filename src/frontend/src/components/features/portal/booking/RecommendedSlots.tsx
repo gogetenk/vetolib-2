@@ -141,7 +141,7 @@ export function RecommendedSlots({
         className="flex items-center gap-2 text-xs text-destructive py-1"
         data-testid="recommended-slots-error"
       >
-        <span>Unable to load suggestions. Please try again.</span>
+        <span>{t('load_error')}</span>
         <button
           type="button"
           onClick={handleRetry}

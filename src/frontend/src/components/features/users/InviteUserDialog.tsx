@@ -25,6 +25,7 @@ import {
 import { inviteUser } from "@/lib/api/users"
 import type { UserDto } from "@/lib/api/users"
 import { trackEvent, AnalyticsEvents } from "@/lib/analytics"
+import { useTranslations } from "next-intl"
 
 const inviteSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -47,6 +48,8 @@ export function InviteUserDialog({
   onOpenChange,
   onUserInvited,
 }: InviteUserDialogProps) {
+  const t = useTranslations('team.invite')
+  const tRoles = useTranslations('team.roles')
   const [temporaryPassword, setTemporaryPassword] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
 
@@ -93,9 +96,9 @@ export function InviteUserDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="rounded-xl" data-testid="invite-user-dialog">
         <DialogHeader>
-          <DialogTitle className="text-[18px] font-bold text-foreground">Invite Team Member</DialogTitle>
+          <DialogTitle className="text-[18px] font-bold text-foreground">{t('title')}</DialogTitle>
           <DialogDescription>
-            Send an invitation to a new team member. They will receive a temporary password.
+            {t('description')}
           </DialogDescription>
         </DialogHeader>
 
@@ -107,10 +110,10 @@ export function InviteUserDialog({
               className="rounded-xl border border-amber-200 bg-amber-50 p-4 space-y-3"
             >
               <p className="text-sm font-semibold text-amber-800">
-                Invitation sent successfully!
+                {t('success_title')}
               </p>
               <p className="text-xs text-amber-700">
-                Share this password securely — it won&apos;t be shown again.
+                {t('success_password_hint')}
               </p>
               <div className="flex items-center gap-2">
                 <code
@@ -126,7 +129,7 @@ export function InviteUserDialog({
                   onClick={handleCopy}
                   className="rounded-xl font-semibold border-border/80"
                 >
-                  {copied ? "Copied!" : "Copy"}
+                  {copied ? t('copied') : t('copy')}
                 </Button>
               </div>
             </div>
@@ -136,7 +139,7 @@ export function InviteUserDialog({
                 onClick={handleClose}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
-                Done
+                {t('done')}
               </Button>
             </DialogFooter>
           </div>
@@ -146,12 +149,12 @@ export function InviteUserDialog({
             <div className="space-y-4 py-2">
               <div className="space-y-2">
                 <Label htmlFor="invite-email">
-                  Email <span className="text-destructive">*</span>
+                  {t('email_label')} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="invite-email"
                   type="email"
-                  placeholder="colleague@desertpaws.ae"
+                  placeholder={t('email_placeholder')}
                   data-testid="invite-email-input"
                   aria-invalid={!!errors.email}
                   className="rounded-xl border-border/80 text-[13px]"
@@ -166,12 +169,12 @@ export function InviteUserDialog({
 
               <div className="space-y-2">
                 <Label htmlFor="invite-fullname">
-                  Full Name <span className="text-destructive">*</span>
+                  {t('fullname_label')} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="invite-fullname"
                   type="text"
-                  placeholder="Dr. Fatima Al-Zaabi"
+                  placeholder={t('fullname_placeholder')}
                   data-testid="invite-fullname-input"
                   aria-invalid={!!errors.fullName}
                   className="rounded-xl border-border/80 text-[13px]"
@@ -186,7 +189,7 @@ export function InviteUserDialog({
 
               <div className="space-y-2">
                 <Label htmlFor="invite-role">
-                  Role <span className="text-destructive">*</span>
+                  {t('role_label')} <span className="text-destructive">*</span>
                 </Label>
                 <Select onValueChange={(val) => setValue("role", val as "VET" | "ASSISTANT" | "RECEPTIONIST")}>
                   <SelectTrigger
@@ -195,12 +198,12 @@ export function InviteUserDialog({
                     aria-invalid={!!errors.role}
                     className="rounded-xl border-border/80 text-[13px]"
                   >
-                    <SelectValue placeholder="Select a role" />
+                    <SelectValue placeholder={t('role_placeholder')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="VET" data-testid="invite-role-vet">Vet</SelectItem>
-                    <SelectItem value="ASSISTANT" data-testid="invite-role-assistant">Assistant</SelectItem>
-                    <SelectItem value="RECEPTIONIST" data-testid="invite-role-receptionist">Receptionist</SelectItem>
+                    <SelectItem value="VET" data-testid="invite-role-vet">{tRoles('vet')}</SelectItem>
+                    <SelectItem value="ASSISTANT" data-testid="invite-role-assistant">{tRoles('assistant')}</SelectItem>
+                    <SelectItem value="RECEPTIONIST" data-testid="invite-role-receptionist">{tRoles('receptionist')}</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.role && (
@@ -220,7 +223,7 @@ export function InviteUserDialog({
                 disabled={isSubmitting}
                 className="rounded-xl font-semibold border-border/80 hover:bg-muted"
               >
-                Cancel
+                {t('cancel')}
               </Button>
               <Button
                 type="submit"
@@ -228,7 +231,7 @@ export function InviteUserDialog({
                 disabled={isSubmitting}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
-                {isSubmitting ? "Sending..." : "Send Invite"}
+                {isSubmitting ? t('submitting') : t('submit')}
               </Button>
             </DialogFooter>
           </form>

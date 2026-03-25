@@ -23,6 +23,7 @@ function formatAed(amount: number): string {
 
 export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
   const t = useTranslations('dashboard.stats')
+  const tErr = useTranslations('dashboard.errors')
   const { triggerAha } = useAhaMoment()
   const [stats, setStats] = useState<DashboardStatsDto | null>(null)
   const [loading, setLoading] = useState(true)
@@ -51,8 +52,8 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
     return (
       <ErrorState
         data-testid="stats-error"
-        title="Failed to load dashboard stats"
-        description="Could not retrieve clinic statistics."
+        title={tErr('load_stats')}
+        description={tErr('load_stats_desc')}
         onRetry={load}
       />
     )

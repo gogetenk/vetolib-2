@@ -53,21 +53,21 @@ function formatDate(dateStr: string | null): string {
   })
 }
 
-function VaccinationsTab({ vaccinations }: { vaccinations: VaccinationDto[] }) {
+function VaccinationsTab({ vaccinations, t }: { vaccinations: VaccinationDto[]; t: (key: string) => string }) {
   if (vaccinations.length === 0) {
     return (
       <p className="text-muted-foreground text-[13px] py-8 text-center" data-testid="vaccinations-empty">
-        No vaccination records found.
+        {t('vaccinations.empty')}
       </p>
     )
   }
   return (
     <div data-testid="vaccinations-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
-        <span>Vaccine</span>
-        <span>Date Given</span>
-        <span>Next Due</span>
-        <span>Vet</span>
+        <span>{t('vaccinations.columns.vaccine')}</span>
+        <span>{t('vaccinations.columns.date_given')}</span>
+        <span>{t('vaccinations.columns.next_due')}</span>
+        <span>{t('vaccinations.columns.vet')}</span>
       </div>
       {vaccinations.map((vac) => (
         <div
@@ -89,10 +89,12 @@ function PrescriptionsTab({
   prescriptions,
   patientId,
   canPrescribe,
+  t,
 }: {
   prescriptions: PrescriptionDto[]
   patientId: string
   canPrescribe: boolean
+  t: (key: string) => string
 }) {
   return (
     <div className="space-y-4">
@@ -104,7 +106,7 @@ function PrescriptionsTab({
               data-testid="new-prescription-btn"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
             >
-              New Medical Record
+              {t('new_medical_record')}
             </Button>
           </Link>
         </div>
@@ -112,16 +114,16 @@ function PrescriptionsTab({
 
       {prescriptions.length === 0 ? (
         <p className="text-muted-foreground text-[13px] py-8 text-center" data-testid="prescriptions-empty">
-          No prescriptions found.
+          {t('prescriptions.empty')}
         </p>
       ) : (
         <div data-testid="prescriptions-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
-            <span>Medication</span>
-            <span>Dosage</span>
-            <span>Duration</span>
-            <span>Vet / Date</span>
-            <span>Status</span>
+            <span>{t('prescriptions.columns.medication')}</span>
+            <span>{t('prescriptions.columns.dosage')}</span>
+            <span>{t('prescriptions.columns.duration')}</span>
+            <span>{t('prescriptions.columns.vet_date')}</span>
+            <span>{t('prescriptions.columns.status')}</span>
           </div>
           {prescriptions.map((presc) => (
             <div
@@ -152,6 +154,7 @@ export default function PatientDetailPage() {
   const { id } = useParams<{ id: string }>()
   const role = useRole()
   const t = useTranslations('patients')
+  const td = useTranslations('patients.detail')
   const [activeTab, setActiveTab] = useState<TabId>('medical-records')
   const [patient, setPatient] = useState<PatientDto | null>(null)
   const [records, setRecords] = useState<MedicalRecordDto[]>([])
@@ -199,10 +202,10 @@ export default function PatientDetailPage() {
   const canWrite = role === 'VET' || role === 'ADMIN'
 
   const tabs: { id: TabId; label: string; testId: string }[] = [
-    { id: 'medical-records', label: 'Medical Records', testId: 'tab-medical-records' },
-    { id: 'prescriptions', label: 'Prescriptions', testId: 'tab-prescriptions' },
-    { id: 'vaccinations', label: 'Vaccinations', testId: 'tab-vaccinations' },
-    { id: 'health-alerts', label: 'Health Alerts', testId: 'tab-health-alerts' },
+    { id: 'medical-records', label: td('tabs.medical_records'), testId: 'tab-medical-records' },
+    { id: 'prescriptions', label: td('tabs.prescriptions'), testId: 'tab-prescriptions' },
+    { id: 'vaccinations', label: td('tabs.vaccinations'), testId: 'tab-vaccinations' },
+    { id: 'health-alerts', label: td('tabs.health_alerts'), testId: 'tab-health-alerts' },
   ]
 
   if (isLoadingPatient) {
@@ -218,7 +221,7 @@ export default function PatientDetailPage() {
     return (
       <div data-testid={loadError ? "patient-load-error" : "patient-not-found"} className="py-12 text-center">
         <p className="text-muted-foreground">
-          {loadError ? t('errors.load_failed') : 'Patient not found.'}
+          {loadError ? t('errors.load_failed') : td('not_found')}
         </p>
         <Link href="../patients">
           <Button variant="outline" className="mt-4" data-testid="back-to-patients-fallback-btn">
@@ -277,7 +280,7 @@ export default function PatientDetailPage() {
                       {' '}&bull; {patient.gender}
                     </p>
                     <p className="text-[12px] text-muted-foreground mt-0.5" data-testid="patient-weight-display">
-                      Weight: {patient.weightKg != null ? `${patient.weightKg} kg` : 'Not recorded'}
+                      {td('weight_label')} {patient.weightKg != null ? `${patient.weightKg} kg` : td('weight_not_recorded')}
                     </p>
                   </div>
                 </div>
@@ -293,12 +296,12 @@ export default function PatientDetailPage() {
                         className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted"
                       >
                         <Pencil className="h-4 w-4 me-1.5" />
-                        Edit
+                        {td('edit')}
                       </Button>
                       <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
                         <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
                           <SheetHeader>
-                            <SheetTitle>Edit Patient</SheetTitle>
+                            <SheetTitle>{td('edit_patient')}</SheetTitle>
                           </SheetHeader>
                           <div className="mt-4">
                             <PatientForm
@@ -320,7 +323,7 @@ export default function PatientDetailPage() {
                         data-testid="new-medical-record-btn"
                         className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-5 shadow-sm"
                       >
-                        New Medical Record
+                        {td('new_medical_record')}
                       </Button>
                     </Link>
                   )}
@@ -329,7 +332,7 @@ export default function PatientDetailPage() {
 
               {/* Right: Owner info */}
               <div className="md:w-[280px] bg-muted p-6 md:p-8 border-t md:border-t-0 md:border-l border-border/50" data-testid="patient-owner-section">
-                <h3 className="text-[13px] font-bold text-foreground mb-3">Owner</h3>
+                <h3 className="text-[13px] font-bold text-foreground mb-3">{td('owner')}</h3>
                 <div className="space-y-3">
                   <span className="text-[14px] font-semibold text-foreground block" data-testid="patient-detail-owner">
                     {patient.ownerName}
@@ -388,12 +391,13 @@ export default function PatientDetailPage() {
                 prescriptions={prescriptions}
                 patientId={id}
                 canPrescribe={role === 'VET'}
+                t={td}
               />
             </div>
           )}
           {activeTab === 'vaccinations' && (
             <div id="panel-vaccinations" role="tabpanel" aria-labelledby="tab-vaccinations" data-testid="tabpanel-vaccinations" className="animate-in fade-in duration-200">
-              <VaccinationsTab vaccinations={vaccinations} />
+              <VaccinationsTab vaccinations={vaccinations} t={td} />
             </div>
           )}
           {activeTab === 'health-alerts' && (
