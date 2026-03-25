@@ -148,7 +148,7 @@ export function CalendarHeader({
 
           {/* New Appointment Button with Glow */}
           <Button 
-            className="rounded-full gap-2 px-3 md:px-6 h-10 font-semibold shadow-[0_4px_14px_0_rgba(48,62,245,0.39)] hover:shadow-[0_6px_20px_rgba(48,62,245,0.23)] hover:-translate-y-0.5"
+            className="rounded-full gap-2 px-3 md:px-6 h-10 font-semibold shadow-lg hover:shadow-md hover:-translate-y-0.5"
             onClick={onNewAppointment}
           >
             <Plus className="size-4" />

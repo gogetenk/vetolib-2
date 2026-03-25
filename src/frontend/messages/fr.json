@@ -426,7 +426,8 @@
       "urgent": "Urgent",
       "unpaid_invoices": "Factures impayées",
       "total_patients": "Total patients",
-      "todays_revenue": "Chiffre d'affaires du jour"
+      "todays_revenue": "Chiffre d'affaires du jour",
+      "no_data_yet": "Pas encore de données"
     },
     "today": {
       "title": "Planning du jour",
