@@ -92,16 +92,15 @@ export default function DashboardHomePage() {
         </p>
       </div>
 
-      <StatsCards role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
+      <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
-      <SetupChecklist role={role} />
+      <StatsCards role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
       <HealthAlertPanel />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
-        <RecentActivity />
-      </div>
+      <SetupChecklist role={role} />
+
+      <RecentActivity />
 
       <AccumulatedValueCard />
 

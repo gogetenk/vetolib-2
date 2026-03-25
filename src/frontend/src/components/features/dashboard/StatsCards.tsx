@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -58,143 +58,142 @@ export function StatsCards({ role = 'ADMIN' }: StatsCardsProps) {
     )
   }
 
-  const showAppointments = true // all roles see appointments
-  const showPendingCheckin = true // all roles see pending check-in
-  const showUnpaidInvoices = role === 'ADMIN' || role === 'RECEPTIONIST'
-  const showTotalPatients = role === 'ADMIN' || role === 'VET' || role === 'ASSISTANT'
-  const showTodaysRevenue = role === 'ADMIN' || role === 'RECEPTIONIST'
+  // Build the list of visible stat cards, priority-ordered, capped at 4
+  const MAX_VISIBLE_CARDS = 4
+
+  type StatCardDef = {
+    key: string
+    testId: string
+    label: string
+    icon: typeof Calendar
+    iconColor: string
+    iconBg: string
+    render: () => React.ReactNode
+  }
+
+  const allCards: StatCardDef[] = [
+    {
+      key: 'appointments',
+      testId: 'stat-appointments-today',
+      label: t('appointments_today'),
+      icon: Calendar,
+      iconColor: 'text-primary',
+      iconBg: 'bg-primary/10',
+      render: () =>
+        loading ? (
+          <Skeleton className="h-9 w-16" />
+        ) : (
+          <p className="text-3xl font-bold text-foreground" data-testid="stat-appointments-today-value">
+            {stats?.appointmentsToday ?? 0}
+          </p>
+        ),
+    },
+    {
+      key: 'pendingCheckin',
+      testId: 'stat-pending-checkin',
+      label: t('pending_checkin'),
+      icon: Clock,
+      iconColor: 'text-orange-500',
+      iconBg: 'bg-orange-50',
+      render: () =>
+        loading ? (
+          <Skeleton className="h-9 w-16" />
+        ) : (
+          <div className="flex items-center gap-2">
+            <p className="text-3xl font-bold text-foreground" data-testid="stat-pending-checkin-value">
+              {stats?.pendingCheckin ?? 0}
+            </p>
+            {(stats?.pendingCheckin ?? 0) > 0 && (
+              <Badge variant="destructive" className="rounded-md text-[10px] font-bold" data-testid="stat-pending-checkin-badge">
+                {t('urgent')}
+              </Badge>
+            )}
+          </div>
+        ),
+    },
+    ...(role === 'ADMIN' || role === 'VET' || role === 'ASSISTANT'
+      ? [{
+          key: 'totalPatients',
+          testId: 'stat-total-patients',
+          label: t('total_patients'),
+          icon: Users,
+          iconColor: 'text-green-500',
+          iconBg: 'bg-success/10',
+          render: () =>
+            loading ? (
+              <Skeleton className="h-9 w-16" />
+            ) : (
+              <p className="text-3xl font-bold text-foreground" data-testid="stat-total-patients-value">
+                {stats?.totalPatients ?? 0}
+              </p>
+            ),
+        } as StatCardDef]
+      : []),
+    ...(role === 'ADMIN' || role === 'RECEPTIONIST'
+      ? [{
+          key: 'todaysRevenue',
+          testId: 'stat-todays-revenue',
+          label: t('todays_revenue'),
+          icon: DollarSign,
+          iconColor: 'text-green-500',
+          iconBg: 'bg-success/10',
+          render: () =>
+            loading ? (
+              <Skeleton className="h-9 w-24" />
+            ) : (
+              <p className="text-sm text-muted-foreground" data-testid="stat-todays-revenue-value">
+                {t('no_data_yet')}
+              </p>
+            ),
+        } as StatCardDef]
+      : []),
+    ...(role === 'ADMIN' || role === 'RECEPTIONIST'
+      ? [{
+          key: 'unpaidInvoices',
+          testId: 'stat-unpaid-invoices',
+          label: t('unpaid_invoices'),
+          icon: DollarSign,
+          iconColor: 'text-red-500',
+          iconBg: 'bg-red-50',
+          render: () =>
+            loading ? (
+              <Skeleton className="h-9 w-28" />
+            ) : (
+              <p className="text-2xl font-bold text-foreground" data-testid="stat-unpaid-invoices-value">
+                <LtrText>{formatAed(stats?.unpaidInvoicesAed ?? 0)}</LtrText>
+              </p>
+            ),
+        } as StatCardDef]
+      : []),
+  ]
+
+  const visibleCards = allCards.slice(0, MAX_VISIBLE_CARDS)
 
   return (
     <div
       className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
       data-testid="stats-cards"
     >
-      {showAppointments && (
-        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-appointments-today">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-[13px] font-semibold text-muted-foreground">
-                {t('appointments_today')}
-              </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10">
-                <Calendar className="h-4 w-4 text-primary" aria-hidden="true" />
+      {visibleCards.map((card) => {
+        const IconComponent = card.icon
+        return (
+          <Card key={card.key} className="min-h-[100px] border-border/80 shadow-sm" data-testid={card.testId}>
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-[13px] font-semibold text-muted-foreground">
+                  {card.label}
+                </CardTitle>
+                <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${card.iconBg}`}>
+                  <IconComponent className={`h-4 w-4 ${card.iconColor}`} aria-hidden="true" />
+                </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <Skeleton className="h-9 w-16" />
-            ) : (
-              <p className="text-3xl font-bold text-foreground" data-testid="stat-appointments-today-value">
-                {stats?.appointmentsToday ?? 0}
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {showPendingCheckin && (
-        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-pending-checkin">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-[13px] font-semibold text-muted-foreground">
-                {t('pending_checkin')}
-              </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50">
-                <Clock className="h-4 w-4 text-orange-500" aria-hidden="true" />
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <Skeleton className="h-9 w-16" />
-            ) : (
-              <div className="flex items-center gap-2">
-                <p className="text-3xl font-bold text-foreground" data-testid="stat-pending-checkin-value">
-                  {stats?.pendingCheckin ?? 0}
-                </p>
-                {(stats?.pendingCheckin ?? 0) > 0 && (
-                  <Badge variant="destructive" className="rounded-md text-[10px] font-bold" data-testid="stat-pending-checkin-badge">
-                    {t('urgent')}
-                  </Badge>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {showUnpaidInvoices && (
-        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-unpaid-invoices">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-[13px] font-semibold text-muted-foreground">
-                {t('unpaid_invoices')}
-              </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50">
-                <DollarSign className="h-4 w-4 text-red-500" aria-hidden="true" />
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <Skeleton className="h-9 w-28" />
-            ) : (
-              <p className="text-2xl font-bold text-foreground" data-testid="stat-unpaid-invoices-value">
-                <LtrText>{formatAed(stats?.unpaidInvoicesAed ?? 0)}</LtrText>
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {showTotalPatients && (
-        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-total-patients">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-[13px] font-semibold text-muted-foreground">
-                {t('total_patients')}
-              </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-success/10">
-                <Users className="h-4 w-4 text-green-500" aria-hidden="true" />
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <Skeleton className="h-9 w-16" />
-            ) : (
-              <p className="text-3xl font-bold text-foreground" data-testid="stat-total-patients-value">
-                {stats?.totalPatients ?? 0}
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {showTodaysRevenue && (
-        <Card className="min-h-[100px] border-border/80 shadow-sm" data-testid="stat-todays-revenue">
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-[13px] font-semibold text-muted-foreground">
-                {t('todays_revenue')}
-              </CardTitle>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-success/10">
-                <DollarSign className="h-4 w-4 text-green-500" aria-hidden="true" />
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <Skeleton className="h-9 w-24" />
-            ) : (
-              <p className="text-3xl font-bold text-foreground" data-testid="stat-todays-revenue-value">
-                <LtrText>AED 0</LtrText>
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      )}
+            </CardHeader>
+            <CardContent>
+              {card.render()}
+            </CardContent>
+          </Card>
+        )
+      })}
     </div>
   )
 }

@@ -424,7 +424,8 @@
       "urgent": "Urgent",
       "unpaid_invoices": "Unpaid Invoices",
       "total_patients": "Total Patients",
-      "todays_revenue": "Today's Revenue"
+      "todays_revenue": "Today's Revenue",
+      "no_data_yet": "No data yet"
     },
     "today": {
       "title": "Today's Schedule",
