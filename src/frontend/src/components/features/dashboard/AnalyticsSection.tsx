@@ -19,18 +19,18 @@ import { getDashboardAnalytics, type DashboardAnalyticsDto } from '@/lib/api/das
 import { useTranslations } from 'next-intl'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 
-// UAE-context species color palette
+// UAE-context species color palette — uses CSS custom properties for theme support
 const SPECIES_COLORS: Record<string, string> = {
-  Dog: '#3b82f6',
-  Cat: '#f59e0b',
-  Bird: '#10b981',
-  Rabbit: '#8b5cf6',
-  Horse: '#ef4444',
-  Camel: '#d97706',
-  Exotic: '#6366f1',
+  Dog: 'var(--color-chart-1)',
+  Cat: 'var(--color-chart-4)',
+  Bird: 'var(--color-chart-3)',
+  Rabbit: 'var(--color-chart-5)',
+  Horse: 'var(--color-destructive)',
+  Camel: 'var(--color-chart-2)',
+  Exotic: 'var(--color-primary)',
 }
 
-const DEFAULT_COLOR = '#94a3b8'
+const DEFAULT_COLOR = 'var(--color-muted-foreground)'
 
 type MonthKey = '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09' | '10' | '11' | '12'
 

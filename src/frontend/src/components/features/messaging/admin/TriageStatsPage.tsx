@@ -156,7 +156,7 @@ export function TriageStatsPage() {
             />
             <Tooltip
               cursor={{ fill: "var(--color-muted)", opacity: 0.2 }}
-              contentStyle={{ borderRadius: "8px", border: "1px solid var(--color-border)", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+              contentStyle={{ borderRadius: "8px", border: "1px solid var(--color-border)", boxShadow: "var(--shadow-sm, 0 1px 2px 0 rgb(0 0 0 / 0.05))" }}
               formatter={(value) => [Number(value ?? 0), t("tooltip_count")]}
             />
             <Bar dataKey="count" radius={[6, 6, 0, 0]} maxBarSize={50}>
@@ -188,7 +188,7 @@ export function TriageStatsPage() {
               dx={-10}
             />
             <Tooltip
-              contentStyle={{ borderRadius: "8px", border: "1px solid var(--color-border)", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+              contentStyle={{ borderRadius: "8px", border: "1px solid var(--color-border)", boxShadow: "var(--shadow-sm, 0 1px 2px 0 rgb(0 0 0 / 0.05))" }}
               formatter={(value) => [Number(value ?? 0), t("tooltip_messages")]}
             />
             <Line

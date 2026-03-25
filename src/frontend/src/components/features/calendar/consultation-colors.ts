@@ -8,23 +8,23 @@ export interface ConsultationColor {
 
 export const CONSULTATION_COLORS: Record<string, ConsultationColor> = {
   'General Checkup': { bg: 'bg-primary/10', border: 'border-s-primary', text: 'text-foreground', dot: 'bg-primary', line: 'bg-primary' },
-  'Vaccination': { bg: 'bg-[#e8f6f0]', border: 'border-s-[#22c55e]', text: 'text-[#02020a]', dot: 'bg-[#22c55e]', line: 'bg-[#22c55e]' },
-  'Surgery': { bg: 'bg-[#fef2f2]', border: 'border-s-[#ef4444]', text: 'text-[#440000]', dot: 'bg-[#ef4444]', line: 'bg-[#ef4444]' },
-  'Emergency': { bg: 'bg-[#fff7ed]', border: 'border-s-[#f97316]', text: 'text-[#02020a]', dot: 'bg-[#f97316]', line: 'bg-[#f97316]' },
-  'Dental': { bg: 'bg-[#fdf4ff]', border: 'border-s-[#d946ef]', text: 'text-[#02020a]', dot: 'bg-[#d946ef]', line: 'bg-[#d946ef]' },
-  'Dermatology': { bg: 'bg-[#fdf2f8]', border: 'border-s-[#e879f9]', text: 'text-[#02020a]', dot: 'bg-[#e879f9]', line: 'bg-[#e879f9]' },
-  'Follow-up': { bg: 'bg-[#f0fdfa]', border: 'border-s-[#14b8a6]', text: 'text-[#02020a]', dot: 'bg-[#14b8a6]', line: 'bg-[#14b8a6]' },
-  'Grooming': { bg: 'bg-[#fefce8]', border: 'border-s-[#f59e0b]', text: 'text-[#02020a]', dot: 'bg-[#f59e0b]', line: 'bg-[#f59e0b]' },
-  'Laboratory / Diagnostics': { bg: 'bg-[#f5f3ff]', border: 'border-s-[#a855f7]', text: 'text-[#02020a]', dot: 'bg-[#a855f7]', line: 'bg-[#a855f7]' },
-  'Exotic Animal': { bg: 'bg-[#ecfdf5]', border: 'border-s-[#059669]', text: 'text-[#02020a]', dot: 'bg-[#059669]', line: 'bg-[#059669]' },
+  'Vaccination': { bg: 'bg-green-500/10', border: 'border-s-green-500', text: 'text-foreground', dot: 'bg-green-500', line: 'bg-green-500' },
+  'Surgery': { bg: 'bg-destructive/10', border: 'border-s-destructive', text: 'text-destructive-foreground', dot: 'bg-destructive', line: 'bg-destructive' },
+  'Emergency': { bg: 'bg-orange-500/10', border: 'border-s-orange-500', text: 'text-foreground', dot: 'bg-orange-500', line: 'bg-orange-500' },
+  'Dental': { bg: 'bg-fuchsia-500/10', border: 'border-s-fuchsia-500', text: 'text-foreground', dot: 'bg-fuchsia-500', line: 'bg-fuchsia-500' },
+  'Dermatology': { bg: 'bg-fuchsia-400/10', border: 'border-s-fuchsia-400', text: 'text-foreground', dot: 'bg-fuchsia-400', line: 'bg-fuchsia-400' },
+  'Follow-up': { bg: 'bg-teal-500/10', border: 'border-s-teal-500', text: 'text-foreground', dot: 'bg-teal-500', line: 'bg-teal-500' },
+  'Grooming': { bg: 'bg-amber-500/10', border: 'border-s-amber-500', text: 'text-foreground', dot: 'bg-amber-500', line: 'bg-amber-500' },
+  'Laboratory / Diagnostics': { bg: 'bg-purple-500/10', border: 'border-s-purple-500', text: 'text-foreground', dot: 'bg-purple-500', line: 'bg-purple-500' },
+  'Exotic Animal': { bg: 'bg-emerald-600/10', border: 'border-s-emerald-600', text: 'text-foreground', dot: 'bg-emerald-600', line: 'bg-emerald-600' },
 }
 
 const FALLBACK_COLOR: ConsultationColor = {
   bg: 'bg-muted',
-  border: 'border-s-[#9ca3af]',
-  text: 'text-[#02020a]',
-  dot: 'bg-[#9ca3af]',
-  line: 'bg-[#9ca3af]',
+  border: 'border-s-muted-foreground',
+  text: 'text-foreground',
+  dot: 'bg-muted-foreground',
+  line: 'bg-muted-foreground',
 }
 
 export function getConsultationColor(consultationType: string): ConsultationColor {
