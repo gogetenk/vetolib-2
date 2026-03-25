@@ -426,7 +426,8 @@
       "urgent": "عاجل",
       "unpaid_invoices": "الفواتير غير المدفوعة",
       "total_patients": "إجمالي الحيوانات",
-      "todays_revenue": "إيرادات اليوم"
+      "todays_revenue": "إيرادات اليوم",
+      "no_data_yet": "لا توجد بيانات بعد"
     },
     "today": {
       "title": "جدول اليوم",
