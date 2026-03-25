@@ -81,7 +81,8 @@ async function apiFetch<T>(
         })
       }).catch(() => {/* ignore */})
       if (typeof window !== "undefined") {
-        window.location.href = "/login";
+        const locale = document.documentElement.lang || "en";
+        window.location.href = `/${locale}/login`;
       }
       throw new Error("Session expired");
     }
@@ -145,7 +146,8 @@ export async function apiGetBlob(path: string): Promise<Blob> {
     } else {
       clearTokens();
       if (typeof window !== "undefined") {
-        window.location.href = "/login";
+        const locale = document.documentElement.lang || "en";
+        window.location.href = `/${locale}/login`;
       }
       throw new Error("Session expired");
     }
@@ -184,7 +186,8 @@ export async function apiPostFormData<T>(path: string, formData: FormData): Prom
     } else {
       clearTokens();
       if (typeof window !== "undefined") {
-        window.location.href = "/login";
+        const locale = document.documentElement.lang || "en";
+        window.location.href = `/${locale}/login`;
       }
       throw new Error("Session expired");
     }

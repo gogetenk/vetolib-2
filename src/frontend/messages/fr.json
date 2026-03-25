@@ -892,7 +892,7 @@
       "time": "Heure"
     },
     "detail": {
-      "title": "Détail du rendez-vous",
+      "title": "Détails de rendez-vous",
       "viewFull": "Voir les détails complets",
       "patient": "Patient",
       "owner": "Propriétaire",
@@ -905,7 +905,18 @@
       "status": "Statut",
       "reason": "Motif",
       "notes": "Notes",
-      "minutes": "{count} min"
+      "minutes": "{count} min",
+      "contactInfo": "Coordonnées",
+      "notProvided": "Non renseigné",
+      "attendingVet": "Vétérinaire traitant",
+      "viewPatientRecord": "Consulter le dossier patient",
+      "theAppointment": "Le rendez-vous",
+      "consultationType": "Type de consultation",
+      "reasonLabel": "Motif",
+      "noReasonProvided": "Aucun motif renseigné",
+      "notesAndDiscussion": "Notes & Discussion",
+      "noNotes": "Aucune note",
+      "writeANote": "Écrire une note..."
     }
   },
   "common": {

@@ -4,6 +4,13 @@ import { useState, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { ThumbsUp, ThumbsDown, MoreHorizontal, AlertTriangle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import type {
   MessageClassificationDto,
@@ -182,32 +189,42 @@ export function MessageClassificationBadges({
               <label className="text-[11px] font-medium text-muted-foreground block mb-1">
                 {t('urgency_label')}
               </label>
-              <select
-                className="w-full text-xs border border-border rounded px-2 py-1 bg-white"
-                value={overrideUrgency}
-                onChange={(e) => setOverrideUrgency(e.target.value as ClassificationUrgency)}
-                data-testid={`classification-override-urgency-${messageId}`}
-              >
-                {URGENCY_OPTIONS.map((u) => (
-                  <option key={u} value={u}>{t(`urgency.${u}`)}</option>
-                ))}
-              </select>
+              <div data-testid={`classification-override-urgency-${messageId}`}>
+                <Select
+                  value={overrideUrgency}
+                  onValueChange={(v) => setOverrideUrgency(v as ClassificationUrgency)}
+                >
+                  <SelectTrigger className="w-full text-xs" size="sm">
+                    <SelectValue>{t(`urgency.${overrideUrgency}`)}</SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {URGENCY_OPTIONS.map((u) => (
+                      <SelectItem key={u} value={u}>{t(`urgency.${u}`)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div>
               <label className="text-[11px] font-medium text-muted-foreground block mb-1">
                 {t('category_label')}
               </label>
-              <select
-                className="w-full text-xs border border-border rounded px-2 py-1 bg-white"
-                value={overrideCategory}
-                onChange={(e) => setOverrideCategory(e.target.value as ClassificationCategory)}
-                data-testid={`classification-override-category-${messageId}`}
-              >
-                {CATEGORY_OPTIONS.map((c) => (
-                  <option key={c} value={c}>{tCat(c)}</option>
-                ))}
-              </select>
+              <div data-testid={`classification-override-category-${messageId}`}>
+                <Select
+                  value={overrideCategory}
+                  onValueChange={(v) => setOverrideCategory(v as ClassificationCategory)}
+                >
+                  <SelectTrigger className="w-full text-xs" size="sm">
+                    <SelectValue>{tCat(overrideCategory)}</SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CATEGORY_OPTIONS.map((c) => (
+                      <SelectItem key={c} value={c}>{tCat(c)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="flex justify-end gap-2">

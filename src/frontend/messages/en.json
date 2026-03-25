@@ -890,7 +890,7 @@
       "time": "Time"
     },
     "detail": {
-      "title": "Appointment Detail",
+      "title": "Appointment Details",
       "viewFull": "View full details",
       "patient": "Patient",
       "owner": "Owner",
@@ -903,7 +903,18 @@
       "status": "Status",
       "reason": "Reason",
       "notes": "Notes",
-      "minutes": "{count} min"
+      "minutes": "{count} min",
+      "contactInfo": "Contact Information",
+      "notProvided": "Not provided",
+      "attendingVet": "Attending Veterinarian",
+      "viewPatientRecord": "View patient record",
+      "theAppointment": "The Appointment",
+      "consultationType": "Consultation Type",
+      "reasonLabel": "Reason",
+      "noReasonProvided": "No reason provided",
+      "notesAndDiscussion": "Notes & Discussion",
+      "noNotes": "No notes",
+      "writeANote": "Write a note..."
     }
   },
   "common": {

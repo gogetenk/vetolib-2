@@ -1,6 +1,13 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import type { MessageCategory } from '@/lib/api/messaging-types'
 
 // Map from user-friendly option key to the API category
@@ -24,29 +31,30 @@ export function CategorySelector({ value, onChange, error }: CategorySelectorPro
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor="category-selector" className="text-sm font-medium text-foreground">
+      <label className="text-sm font-medium text-foreground">
         {t('category_label')}
       </label>
-      <select
-        id="category-selector"
-        data-testid="category-selector"
-        value={value ?? ''}
-        onChange={(e) => onChange(e.target.value as MessageCategory)}
-        className={`block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 ${
-          error
-            ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-            : 'border-border/80 focus:border-primary focus:ring-primary'
-        }`}
-      >
-        <option value="" disabled>
-          {t('category_placeholder')}
-        </option>
-        {CATEGORY_OPTIONS.map((opt) => (
-          <option key={opt.category} value={opt.category}>
-            {t(`categories.${opt.label}`)}
-          </option>
-        ))}
-      </select>
+      <div data-testid="category-selector">
+        <Select
+          value={value ?? undefined}
+          onValueChange={(v) => onChange(v as MessageCategory)}
+        >
+          <SelectTrigger className={`w-full rounded-md text-sm shadow-sm ${
+            error
+              ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+              : 'border-border/80'
+          }`}>
+            <SelectValue>{value ? t(`categories.${value}`) : t('category_placeholder')}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {CATEGORY_OPTIONS.map((opt) => (
+              <SelectItem key={opt.category} value={opt.category}>
+                {t(`categories.${opt.label}`)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       {error && (
         <p className="text-xs text-red-600" data-testid="category-error">
           {error}

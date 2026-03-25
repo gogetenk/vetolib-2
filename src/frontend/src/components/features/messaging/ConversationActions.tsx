@@ -13,6 +13,13 @@ import {
   UserCog,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import type { ConversationWithSuggestionsDto, ConversationStatus } from '@/lib/api/messaging-types'
 
 interface ConversationActionsProps {
@@ -199,27 +206,30 @@ export function ConversationActions({
             <h2 id="transfer-dialog-title" className="text-[15px] font-bold text-foreground mb-4">
               {t('transfer_dialog_title')}
             </h2>
-            <label htmlFor="transfer-role-select" className="text-[13px] font-semibold text-foreground block mb-2">
+            <label className="text-[13px] font-semibold text-foreground block mb-2">
               {t('transfer_to_role')}
             </label>
-            <select
-              id="transfer-role-select"
-              data-testid="transfer-role-select"
-              value={selectedRole}
-              onChange={(e) => setSelectedRole(e.target.value)}
-              className="w-full rounded-xl border border-border/80 bg-transparent px-3 py-2 text-[13px] focus:outline-none focus:ring-2 focus:ring-primary/20 mb-4"
-            >
-              <option value="">{t('select_role')}</option>
-              {ROLES_FOR_TRANSFER.map((r) => (
-                <option
-                  key={r}
-                  value={r}
-                  data-testid={`transfer-role-option-${r.toLowerCase()}`}
-                >
-                  {r}
-                </option>
-              ))}
-            </select>
+            <div className="mb-4" data-testid="transfer-role-select">
+              <Select
+                value={selectedRole}
+                onValueChange={(v) => setSelectedRole(v as string)}
+              >
+                <SelectTrigger className="w-full rounded-xl border-border/80 text-[13px]">
+                  <SelectValue>{selectedRole || t('select_role')}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {ROLES_FOR_TRANSFER.map((r) => (
+                    <SelectItem
+                      key={r}
+                      value={r}
+                      data-testid={`transfer-role-option-${r.toLowerCase()}`}
+                    >
+                      {r}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <div className="flex justify-end gap-2">
               <Button
                 type="button"

@@ -36,6 +36,7 @@ export function clearSession(): void {
 
 export function redirectToLogin(): void {
   if (typeof window !== "undefined") {
-    window.location.href = "/login";
+    const locale = document.documentElement.lang || "en";
+    window.location.href = `/${locale}/login`;
   }
 }
