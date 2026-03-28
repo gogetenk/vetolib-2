@@ -32,6 +32,14 @@ internal class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder.Property(p => p.ClinicId)
             .IsRequired();
 
+        builder.Property(p => p.MicrochipNumber)
+            .HasMaxLength(15);
+
+        builder.HasIndex(p => new { p.ClinicId, p.MicrochipNumber })
+            .IsUnique()
+            .HasFilter("\"MicrochipNumber\" IS NOT NULL")
+            .HasDatabaseName("IX_patients_ClinicId_MicrochipNumber");
+
         builder.HasMany(p => p.PatientOwners)
             .WithOne(po => po.Patient)
             .HasForeignKey(po => po.PatientId);

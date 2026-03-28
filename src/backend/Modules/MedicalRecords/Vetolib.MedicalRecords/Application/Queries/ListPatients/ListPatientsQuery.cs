@@ -7,6 +7,7 @@ namespace Vetolib.MedicalRecords.Application.Queries.ListPatients;
 internal record ListPatientsQuery(
     string? Name = null,
     Species? Species = null,
+    string? Microchip = null,
     int Page = 1,
     int PageSize = 20) : IRequest<Result<PatientPagedResult>>;
 
