@@ -96,16 +96,31 @@ _ = builder.Configuration.GetConnectionString("vetolibdb")
         "ConnectionStrings__vetolibdb or let .NET Aspire inject it automatically.");
 // ───────────────────────────────────────────────────────────────────────────
 
-// Database — Aspire Npgsql integration
-// Disable connection pooling: our DbContexts depend on scoped IClinicContext (multi-tenancy),
-// which is incompatible with DbContext pooling (resolves from root provider).
-builder.AddNpgsqlDbContext<AuthDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
-builder.AddNpgsqlDbContext<AgendaDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
-builder.AddNpgsqlDbContext<MedicalRecordsDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
-builder.AddNpgsqlDbContext<BillingDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
-// Audit context — dedicated context for the shared.audit_log table
+// Database — Multi-tenant DbContexts use AddDbContext (NOT pooled) because they depend
+// on scoped IClinicContext. Aspire's AddNpgsqlDbContext uses pooling by default, which
+// resolves dependencies from the root provider and fails with scoped services.
+// EnrichNpgsqlDbContext adds Aspire telemetry/retries without changing the registration.
+var connectionString = builder.Configuration.GetConnectionString("vetolibdb")!;
+
+builder.Services.AddAuthDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<AuthDbContext>(settings => settings.DisableHealthChecks = true);
+
+builder.Services.AddAgendaDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<AgendaDbContext>(settings => settings.DisableHealthChecks = true);
+
+builder.Services.AddMedicalRecordsDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<MedicalRecordsDbContext>(settings => settings.DisableHealthChecks = true);
+
+builder.Services.AddBillingDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<BillingDbContext>(settings => settings.DisableHealthChecks = true);
+
+// Audit context — no IClinicContext dependency, pooling is fine
 builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
-builder.AddNpgsqlDbContext<MessagingDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+
+builder.Services.AddMessagingDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<MessagingDbContext>(settings => settings.DisableHealthChecks = true);
+
+// Notifications context — no IClinicContext dependency, pooling is fine
 builder.AddNpgsqlDbContext<NotificationsDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
 
 // Multi-tenancy
@@ -194,18 +209,21 @@ builder.Services.AddNotificationsModule();
 
 // AI module (triage + no-show prediction)
 builder.Services.AddAIModule(builder.Configuration);
-builder.AddNpgsqlDbContext<AIDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.Services.AddAIDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<AIDbContext>(settings => settings.DisableHealthChecks = true);
 
 // Messaging module
 builder.Services.AddMessagingModule(builder.Configuration);
 
 // Stock module
 builder.Services.AddStockModule(builder.Configuration);
-builder.AddNpgsqlDbContext<StockDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.Services.AddStockDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<StockDbContext>(settings => settings.DisableHealthChecks = true);
 
 // Preferences module
 builder.Services.AddPreferencesModule(builder.Configuration);
-builder.AddNpgsqlDbContext<PreferencesDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+builder.Services.AddPreferencesDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<PreferencesDbContext>(settings => settings.DisableHealthChecks = true);
 
 // Rate limiting
 // "auth"   — 10 req/min per IP (login, refresh, change-password)

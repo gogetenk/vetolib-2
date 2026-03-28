@@ -3,8 +3,9 @@
     "aspire": {
       "command": "aspire",
       "args": [
-        "mcp",
-        "start"
+        "agent",
+        "start",
+        "--nologo"
       ]
     },
     "playwright": {
