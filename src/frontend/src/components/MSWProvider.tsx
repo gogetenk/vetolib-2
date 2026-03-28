@@ -19,33 +19,33 @@ import { useEffect, useState } from 'react'
  * page.addInitScript() to skip MSW initialization and render children immediately.
  */
 export function MSWProvider({ children }: { children: React.ReactNode }) {
-  // In production or when explicitly disabled (wire Playwright tests), skip MSW.
-  const mswDisabled =
-    process.env.NODE_ENV !== 'development' ||
-    (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>).__DISABLE_MSW__ === true)
-
-  const [mswReady, setMswReady] = useState(mswDisabled)
+  // Always start false so server and client render the same initial HTML.
+  const [mswReady, setMswReady] = useState(false)
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development' && !(window as unknown as Record<string, unknown>).__DISABLE_MSW__) {
-      import('@/mocks/browser').then(({ worker }) =>
-        worker.start({ onUnhandledRequest: 'bypass' })
-      ).then(() => setMswReady(true))
+    // In production or when explicitly disabled (wire Playwright tests), skip MSW.
+    if (
+      process.env.NODE_ENV !== 'development' ||
+      (window as unknown as Record<string, unknown>).__DISABLE_MSW__ === true
+    ) {
+      setMswReady(true)
+      return
     }
-  }, [])
 
-  if (!mswReady) {
-    // While MSW is starting, render nothing (or a loading indicator)
-    return null
-  }
+    import('@/mocks/browser').then(({ worker }) =>
+      worker.start({ onUnhandledRequest: 'bypass' })
+    ).then(() => setMswReady(true))
+  }, [])
 
   return (
     <>
-      <span
-        data-testid="msw-ready"
-        style={{ display: 'none' }}
-        aria-hidden="true"
-      />
+      {mswReady && (
+        <span
+          data-testid="msw-ready"
+          style={{ display: 'none' }}
+          aria-hidden="true"
+        />
+      )}
       {children}
     </>
   )
