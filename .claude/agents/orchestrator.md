@@ -56,6 +56,18 @@ Pour chaque fichier `todo-*.md` :
 - Le prompt de l'agent DOIT contenir le contenu complet de la tâche (le worktree n'a pas les fichiers tasks/).
 - Le prompt DOIT rappeler : "Crée une PR vers `develop`. Ne pousse PAS sur une branche existante."
 
+**Protocole de statut agent :**
+
+Chaque agent DOIT terminer avec un statut explicite dans son résultat :
+
+| Statut | Signification | Action orchestrateur |
+|---|---|---|
+| `DONE` | Tâche complète, PR créée, tests GREEN | Rename wip → done, surveiller PR |
+| `DONE_WITH_CONCERNS` | Tâche complète mais doutes identifiés | Rename wip → done, créer question PO |
+| `NEEDS_CONTEXT` | Bloqué par manque d'info métier | Créer question PO, garder en wip |
+| `BLOCKED` | Bloqué par un problème technique | Analyser le blocage, retry ou escalade |
+| `FAILED` | 3 tentatives échouées (circuit breaker) | Rename wip → todo, créer question |
+
 **Parallélisation maximale — principe fondamental :**
 
 Lance AUTANT d'agents que de tâches prêtes. Il n'y a pas de limite arbitraire.

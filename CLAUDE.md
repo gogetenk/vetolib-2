@@ -240,6 +240,7 @@ Format du fichier question :
 ```markdown
 # Question — {task-id}
 
+**Contexte rapide** : Branche `{branch}`, tâche `{task-id}`, module {Module}. L'agent travaillait sur : {description en 1 ligne}.
 **Module** : Agenda / Auth / MedicalRecords / Billing
 **Bloquant** : Oui
 
@@ -253,6 +254,20 @@ Description précise.
 ## Recommandation
 Option X parce que...
 ```
+
+### 7b. Circuit breaker — 3 tentatives max (ajout v3.4)
+
+Un agent qui debug un problème a **3 tentatives maximum** pour le résoudre.
+Après 3 échecs consécutifs sur le même problème :
+- **STOP immédiat** — ne pas continuer à deviner
+- Créer un fichier `questions/{task-id}-debug-{timestamp}.md` avec :
+  - Ce qui a été tenté (les 3 approches)
+  - Les résultats/erreurs de chaque tentative
+  - Hypothèse sur la cause racine
+- Se bloquer et attendre une réponse humaine ou PO
+
+**Pourquoi** : un agent qui boucle sur un fix consomme du contexte et du budget sans progresser.
+Un humain ou un autre agent avec un regard frais résout souvent le problème en 1 tentative.
 
 ### 8. Convention commits
 
