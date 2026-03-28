@@ -8,6 +8,7 @@ internal class InvoiceItem : BaseEntity
 {
     public Guid InvoiceId { get; private set; }
     public string Description { get; private set; } = string.Empty;
+    public int Quantity { get; private set; }
     public decimal UnitPriceExclTax { get; private set; }
     public decimal TaxAmount { get; private set; }
     public decimal TotalInclTax { get; private set; }
@@ -21,7 +22,8 @@ internal class InvoiceItem : BaseEntity
         string description,
         decimal unitPrice,
         decimal taxRate,
-        TaxCategory taxCategory = TaxCategory.Standard)
+        TaxCategory taxCategory = TaxCategory.Standard,
+        int quantity = 1)
     {
         var errors = new List<ValidationError>();
 
@@ -37,20 +39,24 @@ internal class InvoiceItem : BaseEntity
         if (taxRate < 0)
             errors.Add(new ValidationError(nameof(taxRate), "Tax rate cannot be negative"));
 
+        if (quantity <= 0)
+            errors.Add(new ValidationError(nameof(quantity), "Quantity must be positive"));
+
         if (errors.Count > 0)
             return Result<InvoiceItem>.Invalid(errors);
 
-        var taxAmount = Math.Round(unitPrice * taxRate, 2);
+        var taxAmount = Math.Round(unitPrice * quantity * taxRate, 2);
 
         var item = new InvoiceItem
         {
             InvoiceId = invoiceId,
             Description = description,
+            Quantity = quantity,
             UnitPriceExclTax = unitPrice,
             TaxRate = taxRate,
             TaxCategory = taxCategory,
             TaxAmount = taxAmount,
-            TotalInclTax = unitPrice + taxAmount
+            TotalInclTax = unitPrice * quantity + taxAmount
         };
 
         return Result<InvoiceItem>.Success(item);
@@ -59,7 +65,7 @@ internal class InvoiceItem : BaseEntity
     public InvoiceItemDto ToDto() => new(
         Id,
         Description,
-        1,
+        Quantity,
         UnitPriceExclTax,
         TotalInclTax,
         TaxCategory,

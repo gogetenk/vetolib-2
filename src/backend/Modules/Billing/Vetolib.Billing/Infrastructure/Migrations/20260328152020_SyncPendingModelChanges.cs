@@ -11,11 +11,6 @@ namespace Vetolib.Billing.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Quantity",
-                schema: "billing",
-                table: "invoice_items");
-
             migrationBuilder.CreateTable(
                 name: "ereporting_periods",
                 schema: "billing",
@@ -91,14 +86,6 @@ namespace Vetolib.Billing.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "ereporting_periods",
                 schema: "billing");
-
-            migrationBuilder.AddColumn<int>(
-                name: "Quantity",
-                schema: "billing",
-                table: "invoice_items",
-                type: "integer",
-                nullable: false,
-                defaultValue: 1);
         }
     }
 }

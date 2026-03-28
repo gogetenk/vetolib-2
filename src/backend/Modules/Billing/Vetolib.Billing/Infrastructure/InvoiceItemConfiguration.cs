@@ -19,6 +19,10 @@ internal class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItem>
             .IsRequired()
             .HasMaxLength(500);
 
+        builder.Property(ii => ii.Quantity)
+            .IsRequired()
+            .HasDefaultValue(1);
+
         builder.Property(ii => ii.UnitPriceExclTax)
             .IsRequired()
             .HasPrecision(18, 2);

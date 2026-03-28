@@ -85,15 +85,6 @@ namespace Vetolib.Billing.Infrastructure.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "CountryCode",
-                schema: "billing",
-                table: "invoices",
-                type: "character varying(2)",
-                maxLength: 2,
-                nullable: false,
-                defaultValue: "AE");
-
-            migrationBuilder.AddColumn<string>(
                 name: "PurchaseOrderReference",
                 schema: "billing",
                 table: "invoices",
@@ -114,7 +105,6 @@ namespace Vetolib.Billing.Infrastructure.Migrations
             migrationBuilder.DropColumn(name: "OperationType", schema: "billing", table: "invoices");
             migrationBuilder.DropColumn(name: "InvoiceTypeCode", schema: "billing", table: "invoices");
             migrationBuilder.DropColumn(name: "PaymentTerms", schema: "billing", table: "invoices");
-            migrationBuilder.DropColumn(name: "CountryCode", schema: "billing", table: "invoices");
             migrationBuilder.DropColumn(name: "PurchaseOrderReference", schema: "billing", table: "invoices");
         }
     }
