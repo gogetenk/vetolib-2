@@ -32,7 +32,7 @@ export interface PagedResult<T> {
   pageSize: number
 }
 
-export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Camel' | 'Exotic'
+export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Camel' | 'Exotic' | 'Falcon' | 'Reptile'
 
 // ─── Drug Catalog ────────────────────────────────────────────────────────────
 

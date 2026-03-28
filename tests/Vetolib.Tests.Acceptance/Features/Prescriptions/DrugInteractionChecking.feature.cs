@@ -117,23 +117,23 @@ namespace Vetolib.Tests.Acceptance.Features.Prescriptions
 #line 10
     await testRunner.AndAsync("a patient \"Whiskers\" of species \"Cat\" exists in my clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-            global::Reqnroll.Table table38 = new global::Reqnroll.Table(new string[] {
+            global::Reqnroll.Table table44 = new global::Reqnroll.Table(new string[] {
                         "InnName",
                         "Category"});
-            table38.AddRow(new string[] {
+            table44.AddRow(new string[] {
                         "Amoxicillin",
                         "Medication"});
-            table38.AddRow(new string[] {
+            table44.AddRow(new string[] {
                         "Metronidazole",
                         "Medication"});
-            table38.AddRow(new string[] {
+            table44.AddRow(new string[] {
                         "Ibuprofen",
                         "Medication"});
-            table38.AddRow(new string[] {
+            table44.AddRow(new string[] {
                         "Meloxicam",
                         "Medication"});
 #line 11
-    await testRunner.AndAsync("the drug catalog contains the following entries:", ((string)(null)), table38, "And ");
+    await testRunner.AndAsync("the drug catalog contains the following entries:", ((string)(null)), table44, "And ");
 #line hidden
         }
         

@@ -281,7 +281,9 @@
       "Rabbit": "Lapin",
       "Horse": "Cheval",
       "Camel": "Chameau",
-      "Exotic": "Exotique"
+      "Exotic": "Exotique",
+      "Falcon": "Faucon",
+      "Reptile": "Reptile"
     },
     "errors": {
       "load_failed": "Échec du chargement des données patient. Veuillez réessayer."

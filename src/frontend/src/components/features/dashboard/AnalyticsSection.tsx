@@ -28,6 +28,8 @@ const SPECIES_COLORS: Record<string, string> = {
   Horse: 'var(--color-destructive)',
   Camel: 'var(--color-chart-2)',
   Exotic: 'var(--color-primary)',
+  Falcon: 'var(--color-chart-3)',
+  Reptile: 'var(--color-chart-5)',
 }
 
 const DEFAULT_COLOR = 'var(--color-muted-foreground)'

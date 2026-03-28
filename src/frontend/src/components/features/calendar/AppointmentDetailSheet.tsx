@@ -36,6 +36,8 @@ const SPECIES_EMOJI: Record<string, string> = {
   Rabbit: '🐰',
   Horse: '🐴',
   Exotic: '🦎',
+  Falcon: '🦅',
+  Reptile: '🦎',
 }
 
 const STATUS_BADGE_VARIANT: Record<AppointmentStatus, string> = {
