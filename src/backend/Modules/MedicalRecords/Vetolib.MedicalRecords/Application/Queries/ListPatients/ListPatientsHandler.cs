@@ -29,6 +29,9 @@ internal class ListPatientsHandler : IRequestHandler<ListPatientsQuery, Result<P
         if (query.Species.HasValue)
             q = q.Where(p => p.Species == query.Species.Value);
 
+        if (!string.IsNullOrWhiteSpace(query.Microchip))
+            q = q.Where(p => p.MicrochipNumber == query.Microchip);
+
         var total = await q.CountAsync(ct);
 
         var page = query.Page < 1 ? 1 : query.Page;

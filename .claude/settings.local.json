@@ -20,7 +20,14 @@
       "Bash(date:*)",
       "Bash(wc:*)",
       "Bash(gh:*)",
-      "Bash(for pr:*)"
+      "Bash(for pr:*)",
+      "Bash(export PATH=\"$HOME/scoop/shims:$PATH\")",
+      "Bash(code:*)",
+      "Bash(where code:*)",
+      "Read(//c/Program Files/Microsoft VS Code/bin/**)",
+      "Read(//c/Users/Yannis/AppData/Local/Programs/Microsoft VS Code/bin/**)",
+      "WebSearch",
+      "WebFetch(domain:www.lowcode.agency)"
     ],
     "deny": [
       "Bash(curl:*)",
