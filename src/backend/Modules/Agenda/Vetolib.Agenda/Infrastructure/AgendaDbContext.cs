@@ -1,3 +1,4 @@
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Agenda.Application.Domain;
@@ -23,5 +24,10 @@ internal class AgendaDbContext : MultiTenantDbContext
     {
         base.OnModelCreating(builder); // MUST call base first for tenant filter
         builder.ApplyConfigurationsFromAssembly(typeof(AgendaDbContext).Assembly);
+
+        // Register MassTransit outbox tables in the "agenda" schema
+        builder.AddInboxStateEntity(b => b.ToTable("inbox_state", "agenda"));
+        builder.AddOutboxMessageEntity(b => b.ToTable("outbox_message", "agenda"));
+        builder.AddOutboxStateEntity(b => b.ToTable("outbox_state", "agenda"));
     }
 }

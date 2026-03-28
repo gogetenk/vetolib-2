@@ -1,3 +1,4 @@
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Auth.Application.Domain;
@@ -27,5 +28,10 @@ internal class AuthDbContext : MultiTenantDbContext
     {
         base.OnModelCreating(builder); // MUST call base first for tenant filter
         builder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
+
+        // Register MassTransit outbox tables in the "auth" schema
+        builder.AddInboxStateEntity(b => b.ToTable("inbox_state", "auth"));
+        builder.AddOutboxMessageEntity(b => b.ToTable("outbox_message", "auth"));
+        builder.AddOutboxStateEntity(b => b.ToTable("outbox_state", "auth"));
     }
 }
