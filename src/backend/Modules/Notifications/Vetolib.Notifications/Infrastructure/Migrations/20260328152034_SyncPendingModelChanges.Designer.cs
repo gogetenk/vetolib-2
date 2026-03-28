@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Vetolib.Agenda.Infrastructure;
+using Vetolib.Notifications.Infrastructure;
 
 #nullable disable
 
-namespace Vetolib.Agenda.Infrastructure.Migrations
+namespace Vetolib.Notifications.Infrastructure.Migrations
 {
-    [DbContext(typeof(AgendaDbContext))]
-    partial class AgendaDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(NotificationsDbContext))]
+    [Migration("20260328152034_SyncPendingModelChanges")]
+    partial class SyncPendingModelChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +69,7 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
 
                     b.HasIndex("Delivered");
 
-                    b.ToTable("inbox_state", "agenda");
+                    b.ToTable("inbox_state", "notifications");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
@@ -157,7 +160,7 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                     b.HasIndex("InboxMessageId", "InboxConsumerId", "SequenceNumber")
                         .IsUnique();
 
-                    b.ToTable("outbox_message", "agenda");
+                    b.ToTable("outbox_message", "notifications");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxState", b =>
@@ -187,101 +190,20 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
 
                     b.HasIndex("Created");
 
-                    b.ToTable("outbox_state", "agenda");
+                    b.ToTable("outbox_state", "notifications");
                 });
 
-            modelBuilder.Entity("Vetolib.Agenda.Application.Domain.Appointment", b =>
+            modelBuilder.Entity("Vetolib.Notifications.Domain.ReminderConfig", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AnimalId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("AnimalName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<Guid>("ClinicId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<int>("DurationMinutes")
-                        .HasColumnType("integer");
-
-                    b.Property<TimeOnly>("EndTime")
-                        .HasColumnType("time without time zone");
-
-                    b.Property<Guid?>("OriginalAppointmentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("OwnerEmail")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OwnerName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Reason")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<bool>("ReminderSent")
+                    b.Property<bool>("Appointment24hEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("RescheduleCount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
-
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasDefaultValue("Staff");
-
-                    b.Property<TimeOnly>("StartTime")
-                        .HasColumnType("time without time zone");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("VeterinarianId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("VeterinarianName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClinicId", "Date", "StartTime");
-
-                    b.HasIndex("ClinicId", "VeterinarianId", "Date");
-
-                    b.ToTable("appointments", "agenda");
-                });
-
-            modelBuilder.Entity("Vetolib.Agenda.Application.Domain.ConsultationType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<int>("Appointment24hLeadTimeHours")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("ClinicId")
                         .HasColumnType("uuid");
@@ -289,39 +211,76 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("DurationMinutes")
+                    b.Property<bool>("FollowUpEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("VaccinationDueEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("VaccinationDueLeadTimeDays")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                    b.HasKey("Id");
 
-                    b.Property<string>("Name")
+                    b.HasIndex("ClinicId")
+                        .IsUnique();
+
+                    b.ToTable("reminder_configs", "notifications");
+                });
+
+            modelBuilder.Entity("Vetolib.Notifications.Domain.ReminderLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AppointmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Channel")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
-                    b.Property<bool>("RequiresVetSelection")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("SortOrder")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeliveryStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RecipientEmail")
+                        .IsRequired()
+                        .HasMaxLength(320)
+                        .HasColumnType("character varying(320)");
+
+                    b.Property<string>("ReminderType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClinicId", "Name")
-                        .IsUnique()
-                        .HasFilter("\"IsActive\" = true");
+                    b.HasIndex("ClinicId");
 
-                    b.ToTable("consultation_types", "agenda");
+                    b.HasIndex("AppointmentId", "ReminderType");
+
+                    b.HasIndex("PatientId", "ReminderType");
+
+                    b.ToTable("reminder_logs", "notifications");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
