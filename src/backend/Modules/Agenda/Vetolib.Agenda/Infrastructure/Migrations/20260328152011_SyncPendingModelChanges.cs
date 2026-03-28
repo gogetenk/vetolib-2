@@ -11,26 +11,20 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<bool>(
+            migrationBuilder.AddColumn<bool>(
                 name: "ReminderSent",
                 schema: "agenda",
                 table: "appointments",
                 type: "boolean",
                 nullable: false,
-                oldClrType: typeof(bool),
-                oldType: "boolean",
-                oldDefaultValue: false);
+                defaultValue: false);
 
-            migrationBuilder.AlterColumn<string>(
+            migrationBuilder.AddColumn<string>(
                 name: "OwnerEmail",
                 schema: "agenda",
                 table: "appointments",
                 type: "text",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "character varying(256)",
-                oldMaxLength: 256,
-                oldNullable: true);
+                nullable: true);
 
             migrationBuilder.AddColumn<Guid>(
                 name: "OriginalAppointmentId",
@@ -118,26 +112,15 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                 schema: "agenda",
                 table: "appointments");
 
-            migrationBuilder.AlterColumn<bool>(
+            migrationBuilder.DropColumn(
                 name: "ReminderSent",
                 schema: "agenda",
-                table: "appointments",
-                type: "boolean",
-                nullable: false,
-                defaultValue: false,
-                oldClrType: typeof(bool),
-                oldType: "boolean");
+                table: "appointments");
 
-            migrationBuilder.AlterColumn<string>(
+            migrationBuilder.DropColumn(
                 name: "OwnerEmail",
                 schema: "agenda",
-                table: "appointments",
-                type: "character varying(256)",
-                maxLength: 256,
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "text",
-                oldNullable: true);
+                table: "appointments");
         }
     }
 }
