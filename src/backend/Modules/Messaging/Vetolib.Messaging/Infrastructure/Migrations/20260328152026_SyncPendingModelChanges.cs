@@ -30,14 +30,6 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
                 oldScale: 4,
                 oldNullable: true);
 
-            migrationBuilder.AddColumn<string>(
-                name: "Channel",
-                schema: "messaging",
-                table: "conversations",
-                type: "text",
-                nullable: false,
-                defaultValue: "Portal");
-
             migrationBuilder.AddColumn<bool>(
                 name: "IsSpam",
                 schema: "messaging",
@@ -45,63 +37,6 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
                 type: "boolean",
                 nullable: false,
                 defaultValue: false);
-
-            migrationBuilder.CreateTable(
-                name: "pending_uploads",
-                schema: "messaging",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClinicId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FileName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    ContentType = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    FileSizeBytes = table.Column<long>(type: "bigint", nullable: false),
-                    StoragePath = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    UploadedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_pending_uploads", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "whatsapp_business_accounts",
-                schema: "messaging",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClinicId = table.Column<Guid>(type: "uuid", nullable: false),
-                    WabaId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    PhoneNumberId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    EncryptedAccessToken = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_whatsapp_business_accounts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "whatsapp_phone_mappings",
-                schema: "messaging",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClinicId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Phone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OptInDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_whatsapp_phone_mappings", x => x.Id);
-                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_messages_ConversationId_SentAt",
@@ -120,26 +55,6 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
                 schema: "messaging",
                 table: "conversations",
                 columns: new[] { "ClinicId", "CreatedAt" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_pending_uploads_ExpiresAt",
-                schema: "messaging",
-                table: "pending_uploads",
-                column: "ExpiresAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_whatsapp_business_accounts_ClinicId",
-                schema: "messaging",
-                table: "whatsapp_business_accounts",
-                column: "ClinicId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_whatsapp_phone_mappings_ClinicId_Phone",
-                schema: "messaging",
-                table: "whatsapp_phone_mappings",
-                columns: new[] { "ClinicId", "Phone" },
-                unique: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_message_attachments_messages_MessageId",
@@ -160,18 +75,6 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
                 schema: "messaging",
                 table: "message_attachments");
 
-            migrationBuilder.DropTable(
-                name: "pending_uploads",
-                schema: "messaging");
-
-            migrationBuilder.DropTable(
-                name: "whatsapp_business_accounts",
-                schema: "messaging");
-
-            migrationBuilder.DropTable(
-                name: "whatsapp_phone_mappings",
-                schema: "messaging");
-
             migrationBuilder.DropIndex(
                 name: "IX_messages_ConversationId_SentAt",
                 schema: "messaging",
@@ -184,11 +87,6 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_conversations_ClinicId_CreatedAt",
-                schema: "messaging",
-                table: "conversations");
-
-            migrationBuilder.DropColumn(
-                name: "Channel",
                 schema: "messaging",
                 table: "conversations");
 

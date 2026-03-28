@@ -16,22 +16,6 @@ namespace Vetolib.Billing.Infrastructure.Migrations
                 schema: "billing",
                 table: "invoice_items");
 
-            migrationBuilder.AddColumn<string>(
-                name: "EInvoicingStatus",
-                schema: "billing",
-                table: "invoices",
-                type: "character varying(20)",
-                maxLength: 20,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "PlatformInvoiceId",
-                schema: "billing",
-                table: "invoices",
-                type: "character varying(100)",
-                maxLength: 100,
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "ereporting_periods",
                 schema: "billing",
@@ -107,16 +91,6 @@ namespace Vetolib.Billing.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "ereporting_periods",
                 schema: "billing");
-
-            migrationBuilder.DropColumn(
-                name: "EInvoicingStatus",
-                schema: "billing",
-                table: "invoices");
-
-            migrationBuilder.DropColumn(
-                name: "PlatformInvoiceId",
-                schema: "billing",
-                table: "invoices");
 
             migrationBuilder.AddColumn<int>(
                 name: "Quantity",
