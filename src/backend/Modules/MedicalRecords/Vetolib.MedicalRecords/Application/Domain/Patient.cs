@@ -11,6 +11,7 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
     public Species Species { get; private set; }
     public string Breed { get; private set; } = string.Empty;
     public DateOnly BirthDate { get; private set; }
+    public Sex Sex { get; private set; } = Sex.Unknown;
     public decimal? WeightKg { get; private set; }
 
     private readonly List<PatientOwner> _patientOwners = [];
@@ -21,7 +22,7 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
 
     private Patient() { } // EF Core constructor
 
-    public static Result<Patient> Create(Guid clinicId, string name, Species species, string breed, DateOnly birthDate)
+    public static Result<Patient> Create(Guid clinicId, string name, Species species, string breed, DateOnly birthDate, Sex? sex = null)
     {
         var errors = new List<ValidationError>();
 
@@ -46,13 +47,14 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             Name = name.Trim(),
             Species = species,
             Breed = breed.Trim(),
-            BirthDate = birthDate
+            BirthDate = birthDate,
+            Sex = sex ?? Sex.Unknown
         };
 
         return Result<Patient>.Success(patient);
     }
 
-    public Result UpdateInfo(string? name, Species? species, string? breed, DateOnly? birthDate)
+    public Result UpdateInfo(string? name, Species? species, string? breed, DateOnly? birthDate, Sex? sex = null)
     {
         if (name is not null)
         {
@@ -77,6 +79,9 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
                 return Result.Error("Birth date is invalid");
             BirthDate = birthDate.Value;
         }
+
+        if (sex is not null)
+            Sex = sex.Value;
 
         return Result.Success();
     }
@@ -111,6 +116,7 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             Species,
             Breed,
             BirthDate,
+            Sex,
             firstOwner is not null ? $"{firstOwner.FirstName} {firstOwner.LastName}".Trim() : string.Empty,
             firstOwner?.Phone ?? string.Empty,
             ClinicId);

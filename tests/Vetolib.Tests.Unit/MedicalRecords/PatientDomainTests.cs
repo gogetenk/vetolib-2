@@ -158,4 +158,65 @@ public class PatientDomainTests
             allSpecies.Should().Contain(species, $"{species} should be a valid UAE species");
         }
     }
+
+    // ── Sex field tests ───────────────────────────────────────────
+
+    [Fact]
+    public void Create_WithExplicitSex_SetsSex()
+    {
+        var result = Patient.Create(ValidClinicId, "Simba", Species.Cat, "Arabian Mau", new DateOnly(2022, 1, 15), Sex.Male);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Sex.Should().Be(Sex.Male);
+    }
+
+    [Fact]
+    public void Create_WithoutSex_DefaultsToUnknown()
+    {
+        var result = Patient.Create(ValidClinicId, "Shadow", Species.Cat, "Persian", new DateOnly(2021, 6, 1));
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Sex.Should().Be(Sex.Unknown);
+    }
+
+    [Fact]
+    public void UpdateInfo_WithSexChange_UpdatesSex()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rex", Species.Dog, "German Shepherd", new DateOnly(2020, 3, 10), Sex.Male).Value;
+
+        var result = patient.UpdateInfo(null, null, null, null, Sex.NeuteredMale);
+
+        result.IsSuccess.Should().BeTrue();
+        patient.Sex.Should().Be(Sex.NeuteredMale);
+    }
+
+    [Fact]
+    public void UpdateInfo_WithNullSex_KeepsExistingSex()
+    {
+        var patient = Patient.Create(ValidClinicId, "Bella", Species.Dog, "Saluki", new DateOnly(2019, 8, 20), Sex.Female).Value;
+
+        var result = patient.UpdateInfo("Bella Updated", null, null, null, null);
+
+        result.IsSuccess.Should().BeTrue();
+        patient.Sex.Should().Be(Sex.Female);
+    }
+
+    [Fact]
+    public void SexEnum_HasAllExpectedValues()
+    {
+        var allValues = Enum.GetValues<Sex>();
+        allValues.Should().Contain(Sex.Male);
+        allValues.Should().Contain(Sex.Female);
+        allValues.Should().Contain(Sex.NeuteredMale);
+        allValues.Should().Contain(Sex.SpayedFemale);
+        allValues.Should().Contain(Sex.Unknown);
+    }
+
+    [Fact]
+    public void SexEnum_SerializesToString()
+    {
+        var options = new System.Text.Json.JsonSerializerOptions();
+        var json = System.Text.Json.JsonSerializer.Serialize(Sex.NeuteredMale, options);
+        json.Should().Be("\"NeuteredMale\"");
+    }
 }

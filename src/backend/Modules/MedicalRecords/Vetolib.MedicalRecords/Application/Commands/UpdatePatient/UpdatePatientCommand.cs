@@ -11,4 +11,5 @@ internal record UpdatePatientCommand(
     string? Breed,
     DateOnly? BirthDate,
     string? OwnerName,
-    string? OwnerPhone) : IRequest<Result<PatientDto>>;
+    string? OwnerPhone,
+    Sex? Sex = null) : IRequest<Result<PatientDto>>;

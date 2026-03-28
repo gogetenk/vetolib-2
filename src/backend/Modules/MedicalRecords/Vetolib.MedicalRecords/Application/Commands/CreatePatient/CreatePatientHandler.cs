@@ -19,7 +19,7 @@ internal class CreatePatientHandler : IRequestHandler<CreatePatientCommand, Resu
     public async Task<Result<PatientDto>> Handle(CreatePatientCommand cmd, CancellationToken ct)
     {
         // Create patient via domain factory
-        var patientResult = Patient.Create(cmd.ClinicId, cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate);
+        var patientResult = Patient.Create(cmd.ClinicId, cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.Sex);
 
         if (!patientResult.IsSuccess)
             return Result<PatientDto>.Invalid(patientResult.ValidationErrors.ToList());

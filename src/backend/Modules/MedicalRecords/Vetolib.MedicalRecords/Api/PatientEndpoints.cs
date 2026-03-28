@@ -69,7 +69,8 @@ internal static class PatientEndpoints
             request.Breed,
             request.BirthDate,
             request.OwnerName,
-            request.OwnerPhone);
+            request.OwnerPhone,
+            request.Sex);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
@@ -110,7 +111,8 @@ internal static class PatientEndpoints
             request.Breed,
             request.BirthDate,
             request.OwnerName,
-            request.OwnerPhone);
+            request.OwnerPhone,
+            request.Sex);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }

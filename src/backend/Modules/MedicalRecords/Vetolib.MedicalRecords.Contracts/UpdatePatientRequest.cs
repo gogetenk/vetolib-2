@@ -6,4 +6,5 @@ public record UpdatePatientRequest(
     string? Breed,
     DateOnly? BirthDate,
     string? OwnerName,
-    string? OwnerPhone);
+    string? OwnerPhone,
+    Sex? Sex = null);

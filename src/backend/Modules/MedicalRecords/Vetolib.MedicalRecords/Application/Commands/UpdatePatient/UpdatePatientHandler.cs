@@ -26,7 +26,7 @@ internal class UpdatePatientHandler : IRequestHandler<UpdatePatientCommand, Resu
             return Result<PatientDto>.NotFound($"Patient '{cmd.PatientId}' not found.");
 
         // Update patient fields
-        var updateResult = patient.UpdateInfo(cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate);
+        var updateResult = patient.UpdateInfo(cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.Sex);
         if (!updateResult.IsSuccess)
             return Result<PatientDto>.Error(string.Join("; ", updateResult.Errors));
 

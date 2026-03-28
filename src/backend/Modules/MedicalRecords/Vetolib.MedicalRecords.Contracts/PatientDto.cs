@@ -6,6 +6,7 @@ public record PatientDto(
     Species Species,
     string Breed,
     DateOnly BirthDate,
+    Sex Sex,
     string OwnerName,
     string OwnerPhone,
     Guid ClinicId);
