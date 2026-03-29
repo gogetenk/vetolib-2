@@ -23,6 +23,7 @@ public class RecordHeatCycleHandlerTests : IDisposable
     {
         var options = new DbContextOptionsBuilder<BreedingDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .EnableServiceProviderCaching(false)
             .Options;
 
         var clinicContext = Substitute.For<IClinicContext>();

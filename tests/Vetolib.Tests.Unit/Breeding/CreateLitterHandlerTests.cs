@@ -13,10 +13,10 @@ namespace Vetolib.Tests.Unit.Breeding;
 
 public class CreateLitterHandlerTests
 {
-    private static readonly Guid ClinicId = Guid.NewGuid();
-    private static readonly Guid MotherId = Guid.NewGuid();
-    private static readonly Guid FatherId = Guid.NewGuid();
-    private static readonly DateOnly ValidDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10));
+    private readonly Guid ClinicId = Guid.NewGuid();
+    private readonly Guid MotherId = Guid.NewGuid();
+    private readonly Guid FatherId = Guid.NewGuid();
+    private readonly DateOnly ValidDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-10));
 
     private readonly IPatientReader _patientReader = Substitute.For<IPatientReader>();
 
@@ -24,6 +24,7 @@ public class CreateLitterHandlerTests
     {
         var options = new DbContextOptionsBuilder<BreedingDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .EnableServiceProviderCaching(false)
             .Options;
 
         var clinicContext = Substitute.For<IClinicContext>();

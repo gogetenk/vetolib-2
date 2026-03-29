@@ -25,6 +25,7 @@ public class CreatePregnancyHandlerTests
 
         var options = new DbContextOptionsBuilder<BreedingDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .EnableServiceProviderCaching(false)
             .Options;
 
         var context = new BreedingDbContext(options, clinicContext, publisher);
