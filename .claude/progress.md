@@ -2,6 +2,35 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
+## 2026-03-28T17:00 -- Forge cycle (WAVE 1 DISPATCHED)
+
+- TODO: 9 | WIP: 3 | DONE: 0 (vague breeders)
+- develop CI: GREEN (run 23689313972)
+- Agents actifs: 3 (Wave 1 — worktrees isolés)
+  - 001: Sex enum + field (feat/back-patient-sex-001)
+  - 002: MicrochipNumber field (feat/back-patient-microchip-002)
+  - 003: Falcon + Reptile species (feat/back-patient-species-003)
+- PRs en review: 0
+- Questions PO: 13 ouvertes
+- Prochaine action: surveiller agents Wave 1 → review PRs → merge → dispatch Wave 2
+
+### Session highlights
+- New PC setup: scoop, gh CLI, Aspire CLI, dotnet-ef, Jwt:Key
+- 7 fix commits to unblock develop CI (migrations, pooling, outbox, orphaned files)
+- PR #156 merged (MSWProvider hydration fix)
+- Forge improvements: circuit breaker 3 tentatives, agent status protocol, question re-grounding
+- 4 repos analyzed (superpowers, gstack, frontend-design, Claw3D) — 3 ideas adopted
+- Agent Teams (experimental) identified as next evolution for forge orchestration
+
+### Wave 1 dispatch graph
+```
+WAVE 1 (NOW):  001 + 002 + 003  (no dependencies)
+WAVE 2:        004 + 005 + 007  (depend on Wave 1)
+WAVE 3:        006 + 008 + 010 + 011
+WAVE 4:        009
+WAVE 5:        012
+```
+
 ## 2026-03-25 -- Architecture validation: Breeders features (12 tasks created)
 
 - TODO: 12 (breeders) + 2 (post-MVP)
