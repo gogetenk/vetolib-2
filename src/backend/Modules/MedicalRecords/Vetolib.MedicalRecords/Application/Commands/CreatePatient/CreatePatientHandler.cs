@@ -28,7 +28,7 @@ internal class CreatePatientHandler : IRequestHandler<CreatePatientCommand, Resu
         }
 
         // Create patient via domain factory
-        var patientResult = Patient.Create(cmd.ClinicId, cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.MicrochipNumber);
+        var patientResult = Patient.Create(cmd.ClinicId, cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.Sex, cmd.MicrochipNumber);
 
         if (!patientResult.IsSuccess)
             return Result<PatientDto>.Invalid(patientResult.ValidationErrors.ToList());

@@ -35,7 +35,7 @@ internal class UpdatePatientHandler : IRequestHandler<UpdatePatientCommand, Resu
         }
 
         // Update patient fields
-        var updateResult = patient.UpdateInfo(cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.MicrochipNumber);
+        var updateResult = patient.UpdateInfo(cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.Sex, cmd.MicrochipNumber);
         if (!updateResult.IsSuccess)
             return Result<PatientDto>.Error(string.Join("; ", updateResult.Errors));
 

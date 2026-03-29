@@ -70,6 +70,7 @@ internal static class PatientEndpoints
             request.BirthDate,
             request.OwnerName,
             request.OwnerPhone,
+            request.Sex,
             request.MicrochipNumber);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
@@ -113,6 +114,7 @@ internal static class PatientEndpoints
             request.BirthDate,
             request.OwnerName,
             request.OwnerPhone,
+            request.Sex,
             request.MicrochipNumber);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();

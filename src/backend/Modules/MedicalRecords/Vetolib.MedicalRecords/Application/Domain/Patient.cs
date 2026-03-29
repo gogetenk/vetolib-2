@@ -14,6 +14,7 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
     public Species Species { get; private set; }
     public string Breed { get; private set; } = string.Empty;
     public DateOnly BirthDate { get; private set; }
+    public Sex Sex { get; private set; } = Sex.Unknown;
     public decimal? WeightKg { get; private set; }
     public string? MicrochipNumber { get; private set; }
 
@@ -25,7 +26,7 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
 
     private Patient() { } // EF Core constructor
 
-    public static Result<Patient> Create(Guid clinicId, string name, Species species, string breed, DateOnly birthDate, string? microchipNumber = null)
+    public static Result<Patient> Create(Guid clinicId, string name, Species species, string breed, DateOnly birthDate, Sex? sex = null, string? microchipNumber = null)
     {
         var errors = new List<ValidationError>();
 
@@ -54,13 +55,14 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             Species = species,
             Breed = breed.Trim(),
             BirthDate = birthDate,
+            Sex = sex ?? Sex.Unknown,
             MicrochipNumber = microchipNumber
         };
 
         return Result<Patient>.Success(patient);
     }
 
-    public Result UpdateInfo(string? name, Species? species, string? breed, DateOnly? birthDate, string? microchipNumber = null)
+    public Result UpdateInfo(string? name, Species? species, string? breed, DateOnly? birthDate, Sex? sex = null, string? microchipNumber = null)
     {
         if (name is not null)
         {
@@ -85,6 +87,9 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
                 return Result.Error("Birth date is invalid");
             BirthDate = birthDate.Value;
         }
+
+        if (sex is not null)
+            Sex = sex.Value;
 
         if (microchipNumber is not null)
         {
@@ -126,6 +131,7 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             Species,
             Breed,
             BirthDate,
+            Sex,
             firstOwner is not null ? $"{firstOwner.FirstName} {firstOwner.LastName}".Trim() : string.Empty,
             firstOwner?.Phone ?? string.Empty,
             ClinicId,

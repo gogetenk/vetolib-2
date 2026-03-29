@@ -189,12 +189,73 @@ public class PatientDomainTests
         }
     }
 
+    // ── Sex field tests ───────────────────────────────────────────
+
+    [Fact]
+    public void Create_WithExplicitSex_SetsSex()
+    {
+        var result = Patient.Create(ValidClinicId, "Simba", Species.Cat, "Arabian Mau", new DateOnly(2022, 1, 15), Sex.Male);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Sex.Should().Be(Sex.Male);
+    }
+
+    [Fact]
+    public void Create_WithoutSex_DefaultsToUnknown()
+    {
+        var result = Patient.Create(ValidClinicId, "Shadow", Species.Cat, "Persian", new DateOnly(2021, 6, 1));
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Sex.Should().Be(Sex.Unknown);
+    }
+
+    [Fact]
+    public void UpdateInfo_WithSexChange_UpdatesSex()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rex", Species.Dog, "German Shepherd", new DateOnly(2020, 3, 10), Sex.Male).Value;
+
+        var result = patient.UpdateInfo(null, null, null, null, Sex.NeuteredMale);
+
+        result.IsSuccess.Should().BeTrue();
+        patient.Sex.Should().Be(Sex.NeuteredMale);
+    }
+
+    [Fact]
+    public void UpdateInfo_WithNullSex_KeepsExistingSex()
+    {
+        var patient = Patient.Create(ValidClinicId, "Bella", Species.Dog, "Saluki", new DateOnly(2019, 8, 20), Sex.Female).Value;
+
+        var result = patient.UpdateInfo("Bella Updated", null, null, null, null);
+
+        result.IsSuccess.Should().BeTrue();
+        patient.Sex.Should().Be(Sex.Female);
+    }
+
+    [Fact]
+    public void SexEnum_HasAllExpectedValues()
+    {
+        var allValues = Enum.GetValues<Sex>();
+        allValues.Should().Contain(Sex.Male);
+        allValues.Should().Contain(Sex.Female);
+        allValues.Should().Contain(Sex.NeuteredMale);
+        allValues.Should().Contain(Sex.SpayedFemale);
+        allValues.Should().Contain(Sex.Unknown);
+    }
+
+    [Fact]
+    public void SexEnum_SerializesToString()
+    {
+        var options = new System.Text.Json.JsonSerializerOptions();
+        var json = System.Text.Json.JsonSerializer.Serialize(Sex.NeuteredMale, options);
+        json.Should().Be("\"NeuteredMale\"");
+    }
+
     // --- Microchip tests ---
 
     [Fact]
     public void Create_WithValidMicrochip_ReturnsSuccessWithMicrochip()
     {
-        var result = Patient.Create(ValidClinicId, "Nala", Species.Cat, "Siamese", new DateOnly(2021, 5, 10), "900118000123456");
+        var result = Patient.Create(ValidClinicId, "Nala", Species.Cat, "Siamese", new DateOnly(2021, 5, 10), microchipNumber: "900118000123456");
 
         result.IsSuccess.Should().BeTrue();
         result.Value.MicrochipNumber.Should().Be("900118000123456");
@@ -217,7 +278,7 @@ public class PatientDomainTests
     [InlineData("")]
     public void Create_WithInvalidMicrochip_ReturnsInvalid(string microchip)
     {
-        var result = Patient.Create(ValidClinicId, "Nala", Species.Cat, "Siamese", new DateOnly(2021, 5, 10), microchip);
+        var result = Patient.Create(ValidClinicId, "Nala", Species.Cat, "Siamese", new DateOnly(2021, 5, 10), microchipNumber: microchip);
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().Contain(e => e.Identifier == "microchipNumber");
@@ -228,7 +289,7 @@ public class PatientDomainTests
     {
         var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
 
-        var result = patient.UpdateInfo(null, null, null, null, "900118000654321");
+        var result = patient.UpdateInfo(null, null, null, null, microchipNumber: "900118000654321");
 
         result.IsSuccess.Should().BeTrue();
         patient.MicrochipNumber.Should().Be("900118000654321");
@@ -239,7 +300,7 @@ public class PatientDomainTests
     {
         var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
 
-        var result = patient.UpdateInfo(null, null, null, null, "12345");
+        var result = patient.UpdateInfo(null, null, null, null, microchipNumber: "12345");
 
         result.IsSuccess.Should().BeFalse();
     }
@@ -247,7 +308,7 @@ public class PatientDomainTests
     [Fact]
     public void UpdateInfo_WithNullMicrochip_KeepsExistingMicrochip()
     {
-        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10), "900118000123456").Value;
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10), microchipNumber: "900118000123456").Value;
 
         var result = patient.UpdateInfo("Max", null, null, null);
 

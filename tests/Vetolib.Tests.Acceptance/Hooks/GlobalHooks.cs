@@ -85,6 +85,13 @@ internal class GlobalHooks
         var preferencesDb = scope.ServiceProvider.GetRequiredService<PreferencesDbContext>();
         var preferencesCreator = preferencesDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
         try { await preferencesCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
+        // Clean seed data inserted by DbInitializer.SeedAsync() during app startup.
+        // Without this, the first BDD scenario to run may conflict with seed users
+        // (e.g. admin@desertpaws.ae exists with a random password, causing login failures).
+        await authDb.RefreshTokens.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await authDb.Users.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await authDb.Clinics.ExecuteDeleteAsync();
     }
 
     [AfterTestRun]
