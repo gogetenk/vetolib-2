@@ -189,7 +189,7 @@ public class UpdatePatientHandlerTests : IDisposable
     public async Task Handle_WithDuplicateMicrochip_ReturnsConflict()
     {
         // Create another patient with a microchip
-        var otherPatient = Patient.Create(ClinicId, "Max", Species.Cat, "Persian", new DateOnly(2019, 1, 1), "900118000111111");
+        var otherPatient = Patient.Create(ClinicId, "Max", Species.Cat, "Persian", new DateOnly(2019, 1, 1), microchipNumber: "900118000111111");
         _context.Patients.Add(otherPatient.Value);
         await _context.SaveChangesAsync();
 

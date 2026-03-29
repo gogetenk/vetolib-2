@@ -7,4 +7,5 @@ public record CreatePatientRequest(
     DateOnly BirthDate,
     string OwnerName,
     string OwnerPhone,
+    Sex? Sex = null,
     string? MicrochipNumber = null);
