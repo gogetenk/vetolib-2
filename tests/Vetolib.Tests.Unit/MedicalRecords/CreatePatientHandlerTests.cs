@@ -40,7 +40,8 @@ public class CreatePatientHandlerTests : IDisposable
         string breed = "Labrador",
         string ownerName = "Faisal Al-Kuwari",
         string ownerPhone = "+971501234567",
-        DateOnly? birthDate = null)
+        DateOnly? birthDate = null,
+        string? microchipNumber = null)
         => new(
             ClinicId: ClinicId,
             Name: name,
@@ -48,7 +49,8 @@ public class CreatePatientHandlerTests : IDisposable
             Breed: breed,
             BirthDate: birthDate ?? new DateOnly(2020, 5, 10),
             OwnerName: ownerName,
-            OwnerPhone: ownerPhone);
+            OwnerPhone: ownerPhone,
+            MicrochipNumber: microchipNumber);
 
     [Fact]
     public async Task Handle_HappyPath_CreatesPatientWithOwnerLink()
@@ -125,6 +127,41 @@ public class CreatePatientHandlerTests : IDisposable
 
         result.IsSuccess.Should().BeFalse();
         result.Status.Should().Be(ResultStatus.Invalid);
+    }
+
+    [Fact]
+    public async Task Handle_WithMicrochip_CreatesPatientWithMicrochip()
+    {
+        var cmd = BuildCommand(microchipNumber: "900118000123456");
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.MicrochipNumber.Should().Be("900118000123456");
+    }
+
+    [Fact]
+    public async Task Handle_WithoutMicrochip_CreatesPatientWithoutMicrochip()
+    {
+        var cmd = BuildCommand();
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.MicrochipNumber.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task Handle_WithDuplicateMicrochip_ReturnsConflict()
+    {
+        var cmd1 = BuildCommand(name: "Buddy", microchipNumber: "900118000111111", ownerPhone: "+971501111111");
+        await _handler.Handle(cmd1, CancellationToken.None);
+
+        var cmd2 = BuildCommand(name: "Max", microchipNumber: "900118000111111", ownerPhone: "+971502222222");
+        var result = await _handler.Handle(cmd2, CancellationToken.None);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Status.Should().Be(ResultStatus.Conflict);
     }
 
     public void Dispose() => _context.Dispose();

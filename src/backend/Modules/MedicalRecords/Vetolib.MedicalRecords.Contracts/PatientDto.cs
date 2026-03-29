@@ -9,4 +9,5 @@ public record PatientDto(
     Sex Sex,
     string OwnerName,
     string OwnerPhone,
-    Guid ClinicId);
+    Guid ClinicId,
+    string? MicrochipNumber = null);

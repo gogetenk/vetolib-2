@@ -1,11 +1,14 @@
+using System.Text.RegularExpressions;
 using Ardalis.Result;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Shared.Kernel;
 
 namespace Vetolib.MedicalRecords.Application.Domain;
 
-internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
+internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
 {
+    private static readonly Regex MicrochipRegex = MicrochipPattern();
+
     public Guid ClinicId { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public Species Species { get; private set; }
@@ -13,6 +16,7 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
     public DateOnly BirthDate { get; private set; }
     public Sex Sex { get; private set; } = Sex.Unknown;
     public decimal? WeightKg { get; private set; }
+    public string? MicrochipNumber { get; private set; }
 
     private readonly List<PatientOwner> _patientOwners = [];
     public IReadOnlyList<PatientOwner> PatientOwners => _patientOwners.AsReadOnly();
@@ -22,7 +26,7 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
 
     private Patient() { } // EF Core constructor
 
-    public static Result<Patient> Create(Guid clinicId, string name, Species species, string breed, DateOnly birthDate, Sex? sex = null)
+    public static Result<Patient> Create(Guid clinicId, string name, Species species, string breed, DateOnly birthDate, Sex? sex = null, string? microchipNumber = null)
     {
         var errors = new List<ValidationError>();
 
@@ -38,6 +42,9 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
         if (birthDate == default)
             errors.Add(new ValidationError(nameof(birthDate), "Birth date is required"));
 
+        if (microchipNumber is not null && !MicrochipRegex.IsMatch(microchipNumber))
+            errors.Add(new ValidationError(nameof(microchipNumber), "Microchip number must be 15 digits (ISO 11784/11785)"));
+
         if (errors.Count > 0)
             return Result<Patient>.Invalid(errors);
 
@@ -48,13 +55,14 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             Species = species,
             Breed = breed.Trim(),
             BirthDate = birthDate,
-            Sex = sex ?? Sex.Unknown
+            Sex = sex ?? Sex.Unknown,
+            MicrochipNumber = microchipNumber
         };
 
         return Result<Patient>.Success(patient);
     }
 
-    public Result UpdateInfo(string? name, Species? species, string? breed, DateOnly? birthDate, Sex? sex = null)
+    public Result UpdateInfo(string? name, Species? species, string? breed, DateOnly? birthDate, Sex? sex = null, string? microchipNumber = null)
     {
         if (name is not null)
         {
@@ -82,6 +90,13 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
 
         if (sex is not null)
             Sex = sex.Value;
+
+        if (microchipNumber is not null)
+        {
+            if (!MicrochipRegex.IsMatch(microchipNumber))
+                return Result.Error("Microchip number must be 15 digits (ISO 11784/11785)");
+            MicrochipNumber = microchipNumber;
+        }
 
         return Result.Success();
     }
@@ -119,6 +134,10 @@ internal class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             Sex,
             firstOwner is not null ? $"{firstOwner.FirstName} {firstOwner.LastName}".Trim() : string.Empty,
             firstOwner?.Phone ?? string.Empty,
-            ClinicId);
+            ClinicId,
+            MicrochipNumber);
     }
+
+    [GeneratedRegex(@"^\d{15}$")]
+    private static partial Regex MicrochipPattern();
 }

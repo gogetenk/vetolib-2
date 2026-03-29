@@ -11,5 +11,8 @@ internal class CreatePatientValidator : AbstractValidator<CreatePatientCommand>
         RuleFor(x => x.OwnerName).NotEmpty().WithMessage("Owner name is required");
         RuleFor(x => x.OwnerPhone).NotEmpty().WithMessage("Owner phone number is required");
         RuleFor(x => x.BirthDate).NotEqual(default(DateOnly)).WithMessage("Birth date is required");
+        When(x => x.MicrochipNumber is not null, () =>
+            RuleFor(x => x.MicrochipNumber).Matches(@"^\d{15}$")
+                .WithMessage("Microchip number must be 15 digits (ISO 11784/11785)"));
     }
 }

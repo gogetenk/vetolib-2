@@ -25,8 +25,17 @@ internal class UpdatePatientHandler : IRequestHandler<UpdatePatientCommand, Resu
         if (patient is null)
             return Result<PatientDto>.NotFound($"Patient '{cmd.PatientId}' not found.");
 
+        // Check microchip uniqueness within clinic
+        if (cmd.MicrochipNumber is not null)
+        {
+            var exists = await _context.Patients
+                .AnyAsync(p => p.MicrochipNumber == cmd.MicrochipNumber && p.Id != cmd.PatientId, ct);
+            if (exists)
+                return Result<PatientDto>.Conflict("A patient with this microchip number already exists");
+        }
+
         // Update patient fields
-        var updateResult = patient.UpdateInfo(cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.Sex);
+        var updateResult = patient.UpdateInfo(cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.Sex, cmd.MicrochipNumber);
         if (!updateResult.IsSuccess)
             return Result<PatientDto>.Error(string.Join("; ", updateResult.Errors));
 

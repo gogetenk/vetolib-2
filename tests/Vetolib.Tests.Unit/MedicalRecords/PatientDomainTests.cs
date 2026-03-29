@@ -219,4 +219,71 @@ public class PatientDomainTests
         var json = System.Text.Json.JsonSerializer.Serialize(Sex.NeuteredMale, options);
         json.Should().Be("\"NeuteredMale\"");
     }
+
+    // --- Microchip tests ---
+
+    [Fact]
+    public void Create_WithValidMicrochip_ReturnsSuccessWithMicrochip()
+    {
+        var result = Patient.Create(ValidClinicId, "Nala", Species.Cat, "Siamese", new DateOnly(2021, 5, 10), microchipNumber: "900118000123456");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.MicrochipNumber.Should().Be("900118000123456");
+    }
+
+    [Fact]
+    public void Create_WithNullMicrochip_ReturnsSuccessWithoutMicrochip()
+    {
+        var result = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Saluki", new DateOnly(2021, 5, 10));
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.MicrochipNumber.Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData("12345")]
+    [InlineData("abcdefghijklmno")]
+    [InlineData("9001180001234567")]
+    [InlineData("90011800012345")]
+    [InlineData("")]
+    public void Create_WithInvalidMicrochip_ReturnsInvalid(string microchip)
+    {
+        var result = Patient.Create(ValidClinicId, "Nala", Species.Cat, "Siamese", new DateOnly(2021, 5, 10), microchipNumber: microchip);
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "microchipNumber");
+    }
+
+    [Fact]
+    public void UpdateInfo_WithValidMicrochip_UpdatesMicrochip()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
+
+        var result = patient.UpdateInfo(null, null, null, null, microchipNumber: "900118000654321");
+
+        result.IsSuccess.Should().BeTrue();
+        patient.MicrochipNumber.Should().Be("900118000654321");
+    }
+
+    [Fact]
+    public void UpdateInfo_WithInvalidMicrochip_ReturnsError()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10)).Value;
+
+        var result = patient.UpdateInfo(null, null, null, null, microchipNumber: "12345");
+
+        result.IsSuccess.Should().BeFalse();
+    }
+
+    [Fact]
+    public void UpdateInfo_WithNullMicrochip_KeepsExistingMicrochip()
+    {
+        var patient = Patient.Create(ValidClinicId, "Rocky", Species.Dog, "Labrador", new DateOnly(2021, 5, 10), microchipNumber: "900118000123456").Value;
+
+        var result = patient.UpdateInfo("Max", null, null, null);
+
+        result.IsSuccess.Should().BeTrue();
+        patient.Name.Should().Be("Max");
+        patient.MicrochipNumber.Should().Be("900118000123456");
+    }
 }

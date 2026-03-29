@@ -31,7 +31,7 @@ internal static class PatientEndpoints
 
         group.MapGet("/", ListPatients)
             .WithName("ListPatients")
-            .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
+            .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name", "microchip").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
 
         group.MapGet("/{id:guid}", GetPatientById)
             .WithName("GetPatientById")
@@ -70,7 +70,8 @@ internal static class PatientEndpoints
             request.BirthDate,
             request.OwnerName,
             request.OwnerPhone,
-            request.Sex);
+            request.Sex,
+            request.MicrochipNumber);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
@@ -79,10 +80,11 @@ internal static class PatientEndpoints
         ISender sender,
         string? name = null,
         Species? species = null,
+        string? microchip = null,
         int page = 1,
         int pageSize = 20)
     {
-        return (await sender.Send(new ListPatientsQuery(name, species, page <= 0 ? 1 : page, pageSize <= 0 ? 20 : pageSize))).ToMinimalApiResult();
+        return (await sender.Send(new ListPatientsQuery(name, species, microchip, page <= 0 ? 1 : page, pageSize <= 0 ? 20 : pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> GetPatientById(
@@ -112,7 +114,8 @@ internal static class PatientEndpoints
             request.BirthDate,
             request.OwnerName,
             request.OwnerPhone,
-            request.Sex);
+            request.Sex,
+            request.MicrochipNumber);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
