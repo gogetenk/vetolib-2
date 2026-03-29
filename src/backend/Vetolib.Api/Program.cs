@@ -25,6 +25,8 @@ using Vetolib.Stock;
 using Vetolib.Stock.Infrastructure;
 using Vetolib.Preferences;
 using Vetolib.Preferences.Infrastructure;
+using Vetolib.Breeding;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.ServiceDefaults;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Shared.Infrastructure.Email;
@@ -225,6 +227,11 @@ builder.Services.AddPreferencesModule(builder.Configuration);
 builder.Services.AddPreferencesDbContext(connectionString);
 builder.EnrichNpgsqlDbContext<PreferencesDbContext>(settings => settings.DisableHealthChecks = true);
 
+// Breeding module
+builder.Services.AddBreedingModule(builder.Configuration);
+builder.Services.AddBreedingDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<BreedingDbContext>(settings => settings.DisableHealthChecks = true);
+
 // Rate limiting
 // "auth"   — 10 req/min per IP (login, refresh, change-password)
 // "signup" — 3 req/h per IP   (clinic self-registration)
@@ -283,6 +290,7 @@ app.MapAIEndpoints();
 app.MapMessagingEndpoints();
 app.MapStockEndpoints();
 app.MapPreferencesEndpoints();
+app.MapBreedingEndpoints();
 
 app.MapOpenApi();
 

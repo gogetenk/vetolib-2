@@ -10,6 +10,12 @@ public interface IPatientReader
     Task<Result<IReadOnlyList<PatientDto>>> GetPatientsByOwnerIdAsync(Guid ownerId, Guid clinicId, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Returns a single patient by ID within the current tenant scope.
+    /// Used by modules (e.g. Breeding) that need to look up patient details.
+    /// </summary>
+    Task<Result<PatientDto>> GetPatientByIdAsync(Guid patientId, CancellationToken ct = default);
+
+    /// <summary>
     /// Returns the patient context for display in an inbox conversation.
     /// The <paramref name="includeFullMedicalContext"/> flag controls whether sensitive medical
     /// details (allergies, medications, vaccinations) are included.
