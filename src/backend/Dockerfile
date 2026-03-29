@@ -27,6 +27,8 @@ COPY Modules/Stock/Vetolib.Stock.Contracts/Vetolib.Stock.Contracts.csproj       
 COPY Modules/Stock/Vetolib.Stock/Vetolib.Stock.csproj                                                Modules/Stock/Vetolib.Stock/
 COPY Modules/Preferences/Vetolib.Preferences.Contracts/Vetolib.Preferences.Contracts.csproj          Modules/Preferences/Vetolib.Preferences.Contracts/
 COPY Modules/Preferences/Vetolib.Preferences/Vetolib.Preferences.csproj                              Modules/Preferences/Vetolib.Preferences/
+COPY Modules/Breeding/Vetolib.Breeding.Contracts/Vetolib.Breeding.Contracts.csproj                   Modules/Breeding/Vetolib.Breeding.Contracts/
+COPY Modules/Breeding/Vetolib.Breeding/Vetolib.Breeding.csproj                                       Modules/Breeding/Vetolib.Breeding/
 
 # AppHost is Aspire-only — not needed for Docker deployment; exclude it.
 # The solution references it, so we add a stub entry to satisfy the sln without building it.
