@@ -80,6 +80,19 @@ Tâche front-auth-001        → [MSW: oui] → prête dès que front-scaffold d
 Tâche wire-auth-001         → prête quand back-auth-001 ET front-auth-001 done
 ```
 
+**Stratégie de merge pour tâches sur la même entité :**
+
+Quand plusieurs agents Wave N touchent la même entité/fichier :
+1. NE PAS créer de PR séparées (conflits en cascade)
+2. Chaque agent travaille dans son worktree isolé
+3. L'orchestrateur merge les worktrees en **1 seule branche** :
+   - Créer une branche `feat/wave-{N}-{module}`
+   - Cherry-pick ou merge chaque worktree séquentiellement
+   - Résoudre les conflits
+   - Build + tests
+   - 1 seule PR vers develop
+4. Alternative : dispatcher les tâches **séquentiellement** (attendre le merge de chaque PR avant de dispatcher la suivante)
+
 ### 3. Détecter les tâches de branchement à créer
 
 Quand un `done-back-{module}-*` ET un `done-front-{module}-*` existent tous les deux

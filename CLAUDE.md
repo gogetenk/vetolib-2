@@ -151,6 +151,19 @@ Pas de "je committe et je fix après". Pas de `--filter` pour exclure les tests 
 
 Un agent dev qui ouvre une PR sans avoir exécuté ces commandes = PR rejetée.
 
+### 3f. Audit des migrations EF Core (ajout v3.5)
+
+Après chaque `dotnet ef migrations add`, l'agent DOIT vérifier :
+
+1. **Lire le fichier `.cs` généré** — vérifier :
+   - Pas de `AlterColumn` sur des colonnes jamais créées (doit être `AddColumn`)
+   - Pas de `DropTable`/`DropColumn` non intentionnels (ex: tables MassTransit outbox)
+   - Le fichier `.Designer.cs` compagnon existe
+2. **Valider** : `dotnet ef migrations has-pending-model-changes -c {Context} -p {project} -s src/backend/Vetolib.Api` → doit retourner "No changes"
+3. **Si des doutes** → lire les migrations précédentes pour comprendre l'historique du schéma
+
+**Pourquoi** : les migrations auto-générées peuvent produire des `AlterColumn` fantômes quand le snapshot diverge du schéma réel. 7 commits de fix en une session à cause de ça.
+
 ### 3c. Commit immédiat après GREEN (ajout v3.2 — post-mortem 2026-03-11)
 
 **Dès que les tests sont GREEN → `git add` + `git commit` + `git push` IMMÉDIATEMENT.**
@@ -192,6 +205,7 @@ git push --force-with-lease # BLOQUÉ par les repo rules
 - Un agent worktree crée sa PROPRE PR. INTERDIT de pousser sur la branche d'un autre agent.
 - Après chaque merge de PR → vérifier que `develop` CI est GREEN dans les 2 minutes.
 - Si develop RED après merge → fix immédiat, AVANT toute autre action.
+- **Tâches qui touchent la même entité** : les worktrees sont mergés par l'orchestrateur en **1 seule branche + 1 seule PR** pour éviter les conflits en cascade. L'orchestrateur fait le merge local des worktrees, résout les conflits, vérifie le build, puis push + PR.
 
 ### 4. Multi-tenancy — Global Query Filter
 
@@ -268,6 +282,14 @@ Après 3 échecs consécutifs sur le même problème :
 
 **Pourquoi** : un agent qui boucle sur un fix consomme du contexte et du budget sans progresser.
 Un humain ou un autre agent avec un regard frais résout souvent le problème en 1 tentative.
+
+### 7c. Fallback Bash pour les subagents (ajout v3.5)
+
+Les subagents dans les worktrees peuvent perdre l'accès Bash (limitation connue).
+Si un agent est bloqué sur des commandes git/push/PR :
+- Terminer avec le statut `BLOCKED`
+- Lister les **commandes exactes** à exécuter
+- L'orchestrateur les exécutera à sa place
 
 ### 8. Convention commits
 
