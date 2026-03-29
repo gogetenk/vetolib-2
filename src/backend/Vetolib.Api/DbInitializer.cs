@@ -9,6 +9,7 @@ using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
 using Vetolib.Breeding.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 
 namespace Vetolib.Api;
