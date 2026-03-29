@@ -8,4 +8,5 @@ public record PatientDto(
     DateOnly BirthDate,
     string OwnerName,
     string OwnerPhone,
-    Guid ClinicId);
+    Guid ClinicId,
+    string? MicrochipNumber = null);

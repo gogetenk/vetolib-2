@@ -18,8 +18,17 @@ internal class CreatePatientHandler : IRequestHandler<CreatePatientCommand, Resu
 
     public async Task<Result<PatientDto>> Handle(CreatePatientCommand cmd, CancellationToken ct)
     {
+        // Check microchip uniqueness within clinic
+        if (cmd.MicrochipNumber is not null)
+        {
+            var exists = await _context.Patients
+                .AnyAsync(p => p.MicrochipNumber == cmd.MicrochipNumber, ct);
+            if (exists)
+                return Result<PatientDto>.Conflict("A patient with this microchip number already exists");
+        }
+
         // Create patient via domain factory
-        var patientResult = Patient.Create(cmd.ClinicId, cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate);
+        var patientResult = Patient.Create(cmd.ClinicId, cmd.Name, cmd.Species, cmd.Breed, cmd.BirthDate, cmd.MicrochipNumber);
 
         if (!patientResult.IsSuccess)
             return Result<PatientDto>.Invalid(patientResult.ValidationErrors.ToList());
