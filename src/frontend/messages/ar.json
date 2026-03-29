@@ -293,7 +293,8 @@
         "medical_records": "Medical Records",
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
-        "health_alerts": "Health Alerts"
+        "health_alerts": "Health Alerts",
+        "weight": "الوزن"
       },
       "weight_label": "Weight:",
       "weight_not_recorded": "Not recorded",
@@ -319,6 +320,41 @@
           "duration": "Duration",
           "vet_date": "Vet / Date",
           "status": "Status"
+        }
+      },
+      "weight": {
+        "current_weight": "الوزن الحالي",
+        "no_data": "لا توجد سجلات وزن بعد.",
+        "add_weight": "+ إضافة وزن",
+        "add_success": "تم تسجيل الوزن بنجاح.",
+        "add_error": "فشل في تسجيل الوزن. يرجى المحاولة مرة أخرى.",
+        "load_error": "فشل في تحميل بيانات الوزن.",
+        "chart_title": "تاريخ الوزن",
+        "page_info": "الصفحة {current} من {total}",
+        "previous": "السابق",
+        "next": "التالي",
+        "columns": {
+          "date": "التاريخ",
+          "weight": "الوزن",
+          "note": "ملاحظة",
+          "recorded_by": "سجّل بواسطة"
+        },
+        "form": {
+          "weight_label": "الوزن (كجم)",
+          "weight_placeholder": "مثال: 32.5",
+          "date_label": "التاريخ",
+          "note_label": "ملاحظة",
+          "note_placeholder": "ملاحظة اختيارية حول هذا القياس...",
+          "optional": "اختياري",
+          "submit": "حفظ الوزن",
+          "submitting": "جارٍ الحفظ..."
+        },
+        "validation": {
+          "weight_required": "الوزن مطلوب.",
+          "weight_positive": "يجب أن يكون الوزن أكبر من 0.",
+          "weight_max": "يجب ألا يتجاوز الوزن 10,000 كجم.",
+          "date_required": "التاريخ مطلوب.",
+          "note_max": "يجب ألا تتجاوز الملاحظة 500 حرف."
         }
       }
     }

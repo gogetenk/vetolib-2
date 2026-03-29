@@ -291,7 +291,8 @@
         "medical_records": "Medical Records",
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
-        "health_alerts": "Health Alerts"
+        "health_alerts": "Health Alerts",
+        "weight": "Weight"
       },
       "weight_label": "Weight:",
       "weight_not_recorded": "Not recorded",
@@ -317,6 +318,41 @@
           "duration": "Duration",
           "vet_date": "Vet / Date",
           "status": "Status"
+        }
+      },
+      "weight": {
+        "current_weight": "Current Weight",
+        "no_data": "No weight records yet.",
+        "add_weight": "+ Add Weight",
+        "add_success": "Weight recorded successfully.",
+        "add_error": "Failed to record weight. Please try again.",
+        "load_error": "Failed to load weight data.",
+        "chart_title": "Weight History",
+        "page_info": "Page {current} of {total}",
+        "previous": "Previous",
+        "next": "Next",
+        "columns": {
+          "date": "Date",
+          "weight": "Weight",
+          "note": "Note",
+          "recorded_by": "Recorded By"
+        },
+        "form": {
+          "weight_label": "Weight (kg)",
+          "weight_placeholder": "e.g. 32.5",
+          "date_label": "Date",
+          "note_label": "Note",
+          "note_placeholder": "Optional note about this measurement...",
+          "optional": "optional",
+          "submit": "Save Weight",
+          "submitting": "Saving..."
+        },
+        "validation": {
+          "weight_required": "Weight is required.",
+          "weight_positive": "Weight must be greater than 0.",
+          "weight_max": "Weight must not exceed 10,000 kg.",
+          "date_required": "Date is required.",
+          "note_max": "Note must not exceed 500 characters."
         }
       }
     }
