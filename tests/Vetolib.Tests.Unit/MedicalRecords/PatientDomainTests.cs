@@ -143,12 +143,42 @@ public class PatientDomainTests
     }
 
     [Fact]
+    public void Create_WithFalconSpecies_ReturnsSuccess()
+    {
+        var result = Patient.Create(ValidClinicId, "Shaheen", Species.Falcon, "Peregrine", new DateOnly(2022, 1, 10));
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Species.Should().Be(Species.Falcon);
+    }
+
+    [Fact]
+    public void Create_WithReptileSpecies_ReturnsSuccess()
+    {
+        var result = Patient.Create(ValidClinicId, "Scales", Species.Reptile, "Ball Python", new DateOnly(2023, 6, 20));
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Species.Should().Be(Species.Reptile);
+    }
+
+    [Fact]
+    public void FalconSpecies_HasIntegerValue7()
+    {
+        ((int)Species.Falcon).Should().Be(7);
+    }
+
+    [Fact]
+    public void ReptileSpecies_HasIntegerValue8()
+    {
+        ((int)Species.Reptile).Should().Be(8);
+    }
+
+    [Fact]
     public void AllUaeSpeciesAreAvailable()
     {
         var expectedSpecies = new[]
         {
             Species.Dog, Species.Cat, Species.Bird, Species.Rabbit,
-            Species.Horse, Species.Exotic, Species.Camel
+            Species.Horse, Species.Exotic, Species.Camel, Species.Falcon, Species.Reptile
         };
 
         var allSpecies = Enum.GetValues<Species>();

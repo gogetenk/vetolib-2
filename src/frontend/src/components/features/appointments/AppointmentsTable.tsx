@@ -43,6 +43,8 @@ const SPECIES_ICONS: Record<string, string> = {
   Rabbit: '🐇',
   Horse: '🐎',
   Exotic: '🦎',
+  Falcon: '🦅',
+  Reptile: '🦎',
 }
 
 const STATUS_KEYS: { value: AppointmentStatus | 'ALL'; key: string }[] = [

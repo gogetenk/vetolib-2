@@ -60,7 +60,7 @@ const CATEGORIES: DrugCategory[] = [
   'Other',
 ]
 
-const SPECIES = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic']
+const SPECIES = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic', 'Falcon', 'Reptile']
 
 export function DrugCatalogTable({
   drugs,

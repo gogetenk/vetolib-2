@@ -25,6 +25,10 @@ export function SpeciesIcon({ species, className = 'h-5 w-5', ...props }: Specie
       return <PawPrint {...iconProps} />
     case 'Camel':
       return <PawPrint {...iconProps} />
+    case 'Falcon':
+      return <Bird {...iconProps} />
+    case 'Reptile':
+      return <PawPrint {...iconProps} />
     default:
       return <PawPrint {...iconProps} />
   }
@@ -50,6 +54,10 @@ export function getSpeciesColor(species: Species): SpeciesColorSet {
       return { border: 'border-teal-500', bg: 'bg-teal-50', text: 'text-teal-600' }
     case 'Camel':
       return { border: 'border-orange-500', bg: 'bg-orange-50', text: 'text-orange-600' }
+    case 'Falcon':
+      return { border: 'border-indigo-500', bg: 'bg-indigo-50', text: 'text-indigo-600' }
+    case 'Reptile':
+      return { border: 'border-emerald-500', bg: 'bg-emerald-50', text: 'text-emerald-600' }
     default:
       return { border: 'border-stone-400', bg: 'bg-stone-50', text: 'text-stone-500' }
   }
@@ -63,6 +71,8 @@ export const SPECIES_LABELS: Record<Species, string> = {
   Horse: 'Horse',
   Camel: 'Camel',
   Exotic: 'Exotic',
+  Falcon: 'Falcon',
+  Reptile: 'Reptile',
 }
 
-export const ALL_SPECIES: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic']
+export const ALL_SPECIES: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic', 'Falcon', 'Reptile']

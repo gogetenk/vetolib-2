@@ -321,7 +321,7 @@ export const patientHandlers = [
       skipped: 2,
       errors: [
         'Row 4: Missing required field "ownerPhone"',
-        'Row 9: Invalid species "Tortoise" -- must be one of: Dog, Cat, Bird, Rabbit, Horse, Camel, Exotic',
+        'Row 9: Invalid species "Tortoise" -- must be one of: Dog, Cat, Bird, Rabbit, Horse, Camel, Exotic, Falcon, Reptile',
       ],
     }
     return HttpResponse.json<ImportReportDto>(report, { status: 200 })

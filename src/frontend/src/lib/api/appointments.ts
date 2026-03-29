@@ -9,7 +9,7 @@ export type AppointmentStatus =
 
 export type AppointmentAction = 'CHECK_IN' | 'START' | 'COMPLETE' | 'CANCEL'
 
-export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Exotic'
+export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Exotic' | 'Falcon' | 'Reptile'
 
 export interface AppointmentDto {
   id: string

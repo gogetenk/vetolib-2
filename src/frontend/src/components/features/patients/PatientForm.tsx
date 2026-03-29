@@ -28,7 +28,7 @@ import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 function createPatientSchema(t: (key: string) => string) {
   return z.object({
     name: z.string().min(1, t('errors.name_required')),
-    species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic'] as [Species, ...Species[]], { message: t('errors.species_required') }),
+    species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Camel', 'Exotic', 'Falcon', 'Reptile'] as [Species, ...Species[]], { message: t('errors.species_required') }),
     breed: z.string().optional(),
     dateOfBirth: z.string().min(1, t('errors.date_of_birth_required')).refine(
       (val) => {

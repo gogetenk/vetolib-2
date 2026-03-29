@@ -1,6 +1,6 @@
 import { apiGet, apiPost, apiPatch, apiPostFormData, apiGetBlob } from './client'
 
-export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Camel' | 'Exotic'
+export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Camel' | 'Exotic' | 'Falcon' | 'Reptile'
 
 export interface PatientDto {
   id: string

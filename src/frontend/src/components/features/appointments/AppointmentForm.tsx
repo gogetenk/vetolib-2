@@ -27,7 +27,7 @@ import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 import { useAhaMoment } from '@/hooks/use-aha-moment'
 import { useTranslations } from 'next-intl'
 
-const SPECIES_OPTIONS: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic']
+const SPECIES_OPTIONS: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic', 'Falcon', 'Reptile']
 
 const TIME_SLOTS: string[] = []
 for (let h = 8; h <= 18; h++) {
@@ -38,7 +38,7 @@ TIME_SLOTS.push('19:00')
 
 const schema = z.object({
   patientName: z.string().min(1, 'Patient name is required'),
-  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic'] as [Species, ...Species[]], { message: 'Please select a species' }),
+  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic', 'Falcon', 'Reptile'] as [Species, ...Species[]], { message: 'Please select a species' }),
   ownerName: z.string().min(1, 'Owner name is required'),
   ownerPhone: z.string().min(1, 'Owner phone is required'),
   vetId: z.string().min(1, 'Vet is required'),

@@ -279,7 +279,9 @@
       "Rabbit": "Rabbit",
       "Horse": "Horse",
       "Camel": "Camel",
-      "Exotic": "Exotic"
+      "Exotic": "Exotic",
+      "Falcon": "Falcon",
+      "Reptile": "Reptile"
     },
     "errors": {
       "load_failed": "Failed to load patient data. Please try again."
