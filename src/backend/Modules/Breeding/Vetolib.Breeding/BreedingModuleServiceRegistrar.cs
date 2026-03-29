@@ -37,6 +37,7 @@ public static class BreedingModuleServiceRegistrar
     {
         app.MapBreedingApiEndpoints();
         app.MapLitterEndpoints();
+        app.MapPregnancyApiEndpoints();
         return app;
     }
 }

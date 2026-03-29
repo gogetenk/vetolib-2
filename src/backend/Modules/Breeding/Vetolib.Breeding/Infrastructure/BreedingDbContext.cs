@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Breeding.Application.Domain;
+using Vetolib.Breeding.Domain;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Shared.Kernel;
 
@@ -10,6 +11,8 @@ internal class BreedingDbContext : MultiTenantDbContext
 {
     public DbSet<Litter> Litters => Set<Litter>();
     public DbSet<LitterOffspring> LitterOffspring => Set<LitterOffspring>();
+    public DbSet<Pregnancy> Pregnancies => Set<Pregnancy>();
+    public DbSet<PregnancyCheck> PregnancyChecks => Set<PregnancyCheck>();
 
     public BreedingDbContext(
         DbContextOptions<BreedingDbContext> options,
