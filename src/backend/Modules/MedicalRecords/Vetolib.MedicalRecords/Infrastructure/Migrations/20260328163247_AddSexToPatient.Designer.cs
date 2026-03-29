@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetolib.MedicalRecords.Infrastructure;
@@ -11,9 +12,11 @@ using Vetolib.MedicalRecords.Infrastructure;
 namespace Vetolib.MedicalRecords.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicalRecordsDbContext))]
-    partial class MedicalRecordsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260328163247_AddSexToPatient")]
+    partial class AddSexToPatient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,10 +260,6 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("MicrochipNumber")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -281,11 +280,6 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClinicId", "MicrochipNumber")
-                        .IsUnique()
-                        .HasDatabaseName("IX_patients_ClinicId_MicrochipNumber")
-                        .HasFilter("\"MicrochipNumber\" IS NOT NULL");
 
                     b.ToTable("patients", "medical");
                 });

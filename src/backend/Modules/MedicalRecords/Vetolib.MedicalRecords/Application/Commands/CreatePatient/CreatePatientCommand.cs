@@ -11,4 +11,6 @@ internal record CreatePatientCommand(
     string Breed,
     DateOnly BirthDate,
     string OwnerName,
-    string OwnerPhone) : IRequest<Result<PatientDto>>;
+    string OwnerPhone,
+    Sex? Sex = null,
+    string? MicrochipNumber = null) : IRequest<Result<PatientDto>>;

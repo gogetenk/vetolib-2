@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetolib.MedicalRecords.Infrastructure;
@@ -11,9 +12,11 @@ using Vetolib.MedicalRecords.Infrastructure;
 namespace Vetolib.MedicalRecords.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicalRecordsDbContext))]
-    partial class MedicalRecordsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260328163335_AddMicrochipToPatient")]
+    partial class AddMicrochipToPatient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,9 +268,6 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
-
-                    b.Property<int>("Sex")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Species")
                         .IsRequired()

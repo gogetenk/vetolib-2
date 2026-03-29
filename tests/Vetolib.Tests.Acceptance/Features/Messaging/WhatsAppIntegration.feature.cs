@@ -350,23 +350,23 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 44
     await testRunner.WhenAsync("the appointment reminder is sent", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table43 = new global::Reqnroll.Table(new string[] {
                             "Detail",
                             "Value"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Clinic name",
                             "Dubai Pet Care"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Date and time",
                             "Sunday at 14:30"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Pet name",
                             "Rocky"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Veterinarian",
                             "Dr. Omar"});
 #line 45
-    await testRunner.ThenAsync("the WhatsApp message contains:", ((string)(null)), table37, "Then ");
+    await testRunner.ThenAsync("the WhatsApp message contains:", ((string)(null)), table43, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
