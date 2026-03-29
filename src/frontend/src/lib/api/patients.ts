@@ -2,6 +2,8 @@ import { apiGet, apiPost, apiPatch, apiPostFormData, apiGetBlob } from './client
 
 export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Camel' | 'Exotic' | 'Falcon' | 'Reptile'
 
+export type Sex = 'Male' | 'Female' | 'Intact Male' | 'Intact Female' | 'Unknown'
+
 export interface PatientDto {
   id: string
   name: string
@@ -10,6 +12,8 @@ export interface PatientDto {
   dateOfBirth: string
   ageYears: number
   gender: 'Male' | 'Female' | 'Unknown'
+  sex: Sex
+  microchipNumber: string | null
   weightKg: number | null
   ownerName: string
   ownerPhone: string
@@ -25,6 +29,8 @@ export interface CreatePatientRequest {
   breed?: string
   dateOfBirth: string
   gender: 'Male' | 'Female' | 'Unknown'
+  sex: Sex
+  microchipNumber?: string | null
   weightKg?: number | null
   ownerName: string
   ownerPhone: string

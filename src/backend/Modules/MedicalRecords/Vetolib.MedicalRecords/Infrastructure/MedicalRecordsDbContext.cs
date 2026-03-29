@@ -16,6 +16,7 @@ internal class MedicalRecordsDbContext : MultiTenantDbContext
     public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
     public DbSet<Prescription> Prescriptions => Set<Prescription>();
     public DbSet<DrugCatalogEntry> DrugCatalogEntries => Set<DrugCatalogEntry>();
+    public DbSet<WeightEntry> WeightEntries => Set<WeightEntry>();
 
     public MedicalRecordsDbContext(
         DbContextOptions<MedicalRecordsDbContext> options,

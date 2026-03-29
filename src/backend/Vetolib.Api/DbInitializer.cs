@@ -7,6 +7,7 @@ using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Breeding.Infrastructure;
 using Vetolib.Shared.Infrastructure;

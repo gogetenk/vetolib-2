@@ -12,6 +12,9 @@ public class HealthAlertRulesTests
     private static readonly Guid ClinicId = new("11111111-1111-1111-1111-111111111111");
     private static readonly Guid PatientId = new("22222222-2222-2222-2222-222222222222");
 
+    private static WeightEntryDto W(decimal weightKg, DateTime recordedAt)
+        => new(Guid.NewGuid(), PatientId, weightKg, recordedAt, "Dr. Test", null);
+
     private static PatientAlertContext CreatePatient(
         Species species = Species.Dog,
         string breed = "Labrador Retriever",
@@ -247,8 +250,8 @@ public class HealthAlertRulesTests
         var rule = new WeightTrendRule();
         var history = new List<WeightEntryDto>
         {
-            new(25m, DateTime.UtcNow),
-            new(30m, DateTime.UtcNow.AddMonths(-4))
+            W(25m, DateTime.UtcNow),
+            W(30m, DateTime.UtcNow.AddMonths(-4))
         };
         var patient = CreatePatient(weightHistory: history);
 
@@ -265,8 +268,8 @@ public class HealthAlertRulesTests
         var rule = new WeightTrendRule();
         var history = new List<WeightEntryDto>
         {
-            new(35m, DateTime.UtcNow),
-            new(30m, DateTime.UtcNow.AddMonths(-4))
+            W(35m, DateTime.UtcNow),
+            W(30m, DateTime.UtcNow.AddMonths(-4))
         };
         var patient = CreatePatient(weightHistory: history);
 
@@ -282,8 +285,8 @@ public class HealthAlertRulesTests
         var rule = new WeightTrendRule();
         var history = new List<WeightEntryDto>
         {
-            new(30.5m, DateTime.UtcNow),
-            new(30m, DateTime.UtcNow.AddMonths(-4))
+            W(30.5m, DateTime.UtcNow),
+            W(30m, DateTime.UtcNow.AddMonths(-4))
         };
         var patient = CreatePatient(weightHistory: history);
 
@@ -296,7 +299,7 @@ public class HealthAlertRulesTests
     public void Weight_OnlyOneEntry_NoAlert()
     {
         var rule = new WeightTrendRule();
-        var history = new List<WeightEntryDto> { new(30m, DateTime.UtcNow) };
+        var history = new List<WeightEntryDto> { W(30m, DateTime.UtcNow) };
         var patient = CreatePatient(weightHistory: history);
 
         var alerts = rule.Evaluate(patient, NoExistingAlerts);
@@ -310,8 +313,8 @@ public class HealthAlertRulesTests
         var rule = new WeightTrendRule();
         var history = new List<WeightEntryDto>
         {
-            new(25m, DateTime.UtcNow),
-            new(30m, DateTime.UtcNow.AddDays(-10)) // Too recent
+            W(25m, DateTime.UtcNow),
+            W(30m, DateTime.UtcNow.AddDays(-10)) // Too recent
         };
         var patient = CreatePatient(weightHistory: history);
 
@@ -326,8 +329,8 @@ public class HealthAlertRulesTests
         var rule = new WeightTrendRule();
         var history = new List<WeightEntryDto>
         {
-            new(20m, DateTime.UtcNow),
-            new(30m, DateTime.UtcNow.AddMonths(-4))
+            W(20m, DateTime.UtcNow),
+            W(30m, DateTime.UtcNow.AddMonths(-4))
         };
         var patient = CreatePatient(weightHistory: history);
 

@@ -205,6 +205,7 @@
     "add_patient": "إضافة حيوان",
     "import_csv": "استيراد CSV",
     "search_placeholder": "البحث بالاسم أو المالك...",
+    "search_placeholder_extended": "البحث بالاسم أو المالك أو رقم الشريحة...",
     "no_patients": "لا توجد حيوانات.",
     "owner": "المالك",
     "last_visit": "آخر زيارة",
@@ -243,6 +244,17 @@
       "gender_male": "ذكر",
       "gender_female": "أنثى",
       "gender_unknown": "غير محدد",
+      "sex": "الجنس (تفصيلي)",
+      "select_sex": "اختر الجنس",
+      "sex_male": "ذكر (مخصي)",
+      "sex_female": "أنثى (معقمة)",
+      "sex_intact_male": "ذكر سليم",
+      "sex_intact_female": "أنثى سليمة",
+      "sex_unknown": "غير محدد",
+      "microchip": "رقم الشريحة",
+      "microchip_optional": "(اختياري)",
+      "microchip_placeholder": "مثال: 900118000123456",
+      "microchip_hint": "رقم شريحة ISO المكون من 15 رقمًا",
       "date_of_birth": "تاريخ الميلاد",
       "weight": "الوزن (كجم)",
       "weight_optional": "(اختياري)",
@@ -271,7 +283,8 @@
         "owner_name_required": "اسم المالك مطلوب",
         "owner_phone_required": "رقم هاتف المالك مطلوب",
         "owner_phone_format": "يجب أن يتبع الهاتف تنسيق الإمارات: +971 XX XXX XXXX",
-        "owner_email_invalid": "بريد إلكتروني غير صحيح"
+        "owner_email_invalid": "بريد إلكتروني غير صحيح",
+        "microchip_format": "يجب أن تكون الشريحة مكونة من 15 رقمًا بالضبط"
       }
     },
     "species": {
@@ -293,7 +306,8 @@
         "medical_records": "Medical Records",
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
-        "health_alerts": "Health Alerts"
+        "health_alerts": "Health Alerts",
+        "weight": "الوزن"
       },
       "weight_label": "Weight:",
       "weight_not_recorded": "Not recorded",
@@ -319,6 +333,41 @@
           "duration": "Duration",
           "vet_date": "Vet / Date",
           "status": "Status"
+        }
+      },
+      "weight": {
+        "current_weight": "الوزن الحالي",
+        "no_data": "لا توجد سجلات وزن بعد.",
+        "add_weight": "+ إضافة وزن",
+        "add_success": "تم تسجيل الوزن بنجاح.",
+        "add_error": "فشل في تسجيل الوزن. يرجى المحاولة مرة أخرى.",
+        "load_error": "فشل في تحميل بيانات الوزن.",
+        "chart_title": "تاريخ الوزن",
+        "page_info": "الصفحة {current} من {total}",
+        "previous": "السابق",
+        "next": "التالي",
+        "columns": {
+          "date": "التاريخ",
+          "weight": "الوزن",
+          "note": "ملاحظة",
+          "recorded_by": "سجّل بواسطة"
+        },
+        "form": {
+          "weight_label": "الوزن (كجم)",
+          "weight_placeholder": "مثال: 32.5",
+          "date_label": "التاريخ",
+          "note_label": "ملاحظة",
+          "note_placeholder": "ملاحظة اختيارية حول هذا القياس...",
+          "optional": "اختياري",
+          "submit": "حفظ الوزن",
+          "submitting": "جارٍ الحفظ..."
+        },
+        "validation": {
+          "weight_required": "الوزن مطلوب.",
+          "weight_positive": "يجب أن يكون الوزن أكبر من 0.",
+          "weight_max": "يجب ألا يتجاوز الوزن 10,000 كجم.",
+          "date_required": "التاريخ مطلوب.",
+          "note_max": "يجب ألا تتجاوز الملاحظة 500 حرف."
         }
       }
     }

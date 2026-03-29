@@ -24,6 +24,9 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
     private readonly List<MedicalRecord> _medicalRecords = [];
     public IReadOnlyList<MedicalRecord> MedicalRecords => _medicalRecords.AsReadOnly();
 
+    private readonly List<WeightEntry> _weightEntries = [];
+    public IReadOnlyList<WeightEntry> WeightEntries => _weightEntries.AsReadOnly();
+
     private Patient() { } // EF Core constructor
 
     public static Result<Patient> Create(Guid clinicId, string name, Species species, string breed, DateOnly birthDate, Sex? sex = null, string? microchipNumber = null)

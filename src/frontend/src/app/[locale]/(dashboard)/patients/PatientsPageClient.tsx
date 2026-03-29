@@ -106,7 +106,7 @@ export default function PatientsPageClient() {
       <div className="space-y-2">
         <Input
           type="search"
-          placeholder={t('search_placeholder')}
+          placeholder={t('search_placeholder_extended')}
           aria-label="Search patients"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

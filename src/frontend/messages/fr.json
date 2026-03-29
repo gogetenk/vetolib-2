@@ -293,7 +293,8 @@
         "medical_records": "Medical Records",
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
-        "health_alerts": "Health Alerts"
+        "health_alerts": "Health Alerts",
+        "weight": "Poids"
       },
       "weight_label": "Weight:",
       "weight_not_recorded": "Not recorded",
@@ -319,6 +320,41 @@
           "duration": "Duration",
           "vet_date": "Vet / Date",
           "status": "Status"
+        }
+      },
+      "weight": {
+        "current_weight": "Poids actuel",
+        "no_data": "Aucun enregistrement de poids.",
+        "add_weight": "+ Ajouter un poids",
+        "add_success": "Poids enregistre avec succes.",
+        "add_error": "Echec de l'enregistrement du poids.",
+        "load_error": "Echec du chargement des donnees de poids.",
+        "chart_title": "Historique du poids",
+        "page_info": "Page {current} sur {total}",
+        "previous": "Precedent",
+        "next": "Suivant",
+        "columns": {
+          "date": "Date",
+          "weight": "Poids",
+          "note": "Note",
+          "recorded_by": "Enregistre par"
+        },
+        "form": {
+          "weight_label": "Poids (kg)",
+          "weight_placeholder": "ex. 32.5",
+          "date_label": "Date",
+          "note_label": "Note",
+          "note_placeholder": "Note optionnelle sur cette mesure...",
+          "optional": "optionnel",
+          "submit": "Enregistrer le poids",
+          "submitting": "Enregistrement..."
+        },
+        "validation": {
+          "weight_required": "Le poids est requis.",
+          "weight_positive": "Le poids doit etre superieur a 0.",
+          "weight_max": "Le poids ne doit pas depasser 10 000 kg.",
+          "date_required": "La date est requise.",
+          "note_max": "La note ne doit pas depasser 500 caracteres."
         }
       }
     }

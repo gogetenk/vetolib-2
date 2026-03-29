@@ -21,9 +21,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { createPatient, updatePatient } from '@/lib/api/patients'
-import type { PatientDto, Species } from '@/lib/api/patients'
+import type { PatientDto, Species, Sex } from '@/lib/api/patients'
 import { SPECIES_LABELS, ALL_SPECIES } from './SpeciesIcon'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
+
+const ALL_SEX_VALUES: Sex[] = ['Male', 'Female', 'Intact Male', 'Intact Female', 'Unknown']
 
 function createPatientSchema(t: (key: string) => string) {
   return z.object({
@@ -38,6 +40,12 @@ function createPatientSchema(t: (key: string) => string) {
       { message: t('errors.date_of_birth_future') }
     ),
     gender: z.enum(['Male', 'Female', 'Unknown'] as ['Male', 'Female', 'Unknown']),
+    sex: z.enum(['Male', 'Female', 'Intact Male', 'Intact Female', 'Unknown'] as [Sex, ...Sex[]]),
+    microchipNumber: z.string()
+      .regex(/^\d{15}$/, t('errors.microchip_format'))
+      .nullable()
+      .optional()
+      .or(z.literal('')),
     weightKg: z.preprocess(
       (val) => (val === '' || val === null || val === undefined ? null : Number(val)),
       z.number().positive(t('errors.weight_positive')).nullable()
@@ -86,6 +94,8 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
           breed: patient.breed,
           dateOfBirth: patient.dateOfBirth,
           gender: patient.gender,
+          sex: patient.sex,
+          microchipNumber: patient.microchipNumber ?? '',
           weightKg: patient.weightKg,
           ownerName: patient.ownerName,
           ownerPhone: patient.ownerPhone,
@@ -93,6 +103,8 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         }
       : {
           gender: 'Unknown',
+          sex: 'Unknown',
+          microchipNumber: '',
           weightKg: null,
         },
   })
@@ -108,6 +120,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
   // eslint-disable-next-line react-hooks/incompatible-library
   const selectedSpecies = watch('species')
   const selectedGender = watch('gender')
+  const selectedSex = watch('sex')
 
   const onSubmit = async (data: PatientFormValues) => {
     setServerError(null)
@@ -118,6 +131,8 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         breed: data.breed || undefined,
         dateOfBirth: data.dateOfBirth,
         gender: data.gender,
+        sex: data.sex,
+        microchipNumber: data.microchipNumber || null,
         weightKg: data.weightKg ?? null,
         ownerName: data.ownerName,
         ownerPhone: data.ownerPhone,
@@ -132,7 +147,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
         result = await createPatient(payload)
         trackEvent(AnalyticsEvents.PATIENT_CREATED, {
           species: data.species,
-          has_microchip: "false",
+          has_microchip: data.microchipNumber ? "true" : "false",
         })
         toast.success(t('toast_created'))
       }
@@ -192,9 +207,9 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
               <Select
                 value={selectedSpecies}
                 onValueChange={(val) => setValue('species', val as Species, { shouldValidate: true })}
-                data-testid="select-species"
+                data-testid="patient-species-select"
               >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-species-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="patient-species-select-trigger">
                   <SelectValue placeholder={t('select_species')}>
                     {selectedSpecies ? SPECIES_LABELS[selectedSpecies] : null}
                   </SelectValue>
@@ -267,6 +282,54 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                   <SelectItem value="Unknown" data-testid="gender-option-unknown">{t('gender_unknown')}</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Sex */}
+            <div className="space-y-1">
+              <Label htmlFor="sex" className="text-[13px] font-semibold text-foreground">{t('sex')}</Label>
+              <Select
+                value={selectedSex}
+                onValueChange={(val) =>
+                  setValue('sex', val as Sex, { shouldValidate: true })
+                }
+                data-testid="patient-sex-select"
+              >
+                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="patient-sex-select-trigger">
+                  <SelectValue placeholder={t('select_sex')}>
+                    {selectedSex ? t(`sex_${selectedSex.toLowerCase().replace(' ', '_')}`) : null}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {ALL_SEX_VALUES.map((s) => (
+                    <SelectItem key={s} value={s} data-testid={`sex-option-${s.toLowerCase().replace(' ', '-')}`}>
+                      {t(`sex_${s.toLowerCase().replace(' ', '_')}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Microchip Number */}
+            <div className="space-y-1">
+              <Label htmlFor="microchipNumber" className="text-[13px] font-semibold text-foreground">
+                {t('microchip')}{' '}
+                <span className="text-muted-foreground font-normal">{t('microchip_optional')}</span>
+              </Label>
+              <Input
+                id="microchipNumber"
+                data-testid="patient-microchip-input"
+                placeholder={t('microchip_placeholder')}
+                maxLength={15}
+                inputMode="numeric"
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 font-mono"
+                {...register('microchipNumber')}
+              />
+              <p className="text-xs text-muted-foreground">{t('microchip_hint')}</p>
+              {errors.microchipNumber && (
+                <p className="text-xs text-destructive animate-slide-up-fade" data-testid="error-microchip">
+                  {errors.microchipNumber.message}
+                </p>
+              )}
             </div>
 
             {/* Weight */}
