@@ -32,7 +32,9 @@
       "Bash(mv tasks/todo-back-patient-microchip-002.md tasks/done-back-patient-microchip-002.md)",
       "Bash(mv tasks/todo-back-patient-sex-001.md tasks/wip-back-patient-sex-001.md)",
       "Bash(mv tasks/todo-back-patient-species-003.md tasks/wip-back-patient-species-003.md)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(do echo:*)",
+      "Bash(done)"
     ],
     "deny": [
       "Bash(curl:*)",
