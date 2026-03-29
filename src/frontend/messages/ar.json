@@ -205,6 +205,7 @@
     "add_patient": "إضافة حيوان",
     "import_csv": "استيراد CSV",
     "search_placeholder": "البحث بالاسم أو المالك...",
+    "search_placeholder_extended": "البحث بالاسم أو المالك أو رقم الشريحة...",
     "no_patients": "لا توجد حيوانات.",
     "owner": "المالك",
     "last_visit": "آخر زيارة",
@@ -243,6 +244,17 @@
       "gender_male": "ذكر",
       "gender_female": "أنثى",
       "gender_unknown": "غير محدد",
+      "sex": "الجنس (تفصيلي)",
+      "select_sex": "اختر الجنس",
+      "sex_male": "ذكر (مخصي)",
+      "sex_female": "أنثى (معقمة)",
+      "sex_intact_male": "ذكر سليم",
+      "sex_intact_female": "أنثى سليمة",
+      "sex_unknown": "غير محدد",
+      "microchip": "رقم الشريحة",
+      "microchip_optional": "(اختياري)",
+      "microchip_placeholder": "مثال: 900118000123456",
+      "microchip_hint": "رقم شريحة ISO المكون من 15 رقمًا",
       "date_of_birth": "تاريخ الميلاد",
       "weight": "الوزن (كجم)",
       "weight_optional": "(اختياري)",
@@ -271,7 +283,8 @@
         "owner_name_required": "اسم المالك مطلوب",
         "owner_phone_required": "رقم هاتف المالك مطلوب",
         "owner_phone_format": "يجب أن يتبع الهاتف تنسيق الإمارات: +971 XX XXX XXXX",
-        "owner_email_invalid": "بريد إلكتروني غير صحيح"
+        "owner_email_invalid": "بريد إلكتروني غير صحيح",
+        "microchip_format": "يجب أن تكون الشريحة مكونة من 15 رقمًا بالضبط"
       }
     },
     "species": {

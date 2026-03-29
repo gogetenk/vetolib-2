@@ -12,6 +12,8 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2019-03-15',
     ageYears: 6,
     gender: 'Male',
+    sex: 'Intact Male',
+    microchipNumber: '900118000123456',
     weightKg: 32.5,
     ownerName: 'Ahmed Al-Rashid',
     ownerPhone: '+971 50 123 4567',
@@ -28,6 +30,8 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2021-07-22',
     ageYears: 4,
     gender: 'Female',
+    sex: 'Female',
+    microchipNumber: '900118000789012',
     weightKg: 3.8,
     ownerName: 'Fatima Hassan',
     ownerPhone: '+971 55 987 6543',
@@ -44,6 +48,8 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2020-01-05',
     ageYears: 6,
     gender: 'Male',
+    sex: 'Male',
+    microchipNumber: null,
     weightKg: null,
     ownerName: 'Mohammed Al-Farsi',
     ownerPhone: '+971 52 345 6789',
@@ -60,6 +66,8 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2022-05-10',
     ageYears: 3,
     gender: 'Female',
+    sex: 'Intact Female',
+    microchipNumber: '900118000345678',
     weightKg: 28.0,
     ownerName: 'Sara Al-Mansoori',
     ownerPhone: '+971 56 789 0123',
@@ -76,6 +84,8 @@ const MOCK_PATIENTS: PatientDto[] = [
     dateOfBirth: '2018-07-20',
     ageYears: 7,
     gender: 'Male',
+    sex: 'Unknown',
+    microchipNumber: null,
     weightKg: 520.0,
     ownerName: 'Khalid Al-Mazrouei',
     ownerPhone: '+971 55 987 6543',
@@ -207,7 +217,8 @@ export const patientHandlers = [
       ? MOCK_PATIENTS.filter(
           p =>
             p.name.toLowerCase().includes(search) ||
-            p.ownerName.toLowerCase().includes(search)
+            p.ownerName.toLowerCase().includes(search) ||
+            (p.microchipNumber && p.microchipNumber.includes(search))
         )
       : MOCK_PATIENTS
 
@@ -301,6 +312,8 @@ export const patientHandlers = [
       dateOfBirth: body.dateOfBirth,
       ageYears,
       gender: body.gender,
+      sex: body.sex ?? 'Unknown',
+      microchipNumber: body.microchipNumber ?? null,
       weightKg: body.weightKg ?? null,
       ownerName: body.ownerName,
       ownerPhone: body.ownerPhone,
@@ -331,9 +344,9 @@ export const patientHandlers = [
   http.get('/api/patients/import/template', async () => {
     await delay(200)
     const csvContent = [
-      'name,species,breed,dateOfBirth,gender,weightKg,ownerName,ownerPhone,ownerEmail',
-      'Max,Dog,Golden Retriever,2019-03-15,Male,32.5,Ahmed Al-Rashid,+971501234567,ahmed@email.ae',
-      'Luna,Cat,Siamese,2021-07-22,Female,3.8,Fatima Hassan,+971559876543,fatima@email.ae',
+      'name,species,breed,dateOfBirth,gender,sex,microchipNumber,weightKg,ownerName,ownerPhone,ownerEmail',
+      'Max,Dog,Golden Retriever,2019-03-15,Male,Intact Male,900118000123456,32.5,Ahmed Al-Rashid,+971501234567,ahmed@email.ae',
+      'Luna,Cat,Siamese,2021-07-22,Female,Female,900118000789012,3.8,Fatima Hassan,+971559876543,fatima@email.ae',
     ].join('\n')
 
     return new HttpResponse(csvContent, {
@@ -355,6 +368,8 @@ export const patientHandlers = [
     if (body.species !== undefined) patient.species = body.species
     if (body.breed !== undefined) patient.breed = body.breed ?? ''
     if (body.gender !== undefined) patient.gender = body.gender
+    if (body.sex !== undefined) patient.sex = body.sex
+    if (body.microchipNumber !== undefined) patient.microchipNumber = body.microchipNumber ?? null
     if (body.weightKg !== undefined) patient.weightKg = body.weightKg ?? null
     if (body.ownerName !== undefined) patient.ownerName = body.ownerName
     if (body.ownerPhone !== undefined) patient.ownerPhone = body.ownerPhone
