@@ -20,6 +20,7 @@ internal class PatientAlertDataReader : IPatientAlertDataReader
 
         var patients = await _context.Patients
             .Include(p => p.MedicalRecords.Where(r => r.ExaminedAt >= cutoffDate))
+            .Include(p => p.WeightEntries)
             .AsNoTracking()
             .ToListAsync(ct);
 
@@ -34,11 +35,10 @@ internal class PatientAlertDataReader : IPatientAlertDataReader
                     r.ExaminedAt))
                 .ToList();
 
-            // Phase 1 weight history: use patient's current weight as single entry.
-            // When MedicalRecord gets a WeightKg field, this will be enriched.
-            var weightHistory = p.WeightKg.HasValue
-                ? new List<WeightEntryDto> { new(p.WeightKg.Value, DateTime.UtcNow) }
-                : new List<WeightEntryDto>();
+            var weightHistory = p.WeightEntries
+                .OrderByDescending(w => w.RecordedAt)
+                .Select(w => new WeightEntryDto(w.Id, w.PatientId, w.WeightKg, w.RecordedAt, w.RecordedBy, w.Note))
+                .ToList();
 
             return new PatientAlertDataDto(
                 p.Id,

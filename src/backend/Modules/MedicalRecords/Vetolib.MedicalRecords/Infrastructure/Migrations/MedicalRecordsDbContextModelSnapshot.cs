@@ -412,6 +412,51 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                     b.ToTable("drug_species_contraindications", "medical");
                 });
 
+            modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.WeightEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("RecordedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RecordedBy")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("WeightKg")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId")
+                        .HasDatabaseName("IX_weight_entries_ClinicId");
+
+                    b.HasIndex("PatientId", "RecordedAt")
+                        .HasDatabaseName("IX_weight_entries_PatientId_RecordedAt");
+
+                    b.ToTable("weight_entries", "medical");
+                });
+
             modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.DosageGuideline", b =>
                 {
                     b.HasOne("Vetolib.MedicalRecords.Application.Domain.DrugCatalogEntry", null)
@@ -476,6 +521,15 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.WeightEntry", b =>
+                {
+                    b.HasOne("Vetolib.MedicalRecords.Application.Domain.Patient", null)
+                        .WithMany("WeightEntries")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.DrugCatalogEntry", b =>
                 {
                     b.Navigation("DosageGuidelines");
@@ -500,6 +554,8 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                     b.Navigation("MedicalRecords");
 
                     b.Navigation("PatientOwners");
+
+                    b.Navigation("WeightEntries");
                 });
 #pragma warning restore 612, 618
         }
