@@ -16,4 +16,9 @@ public interface IPatientReader
     /// Receptionist: false. Vet/Admin: true.
     /// </summary>
     Task<Result<PatientContextDto>> GetPatientContextAsync(Guid patientId, bool includeFullMedicalContext, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns the sex of a patient. Used by the Breeding module to validate reproductive eligibility.
+    /// </summary>
+    Task<Result<Sex>> GetPatientSexAsync(Guid patientId, CancellationToken cancellationToken = default);
 }
