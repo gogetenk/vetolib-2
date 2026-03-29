@@ -37,8 +37,8 @@ public class RecordHeatCycleHandlerTests : IDisposable
     [Fact]
     public async Task Handle_MalePatient_ShouldRejectWithError()
     {
-        _patientReader.GetPatientSexAsync(PatientId, Arg.Any<CancellationToken>())
-            .Returns(Result<Sex>.Success(Sex.Male));
+        _patientReader.GetPatientBasicInfoAsync(PatientId, Arg.Any<CancellationToken>())
+            .Returns(Result<PatientBasicInfoDto>.Success(new PatientBasicInfoDto(PatientId, "Test", Species.Dog, Sex.Male)));
 
         var cmd = new RecordHeatCycleCommand(ClinicId, PatientId, new DateOnly(2026, 1, 10));
         var result = await _handler.Handle(cmd, CancellationToken.None);
@@ -50,8 +50,8 @@ public class RecordHeatCycleHandlerTests : IDisposable
     [Fact]
     public async Task Handle_NeuteredMalePatient_ShouldRejectWithError()
     {
-        _patientReader.GetPatientSexAsync(PatientId, Arg.Any<CancellationToken>())
-            .Returns(Result<Sex>.Success(Sex.NeuteredMale));
+        _patientReader.GetPatientBasicInfoAsync(PatientId, Arg.Any<CancellationToken>())
+            .Returns(Result<PatientBasicInfoDto>.Success(new PatientBasicInfoDto(PatientId, "Test", Species.Dog, Sex.NeuteredMale)));
 
         var cmd = new RecordHeatCycleCommand(ClinicId, PatientId, new DateOnly(2026, 1, 10));
         var result = await _handler.Handle(cmd, CancellationToken.None);
@@ -63,8 +63,8 @@ public class RecordHeatCycleHandlerTests : IDisposable
     [Fact]
     public async Task Handle_SpayedFemalePatient_ShouldRejectWithError()
     {
-        _patientReader.GetPatientSexAsync(PatientId, Arg.Any<CancellationToken>())
-            .Returns(Result<Sex>.Success(Sex.SpayedFemale));
+        _patientReader.GetPatientBasicInfoAsync(PatientId, Arg.Any<CancellationToken>())
+            .Returns(Result<PatientBasicInfoDto>.Success(new PatientBasicInfoDto(PatientId, "Test", Species.Dog, Sex.SpayedFemale)));
 
         var cmd = new RecordHeatCycleCommand(ClinicId, PatientId, new DateOnly(2026, 1, 10));
         var result = await _handler.Handle(cmd, CancellationToken.None);
@@ -76,8 +76,8 @@ public class RecordHeatCycleHandlerTests : IDisposable
     [Fact]
     public async Task Handle_FemalePatient_ShouldSucceed()
     {
-        _patientReader.GetPatientSexAsync(PatientId, Arg.Any<CancellationToken>())
-            .Returns(Result<Sex>.Success(Sex.Female));
+        _patientReader.GetPatientBasicInfoAsync(PatientId, Arg.Any<CancellationToken>())
+            .Returns(Result<PatientBasicInfoDto>.Success(new PatientBasicInfoDto(PatientId, "Test", Species.Dog, Sex.Female)));
 
         var cmd = new RecordHeatCycleCommand(ClinicId, PatientId, new DateOnly(2026, 1, 10), new DateOnly(2026, 1, 25));
         var result = await _handler.Handle(cmd, CancellationToken.None);
@@ -90,8 +90,8 @@ public class RecordHeatCycleHandlerTests : IDisposable
     [Fact]
     public async Task Handle_PatientNotFound_ShouldReturnNotFound()
     {
-        _patientReader.GetPatientSexAsync(PatientId, Arg.Any<CancellationToken>())
-            .Returns(Result<Sex>.NotFound());
+        _patientReader.GetPatientBasicInfoAsync(PatientId, Arg.Any<CancellationToken>())
+            .Returns(Result<PatientBasicInfoDto>.NotFound());
 
         var cmd = new RecordHeatCycleCommand(ClinicId, PatientId, new DateOnly(2026, 1, 10));
         var result = await _handler.Handle(cmd, CancellationToken.None);
@@ -103,8 +103,8 @@ public class RecordHeatCycleHandlerTests : IDisposable
     [Fact]
     public async Task Handle_WithNotes_ShouldRecordNotes()
     {
-        _patientReader.GetPatientSexAsync(PatientId, Arg.Any<CancellationToken>())
-            .Returns(Result<Sex>.Success(Sex.Female));
+        _patientReader.GetPatientBasicInfoAsync(PatientId, Arg.Any<CancellationToken>())
+            .Returns(Result<PatientBasicInfoDto>.Success(new PatientBasicInfoDto(PatientId, "Test", Species.Dog, Sex.Female)));
 
         var cmd = new RecordHeatCycleCommand(ClinicId, PatientId, new DateOnly(2026, 1, 10),
             new DateOnly(2026, 1, 25), "Strong signs");

@@ -11,27 +11,21 @@ using Vetolib.Shared.Infrastructure.Behaviors;
 
 namespace Vetolib.Breeding;
 
-public static class ModuleServiceRegistrar
+public static class BreedingModuleServiceRegistrar
 {
     public static IServiceCollection AddBreedingModule(this IServiceCollection services, IConfiguration configuration)
     {
-        // MediatR
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(typeof(ModuleServiceRegistrar).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(BreedingModuleServiceRegistrar).Assembly);
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
 
-        // FluentValidation
-        services.AddValidatorsFromAssembly(typeof(ModuleServiceRegistrar).Assembly, includeInternalTypes: true);
+        services.AddValidatorsFromAssembly(typeof(BreedingModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         return services;
     }
 
-    /// <summary>
-    /// Register BreedingDbContext with a connection string (for non-Aspire scenarios / tests).
-    /// When using Aspire, call builder.AddNpgsqlDbContext&lt;BreedingDbContext&gt;("vetolibdb") instead.
-    /// </summary>
     public static IServiceCollection AddBreedingDbContext(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<BreedingDbContext>(opts =>
@@ -41,6 +35,9 @@ public static class ModuleServiceRegistrar
 
     public static IEndpointRouteBuilder MapBreedingEndpoints(this IEndpointRouteBuilder app)
     {
+        app.MapBreedingApiEndpoints();
+        app.MapLitterEndpoints();
+        app.MapPregnancyApiEndpoints();
         app.MapHeatCycleEndpoints();
         return app;
     }

@@ -7,7 +7,9 @@ using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 
 namespace Vetolib.Api;
@@ -31,6 +33,7 @@ public static class DbInitializer
         await MigrateContextAsync<BillingDbContext>(services);
         await MigrateContextAsync<AuditDbContext>(services);
         await MigrateContextAsync<NotificationsDbContext>(services);
+        await MigrateContextAsync<BreedingDbContext>(services);
     }
 
     /// <summary>

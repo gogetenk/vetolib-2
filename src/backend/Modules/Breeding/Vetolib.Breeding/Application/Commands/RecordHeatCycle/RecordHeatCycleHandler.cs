@@ -22,11 +22,11 @@ internal class RecordHeatCycleHandler : IRequestHandler<RecordHeatCycleCommand, 
     public async Task<Result<HeatCycleDto>> Handle(RecordHeatCycleCommand cmd, CancellationToken ct)
     {
         // Validate patient sex via cross-module reader
-        var sexResult = await _patientReader.GetPatientSexAsync(cmd.PatientId, ct);
-        if (!sexResult.IsSuccess)
+        var patientResult = await _patientReader.GetPatientBasicInfoAsync(cmd.PatientId, ct);
+        if (!patientResult.IsSuccess)
             return Result<HeatCycleDto>.NotFound($"Patient '{cmd.PatientId}' not found");
 
-        var sex = sexResult.Value;
+        var sex = patientResult.Value.Sex;
 
         if (sex == Sex.Male || sex == Sex.NeuteredMale)
             return Result<HeatCycleDto>.Error("Only female patients can have heat cycles recorded");

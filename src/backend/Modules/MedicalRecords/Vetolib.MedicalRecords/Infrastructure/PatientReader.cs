@@ -13,6 +13,22 @@ internal class PatientReader : IPatientReader
         _context = context;
     }
 
+    public async Task<Result<PatientDto>> GetPatientByIdAsync(
+        Guid patientId,
+        CancellationToken cancellationToken = default)
+    {
+        var patient = await _context.Patients
+            .Include(p => p.PatientOwners)
+                .ThenInclude(po => po.Owner)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == patientId, cancellationToken);
+
+        if (patient is null)
+            return Result<PatientDto>.NotFound($"Patient {patientId} not found");
+
+        return Result<PatientDto>.Success(patient.ToDto());
+    }
+
     public async Task<Result<IReadOnlyList<PatientDto>>> GetPatientsByOwnerIdAsync(
         Guid ownerId,
         Guid clinicId,
@@ -92,7 +108,7 @@ internal class PatientReader : IPatientReader
         return Result<PatientContextDto>.Success(context);
     }
 
-    public async Task<Result<Sex>> GetPatientSexAsync(
+    public async Task<Result<PatientBasicInfoDto>> GetPatientBasicInfoAsync(
         Guid patientId,
         CancellationToken cancellationToken = default)
     {
@@ -101,8 +117,9 @@ internal class PatientReader : IPatientReader
             .FirstOrDefaultAsync(p => p.Id == patientId, cancellationToken);
 
         if (patient is null)
-            return Result<Sex>.NotFound($"Patient {patientId} not found");
+            return Result<PatientBasicInfoDto>.NotFound($"Patient {patientId} not found");
 
-        return Result<Sex>.Success(patient.Sex);
+        return Result<PatientBasicInfoDto>.Success(
+            new PatientBasicInfoDto(patient.Id, patient.Name, patient.Species, patient.Sex));
     }
 }

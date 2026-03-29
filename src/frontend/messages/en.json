@@ -203,6 +203,7 @@
     "add_patient": "Add Patient",
     "import_csv": "Import CSV",
     "search_placeholder": "Search by name or owner...",
+    "search_placeholder_extended": "Search by name, owner, or microchip number...",
     "no_patients": "No patients found.",
     "owner": "Owner",
     "last_visit": "Last visit",
@@ -241,6 +242,17 @@
       "gender_male": "Male",
       "gender_female": "Female",
       "gender_unknown": "Unknown",
+      "sex": "Sex (detailed)",
+      "select_sex": "Select sex",
+      "sex_male": "Male (neutered)",
+      "sex_female": "Female (spayed)",
+      "sex_intact_male": "Intact Male",
+      "sex_intact_female": "Intact Female",
+      "sex_unknown": "Unknown",
+      "microchip": "Microchip Number",
+      "microchip_optional": "(optional)",
+      "microchip_placeholder": "e.g. 900118000123456",
+      "microchip_hint": "15-digit ISO microchip number",
       "date_of_birth": "Date of Birth",
       "weight": "Weight (kg)",
       "weight_optional": "(optional)",
@@ -269,7 +281,8 @@
         "owner_name_required": "Owner name is required",
         "owner_phone_required": "Owner phone is required",
         "owner_phone_format": "Phone must follow UAE format: +971 XX XXX XXXX",
-        "owner_email_invalid": "Invalid email"
+        "owner_email_invalid": "Invalid email",
+        "microchip_format": "Microchip must be exactly 15 digits"
       }
     },
     "species": {
@@ -291,7 +304,8 @@
         "medical_records": "Medical Records",
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
-        "health_alerts": "Health Alerts"
+        "health_alerts": "Health Alerts",
+        "weight": "Weight"
       },
       "weight_label": "Weight:",
       "weight_not_recorded": "Not recorded",
@@ -317,6 +331,41 @@
           "duration": "Duration",
           "vet_date": "Vet / Date",
           "status": "Status"
+        }
+      },
+      "weight": {
+        "current_weight": "Current Weight",
+        "no_data": "No weight records yet.",
+        "add_weight": "+ Add Weight",
+        "add_success": "Weight recorded successfully.",
+        "add_error": "Failed to record weight. Please try again.",
+        "load_error": "Failed to load weight data.",
+        "chart_title": "Weight History",
+        "page_info": "Page {current} of {total}",
+        "previous": "Previous",
+        "next": "Next",
+        "columns": {
+          "date": "Date",
+          "weight": "Weight",
+          "note": "Note",
+          "recorded_by": "Recorded By"
+        },
+        "form": {
+          "weight_label": "Weight (kg)",
+          "weight_placeholder": "e.g. 32.5",
+          "date_label": "Date",
+          "note_label": "Note",
+          "note_placeholder": "Optional note about this measurement...",
+          "optional": "optional",
+          "submit": "Save Weight",
+          "submitting": "Saving..."
+        },
+        "validation": {
+          "weight_required": "Weight is required.",
+          "weight_positive": "Weight must be greater than 0.",
+          "weight_max": "Weight must not exceed 10,000 kg.",
+          "date_required": "Date is required.",
+          "note_max": "Note must not exceed 500 characters."
         }
       }
     }

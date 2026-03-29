@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Breeding.Application.Domain;
+using Vetolib.Breeding.Domain;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Shared.Kernel;
 
@@ -9,6 +10,10 @@ namespace Vetolib.Breeding.Infrastructure;
 internal class BreedingDbContext : MultiTenantDbContext
 {
     public DbSet<HeatCycle> HeatCycles => Set<HeatCycle>();
+    public DbSet<Litter> Litters => Set<Litter>();
+    public DbSet<LitterOffspring> LitterOffspring => Set<LitterOffspring>();
+    public DbSet<Pregnancy> Pregnancies => Set<Pregnancy>();
+    public DbSet<PregnancyCheck> PregnancyChecks => Set<PregnancyCheck>();
 
     public BreedingDbContext(
         DbContextOptions<BreedingDbContext> options,
@@ -20,7 +25,7 @@ internal class BreedingDbContext : MultiTenantDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder); // MUST call base first for tenant filter
+        base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(BreedingDbContext).Assembly);
     }
 }

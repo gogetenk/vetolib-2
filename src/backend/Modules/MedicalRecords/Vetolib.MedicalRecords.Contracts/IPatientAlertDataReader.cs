@@ -18,5 +18,9 @@ public record PatientAlertDataDto(
     IReadOnlyList<WeightEntryDto> WeightHistory);
 
 public record WeightEntryDto(
+    Guid Id,
+    Guid PatientId,
     decimal WeightKg,
-    DateTime RecordedAt);
+    DateTime RecordedAt,
+    string RecordedBy,
+    string? Note);

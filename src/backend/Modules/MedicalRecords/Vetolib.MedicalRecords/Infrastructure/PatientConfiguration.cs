@@ -43,5 +43,9 @@ internal class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder.HasMany(p => p.PatientOwners)
             .WithOne(po => po.Patient)
             .HasForeignKey(po => po.PatientId);
+
+        builder.HasMany(p => p.WeightEntries)
+            .WithOne()
+            .HasForeignKey(w => w.PatientId);
     }
 }

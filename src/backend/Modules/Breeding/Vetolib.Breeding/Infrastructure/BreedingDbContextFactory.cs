@@ -7,7 +7,7 @@ namespace Vetolib.Breeding.Infrastructure;
 
 /// <summary>
 /// Design-time factory for EF Core migrations.
-/// Only used by `dotnet ef migrations add` — never loaded at runtime.
+/// Only used by `dotnet ef migrations add` -- never loaded at runtime.
 /// </summary>
 internal class BreedingDbContextFactory : IDesignTimeDbContextFactory<BreedingDbContext>
 {
@@ -18,16 +18,16 @@ internal class BreedingDbContextFactory : IDesignTimeDbContextFactory<BreedingDb
                 ?? "Host=localhost;Database=vetolibdb;Username=postgres;Password=postgres")
             .Options;
 
-        return new BreedingDbContext(options, new DesignTimeClinicContext(), new NullPublisher());
+        return new BreedingDbContext(options, new DesignTimeBreedingClinicContext(), new BreedingNullPublisher());
     }
 }
 
-internal class DesignTimeClinicContext : IClinicContext
+internal class DesignTimeBreedingClinicContext : IClinicContext
 {
     public Guid ClinicId => Guid.Empty;
 }
 
-internal class NullPublisher : IPublisher
+internal class BreedingNullPublisher : IPublisher
 {
     public Task Publish(object notification, CancellationToken cancellationToken = default)
         => Task.CompletedTask;
