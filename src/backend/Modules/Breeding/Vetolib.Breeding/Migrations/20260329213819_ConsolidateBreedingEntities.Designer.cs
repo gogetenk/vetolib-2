@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetolib.Breeding.Infrastructure;
@@ -11,9 +12,11 @@ using Vetolib.Breeding.Infrastructure;
 namespace Vetolib.Breeding.Migrations
 {
     [DbContext(typeof(BreedingDbContext))]
-    partial class BreedingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260329213819_ConsolidateBreedingEntities")]
+    partial class ConsolidateBreedingEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
