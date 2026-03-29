@@ -16,4 +16,10 @@ public interface IPatientReader
     /// Receptionist: false. Vet/Admin: true.
     /// </summary>
     Task<Result<PatientContextDto>> GetPatientContextAsync(Guid patientId, bool includeFullMedicalContext, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns basic patient info (name, species, sex) for cross-module validation.
+    /// Used by Breeding module to validate mother sex and species match.
+    /// </summary>
+    Task<Result<PatientBasicInfoDto>> GetPatientBasicInfoAsync(Guid patientId, CancellationToken cancellationToken = default);
 }

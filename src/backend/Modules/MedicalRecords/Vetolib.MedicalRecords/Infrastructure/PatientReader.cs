@@ -91,4 +91,19 @@ internal class PatientReader : IPatientReader
 
         return Result<PatientContextDto>.Success(context);
     }
+
+    public async Task<Result<PatientBasicInfoDto>> GetPatientBasicInfoAsync(
+        Guid patientId,
+        CancellationToken cancellationToken = default)
+    {
+        var patient = await _context.Patients
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == patientId, cancellationToken);
+
+        if (patient is null)
+            return Result<PatientBasicInfoDto>.NotFound($"Patient {patientId} not found");
+
+        return Result<PatientBasicInfoDto>.Success(
+            new PatientBasicInfoDto(patient.Id, patient.Name, patient.Species, patient.Sex));
+    }
 }
