@@ -9,6 +9,7 @@ namespace Vetolib.Breeding.Infrastructure;
 
 internal class BreedingDbContext : MultiTenantDbContext
 {
+    public DbSet<HeatCycle> HeatCycles => Set<HeatCycle>();
     public DbSet<Litter> Litters => Set<Litter>();
     public DbSet<LitterOffspring> LitterOffspring => Set<LitterOffspring>();
     public DbSet<Pregnancy> Pregnancies => Set<Pregnancy>();
