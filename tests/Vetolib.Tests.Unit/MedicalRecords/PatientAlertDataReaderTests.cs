@@ -41,6 +41,9 @@ public class PatientAlertDataReaderTests : IDisposable
         patient.SetWeight(25.5m);
         _context.Patients.Add(patient);
 
+        var weightEntry = WeightEntry.Create(ClinicId, patient.Id, 25.5m, "Dr. Smith").Value;
+        _context.WeightEntries.Add(weightEntry);
+
         var record = MedicalRecord.Create(
             ClinicId, patient.Id, "Annual checkup", "Vaccination", "Dr. Smith", DateTime.UtcNow.AddDays(-10)).Value;
         _context.MedicalRecords.Add(record);
