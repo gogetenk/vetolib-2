@@ -23,6 +23,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public BookingSource Source { get; private set; } = BookingSource.Staff;
     public int RescheduleCount { get; private set; }
     public Guid? OriginalAppointmentId { get; private set; }
+    public Guid? SeriesId { get; private set; }
 
     private Appointment() { } // EF Core constructor
 
@@ -120,6 +121,10 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         Status = AppointmentStatus.Cancelled;
         if (reason is not null)
             Reason = reason;
+
+        // Raise domain event so the waitlist handler can notify matching entries
+        AddDomainEvent(new SlotAvailableEvent(ClinicId, VeterinarianId, Date, StartTime, DurationMinutes));
+
         return Result.Success();
     }
 
@@ -183,6 +188,11 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
+    public void AssignToSeries(Guid seriesId)
+    {
+        SeriesId = seriesId;
+    }
+
     public bool OverlapsWith(TimeOnly otherStart, TimeOnly otherEnd)
     {
         return StartTime < otherEnd && EndTime > otherStart;
@@ -206,6 +216,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
             Reason,
             Source,
             RescheduleCount,
-            OriginalAppointmentId);
+            OriginalAppointmentId,
+            SeriesId);
     }
 }

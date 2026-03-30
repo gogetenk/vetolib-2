@@ -197,6 +197,67 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                     b.ToTable("medical_records", "medical");
                 });
 
+            modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.MedicalRecordTemplate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DiagnosisTemplate")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<bool>("IsSystemTemplate")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("NotesTemplate")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Species")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("TreatmentTemplate")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId", "Category")
+                        .HasDatabaseName("IX_medical_record_templates_ClinicId_Category");
+
+                    b.HasIndex("ClinicId", "IsSystemTemplate")
+                        .HasDatabaseName("IX_medical_record_templates_ClinicId_IsSystemTemplate");
+
+                    b.ToTable("medical_record_templates", "medical");
+                });
+
             modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.Owner", b =>
                 {
                     b.Property<Guid>("Id")

@@ -361,6 +361,7 @@ app.MapAIEndpoints();
 app.MapMessagingEndpoints();
 app.MapStockEndpoints();
 app.MapBreedingEndpoints();
+app.MapPreferencesEndpoints();
 app.MapNotificationsEndpoints();
 
 if (app.Environment.IsDevelopment())

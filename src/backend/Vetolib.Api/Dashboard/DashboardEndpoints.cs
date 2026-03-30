@@ -46,6 +46,31 @@ internal static class DashboardEndpoints
             .RequireAuthorization("VetOrAdmin")
             .CacheOutput("Dashboard1min");
 
+        group.MapGet("/revenue-trend", GetRevenueTrend)
+            .WithName("GetRevenueTrend")
+            .WithSummary("Get monthly revenue trend for the last 12 months")
+            .WithDescription("Returns monthly revenue totals from paid invoices for the last 12 months, with zero-fill for months without revenue. Currency is AED.")
+            .RequireAuthorization("VetOrAdmin")
+            .CacheOutput("Dashboard1min");
+
+        group.MapGet("/consultation-breakdown", GetConsultationBreakdown)
+            .WithName("GetConsultationBreakdown")
+            .WithSummary("Get appointment count per consultation type this month")
+            .WithDescription("Returns the number of appointments grouped by consultation reason for the current calendar month.")
+            .CacheOutput("Dashboard1min");
+
+        group.MapGet("/species-distribution", GetSpeciesDistribution)
+            .WithName("GetSpeciesDistribution")
+            .WithSummary("Get patient count per species")
+            .WithDescription("Returns the total number of patients grouped by species, ordered by count descending.")
+            .CacheOutput("Dashboard1min");
+
+        group.MapGet("/vet-workload", GetVetWorkload)
+            .WithName("GetVetWorkload")
+            .WithSummary("Get appointment count per veterinarian this week")
+            .WithDescription("Returns the number of appointments per veterinarian for the current ISO week (Monday to Sunday).")
+            .CacheOutput("Dashboard1min");
+
         return app;
     }
 
@@ -194,6 +219,70 @@ internal static class DashboardEndpoints
 
         return Result<DashboardAnalyticsDto>.Success(analytics).ToMinimalApiResult();
     }
+
+    private static async Task<IHttpResult> GetRevenueTrend(ISender sender)
+    {
+        var result = await sender.Send(new GetRevenueByMonthQuery());
+
+        if (!result.IsSuccess)
+            return Result<IReadOnlyList<RevenueMonthDto>>.Error(
+                "REVENUE_TREND_UNAVAILABLE:Unable to retrieve revenue trend data")
+                .ToMinimalApiResult();
+
+        var dtos = result.Value
+            .Select(r => new RevenueMonthDto(r.Month, r.Total, r.Currency))
+            .ToList();
+
+        return Result<IReadOnlyList<RevenueMonthDto>>.Success(dtos).ToMinimalApiResult();
+    }
+
+    private static async Task<IHttpResult> GetConsultationBreakdown(ISender sender)
+    {
+        var result = await sender.Send(new GetConsultationBreakdownQuery());
+
+        if (!result.IsSuccess)
+            return Result<IReadOnlyList<ConsultationBreakdownItemDto>>.Error(
+                "CONSULTATION_BREAKDOWN_UNAVAILABLE:Unable to retrieve consultation breakdown")
+                .ToMinimalApiResult();
+
+        var dtos = result.Value
+            .Select(r => new ConsultationBreakdownItemDto(r.ConsultationType, r.Count))
+            .ToList();
+
+        return Result<IReadOnlyList<ConsultationBreakdownItemDto>>.Success(dtos).ToMinimalApiResult();
+    }
+
+    private static async Task<IHttpResult> GetSpeciesDistribution(ISender sender)
+    {
+        var result = await sender.Send(new GetPatientsBySpeciesQuery());
+
+        if (!result.IsSuccess)
+            return Result<IReadOnlyList<SpeciesCountDto>>.Error(
+                "SPECIES_DISTRIBUTION_UNAVAILABLE:Unable to retrieve species distribution")
+                .ToMinimalApiResult();
+
+        var dtos = result.Value
+            .Select(s => new SpeciesCountDto(s.Species, s.Count))
+            .ToList();
+
+        return Result<IReadOnlyList<SpeciesCountDto>>.Success(dtos).ToMinimalApiResult();
+    }
+
+    private static async Task<IHttpResult> GetVetWorkload(ISender sender)
+    {
+        var result = await sender.Send(new GetVetWorkloadQuery());
+
+        if (!result.IsSuccess)
+            return Result<IReadOnlyList<VetWorkloadItemDto>>.Error(
+                "VET_WORKLOAD_UNAVAILABLE:Unable to retrieve vet workload data")
+                .ToMinimalApiResult();
+
+        var dtos = result.Value
+            .Select(v => new VetWorkloadItemDto(v.VeterinarianId, v.VeterinarianName, v.AppointmentCount))
+            .ToList();
+
+        return Result<IReadOnlyList<VetWorkloadItemDto>>.Success(dtos).ToMinimalApiResult();
+    }
 }
 
 // Dashboard-specific DTOs (Vetolib.Api only — not exposed to modules)
@@ -229,3 +318,5 @@ internal record DashboardAnalyticsDto(
 internal record RevenueMonthDto(string Month, decimal Total, string Currency);
 internal record SpeciesCountDto(string Species, int Count);
 internal record StatusCountDto(string Status, int Count);
+internal record ConsultationBreakdownItemDto(string ConsultationType, int Count);
+internal record VetWorkloadItemDto(Guid VeterinarianId, string VeterinarianName, int AppointmentCount);

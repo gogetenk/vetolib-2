@@ -11,6 +11,7 @@ internal class PreferencesDbContext : MultiTenantDbContext
     public DbSet<UserPreference> UserPreferences => Set<UserPreference>();
     public DbSet<ClinicPreferenceDefault> ClinicPreferenceDefaults => Set<ClinicPreferenceDefault>();
     public DbSet<ConsentAuditEntry> ConsentAuditEntries => Set<ConsentAuditEntry>();
+    public DbSet<ClinicWorkingHours> ClinicWorkingHours => Set<ClinicWorkingHours>();
 
     public PreferencesDbContext(
         DbContextOptions<PreferencesDbContext> options,

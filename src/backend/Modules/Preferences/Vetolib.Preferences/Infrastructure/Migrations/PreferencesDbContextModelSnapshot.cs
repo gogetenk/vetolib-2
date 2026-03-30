@@ -17,7 +17,7 @@ namespace Vetolib.Preferences.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.3")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -59,6 +59,48 @@ namespace Vetolib.Preferences.Infrastructure.Migrations
                         .HasDatabaseName("ix_clinic_preference_defaults_clinic_key");
 
                     b.ToTable("clinic_preference_defaults", "preferences");
+                });
+
+            modelBuilder.Entity("Vetolib.Preferences.Application.Domain.ClinicWorkingHours", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<TimeOnly?>("BreakEndTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<TimeOnly?>("BreakStartTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<TimeOnly>("CloseTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("boolean");
+
+                    b.Property<TimeOnly>("OpenTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId", "DayOfWeek")
+                        .IsUnique()
+                        .HasDatabaseName("ix_clinic_working_hours_clinic_day");
+
+                    b.ToTable("clinic_working_hours", "preferences");
                 });
 
             modelBuilder.Entity("Vetolib.Preferences.Application.Domain.ConsentAuditEntry", b =>
