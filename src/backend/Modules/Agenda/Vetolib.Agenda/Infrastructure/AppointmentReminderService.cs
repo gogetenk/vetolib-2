@@ -1,5 +1,6 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,14 +12,17 @@ internal class AppointmentReminderService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<AppointmentReminderService> _logger;
+    private readonly IConfiguration _configuration;
     private static readonly TimeSpan Interval = TimeSpan.FromHours(1);
 
     public AppointmentReminderService(
         IServiceScopeFactory scopeFactory,
-        ILogger<AppointmentReminderService> logger)
+        ILogger<AppointmentReminderService> logger,
+        IConfiguration configuration)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
+        _configuration = configuration;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -88,7 +92,7 @@ internal class AppointmentReminderService : BackgroundService
                 PatientName = appointment.AnimalName,
                 VetName = appointment.VeterinarianName,
                 ScheduledAt = scheduledAt,
-                ClinicName = "Desert Paws Veterinary Clinic"
+                ClinicName = _configuration["ClinicName"] ?? "Vetolib Veterinary Clinic"
             }, ct);
 
             appointment.MarkReminderSent();
