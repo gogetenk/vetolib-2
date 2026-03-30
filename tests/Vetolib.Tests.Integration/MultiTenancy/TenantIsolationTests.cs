@@ -85,6 +85,7 @@ public sealed class TenantIsolationTests : IntegrationTestBase
             AnimalId: animalId,
             AnimalName: "Clinic A Animal",
             OwnerName: "Clinic A Owner",
+            OwnerEmail: null,
             Date: tomorrow,
             StartTime: TimeOnly.Parse("16:00"),
             DurationMinutes: 30,

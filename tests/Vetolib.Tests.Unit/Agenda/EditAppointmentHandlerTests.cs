@@ -51,7 +51,7 @@ public class EditAppointmentHandlerTests : IDisposable
             ClinicId,
             vetId ?? VetId,
             "Dr. Khalid Al-Mansouri",
-            AnimalId, "Luna", "Ahmed Al-Rashidi",
+            AnimalId, "Luna", "Ahmed Al-Rashidi", null,
             date ?? FutureDate,
             startTime ?? StartTime,
             durationMinutes,

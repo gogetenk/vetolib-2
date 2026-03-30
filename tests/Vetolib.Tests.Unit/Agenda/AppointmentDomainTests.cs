@@ -24,6 +24,7 @@ public class AppointmentDomainTests
             AnimalId,
             "Luna",
             "Ahmed Al-Rashidi",
+            "ahmed@email.ae",
             FutureDate,
             ValidStart,
             ValidDuration,

@@ -125,6 +125,7 @@ internal class SlotSuggestionSteps
                 Guid.NewGuid(),
                 "Animal",
                 "Owner",
+                null,
                 date,
                 startTime,
                 duration,
@@ -176,7 +177,7 @@ internal class SlotSuggestionSteps
         {
             var apptResult = Appointment.Create(
                 _clinicId, AhmadId, "Dr. Ahmad",
-                Guid.NewGuid(), "Animal", "Owner",
+                Guid.NewGuid(), "Animal", "Owner", null,
                 pastDate.AddDays(i), new TimeOnly(9, 0), 30, type);
             apptResult.IsSuccess.Should().BeTrue();
             var appt = apptResult.Value;
@@ -192,7 +193,7 @@ internal class SlotSuggestionSteps
         // suggestions would be generated.
         var futureApptResult = Appointment.Create(
             _clinicId, AhmadId, "Dr. Ahmad",
-            Guid.NewGuid(), "Animal", "Owner",
+            Guid.NewGuid(), "Animal", "Owner", null,
             new DateOnly(2026, 3, 15), new TimeOnly(9, 0), 30, type);
         futureApptResult.IsSuccess.Should().BeTrue();
         agendaDb.Appointments.Add(futureApptResult.Value);
@@ -212,7 +213,7 @@ internal class SlotSuggestionSteps
         {
             var apptResult = Appointment.Create(
                 _clinicId, AhmadId, "Dr. Ahmad",
-                Guid.NewGuid(), "Animal", "Owner",
+                Guid.NewGuid(), "Animal", "Owner", null,
                 baseDate.AddDays(i), new TimeOnly(9, 0), avgDuration, type);
             apptResult.IsSuccess.Should().BeTrue();
 
@@ -376,7 +377,7 @@ internal class SlotSuggestionSteps
         {
             var apptResult = Appointment.Create(
                 _clinicId, vetId, vetName,
-                Guid.NewGuid(), "Animal", "Owner",
+                Guid.NewGuid(), "Animal", "Owner", null,
                 date, start, duration, type);
 
             if (apptResult.IsSuccess)

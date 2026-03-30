@@ -95,6 +95,7 @@ internal static class AppointmentEndpoints
             request.AnimalId,
             request.AnimalName,
             request.OwnerName,
+            request.OwnerEmail,
             request.Date,
             request.StartTime,
             request.DurationMinutes,

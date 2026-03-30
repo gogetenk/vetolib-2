@@ -40,8 +40,10 @@ internal class CreatePatientHandler : IRequestHandler<CreatePatientCommand, Resu
         var firstName = nameParts[0];
         var lastName = nameParts.Length > 1 ? nameParts[1] : "-";
 
-        // Generate a unique email for the owner using phone (since email is required but not provided here)
-        var ownerEmail = $"owner.{cmd.OwnerPhone.Replace(" ", "").Replace("+", "").Replace("-", "")}@vetoclinic.ae";
+        // Use provided email when available; fall back to phone-derived placeholder only when no email is given
+        var ownerEmail = !string.IsNullOrWhiteSpace(cmd.OwnerEmail)
+            ? cmd.OwnerEmail.Trim().ToLowerInvariant()
+            : $"owner.{cmd.OwnerPhone.Replace(" ", "").Replace("+", "").Replace("-", "")}@generated.vetoclinic.ae";
 
         // Try to find existing owner by phone in this clinic
         var existingOwner = await _context.Owners

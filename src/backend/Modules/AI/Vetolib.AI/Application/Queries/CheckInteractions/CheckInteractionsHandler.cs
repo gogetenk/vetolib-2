@@ -84,7 +84,8 @@ internal class CheckInteractionsHandler : IRequestHandler<CheckInteractionsQuery
             CheckDosageOutOfRange(drug, patient.Species, patient.WeightKg.Value, dosageAmount.Value, alerts);
 
         // Sort by severity: Critical > Moderate > Info
-        alerts.Sort((a, b) => a.Severity.CompareTo(b.Severity));
+        // Use explicit priority mapping instead of relying on enum integer ordering
+        alerts.Sort((a, b) => SeverityPriority(a.Severity).CompareTo(SeverityPriority(b.Severity)));
 
         return alerts;
     }
@@ -203,6 +204,17 @@ internal class CheckInteractionsHandler : IRequestHandler<CheckInteractionsQuery
                 AlternativeDrugIds: new List<Guid>()));
         }
     }
+
+    /// <summary>
+    /// Explicit priority mapping for InteractionSeverity. Lower value = higher clinical priority.
+    /// </summary>
+    private static int SeverityPriority(InteractionSeverity severity) => severity switch
+    {
+        InteractionSeverity.Critical => 0,
+        InteractionSeverity.Moderate => 1,
+        InteractionSeverity.Info => 2,
+        _ => 99
+    };
 
     private static void CheckDosageOutOfRange(
         DrugCatalogEntryDto drug,
