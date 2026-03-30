@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback, type KeyboardEvent } from 'react'
 import { useTranslations } from 'next-intl'
 import { Search, Eye, ChevronUp, ChevronDown } from 'lucide-react'
 import {
@@ -84,14 +84,23 @@ export function DrugCatalogTable({
     })
   }, [drugs, sortField, sortDir])
 
-  function handleSort(field: SortField) {
-    if (sortField === field) {
-      setSortDir(prev => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
-      setSortField(field)
+  const handleSort = useCallback((field: SortField) => {
+    setSortField(prev => {
+      if (prev === field) {
+        setSortDir(d => (d === 'asc' ? 'desc' : 'asc'))
+        return prev
+      }
       setSortDir('asc')
+      return field
+    })
+  }, [])
+
+  const handleSortKeyDown = useCallback((field: SortField) => (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleSort(field)
     }
-  }
+  }, [handleSort])
 
   function getCategoryBadge(category: string) {
     const colorMap: Record<string, string> = {
@@ -227,6 +236,10 @@ export function DrugCatalogTable({
                 <TableHead
                   className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('displayName')}
+                  onKeyDown={handleSortKeyDown('displayName')}
+                  tabIndex={0}
+                  role="columnheader"
+                  aria-sort={sortField === 'displayName' ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
                   data-testid="th-drug-name"
                 >
                   {t('columns.name')}<SortIcon field="displayName" sortField={sortField} sortDir={sortDir} />
@@ -234,6 +247,10 @@ export function DrugCatalogTable({
                 <TableHead
                   className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('innName')}
+                  onKeyDown={handleSortKeyDown('innName')}
+                  tabIndex={0}
+                  role="columnheader"
+                  aria-sort={sortField === 'innName' ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
                   data-testid="th-drug-inn"
                 >
                   {t('columns.inn_name')}<SortIcon field="innName" sortField={sortField} sortDir={sortDir} />
@@ -241,6 +258,10 @@ export function DrugCatalogTable({
                 <TableHead
                   className="h-12 px-4 text-[11px] font-bold uppercase tracking-wider text-foreground cursor-pointer select-none"
                   onClick={() => handleSort('category')}
+                  onKeyDown={handleSortKeyDown('category')}
+                  tabIndex={0}
+                  role="columnheader"
+                  aria-sort={sortField === 'category' ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
                   data-testid="th-drug-category"
                 >
                   {t('columns.category')}<SortIcon field="category" sortField={sortField} sortDir={sortDir} />
