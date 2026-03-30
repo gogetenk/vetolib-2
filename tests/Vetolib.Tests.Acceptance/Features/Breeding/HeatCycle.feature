@@ -1,4 +1,3 @@
-@wip
 Feature: Heat cycle tracking
   As a veterinarian or breeder,
   I want to record heat cycles for female patients
