@@ -14,6 +14,7 @@ internal class BreedingDbContext : MultiTenantDbContext
     public DbSet<LitterOffspring> LitterOffspring => Set<LitterOffspring>();
     public DbSet<Pregnancy> Pregnancies => Set<Pregnancy>();
     public DbSet<PregnancyCheck> PregnancyChecks => Set<PregnancyCheck>();
+    public DbSet<PatientLineage> PatientLineages => Set<PatientLineage>();
 
     public BreedingDbContext(
         DbContextOptions<BreedingDbContext> options,
