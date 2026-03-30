@@ -93,8 +93,8 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
     {
       title: m.columns.legal.title,
       links: [
-        { label: m.columns.legal.privacy, href: "#" },
-        { label: m.columns.legal.terms, href: "#" },
+        { label: m.columns.legal.privacy, href: `/${locale}/privacy` },
+        { label: m.columns.legal.terms, href: `/${locale}/terms` },
         { label: m.columns.legal.dpa, href: "#" },
       ],
     },
