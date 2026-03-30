@@ -6,10 +6,12 @@ import { arabicSoftwareDubaiVet } from "./articles/arabic-software-dubai-vet";
 import { outgrownSpreadsheetsVet } from "./articles/outgrown-spreadsheets-vet";
 import { falconHealthManagementUae } from "./articles/falcon-health-management-uae";
 import { breedingManagementUae } from "./articles/breeding-management-uae";
+import { howToChooseVeterinarySoftwareUae } from "./articles/how-to-choose-veterinary-software-uae";
 
 export type { BlogArticle } from "./types";
 
 export const allArticles: BlogArticle[] = [
+  howToChooseVeterinarySoftwareUae,
   falconHealthManagementUae,
   breedingManagementUae,
   outgrownSpreadsheetsVet,
