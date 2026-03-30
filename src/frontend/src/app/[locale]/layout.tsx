@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { MSWProvider } from "@/components/MSWProvider";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { CookieConsent } from "@/components/CookieConsent";
 import { routing } from "@/i18n/routing";
 
 const manrope = Manrope({
@@ -68,6 +69,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                 {children}
               </MSWProvider>
               <Toaster />
+              <CookieConsent />
             </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>

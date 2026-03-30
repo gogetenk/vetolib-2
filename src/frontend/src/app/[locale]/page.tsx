@@ -30,6 +30,7 @@ import { StickyCtaBar } from "@/components/features/landing/StickyCtaBar";
 import { ExitIntentPopup } from "@/components/features/landing/ExitIntentPopup";
 import { TrackedCtaLink } from "@/components/features/landing/TrackedCtaLink";
 import { LatestBlogSection } from "@/components/features/blog/LatestBlogSection";
+import { WhatsAppBookingButton } from "@/components/features/landing/WhatsAppBookingButton";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -255,6 +256,10 @@ export default async function LandingPage({ params }: Props) {
                       buttonTestId="btn-hero-start-trial"
                       buttonClassName="group/cta relative w-full overflow-hidden bg-primary px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] sm:w-auto"
                     >{t("hero.cta_primary")}</TrackedCtaLink>
+                    <WhatsAppBookingButton
+                      label={t("hero.whatsapp_cta")}
+                      clinicName="Vetara"
+                    />
                   </div>
                 </HeroStagger>
                 <HeroStagger index={3}>

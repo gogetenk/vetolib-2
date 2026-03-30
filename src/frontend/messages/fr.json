@@ -1107,7 +1107,8 @@
       "cta_secondary": "Réserver une démo",
       "trust_badge": "Essai gratuit Pro 30 jours — sans carte bancaire",
       "social_proof_badge": "Rejoignez plus de 50 cliniques dans le monde",
-      "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients"
+      "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients",
+      "whatsapp_cta": "Réserver via WhatsApp"
     },
     "social_proof": {
       "clinics": "50+ cliniques",
@@ -1589,7 +1590,8 @@
         "nextAppointment": "Prochain rendez-vous",
         "myAppointmentsSubtitle": "Consultez et gérez vos rendez-vous à venir et passés",
         "bookNewSubtitle": "Planifiez une nouvelle visite pour votre animal",
-        "link_expired": "Ce lien a expiré. Veuillez contacter votre clinique pour en recevoir un nouveau."
+        "link_expired": "Ce lien a expiré. Veuillez contacter votre clinique pour en recevoir un nouveau.",
+        "whatsapp_cta": "Réserver via WhatsApp"
       },
       "wizard": {
         "step1Title": "Sélectionnez votre animal",
@@ -2284,5 +2286,11 @@
       "diagnosis_required": "Le diagnostic est requis",
       "treatment_required": "Le traitement est requis"
     }
+  },
+  "cookieConsent": {
+    "message": "Nous utilisons des cookies pour ameliorer votre experience. En continuant, vous acceptez notre politique de cookies.",
+    "acceptAll": "Tout accepter",
+    "necessaryOnly": "Necessaires uniquement",
+    "ariaLabel": "Consentement aux cookies"
   }
 }
