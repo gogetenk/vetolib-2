@@ -58,10 +58,13 @@ export function MonthDayCell({
   return (
     <div
       data-testid={`month-day-cell-${dateKey}`}
-      className={`min-h-24 border-b border-e border-border/30 p-1 cursor-pointer transition-all duration-200 ease-in-out hover:bg-muted/50 relative ${
+      className={`min-h-24 border-b border-e border-border/30 p-1 cursor-pointer transition-all duration-200 ease-in-out hover:bg-muted/50 relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset ${
         isToday ? 'bg-primary/10' : ''
       } ${isWeekend ? 'bg-muted/50' : ''} ${!isCurrentMonth ? 'opacity-40' : ''}`}
       onClick={() => onDayClick(date)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDayClick(date) } }}
     >
       {/* Day number */}
       <div className="flex justify-center mb-0.5">

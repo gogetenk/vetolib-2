@@ -208,13 +208,16 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 <div
                   className={`h-8 relative transition-colors duration-200 ease-in-out border-b border-border/10 ${
                     isClickable
-                      ? 'cursor-pointer hover:bg-primary/10'
+                      ? 'cursor-pointer hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset'
                       : 'cursor-not-allowed'
                   } ${isTopHovered && isClickable ? 'bg-primary/10' : ''}`}
                   onClick={() => isClickable && handleSlotClick(hour, true)}
+                  onKeyDown={(e) => { if (isClickable && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); handleSlotClick(hour, true) } }}
                   onMouseEnter={() => isClickable && setHoveredSlot(topHalfKey)}
                   onMouseLeave={() => setHoveredSlot(null)}
                   data-testid={isClickable ? `calendar-day-slot-${hour}-00` : undefined}
+                  role={isClickable ? 'button' : undefined}
+                  tabIndex={isClickable ? 0 : undefined}
                 >
                   {isTopHovered && isClickable && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">
@@ -226,13 +229,16 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 <div
                   className={`h-8 relative transition-colors duration-200 ease-in-out ${
                     isClickable
-                      ? 'cursor-pointer hover:bg-primary/10'
+                      ? 'cursor-pointer hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset'
                       : 'cursor-not-allowed'
                   } ${isBottomHovered && isClickable ? 'bg-primary/10' : ''}`}
                   onClick={() => isClickable && handleSlotClick(hour, false)}
+                  onKeyDown={(e) => { if (isClickable && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); handleSlotClick(hour, false) } }}
                   onMouseEnter={() => isClickable && setHoveredSlot(bottomHalfKey)}
                   onMouseLeave={() => setHoveredSlot(null)}
                   data-testid={isClickable ? `calendar-day-slot-${hour}-30` : undefined}
+                  role={isClickable ? 'button' : undefined}
+                  tabIndex={isClickable ? 0 : undefined}
                 >
                   {isBottomHovered && isClickable && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-in fade-in duration-200">

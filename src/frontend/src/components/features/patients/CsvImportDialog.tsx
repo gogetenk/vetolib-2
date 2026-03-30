@@ -157,7 +157,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
           {!report && (
             <div
               data-testid="csv-dropzone"
-              className={`relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition-colors cursor-pointer ${
+              className={`relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 isDragOver
                   ? 'border-primary bg-primary/5'
                   : 'border-border/60 hover:border-primary/50'
@@ -166,6 +166,9 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onClick={() => fileInputRef.current?.click()}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click() } }}
             >
               <input
                 ref={fileInputRef}
