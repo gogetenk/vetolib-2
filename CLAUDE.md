@@ -447,6 +447,23 @@ Un agent dev doit démarrer avec 3 lectures maximum avant de coder :
 `CLAUDE.md` et `docs/specs/archi-spec.md` sont lus uniquement si la tâche est la première du module
 ou si un doute architectural émerge. Pas systématiquement.
 
+**Definition of Done (DOD) obligatoire dans chaque tâche :**
+
+Chaque fichier `todo-*.md` DOIT contenir une section `## Definition of Done` avec des critères concrets et vérifiables par l'Evaluator agent. Pas de critères subjectifs ("code propre") — uniquement des checks binaires.
+
+Exemple :
+```
+## Definition of Done
+- [ ] `dotnet build` 0 erreurs
+- [ ] `dotnet test` GREEN (0 échecs)
+- [ ] Nouveaux handlers ont des TU (≥1 test par handler)
+- [ ] Nouveaux endpoints ont `.WithSummary()` + `.WithDescription()`
+- [ ] DTOs frontend matchent les Contracts backend (noms, types, nullabilité)
+- [ ] Pas de strings hardcodées dans les .tsx (tout via next-intl)
+- [ ] data-testid sur tous les éléments interactifs
+- [ ] Migration EF auditée (pas de phantom ops, .Designer.cs présent)
+```
+
 **Tasks auto-suffisantes :**
 Chaque fichier `todo-*.md` doit contenir tout ce dont l'agent a besoin :
 - Règles métier non-triviales (pas un renvoi vers openspec qui n'existe plus)

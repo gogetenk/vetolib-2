@@ -106,7 +106,23 @@ et qu'il n'existe pas encore de `todo-wire-{module}-*` ni `wip-wire-{module}-*` 
 
 ### 5. Vérifier les PRs terminées par les agents
 
-Pour chaque PR ouverte créée par un agent :
+**5a. Dispatch Evaluator on completed agent work (mandatory)**
+
+When a dev agent reports DONE or DONE_WITH_CONCERNS:
+1. Dispatch the Evaluator agent (`.claude/agents/evaluator.md`) with:
+   - Worktree path
+   - Task file content (including DOD)
+   - Dev agent status report
+2. Wait for Evaluator result
+3. If EVAL_PASS → proceed to merge (step 5b)
+4. If EVAL_FAIL → create fix task, re-dispatch dev agent with evaluator feedback
+5. If EVAL_PASS_WITH_NOTES → merge, but create follow-up task for noted issues
+
+**The orchestrator NEVER merges without evaluator approval.**
+
+**5b. Merge approved PRs**
+
+Pour chaque PR ouverte créée par un agent (and approved by evaluator) :
 ```bash
 gh pr checks <num>
 ```
