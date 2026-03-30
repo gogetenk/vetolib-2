@@ -13,6 +13,7 @@ using Vetolib.MedicalRecords.Application.Commands.UploadPatientPhoto;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientById;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientDetail;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientPhoto;
+using Vetolib.MedicalRecords.Application.Queries.GetPatientSummary;
 using Vetolib.MedicalRecords.Application.Queries.ListPatients;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Shared.Kernel;
@@ -51,6 +52,11 @@ internal static class PatientEndpoints
             .WithSummary("Get patient extended detail")
             .WithDescription("Returns full patient details including recent medical records, weight history, and breeding information.")
             .CacheOutput("Moderate2min");
+
+        group.MapGet("/{id:guid}/export/summary", GetPatientSummary)
+            .WithName("GetPatientSummary")
+            .WithSummary("Export patient medical summary")
+            .WithDescription("Returns a structured medical summary for a patient including patient info, owner info, recent medical records, active prescriptions, vaccinations, and health alerts. Designed for sharing with other clinics or pet owners.");
 
         group.MapPatch("/{id:guid}", UpdatePatient)
             .RequireAuthorization("VetOrAdmin")
@@ -172,6 +178,13 @@ internal static class PatientEndpoints
         await using var stream = file.OpenReadStream();
         var cmd = new ImportPatientsCommand(clinicContext.ClinicId, stream);
         return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GetPatientSummary(
+        Guid id,
+        ISender sender)
+    {
+        return (await sender.Send(new GetPatientSummaryQuery(id))).ToMinimalApiResult();
     }
 
     private static IResult GetImportTemplate()
