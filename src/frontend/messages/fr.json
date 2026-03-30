@@ -206,6 +206,7 @@
     "add_patient": "Ajouter un patient",
     "import_csv": "Importer un CSV",
     "search_placeholder": "Rechercher par nom ou propriétaire...",
+    "search_placeholder_extended": "Rechercher par nom, propriétaire ou numéro de puce...",
     "no_patients": "Aucun patient trouvé.",
     "owner": "Propriétaire",
     "last_visit": "Dernière visite",
@@ -244,6 +245,17 @@
       "gender_male": "Mâle",
       "gender_female": "Femelle",
       "gender_unknown": "Inconnu",
+      "sex": "Sexe (détaillé)",
+      "select_sex": "Sélectionner le sexe",
+      "sex_male": "Mâle (castré)",
+      "sex_female": "Femelle (stérilisée)",
+      "sex_intact_male": "Mâle entier",
+      "sex_intact_female": "Femelle entière",
+      "sex_unknown": "Inconnu",
+      "microchip": "Numéro de puce",
+      "microchip_optional": "(facultatif)",
+      "microchip_placeholder": "ex. 900118000123456",
+      "microchip_hint": "Numéro de puce ISO à 15 chiffres",
       "date_of_birth": "Date de naissance",
       "weight": "Poids (kg)",
       "weight_optional": "(facultatif)",
@@ -272,7 +284,8 @@
         "owner_name_required": "Le nom du propriétaire est requis",
         "owner_phone_required": "Le téléphone du propriétaire est requis",
         "owner_phone_format": "Le téléphone doit suivre le format : +33 X XX XX XX XX",
-        "owner_email_invalid": "Adresse e-mail invalide"
+        "owner_email_invalid": "Adresse e-mail invalide",
+        "microchip_format": "La puce doit comporter exactement 15 chiffres"
       }
     },
     "species": {
@@ -291,37 +304,37 @@
     },
     "detail": {
       "tabs": {
-        "medical_records": "Medical Records",
+        "medical_records": "Dossiers medicaux",
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
-        "health_alerts": "Health Alerts",
+        "health_alerts": "Alertes sante",
         "weight": "Poids",
         "breeding": "Reproduction"
       },
-      "weight_label": "Weight:",
-      "weight_not_recorded": "Not recorded",
-      "edit": "Edit",
-      "edit_patient": "Edit Patient",
-      "new_medical_record": "New Medical Record",
-      "owner": "Owner",
-      "not_found": "Patient not found.",
+      "weight_label": "Poids :",
+      "weight_not_recorded": "Non enregistre",
+      "edit": "Modifier",
+      "edit_patient": "Modifier le patient",
+      "new_medical_record": "Nouveau dossier medical",
+      "owner": "Proprietaire",
+      "not_found": "Patient introuvable.",
       "vaccinations": {
-        "empty": "No vaccination records found.",
+        "empty": "Aucun dossier de vaccination trouve.",
         "columns": {
-          "vaccine": "Vaccine",
-          "date_given": "Date Given",
-          "next_due": "Next Due",
-          "vet": "Vet"
+          "vaccine": "Vaccin",
+          "date_given": "Date d'administration",
+          "next_due": "Prochaine echeance",
+          "vet": "Veterinaire"
         }
       },
       "prescriptions": {
-        "empty": "No prescriptions found.",
+        "empty": "Aucune prescription trouvee.",
         "columns": {
-          "medication": "Medication",
-          "dosage": "Dosage",
-          "duration": "Duration",
-          "vet_date": "Vet / Date",
-          "status": "Status"
+          "medication": "Medicament",
+          "dosage": "Posologie",
+          "duration": "Duree",
+          "vet_date": "Vet. / Date",
+          "status": "Statut"
         }
       },
       "weight": {
@@ -394,12 +407,12 @@
       "load_failed": "Échec du chargement des dossiers médicaux."
     },
     "list": {
-      "empty": "No medical records found.",
+      "empty": "Aucun dossier medical trouve.",
       "columns": {
-        "reason": "Reason",
+        "reason": "Motif",
         "date": "Date",
-        "vitals": "Vitals",
-        "diagnosis": "Diagnosis"
+        "vitals": "Constantes",
+        "diagnosis": "Diagnostic"
       }
     }
   },
@@ -559,11 +572,11 @@
       }
     },
     "errors": {
-      "load_clinic_data": "Failed to load clinic data",
-      "load_clinic_data_desc": "Could not retrieve your Vetara data.",
-      "load_stats": "Failed to load dashboard stats",
-      "load_stats_desc": "Could not retrieve clinic statistics.",
-      "load_activity": "Failed to load activity"
+      "load_clinic_data": "Echec du chargement des donnees de la clinique",
+      "load_clinic_data_desc": "Impossible de recuperer vos donnees Vetara.",
+      "load_stats": "Echec du chargement des statistiques",
+      "load_stats_desc": "Impossible de recuperer les statistiques de la clinique.",
+      "load_activity": "Echec du chargement de l'activite"
     }
   },
   "team": {
@@ -572,52 +585,55 @@
     "invite_member": "Inviter un membre",
     "loading": "Chargement de l'équipe...",
     "columns": {
-      "members": "Team Members",
-      "visibility": "Visibility Level",
-      "status": "Status"
+      "members": "Membres de l'equipe",
+      "visibility": "Niveau de visibilite",
+      "status": "Statut"
     },
-    "visibility_all": "Full access",
+    "visibility_all": "Acces complet",
     "change_role": {
-      "title": "Change Role",
-      "description": "Update the role for {fullName}",
-      "label": "New Role",
-      "placeholder": "Select a role",
-      "cancel": "Cancel",
-      "save": "Save Role",
-      "saving": "Saving...",
-      "success": "{fullName}'s role updated to {role}",
-      "error": "Failed to change role"
+      "title": "Changer le role",
+      "description": "Modifier le role de {fullName}",
+      "label": "Nouveau role",
+      "placeholder": "Selectionner un role",
+      "cancel": "Annuler",
+      "save": "Enregistrer le role",
+      "saving": "Enregistrement...",
+      "success": "Le role de {fullName} a ete mis a jour en {role}",
+      "error": "Echec du changement de role"
     },
     "invite": {
-      "title": "Invite Team Member",
-      "description": "Send an invitation to a new team member. They will receive a temporary password.",
-      "email_label": "Email",
-      "email_placeholder": "colleague@desertpaws.ae",
-      "fullname_label": "Full Name",
-      "fullname_placeholder": "Dr. Fatima Al-Zaabi",
+      "title": "Inviter un membre",
+      "description": "Envoyez une invitation a un nouveau membre de l'equipe. Il recevra un mot de passe temporaire.",
+      "email_label": "E-mail",
+      "email_placeholder": "collegue@clinique.fr",
+      "fullname_label": "Nom complet",
+      "fullname_placeholder": "Dr. Sophie Martin",
       "role_label": "Role",
-      "role_placeholder": "Select a role",
-      "cancel": "Cancel",
-      "submit": "Send Invite",
-      "submitting": "Sending...",
-      "success_title": "Invitation sent successfully!",
-      "success_email_hint": "A temporary password has been sent to the new team member's email address.",
-      "done": "Done",
+      "role_placeholder": "Selectionner un role",
+      "cancel": "Annuler",
+      "submit": "Envoyer l'invitation",
+      "submitting": "Envoi en cours...",
+      "success_title": "Invitation envoyee avec succes !",
+      "success_password_hint": "Partagez ce mot de passe de maniere securisee — il ne sera plus affiche.",
+      "success_email_hint": "Un mot de passe temporaire a ete envoye a l'adresse e-mail du nouveau membre.",
+      "copy": "Copier",
+      "copied": "Copie !",
+      "done": "Termine",
       "errors": {
-        "email_invalid": "Please enter a valid email address",
-        "fullname_min": "Full name must be at least 2 characters",
-        "role_required": "Please select a role"
+        "email_invalid": "Veuillez saisir une adresse e-mail valide",
+        "fullname_min": "Le nom complet doit contenir au moins 2 caracteres",
+        "role_required": "Veuillez selectionner un role"
       }
     },
     "roles": {
-      "vet": "Vet",
+      "vet": "Veterinaire",
       "assistant": "Assistant",
-      "receptionist": "Receptionist"
+      "receptionist": "Secretaire"
     },
-    "deactivate_success": "{fullName} has been deactivated",
-    "deactivate_error": "Failed to deactivate user",
+    "deactivate_success": "{fullName} a ete desactive",
+    "deactivate_error": "Echec de la desactivation de l'utilisateur",
     "errors": {
-      "load_failed": "Failed to load team members"
+      "load_failed": "Echec du chargement des membres de l'equipe"
     }
   },
   "stock": {
@@ -1066,7 +1082,7 @@
     "error": "Une erreur est survenue",
     "view": "Voir",
     "settings": "Paramètres",
-    "toggle_sidebar": "Toggle Sidebar"
+    "toggle_sidebar": "Basculer le menu lateral"
   },
   "user_menu": {
     "settings": "Paramètres",
@@ -1090,6 +1106,7 @@
       "cta_primary": "Démarrer l'essai gratuit",
       "cta_secondary": "Réserver une démo",
       "trust_badge": "Essai gratuit Pro 30 jours — sans carte bancaire",
+      "social_proof_badge": "Rejoignez plus de 50 cliniques dans le monde",
       "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients"
     },
     "social_proof": {
@@ -1429,13 +1446,24 @@
         "dpa": "Accord de traitement des données"
       }
     },
+    "sticky_cta": {
+      "tagline": "Gagnez 2 heures par jour sur l'administration de votre clinique",
+      "cta": "Demarrer l'essai gratuit"
+    },
     "pricing_badge": {
       "early_access": "Tarifs early access — réservés aux cliniques fondatrices",
       "trial_under_plan": "Essai gratuit Pro 30 jours — sans carte bancaire"
     },
     "exit_intent": {
       "headline": "Attendez ! Essai Pro gratuit de 30 jours",
-      "subtitle": "Rejoignez plus de 50 cliniques utilisant Vetara. Sans carte bancaire."
+      "subtitle": "Rejoignez plus de 50 cliniques utilisant Vetara. Sans carte bancaire.",
+      "email_placeholder": "Saisissez votre adresse e-mail",
+      "cta": "Demarrer l'essai gratuit",
+      "success": "Nous vous contacterons bientot !"
+    },
+    "footer_cta": {
+      "headline": "Pret a transformer votre clinique ?",
+      "cta": "Demarrer l'essai gratuit"
     }
   },
   "portal": {
@@ -1975,67 +2003,237 @@
     }
   },
   "health_alerts": {
-    "title": "Health Alerts",
-    "empty": "No active health alerts. All patients are up to date.",
+    "title": "Alertes sante",
+    "empty": "Aucune alerte sante active. Tous les patients sont a jour.",
     "severity": {
-      "high": "High Priority",
-      "medium": "Medium Priority",
-      "low": "Low Priority"
+      "high": "Priorite haute",
+      "medium": "Priorite moyenne",
+      "low": "Priorite basse"
     },
-    "schedule_appointment": "Schedule Appointment",
-    "acknowledge": "Acknowledge",
-    "acknowledged": "Acknowledged",
-    "dismiss": "Dismiss",
+    "schedule_appointment": "Planifier un rendez-vous",
+    "acknowledge": "Accuser reception",
+    "acknowledged": "Pris en compte",
+    "dismiss": "Ignorer",
     "dismiss_dialog": {
-      "title": "Dismiss Health Alert",
-      "description": "Dismiss the alert \"{title}\" for {patientName}. Please provide a reason for dismissing this alert.",
-      "reason_label": "Reason",
-      "reason_placeholder": "e.g. Owner confirmed vaccination done at another clinic",
-      "cancel": "Cancel",
-      "dismiss": "Dismiss Alert",
-      "dismissing": "Dismissing...",
-      "success": "Alert dismissed for {patientName}",
-      "error": "Failed to dismiss alert"
+      "title": "Ignorer l'alerte sante",
+      "description": "Ignorer l'alerte \"{title}\" pour {patientName}. Veuillez fournir une raison.",
+      "reason_label": "Raison",
+      "reason_placeholder": "ex. Le proprietaire confirme la vaccination faite dans une autre clinique",
+      "cancel": "Annuler",
+      "dismiss": "Ignorer l'alerte",
+      "dismissing": "Traitement...",
+      "success": "Alerte ignoree pour {patientName}",
+      "error": "Echec de l'ignorement de l'alerte"
     },
     "errors": {
-      "load_failed": "Failed to load health alerts",
-      "acknowledge_failed": "Failed to acknowledge alert",
-      "prepare_appointment_failed": "Failed to prepare appointment"
+      "load_failed": "Echec du chargement des alertes sante",
+      "acknowledge_failed": "Echec de la prise en compte de l'alerte",
+      "prepare_appointment_failed": "Echec de la preparation du rendez-vous"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Consultez vos informations de compte.",
+    "account_details": "Informations du compte",
+    "account_description": "Vos informations personnelles et votre role au sein de la clinique.",
+    "name_label": "Nom",
+    "email_label": "E-mail",
+    "role_label": "Role",
+    "clinic_label": "Clinique",
+    "not_loaded": "Impossible de charger les informations du profil. Veuillez vous reconnecter.",
+    "security_title": "Securite",
+    "security_description": "Gerez votre mot de passe et vos parametres de securite.",
+    "change_password": "Changer le mot de passe"
+  },
+  "help": {
+    "title": "Centre d'aide",
+    "subtitle": "Trouvez des reponses, des guides et des conseils de depannage pour tirer le meilleur parti de Vetara.",
+    "search_placeholder": "Rechercher des articles...",
+    "nav_home": "Accueil",
+    "nav_help_center": "Centre d'aide",
+    "browse_articles": "Parcourir les articles",
+    "back_to_articles": "Retour aux articles",
+    "no_results_for": "Aucun article trouve pour \"{query}\"",
+    "no_articles_found": "Aucun article trouve",
+    "try_different_search": "Essayez un autre terme de recherche ou parcourez une section depuis le menu lateral.",
+    "still_need_help": "Besoin d'aide supplementaire ?",
+    "support_hours": "Notre equipe de support est disponible du lundi au vendredi, 9 h - 18 h.",
+    "email_support": "Support par e-mail",
+    "whatsapp_support": "Support WhatsApp",
+    "sections": {
+      "getting_started": "Premiers pas",
+      "features": "Guide des fonctionnalites",
+      "faq": "FAQ",
+      "troubleshooting": "Depannage"
+    },
+    "articles": {
+      "a1_1": {
+        "title": "Comment configurer votre clinique",
+        "content": "Bienvenue sur Vetara ! Avant de commencer a prendre des rendez-vous et a voir des patients, prenez quelques minutes pour configurer le profil de votre clinique. Cela garantit que votre calendrier, vos factures et vos communications refletent fidelement votre cabinet.\n\n**Etapes :**\n\n1. Connectez-vous a Vetara et accedez a **Parametres > Profil de la clinique**.\n2. Saisissez le nom de votre clinique, l'adresse, le numero de telephone et l'e-mail. Ces informations apparaitront sur les factures et les messages WhatsApp envoyes aux proprietaires.\n3. Allez dans **Parametres > Horaires d'ouverture** et definissez votre planning hebdomadaire. Vetara prend en charge toute configuration, y compris les horaires fractionnes.\n4. Sous **Parametres > Equipe**, invitez vos veterinaires et votre personnel par e-mail. Attribuez a chacun un role : Admin, Veterinaire ou Secretaire. Chaque role a des permissions differentes.\n5. Accedez a **Parametres > Types de consultation** et creez les types de rendez-vous proposes par votre clinique (ex. Consultation generale, Vaccination, Chirurgie, Toilettage). Definissez une duree et une couleur par defaut pour chacun.\n\nUne fois votre clinique configuree, vous etes pret a ajouter des patients et a prendre des rendez-vous."
+      },
+      "a1_2": {
+        "title": "Ajouter votre premier patient",
+        "content": "Chaque visite dans Vetara commence par un dossier patient. Un patient est l'animal, lie a un proprietaire. Creer un dossier patient complet des le depart fait gagner du temps par la suite.\n\n**Etapes :**\n\n1. Cliquez sur **Patients** dans la navigation principale, puis sur **+ Nouveau patient**.\n2. Remplissez les coordonnees du proprietaire : nom complet, numero de telephone (avec indicatif pays pour WhatsApp) et adresse e-mail.\n3. Remplissez les informations de l'animal : nom, espece, race, date de naissance ou age estime, sexe et poids.\n4. Ajoutez les allergies connues ou maladies chroniques dans le champ **Notes medicales**.\n5. Cliquez sur **Enregistrer**. Le patient apparait dans votre liste et est pret pour les rendez-vous.\n\nSi vous avez beaucoup de patients a ajouter, utilisez la fonction d'import CSV decrite dans le Guide des fonctionnalites."
+      },
+      "a1_3": {
+        "title": "Creer votre premier rendez-vous",
+        "content": "Le calendrier est le coeur de Vetara. Prendre un rendez-vous ne prend que quelques clics et bloque immediatement le creneau pour le veterinaire assigne.\n\n**Etapes :**\n\n1. Cliquez sur **Agenda** dans la navigation principale.\n2. Cliquez sur un creneau vide ou sur le bouton **+ Nouveau rendez-vous**.\n3. Recherchez le patient par nom du proprietaire ou de l'animal.\n4. Selectionnez le **Type de consultation** (ex. Consultation generale, Vaccination).\n5. Assignez un **Veterinaire** depuis le menu deroulant.\n6. Ajoutez une note optionnelle.\n7. Cliquez sur **Confirmer**. Le rendez-vous apparait sur le calendrier.\n\nLe proprietaire recevra automatiquement une confirmation via WhatsApp si les rappels WhatsApp sont actives."
+      },
+      "a1_4": {
+        "title": "Envoyer votre premiere facture",
+        "content": "Vetara simplifie la facturation. Vous pouvez generer une facture directement depuis une consultation terminee ou creer une facture independante.\n\n**Etapes :**\n\n1. Apres avoir termine une consultation, cliquez sur l'onglet **Facturation** dans le dossier du patient ou accedez a **Facturation** dans le menu principal.\n2. Cliquez sur **+ Nouvelle facture**.\n3. Selectionnez le patient. Si vous venez d'une consultation, il est pre-rempli.\n4. Ajoutez des lignes : frais de consultation, medicaments, analyses, etc.\n5. La TVA est calculee automatiquement (20 %). Vous voyez le sous-total, le montant de TVA et le total.\n6. Cliquez sur **Generer la facture**. Un PDF est cree et stocke dans l'historique de facturation du patient.\n7. Pour envoyer la facture, cliquez sur **Envoyer par WhatsApp** ou **Envoyer par e-mail**."
+      },
+      "a1_5": {
+        "title": "Configurer les rappels WhatsApp",
+        "content": "WhatsApp est le principal canal de communication avec les proprietaires d'animaux. Vetara s'integre a WhatsApp pour envoyer automatiquement des rappels, confirmations et suivis.\n\n**Etapes :**\n\n1. Accedez a **Parametres > Messagerie**.\n2. Suivez l'assistant de configuration pour connecter votre numero WhatsApp Business.\n3. Une fois connecte, activez les types de messages a envoyer automatiquement :\n   - **Confirmation de rendez-vous** — envoyee immediatement a la reservation.\n   - **Rappel (24 h avant)** — envoye la veille du rendez-vous.\n   - **Rappel (1 h avant)** — envoye une heure avant.\n   - **Suivi** — envoye un nombre configurable de jours apres la consultation.\n4. Consultez les modeles de messages par defaut. Vous pouvez personnaliser le texte.\n5. Cliquez sur **Enregistrer**."
+      },
+      "a2_1": {
+        "title": "Utiliser le calendrier (vues jour, semaine et mois)",
+        "content": "Le calendrier Vetara offre trois facons de visualiser votre planning.\n\n**Vue Jour** affiche un seul jour avec les creneaux horaires pour chaque veterinaire en colonnes cote a cote.\n\n**Vue Semaine** affiche la semaine complete. Les rendez-vous apparaissent sous forme de blocs colores.\n\n**Vue Mois** fournit un apercu de haut niveau. Chaque jour affiche un nombre de rendez-vous.\n\nPour changer de vue, utilisez le selecteur **Jour / Semaine / Mois** en haut du calendrier. Vous pouvez aussi filtrer par veterinaire."
+      },
+      "a2_2": {
+        "title": "Gerer les dossiers medicaux et les prescriptions",
+        "content": "Chaque consultation dans Vetara genere un dossier medical qui fait partie de l'historique permanent de l'animal.\n\n**Pendant une consultation :**\n\n1. Ouvrez le rendez-vous depuis le calendrier et cliquez sur **Demarrer la consultation**.\n2. Le formulaire de dossier medical s'ouvre avec l'historique du patient visible sur le panneau lateral.\n3. Remplissez les details de la consultation : motif, resultats d'examen, diagnostic et plan de traitement.\n4. Pour ajouter une prescription, cliquez sur **+ Prescription**.\n5. Cliquez sur **Terminer la consultation**.\n\n**Acceder aux dossiers passes :**\n\nAccedez a **Patients**, selectionnez un patient et ouvrez l'onglet **Historique medical**."
+      },
+      "a2_3": {
+        "title": "Notes SOAP par IA — Comment ca marche",
+        "content": "La fonctionnalite Notes SOAP par IA de Vetara aide les veterinaires a rediger des notes de consultation structurees plus rapidement.\n\n**Comment l'utiliser :**\n\n1. Pendant une consultation, cliquez sur le bouton **IA SOAP** dans l'editeur de dossier medical.\n2. Saisissez ou dictez un bref resume de la visite.\n3. Cliquez sur **Generer**. L'IA structure votre saisie en quatre sections SOAP.\n4. Relisez attentivement la note generee. Vous pouvez modifier chaque section avant d'enregistrer.\n5. Cliquez sur **Accepter** pour inserer la note dans le dossier medical.\n\n**Points importants :**\n\n- L'IA est un assistant de redaction, pas un outil de diagnostic.\n- Chaque note generee par l'IA inclut une mention.\n- L'IA ne remplace jamais votre jugement clinique.\n- Vos donnees sont traitees de maniere securisee."
+      },
+      "a2_4": {
+        "title": "Gestion des stocks et catalogue de medicaments",
+        "content": "Vetara inclut un systeme de gestion de stock integre pour suivre medicaments, vaccins, consommables et fournitures.\n\n**Configurer votre catalogue :**\n\n1. Accedez a **Stock > Catalogue de medicaments**.\n2. Cliquez sur **+ Ajouter un article** pour creer une nouvelle entree.\n3. Pour les medicaments, vous pouvez aussi ajouter le principe actif, la concentration et le fabricant.\n\n**Gerer l'inventaire :**\n\n1. Allez dans **Stock > Inventaire**.\n2. Pour recevoir du nouveau stock, cliquez sur **+ Entree de stock**.\n3. Les medicaments delivres lors des consultations sont automatiquement decomptes.\n4. Vetara vous alerte quand un article passe sous son seuil de reapprovisionnement.\n\n**Suivi des expirations :**\n\nLes articles proches de leur date d'expiration sont surlignees en orange. Les articles expires sont surlignees en rouge."
+      },
+      "a2_5": {
+        "title": "Messagerie avec les proprietaires d'animaux",
+        "content": "Le module Messagerie dans Vetara centralise toutes les communications avec les proprietaires.\n\n**Voir les conversations :**\n\nAccedez a **Messagerie** dans le menu principal.\n\n**Envoyer un message manuel :**\n\n1. Ouvrez une conversation ou demarrez-en une nouvelle.\n2. Saisissez votre message.\n3. Cliquez sur **Envoyer**.\n\n**Messages automatiques :**\n\nLes messages automatiques apparaissent dans le meme fil de conversation, clairement etiquetes comme \"Automatique\".\n\n**Modeles de messages :**\n\nPour les messages frequents, vous pouvez creer des modeles sous **Parametres > Messagerie > Modeles**."
+      },
+      "a2_6": {
+        "title": "Import de patients par CSV",
+        "content": "Si vous migrez depuis un autre systeme, Vetara vous permet d'importer des patients en masse via un fichier CSV.\n\n**Etapes :**\n\n1. Accedez a **Patients > Importer**.\n2. Telechargez le **modele CSV** fourni.\n3. Remplissez le modele avec vos donnees.\n4. Enregistrez votre fichier en CSV (encodage UTF-8 recommande).\n5. Importez le fichier et cliquez sur **Apercu**.\n6. Corrigez les erreurs eventuelles et reimportez.\n7. Cliquez sur **Importer**.\n\nLa detection des doublons est integree."
+      },
+      "a2_7": {
+        "title": "Gestion multi-cliniques",
+        "content": "Si vous operez plusieurs cliniques, la fonctionnalite multi-cliniques de Vetara vous permet de gerer tous les sites depuis un seul compte.\n\n**Comment ca marche :**\n\nChaque clinique dans Vetara est un espace de travail independant.\n\n**Configurer une deuxieme clinique :**\n\n1. Accedez a **Parametres > Cliniques** et cliquez sur **+ Ajouter une clinique**.\n2. Saisissez les details de la nouvelle clinique.\n3. Les membres de l'equipe peuvent appartenir a plusieurs cliniques.\n\n**Changer de clinique :**\n\nCliquez sur le nom de la clinique dans la barre de navigation superieure.\n\n**Reporting consolide :**\n\nLes admins peuvent acceder a un tableau de bord consolide sous **Parametres > Cliniques > Vue d'ensemble**."
+      },
+      "a2_8": {
+        "title": "Forfaits d'abonnement et facturation",
+        "content": "Vetara propose plusieurs forfaits adaptes aux cliniques de differentes tailles.\n\n**Forfaits disponibles :**\n\n- **Starter** — Ideal pour les praticiens solo ou les petites cliniques.\n- **Professional** — Pour les cliniques en croissance.\n- **Enterprise** — Pour les operations multi-cliniques.\n\n**Gerer votre abonnement :**\n\n1. Accedez a **Parametres > Abonnement**.\n2. Consultez votre forfait actuel, le cycle de facturation et la prochaine echeance.\n3. Pour passer a un forfait superieur, cliquez sur **Changer de forfait**.\n4. Pour ajouter des postes, cliquez sur **Ajouter des postes**.\n5. Les factures de votre abonnement Vetara sont disponibles sous **Parametres > Abonnement > Factures**.\n\nTous les forfaits incluent un essai gratuit de 30 jours. Aucune carte bancaire n'est requise."
+      },
+      "a3_1": {
+        "title": "Combien coute Vetara ?",
+        "content": "Vetara propose trois forfaits : Starter, Professional et Enterprise. Les tarifs dependent du nombre de postes veterinaires et des fonctionnalites dont vous avez besoin. Tous les forfaits incluent un essai gratuit de 30 jours sans carte bancaire. Consultez la page **Tarifs** de notre site web ou contactez notre equipe commerciale pour un devis detaille."
+      },
+      "a3_2": {
+        "title": "Mes donnees sont-elles securisees ?",
+        "content": "Oui. Vetara utilise un chiffrement aux normes de l'industrie pour les donnees en transit (TLS 1.3) et au repos (AES-256). Les donnees de chaque clinique sont entierement isolees des autres cliniques grace a notre architecture multi-tenant. Nous respectons les reglementations sur la protection des donnees."
+      },
+      "a3_3": {
+        "title": "Puis-je acceder a Vetara sur mon telephone ou ma tablette ?",
+        "content": "Vetara est une application web optimisee pour les navigateurs de bureau et mobiles. Vous pouvez y acceder depuis n'importe quel appareil avec un navigateur moderne — Chrome, Safari, Edge ou Firefox. Il n'y a pas d'application separee a telecharger."
+      },
+      "a3_4": {
+        "title": "Vetara prend-il en charge l'arabe ?",
+        "content": "Oui. Vetara prend en charge le francais, l'anglais et l'arabe. Vous pouvez changer la langue de l'interface depuis **Parametres > Preferences > Langue**. L'interface prend en charge la mise en page de droite a gauche (RTL) lorsque l'arabe est selectionne."
+      },
+      "a3_5": {
+        "title": "Puis-je importer des donnees depuis mon ancien logiciel ?",
+        "content": "Oui. Vetara prend en charge l'import CSV pour les dossiers patients (proprietaires et animaux). Si vous migrez depuis un autre systeme, exportez vos donnees en CSV et utilisez l'outil d'import dans Vetara. Notre equipe de support peut vous aider pour la correspondance des donnees."
+      },
+      "a3_6": {
+        "title": "Puis-je exporter mes donnees ?",
+        "content": "Oui. Vous pouvez exporter les listes de patients, les dossiers medicaux, les factures et les rapports de stock en CSV ou PDF. Accedez a la section concernee et cliquez sur le bouton **Exporter**. Vos donnees vous appartiennent et vous pouvez les telecharger a tout moment."
+      },
+      "a3_7": {
+        "title": "Vetara s'integre-t-il avec les equipements de laboratoire ou d'imagerie ?",
+        "content": "A ce jour, Vetara ne dispose pas d'integrations directes avec les analyseurs de laboratoire ou les systemes d'imagerie (DICOM). Nous evaluons des partenariats pour les prochaines versions. Vous pouvez joindre manuellement des resultats de labo et des images aux dossiers medicaux."
+      },
+      "a3_8": {
+        "title": "Plusieurs veterinaires peuvent-ils utiliser Vetara en meme temps ?",
+        "content": "Absolument. Vetara est concu pour les equipes. Chaque veterinaire a son propre identifiant et voit sa propre colonne de calendrier. Plusieurs membres de l'equipe peuvent etre connectes simultanement."
+      },
+      "a3_9": {
+        "title": "Que se passe-t-il si mon internet tombe en panne ?",
+        "content": "Vetara est une application cloud et necessite une connexion internet pour fonctionner. Si votre connexion est brievement interrompue, les modifications non enregistrees peuvent etre perdues. Nous recommandons d'enregistrer frequemment."
+      },
+      "a3_10": {
+        "title": "Puis-je personnaliser mon modele de facture ?",
+        "content": "Oui. Accedez a **Parametres > Facturation > Modele de facture**. Vous pouvez telecharger votre logo, definir le format de numerotation, ajouter votre numero SIRET et personnaliser le texte de bas de page."
+      },
+      "a3_11": {
+        "title": "Comment fonctionnent les rappels de rendez-vous ?",
+        "content": "Lorsque la messagerie WhatsApp est configuree, Vetara envoie des rappels automatiques aux proprietaires avant leurs rendez-vous. Vous choisissez quand les rappels sont envoyes dans **Parametres > Messagerie**."
+      },
+      "a3_12": {
+        "title": "Y a-t-il une limite au nombre de patients que je peux ajouter ?",
+        "content": "Non. Tous les forfaits Vetara incluent un nombre illimite de dossiers patients. Votre abonnement est base sur le nombre de postes veterinaires, pas sur le volume de donnees."
+      },
+      "a3_13": {
+        "title": "Puis-je utiliser Vetara pour des animaux exotiques (oiseaux, reptiles, etc.) ?",
+        "content": "Oui. Vetara ne se limite pas aux chats et aux chiens. Lors de la creation d'un patient, vous pouvez choisir parmi un large eventail d'especes. Vous pouvez egalement ajouter des especes personnalisees."
+      },
+      "a3_14": {
+        "title": "Comment ajouter un nouveau membre d'equipe ?",
+        "content": "Accedez a **Parametres > Equipe** et cliquez sur **+ Inviter un membre**. Saisissez son adresse e-mail et attribuez-lui un role (Admin, Veterinaire ou Secretaire). Il recevra un e-mail d'invitation."
+      },
+      "a3_15": {
+        "title": "Qui contacter pour le support ?",
+        "content": "Vous pouvez joindre l'equipe de support Vetara par plusieurs canaux :\n\n- **Chat integre** : Cliquez sur l'icone d'aide en bas a droite de chaque page.\n- **E-mail** : support@vetara.ae\n- **WhatsApp** : Envoyez un message a notre numero de support (disponible sur le site web).\n\nNotre equipe de support est disponible du lundi au vendredi, 9 h 00 a 18 h 00."
+      },
+      "a4_1": {
+        "title": "Les messages WhatsApp ne s'envoient pas",
+        "content": "Si les confirmations, rappels ou messages manuels ne sont pas delivres, suivez ces etapes.\n\n**Verifier votre connexion WhatsApp :**\n\n1. Accedez a **Parametres > Messagerie**. Verifiez l'indicateur de connexion. Il doit afficher **Connecte** en vert.\n2. S'il affiche **Deconnecte**, cliquez sur **Reconnecter**.\n\n**Verifier le numero du proprietaire :**\n\n1. Ouvrez le profil du patient et verifiez le numero de telephone du proprietaire avec l'indicatif pays.\n\n**Verifier le journal des messages :**\n\n1. Allez dans **Messagerie** et ouvrez la conversation. Les messages echoues sont marques d'une icone rouge."
+      },
+      "a4_2": {
+        "title": "Je ne vois pas les rendez-vous sur le calendrier",
+        "content": "Si le calendrier est vide ou que des rendez-vous manquent, c'est generalement un probleme de filtre ou de permissions.\n\n**Verifier vos filtres :**\n\n1. Regardez en haut du calendrier les filtres actifs.\n2. Verifiez la date.\n\n**Verifier votre clinique :**\n\nSi vous travaillez dans plusieurs cliniques, assurez-vous d'avoir la bonne clinique selectionnee.\n\n**Verifier vos permissions :**\n\nContactez votre administrateur si necessaire.\n\nSi rien ne resout le probleme, essayez de rafraichir la page (Ctrl+Maj+R)."
+      },
+      "a4_3": {
+        "title": "Je ne peux pas me connecter a mon compte",
+        "content": "Les problemes de connexion sont generalement causes par des identifiants incorrects, une session expiree ou un probleme de navigateur.\n\n**Etapes a suivre :**\n\n1. **Verifiez votre adresse e-mail.**\n2. **Reinitialiser votre mot de passe.** Sur la page de connexion, cliquez sur **Mot de passe oublie**.\n3. **Videz le cache de votre navigateur.**\n4. **Essayez un autre navigateur.**\n5. **Verifiez si votre compte est actif.**\n\nSi vous ne parvenez toujours pas a vous connecter, contactez le support."
+      },
+      "a4_4": {
+        "title": "Donnees patients manquantes apres l'import",
+        "content": "Si vous avez importe des patients par CSV et que des donnees sont manquantes, le probleme se situe generalement dans le format du fichier CSV.\n\n**Causes courantes :**\n\n- **Problemes d'encodage.** Reenregistrez le fichier en UTF-8.\n- **Mauvais mappage de colonnes.** Telechargez un nouveau modele.\n- **Champs obligatoires manquants.** Consultez le resume d'import.\n- **Format de numero de telephone.** Les numeros doivent inclure l'indicatif pays.\n\n**Pour corriger les donnees importees :**\n\nVous pouvez modifier tout dossier patient manuellement apres l'import."
+      },
+      "a4_5": {
+        "title": "Le PDF de la facture ne se genere pas",
+        "content": "Si vous cliquez sur **Generer la facture** et que le PDF n'apparait pas, essayez les etapes suivantes.\n\n**Etapes a suivre :**\n\n1. **Verifiez les champs manquants.** Une facture necessite au moins une ligne avec description et montant.\n2. **Verifiez le profil de votre clinique.** Le PDF de la facture utilise le nom, l'adresse et le numero de TVA de **Parametres > Profil de la clinique**.\n3. **Verifiez le bloqueur de popups de votre navigateur.**\n4. **Essayez de telecharger au lieu de visualiser.**\n5. **Rafraichissez et reessayez.**\n\nSi le probleme persiste, contactez le support avec le numero de facture."
+      }
     }
   },
   "medical_record_form": {
-    "title": "New Medical Record — {patientName}",
-    "reason_label": "Reason for Consultation",
-    "reason_placeholder": "e.g. Annual vaccination, Limping",
-    "anamnesis_label": "Anamnesis",
-    "anamnesis_placeholder": "Patient history, owner observations...",
-    "clinical_examination": "Clinical Examination",
-    "weight_label": "Weight (kg)",
+    "title": "Nouveau dossier medical — {patientName}",
+    "reason_label": "Motif de consultation",
+    "reason_placeholder": "ex. Vaccination annuelle, Boiterie",
+    "anamnesis_label": "Anamnese",
+    "anamnesis_placeholder": "Historique du patient, observations du proprietaire...",
+    "clinical_examination": "Examen clinique",
+    "weight_label": "Poids (kg)",
     "temperature_label": "Temperature (°C)",
-    "heart_rate_label": "Heart Rate (bpm)",
-    "diagnosis_label": "Diagnosis",
-    "diagnosis_placeholder": "Clinical findings and diagnosis...",
-    "treatment_label": "Treatment",
-    "treatment_placeholder": "Treatment plan, procedures performed...",
-    "generate_soap": "Generate SOAP Notes",
-    "prescription_label": "Prescription (optional)",
-    "next_visit_label": "Recommended Next Visit",
-    "next_visit_optional": "(optional)",
-    "override_confirmed": "Override confirmed. Justification recorded.",
-    "submit_blocked": "Provide justification for the critical alert above to enable saving.",
-    "submit_blocked_tooltip": "Provide clinical justification before saving",
-    "cancel": "Cancel",
-    "save": "Save Record",
-    "saving": "Saving...",
+    "heart_rate_label": "Frequence cardiaque (bpm)",
+    "diagnosis_label": "Diagnostic",
+    "diagnosis_placeholder": "Resultats cliniques et diagnostic...",
+    "treatment_label": "Traitement",
+    "treatment_placeholder": "Plan de traitement, actes realises...",
+    "generate_soap": "Generer les notes SOAP",
+    "prescription_label": "Prescription (facultatif)",
+    "next_visit_label": "Prochaine visite recommandee",
+    "next_visit_optional": "(facultatif)",
+    "override_confirmed": "Surcharge confirmee. Justification enregistree.",
+    "submit_blocked": "Fournissez une justification pour l'alerte critique ci-dessus pour activer l'enregistrement.",
+    "submit_blocked_tooltip": "Fournissez une justification clinique avant d'enregistrer",
+    "cancel": "Annuler",
+    "save": "Enregistrer le dossier",
+    "saving": "Enregistrement...",
     "errors": {
-      "save_failed": "Failed to save record. Please try again.",
-      "reason_required": "Reason is required",
-      "anamnesis_required": "Anamnesis is required",
-      "weight_positive": "Weight must be positive",
-      "temperature_range": "Temperature must be between 35 and 43°C",
-      "heart_rate_positive": "Heart rate must be positive",
-      "diagnosis_required": "Diagnosis is required",
-      "treatment_required": "Treatment is required"
+      "save_failed": "Echec de l'enregistrement du dossier. Veuillez reessayer.",
+      "reason_required": "Le motif est requis",
+      "anamnesis_required": "L'anamnese est requise",
+      "weight_positive": "Le poids doit etre positif",
+      "temperature_range": "La temperature doit etre entre 35 et 43°C",
+      "heart_rate_positive": "La frequence cardiaque doit etre positive",
+      "diagnosis_required": "Le diagnostic est requis",
+      "treatment_required": "Le traitement est requis"
     }
   }
 }

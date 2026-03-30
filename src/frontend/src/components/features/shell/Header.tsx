@@ -49,7 +49,7 @@ export function Header() {
           className="flex items-center justify-center font-bold text-2xl text-foreground tracking-tighter"
         >
           <PawPrint className="h-6 w-6 mr-1" />
-          <span>Veto</span>
+          <span>Vetara</span>
         </Link>
 
         {/* Clinic Switcher — visible only for multi-clinic groups */}

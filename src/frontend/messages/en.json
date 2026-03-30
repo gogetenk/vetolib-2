@@ -2032,6 +2032,176 @@
       "prepare_appointment_failed": "Failed to prepare appointment"
     }
   },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "View your account information.",
+    "account_details": "Account Details",
+    "account_description": "Your personal information and role within the clinic.",
+    "name_label": "Name",
+    "email_label": "Email",
+    "role_label": "Role",
+    "clinic_label": "Clinic",
+    "not_loaded": "Unable to load profile information. Please log in again.",
+    "security_title": "Security",
+    "security_description": "Manage your password and security settings.",
+    "change_password": "Change Password"
+  },
+  "help": {
+    "title": "Help Center",
+    "subtitle": "Find answers, guides, and troubleshooting tips to get the most out of Vetara.",
+    "search_placeholder": "Search articles...",
+    "nav_home": "Home",
+    "nav_help_center": "Help Center",
+    "browse_articles": "Browse articles",
+    "back_to_articles": "Back to articles",
+    "no_results_for": "No articles found for \"{query}\"",
+    "no_articles_found": "No articles found",
+    "try_different_search": "Try a different search term or browse a section from the sidebar.",
+    "still_need_help": "Still need help?",
+    "support_hours": "Our support team is available Sunday through Thursday, 9 AM - 6 PM GST.",
+    "email_support": "Email Support",
+    "whatsapp_support": "WhatsApp Support",
+    "sections": {
+      "getting_started": "Getting Started",
+      "features": "Features Guide",
+      "faq": "FAQ",
+      "troubleshooting": "Troubleshooting"
+    },
+    "articles": {
+      "a1_1": {
+        "title": "How to Set Up Your Clinic",
+        "content": "Welcome to Vetara! Before you start booking appointments and seeing patients, take a few minutes to configure your clinic profile. This ensures that your calendar, invoices, and communications all reflect your practice accurately.\n\n**Steps:**\n\n1. Log in to Vetara and navigate to **Settings > Clinic Profile**.\n2. Enter your clinic name, address, phone number, and email. These details will appear on invoices and WhatsApp messages sent to pet owners.\n3. Go to **Settings > Operating Hours** and set your weekly schedule. In the UAE, many clinics operate Sunday through Thursday — Vetara supports any configuration, including split shifts and Friday-only hours.\n4. Under **Settings > Team**, invite your veterinarians and staff by email. Assign each person a role: Admin, Veterinarian, or Receptionist. Each role has different permissions.\n5. Navigate to **Settings > Consultation Types** and create the appointment types your clinic offers (e.g., General Consultation, Vaccination, Surgery, Grooming). Set a default duration and color for each — these colors will appear on your calendar.\n\nOnce your clinic is set up, you are ready to start adding patients and booking appointments. You can always return to Settings later to adjust hours, add new team members, or create additional consultation types."
+      },
+      "a1_2": {
+        "title": "Adding Your First Patient",
+        "content": "Every visit in Vetara starts with a patient record. A patient is the animal, linked to an owner (the pet parent). Creating a complete patient record from the start saves time later when writing medical notes or sending invoices.\n\n**Steps:**\n\n1. Click **Patients** in the main navigation, then click **+ New Patient**.\n2. Fill in the owner's details: full name, phone number (with country code for WhatsApp), and email address.\n3. Fill in the animal's details: name, species (dog, cat, bird, reptile, etc.), breed, date of birth or estimated age, sex, and weight.\n4. Add any known allergies or chronic conditions in the **Medical Notes** field. This information will be visible to all vets during consultations.\n5. Click **Save**. The patient now appears in your patient list and is ready for appointments.\n\nIf you have many patients to add at once, consider using the CSV Import feature described in the Features Guide section."
+      },
+      "a1_3": {
+        "title": "Creating Your First Appointment",
+        "content": "The calendar is the heart of Vetara. Booking an appointment takes just a few clicks and immediately blocks the time slot for the assigned veterinarian.\n\n**Steps:**\n\n1. Click **Agenda** in the main navigation. You will see the calendar in day view by default.\n2. Click on an empty time slot, or click the **+ New Appointment** button.\n3. Search for the patient by owner name or animal name. If the patient does not exist yet, you can create one on the fly.\n4. Select the **Consultation Type** (e.g., General Consultation, Vaccination). The duration will auto-fill based on your configuration, but you can adjust it.\n5. Assign a **Veterinarian** from the dropdown. Only team members with the Vet role appear here.\n6. Add an optional note (e.g., \"Owner mentioned limping on right front leg\").\n7. Click **Confirm**. The appointment appears on the calendar in the color of its consultation type.\n\nThe pet owner will automatically receive a confirmation via WhatsApp if you have WhatsApp reminders enabled."
+      },
+      "a1_4": {
+        "title": "Sending Your First Invoice",
+        "content": "Vetara makes billing straightforward. You can generate an invoice directly from a completed consultation, or create a standalone invoice at any time.\n\n**Steps:**\n\n1. After completing a consultation, click the **Billing** tab in the patient's record, or navigate to **Billing** in the main menu.\n2. Click **+ New Invoice**.\n3. Select the patient (owner + animal). If you are coming from a consultation, this is pre-filled.\n4. Add line items: consultation fees, medications dispensed, lab work, procedures, etc. Prices pull from your catalog if configured, or you can enter them manually.\n5. VAT is calculated automatically based on UAE tax rules (currently 5%). You can see the subtotal, VAT amount, and total.\n6. Click **Generate Invoice**. A PDF is created and stored in the patient's billing history.\n7. To send the invoice to the pet owner, click **Send via WhatsApp** or **Send via Email**.\n\nYou can also mark invoices as paid, partially paid, or unpaid. Vetara tracks outstanding balances per owner across all their animals."
+      },
+      "a1_5": {
+        "title": "Setting Up WhatsApp Reminders",
+        "content": "WhatsApp is the primary communication channel for pet owners in the UAE. Vetara integrates with WhatsApp to send appointment reminders, confirmations, and follow-ups automatically.\n\n**Steps:**\n\n1. Navigate to **Settings > Messaging**.\n2. Follow the guided setup to connect your clinic's WhatsApp Business number. You will need to verify the number via a code sent by WhatsApp.\n3. Once connected, enable the message types you want to send automatically:\n   - **Appointment Confirmation** — sent immediately when an appointment is booked.\n   - **Reminder (24h before)** — sent the day before the appointment.\n   - **Reminder (1h before)** — sent one hour before the appointment.\n   - **Follow-up** — sent a configurable number of days after the consultation.\n4. Review the default message templates. You can customize the wording, but the templates must comply with WhatsApp Business API guidelines.\n5. Click **Save**. Messages will now be sent automatically based on your settings.\n\nYou can also send manual one-off messages to any pet owner from the **Messaging** section or directly from a patient's profile."
+      },
+      "a2_1": {
+        "title": "Using the Calendar (Day, Week, and Month Views)",
+        "content": "The Vetara calendar gives you three ways to view your schedule, so you can plan at any level of detail.\n\n**Day View** shows a single day with time slots for each veterinarian in side-by-side columns. This is the best view when you are at the front desk managing the current day's appointments. You can see exactly who is available and when, drag appointments to reschedule them, and spot gaps in the schedule.\n\n**Week View** displays the full week (Sunday through Saturday, or your configured work week). Appointments appear as colored blocks. This view is useful for planning ahead, spotting overbooking patterns, and ensuring balanced workloads across your team.\n\n**Month View** provides a high-level overview. Each day shows a count of appointments and highlights days that are fully booked. Use this view for long-term planning, identifying slow periods, or scheduling surgeries weeks in advance.\n\nTo switch views, use the **Day / Week / Month** toggle at the top of the calendar. You can also filter the calendar by veterinarian if you only want to see one person's schedule. All views are color-coded by consultation type, making it easy to distinguish vaccinations from surgeries at a glance."
+      },
+      "a2_2": {
+        "title": "Managing Medical Records and Prescriptions",
+        "content": "Every consultation in Vetara generates a medical record that becomes part of the animal's permanent history. This ensures continuity of care, even when different vets see the same patient.\n\n**During a consultation:**\n\n1. Open the appointment from the calendar and click **Start Consultation**.\n2. The medical record form opens with the patient's history visible on the side panel — previous visits, allergies, weight trends, and past prescriptions.\n3. Fill in the consultation details: chief complaint, examination findings, diagnosis, and treatment plan.\n4. To add a prescription, click **+ Prescription**. Search for medications from your drug catalog (linked to your stock), set the dosage, frequency, duration, and quantity.\n5. Click **Complete Consultation**. The medical record is saved, stock is automatically decremented for dispensed medications, and the record appears in the patient's timeline.\n\n**Accessing past records:**\n\nNavigate to **Patients**, select a patient, and open the **Medical History** tab. All consultations are listed chronologically. You can filter by date range or search for specific diagnoses. Each record can be viewed, printed, or exported as a PDF.\n\nPrescriptions are also tracked separately under the **Prescriptions** tab, making it easy to check what was previously prescribed without scrolling through full consultation notes."
+      },
+      "a2_3": {
+        "title": "AI SOAP Notes — How It Works",
+        "content": "Vetara's AI SOAP Notes feature helps veterinarians write structured consultation notes faster. Instead of typing everything from scratch, you speak or type a brief summary, and the AI generates a complete SOAP note (Subjective, Objective, Assessment, Plan).\n\n**How to use it:**\n\n1. During a consultation, click the **AI SOAP** button in the medical record editor.\n2. Enter or dictate a brief description of the visit. For example: \"3-year-old male Golden Retriever, owner reports vomiting for 2 days, mild dehydration on exam, suspect dietary indiscretion, prescribed metoclopramide and bland diet.\"\n3. Click **Generate**. The AI structures your input into the four SOAP sections with professional medical language.\n4. Review the generated note carefully. You can edit any section before saving.\n5. Click **Accept** to insert the SOAP note into the medical record, or **Regenerate** if you want a different version.\n\n**Important notes about AI SOAP:**\n\n- The AI is a writing assistant, not a diagnostic tool. It structures your clinical observations — it does not make diagnoses or suggest treatments on its own.\n- Every AI-generated note includes a small disclaimer at the bottom: \"This note was structured with AI assistance and reviewed by the attending veterinarian.\"\n- The AI never replaces your clinical judgment. Always review the generated text before saving.\n- Your data is processed securely and is never used to train AI models."
+      },
+      "a2_4": {
+        "title": "Stock Management and Drug Catalog",
+        "content": "Vetara includes a built-in stock management system so you can track medications, vaccines, consumables, and supplies without a separate tool.\n\n**Setting up your catalog:**\n\n1. Navigate to **Stock > Drug Catalog**.\n2. Click **+ Add Item** to create a new entry. Fill in the product name, category (medication, vaccine, consumable, etc.), unit (tablet, vial, ml, etc.), and default selling price.\n3. For medications, you can also add the active ingredient, concentration, and manufacturer.\n\n**Managing inventory:**\n\n1. Go to **Stock > Inventory**. You will see all items with their current quantity, reorder threshold, and expiration dates.\n2. To receive new stock, click **+ Stock Entry**, select the items, enter the quantity received, batch number, expiration date, and purchase price.\n3. When medications are dispensed during a consultation (via prescriptions), stock is automatically decremented. You do not need to manually adjust quantities for dispensed items.\n4. Vetara alerts you when any item falls below its reorder threshold — you will see a notification badge on the Stock menu and an alert on the dashboard.\n\n**Expiration tracking:**\n\nItems approaching their expiration date (within 30 days by default) are highlighted in orange. Expired items are highlighted in red. You can configure the warning threshold in **Settings > Stock**."
+      },
+      "a2_5": {
+        "title": "Messaging with Pet Owners",
+        "content": "The Messaging module in Vetara centralizes all communication with pet owners. Whether messages are sent automatically (reminders, confirmations) or manually, they all appear in one threaded conversation per owner.\n\n**Viewing conversations:**\n\nNavigate to **Messaging** in the main menu. You will see a list of all conversations, sorted by most recent activity. Each conversation shows the owner's name, their pets, and a preview of the last message. Unread messages are highlighted.\n\n**Sending a manual message:**\n\n1. Open a conversation or start a new one by searching for an owner.\n2. Type your message in the text box at the bottom.\n3. Click **Send**. The message is delivered via WhatsApp to the owner's registered phone number.\n\n**Automatic messages:**\n\nAutomatic messages (appointment confirmations, reminders, follow-ups) appear in the same conversation thread, clearly labeled as \"Automatic.\" This gives you full visibility into what the owner has received.\n\n**Message templates:**\n\nFor common messages you send frequently (e.g., \"Your pet's lab results are ready\"), you can create templates under **Settings > Messaging > Templates**. When composing a message, click **Use Template** to insert one, then personalize it before sending."
+      },
+      "a2_6": {
+        "title": "CSV Patient Import",
+        "content": "If you are migrating from another system or from spreadsheets, Vetara lets you import patients in bulk using a CSV file. This saves hours of manual data entry.\n\n**Steps:**\n\n1. Navigate to **Patients > Import**.\n2. Download the **CSV template** provided. This template contains the required columns: owner name, owner phone, owner email, animal name, species, breed, date of birth, sex, and weight.\n3. Fill in the template with your data. Each row represents one animal. If an owner has multiple animals, repeat the owner information on each row — Vetara will automatically group them.\n4. Save your file as CSV (UTF-8 encoding is recommended for Arabic names).\n5. Upload the file on the import page and click **Preview**. Vetara will show you a summary: number of owners, number of animals, and any rows with errors (e.g., missing required fields, invalid phone formats).\n6. Fix any errors in your CSV and re-upload, or proceed with the valid rows.\n7. Click **Import**. The patients are created and immediately available in your patient list.\n\nDuplicate detection is built in: if an owner with the same phone number already exists, Vetara will link the new animal to the existing owner rather than creating a duplicate."
+      },
+      "a2_7": {
+        "title": "Multi-Clinic Management",
+        "content": "If you operate more than one clinic location, Vetara's multi-clinic feature lets you manage all locations from a single account while keeping each clinic's data completely separate.\n\n**How it works:**\n\nEach clinic in Vetara is an independent workspace with its own patients, appointments, medical records, stock, and billing. Data never leaks between clinics — a patient registered at Clinic A will not appear in Clinic B's patient list unless explicitly added there.\n\n**Setting up a second clinic:**\n\n1. Navigate to **Settings > Clinics** and click **+ Add Clinic**.\n2. Enter the new clinic's details: name, address, operating hours, and team members.\n3. Team members can belong to multiple clinics. When they log in, they select which clinic they are working in today from the clinic switcher in the top navigation bar.\n\n**Switching between clinics:**\n\nClick the clinic name in the top navigation bar. A dropdown shows all clinics you have access to. Select the one you want to work in. The entire interface — calendar, patients, stock, billing — updates to show that clinic's data.\n\n**Cross-clinic reporting:**\n\nAdmins can access a consolidated dashboard under **Settings > Clinics > Overview** that shows key metrics (appointment count, revenue, stock alerts) across all locations side by side. This is useful for owners who want a high-level picture without switching clinics manually."
+      },
+      "a2_8": {
+        "title": "Subscription Plans and Billing",
+        "content": "Vetara offers several subscription plans tailored to clinics of different sizes. You can view, change, or manage your subscription at any time from the app.\n\n**Available plans:**\n\n- **Starter** — Ideal for solo practitioners or small clinics. Includes 1 veterinarian seat, core features (agenda, patients, medical records, billing), and WhatsApp messaging.\n- **Professional** — For growing clinics. Includes multiple vet seats, stock management, AI SOAP Notes, CSV import, and priority support.\n- **Enterprise** — For multi-clinic operations. Includes everything in Professional plus multi-clinic management, consolidated reporting, and a dedicated account manager.\n\n**Managing your subscription:**\n\n1. Navigate to **Settings > Subscription**.\n2. You can see your current plan, billing cycle (monthly or annual), next payment date, and payment method on file.\n3. To upgrade, click **Change Plan** and select the new plan. The upgrade takes effect immediately, and you are charged a prorated amount for the remainder of the current billing cycle.\n4. To add vet seats, click **Add Seats**. Each additional seat is billed at the per-seat rate for your plan.\n5. Invoices for your Vetara subscription are available under **Settings > Subscription > Invoices**. These are your subscription invoices (not to be confused with invoices you send to pet owners).\n\nAll plans include a 30-day free trial. No credit card is required to start the trial. You can use all features during the trial period and choose a plan before it expires."
+      },
+      "a3_1": {
+        "title": "How much does Vetara cost?",
+        "content": "Vetara offers three plans: Starter, Professional, and Enterprise. Pricing depends on the number of veterinarian seats and the features you need. All plans include a 30-day free trial with no credit card required. Visit the **Pricing** page on our website or contact our sales team for a detailed quote. Annual billing includes a discount compared to monthly billing."
+      },
+      "a3_2": {
+        "title": "Is my data secure?",
+        "content": "Yes. Vetara uses industry-standard encryption for data in transit (TLS 1.3) and at rest (AES-256). Your clinic's data is hosted in secure cloud infrastructure with regular backups. Each clinic's data is completely isolated from other clinics through our multi-tenant architecture — no other clinic can ever access your information. We comply with UAE data protection regulations."
+      },
+      "a3_3": {
+        "title": "Can I access Vetara on my phone or tablet?",
+        "content": "Vetara is a web application optimized for both desktop and mobile browsers. You can access it from any device with a modern browser — Chrome, Safari, Edge, or Firefox. There is no separate app to download. The interface adapts to your screen size, so you can check the calendar, look up patient records, or send messages from your phone when you are away from the desk."
+      },
+      "a3_4": {
+        "title": "Does Vetara support Arabic?",
+        "content": "Yes. Vetara supports both English and Arabic. You can switch the interface language from **Settings > Preferences > Language**. The interface fully supports right-to-left (RTL) layout when Arabic is selected. Patient names and notes can be entered in any language regardless of the interface language setting."
+      },
+      "a3_5": {
+        "title": "Can I import data from my previous software?",
+        "content": "Yes. Vetara supports CSV import for patient records (owners and animals). If you are migrating from another veterinary practice management system, export your data as CSV and use the import tool in Vetara. See the **CSV Patient Import** article in the Features Guide above for step-by-step instructions. If you need help with the migration, our support team can assist with data mapping."
+      },
+      "a3_6": {
+        "title": "Can I export my data?",
+        "content": "Yes. You can export patient lists, medical records, invoices, and stock reports as CSV or PDF files. Navigate to the relevant section and click the **Export** button. Your data belongs to you, and you can download it at any time."
+      },
+      "a3_7": {
+        "title": "Does Vetara integrate with lab equipment or imaging systems?",
+        "content": "At this time, Vetara does not have direct integrations with laboratory analyzers or imaging systems (DICOM). We are evaluating partnerships for future releases. You can manually attach lab results and images to medical records by uploading files during a consultation."
+      },
+      "a3_8": {
+        "title": "Can multiple veterinarians use Vetara at the same time?",
+        "content": "Absolutely. Vetara is designed for teams. Each veterinarian has their own login and sees their own calendar column. Multiple team members can be logged in simultaneously, working on different patients without any conflicts. The number of concurrent users depends on your subscription plan."
+      },
+      "a3_9": {
+        "title": "What happens if my internet goes down?",
+        "content": "Vetara is a cloud-based application and requires an internet connection to function. If your connection drops briefly, any unsaved work may be lost — we recommend saving frequently. We are exploring offline capabilities for a future release. In the meantime, we recommend having a mobile data backup (e.g., hotspot from your phone) for critical operations."
+      },
+      "a3_10": {
+        "title": "Can I customize my invoice template?",
+        "content": "Yes. Navigate to **Settings > Billing > Invoice Template**. You can upload your clinic logo, set your preferred invoice numbering format, add your trade license number, and customize the footer text. The VAT registration number and calculation are handled automatically."
+      },
+      "a3_11": {
+        "title": "How do appointment reminders work?",
+        "content": "When WhatsApp messaging is configured, Vetara sends automatic reminders to pet owners before their appointments. You choose when reminders are sent (e.g., 24 hours before, 1 hour before) in **Settings > Messaging**. Reminders include the appointment date, time, clinic name, and the pet's name. Owners cannot reply to cancel through the automated message — they need to call the clinic."
+      },
+      "a3_12": {
+        "title": "Is there a limit on the number of patients I can add?",
+        "content": "No. All Vetara plans include unlimited patient records. There is no cap on the number of owners, animals, or medical records you can create. Your subscription is based on the number of veterinarian seats, not the volume of data."
+      },
+      "a3_13": {
+        "title": "Can I use Vetara for exotic animals (birds, reptiles, etc.)?",
+        "content": "Yes. Vetara is not limited to cats and dogs. When creating a patient, you can select from a wide range of species including birds, reptiles, rabbits, hamsters, horses, and more. You can also add custom species if your practice sees unusual animals. The medical record templates work for all species."
+      },
+      "a3_14": {
+        "title": "How do I add a new team member?",
+        "content": "Navigate to **Settings > Team** and click **+ Invite Member**. Enter their email address and assign a role (Admin, Veterinarian, or Receptionist). They will receive an invitation email with a link to create their account. Once they accept, they will appear in your team list and can be assigned to appointments."
+      },
+      "a3_15": {
+        "title": "Who do I contact for support?",
+        "content": "You can reach the Vetara support team through several channels:\n\n- **In-app chat**: Click the help icon in the bottom-right corner of any page.\n- **Email**: support@vetara.ae\n- **WhatsApp**: Send a message to our support number (available on the website).\n\nOur support team operates Sunday through Thursday, 9:00 AM to 6:00 PM Gulf Standard Time. We aim to respond to all inquiries within 2 hours during business hours."
+      },
+      "a4_1": {
+        "title": "WhatsApp Messages Are Not Sending",
+        "content": "If appointment confirmations, reminders, or manual messages are not being delivered to pet owners, follow these steps to diagnose the issue.\n\n**Check your WhatsApp connection:**\n\n1. Navigate to **Settings > Messaging**. Check the connection status indicator at the top. It should show **Connected** in green.\n2. If it shows **Disconnected**, click **Reconnect** and follow the prompts to re-authenticate your WhatsApp Business number.\n\n**Check the owner's phone number:**\n\n1. Open the patient's profile and verify the owner's phone number. It must include the country code (e.g., +971 for UAE numbers). Numbers without a country code cannot be reached.\n2. Make sure the phone number is a valid WhatsApp number. Not all phone numbers have WhatsApp enabled.\n\n**Check the message log:**\n\n1. Go to **Messaging** and open the conversation with the owner. Failed messages are marked with a red warning icon and an error description.\n2. Common errors include \"Number not on WhatsApp,\" \"Rate limit exceeded\" (too many messages in a short period), or \"Template not approved\" (for automatic messages).\n\nIf the connection is active, the number is correct, and you still cannot send messages, contact Vetara support with the error message from the message log."
+      },
+      "a4_2": {
+        "title": "I Cannot See Appointments on the Calendar",
+        "content": "If the calendar appears empty or some appointments are missing, the issue is usually a filter or permission setting.\n\n**Check your filters:**\n\n1. Look at the top of the calendar for any active filters. If a specific veterinarian is selected, you will only see their appointments. Click **All Vets** to reset the filter.\n2. Check the date. Make sure you are looking at the correct day, week, or month. Use the date navigation arrows or click **Today** to jump to the current date.\n\n**Check your clinic:**\n\nIf you work in multiple clinics, make sure you have the correct clinic selected in the clinic switcher (top navigation bar). Appointments from other clinics will not appear.\n\n**Check your permissions:**\n\nReceptionist accounts can see all appointments. Veterinarian accounts can also see all appointments by default. If your admin has restricted visibility, you may only see your own appointments. Contact your clinic administrator to adjust permissions if needed.\n\nIf none of the above resolves the issue, try refreshing the page (Ctrl+Shift+R or Cmd+Shift+R) to force a fresh load."
+      },
+      "a4_3": {
+        "title": "I Cannot Log In to My Account",
+        "content": "Login problems are usually caused by incorrect credentials, an expired session, or a browser issue.\n\n**Steps to resolve:**\n\n1. **Check your email address.** Make sure you are using the exact email that was invited to the clinic. Vetara accounts are case-insensitive but must match the invitation email.\n2. **Reset your password.** On the login page, click **Forgot Password**. Enter your email and check your inbox (and spam folder) for the reset link. The link expires after 1 hour.\n3. **Clear your browser cache.** Sometimes old session data causes login loops. Clear your browser's cookies and cache for the Vetara domain, then try again.\n4. **Try a different browser.** If the issue persists, try logging in from a different browser (e.g., Chrome instead of Safari) to rule out browser-specific problems.\n5. **Check if your account is active.** If your clinic administrator has deactivated your account, you will see a message saying \"Account deactivated.\" Contact your administrator to reactivate it.\n\nIf you still cannot log in after trying all steps, contact support with your email address and a screenshot of any error message you see."
+      },
+      "a4_4": {
+        "title": "Missing Patient Data After Import",
+        "content": "If you imported patients via CSV and some data is missing or incorrect, the issue is usually in the CSV file format.\n\n**Common causes:**\n\n- **Encoding issues.** If patient or owner names contain Arabic characters and appear garbled, your CSV was likely saved in a non-UTF-8 encoding. Open the file in a text editor (e.g., Notepad++ or VS Code), re-save it as UTF-8, and re-import.\n- **Wrong column mapping.** The import uses the column headers from the template to map data. If you renamed or reordered columns, some fields may have been imported into the wrong place. Download a fresh template and re-organize your data to match.\n- **Missing required fields.** Rows with missing required fields (owner name, animal name, species) are skipped during import. Check the import summary for skipped rows and the reason for each skip.\n- **Phone number format.** Phone numbers must include the country code (e.g., +971501234567). Numbers without a country code may be saved but will not work for WhatsApp messaging.\n\n**To fix imported data:**\n\nYou can edit any patient record manually after import. Open the patient's profile, update the incorrect fields, and save. For large-scale corrections, it may be faster to delete the imported records and re-import with a corrected CSV."
+      },
+      "a4_5": {
+        "title": "Invoice PDF Is Not Generating",
+        "content": "If you click **Generate Invoice** and the PDF does not appear, or you see an error, try the following steps.\n\n**Steps to resolve:**\n\n1. **Check for missing fields.** An invoice requires at least one line item with a description and amount. If all line items are empty, the PDF cannot be generated. Add at least one item and try again.\n2. **Check your clinic profile.** The invoice PDF pulls your clinic name, address, and VAT number from **Settings > Clinic Profile**. If these fields are empty, the PDF generator may fail. Fill in the required fields and try again.\n3. **Check your browser's popup blocker.** The PDF opens in a new tab. If your browser blocks popups, the PDF may have been generated but blocked from displaying. Look for a popup-blocked notification in your browser's address bar and allow popups for Vetara.\n4. **Try downloading instead of viewing.** If the PDF viewer is not loading, click the **Download** button (if available) instead of **View**. This saves the file directly to your computer.\n5. **Refresh and retry.** If you see a generic error, refresh the page and try generating the invoice again. Temporary server issues can occasionally cause failures.\n\nIf the problem persists after trying all steps, navigate to **Billing**, find the invoice in the list, and check its status. If it shows \"Generated,\" the PDF exists — try downloading it again. If it shows \"Error,\" contact support with the invoice number."
+      }
+    }
+  },
   "medical_record_form": {
     "title": "New Medical Record — {patientName}",
     "reason_label": "Reason for Consultation",
