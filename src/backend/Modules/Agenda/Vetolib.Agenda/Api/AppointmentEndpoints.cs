@@ -3,7 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Vetolib.Agenda.Application.Commands.CancelAppointmentSeries;
 using Vetolib.Agenda.Application.Commands.CreateAppointment;
+using Vetolib.Agenda.Application.Commands.CreateAppointmentSeries;
 using Vetolib.Agenda.Application.Commands.EditAppointment;
 using Vetolib.Agenda.Application.Commands.UpdateAppointmentStatus;
 using Vetolib.Agenda.Application.Queries.GetAppointmentById;
@@ -66,6 +68,18 @@ internal static class AppointmentEndpoints
             .WithName("SuggestSlot")
             .WithSummary("Suggest an appointment slot")
             .WithDescription("Uses scheduling heuristics to suggest the best available time slot based on consultation type and preferences.");
+
+        group.MapPost("/series", CreateAppointmentSeries)
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
+            .WithName("CreateAppointmentSeries")
+            .WithSummary("Create a recurring appointment series")
+            .WithDescription("Creates multiple appointments at once based on a recurrence rule (daily, weekly, biweekly, monthly) and count.");
+
+        group.MapDelete("/series/{seriesId:guid}", CancelAppointmentSeries)
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
+            .WithName("CancelAppointmentSeries")
+            .WithSummary("Cancel all future appointments in a series")
+            .WithDescription("Cancels all future scheduled appointments that belong to the specified series.");
 
         // Unversioned alias (used by BDD step definitions and older clients)
         var legacyGroup = app.MapGroup("/api/appointments")
@@ -205,5 +219,35 @@ internal static class AppointmentEndpoints
             Notes: request.Notes);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> CreateAppointmentSeries(
+        CreateAppointmentSeriesRequest request,
+        IClinicContext clinicContext,
+        ISender sender)
+    {
+        var cmd = new CreateAppointmentSeriesCommand(
+            clinicContext.ClinicId,
+            request.VeterinarianId,
+            request.VeterinarianName,
+            request.AnimalId,
+            request.AnimalName,
+            request.OwnerName,
+            request.OwnerEmail,
+            request.StartDate,
+            request.StartTime,
+            request.DurationMinutes,
+            request.Reason,
+            request.Frequency,
+            request.Count);
+
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> CancelAppointmentSeries(
+        Guid seriesId,
+        ISender sender)
+    {
+        return (await sender.Send(new CancelAppointmentSeriesCommand(seriesId))).ToMinimalApiResult();
     }
 }

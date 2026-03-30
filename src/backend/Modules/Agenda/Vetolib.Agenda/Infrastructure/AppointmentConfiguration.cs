@@ -66,6 +66,12 @@ internal class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
 
         builder.Property(a => a.OriginalAppointmentId);
 
+        builder.Property(a => a.SeriesId);
+
+        // Index for series queries
+        builder.HasIndex(a => a.SeriesId)
+            .HasFilter("\"SeriesId\" IS NOT NULL");
+
         // Index for conflict detection queries
         builder.HasIndex(a => new { a.ClinicId, a.VeterinarianId, a.Date });
 
