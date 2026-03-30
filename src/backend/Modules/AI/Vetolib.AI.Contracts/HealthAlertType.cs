@@ -9,5 +9,12 @@ public enum HealthAlertType
     DentalProphylaxis,
     ChronicDiseaseFollowUp,
     SeniorWellness,
-    MedicationReview
+    MedicationReview,
+    FalconMoltWeightLoss,
+    FalconAspergillosisRisk,
+    FalconBumblefoot,
+    FalconTrichomoniasis,
+    FalconMoltAnomaly,
+    FalconHealthCertificate,
+    FalconPostHuntRecovery
 }

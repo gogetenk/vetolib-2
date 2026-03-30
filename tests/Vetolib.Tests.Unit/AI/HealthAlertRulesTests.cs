@@ -705,4 +705,537 @@ public class HealthAlertRulesTests
 
         alerts.Should().HaveCount(1); // Dismissed alert does NOT block new one
     }
+
+    // ── FalconMoltWeightLossRule ──────────────────────────────────────────────
+
+    [Fact]
+    public void FalconMoltWeight_NonFalcon_NoAlert()
+    {
+        var rule = new FalconMoltWeightLossRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconMoltWeight_FalconDuringMolt_WithWeightLoss_GeneratesAlert()
+    {
+        var rule = new FalconMoltWeightLossRule();
+        var now = DateTime.UtcNow;
+
+        // Only triggers during Aug-Oct
+        if (now.Month < 8 || now.Month > 10)
+        {
+            // Outside molt season, should not fire
+            var history = new List<WeightEntryDto>
+            {
+                W(0.8m, now),
+                W(1.0m, now.AddMonths(-3))
+            };
+            var patient = CreatePatient(Species.Falcon, "Peregrine", 3, 0.8m, weightHistory: history);
+            var alerts = rule.Evaluate(patient, NoExistingAlerts);
+            alerts.Should().BeEmpty();
+        }
+        else
+        {
+            // During molt season with >10% loss
+            var preMolt = new DateTime(now.Year, 7, 15); // July baseline
+            var history = new List<WeightEntryDto>
+            {
+                W(0.8m, now),
+                W(1.0m, preMolt)
+            };
+            var patient = CreatePatient(Species.Falcon, "Peregrine", 3, 0.8m, weightHistory: history);
+            var alerts = rule.Evaluate(patient, NoExistingAlerts);
+            alerts.Should().HaveCount(1);
+            alerts[0].RuleId.Should().Be("FALCON_MOLT_WEIGHT_LOSS");
+        }
+    }
+
+    [Fact]
+    public void FalconMoltWeight_SmallLoss_NoAlert()
+    {
+        var rule = new FalconMoltWeightLossRule();
+        var now = DateTime.UtcNow;
+
+        // Even during molt, <10% loss should not trigger
+        var history = new List<WeightEntryDto>
+        {
+            W(0.95m, now),
+            W(1.0m, now.AddMonths(-3))
+        };
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3, 0.95m, weightHistory: history);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty(); // 5% loss < 10% threshold (or outside season)
+    }
+
+    [Fact]
+    public void FalconMoltWeight_NoWeightHistory_NoAlert()
+    {
+        var rule = new FalconMoltWeightLossRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3, 1.0m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconMoltWeight_Dedup_NoAlert()
+    {
+        var rule = new FalconMoltWeightLossRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3, 0.8m);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("FALCON_MOLT_WEIGHT_LOSS"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── FalconAspergillosisRiskRule ──────────────────────────────────────────
+
+    [Fact]
+    public void FalconAspergillosis_NonFalcon_NoAlert()
+    {
+        var rule = new FalconAspergillosisRiskRule();
+        var patient = CreatePatient(Species.Bird, "Parrot", 5,
+            records: [Record("respiratory distress")],
+            weightHistory: [W(0.3m, DateTime.UtcNow), W(0.4m, DateTime.UtcNow.AddMonths(-2))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconAspergillosis_WeightLossAndRespiratory_GeneratesAlert()
+    {
+        var rule = new FalconAspergillosisRiskRule();
+        var history = new List<WeightEntryDto>
+        {
+            W(0.8m, DateTime.UtcNow),
+            W(1.0m, DateTime.UtcNow.AddMonths(-1))
+        };
+        var patient = CreatePatient(Species.Falcon, "Saker", 4, 0.8m,
+            records: [Record("respiratory distress, dyspnea observed")],
+            weightHistory: history);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("FALCON_ASPERGILLOSIS_RISK");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void FalconAspergillosis_WeightLossOnly_NoAlert()
+    {
+        var rule = new FalconAspergillosisRiskRule();
+        var history = new List<WeightEntryDto>
+        {
+            W(0.8m, DateTime.UtcNow),
+            W(1.0m, DateTime.UtcNow.AddMonths(-1))
+        };
+        var patient = CreatePatient(Species.Falcon, "Saker", 4, 0.8m,
+            records: [Record("routine checkup")],
+            weightHistory: history);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty(); // No respiratory signs
+    }
+
+    [Fact]
+    public void FalconAspergillosis_RespiratoryOnly_NoAlert()
+    {
+        var rule = new FalconAspergillosisRiskRule();
+        var patient = CreatePatient(Species.Falcon, "Saker", 4, 1.0m,
+            records: [Record("mild wheezing")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty(); // No weight loss (only 1 weight entry or no loss)
+    }
+
+    [Fact]
+    public void FalconAspergillosis_AlreadyDiagnosed_NoAlert()
+    {
+        var rule = new FalconAspergillosisRiskRule();
+        var history = new List<WeightEntryDto>
+        {
+            W(0.8m, DateTime.UtcNow),
+            W(1.0m, DateTime.UtcNow.AddMonths(-1))
+        };
+        var patient = CreatePatient(Species.Falcon, "Saker", 4, 0.8m,
+            records: [Record("aspergillosis under treatment, dyspnea")],
+            weightHistory: history);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty(); // Already diagnosed
+    }
+
+    // ── FalconBumblefootRule ────────────────────────────────────────────────
+
+    [Fact]
+    public void FalconBumblefoot_NonFalcon_NoAlert()
+    {
+        var rule = new FalconBumblefootRule();
+        var patient = CreatePatient(Species.Bird, "Eagle", 5,
+            records: [Record("foot swelling observed")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconBumblefoot_WithFootSymptoms_GeneratesAlert()
+    {
+        var rule = new FalconBumblefootRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("foot swelling on left foot")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("FALCON_BUMBLEFOOT");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+    }
+
+    [Fact]
+    public void FalconBumblefoot_NoFootSymptoms_NoAlert()
+    {
+        var rule = new FalconBumblefootRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("routine checkup healthy")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconBumblefoot_Dedup_NoAlert()
+    {
+        var rule = new FalconBumblefootRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("bumblefoot grade II")]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("FALCON_BUMBLEFOOT"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── FalconTrichomoniasisRule ────────────────────────────────────────────
+
+    [Fact]
+    public void FalconTrich_NonFalcon_NoAlert()
+    {
+        var rule = new FalconTrichomoniasisRule();
+        var patient = CreatePatient(Species.Bird, "Pigeon", 2,
+            records: [Record("crop lesion")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconTrich_WithCropSymptoms_GeneratesAlert()
+    {
+        var rule = new FalconTrichomoniasisRule();
+        var patient = CreatePatient(Species.Falcon, "Saker", 2,
+            records: [Record("crop lesion visible, regurgitation")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("FALCON_TRICHOMONIASIS");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void FalconTrich_NoSymptoms_NoAlert()
+    {
+        var rule = new FalconTrichomoniasisRule();
+        var patient = CreatePatient(Species.Falcon, "Saker", 2,
+            records: [Record("routine exam")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconTrich_AlreadyTreated_NoAlert()
+    {
+        var rule = new FalconTrichomoniasisRule();
+        var patient = CreatePatient(Species.Falcon, "Saker", 2,
+            records: [Record("trichomoniasis treated, crop lesion")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── FalconMoltAnomalyRule ──────────────────────────────────────────────
+
+    [Fact]
+    public void FalconMoltAnomaly_NonFalcon_NoAlert()
+    {
+        var rule = new FalconMoltAnomalyRule();
+        var patient = CreatePatient(Species.Bird, "Parrot", 3,
+            records: [Record("feather loss observed")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconMoltAnomaly_StressBarAnyTime_GeneratesAlert()
+    {
+        var rule = new FalconMoltAnomalyRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("stress bar visible on flight feathers")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("FALCON_MOLT_ANOMALY");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+    }
+
+    [Fact]
+    public void FalconMoltAnomaly_NormalMoltInSeason_NoAlert()
+    {
+        var rule = new FalconMoltAnomalyRule();
+        var now = DateTime.UtcNow;
+
+        // During Jun-Oct, a normal molt record (no anomaly keywords) should not alert
+        if (now.Month >= 6 && now.Month <= 10)
+        {
+            var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+                records: [Record("normal molt in progress")]);
+            var alerts = rule.Evaluate(patient, NoExistingAlerts);
+            alerts.Should().BeEmpty();
+        }
+        else
+        {
+            // Outside season, molt-related record triggers alert
+            var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+                records: [Record("molt observed, feather loss")]);
+            var alerts = rule.Evaluate(patient, NoExistingAlerts);
+            alerts.Should().HaveCount(1);
+        }
+    }
+
+    [Fact]
+    public void FalconMoltAnomaly_NoMoltRecords_NoAlert()
+    {
+        var rule = new FalconMoltAnomalyRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("routine checkup")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── FalconHealthCertificateRule ────────────────────────────────────────
+
+    [Fact]
+    public void FalconCert_NonFalcon_NoAlert()
+    {
+        var rule = new FalconHealthCertificateRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 3);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconCert_NoCertificate_GeneratesAlert()
+    {
+        var rule = new FalconHealthCertificateRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 2);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("FALCON_HEALTH_CERTIFICATE");
+    }
+
+    [Fact]
+    public void FalconCert_WithCertificate_NoAlert()
+    {
+        var rule = new FalconHealthCertificateRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 2,
+            records: [Record("annual health certificate issued")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconCert_TooYoung_NoAlert()
+    {
+        var rule = new FalconHealthCertificateRule();
+        var birthDate = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(-3));
+        var patient = new PatientAlertContext(
+            ClinicId, PatientId, "YoungFalcon", Species.Falcon, "Peregrine", birthDate,
+            0.5m, [], []);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconCert_Dedup_NoAlert()
+    {
+        var rule = new FalconHealthCertificateRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 2);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("FALCON_HEALTH_CERTIFICATE"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconCert_HuntingSeason_HighSeverity()
+    {
+        var rule = new FalconHealthCertificateRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 2);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        if (alerts.Count > 0)
+        {
+            var now = DateTime.UtcNow;
+            var isHuntingSeason = now.Month >= 10 || now.Month <= 3;
+            var expectedSeverity = isHuntingSeason
+                ? HealthAlertSeverity.High
+                : HealthAlertSeverity.Medium;
+            alerts[0].Severity.Should().Be(expectedSeverity);
+        }
+    }
+
+    // ── FalconPostHuntRecoveryRule ────────────────────────────────────────
+
+    [Fact]
+    public void FalconPostHunt_NonFalcon_NoAlert()
+    {
+        var rule = new FalconPostHuntRecoveryRule();
+        var patient = CreatePatient(Species.Bird, "Eagle", 3);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconPostHunt_DuringAprilMay_GeneratesAlert()
+    {
+        var rule = new FalconPostHuntRecoveryRule();
+        var now = DateTime.UtcNow;
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        if (now.Month >= 4 && now.Month <= 5)
+        {
+            alerts.Should().HaveCount(1);
+            alerts[0].RuleId.Should().Be("FALCON_POST_HUNT_RECOVERY");
+            alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+        }
+        else
+        {
+            alerts.Should().BeEmpty(); // Outside April-May window
+        }
+    }
+
+    [Fact]
+    public void FalconPostHunt_WithHuntingInjury_HighSeverity()
+    {
+        var rule = new FalconPostHuntRecoveryRule();
+        var now = DateTime.UtcNow;
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("hunting injury to right wing")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        if (now.Month >= 4 && now.Month <= 5)
+        {
+            alerts.Should().HaveCount(1);
+            alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+        }
+        else
+        {
+            alerts.Should().BeEmpty();
+        }
+    }
+
+    [Fact]
+    public void FalconPostHunt_WithRecoveryExam_NoAlert()
+    {
+        var rule = new FalconPostHuntRecoveryRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("post-season exam completed, all clear")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void FalconPostHunt_Dedup_NoAlert()
+    {
+        var rule = new FalconPostHuntRecoveryRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("FALCON_POST_HUNT_RECOVERY"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── All falcon rules skip non-falcon species ─────────────────────────────
+
+    [Theory]
+    [InlineData(nameof(FalconMoltWeightLossRule))]
+    [InlineData(nameof(FalconAspergillosisRiskRule))]
+    [InlineData(nameof(FalconBumblefootRule))]
+    [InlineData(nameof(FalconTrichomoniasisRule))]
+    [InlineData(nameof(FalconMoltAnomalyRule))]
+    [InlineData(nameof(FalconHealthCertificateRule))]
+    [InlineData(nameof(FalconPostHuntRecoveryRule))]
+    public void AllFalconRules_DogPatient_NoAlert(string ruleTypeName)
+    {
+        var rule = CreateFalconRule(ruleTypeName);
+        var patient = CreatePatient(Species.Dog, "Labrador", 5,
+            records: [Record("foot swelling, crop lesion, stress bar, respiratory distress")],
+            weightHistory: [W(25m, DateTime.UtcNow), W(30m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    private static IHealthAlertRule CreateFalconRule(string name) => name switch
+    {
+        nameof(FalconMoltWeightLossRule) => new FalconMoltWeightLossRule(),
+        nameof(FalconAspergillosisRiskRule) => new FalconAspergillosisRiskRule(),
+        nameof(FalconBumblefootRule) => new FalconBumblefootRule(),
+        nameof(FalconTrichomoniasisRule) => new FalconTrichomoniasisRule(),
+        nameof(FalconMoltAnomalyRule) => new FalconMoltAnomalyRule(),
+        nameof(FalconHealthCertificateRule) => new FalconHealthCertificateRule(),
+        nameof(FalconPostHuntRecoveryRule) => new FalconPostHuntRecoveryRule(),
+        _ => throw new ArgumentException($"Unknown rule: {name}")
+    };
 }
