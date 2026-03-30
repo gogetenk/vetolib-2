@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Threading.Channels;
+using Ardalis.Result;
 
 namespace Vetolib.Messaging.Application.Services.SSE;
 
@@ -14,8 +15,25 @@ internal sealed class MessagingEventBroadcaster : IMessagingEventBroadcaster
     // Key: connectionId
     private readonly ConcurrentDictionary<string, SseConnection> _connections = new();
 
-    public ChannelReader<MessagingEvent> Subscribe(string connectionId, Guid clinicId, string role)
+    // Tracks number of active SSE connections per clinic to prevent resource exhaustion
+    private readonly ConcurrentDictionary<Guid, int> _clinicConnectionCounts = new();
+    private readonly object _connectionLock = new();
+
+    public Result<ChannelReader<MessagingEvent>> Subscribe(string connectionId, Guid clinicId, string role)
     {
+        // Atomically check and increment the connection count for this clinic
+        lock (_connectionLock)
+        {
+            var currentCount = _clinicConnectionCounts.GetValueOrDefault(clinicId, 0);
+            if (currentCount >= IMessagingEventBroadcaster.MaxConnectionsPerClinic)
+            {
+                return Result<ChannelReader<MessagingEvent>>.Error(
+                    $"Maximum SSE connections ({IMessagingEventBroadcaster.MaxConnectionsPerClinic}) reached for this clinic.");
+            }
+
+            _clinicConnectionCounts[clinicId] = currentCount + 1;
+        }
+
         var channel = Channel.CreateBounded<MessagingEvent>(new BoundedChannelOptions(ChannelCapacity)
         {
             FullMode = BoundedChannelFullMode.DropOldest,
@@ -25,13 +43,27 @@ internal sealed class MessagingEventBroadcaster : IMessagingEventBroadcaster
 
         var connection = new SseConnection(channel, clinicId, role);
         _connections[connectionId] = connection;
-        return channel.Reader;
+        return Result<ChannelReader<MessagingEvent>>.Success(channel.Reader);
     }
 
     public void Unsubscribe(string connectionId)
     {
         if (_connections.TryRemove(connectionId, out var connection))
+        {
             connection.Channel.Writer.TryComplete();
+
+            // Decrement the clinic connection count
+            lock (_connectionLock)
+            {
+                if (_clinicConnectionCounts.TryGetValue(connection.ClinicId, out var count))
+                {
+                    if (count <= 1)
+                        _clinicConnectionCounts.TryRemove(connection.ClinicId, out _);
+                    else
+                        _clinicConnectionCounts[connection.ClinicId] = count - 1;
+                }
+            }
+        }
     }
 
     public async Task BroadcastAsync(MessagingEvent evt, CancellationToken ct = default)

@@ -35,7 +35,7 @@ internal static class PatientEndpoints
             .WithName("ListPatients")
             .WithSummary("List patients")
             .WithDescription("Returns a paginated, filterable list of patients. Supports filtering by name, species, and microchip number.")
-            .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name", "microchip").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
+            .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name", "microchip").SetVaryByHeader("Authorization").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
 
         group.MapGet("/{id:guid}", GetPatientById)
             .WithName("GetPatientById")
