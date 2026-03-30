@@ -33,6 +33,10 @@ internal class OwnerConfiguration : IEntityTypeConfiguration<Owner>
         builder.HasIndex(o => new { o.ClinicId, o.Email })
             .IsUnique();
 
+        builder.HasIndex(o => new { o.ClinicId, o.Phone })
+            .HasFilter("\"Phone\" IS NOT NULL")
+            .HasDatabaseName("IX_owners_ClinicId_Phone");
+
         builder.HasMany(o => o.PatientOwners)
             .WithOne(po => po.Owner)
             .HasForeignKey(po => po.OwnerId);

@@ -37,9 +37,9 @@ internal static class PatientEndpoints
 
         group.MapGet("/", ListPatients)
             .WithName("ListPatients")
-            .WithSummary("List patients")
-            .WithDescription("Returns a paginated, filterable list of patients. Supports filtering by name, species, and microchip number.")
-            .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name", "microchip").SetVaryByHeader("Authorization").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
+            .WithSummary("Search and list patients with advanced filters")
+            .WithDescription("Returns a paginated, filterable list of patients. Supports filtering by partial name (case-insensitive), species, microchip number, and owner phone number.")
+            .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name", "microchip", "ownerPhone").SetVaryByHeader("Authorization").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
 
         group.MapGet("/{id:guid}", GetPatientById)
             .WithName("GetPatientById")
@@ -123,10 +123,11 @@ internal static class PatientEndpoints
         string? name = null,
         Species? species = null,
         string? microchip = null,
+        string? ownerPhone = null,
         int page = 1,
         int pageSize = 20)
     {
-        return (await sender.Send(new ListPatientsQuery(name, species, microchip, page <= 0 ? 1 : page, pageSize <= 0 ? 20 : pageSize))).ToMinimalApiResult();
+        return (await sender.Send(new ListPatientsQuery(name, species, microchip, ownerPhone, page <= 0 ? 1 : page, pageSize <= 0 ? 20 : pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> GetPatientById(
