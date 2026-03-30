@@ -116,7 +116,7 @@ internal class OnboardingSteps
         var vet = await authDb.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Email == vetEmail);
         if (vet is null)
         {
-            var vetResult = User.Create(clinicId, vetEmail, "SecurePass1", UserRole.Vet, "VET-OB-001");
+            var vetResult = User.Create(clinicId, vetEmail, "SecurePass1!", UserRole.Vet, "VET-OB-001");
             vet = vetResult.Value;
             authDb.Users.Add(vet);
             await authDb.SaveChangesAsync();
@@ -456,7 +456,7 @@ internal class OnboardingSteps
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
 
         var email = $"onboarding-{role.ToLowerInvariant()}@test.ae";
-        var password = "SecurePass1";
+        var password = "SecurePass1!";
 
         var userRole = role.ToUpperInvariant() switch
         {
@@ -510,7 +510,7 @@ internal class OnboardingSteps
         if (existing is not null) return;
 
         var vetLicense = userRole == UserRole.Vet ? "VET-OB-ROLE-001" : null;
-        var userResult = User.Create(clinicId, email, "SecurePass1", userRole, vetLicense);
+        var userResult = User.Create(clinicId, email, "SecurePass1!", userRole, vetLicense);
         userResult.IsSuccess.Should().BeTrue();
         authDb.Users.Add(userResult.Value);
         await authDb.SaveChangesAsync();

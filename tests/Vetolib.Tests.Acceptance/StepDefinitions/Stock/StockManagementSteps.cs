@@ -61,7 +61,7 @@ internal class StockManagementSteps
     public async Task GivenIAmAuthenticatedAsUserWithRole(string role)
     {
         var email = $"stock-{role.ToLowerInvariant()}@test.ae";
-        var password = "SecurePass1";
+        var password = "SecurePass1!";
 
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = _defaultClinicId;
@@ -184,7 +184,7 @@ internal class StockManagementSteps
         using var scope = _factory.Services.CreateScope();
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
 
-        var userResult = User.Create(clinicId, email, "SecurePass1", UserRole.Admin, null);
+        var userResult = User.Create(clinicId, email, "SecurePass1!", UserRole.Admin, null);
         var existing = await authDb.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Email == email);
         if (existing is null)
         {
@@ -193,7 +193,7 @@ internal class StockManagementSteps
         }
 
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, "SecurePass1"));
+            new LoginRequest(email, "SecurePass1!"));
         loginResponse.EnsureSuccessStatusCode();
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
         _client.DefaultRequestHeaders.Authorization =
@@ -285,7 +285,7 @@ internal class StockManagementSteps
 
         var email = "admin-a@clinic-a.ae";
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, "SecurePass1"));
+            new LoginRequest(email, "SecurePass1!"));
         loginResponse.EnsureSuccessStatusCode();
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
         _client.DefaultRequestHeaders.Authorization =

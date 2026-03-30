@@ -456,7 +456,7 @@ internal class DrugInteractionSteps
 
         // Login as a user from the other clinic
         var otherEmail = "admin-otherclinic-drugtest@test.com";
-        var password = "SecurePass1";
+        var password = "SecurePass1!";
 
         using (var scope = _factory.Services.CreateScope())
         {

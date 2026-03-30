@@ -176,13 +176,19 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         var errors = new List<ValidationError>();
 
         if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
-            errors.Add(new ValidationError("Password", "Password must contain at least 8 characters"));
+            errors.Add(new ValidationError("Password", "Password must be at least 8 characters"));
 
         if (!string.IsNullOrWhiteSpace(password) && !password.Any(char.IsUpper))
             errors.Add(new ValidationError("Password", "Password must contain at least one uppercase letter"));
 
+        if (!string.IsNullOrWhiteSpace(password) && !password.Any(char.IsLower))
+            errors.Add(new ValidationError("Password", "Password must contain at least one lowercase letter"));
+
         if (!string.IsNullOrWhiteSpace(password) && !password.Any(char.IsDigit))
             errors.Add(new ValidationError("Password", "Password must contain at least one digit"));
+
+        if (!string.IsNullOrWhiteSpace(password) && !password.Any(c => !char.IsLetterOrDigit(c)))
+            errors.Add(new ValidationError("Password", "Password must contain at least one special character"));
 
         return errors;
     }

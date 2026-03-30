@@ -77,7 +77,7 @@ internal class SlotSuggestionSteps
         };
 
         var email = $"{role.ToLower()}@slottest.ae";
-        var password = "SecurePass1";
+        var password = "SecurePass1!";
 
         var userResult = User.Create(_clinicId, email, password, userRole);
         userResult.IsSuccess.Should().BeTrue();

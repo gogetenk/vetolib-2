@@ -94,13 +94,13 @@ internal class MessageTriageSteps
             .FirstOrDefaultAsync(u => u.Email == email);
         if (existing is null)
         {
-            var userResult = User.Create(clinicId, email, "SecurePass1", UserRole.Admin, null);
+            var userResult = User.Create(clinicId, email, "SecurePass1!", UserRole.Admin, null);
             authDb.Users.Add(userResult.Value);
             await authDb.SaveChangesAsync();
         }
 
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, "SecurePass1"));
+            new LoginRequest(email, "SecurePass1!"));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, "Login as Admin should succeed");
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
