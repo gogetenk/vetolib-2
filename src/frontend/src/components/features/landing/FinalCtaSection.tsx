@@ -42,7 +42,10 @@ export function FinalCtaSection({
               <Button
                 size="lg"
                 className="bg-white px-10 text-base font-semibold text-primary transition-all duration-300 hover:bg-accent hover:shadow-lg hover:shadow-white/25 hover:scale-[1.02]"
-                onClick={() => trackEvent(AnalyticsEvents.CTA_FINAL)}
+                onClick={() => {
+                  trackEvent(AnalyticsEvents.CTA_FINAL);
+                  trackEvent("generate_lead", { cta_location: "final" });
+                }}
                 data-testid="btn-final-cta"
               >
                 {cta}

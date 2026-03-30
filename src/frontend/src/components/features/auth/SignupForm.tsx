@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { registerClinic, type RegisterError } from "@/lib/api/auth"
 import { useTranslations, useLocale } from "next-intl"
+import { trackEvent } from "@/lib/analytics"
 import { LanguageSwitcher } from "./LanguageSwitcher"
 
 function buildSignupSchema(t: (key: string) => string) {
@@ -94,6 +95,7 @@ export function SignupForm() {
         password: data.password,
         phone: data.phone,
       })
+      trackEvent("sign_up", { method: "email" })
       toast.success(t("welcome_toast"))
       router.push(`/${locale}/dashboard`)
     } catch (err) {
