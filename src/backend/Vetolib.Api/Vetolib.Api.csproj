@@ -12,6 +12,7 @@
     <PackageReference Include="MassTransit" Version="8.*" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.*" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.*" />
+    <PackageReference Include="Scalar.AspNetCore" Version="*" />
     <PackageReference Include="Sentry.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Sentry.OpenTelemetry" Version="6.1.0" />
     <PackageReference Include="Sentry.Serilog" Version="6.1.0" />
