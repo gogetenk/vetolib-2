@@ -33,8 +33,10 @@ internal static class StockEndpoints
         string? category,
         bool? lowStock,
         bool? expiringSoon,
+        int? pageNumber,
+        int? pageSize,
         ISender sender)
-        => (await sender.Send(new ListStockItemsQuery(category, lowStock ?? false, expiringSoon ?? false)))
+        => (await sender.Send(new ListStockItemsQuery(category, lowStock ?? false, expiringSoon ?? false, pageNumber ?? 1, pageSize ?? 50)))
             .ToMinimalApiResult();
 
     private static async Task<IResult> Create(

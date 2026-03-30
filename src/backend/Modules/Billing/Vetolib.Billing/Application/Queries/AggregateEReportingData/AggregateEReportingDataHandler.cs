@@ -28,16 +28,17 @@ internal class AggregateEReportingDataHandler
 
         // Filter B2C invoices: BuyerSiren is null (individuals, not businesses),
         // CountryCode is FR, Status is Paid
-        var b2cInvoices = await _context.Invoices
+        var b2cQuery = _context.Invoices
             .AsNoTracking()
-            .Include(i => i.Items)
             .Where(i => i.BuyerSiren == null)
             .Where(i => i.CountryCode == "FR")
             .Where(i => i.Status == InvoiceStatus.Paid)
-            .Where(i => i.CreatedAt >= startDate && i.CreatedAt <= endDate)
-            .ToListAsync(ct);
+            .Where(i => i.CreatedAt >= startDate && i.CreatedAt <= endDate);
 
-        if (b2cInvoices.Count == 0)
+        // P-21: Count invoices in DB instead of materializing all entities
+        var invoiceCount = await b2cQuery.CountAsync(ct);
+
+        if (invoiceCount == 0)
         {
             return Result<EReportingPeriodDto>.Success(new EReportingPeriodDto(
                 Guid.Empty,
@@ -49,9 +50,9 @@ internal class AggregateEReportingDataHandler
                 Array.Empty<EReportingTaxBreakdownDto>()));
         }
 
-        // Aggregate by TaxRate + TaxCategory
-        var breakdowns = b2cInvoices
-            .SelectMany(inv => inv.Items)
+        // P-21: Aggregate by TaxRate + TaxCategory in the database via GroupBy projection
+        var breakdowns = await b2cQuery
+            .SelectMany(i => i.Items)
             .GroupBy(item => new { item.TaxRate, item.TaxCategory })
             .Select(g => new EReportingTaxBreakdownDto(
                 g.Key.TaxRate,
@@ -59,8 +60,7 @@ internal class AggregateEReportingDataHandler
                 g.Sum(i => i.UnitPriceExclTax),
                 g.Sum(i => i.TaxAmount),
                 g.Count()))
-            .ToList()
-            .AsReadOnly();
+            .ToListAsync(ct);
 
         var totalExclTax = breakdowns.Sum(b => b.BaseAmount);
         var totalTax = breakdowns.Sum(b => b.TaxAmount);
@@ -72,10 +72,10 @@ internal class AggregateEReportingDataHandler
             query.PeriodEnd,
             EReportingStatus.Draft,
             null,
-            b2cInvoices.Count,
+            invoiceCount,
             totalExclTax,
             totalTax,
             totalInclTax,
-            breakdowns));
+            breakdowns.AsReadOnly()));
     }
 }
