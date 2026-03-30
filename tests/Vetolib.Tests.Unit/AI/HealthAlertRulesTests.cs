@@ -34,6 +34,9 @@ public class HealthAlertRulesTests
     private static MedicalRecordSummaryDto Record(string diagnosis)
         => new(Guid.NewGuid(), diagnosis, "Dr. Test", DateTime.UtcNow.AddDays(-30));
 
+    private static MedicalRecordSummaryDto Record(string diagnosis, DateTime examinedAt)
+        => new(Guid.NewGuid(), diagnosis, "Dr. Test", examinedAt);
+
     private static List<HealthAlert> NoExistingAlerts => [];
 
     private static List<HealthAlert> ExistingAlertForRule(string ruleId)
@@ -1224,6 +1227,140 @@ public class HealthAlertRulesTests
 
         var alerts = rule.Evaluate(patient, NoExistingAlerts);
 
+        alerts.Should().BeEmpty();
+    }
+
+    // ── VaccinationDueRule ──────────────────────────────────────────────────
+
+    [Fact]
+    public void VaccinationDue_LastVaccine12MonthsAgo_GeneratesAlert()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 3,
+            records: [Record("rabies vaccination", DateTime.UtcNow.AddMonths(-12))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("VACCINATION_DUE");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+        alerts[0].AlertType.Should().Be(HealthAlertType.VaccinationDue);
+    }
+
+    [Fact]
+    public void VaccinationDue_LastVaccine11MonthsAgo_GeneratesAlert()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 3,
+            records: [Record("DHPP booster", DateTime.UtcNow.AddMonths(-11))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void VaccinationDue_LastVaccine5MonthsAgo_NoAlert()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 3,
+            records: [Record("rabies vaccination", DateTime.UtcNow.AddMonths(-5))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void VaccinationDue_Cat_LastVaccine14MonthsAgo_GeneratesAlert()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 4,
+            records: [Record("FVRCP vaccination", DateTime.UtcNow.AddMonths(-14))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void VaccinationDue_NoVaccinationRecords_NoAlert()
+    {
+        // No vaccination records => handled by VaccinationOverdueRule, not this rule
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 3,
+            records: [Record("dental cleaning")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void VaccinationDue_Falcon_DoesNotApply()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Falcon, "Peregrine", 3,
+            records: [Record("vaccination", DateTime.UtcNow.AddMonths(-12))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void VaccinationDue_Horse_DoesNotApply()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 5,
+            records: [Record("vaccination", DateTime.UtcNow.AddMonths(-12))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void VaccinationDue_Puppy_TooYoung()
+    {
+        var rule = new VaccinationDueRule();
+        var birthDate = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(-2));
+        var patient = new PatientAlertContext(
+            ClinicId, PatientId, "Puppy", Species.Dog, "Lab", birthDate,
+            5m, [Record("vaccination", DateTime.UtcNow.AddMonths(-12))], []);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void VaccinationDue_DuplicateAlert_NoAlert()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 3,
+            records: [Record("rabies vaccination", DateTime.UtcNow.AddMonths(-12))]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("VACCINATION_DUE"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void VaccinationDue_MultipleVaccineRecords_UsesLatest()
+    {
+        var rule = new VaccinationDueRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5,
+            records:
+            [
+                Record("rabies vaccination", DateTime.UtcNow.AddMonths(-18)),
+                Record("DHPP booster", DateTime.UtcNow.AddMonths(-5)),
+                Record("dental cleaning", DateTime.UtcNow.AddDays(-10))
+            ]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        // Most recent vaccination is 5 months ago => no alert
         alerts.Should().BeEmpty();
     }
 
