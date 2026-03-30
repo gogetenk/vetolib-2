@@ -53,7 +53,7 @@ internal class PreferencesIntegrationSteps
         var clinicId = GetOrCreateClinicId();
 
         var email = $"prefs-test-{role.ToLowerInvariant()}-{Guid.NewGuid():N}@happypaws.ae";
-        const string password = "SecurePass1";
+        const string password = "SecurePass1!";
 
         using var scope = _factory.Services.CreateScope();
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();

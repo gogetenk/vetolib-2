@@ -17,12 +17,7 @@ internal class RegisterClinicValidator : AbstractValidator<RegisterClinicCommand
             .WithMessage("Email must be a valid email address");
 
         RuleFor(x => x.Password)
-            .NotEmpty()
-            .WithMessage("Password is required")
-            .MinimumLength(10)
-            .WithMessage("Password must be at least 10 characters")
-            .Must(p => !string.IsNullOrEmpty(p) && p.Any(c => !char.IsLetterOrDigit(c)))
-            .WithMessage("Password must contain at least one special character");
+            .ApplyPasswordPolicy();
 
         RuleFor(x => x.Phone)
             .NotEmpty()

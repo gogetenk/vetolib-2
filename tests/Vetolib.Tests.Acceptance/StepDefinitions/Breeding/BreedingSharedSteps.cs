@@ -127,7 +127,7 @@ internal class BreedingSharedSteps
         using var scope = factory.Services.CreateScope();
         var authDb = scope.ServiceProvider.GetRequiredService<Vetolib.Auth.Infrastructure.AuthDbContext>();
         var email = $"vet-{clinicName.ToLowerInvariant().Replace(" ", "")}@test.com";
-        var password = "SecurePass1";
+        var password = "SecurePass1!";
 
         var userResult = Vetolib.Auth.Application.Domain.User.Create(
             clinicId, email, password,

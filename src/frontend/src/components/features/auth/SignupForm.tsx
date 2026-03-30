@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { registerClinic, type RegisterError } from "@/lib/api/auth"
 import { useTranslations, useLocale } from "next-intl"
+import { trackEvent } from "@/lib/analytics"
 import { LanguageSwitcher } from "./LanguageSwitcher"
 
 function buildSignupSchema(t: (key: string) => string) {
@@ -35,6 +36,9 @@ function buildSignupSchema(t: (key: string) => string) {
         .regex(/[A-Z]/, t("errors.password_uppercase"))
         .regex(/[0-9]/, t("errors.password_number")),
       confirmPassword: z.string(),
+      agreeTerms: z.literal(true, {
+        message: t("errors.terms_required"),
+      }),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: t("errors.passwords_no_match"),
@@ -42,13 +46,7 @@ function buildSignupSchema(t: (key: string) => string) {
     })
 }
 
-type SignupFormValues = {
-  clinicName: string
-  email: string
-  phone: string
-  password: string
-  confirmPassword: string
-}
+type SignupFormValues = z.infer<ReturnType<typeof buildSignupSchema>>
 
 export function SignupForm() {
   const t = useTranslations("auth.signup")
@@ -94,6 +92,7 @@ export function SignupForm() {
         password: data.password,
         phone: data.phone,
       })
+      trackEvent("sign_up", { method: "email" })
       toast.success(t("welcome_toast"))
       router.push(`/${locale}/dashboard`)
     } catch (err) {
@@ -344,6 +343,54 @@ export function SignupForm() {
                   role="alert"
                 >
                   {errors.confirmPassword.message}
+                </p>
+              )}
+            </div>
+
+            {/* Terms and Privacy Agreement */}
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="agreeTerms"
+                  data-testid="agree-terms-checkbox"
+                  disabled={isSubmitting}
+                  aria-invalid={!!errors.agreeTerms}
+                  aria-describedby={errors.agreeTerms ? "agreeTerms-error" : undefined}
+                  className="mt-1 h-4 w-4 shrink-0 rounded-sm border border-primary accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  {...register("agreeTerms")}
+                />
+                <Label htmlFor="agreeTerms" className="text-sm font-normal leading-relaxed text-stone-600">
+                  {t("agree_terms_prefix")}
+                  <Link
+                    href={`/${locale}/terms`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="auth-link-underline font-medium text-primary transition-colors duration-200 hover:text-primary/90"
+                    data-testid="terms-link"
+                  >
+                    {t("terms_link")}
+                  </Link>
+                  {t("and")}
+                  <Link
+                    href={`/${locale}/privacy`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="auth-link-underline font-medium text-primary transition-colors duration-200 hover:text-primary/90"
+                    data-testid="privacy-link"
+                  >
+                    {t("privacy_link")}
+                  </Link>
+                </Label>
+              </div>
+              {errors.agreeTerms && (
+                <p
+                  id="agreeTerms-error"
+                  className="text-sm text-red-600 animate-auth-error-slide"
+                  data-testid="agree-terms-error"
+                  role="alert"
+                >
+                  {errors.agreeTerms.message}
                 </p>
               )}
             </div>

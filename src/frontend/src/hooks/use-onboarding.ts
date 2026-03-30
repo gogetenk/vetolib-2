@@ -6,8 +6,10 @@ import {
   completeStep as apiCompleteStep,
   dismissBanner as apiDismissBanner,
   dismissChecklist as apiDismissChecklist,
+  completeWizard as apiCompleteWizard,
+  skipWizard as apiSkipWizard,
 } from '@/lib/api/onboarding'
-import type { OnboardingStateDto } from '@/lib/api/onboarding'
+import type { OnboardingStateDto, CompleteWizardRequest } from '@/lib/api/onboarding'
 
 interface UseOnboardingReturn {
   state: OnboardingStateDto | null
@@ -15,6 +17,8 @@ interface UseOnboardingReturn {
   dismissBanner: () => Promise<void>
   dismissChecklist: () => Promise<void>
   completeStep: (stepId: string) => Promise<void>
+  completeWizard: (data: CompleteWizardRequest) => Promise<void>
+  skipWizard: () => Promise<void>
 }
 
 export function useOnboarding(): UseOnboardingReturn {
@@ -105,9 +109,23 @@ export function useOnboarding(): UseOnboardingReturn {
     })
   }, [])
 
+  const completeWizard = useCallback(async (data: CompleteWizardRequest) => {
+    await apiCompleteWizard(data)
+    setState((prev) =>
+      prev ? { ...prev, wizardCompleted: true } : prev
+    )
+  }, [])
+
+  const skipWizard = useCallback(async () => {
+    await apiSkipWizard()
+    setState((prev) =>
+      prev ? { ...prev, wizardCompleted: true } : prev
+    )
+  }, [])
+
   void fetchState // suppress unused warning — used in refetch pattern
 
-  return { state, loading, dismissBanner, dismissChecklist, completeStep }
+  return { state, loading, dismissBanner, dismissChecklist, completeStep, completeWizard, skipWizard }
 }
 
 export function useDismissBanner() {

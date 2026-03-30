@@ -44,7 +44,10 @@ export function StickyCtaBar({ signupHref, ctaLabel, tagline }: Props) {
           <Button
             size="sm"
             className="bg-white px-6 text-sm font-semibold text-primary transition-all duration-200 hover:bg-accent hover:shadow-md"
-            onClick={() => trackEvent(AnalyticsEvents.CTA_HERO)}
+            onClick={() => {
+              trackEvent(AnalyticsEvents.CTA_STICKY);
+              trackEvent("generate_lead", { cta_location: "sticky" });
+            }}
             data-testid="btn-sticky-cta"
           >
             {ctaLabel}

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "./ScrollReveal";
+import { TrackedCtaLink } from "./TrackedCtaLink";
 
 interface FooterLink {
   label: string;
@@ -93,8 +93,8 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
     {
       title: m.columns.legal.title,
       links: [
-        { label: m.columns.legal.privacy, href: "#" },
-        { label: m.columns.legal.terms, href: "#" },
+        { label: m.columns.legal.privacy, href: `/${locale}/privacy` },
+        { label: m.columns.legal.terms, href: `/${locale}/terms` },
         { label: m.columns.legal.dpa, href: "#" },
       ],
     },
@@ -107,9 +107,13 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
         {footerCta && (
           <div data-testid="footer-cta" className="mb-10 flex flex-col items-center gap-4 rounded-2xl bg-accent px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-start">
             <p className="text-lg font-semibold text-stone-900">{footerCta.headline}</p>
-            <Link href={signupHref}>
-              <Button className="px-8 font-semibold" data-testid="btn-footer-cta">{footerCta.cta}</Button>
-            </Link>
+            <TrackedCtaLink
+              href={signupHref}
+              location="footer"
+              size="default"
+              buttonClassName="px-8 font-semibold"
+              buttonTestId="btn-footer-cta"
+            >{footerCta.cta}</TrackedCtaLink>
           </div>
         )}
         {/* 4-column grid */}

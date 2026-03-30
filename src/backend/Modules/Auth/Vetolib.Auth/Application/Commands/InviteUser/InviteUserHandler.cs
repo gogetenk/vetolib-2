@@ -55,9 +55,30 @@ internal class InviteUserHandler : IRequestHandler<InviteUserCommand, Result<Inv
 
     private static string GenerateTemporaryPassword()
     {
-        const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
-        return new string(Enumerable.Range(0, 8)
-            .Select(_ => chars[RandomNumberGenerator.GetInt32(chars.Length)])
-            .ToArray());
+        const string upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+        const string lower = "abcdefghjkmnpqrstuvwxyz";
+        const string digits = "23456789";
+        const string special = "!@#$%&*?";
+        const string all = upper + lower + digits + special;
+
+        // Guarantee at least one character from each required category
+        var password = new char[PasswordRules.MinimumLength];
+        password[0] = upper[RandomNumberGenerator.GetInt32(upper.Length)];
+        password[1] = lower[RandomNumberGenerator.GetInt32(lower.Length)];
+        password[2] = digits[RandomNumberGenerator.GetInt32(digits.Length)];
+        password[3] = special[RandomNumberGenerator.GetInt32(special.Length)];
+
+        // Fill the rest randomly from all categories
+        for (var i = 4; i < password.Length; i++)
+            password[i] = all[RandomNumberGenerator.GetInt32(all.Length)];
+
+        // Shuffle to avoid predictable positions
+        for (var i = password.Length - 1; i > 0; i--)
+        {
+            var j = RandomNumberGenerator.GetInt32(i + 1);
+            (password[i], password[j]) = (password[j], password[i]);
+        }
+
+        return new string(password);
     }
 }

@@ -21,6 +21,7 @@ export interface OnboardingProgressDto {
 export interface OnboardingStateDto {
   welcomeBannerVisible: boolean
   checklistVisible: boolean
+  wizardCompleted: boolean
   progress: OnboardingProgressDto
   steps: OnboardingStepDto[]
 }

@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { MSWProvider } from "@/components/MSWProvider";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { routing } from "@/i18n/routing";
 
 const manrope = Manrope({
@@ -55,6 +56,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <link rel="alternate" hrefLang="fr" href={`/fr${subPath}`} />
         <link rel="alternate" hrefLang="x-default" href={`/en${subPath}`} />
       </head>
+      <GoogleAnalytics />
       <body
         className="antialiased"
       >

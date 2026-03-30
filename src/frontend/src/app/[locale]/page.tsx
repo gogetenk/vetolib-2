@@ -28,6 +28,7 @@ import { TrustSignalsSection } from "@/components/features/landing/TrustSignalsS
 import { DemoFormSection } from "@/components/features/landing/DemoFormSection";
 import { StickyCtaBar } from "@/components/features/landing/StickyCtaBar";
 import { ExitIntentPopup } from "@/components/features/landing/ExitIntentPopup";
+import { TrackedCtaLink } from "@/components/features/landing/TrackedCtaLink";
 import { LatestBlogSection } from "@/components/features/blog/LatestBlogSection";
 import { WhatsAppBookingButton } from "@/components/features/landing/WhatsAppBookingButton";
 
@@ -65,7 +66,7 @@ const SOCIAL_PROOF_KEYS = [
   { stat: "uptime", label: "uptime_label" },
 ] as const;
 
-const JSON_LD = {
+const JSON_LD_SOFTWARE = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Vetara",
@@ -86,6 +87,26 @@ const JSON_LD = {
   countriesSupported: "AE",
 };
 
+const JSON_LD_ORGANIZATION = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Vetara",
+  url: "https://vetara.com",
+  logo: "https://vetara.com/logo.png",
+  sameAs: [
+    "https://www.linkedin.com/company/vetara",
+    "https://www.instagram.com/vetara.ae",
+    "https://x.com/vetara_ae",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@vetara.ae",
+    contactType: "customer service",
+    availableLanguage: ["English", "Arabic"],
+    areaServed: "AE",
+  },
+};
+
 export default async function LandingPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "landing" });
@@ -99,10 +120,15 @@ export default async function LandingPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white scroll-smooth">
-      {/* JSON-LD Structured Data */}
+      {/* JSON-LD Structured Data — SoftwareApplication */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD_SOFTWARE) }}
+      />
+      {/* JSON-LD Structured Data — Organization */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD_ORGANIZATION) }}
       />
 
       {/* CRO: Sticky CTA bar */}
@@ -223,9 +249,13 @@ export default async function LandingPage({ params }: Props) {
                 </HeroStagger>
                 <HeroStagger index={2}>
                   <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                    <Link href={signupHref} data-testid="hero-cta-start-trial">
-                      <Button size="lg" className="group/cta relative w-full overflow-hidden bg-primary px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] sm:w-auto" data-testid="btn-hero-start-trial">{t("hero.cta_primary")}</Button>
-                    </Link>
+                    <TrackedCtaLink
+                      href={signupHref}
+                      location="hero"
+                      data-testid="hero-cta-start-trial"
+                      buttonTestId="btn-hero-start-trial"
+                      buttonClassName="group/cta relative w-full overflow-hidden bg-primary px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] sm:w-auto"
+                    >{t("hero.cta_primary")}</TrackedCtaLink>
                     <WhatsAppBookingButton
                       label={t("hero.whatsapp_cta")}
                       clinicName="Vetara"
@@ -418,15 +448,13 @@ export default async function LandingPage({ params }: Props) {
 
             <ScrollReveal direction="fade-up" delay={600}>
               <div className="mt-14 text-center">
-                <Link href={signupHref} data-testid="how-it-works-cta">
-                  <Button
-                    size="lg"
-                    className="bg-primary px-10 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02]"
-                    data-testid="btn-how-it-works-start-trial"
-                  >
-                    {t("how_it_works.cta")}
-                  </Button>
-                </Link>
+                <TrackedCtaLink
+                  href={signupHref}
+                  location="features"
+                  data-testid="how-it-works-cta"
+                  buttonTestId="btn-how-it-works-start-trial"
+                  buttonClassName="bg-primary px-10 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02]"
+                >{t("how_it_works.cta")}</TrackedCtaLink>
               </div>
             </ScrollReveal>
           </div>
