@@ -43,10 +43,6 @@ internal static class PregnancyEndpoints
             req.FatherPatientId,
             req.MatingDate,
             req.MatingMethod,
-            // PatientSex and PatientSpecies will be resolved by middleware or enriched before reaching the handler.
-            // For now, they must be provided. In production, an endpoint filter would fetch them from MedicalRecords.
-            "Female",
-            "Dog",
             req.Notes)))
             .ToMinimalApiResult();
 
