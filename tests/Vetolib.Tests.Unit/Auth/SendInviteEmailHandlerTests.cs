@@ -52,7 +52,6 @@ public class SendInviteEmailHandlerTests
         {
             Email = "dr.hamdan@desertpaws.ae",
             FullName = "Dr. Hamdan Al Maktoum",
-            TemporaryPassword = "Temp1234",
             ClinicName = "Desert Paws Veterinary Clinic"
         };
 
@@ -77,7 +76,6 @@ public class SendInviteEmailHandlerTests
         {
             Email = "fatima.al-rashidi@desertpaws.ae",
             FullName = "Fatima Al-Rashidi",
-            TemporaryPassword = "Pass5678",
             ClinicName = "Desert Paws Veterinary Clinic"
         };
 
@@ -90,7 +88,7 @@ public class SendInviteEmailHandlerTests
     }
 
     [Fact]
-    public async Task Consume_BodyContainsTemporaryPassword()
+    public async Task Consume_BodyDoesNotContainPlaintextPassword()
     {
         // Arrange
         EmailMessage? capturedMessage = null;
@@ -101,17 +99,16 @@ public class SendInviteEmailHandlerTests
         {
             Email = "youssef.khalil@alain.ae",
             FullName = "Youssef Khalil",
-            TemporaryPassword = "Xyz9AbCd",
             ClinicName = "Al Ain Animal Hospital"
         };
 
         // Act
         await _consumer.Consume(BuildContext(evt));
 
-        // Assert
+        // Assert — email should instruct user to use Forgot Password, not contain a plaintext password
         capturedMessage.Should().NotBeNull();
-        capturedMessage!.PlainTextBody.Should().Contain("Xyz9AbCd");
-        capturedMessage.HtmlBody.Should().Contain("Xyz9AbCd");
+        capturedMessage!.PlainTextBody.Should().Contain("Forgot Password");
+        capturedMessage.HtmlBody.Should().Contain("Forgot Password");
     }
 
     [Fact]
@@ -125,7 +122,6 @@ public class SendInviteEmailHandlerTests
         {
             Email = "aisha.mansouri@test.ae",
             FullName = "Aisha Mansouri",
-            TemporaryPassword = "TmpPass1",
             ClinicName = "Dubai Pet Care"
         };
 

@@ -47,7 +47,8 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasDefaultValue(0);
 
-        builder.HasIndex(u => new { u.ClinicId, u.Email })
+        // Email must be globally unique (not per-clinic) — a user can't register with the same email across clinics
+        builder.HasIndex(u => u.Email)
             .IsUnique();
     }
 }

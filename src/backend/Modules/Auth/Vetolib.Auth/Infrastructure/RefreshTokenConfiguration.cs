@@ -24,9 +24,11 @@ internal class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken
 
         builder.Property(rt => rt.IsRevoked)
             .IsRequired()
-            .HasDefaultValue(false);
+            .HasDefaultValue(false)
+            .IsConcurrencyToken();
 
-        builder.HasIndex(rt => rt.Token);
+        builder.HasIndex(rt => rt.Token)
+            .IsUnique();
         builder.HasIndex(rt => rt.UserId);
     }
 }

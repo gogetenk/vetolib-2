@@ -61,7 +61,7 @@ public class SuggestSlotHandlerTests : IDisposable
     {
         var appt = Appointment.Create(
             ClinicId, vetId, vetName,
-            AnimalId, "Luna", "Ahmed Al-Rashidi",
+            AnimalId, "Luna", "Ahmed Al-Rashidi", null,
             TestDate, startTime, durationMinutes, reason).Value;
 
         if (statusOverride == AppointmentStatus.Completed)

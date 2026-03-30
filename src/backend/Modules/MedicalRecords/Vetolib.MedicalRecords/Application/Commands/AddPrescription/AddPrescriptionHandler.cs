@@ -46,8 +46,21 @@ internal class AddPrescriptionHandler : IRequestHandler<AddPrescriptionCommand, 
         if (!applyOverrideResult.IsSuccess)
             return Result<PrescriptionDto>.Error(applyOverrideResult.Errors.First());
 
+        // Route through aggregate root to maintain domain invariants
+        var addResult = medicalRecord.AddPrescription(prescription);
+        if (!addResult.IsSuccess)
+            return Result<PrescriptionDto>.Error(addResult.Errors.First());
+
+        // Explicitly track the new entity for EF change detection
         _context.Prescriptions.Add(prescription);
         await _context.SaveChangesAsync(ct);
+
+        await _publisher.Publish(new PrescriptionCreatedEvent(
+            Id: prescription.Id,
+            ClinicId: prescription.ClinicId,
+            DrugCatalogEntryId: prescription.DrugCatalogEntryId,
+            Quantity: cmd.DosageAmount.HasValue ? (int)Math.Ceiling(cmd.DosageAmount.Value) : null,
+            StockDecrementConfirmed: prescription.DrugCatalogEntryId.HasValue), ct);
 
         await PublishOverrideEventIfNeeded(prescription, cmd, ct);
 
@@ -73,20 +86,43 @@ internal class AddPrescriptionHandler : IRequestHandler<AddPrescriptionCommand, 
         if (!interactionResult.IsSuccess)
             return Result<InteractionSeverity?>.Success(null);
 
+        // Reject prescriptions with dosage out of range (safety check)
+        var dosageAlerts = interactionResult.Value.Alerts
+            .Where(a => a.Type == InteractionAlertType.DosageOutOfRange)
+            .ToList();
+
+        if (dosageAlerts.Count > 0)
+        {
+            var justification = cmd.OverrideJustification?.Trim();
+            if (string.IsNullOrWhiteSpace(justification) || justification.Length < 10)
+                return Result<InteractionSeverity?>.Error(
+                    $"Dosage out of range: {dosageAlerts.First().Message}. Provide an override justification (min 10 chars) to proceed.");
+        }
+
         var criticalAlerts = interactionResult.Value.Alerts
             .Where(a => a.Severity == InteractionSeverity.Critical)
             .ToList();
 
-        if (criticalAlerts.Count == 0)
+        if (criticalAlerts.Count == 0 && dosageAlerts.Count == 0)
             return Result<InteractionSeverity?>.Success(null);
 
-        var justification = cmd.OverrideJustification?.Trim();
-        if (string.IsNullOrWhiteSpace(justification) || justification.Length < 10)
-            return Result<InteractionSeverity?>.Error("Override justification required for critical alerts");
+        var justificationText = cmd.OverrideJustification?.Trim();
+        if (string.IsNullOrWhiteSpace(justificationText) || justificationText.Length < 10)
+        {
+            if (criticalAlerts.Count > 0)
+                return Result<InteractionSeverity?>.Error("Override justification required for critical alerts");
+        }
 
         // Override is valid — record the highest severity for the override trail
+        // Use explicit priority mapping instead of relying on enum integer ordering
         var highestSeverity = interactionResult.Value.Alerts
-            .OrderBy(a => a.Severity)
+            .OrderBy(a => a.Severity switch
+            {
+                InteractionSeverity.Critical => 0,
+                InteractionSeverity.Moderate => 1,
+                InteractionSeverity.Info => 2,
+                _ => 99
+            })
             .Select(a => a.Severity)
             .First();
 

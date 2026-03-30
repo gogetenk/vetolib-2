@@ -64,6 +64,7 @@ internal class CreateAppointmentHandler : IRequestHandler<CreateAppointmentComma
             cmd.AnimalId,
             cmd.AnimalName,
             cmd.OwnerName,
+            cmd.OwnerEmail,
             cmd.Date,
             cmd.StartTime,
             cmd.DurationMinutes,

@@ -77,6 +77,7 @@ public sealed class TestDataSeeder
             animalId,
             animalName,
             ownerName,
+            null,
             date ?? DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             startTime ?? TimeOnly.Parse("10:00"),
             durationMinutes,

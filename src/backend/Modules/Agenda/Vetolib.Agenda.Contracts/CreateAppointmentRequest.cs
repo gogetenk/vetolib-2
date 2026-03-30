@@ -6,6 +6,7 @@ public record CreateAppointmentRequest(
     Guid AnimalId,
     string AnimalName,
     string OwnerName,
+    string? OwnerEmail,
     DateOnly Date,
     TimeOnly StartTime,
     int DurationMinutes,

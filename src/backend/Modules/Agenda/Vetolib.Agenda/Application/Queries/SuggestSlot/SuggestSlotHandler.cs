@@ -63,19 +63,12 @@ internal class SuggestSlotHandler : IRequestHandler<SuggestSlotQuery, Result<Slo
                 new List<Appointment>()));
         }
 
-        // Pre-load duration estimates for all vets in a single batch to avoid N+1 queries.
-        // DurationEstimator issues one DB query per (vetId, consultationType) pair; by resolving
-        // all vets upfront we collapse N queries into one pass before the scoring loop.
-        var durationByVet = new Dictionary<Guid, int>();
-        foreach (var vetSchedule in vetSchedules)
-        {
-            var durationResult = await _durationEstimator.EstimateAsync(
-                vetSchedule.VeterinarianId,
-                query.ConsultationType,
-                ct);
-            durationByVet[vetSchedule.VeterinarianId] =
-                durationResult.IsSuccess ? durationResult.Value : 30;
-        }
+        // Batch-load duration estimates for all vets in a single DB query to avoid N+1.
+        var vetIdList = vetSchedules.Select(v => v.VeterinarianId).ToList();
+        var durationByVet = await _durationEstimator.EstimateBatchAsync(
+            vetIdList,
+            query.ConsultationType,
+            ct);
 
         // Score slots for each vet
         var allScoredSlots = new List<ScoredSlot>();

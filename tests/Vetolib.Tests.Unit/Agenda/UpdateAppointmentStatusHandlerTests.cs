@@ -45,7 +45,7 @@ public class UpdateAppointmentStatusHandlerTests : IDisposable
     {
         var appointment = Appointment.Create(
             ClinicId, VetId, "Dr. Khalid Al-Mansouri",
-            AnimalId, "Luna", "Ahmed Al-Rashidi",
+            AnimalId, "Luna", "Ahmed Al-Rashidi", null,
             FutureDate, StartTime, 30, "Annual checkup").Value;
 
         _context.Appointments.Add(appointment);

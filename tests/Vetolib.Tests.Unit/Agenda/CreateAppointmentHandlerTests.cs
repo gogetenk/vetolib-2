@@ -55,6 +55,7 @@ public class CreateAppointmentHandlerTests : IDisposable
             AnimalId: AnimalId,
             AnimalName: "Luna",
             OwnerName: "Ahmed Al-Rashidi",
+            OwnerEmail: "ahmed@email.ae",
             Date: date ?? FutureDate,
             StartTime: startTime ?? ValidStart,
             DurationMinutes: durationMinutes ?? ValidDuration,
@@ -138,7 +139,7 @@ public class CreateAppointmentHandlerTests : IDisposable
         // Seed an existing appointment for the same vet at the same time
         var existing = Appointment.Create(
             ClinicId, VetId, "Dr. Khalid Al-Mansouri",
-            AnimalId, "Luna", "Ahmed Al-Rashidi",
+            AnimalId, "Luna", "Ahmed Al-Rashidi", null,
             FutureDate, ValidStart, ValidDuration, "First booking").Value;
         _context.Appointments.Add(existing);
         await _context.SaveChangesAsync();
@@ -159,7 +160,7 @@ public class CreateAppointmentHandlerTests : IDisposable
         // Seed a CANCELLED appointment — should not block new bookings
         var existing = Appointment.Create(
             ClinicId, VetId, "Dr. Khalid Al-Mansouri",
-            AnimalId, "Luna", "Ahmed Al-Rashidi",
+            AnimalId, "Luna", "Ahmed Al-Rashidi", null,
             FutureDate, ValidStart, ValidDuration, "Cancelled").Value;
         existing.Cancel("No longer needed");
         _context.Appointments.Add(existing);
@@ -180,7 +181,7 @@ public class CreateAppointmentHandlerTests : IDisposable
         // Seed existing appointment for a DIFFERENT vet
         var existing = Appointment.Create(
             ClinicId, otherVetId, "Dr. Sara Al-Zaabi",
-            AnimalId, "Luna", "Ahmed Al-Rashidi",
+            AnimalId, "Luna", "Ahmed Al-Rashidi", null,
             FutureDate, ValidStart, ValidDuration, "Other vet").Value;
         _context.Appointments.Add(existing);
         await _context.SaveChangesAsync();
