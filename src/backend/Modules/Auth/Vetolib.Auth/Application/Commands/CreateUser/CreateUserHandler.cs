@@ -18,8 +18,9 @@ internal class CreateUserHandler : IRequestHandler<CreateUserCommand, Result<Use
 
     public async Task<Result<UserDto>> Handle(CreateUserCommand cmd, CancellationToken ct)
     {
-        // Check if email already exists in this clinic
+        // Check if email already exists globally (cross-tenant uniqueness)
         var existingUser = await _context.Users
+            .IgnoreQueryFilters()
             .FirstOrDefaultAsync(u => u.Email == cmd.Email.ToLowerInvariant(), ct);
 
         if (existingUser is not null)

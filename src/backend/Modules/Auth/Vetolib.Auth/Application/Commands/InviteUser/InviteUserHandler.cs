@@ -22,8 +22,9 @@ internal class InviteUserHandler : IRequestHandler<InviteUserCommand, Result<Inv
 
     public async Task<Result<InviteUserResponse>> Handle(InviteUserCommand cmd, CancellationToken ct)
     {
-        // Check email uniqueness within clinic
+        // Check email uniqueness globally (cross-tenant — a user can't have the same email across clinics)
         var existing = await _context.Users
+            .IgnoreQueryFilters()
             .AnyAsync(u => u.Email == cmd.Email.ToLowerInvariant(), ct);
 
         if (existing)
