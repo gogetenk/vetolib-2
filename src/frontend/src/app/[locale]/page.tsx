@@ -64,7 +64,7 @@ const SOCIAL_PROOF_KEYS = [
   { stat: "uptime", label: "uptime_label" },
 ] as const;
 
-const JSON_LD = {
+const JSON_LD_SOFTWARE = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Vetara",
@@ -85,6 +85,26 @@ const JSON_LD = {
   countriesSupported: "AE",
 };
 
+const JSON_LD_ORGANIZATION = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Vetara",
+  url: "https://vetara.com",
+  logo: "https://vetara.com/logo.png",
+  sameAs: [
+    "https://www.linkedin.com/company/vetara",
+    "https://www.instagram.com/vetara.ae",
+    "https://x.com/vetara_ae",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@vetara.ae",
+    contactType: "customer service",
+    availableLanguage: ["English", "Arabic"],
+    areaServed: "AE",
+  },
+};
+
 export default async function LandingPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "landing" });
@@ -98,10 +118,15 @@ export default async function LandingPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white scroll-smooth">
-      {/* JSON-LD Structured Data */}
+      {/* JSON-LD Structured Data — SoftwareApplication */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD_SOFTWARE) }}
+      />
+      {/* JSON-LD Structured Data — Organization */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD_ORGANIZATION) }}
       />
 
       {/* CRO: Sticky CTA bar */}
