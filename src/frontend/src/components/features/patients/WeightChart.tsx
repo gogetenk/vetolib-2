@@ -72,19 +72,19 @@ export function WeightChart({ data }: WeightChartProps) {
         data={data}
         margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
         <XAxis
           dataKey="date"
           tickFormatter={formatChartDate}
-          tick={{ fontSize: 11, fill: '#888' }}
+          tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
           tickLine={false}
-          axisLine={{ stroke: '#e5e5e5' }}
+          axisLine={{ stroke: 'hsl(var(--border))' }}
         />
         <YAxis
           domain={[yMin, yMax]}
-          tick={{ fontSize: 11, fill: '#888' }}
+          tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
           tickLine={false}
-          axisLine={{ stroke: '#e5e5e5' }}
+          axisLine={{ stroke: 'hsl(var(--border))' }}
           unit=" kg"
           width={65}
         />
