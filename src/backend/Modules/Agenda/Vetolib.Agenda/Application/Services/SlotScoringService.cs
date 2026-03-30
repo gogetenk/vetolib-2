@@ -128,7 +128,7 @@ internal class SlotScoringService
     {
         if (!appointments.Any())
         {
-            reasons.Add("Aucun rendez-vous existant ce jour");
+            reasons.Add("No existing appointments on this day");
             return 0.5; // neutral score when calendar is empty
         }
 
@@ -148,12 +148,12 @@ internal class SlotScoringService
         double score;
         if (prevEnd.HasValue && prevEnd.Value == slotStart)
         {
-            reasons.Add("Creneau adjacent au precedent (pas de gap)");
+            reasons.Add("Slot adjacent to previous (no gap)");
             score = 1.0;
         }
         else if (nextStart.HasValue && nextStart.Value == slotEnd)
         {
-            reasons.Add("Creneau adjacent au suivant (pas de gap)");
+            reasons.Add("Slot adjacent to next (no gap)");
             score = 1.0;
         }
         else
@@ -165,7 +165,7 @@ internal class SlotScoringService
             score = Math.Max(0, 1.0 - minGap / 120.0);
 
             if (minGap > 0)
-                reasons.Add($"Gap de {(int)minGap} min avec le rendez-vous adjacent");
+                reasons.Add($"{(int)minGap} min gap to adjacent appointment");
         }
 
         return score;
@@ -184,7 +184,7 @@ internal class SlotScoringService
 
         if (thisLoad < averageLoad)
         {
-            reasons.Add("Charge inferieure a la moyenne (equilibrage favorise)");
+            reasons.Add("Below average load (load balancing favored)");
             return 1.0;
         }
         else if (thisLoad > averageLoad)
@@ -218,7 +218,7 @@ internal class SlotScoringService
 
         if (sameTypeInSession > 0)
         {
-            reasons.Add($"Regroupement avec {sameTypeInSession} consultation(s) du meme type ({consultationType})");
+            reasons.Add($"Grouped with {sameTypeInSession} same-type consultation(s) ({consultationType})");
             return 1.0;
         }
 
@@ -230,7 +230,7 @@ internal class SlotScoringService
         // Simple heuristic: prefer morning slots (before 13:00) as default vet preference
         if (slotStart < new TimeOnly(13, 0))
         {
-            reasons.Add("Creneau matinal (preference horaire vet)");
+            reasons.Add("Morning slot (vet time preference)");
             return 1.0;
         }
 
@@ -243,7 +243,7 @@ internal class SlotScoringService
 
         if (diffMinutes == 0)
         {
-            reasons.Add("Heure exacte demandee par le client");
+            reasons.Add("Exact time requested by client");
             return 1.0;
         }
 
@@ -251,9 +251,9 @@ internal class SlotScoringService
         var score = Math.Max(0, 1.0 - diffMinutes / 240.0);
 
         if (diffMinutes <= 30)
-            reasons.Add($"Proche de l'heure demandee ({(int)diffMinutes} min d'ecart)");
+            reasons.Add($"Close to requested time ({(int)diffMinutes} min difference)");
         else if (diffMinutes <= 120)
-            reasons.Add($"Ecart de {(int)diffMinutes} min avec l'heure demandee");
+            reasons.Add($"{(int)diffMinutes} min difference from requested time");
 
         return score;
     }

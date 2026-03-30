@@ -30,9 +30,10 @@ internal class GetAppointmentsAnalyticsHandler
 
         var total = statusGroups.Sum(g => g.Count);
 
-        // No-show rate: CANCELLED or NOSHOW as a share of all appointments last 30 days
+        // No-show rate: only NOSHOW appointments as a share of all appointments last 30 days
+        // Cancelled appointments are intentional cancellations and must NOT inflate the no-show metric
         var noShowCount = statusGroups
-            .Where(g => g.Status == AppointmentStatus.Cancelled || g.Status == AppointmentStatus.NoShow)
+            .Where(g => g.Status == AppointmentStatus.NoShow)
             .Sum(g => g.Count);
 
         var noShowRate = total > 0
