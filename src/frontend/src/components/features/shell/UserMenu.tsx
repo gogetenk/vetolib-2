@@ -128,7 +128,7 @@ export function UserMenu() {
           data-testid="user-menu-dropdown"
           className={cn(
             "absolute ltr:right-0 rtl:left-0 top-full z-50 mt-1 w-52",
-            "rounded-xl border border-border/80 bg-white text-popover-foreground shadow-xl",
+            "rounded-xl border border-border/80 bg-card text-popover-foreground shadow-xl",
             "p-1.5",
             "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200"
           )}

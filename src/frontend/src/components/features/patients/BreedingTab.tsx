@@ -162,7 +162,7 @@ export function BreedingTab({ patientId, patientSex, patientSpecies }: BreedingT
             No litters recorded.
           </p>
         ) : (
-          <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="breeding-litters-list">
+          <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="breeding-litters-list">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
               <span>Date of Birth</span>
               <span>{isFemale ? 'Father' : 'Mother'}</span>
@@ -209,7 +209,7 @@ export function BreedingTab({ patientId, patientSex, patientSpecies }: BreedingT
               No pregnancies recorded.
             </p>
           ) : (
-            <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="breeding-pregnancies-list">
+            <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="breeding-pregnancies-list">
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
                 <span>Mating Date</span>
                 <span>Expected Due</span>
@@ -276,7 +276,7 @@ export function BreedingTab({ patientId, patientSex, patientSpecies }: BreedingT
               No heat cycles recorded.
             </p>
           ) : (
-            <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="breeding-heat-cycles-list">
+            <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="breeding-heat-cycles-list">
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
                 <span>Start Date</span>
                 <span>End Date</span>

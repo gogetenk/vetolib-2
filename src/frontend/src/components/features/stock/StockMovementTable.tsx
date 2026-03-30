@@ -55,7 +55,7 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
         {movements.map((m) => (
           <div
             key={m.id}
-            className="bg-white border border-border/80 rounded-xl p-4 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
+            className="bg-card border border-border/80 rounded-xl p-4 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
             data-testid={`movement-card-${m.id}`}
           >
             <div className="flex items-start justify-between gap-2">
@@ -93,7 +93,7 @@ export function StockMovementTable({ movements }: StockMovementTableProps) {
 
       {/* Desktop table */}
       <div
-        className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden"
+        className="hidden md:block bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden"
         data-testid="movement-table"
       >
         <Table>

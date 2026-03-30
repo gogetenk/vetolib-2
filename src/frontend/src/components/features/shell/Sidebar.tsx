@@ -18,7 +18,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { useRole } from "@/hooks/use-role";
 import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -242,33 +241,6 @@ function SidebarContent({ role, pathname, locale, onItemClick }: SidebarContentP
         </nav>
       </div>
     </div>
-  );
-}
-
-export function Sidebar() {
-  const pathname = usePathname();
-  const role = useRole();
-  const locale = useLocale();
-
-  return (
-    <aside
-      data-testid="dashboard-sidebar"
-      className="hidden w-64 bg-sidebar text-sidebar-foreground md:flex md:flex-col transition-all duration-200 ease-in-out"
-    >
-      <div className="flex h-16 items-center px-6">
-        <Link
-          href={`/${locale}/appointments`}
-          data-testid="sidebar-logo"
-          className="group/logo flex items-center gap-2 font-bold text-xl text-primary transition-all duration-200 ease-in-out hover:opacity-80"
-        >
-          <PawPrint className="h-6 w-6 transition-transform duration-200 ease-in-out group-hover/logo:rotate-[-8deg] group-hover/logo:scale-110" />
-          <span>Vetara</span>
-        </Link>
-      </div>
-      <div className="flex-1 overflow-y-auto px-3">
-        <SidebarContent role={role} pathname={pathname} locale={locale} />
-      </div>
-    </aside>
   );
 }
 

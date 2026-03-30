@@ -32,7 +32,7 @@ export function PatientCard({ patient }: PatientCardProps) {
     >
       <Card
         data-testid={`patient-card-${patient.id}`}
-        className={`group transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md bg-white border border-border/80 cursor-pointer overflow-hidden rounded-xl h-full flex flex-col`}
+        className={`group transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md bg-card border border-border/80 cursor-pointer overflow-hidden rounded-xl h-full flex flex-col`}
       >
         <CardContent className="p-5 flex-1 flex flex-col">
           <div className="flex items-start justify-between gap-4 mb-4">

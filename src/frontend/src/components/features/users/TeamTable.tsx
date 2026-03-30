@@ -78,7 +78,7 @@ export function TeamTable({
 
   return (
     <>
-      <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden">
         <Table data-testid="team-table">
           <TableHeader>
             <TableRow className="bg-muted hover:bg-muted border-b border-border/50">

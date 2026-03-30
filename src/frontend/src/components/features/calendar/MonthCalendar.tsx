@@ -76,7 +76,7 @@ export function MonthCalendarBody({ year, month, appointments, onDayClick, onApp
   }, [locale, isRtl])
 
   return (
-    <div className="border border-border/60 rounded-xl bg-white shadow-sm overflow-hidden" data-testid="calendar-month-view">
+    <div className="border border-border/60 rounded-xl bg-card shadow-sm overflow-hidden" data-testid="calendar-month-view">
       {/* Day names header */}
       <div className={`grid grid-cols-7 border-b border-border/40 ${isRtl ? 'direction-rtl' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
         {dayNames.map((name, i) => {

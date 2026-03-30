@@ -91,17 +91,17 @@ export default function DrugCatalogPage() {
 
       {/* Stats bar */}
       <div className="flex gap-4" data-testid="drug-catalog-stats">
-        <div className="bg-white border border-border/80 rounded-xl px-4 py-3 shadow-sm">
+        <div className="bg-card border border-border/80 rounded-xl px-4 py-3 shadow-sm">
           <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('stats.total')}</p>
           <p className="text-lg font-bold text-foreground tabular-nums" data-testid="stat-total-drugs">{drugs.length}</p>
         </div>
-        <div className="bg-white border border-border/80 rounded-xl px-4 py-3 shadow-sm">
+        <div className="bg-card border border-border/80 rounded-xl px-4 py-3 shadow-sm">
           <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('stats.prescription')}</p>
           <p className="text-lg font-bold text-amber-700 tabular-nums" data-testid="stat-rx-drugs">
             {drugs.filter(d => d.requiresPrescription).length}
           </p>
         </div>
-        <div className="bg-white border border-border/80 rounded-xl px-4 py-3 shadow-sm">
+        <div className="bg-card border border-border/80 rounded-xl px-4 py-3 shadow-sm">
           <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('stats.otc')}</p>
           <p className="text-lg font-bold text-success tabular-nums" data-testid="stat-otc-drugs">
             {drugs.filter(d => !d.requiresPrescription).length}

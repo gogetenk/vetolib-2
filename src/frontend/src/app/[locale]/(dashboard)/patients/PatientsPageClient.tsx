@@ -111,7 +111,7 @@ export default function PatientsPageClient() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           data-testid="search-input"
-          className="w-full bg-white border-border/80 rounded-xl h-11 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md"
+          className="w-full bg-card border-border/80 rounded-xl h-11 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md"
         />
         {!isLoading && !error && totalCount > 0 && (
           <p className="text-[13px] text-muted-foreground font-medium" data-testid="patients-count">

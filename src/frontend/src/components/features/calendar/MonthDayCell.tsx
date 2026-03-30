@@ -113,7 +113,7 @@ export function MonthDayCell({
 
           {/* Popover with full list and animation */}
           <div
-            className={`absolute start-0 top-full z-50 min-w-48 max-w-64 rounded-xl border border-border/80 bg-white p-2 shadow-lg transition-all duration-200 ease-in-out origin-top-start ${
+            className={`absolute start-0 top-full z-50 min-w-48 max-w-64 rounded-xl border border-border/80 bg-card p-2 shadow-lg transition-all duration-200 ease-in-out origin-top-start ${
               showPopover
                 ? 'opacity-100 scale-100 translate-y-0'
                 : 'opacity-0 scale-95 -translate-y-1 pointer-events-none'

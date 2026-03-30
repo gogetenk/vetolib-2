@@ -107,7 +107,7 @@ export function PatientHealthAlerts({ patientId }: PatientHealthAlertsProps) {
   return (
     <div data-testid="patient-health-alerts-list" className="space-y-4">
       {activeAlerts.length > 0 && (
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden">
           <div className="px-4 py-3 bg-muted border-b border-border/50">
             <span className="text-[11px] font-bold text-foreground uppercase tracking-wider">
               Active Alerts
@@ -184,7 +184,7 @@ export function PatientHealthAlerts({ patientId }: PatientHealthAlertsProps) {
       )}
 
       {dismissedAlerts.length > 0 && (
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden">
           <div className="px-4 py-3 bg-muted border-b border-border/50">
             <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
               Dismissed Alerts

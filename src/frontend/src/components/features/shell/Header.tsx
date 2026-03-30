@@ -39,7 +39,7 @@ export function Header() {
   return (
     <header
       data-testid="dashboard-header"
-      className="flex h-16 items-center justify-between bg-white px-4 sm:px-6 border-b border-border/80 shadow-sm sticky top-0 z-50"
+      className="flex h-16 items-center justify-between bg-card px-4 sm:px-6 border-b border-border/80 shadow-sm sticky top-0 z-50"
     >
       <div className="flex items-center gap-6 h-full">
         {/* Logo WEDA-like */}

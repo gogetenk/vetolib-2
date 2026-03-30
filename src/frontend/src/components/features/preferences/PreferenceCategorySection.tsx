@@ -27,7 +27,7 @@ export function PreferenceCategorySection({
 
   return (
     <div
-      className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden transition-all duration-200 ease-in-out"
+      className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden transition-all duration-200 ease-in-out"
       data-testid={`pref-section-${category.key}`}
     >
       {/* Header */}

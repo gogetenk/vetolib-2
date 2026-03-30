@@ -82,7 +82,7 @@ export function StockAvailabilityPanel({
               <li
                 key={alt.stockItemId}
                 data-testid={`stock-alternative-${alt.stockItemId}`}
-                className="flex items-center justify-between gap-2 rounded-xl border border-border/60 bg-white px-3 py-2 text-[12px]"
+                className="flex items-center justify-between gap-2 rounded-xl border border-border/60 bg-card px-3 py-2 text-[12px]"
               >
                 <span className="font-medium truncate">{alt.name}</span>
                 <span className="text-muted-foreground shrink-0">

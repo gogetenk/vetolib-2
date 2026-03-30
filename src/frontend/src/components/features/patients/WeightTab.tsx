@@ -127,7 +127,7 @@ export function WeightTab({ patientId }: WeightTabProps) {
       {/* Weight chart */}
       {curveData.length > 1 && (
         <div
-          className="bg-white border border-border/80 rounded-xl shadow-sm p-4"
+          className="bg-card border border-border/80 rounded-xl shadow-sm p-4"
           data-testid="weight-chart"
         >
           <h3 className="text-[13px] font-bold text-foreground mb-3">
@@ -144,7 +144,7 @@ export function WeightTab({ patientId }: WeightTabProps) {
         </p>
       ) : (
         <div
-          className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden"
+          className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden"
           data-testid="weight-history-table"
         >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">

@@ -240,7 +240,7 @@ export function AppointmentsTable() {
       <div className="md:hidden space-y-3" data-testid="appointments-cards">
         {isLoading ? (
           Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border/80 bg-white p-4 space-y-2">
+            <div key={i} className="rounded-xl border border-border/80 bg-card p-4 space-y-2">
               <Skeleton className="h-4 w-3/4" />
               <Skeleton className="h-3 w-1/2" />
               <Skeleton className="h-3 w-1/3" />
@@ -268,7 +268,7 @@ export function AppointmentsTable() {
               key={row.id}
               href={`/${locale}/appointments/${row.original.id}`}
               data-testid={`appointment-card-${row.original.id}`}
-              className="block rounded-xl border border-border/80 bg-white p-4 hover:shadow-md transition-all duration-200 min-h-[44px]"
+              className="block rounded-xl border border-border/80 bg-card p-4 hover:shadow-md transition-all duration-200 min-h-[44px]"
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
@@ -289,7 +289,7 @@ export function AppointmentsTable() {
       </div>
 
       {/* Desktop table */}
-      <div className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="appointments-table">
+      <div className="hidden md:block bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="appointments-table">
         <Table>
           <TableHeader className="bg-muted">
             {table.getHeaderGroups().map((headerGroup) => (

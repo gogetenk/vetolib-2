@@ -64,7 +64,7 @@ function VaccinationsTab({ vaccinations, t }: { vaccinations: VaccinationDto[]; 
     )
   }
   return (
-    <div data-testid="vaccinations-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
+    <div data-testid="vaccinations-list" className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
         <span>{t('vaccinations.columns.vaccine')}</span>
         <span>{t('vaccinations.columns.date_given')}</span>
@@ -119,7 +119,7 @@ function PrescriptionsTab({
           {t('prescriptions.empty')}
         </p>
       ) : (
-        <div data-testid="prescriptions-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
+        <div data-testid="prescriptions-list" className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden w-full">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
             <span>{t('prescriptions.columns.medication')}</span>
             <span>{t('prescriptions.columns.dosage')}</span>
@@ -254,7 +254,7 @@ export default function PatientDetailPage() {
         const speciesColor = getSpeciesColor(patient.species)
         return (
           <div
-            className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden"
+            className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden"
             data-testid="patient-header"
           >
             <div className="flex flex-col md:flex-row">
@@ -347,7 +347,7 @@ export default function PatientDetailPage() {
 
               {/* Right: Owner info */}
               <div className="md:w-[280px] bg-muted p-6 md:p-8 border-t md:border-t-0 md:border-l border-border/50" data-testid="patient-owner-section">
-                <h3 className="text-[13px] font-bold text-foreground mb-3">{td('owner')}</h3>
+                <h2 className="text-[13px] font-bold text-foreground mb-3">{td('owner')}</h2>
                 <div className="space-y-3">
                   <span className="text-[14px] font-semibold text-foreground block" data-testid="patient-detail-owner">
                     {patient.ownerName}
@@ -369,7 +369,7 @@ export default function PatientDetailPage() {
 
       <div data-testid="patient-tabs">
         <div
-          className="flex gap-1 bg-white border border-border/80 rounded-xl shadow-sm px-2"
+          className="flex gap-1 bg-card border border-border/80 rounded-xl shadow-sm px-2 overflow-x-auto"
           role="tablist"
           data-testid="tabs-nav"
         >
@@ -383,7 +383,7 @@ export default function PatientDetailPage() {
               data-testid={tab.testId}
               onClick={() => setActiveTab(tab.id)}
               className={[
-                'px-5 py-3 text-[13px] font-semibold border-b-2 transition-colors',
+                'px-5 py-3 text-[13px] font-semibold border-b-2 transition-colors whitespace-nowrap',
                 activeTab === tab.id
                   ? 'border-primary text-primary'
                   : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border',

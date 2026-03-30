@@ -78,7 +78,7 @@ export function MessagingHoursPage() {
           {t("loading")}
         </div>
       ) : (
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="hours-table">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="hours-table">
           <table className="w-full">
             <thead className="bg-muted">
               <tr>

@@ -88,7 +88,7 @@ export function ConversationActions({
             />
             {/* Dropdown */}
             <div
-              className="absolute end-0 top-full mt-1 z-20 min-w-[200px] rounded-xl border border-border/80 bg-white shadow-xl py-1.5"
+              className="absolute end-0 top-full mt-1 z-20 min-w-[200px] rounded-xl border border-border/80 bg-card shadow-xl py-1.5"
               role="menu"
               data-testid="conversation-actions-menu"
             >
@@ -196,7 +196,7 @@ export function ConversationActions({
           onClick={() => setTransferOpen(false)}
         >
           <div
-            className="bg-white rounded-xl shadow-xl p-6 w-full max-w-sm mx-4"
+            className="bg-card rounded-xl shadow-xl p-6 w-full max-w-sm mx-4"
             data-testid="transfer-dialog"
             onClick={(e) => e.stopPropagation()}
             role="dialog"

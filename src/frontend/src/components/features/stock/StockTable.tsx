@@ -83,7 +83,8 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           <Input
             data-testid="stock-search"
             placeholder={t('search_placeholder') ?? 'Search item name...'}
-            className="w-56 pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
+            aria-label={t('search_placeholder') ?? 'Search item name...'}
+            className="w-56 pl-9 bg-card border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -140,7 +141,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           {filtered.map(item => (
             <div
               key={item.id}
-              className="bg-white border border-border/80 rounded-xl p-4 min-h-[44px] shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
+              className="bg-card border border-border/80 rounded-xl p-4 min-h-[44px] shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md"
               data-testid={`stock-card-${item.id}`}
             >
               <div className="flex items-start justify-between gap-2">
@@ -200,7 +201,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           {t('no_items')}
         </p>
       ) : (
-        <div className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="stock-table">
+        <div className="hidden md:block bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="stock-table">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted hover:bg-muted border-b border-border/50">

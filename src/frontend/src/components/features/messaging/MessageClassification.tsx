@@ -180,7 +180,7 @@ export function MessageClassificationBadges({
         {showOverride && (
           <div
             className={cn(
-              'absolute z-50 mt-1 w-56 bg-white border border-border rounded-lg shadow-lg p-3 space-y-3',
+              'absolute z-50 mt-1 w-56 bg-card border border-border rounded-lg shadow-lg p-3 space-y-3',
               align === 'right' ? 'right-0' : 'left-0'
             )}
             data-testid={`classification-override-panel-${messageId}`}

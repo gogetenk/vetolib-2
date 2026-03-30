@@ -118,7 +118,7 @@ export function InvoiceTable() {
               data-testid="invoice-search"
               placeholder={t('search_placeholder')}
               aria-label={t('search_aria')}
-              className="w-64 ps-9 bg-white border-border/80 rounded-xl h-10 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md"
+              className="w-64 ps-9 bg-card border-border/80 rounded-xl h-10 transition-shadow duration-200 ease-in-out focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -166,7 +166,7 @@ export function InvoiceTable() {
                     key={inv.id}
                     href={`/${locale}/billing/${inv.id}`}
                     data-testid={`invoice-card-${inv.id}`}
-                    className="block rounded-xl border border-border/80 bg-white p-4 hover:bg-muted/50 transition-colors duration-200 ease-in-out cursor-pointer min-h-[44px] shadow-sm"
+                    className="block rounded-xl border border-border/80 bg-card p-4 hover:bg-muted/50 transition-colors duration-200 ease-in-out cursor-pointer min-h-[44px] shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
