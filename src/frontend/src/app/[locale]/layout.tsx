@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { MSWProvider } from "@/components/MSWProvider";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { CookieConsent } from "@/components/CookieConsent";
 import { routing } from "@/i18n/routing";
 
@@ -50,7 +51,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     : pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "");
 
   return (
-    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={`${manrope.variable} font-sans`}>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={`${manrope.variable} font-sans`} suppressHydrationWarning>
       <head>
         <link rel="alternate" hrefLang="en" href={`/en${subPath}`} />
         <link rel="alternate" hrefLang="ar" href={`/ar${subPath}`} />
@@ -61,15 +62,17 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body
         className="antialiased"
       >
-        <NextIntlClientProvider messages={messages}>
-          <TooltipProvider>
-            <MSWProvider>
-              {children}
-            </MSWProvider>
-            <Toaster />
-            <CookieConsent />
-          </TooltipProvider>
-        </NextIntlClientProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <NextIntlClientProvider messages={messages}>
+            <TooltipProvider>
+              <MSWProvider>
+                {children}
+              </MSWProvider>
+              <Toaster />
+              <CookieConsent />
+            </TooltipProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
