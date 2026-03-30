@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.MedicalRecords.Application.Commands.CreatePatient;
+using Vetolib.MedicalRecords.Application.Commands.DeletePatientPhoto;
 using Vetolib.MedicalRecords.Application.Commands.ImportPatients;
 using Vetolib.MedicalRecords.Application.Commands.UpdatePatient;
+using Vetolib.MedicalRecords.Application.Commands.UploadPatientPhoto;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientById;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientDetail;
+using Vetolib.MedicalRecords.Application.Queries.GetPatientPhoto;
 using Vetolib.MedicalRecords.Application.Queries.ListPatients;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.Shared.Kernel;
@@ -67,6 +70,24 @@ internal static class PatientEndpoints
             .WithName("GetImportTemplate")
             .WithSummary("Download CSV import template")
             .WithDescription("Returns a sample CSV file with the expected columns and format for patient bulk import.");
+
+        group.MapPost("/{id:guid}/photo", UploadPatientPhoto)
+            .RequireAuthorization("VetOrAdmin")
+            .WithName("UploadPatientPhoto")
+            .WithSummary("Upload patient photo")
+            .WithDescription("Uploads a photo for a patient. Accepts multipart/form-data with a single image file (JPEG, PNG, or WebP). Max 5 MB.")
+            .DisableAntiforgery();
+
+        group.MapGet("/{id:guid}/photo", GetPatientPhoto)
+            .WithName("GetPatientPhoto")
+            .WithSummary("Get patient photo")
+            .WithDescription("Returns the patient's photo as a binary image response.");
+
+        group.MapDelete("/{id:guid}/photo", DeletePatientPhoto)
+            .RequireAuthorization("VetOrAdmin")
+            .WithName("DeletePatientPhoto")
+            .WithSummary("Delete patient photo")
+            .WithDescription("Removes the photo from a patient profile.");
 
         return app;
     }
@@ -162,5 +183,45 @@ internal static class PatientEndpoints
 
         var bytes = System.Text.Encoding.UTF8.GetBytes(template);
         return Results.File(bytes, "text/csv", "patients_import_template.csv");
+    }
+
+    private static async Task<IResult> UploadPatientPhoto(
+        Guid id,
+        IFormFile file,
+        ISender sender)
+    {
+        const long maxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+
+        if (file is null || file.Length == 0)
+            return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError("Photo file is required.")).ToMinimalApiResult();
+
+        if (file.Length > maxFileSizeBytes)
+            return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError("Photo exceeds maximum allowed size of 5 MB.")).ToMinimalApiResult();
+
+        await using var stream = file.OpenReadStream();
+        using var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream);
+
+        var cmd = new UploadPatientPhotoCommand(id, memoryStream.ToArray(), file.ContentType);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GetPatientPhoto(
+        Guid id,
+        ISender sender)
+    {
+        var result = await sender.Send(new GetPatientPhotoQuery(id));
+
+        if (!result.IsSuccess)
+            return result.ToMinimalApiResult();
+
+        return Results.File(result.Value.Data, result.Value.ContentType);
+    }
+
+    private static async Task<IResult> DeletePatientPhoto(
+        Guid id,
+        ISender sender)
+    {
+        return (await sender.Send(new DeletePatientPhotoCommand(id))).ToMinimalApiResult();
     }
 }

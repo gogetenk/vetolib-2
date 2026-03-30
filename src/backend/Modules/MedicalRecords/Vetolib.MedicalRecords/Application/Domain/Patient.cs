@@ -17,6 +17,8 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
     public Sex Sex { get; private set; } = Sex.Unknown;
     public decimal? WeightKg { get; private set; }
     public string? MicrochipNumber { get; private set; }
+    public string? PhotoBase64 { get; private set; }
+    public string? PhotoContentType { get; private set; }
 
     private readonly List<PatientOwner> _patientOwners = [];
     public IReadOnlyList<PatientOwner> PatientOwners => _patientOwners.AsReadOnly();
@@ -138,7 +140,54 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
             firstOwner is not null ? $"{firstOwner.FirstName} {firstOwner.LastName}".Trim() : string.Empty,
             firstOwner?.Phone ?? string.Empty,
             ClinicId,
-            MicrochipNumber);
+            MicrochipNumber,
+            HasPhoto);
+    }
+
+    private static readonly HashSet<string> AllowedPhotoContentTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    };
+
+    private const long MaxPhotoSizeBytes = 5 * 1024 * 1024; // 5 MB
+
+    public bool HasPhoto => PhotoBase64 is not null;
+
+    public Result SetPhoto(byte[] photoData, string contentType)
+    {
+        if (photoData is null || photoData.Length == 0)
+            return Result.Invalid(new ValidationError("photoData", "Photo data is required"));
+
+        if (photoData.Length > MaxPhotoSizeBytes)
+            return Result.Invalid(new ValidationError("photoData", "Photo exceeds maximum size of 5 MB"));
+
+        if (string.IsNullOrWhiteSpace(contentType) || !AllowedPhotoContentTypes.Contains(contentType))
+            return Result.Invalid(new ValidationError("contentType", "Only image/jpeg, image/png, and image/webp are allowed"));
+
+        PhotoBase64 = Convert.ToBase64String(photoData);
+        PhotoContentType = contentType;
+        return Result.Success();
+    }
+
+    public Result DeletePhoto()
+    {
+        if (PhotoBase64 is null)
+            return Result.NotFound("Patient has no photo");
+
+        PhotoBase64 = null;
+        PhotoContentType = null;
+        return Result.Success();
+    }
+
+    public Result<(byte[] Data, string ContentType)> GetPhoto()
+    {
+        if (PhotoBase64 is null || PhotoContentType is null)
+            return Result<(byte[] Data, string ContentType)>.NotFound("Patient has no photo");
+
+        var data = Convert.FromBase64String(PhotoBase64);
+        return Result<(byte[] Data, string ContentType)>.Success((data, PhotoContentType));
     }
 
     [GeneratedRegex(@"^\d{15}$")]

@@ -10,4 +10,5 @@ public record PatientDto(
     string OwnerName,
     string OwnerPhone,
     Guid ClinicId,
-    string? MicrochipNumber = null);
+    string? MicrochipNumber = null,
+    bool HasPhoto = false);
