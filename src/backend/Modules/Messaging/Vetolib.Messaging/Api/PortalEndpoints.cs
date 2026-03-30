@@ -74,7 +74,8 @@ internal static class PortalEndpoints
                 .ToArray();
 
             return Results.Ok(allCategories);
-        });
+        }).WithSummary("List available message categories")
+          .WithDescription("Returns the message categories available to the pet owner for starting a conversation.");
 
         // GET /conversations — list owner's conversations
         group.MapGet("/conversations", async (
@@ -85,7 +86,8 @@ internal static class PortalEndpoints
             var result = await sender.Send(
                 new ListOwnerConversationsQuery(portal.OwnerId, portal.ClinicId), ct);
             return result.ToMinimalApiResult();
-        });
+        }).WithSummary("List owner conversations")
+          .WithDescription("Returns all conversations belonging to the authenticated pet owner.");
 
         // GET /conversations/{id} — get conversation with messages (no internal notes)
         group.MapGet("/conversations/{id:guid}", async (
@@ -97,7 +99,8 @@ internal static class PortalEndpoints
             var result = await sender.Send(
                 new GetOwnerConversationByIdQuery(id, portal.OwnerId, portal.ClinicId), ct);
             return result.ToMinimalApiResult();
-        });
+        }).WithSummary("Get owner conversation by ID")
+          .WithDescription("Returns a conversation with messages visible to the pet owner. Internal staff notes are excluded.");
 
         // POST /conversations — create new conversation
         group.MapPost("/conversations", async (
@@ -115,7 +118,8 @@ internal static class PortalEndpoints
                     request.Category,
                     request.Body), ct);
             return result.ToMinimalApiResult();
-        });
+        }).WithSummary("Create a new conversation")
+          .WithDescription("Starts a new conversation from the pet owner portal with a subject, category, and initial message.");
 
         // POST /conversations/{id}/messages — send a message in existing conversation
         group.MapPost("/conversations/{id:guid}/messages", async (
@@ -132,7 +136,8 @@ internal static class PortalEndpoints
                     portal.ClinicId,
                     request.Body), ct);
             return result.ToMinimalApiResult();
-        });
+        }).WithSummary("Send a message in a conversation")
+          .WithDescription("Sends a new message from the pet owner in an existing conversation.");
 
         // POST /consent — record consent acceptance
         group.MapPost("/consent", async (
@@ -147,7 +152,8 @@ internal static class PortalEndpoints
                     portal.ClinicId,
                     request.ConsentVersion), ct);
             return result.ToMinimalApiResult();
-        });
+        }).WithSummary("Accept consent")
+          .WithDescription("Records the pet owner's acceptance of the data processing consent for the specified version.");
 
         // GET /export — download all conversations as text (PDPL right of access)
         group.MapGet("/export", async (
@@ -166,7 +172,8 @@ internal static class PortalEndpoints
                 "text/plain",
                 System.Text.Encoding.UTF8,
                 200);
-        });
+        }).WithSummary("Export conversations")
+          .WithDescription("Downloads all the pet owner's conversations as a plain text file. Supports PDPL right of access.");
 
         // GET /pets — list owner's registered pets
         group.MapGet("/pets", async (
@@ -177,7 +184,8 @@ internal static class PortalEndpoints
             var result = await sender.Send(
                 new ListOwnerPetsQuery(portal.OwnerId, portal.ClinicId), ct);
             return result.ToMinimalApiResult();
-        });
+        }).WithSummary("List owner's pets")
+          .WithDescription("Returns the list of pets registered under the authenticated pet owner.");
 
         // GET /booking/veterinarians — list active vets available for owner booking
         group.MapGet("/booking/veterinarians", async (
@@ -188,7 +196,9 @@ internal static class PortalEndpoints
             var result = await sender.Send(
                 new ListClinicVeterinariansQuery(portal.ClinicId), ct);
             return result.ToMinimalApiResult();
-        }).WithName("ListBookingVeterinarians");
+        }).WithName("ListBookingVeterinarians")
+          .WithSummary("List available veterinarians")
+          .WithDescription("Returns the list of active veterinarians available for appointment booking at the clinic.");
 
         return app;
     }

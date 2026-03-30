@@ -18,10 +18,14 @@ internal static class EReportingEndpoints
             .WithTags("EReporting");
 
         group.MapPost("/submit", SubmitEReporting)
-            .WithName("SubmitEReporting");
+            .WithName("SubmitEReporting")
+            .WithSummary("Submit e-reporting data")
+            .WithDescription("Submits aggregated transaction data for a period to the tax authority. Requires Admin role.");
 
         group.MapGet("/periods", GetEReportingPeriods)
-            .WithName("GetEReportingPeriods");
+            .WithName("GetEReportingPeriods")
+            .WithSummary("List e-reporting periods")
+            .WithDescription("Returns available e-reporting periods with their submission status. Requires Admin role.");
 
         return app;
     }

@@ -18,13 +18,19 @@ internal static class DrugCatalogEndpoints
             .WithTags("DrugCatalog");
 
         group.MapGet("/", SearchDrugs)
-            .WithName("SearchDrugCatalog");
+            .WithName("SearchDrugCatalog")
+            .WithSummary("Search the drug catalog")
+            .WithDescription("Returns drugs matching an optional search query. Limited to a configurable number of results.");
 
         group.MapGet("/{id:guid}", GetDrugById)
-            .WithName("GetDrugCatalogEntryById");
+            .WithName("GetDrugCatalogEntryById")
+            .WithSummary("Get a drug catalog entry by ID")
+            .WithDescription("Returns full details of a specific drug catalog entry including INN name, display name, and category.");
 
         group.MapPost("/", AddCustomDrug)
             .WithName("AddCustomDrugCatalogEntry")
+            .WithSummary("Add a custom drug to the catalog")
+            .WithDescription("Creates a clinic-specific drug entry in the catalog. Requires Vet or Admin role.")
             .RequireAuthorization("VetOrAdmin");
 
         var prescriptionsGroup = app.MapGroup("/api/v1/medical-records/prescriptions")
@@ -32,7 +38,9 @@ internal static class DrugCatalogEndpoints
             .WithTags("Prescriptions");
 
         prescriptionsGroup.MapPost("/preflight", PrescriptionPreflight)
-            .WithName("PrescriptionPreflight");
+            .WithName("PrescriptionPreflight")
+            .WithSummary("Prescription preflight check")
+            .WithDescription("Validates a prescription before submission, checking dosage ranges and patient weight compatibility.");
 
         return app;
     }

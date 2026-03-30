@@ -23,14 +23,30 @@ internal static class PregnancyEndpoints
             .RequireAuthorization()
             .WithTags("Breeding - Pregnancies");
 
-        group.MapPost("/", Create).WithName("CreatePregnancy");
-        group.MapGet("/{id:guid}", GetById).WithName("GetPregnancyById");
-        group.MapGet("/by-patient/{patientId:guid}", GetByPatient).WithName("GetPregnanciesByPatient");
-        group.MapGet("/active", GetActive).WithName("GetActivePregnancies");
-        group.MapPut("/{id:guid}/delivery", RecordDelivery).WithName("RecordDelivery");
-        group.MapPut("/{id:guid}/loss", RecordLoss).WithName("RecordLoss");
-        group.MapPost("/{id:guid}/checks", ScheduleCheck).WithName("SchedulePregnancyCheck");
-        group.MapPut("/checks/{checkId:guid}/complete", CompleteCheck).WithName("CompletePregnancyCheck");
+        group.MapPost("/", Create).WithName("CreatePregnancy")
+            .WithSummary("Record a new pregnancy")
+            .WithDescription("Creates a pregnancy record for a patient with mating date, method, and optional father reference.");
+        group.MapGet("/{id:guid}", GetById).WithName("GetPregnancyById")
+            .WithSummary("Get pregnancy by ID")
+            .WithDescription("Returns the full details of a pregnancy including scheduled checks and current status.");
+        group.MapGet("/by-patient/{patientId:guid}", GetByPatient).WithName("GetPregnanciesByPatient")
+            .WithSummary("Get pregnancies by patient")
+            .WithDescription("Returns all pregnancy records for a specific patient.");
+        group.MapGet("/active", GetActive).WithName("GetActivePregnancies")
+            .WithSummary("List active pregnancies")
+            .WithDescription("Returns all currently active (ongoing) pregnancies across the clinic.");
+        group.MapPut("/{id:guid}/delivery", RecordDelivery).WithName("RecordDelivery")
+            .WithSummary("Record a delivery")
+            .WithDescription("Records the delivery outcome for a pregnancy including date, offspring count, and notes.");
+        group.MapPut("/{id:guid}/loss", RecordLoss).WithName("RecordLoss")
+            .WithSummary("Record a pregnancy loss")
+            .WithDescription("Records a pregnancy loss event with date, outcome classification, and notes.");
+        group.MapPost("/{id:guid}/checks", ScheduleCheck).WithName("SchedulePregnancyCheck")
+            .WithSummary("Schedule a pregnancy check")
+            .WithDescription("Schedules a veterinary check (e.g., ultrasound, blood test) for a pregnancy at a specified date.");
+        group.MapPut("/checks/{checkId:guid}/complete", CompleteCheck).WithName("CompletePregnancyCheck")
+            .WithSummary("Complete a pregnancy check")
+            .WithDescription("Records the result of a scheduled pregnancy check.");
 
         return app;
     }

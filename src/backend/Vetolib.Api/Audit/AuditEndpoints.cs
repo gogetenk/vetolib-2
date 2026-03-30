@@ -21,7 +21,8 @@ internal static class AuditEndpoints
 
         group.MapGet("/", GetAuditLog)
             .WithName("GetAuditLog")
-            .WithSummary("Query the audit trail (Create/Update/Delete). Accessible by ADMIN only.");
+            .WithSummary("Query the audit trail")
+            .WithDescription("Returns a paginated, filterable audit log of Create/Update/Delete operations. Supports filtering by entity type, entity ID, and date range. Requires Admin role.");
 
         return app;
     }

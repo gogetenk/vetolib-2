@@ -23,19 +23,29 @@ internal static class UserEndpoints
             .WithTags("Users");
 
         group.MapPost("/", CreateUser)
-            .WithName("CreateUser");
+            .WithName("CreateUser")
+            .WithSummary("Create a new user")
+            .WithDescription("Creates a new user account within the current clinic. Requires Admin role.");
 
         group.MapGet("/", GetUsers)
-            .WithName("GetUsers");
+            .WithName("GetUsers")
+            .WithSummary("List clinic users")
+            .WithDescription("Returns a paginated list of users belonging to the current clinic. Requires Admin role.");
 
         group.MapPost("/invite", InviteUser)
-            .WithName("InviteUser");
+            .WithName("InviteUser")
+            .WithSummary("Invite a user to the clinic")
+            .WithDescription("Sends an invitation email to a new user to join the current clinic with a specified role.");
 
         group.MapPatch("/{id:guid}/role", ChangeRole)
-            .WithName("ChangeUserRole");
+            .WithName("ChangeUserRole")
+            .WithSummary("Change a user's role")
+            .WithDescription("Updates the role of a specific user. Requires Admin role. Cannot change your own role.");
 
         group.MapDelete("/{id:guid}", DeactivateUser)
-            .WithName("DeactivateUser");
+            .WithName("DeactivateUser")
+            .WithSummary("Deactivate a user")
+            .WithDescription("Soft-deletes a user account, preventing future logins. Requires Admin role.");
 
         return app;
     }

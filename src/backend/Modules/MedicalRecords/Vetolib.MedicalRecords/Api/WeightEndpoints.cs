@@ -22,13 +22,19 @@ internal static class WeightEndpoints
 
         group.MapPost("/", AddWeightEntry)
             .RequireAuthorization("VetOrAdmin")
-            .WithName("AddWeightEntry");
+            .WithName("AddWeightEntry")
+            .WithSummary("Record a weight entry")
+            .WithDescription("Adds a new weight measurement for a patient in kilograms with an optional note. Requires Vet or Admin role.");
 
         group.MapGet("/", GetWeightHistory)
-            .WithName("GetWeightHistory");
+            .WithName("GetWeightHistory")
+            .WithSummary("Get weight history")
+            .WithDescription("Returns a paginated list of weight entries for a patient, ordered by most recent first.");
 
         group.MapGet("/curve", GetWeightCurve)
-            .WithName("GetWeightCurve");
+            .WithName("GetWeightCurve")
+            .WithSummary("Get weight curve data")
+            .WithDescription("Returns weight data points optimized for chart rendering, including dates and weights in kilograms.");
 
         return app;
     }

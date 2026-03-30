@@ -26,29 +26,45 @@ internal static class InvoiceEndpoints
 
         group.MapPost("/", CreateInvoice)
             .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
-            .WithName("CreateInvoice");
+            .WithName("CreateInvoice")
+            .WithSummary("Create a new invoice")
+            .WithDescription("Creates an invoice for a patient visit with an initial line item. Supports e-invoicing fields for UAE/FR compliance.");
 
         group.MapGet("/", ListInvoices)
-            .WithName("ListInvoices");
+            .WithName("ListInvoices")
+            .WithSummary("List invoices")
+            .WithDescription("Returns a paginated list of invoices for the current clinic, ordered by most recent first.");
 
         group.MapGet("/{id:guid}", GetInvoiceById)
-            .WithName("GetInvoiceById");
+            .WithName("GetInvoiceById")
+            .WithSummary("Get invoice by ID")
+            .WithDescription("Returns the full details of a single invoice including all line items and totals.");
 
         group.MapPatch("/{id:guid}/status", UpdateInvoiceStatus)
-            .WithName("UpdateInvoiceStatus");
+            .WithName("UpdateInvoiceStatus")
+            .WithSummary("Update invoice status")
+            .WithDescription("Changes the status of an invoice (e.g., Draft, Sent, Paid, Cancelled).");
 
         group.MapPost("/{id:guid}/items", AddInvoiceItem)
-            .WithName("AddInvoiceItem");
+            .WithName("AddInvoiceItem")
+            .WithSummary("Add a line item to an invoice")
+            .WithDescription("Adds a new line item with description, unit price, and tax category to an existing invoice.");
 
         group.MapGet("/{id:guid}/pdf", DownloadInvoicePdf)
-            .WithName("DownloadInvoicePdf");
+            .WithName("DownloadInvoicePdf")
+            .WithSummary("Download invoice as PDF")
+            .WithDescription("Generates and returns the invoice as a PDF file for printing or sharing with the client.");
 
         group.MapPost("/{id:guid}/submit-einvoicing", SubmitToEInvoicing)
             .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet"))
-            .WithName("SubmitToEInvoicing");
+            .WithName("SubmitToEInvoicing")
+            .WithSummary("Submit invoice for e-invoicing")
+            .WithDescription("Submits the invoice to the e-invoicing platform (Chorus Pro / UAE FTA). Requires Admin or Vet role.");
 
         group.MapGet("/{id:guid}/einvoicing-status", GetEInvoicingStatus)
-            .WithName("GetEInvoicingStatus");
+            .WithName("GetEInvoicingStatus")
+            .WithSummary("Get e-invoicing submission status")
+            .WithDescription("Returns the current e-invoicing submission status and any platform response details.");
 
         return app;
     }

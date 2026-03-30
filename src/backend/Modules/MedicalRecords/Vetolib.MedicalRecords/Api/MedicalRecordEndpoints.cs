@@ -21,16 +21,24 @@ internal static class MedicalRecordEndpoints
             .WithTags("MedicalRecords");
 
         group.MapPost("/", AddMedicalRecord)
-            .WithName("AddMedicalRecord");
+            .WithName("AddMedicalRecord")
+            .WithSummary("Add a medical record")
+            .WithDescription("Creates a new medical record entry for a patient with diagnosis and treatment details. Requires Vet or Admin role.");
 
         group.MapGet("/", ListMedicalRecords)
-            .WithName("ListMedicalRecords");
+            .WithName("ListMedicalRecords")
+            .WithSummary("List medical records")
+            .WithDescription("Returns a paginated list of medical records for a specific patient, ordered by most recent first.");
 
         group.MapDelete("/{recordId:guid}", DeleteMedicalRecord)
-            .WithName("DeleteMedicalRecord");
+            .WithName("DeleteMedicalRecord")
+            .WithSummary("Delete a medical record (forbidden)")
+            .WithDescription("Medical records are immutable and cannot be deleted. This endpoint always returns an error.");
 
         group.MapPost("/{recordId:guid}/prescriptions", AddPrescription)
-            .WithName("AddPrescription");
+            .WithName("AddPrescription")
+            .WithSummary("Add a prescription to a medical record")
+            .WithDescription("Adds a prescription with medication, dosage, and optional drug catalog reference. Requires Vet role and a valid veterinary license.");
 
         return app;
     }

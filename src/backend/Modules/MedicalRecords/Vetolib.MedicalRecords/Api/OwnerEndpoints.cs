@@ -19,7 +19,9 @@ internal static class OwnerEndpoints
             .WithTags("Owners");
 
         group.MapPost("/", CreateOwner)
-            .WithName("CreateOwner");
+            .WithName("CreateOwner")
+            .WithSummary("Create a new owner")
+            .WithDescription("Registers a new pet owner with contact details. Requires Vet, Admin, or Receptionist role.");
 
         return app;
     }

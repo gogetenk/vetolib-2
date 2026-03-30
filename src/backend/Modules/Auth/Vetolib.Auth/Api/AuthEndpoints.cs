@@ -24,26 +24,36 @@ internal static class AuthEndpoints
         publicGroup.MapPost("/login", Login)
             .WithName("Login")
             .AllowAnonymous()
-            .RequireRateLimiting("auth");
+            .RequireRateLimiting("auth")
+            .WithSummary("Authenticate a user")
+            .WithDescription("Validates email and password credentials and returns JWT access and refresh tokens.");
 
         publicGroup.MapPost("/refresh", Refresh)
             .WithName("RefreshToken")
             .AllowAnonymous()
-            .RequireRateLimiting("auth");
+            .RequireRateLimiting("auth")
+            .WithSummary("Refresh access token")
+            .WithDescription("Exchanges a valid refresh token for a new JWT access token and refresh token pair.");
 
         var authGroup = app.MapGroup("/api/v1/auth")
             .WithTags("Auth")
             .RequireAuthorization();
 
         authGroup.MapPost("/logout", Logout)
-            .WithName("Logout");
+            .WithName("Logout")
+            .WithSummary("Log out the current user")
+            .WithDescription("Invalidates the current user's refresh token, effectively ending the session.");
 
         authGroup.MapGet("/me", GetMe)
-            .WithName("GetCurrentUser");
+            .WithName("GetCurrentUser")
+            .WithSummary("Get current user profile")
+            .WithDescription("Returns the profile of the currently authenticated user including role and clinic information.");
 
         authGroup.MapPost("/change-password", ChangePassword)
             .WithName("ChangePassword")
-            .RequireRateLimiting("auth");
+            .RequireRateLimiting("auth")
+            .WithSummary("Change user password")
+            .WithDescription("Allows the authenticated user to change their password by providing the current and new passwords.");
 
         return app;
     }

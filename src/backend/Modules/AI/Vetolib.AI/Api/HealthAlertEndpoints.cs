@@ -24,25 +24,37 @@ internal static class HealthAlertEndpoints
             .WithTags("AI - Health Alerts");
 
         group.MapGet("/", GetHealthAlerts)
-            .WithName("GetHealthAlerts");
+            .WithName("GetHealthAlerts")
+            .WithSummary("List health alerts")
+            .WithDescription("Returns health alerts for the clinic, optionally filtered by severity, status, or patient.");
 
         group.MapGet("/patient/{patientId:guid}", GetPatientHealthAlerts)
-            .WithName("GetPatientHealthAlerts");
+            .WithName("GetPatientHealthAlerts")
+            .WithSummary("Get health alerts for a patient")
+            .WithDescription("Returns all health alerts for a specific patient.");
 
         group.MapPost("/generate", GenerateAlerts)
             .WithName("GenerateHealthAlerts")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .WithSummary("Generate health alerts")
+            .WithDescription("Triggers AI analysis to generate proactive health alerts based on patient data. Requires Vet or Admin role.");
 
         group.MapPatch("/{id:guid}/dismiss", DismissHealthAlert)
             .WithName("DismissHealthAlert")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .WithSummary("Dismiss a health alert")
+            .WithDescription("Dismisses a health alert with a reason. Requires Vet or Admin role.");
 
         group.MapPatch("/{id:guid}/acknowledge", AcknowledgeHealthAlert)
-            .WithName("AcknowledgeHealthAlert");
+            .WithName("AcknowledgeHealthAlert")
+            .WithSummary("Acknowledge a health alert")
+            .WithDescription("Marks a health alert as acknowledged by the staff member.");
 
         group.MapPost("/{id:guid}/convert-to-appointment", ConvertAlertToAppointment)
             .WithName("ConvertAlertToAppointment")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .WithSummary("Convert alert to appointment")
+            .WithDescription("Creates an appointment from a health alert to address the identified concern. Requires Vet or Admin role.");
 
         return app;
     }
