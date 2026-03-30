@@ -2428,5 +2428,11 @@
         "content": "For questions about this Privacy Policy or our data practices, contact us at: Vetara Technologies LLC, Dubai, United Arab Emirates. General inquiries: legal@vetara.ae. Data Protection Officer: dpo@vetara.ae. For EU users, you may also contact your local data protection authority."
       }
     }
+  },
+  "cookieConsent": {
+    "message": "We use cookies to improve your experience. By continuing, you accept our cookie policy.",
+    "acceptAll": "Accept All",
+    "necessaryOnly": "Necessary Only",
+    "ariaLabel": "Cookie consent"
   }
 }
