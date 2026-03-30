@@ -130,6 +130,6 @@ internal class MailKitSmtpOptions
     public string? Username { get; set; }
     public string? Password { get; set; }
     public bool EnableSsl { get; set; } = false;
-    public string FromAddress { get; set; } = "noreply@desertpaws.ae";
-    public string FromName { get; set; } = "Desert Paws Veterinary";
+    public string FromAddress { get; set; } = "noreply@vetara.ae";
+    public string FromName { get; set; } = "Vetara";
 }

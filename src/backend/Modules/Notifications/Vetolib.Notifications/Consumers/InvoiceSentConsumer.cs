@@ -31,11 +31,13 @@ internal class InvoiceSentConsumer : IConsumer<InvoiceSentIntegrationEvent>
         // Per PO decision: preferences apply to clinic staff (Users) only, not owners.
         // Owners always receive invoice emails.
 
+        var lang = evt.PreferredLanguage ?? "en";
+
         var message = new EmailMessage(
             To: evt.OwnerEmail,
-            Subject: InvoiceEmailTemplate.Subject(evt.InvoiceNumber, evt.ClinicName),
-            HtmlBody: InvoiceEmailTemplate.HtmlBody(evt.OwnerName, evt.InvoiceNumber, evt.TotalAmount, evt.Currency, evt.ClinicName),
-            PlainTextBody: InvoiceEmailTemplate.PlainTextBody(evt.OwnerName, evt.InvoiceNumber, evt.TotalAmount, evt.Currency, evt.ClinicName));
+            Subject: InvoiceEmailTemplate.Subject(evt.InvoiceNumber, evt.ClinicName, lang),
+            HtmlBody: InvoiceEmailTemplate.HtmlBody(evt.OwnerName, evt.InvoiceNumber, evt.TotalAmount, evt.Currency, evt.ClinicName, lang),
+            PlainTextBody: InvoiceEmailTemplate.PlainTextBody(evt.OwnerName, evt.InvoiceNumber, evt.TotalAmount, evt.Currency, evt.ClinicName, lang));
 
         var result = await _emailSender.SendAsync(message, context.CancellationToken);
 
