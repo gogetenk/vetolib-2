@@ -19,6 +19,7 @@ internal class AppointmentReader : IAppointmentReader
         // ownerId maps to AnimalId — the animal (patient) belonging to the owner.
         // The multi-tenant global query filter applies automatically.
         var appointments = await _context.Appointments
+            .AsNoTracking()
             .Where(a => a.AnimalId == ownerId)
             .OrderByDescending(a => a.Date)
             .ThenByDescending(a => a.StartTime)
@@ -140,6 +141,7 @@ internal class AppointmentReader : IAppointmentReader
     public async Task<int> GetCompletedAppointmentCountAsync(CancellationToken ct)
     {
         return await _context.Appointments
+            .AsNoTracking()
             .CountAsync(a => a.Status == AppointmentStatus.Completed
                           || a.Status == AppointmentStatus.NoShow, ct);
     }

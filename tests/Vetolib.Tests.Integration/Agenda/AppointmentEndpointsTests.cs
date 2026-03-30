@@ -102,10 +102,12 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var appointments = await response.Content.ReadFromJsonAsync<IReadOnlyList<AppointmentDto>>(JsonOptions);
-        appointments.Should().NotBeNull();
-        appointments.Should().HaveCountGreaterThanOrEqualTo(1);
-        appointments!.Should().Contain(a => a.AnimalName == "Bella");
+        var pagedResult = await response.Content.ReadFromJsonAsync<AppointmentPagedResultDto>(JsonOptions);
+        pagedResult.Should().NotBeNull();
+        pagedResult!.Items.Should().HaveCountGreaterThanOrEqualTo(1);
+        pagedResult.Items.Should().Contain(a => a.AnimalName == "Bella");
+        pagedResult.Page.Should().BeGreaterThanOrEqualTo(1);
+        pagedResult.PageSize.Should().BeGreaterThan(0);
     }
 
     // ── PATCH /api/v1/appointments/{id}/transition ─────────────────────────
@@ -199,11 +201,11 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
 
         // Act — list appointments for today
         var response = await adminClient.GetAsync($"/api/v1/appointments?date={today:yyyy-MM-dd}");
-        var appointments = await response.Content.ReadFromJsonAsync<IReadOnlyList<AppointmentDto>>(JsonOptions);
+        var pagedResult = await response.Content.ReadFromJsonAsync<AppointmentPagedResultDto>(JsonOptions);
 
         // Assert — only today's appointments returned
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        appointments.Should().NotBeNull();
-        appointments!.Should().OnlyContain(a => a.Date == today);
+        pagedResult.Should().NotBeNull();
+        pagedResult!.Items.Should().OnlyContain(a => a.Date == today);
     }
 }

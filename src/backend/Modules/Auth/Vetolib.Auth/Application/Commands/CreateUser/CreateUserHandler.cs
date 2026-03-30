@@ -24,7 +24,7 @@ internal class CreateUserHandler : IRequestHandler<CreateUserCommand, Result<Use
             .FirstOrDefaultAsync(u => u.Email == cmd.Email.ToLowerInvariant(), ct);
 
         if (existingUser is not null)
-            return Result<UserDto>.Error("EMAIL_EXISTS:Cet email est deja utilise");
+            return Result<UserDto>.Error("EMAIL_EXISTS:This email is already in use");
 
         // Create user via domain factory
         var userResult = User.Create(cmd.ClinicId, cmd.Email, cmd.Password, cmd.Role, cmd.VetLicenseNumber);
