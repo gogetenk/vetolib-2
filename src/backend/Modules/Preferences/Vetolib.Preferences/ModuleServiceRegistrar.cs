@@ -1,8 +1,11 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vetolib.Preferences.Api;
 using Vetolib.Preferences.Application.Services;
 using Vetolib.Preferences.Contracts;
 using Vetolib.Preferences.Infrastructure;
@@ -32,6 +35,9 @@ public static class ModuleServiceRegistrar
         // IPreferenceChecker — cross-module interface implemented here
         services.AddScoped<IPreferenceChecker, PreferenceChecker>();
 
+        // IWorkingHoursReader — cross-module interface for Agenda and other modules
+        services.AddScoped<IWorkingHoursReader, WorkingHoursReader>();
+
         // Note: PreferenceChangedConsumer for cache invalidation must be registered in
         // the host via x.AddConsumers(typeof(ModuleServiceRegistrar).Assembly) in Program.cs.
         // Current fallback: cache entries expire after 5 minutes (CacheTtl).
@@ -52,4 +58,9 @@ public static class ModuleServiceRegistrar
         return services;
     }
 
+    public static WebApplication MapPreferencesEndpoints(this WebApplication app)
+    {
+        app.MapWorkingHoursEndpoints();
+        return app;
+    }
 }
