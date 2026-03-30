@@ -1,7 +1,5 @@
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,9 +52,4 @@ public static class ModuleServiceRegistrar
         return services;
     }
 
-    public static IEndpointRouteBuilder MapPreferencesEndpoints(this IEndpointRouteBuilder app)
-    {
-        // No endpoints in this scaffold task — they will be added in subsequent tasks.
-        return app;
-    }
 }
