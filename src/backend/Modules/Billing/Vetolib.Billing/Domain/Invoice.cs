@@ -12,6 +12,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     public string InvoiceNumber { get; private set; } = string.Empty;
     public InvoiceStatus Status { get; private set; }
     public DateTime? DueDate { get; private set; }
+    public DateTime? PaidAt { get; private set; }
     public string CurrencyCode { get; private set; } = "AED";
     public string CountryCode { get; private set; } = "AE";
 
@@ -34,7 +35,7 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
     private readonly List<InvoiceItem> _items = [];
     public IReadOnlyList<InvoiceItem> Items => _items.AsReadOnly();
 
-    public decimal SubTotal => _items.Sum(i => i.UnitPriceExclTax);
+    public decimal SubTotal => _items.Sum(i => i.UnitPriceExclTax * i.Quantity);
     public decimal TotalTax => _items.Sum(i => i.TaxAmount);
     public decimal Total => _items.Sum(i => i.TotalInclTax);
 
@@ -191,6 +192,9 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         if (newStatus == InvoiceStatus.Sent)
             DueDate = DateTime.UtcNow.AddDays(dueDateDays);
 
+        if (newStatus == InvoiceStatus.Paid)
+            PaidAt = DateTime.UtcNow;
+
         return Result.Success();
     }
 
@@ -205,12 +209,12 @@ internal class Invoice : BaseEntity, IMultiTenant, IAggregateRoot
         Status,
         _items.Select(i => i.ToDto()).ToList().AsReadOnly(),
         Subtotal: SubTotal,
-        VatRate: _items.Count > 0 ? _items[0].TaxRate : 0m,
+        VatRate: SubTotal > 0 ? Math.Round(TotalTax / SubTotal, 4) : 0m,
         VatAmount: TotalTax,
         Total,
         Notes: null,
         CreatedAt,
-        PaidAt: null,
+        PaidAt: PaidAt,
         DueDate,
         ClinicId,
         CurrencyCode,
