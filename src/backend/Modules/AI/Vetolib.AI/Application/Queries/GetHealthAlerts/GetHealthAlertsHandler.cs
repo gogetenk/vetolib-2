@@ -11,6 +11,18 @@ internal class GetHealthAlertsHandler : IRequestHandler<GetHealthAlertsQuery, Re
 {
     private readonly AIDbContext _context;
 
+    /// <summary>
+    /// Explicit priority mapping for severity sorting. Higher value = higher priority.
+    /// This avoids relying on enum integer order or alphabetical string order in the DB.
+    /// </summary>
+    internal static int SeverityPriority(HealthAlertSeverity severity) => severity switch
+    {
+        HealthAlertSeverity.High => 3,
+        HealthAlertSeverity.Medium => 2,
+        HealthAlertSeverity.Low => 1,
+        _ => 0
+    };
+
     public GetHealthAlertsHandler(AIDbContext context)
     {
         _context = context;
@@ -33,11 +45,17 @@ internal class GetHealthAlertsHandler : IRequestHandler<GetHealthAlertsQuery, Re
         if (query.PatientId.HasValue)
             q = q.Where(a => a.PatientId == query.PatientId.Value);
 
+        // Severity is stored as string in DB, so we cannot rely on DB-level ordering.
+        // Materialize first, then sort client-side with explicit priority mapping.
         var alerts = await q
-            .OrderByDescending(a => a.Severity)
-            .ThenByDescending(a => a.GeneratedAt)
             .Select(a => MapToDto(a))
             .ToListAsync(ct);
+
+        alerts.Sort((a, b) =>
+        {
+            var cmp = SeverityPriority(b.Severity).CompareTo(SeverityPriority(a.Severity));
+            return cmp != 0 ? cmp : b.GeneratedAt.CompareTo(a.GeneratedAt);
+        });
 
         return Result<IReadOnlyList<HealthAlertDto>>.Success(alerts);
     }

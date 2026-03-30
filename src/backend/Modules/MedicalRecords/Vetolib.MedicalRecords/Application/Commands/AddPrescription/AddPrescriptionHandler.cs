@@ -46,6 +46,12 @@ internal class AddPrescriptionHandler : IRequestHandler<AddPrescriptionCommand, 
         if (!applyOverrideResult.IsSuccess)
             return Result<PrescriptionDto>.Error(applyOverrideResult.Errors.First());
 
+        // Route through aggregate root to maintain domain invariants
+        var addResult = medicalRecord.AddPrescription(prescription);
+        if (!addResult.IsSuccess)
+            return Result<PrescriptionDto>.Error(addResult.Errors.First());
+
+        // Explicitly track the new entity for EF change detection
         _context.Prescriptions.Add(prescription);
         await _context.SaveChangesAsync(ct);
 
@@ -108,8 +114,15 @@ internal class AddPrescriptionHandler : IRequestHandler<AddPrescriptionCommand, 
         }
 
         // Override is valid — record the highest severity for the override trail
+        // Use explicit priority mapping instead of relying on enum integer ordering
         var highestSeverity = interactionResult.Value.Alerts
-            .OrderBy(a => a.Severity)
+            .OrderBy(a => a.Severity switch
+            {
+                InteractionSeverity.Critical => 0,
+                InteractionSeverity.Moderate => 1,
+                InteractionSeverity.Info => 2,
+                _ => 99
+            })
             .Select(a => a.Severity)
             .First();
 
