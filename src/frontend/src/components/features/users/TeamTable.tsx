@@ -85,7 +85,7 @@ export function TeamTable({
               <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">{t('columns.members')}</TableHead>
               <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider">{t('columns.visibility')}</TableHead>
               <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-center">{t('columns.status')}</TableHead>
-              {isAdmin && <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-right w-24"></TableHead>}
+              {isAdmin && <TableHead className="h-12 px-4 text-[11px] font-bold text-foreground uppercase tracking-wider text-end w-24"></TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -128,7 +128,7 @@ export function TeamTable({
                   </button>
                 </TableCell>
                 {isAdmin && (
-                  <TableCell className="px-4 py-3 text-right">
+                  <TableCell className="px-4 py-3 text-end">
                     <Button
                       variant="ghost"
                       size="icon-sm"

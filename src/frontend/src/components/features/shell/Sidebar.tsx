@@ -166,7 +166,7 @@ function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnread
       {showUnreadBadge && (
         <Badge
           data-testid="nav-messages-unread-badge"
-          className="ltr:ml-auto rtl:mr-auto text-[10px] font-bold bg-primary text-primary-foreground rounded-full h-5 min-w-5 flex items-center justify-center px-1 animate-pulse"
+          className="ltr:ms-auto rtl:me-auto text-[10px] font-bold bg-primary text-primary-foreground rounded-full h-5 min-w-5 flex items-center justify-center px-1 animate-pulse"
         >
           {messagingUnreadCount}
         </Badge>
@@ -175,7 +175,7 @@ function SidebarNavItem({ item, isActive, role, locale, onClick, messagingUnread
         <Badge
           data-testid={`${item.testId}-badge`}
           variant="secondary"
-          className="ltr:ml-auto rtl:mr-auto text-xs"
+          className="ltr:ms-auto rtl:me-auto text-xs"
         >
           {item.badge}
         </Badge>

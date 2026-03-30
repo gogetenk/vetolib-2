@@ -223,7 +223,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
                   <thead>
                     <tr className="bg-muted">
                       {previewHeaders.map(h => (
-                        <th key={h} className="px-3 py-2 text-left text-[11px] font-bold uppercase tracking-wider text-foreground">{h}</th>
+                        <th key={h} className="px-3 py-2 text-start text-[11px] font-bold uppercase tracking-wider text-foreground">{h}</th>
                       ))}
                     </tr>
                   </thead>

@@ -178,7 +178,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       data-testid={`appointment-link-${appt.id}`}
                     >
                       <span className="text-[14px] font-semibold text-foreground">{appt.patientName}</span>
-                      <span className="text-muted-foreground ml-1 text-[13px]">
+                      <span className="text-muted-foreground ms-1 text-[13px]">
                         ({appt.species})
                       </span>
                     </Link>

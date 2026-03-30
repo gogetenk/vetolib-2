@@ -61,7 +61,7 @@ export function AlternativeSuggestions({
               onClick={() => onSelect(alt)}
               className="shrink-0 rounded-xl border-green-300 text-green-800 hover:bg-green-100 dark:border-green-700 dark:text-green-200 font-semibold"
             >
-              <DirectionalArrow className="h-3.5 w-3.5 ltr:mr-1 rtl:ml-1" />
+              <DirectionalArrow className="h-3.5 w-3.5 ltr:me-1 rtl:ms-1" />
               Use this instead
             </Button>
           </li>

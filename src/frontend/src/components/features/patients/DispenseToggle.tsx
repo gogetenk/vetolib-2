@@ -95,14 +95,14 @@ export function DispenseToggle({
         >
           Dispense from clinic stock
           {!stockAvailable && (
-            <span className="ml-1 text-muted-foreground text-xs">(out of stock)</span>
+            <span className="ms-1 text-muted-foreground text-xs">(out of stock)</span>
           )}
         </Label>
       </div>
 
       {/* Quantity input — shown only when dispense is checked */}
       {dispense && (
-        <div className="space-y-2 pl-6">
+        <div className="space-y-2 ps-6">
           <Label htmlFor="dispense-quantity-input" className="text-[13px] font-semibold text-foreground">
             Quantity to dispense ({unit})
           </Label>

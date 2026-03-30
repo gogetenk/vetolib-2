@@ -42,7 +42,7 @@ export function BlogTableOfContents({ content }: BlogTableOfContentsProps) {
         {headings.map((heading) => (
           <li
             key={heading.id}
-            className={heading.level === 3 ? "ml-4" : ""}
+            className={heading.level === 3 ? "ms-4" : ""}
           >
             <a
               href={`#${heading.id}`}

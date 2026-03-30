@@ -91,7 +91,7 @@ export default function NotificationSettingsPage() {
           <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t("title")}
         </h1>
-        <p className="text-[13px] text-muted-foreground mt-1 ml-3">
+        <p className="text-[13px] text-muted-foreground mt-1 ms-3">
           {t("subtitle")}
         </p>
       </div>
@@ -281,7 +281,7 @@ export default function NotificationSettingsPage() {
           className="rounded-xl h-10 px-6 font-semibold"
           data-testid="save-reminder-config-btn"
         >
-          {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isSaving && <Loader2 className="me-2 h-4 w-4 animate-spin" />}
           {isSaving ? t("saving") : t("save")}
         </Button>
       </div>

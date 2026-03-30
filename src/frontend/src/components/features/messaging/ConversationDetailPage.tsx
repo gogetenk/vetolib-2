@@ -192,7 +192,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
           onClick={() => router.back()}
           data-testid="btn-back-not-found"
         >
-          <ArrowLeft className="h-4 w-4 mr-2" />
+          <ArrowLeft className="h-4 w-4 me-2" />
           {t('back_to_inbox')}
         </Button>
       </div>
@@ -209,7 +209,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
         <Button
           variant="ghost"
           size="sm"
-          className="-ml-1"
+          className="-ms-1"
           data-testid="btn-back-to-inbox"
           onClick={() => router.back()}
           aria-label={t('back_to_inbox')}

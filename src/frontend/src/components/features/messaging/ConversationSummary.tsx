@@ -21,7 +21,7 @@ export function ConversationSummary({ summary, isLoading }: ConversationSummaryP
     >
       <button
         type="button"
-        className="w-full flex items-center justify-between px-4 py-3 text-left"
+        className="w-full flex items-center justify-between px-4 py-3 text-start"
         onClick={() => setIsOpen((p) => !p)}
         data-testid="ai-summary-toggle"
         aria-expanded={isOpen}

@@ -184,7 +184,7 @@ export function AppointmentsTable() {
           <Input
             data-testid="appointment-search"
             placeholder={t('search_placeholder') ?? 'Search patient or owner...'}
-            className="w-64 pl-9 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
+            className="w-64 ps-9 rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

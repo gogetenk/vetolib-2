@@ -30,7 +30,7 @@ export function AiSuggestionsPanel({ suggestions, onSelect }: AiSuggestionsPanel
             key={index}
             type="button"
             data-testid={`ai-suggestion-${index}`}
-            className="w-full text-left rounded-xl border border-primary/20 bg-primary/5 px-3 py-2.5 text-[13px] text-foreground hover:bg-primary/10 hover:border-primary/30 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="w-full text-start rounded-xl border border-primary/20 bg-primary/5 px-3 py-2.5 text-[13px] text-foreground hover:bg-primary/10 hover:border-primary/30 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30"
             dir={suggestion.language === 'ar' ? 'rtl' : 'ltr'}
             onClick={() => onSelect(suggestion.text)}
           >
