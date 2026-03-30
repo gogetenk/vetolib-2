@@ -98,8 +98,8 @@ internal class ListConversationsHandler : IRequestHandler<ListConversationsQuery
 
         // Sort by priority (MedicalUrgency=0 > PostOperativeFollowUp=1 > MedicalQuestion/AppointmentRequest=2 > rest=3)
         // then by LastMessageAt desc — ORDER BY / OFFSET / FETCH executed SQL-side before materialisation
-        var page = await q
-            .Include(c => c.Messages)
+        // P-20: Project MessageCount via subquery instead of Include(Messages) to avoid loading all message rows
+        var dtos = await q
             .AsNoTracking()
             .OrderBy(c =>
                 c.Category == MessageCategory.MedicalUrgency ? 0
@@ -109,11 +109,25 @@ internal class ListConversationsHandler : IRequestHandler<ListConversationsQuery
             .ThenBy(c => c.LastMessageAt ?? c.CreatedAt)
             .Skip((query.Page - 1) * query.PageSize)
             .Take(query.PageSize)
+            .Select(c => new ConversationDto(
+                c.Id,
+                c.ClinicId,
+                c.OwnerId,
+                c.PatientId,
+                c.Subject,
+                c.Category,
+                c.Status,
+                c.Channel,
+                c.Messages.Count,
+                c.CreatedAt,
+                c.LastMessageAt,
+                c.IsSpam,
+                c.AssignedToUserId,
+                c.AssignedToRole,
+                c.AiTriageConfidence,
+                c.IsTriageUncertain))
             .ToListAsync(ct);
 
-        // ToDto() is a domain method — projected in-memory after SQL pagination
-        var dtos = page.Select(c => c.ToDto()).ToList();
-
-        return Result<IReadOnlyList<ConversationDto>>.Success(dtos);
+        return Result<IReadOnlyList<ConversationDto>>.Success(dtos.AsReadOnly());
     }
 }

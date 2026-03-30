@@ -38,7 +38,15 @@ internal class ListStockItemsHandler : IRequestHandler<ListStockItemsQuery, Resu
             q = q.Where(x => x.ExpiryDate != null && x.ExpiryDate <= threshold);
         }
 
-        var items = await q.ToListAsync(ct);
+        // P-10: Apply pagination to prevent unbounded result sets
+        var pageNumber = Math.Max(1, query.PageNumber);
+        var pageSize = Math.Clamp(query.PageSize, 1, 200);
+
+        var items = await q
+            .OrderBy(x => x.Name)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(ct);
 
         return Result<List<StockItemDto>>.Success(items.Select(i => i.ToDto(_options.ExpiryWarningDays)).ToList());
     }

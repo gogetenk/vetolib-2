@@ -90,6 +90,9 @@ internal class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
         builder.HasIndex(i => new { i.ClinicId, i.InvoiceNumber })
             .IsUnique();
 
+        // P-07: index for revenue analytics, invoice listing, and unpaid queries
+        builder.HasIndex(i => new { i.ClinicId, i.Status, i.CreatedAt });
+
         // Ignore computed properties
         builder.Ignore(i => i.SubTotal);
         builder.Ignore(i => i.TotalTax);

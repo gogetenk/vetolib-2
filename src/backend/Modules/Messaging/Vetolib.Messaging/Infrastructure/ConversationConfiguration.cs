@@ -53,5 +53,8 @@ internal class ConversationConfiguration : IEntityTypeConfiguration<Conversation
 
         // Performance: index for date-range queries filtered by clinic
         builder.HasIndex(c => new { c.ClinicId, c.CreatedAt });
+
+        // P-05: index for owner portal queries (ListOwnerConversations, ExportOwnerConversations)
+        builder.HasIndex(c => new { c.ClinicId, c.OwnerId });
     }
 }
