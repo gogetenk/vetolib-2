@@ -724,9 +724,7 @@
       "submit": "Send Invite",
       "submitting": "Sending...",
       "success_title": "Invitation sent successfully!",
-      "success_password_hint": "Share this password securely — it won't be shown again.",
-      "copy": "Copy",
-      "copied": "Copied!",
+      "success_email_hint": "A temporary password has been sent to the new team member's email address.",
       "done": "Done",
       "errors": {
         "email_invalid": "Please enter a valid email address",

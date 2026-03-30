@@ -232,6 +232,21 @@ builder.Services.AddBreedingModule(builder.Configuration);
 builder.Services.AddBreedingDbContext(connectionString);
 builder.EnrichNpgsqlDbContext<BreedingDbContext>(settings => settings.DisableHealthChecks = true);
 
+// CORS — allow configured origins (defaults to localhost for dev)
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+            ?? ["http://localhost:3000", "https://localhost:3000"];
+        policy
+            .WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 // Rate limiting
 // "auth"   — 10 req/min per IP (login, refresh, change-password)
 // "signup" — 3 req/h per IP   (clinic self-registration)
@@ -274,6 +289,19 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+// Global exception handler — returns generic 500 JSON without stack traces
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsJsonAsync(new { title = "An unexpected error occurred.", status = 500 });
+    });
+});
+
+app.UseHttpsRedirection();
+app.UseCors();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -292,7 +320,10 @@ app.MapStockEndpoints();
 app.MapPreferencesEndpoints();
 app.MapBreedingEndpoints();
 
-app.MapOpenApi();
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
 
 // Database initialization — migrations + seed data
 await DbInitializer.MigrateAllAsync(app.Services);

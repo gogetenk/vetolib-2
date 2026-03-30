@@ -50,8 +50,7 @@ export function InviteUserDialog({
 }: InviteUserDialogProps) {
   const t = useTranslations('team.invite')
   const tRoles = useTranslations('team.roles')
-  const [temporaryPassword, setTemporaryPassword] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
+  const [inviteSuccess, setInviteSuccess] = useState(false)
 
   const {
     register,
@@ -68,28 +67,16 @@ export function InviteUserDialog({
     trackEvent(AnalyticsEvents.USER_INVITED, {
       role: data.role,
     })
-    setTemporaryPassword(result.temporaryPassword)
+    setInviteSuccess(true)
     onUserInvited(result.user)
   }
 
-  function handleCopy() {
-    if (temporaryPassword) {
-      navigator.clipboard.writeText(temporaryPassword)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
-  }
-
   function handleClose() {
-    if (!temporaryPassword) {
-      onOpenChange(false)
-    } else {
-      // Reset state after showing the password
-      setTemporaryPassword(null)
-      setCopied(false)
+    if (inviteSuccess) {
+      setInviteSuccess(false)
       reset()
-      onOpenChange(false)
     }
+    onOpenChange(false)
   }
 
   return (
@@ -102,36 +89,19 @@ export function InviteUserDialog({
           </DialogDescription>
         </DialogHeader>
 
-        {temporaryPassword ? (
-          // Success state — show temporary password
+        {inviteSuccess ? (
+          // Success state — password sent by email
           <div className="space-y-4">
             <div
-              data-testid="temp-password-alert"
-              className="rounded-xl border border-amber-200 bg-amber-50 p-4 space-y-3"
+              data-testid="invite-success-alert"
+              className="rounded-xl border border-green-200 bg-green-50 p-4 space-y-3"
             >
-              <p className="text-sm font-semibold text-amber-800">
+              <p className="text-sm font-semibold text-green-800">
                 {t('success_title')}
               </p>
-              <p className="text-xs text-amber-700">
-                {t('success_password_hint')}
+              <p className="text-xs text-green-700">
+                {t('success_email_hint')}
               </p>
-              <div className="flex items-center gap-2">
-                <code
-                  data-testid="temp-password-value"
-                  className="flex-1 rounded bg-white border border-amber-200 px-3 py-2 text-sm font-mono text-amber-900"
-                >
-                  {temporaryPassword}
-                </code>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  data-testid="copy-password-btn"
-                  onClick={handleCopy}
-                  className="rounded-xl font-semibold border-border/80"
-                >
-                  {copied ? t('copied') : t('copy')}
-                </Button>
-              </div>
             </div>
             <DialogFooter>
               <Button

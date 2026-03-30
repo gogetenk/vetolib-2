@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -48,16 +49,14 @@ internal class InviteUserHandler : IRequestHandler<InviteUserCommand, Result<Inv
             userResult.Value.Id,
             userResult.Value.Email,
             userResult.Value.FullName,
-            userResult.Value.Role,
-            temporaryPassword));
+            userResult.Value.Role));
     }
 
     private static string GenerateTemporaryPassword()
     {
         const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
-        var random = new Random();
         return new string(Enumerable.Range(0, 8)
-            .Select(_ => chars[random.Next(chars.Length)])
+            .Select(_ => chars[RandomNumberGenerator.GetInt32(chars.Length)])
             .ToArray());
     }
 }
