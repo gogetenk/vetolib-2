@@ -71,6 +71,18 @@ function isPublicPath(pathname: string): boolean {
     if (pathname === blogPath || pathname.startsWith(`${blogPath}/`)) {
       return true;
     }
+
+    // Terms of Service: /en/terms or /ar/terms
+    const termsPath = `/${locale}/terms`;
+    if (pathname === termsPath || pathname.startsWith(`${termsPath}/`)) {
+      return true;
+    }
+
+    // Privacy Policy: /en/privacy or /ar/privacy
+    const privacyPath = `/${locale}/privacy`;
+    if (pathname === privacyPath || pathname.startsWith(`${privacyPath}/`)) {
+      return true;
+    }
   }
 
   return false;
@@ -125,11 +137,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
   }
 
-  // Redirect authenticated users away from login/signup pages (not portal, landing, or blog)
+  // Redirect authenticated users away from login/signup pages (not portal, landing, blog, or legal pages)
   const isPortalPath = /\/portal\//.test(pathname);
   const isLandingPage = SUPPORTED_LOCALES.some(l => pathname === `/${l}`);
   const isBlogPath = /\/blog(\/|$)/.test(pathname);
-  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage && !isBlogPath) {
+  const isLegalPath = /\/(terms|privacy)(\/|$)/.test(pathname);
+  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage && !isBlogPath && !isLegalPath) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 

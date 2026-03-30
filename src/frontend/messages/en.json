@@ -26,6 +26,10 @@
       "show_password": "Show password",
       "hide_password": "Hide password",
       "welcome_toast": "Welcome! Your 30-day free trial has started.",
+      "agree_terms_prefix": "I agree to the ",
+      "terms_link": "Terms of Service",
+      "and": " and ",
+      "privacy_link": "Privacy Policy",
       "errors": {
         "clinic_name_required": "Clinic name is required",
         "email_required": "Please enter a valid email address",
@@ -35,7 +39,8 @@
         "password_number": "Password must contain at least one number",
         "passwords_no_match": "Passwords do not match",
         "email_taken": "An account with this email already exists",
-        "connection_error": "Connection error. Please try again."
+        "connection_error": "Connection error. Please try again.",
+        "terms_required": "You must agree to the Terms of Service and Privacy Policy"
       }
     },
     "login": {
@@ -2241,6 +2246,142 @@
       "heart_rate_positive": "Heart rate must be positive",
       "diagnosis_required": "Diagnosis is required",
       "treatment_required": "Treatment is required"
+    }
+  },
+  "terms": {
+    "meta_title": "Terms of Service",
+    "meta_description": "Terms of Service for Vetara veterinary clinic management platform. Covers usage terms, data handling, and liability for UAE and EU users.",
+    "title": "Terms of Service",
+    "last_updated": "Last updated: March 30, 2026",
+    "nav_home": "Home",
+    "nav_terms": "Terms of Service",
+    "sections": {
+      "acceptance": {
+        "title": "1. Acceptance of Terms",
+        "content": "By accessing or using the Vetara platform (\"Service\"), you agree to be bound by these Terms of Service (\"Terms\"). If you do not agree to these Terms, you may not use the Service. Vetara is operated by Vetara Technologies LLC, registered in the United Arab Emirates. These Terms constitute a legally binding agreement between you and Vetara Technologies LLC."
+      },
+      "description": {
+        "title": "2. Service Description",
+        "content": "Vetara is a cloud-based veterinary clinic management platform that provides appointment scheduling, medical records management, billing, and client communication tools. The Service is designed for licensed veterinary professionals and clinic administrators operating in the UAE and internationally."
+      },
+      "accounts": {
+        "title": "3. User Accounts",
+        "content": "You must provide accurate, complete, and current information when creating an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use of your account. Each clinic account is a separate tenant with isolated data. You may not share account credentials across clinics or with unauthorized personnel."
+      },
+      "veterinary_records": {
+        "title": "4. Veterinary Record Confidentiality",
+        "content": "All veterinary medical records stored on the platform are treated as confidential information. Access to medical records is restricted to authorized clinic staff within the same tenant. Vetara does not access, review, or share veterinary medical records except as required by law or with explicit written consent. Clinic administrators are responsible for ensuring that access permissions within their clinic are appropriately configured. Veterinary records are retained in accordance with UAE Federal Law No. 16 of 2007 concerning animal welfare and applicable veterinary practice regulations."
+      },
+      "data_handling": {
+        "title": "5. Data Collection and Usage",
+        "content": "We collect and process personal data as described in our Privacy Policy. Data collected includes clinic information, staff details, patient (animal) records, appointment data, and billing information. We use this data solely to provide and improve the Service. We do not sell personal data to third parties. All data processing complies with UAE Federal Decree-Law No. 45 of 2021 on Personal Data Protection (PDPL) and, for EU users, the General Data Protection Regulation (GDPR)."
+      },
+      "data_residency": {
+        "title": "6. UAE Data Residency",
+        "content": "All primary data is stored within data centers located in the United Arab Emirates, in compliance with UAE data residency requirements. Backup data may be replicated to geographically distributed locations for disaster recovery purposes, but all replicas remain within jurisdictions that provide adequate data protection. For EU-based users, data transfers comply with GDPR Chapter V requirements, including appropriate safeguards such as Standard Contractual Clauses (SCCs)."
+      },
+      "gdpr": {
+        "title": "7. GDPR Compliance for EU Users",
+        "content": "If you are located in the European Union or European Economic Area, you have additional rights under the GDPR, including: the right to access your personal data; the right to rectification of inaccurate data; the right to erasure (\"right to be forgotten\"); the right to restrict processing; the right to data portability; and the right to object to processing. To exercise these rights, contact our Data Protection Officer at dpo@vetara.ae. We will respond to all GDPR requests within 30 days."
+      },
+      "payment": {
+        "title": "8. Payment and Billing",
+        "content": "Subscription fees are billed in advance on a monthly or annual basis in AED (UAE Dirham). All fees are exclusive of VAT, which will be applied at the prevailing UAE rate (currently 5%). Failure to pay may result in suspension or termination of your account. Refunds are handled in accordance with UAE Consumer Protection Law."
+      },
+      "prohibited": {
+        "title": "9. Prohibited Uses",
+        "content": "You may not use the Service to: store data unrelated to veterinary practice; attempt to access other tenants' data; reverse engineer or decompile any part of the Service; transmit malware or malicious code; violate any applicable law or regulation; or use the Service in any manner that could impair its performance or functionality for other users."
+      },
+      "ip": {
+        "title": "10. Intellectual Property",
+        "content": "The Service, including its software, design, logos, and documentation, is the intellectual property of Vetara Technologies LLC. You retain ownership of all data you input into the Service. By using the Service, you grant us a limited license to process your data solely for the purpose of providing the Service."
+      },
+      "termination": {
+        "title": "11. Account Termination",
+        "content": "Either party may terminate the agreement at any time with 30 days written notice. We may suspend or terminate your account immediately if you violate these Terms. Upon termination, you may request an export of your data within 30 days. After this period, your data will be permanently deleted in accordance with our data retention policy. Termination does not relieve you of any obligation to pay outstanding fees."
+      },
+      "liability": {
+        "title": "12. Limitation of Liability",
+        "content": "To the maximum extent permitted by UAE law: the Service is provided \"as is\" and \"as available\" without warranties of any kind; Vetara shall not be liable for any indirect, incidental, special, consequential, or punitive damages; our total liability shall not exceed the amount paid by you in the twelve (12) months preceding the claim; we are not liable for any loss or corruption of veterinary data caused by factors outside our reasonable control. Nothing in these Terms excludes liability for fraud, gross negligence, or any liability that cannot be excluded under applicable law."
+      },
+      "changes": {
+        "title": "13. Changes to Terms",
+        "content": "We may update these Terms from time to time. We will notify you of material changes at least 30 days before they take effect via email or in-app notification. Continued use of the Service after changes take effect constitutes acceptance of the updated Terms."
+      },
+      "governing_law": {
+        "title": "14. Governing Law and Dispute Resolution",
+        "content": "These Terms are governed by the laws of the United Arab Emirates. Any disputes arising from these Terms or the use of the Service shall be resolved through the courts of Dubai, UAE, unless the parties agree to alternative dispute resolution. For EU users, this clause does not affect your rights under mandatory consumer protection laws of your country of residence."
+      },
+      "contact": {
+        "title": "15. Contact Information",
+        "content": "For questions about these Terms, contact us at: Vetara Technologies LLC, Dubai, United Arab Emirates. Email: legal@vetara.ae. For data protection inquiries: dpo@vetara.ae."
+      }
+    }
+  },
+  "privacy": {
+    "meta_title": "Privacy Policy",
+    "meta_description": "Privacy Policy for Vetara veterinary clinic management platform. Learn how we collect, use, and protect your data in compliance with UAE PDPL and EU GDPR.",
+    "title": "Privacy Policy",
+    "last_updated": "Last updated: March 30, 2026",
+    "nav_home": "Home",
+    "nav_privacy": "Privacy Policy",
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "Vetara Technologies LLC (\"Vetara\", \"we\", \"us\", or \"our\") is committed to protecting your privacy and personal data. This Privacy Policy explains how we collect, use, store, and share information when you use our veterinary clinic management platform (\"Service\"). This policy applies to all users of the Service, including clinic administrators, veterinary staff, and pet owners accessing the client portal."
+      },
+      "data_controller": {
+        "title": "2. Data Controller",
+        "content": "Vetara Technologies LLC acts as the data controller for personal data processed through the Service. For clinic-specific data, the registered clinic acts as the data controller and Vetara acts as the data processor. Contact: Vetara Technologies LLC, Dubai, United Arab Emirates. Data Protection Officer: dpo@vetara.ae."
+      },
+      "data_collected": {
+        "title": "3. Data We Collect",
+        "content": "We collect the following categories of data: Account information (name, email, phone number, clinic name, license number); Veterinary records (animal patient data, medical histories, diagnoses, treatments, prescriptions); Appointment data (scheduling, cancellations, no-shows); Billing data (invoices, payment records, VAT calculations); Usage data (login times, feature usage, browser type, IP address); Communication data (in-app messages, notification preferences). We do not collect sensitive personal data such as biometric data or genetic information of human users."
+      },
+      "legal_basis": {
+        "title": "4. Legal Basis for Processing",
+        "content": "We process your data on the following legal bases: Contract performance (to provide the Service you subscribed to); Legitimate interests (to improve our Service, prevent fraud, ensure security); Legal obligations (to comply with UAE tax, veterinary practice, and data protection laws); Consent (for marketing communications and optional analytics). For EU users under GDPR, we rely on Article 6(1)(b) for contract performance, Article 6(1)(c) for legal obligations, Article 6(1)(f) for legitimate interests, and Article 6(1)(a) for consent-based processing."
+      },
+      "data_use": {
+        "title": "5. How We Use Your Data",
+        "content": "We use your data to: Provide and maintain the Service; Process appointments and manage schedules; Store and organize veterinary medical records; Generate invoices and process billing; Send appointment reminders and notifications; Provide customer support; Improve and optimize the Service; Comply with legal and regulatory requirements; Detect and prevent security threats."
+      },
+      "data_sharing": {
+        "title": "6. Data Sharing",
+        "content": "We do not sell your personal data. We may share data with: Infrastructure providers (cloud hosting, database services) under strict data processing agreements; Payment processors for billing purposes; Legal authorities when required by law or court order; Professional advisors (auditors, lawyers) under confidentiality obligations. All third-party providers are contractually bound to protect your data and process it only as instructed by us."
+      },
+      "data_residency": {
+        "title": "7. Data Storage and Residency",
+        "content": "All primary data is stored in data centers located within the United Arab Emirates, complying with UAE data localization requirements under the PDPL. Encrypted backups may be stored in additional locations for disaster recovery. For EU users, any transfer of data outside the EEA is protected by Standard Contractual Clauses (SCCs) approved by the European Commission, or other appropriate safeguards under GDPR Chapter V."
+      },
+      "data_security": {
+        "title": "8. Data Security",
+        "content": "We implement industry-standard security measures including: Encryption in transit (TLS 1.3) and at rest (AES-256); Multi-tenant data isolation (each clinic's data is logically separated); Role-based access control; Regular security audits and penetration testing; Automated backup and disaster recovery procedures; Employee access controls and security training. While we strive to protect your data, no method of electronic transmission or storage is 100% secure."
+      },
+      "data_retention": {
+        "title": "9. Data Retention",
+        "content": "We retain your data for as long as your account is active or as needed to provide the Service. Veterinary medical records are retained in accordance with UAE veterinary practice regulations (minimum 5 years). Billing records are retained for 7 years as required by UAE tax law. After account termination, you have 30 days to request a data export. After this period, data is permanently deleted within 90 days, except where retention is required by law."
+      },
+      "your_rights": {
+        "title": "10. Your Rights",
+        "content": "Under the UAE PDPL, you have the right to: Access your personal data; Correct inaccurate data; Request deletion of your data (subject to legal retention requirements); Withdraw consent for optional processing. For EU users under GDPR, you additionally have: The right to data portability; The right to restrict processing; The right to object to processing; The right to lodge a complaint with a supervisory authority. To exercise any of these rights, contact us at dpo@vetara.ae. We will respond within 30 days."
+      },
+      "cookies": {
+        "title": "11. Cookies and Tracking",
+        "content": "We use essential cookies required for the Service to function (authentication, session management, language preferences). We use analytics cookies to understand how the Service is used, but only with your consent. We do not use advertising or tracking cookies. You can manage cookie preferences through your browser settings."
+      },
+      "children": {
+        "title": "12. Children's Privacy",
+        "content": "The Service is intended for use by licensed veterinary professionals and clinic administrators. We do not knowingly collect personal data from children under 18. If we become aware that we have collected data from a child, we will delete it promptly."
+      },
+      "changes": {
+        "title": "13. Changes to This Policy",
+        "content": "We may update this Privacy Policy from time to time. We will notify you of material changes at least 30 days before they take effect via email or in-app notification. The \"Last updated\" date at the top of this page indicates when the policy was last revised."
+      },
+      "contact": {
+        "title": "14. Contact Us",
+        "content": "For questions about this Privacy Policy or our data practices, contact us at: Vetara Technologies LLC, Dubai, United Arab Emirates. General inquiries: legal@vetara.ae. Data Protection Officer: dpo@vetara.ae. For EU users, you may also contact your local data protection authority."
+      }
     }
   }
 }
