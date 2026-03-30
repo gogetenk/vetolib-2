@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.Agenda.Application.Commands.CancelAppointmentSeries;
+using Vetolib.Agenda.Application.Commands.CheckInFromQr;
 using Vetolib.Agenda.Application.Commands.CreateAppointment;
 using Vetolib.Agenda.Application.Commands.CreateAppointmentSeries;
 using Vetolib.Agenda.Application.Commands.EditAppointment;
+using Vetolib.Agenda.Application.Commands.GenerateCheckInQr;
 using Vetolib.Agenda.Application.Commands.UpdateAppointmentStatus;
 using Vetolib.Agenda.Application.Queries.GetAppointmentById;
 using Vetolib.Agenda.Application.Queries.GetAvailability;
@@ -80,6 +82,16 @@ internal static class AppointmentEndpoints
             .WithName("CancelAppointmentSeries")
             .WithSummary("Cancel all future appointments in a series")
             .WithDescription("Cancels all future scheduled appointments that belong to the specified series.");
+
+        group.MapGet("/{id:guid}/checkin-qr", GetCheckInQr)
+            .WithName("GetCheckInQr")
+            .WithSummary("Generate QR code payload for appointment check-in")
+            .WithDescription("Returns a signed JSON payload that can be encoded into a QR code for self-service check-in at the reception desk.");
+
+        group.MapPost("/checkin", CheckInFromQr)
+            .WithName("CheckInFromQr")
+            .WithSummary("Check in via QR code scan")
+            .WithDescription("Accepts a signed QR payload, verifies HMAC integrity and time window (30 min before/after scheduled time), then transitions the appointment to CheckedIn.");
 
         // Unversioned alias (used by BDD step definitions and older clients)
         var legacyGroup = app.MapGroup("/api/appointments")
@@ -249,5 +261,27 @@ internal static class AppointmentEndpoints
         ISender sender)
     {
         return (await sender.Send(new CancelAppointmentSeriesCommand(seriesId))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GetCheckInQr(
+        Guid id,
+        ISender sender)
+    {
+        return (await sender.Send(new GenerateCheckInQrCommand(id))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> CheckInFromQr(
+        CheckInFromQrRequest request,
+        ISender sender)
+    {
+        var cmd = new CheckInFromQrCommand(
+            request.AppointmentId,
+            request.PatientName,
+            request.OwnerName,
+            request.ScheduledTime,
+            request.ClinicId,
+            request.Signature);
+
+        return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 }
