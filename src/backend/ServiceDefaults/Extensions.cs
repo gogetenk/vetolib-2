@@ -79,14 +79,15 @@ public static class Extensions
 
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        // Full readiness check — includes all registered health checks (DB, etc.)
+        app.MapHealthChecks("/health/ready");
+
+        // Lightweight liveness check — only checks tagged "live" (the self-check)
+        // Used by load balancers and container orchestrators to determine if the process is alive
+        app.MapHealthChecks("/health/live", new HealthCheckOptions
         {
-            app.MapHealthChecks("/health");
-            app.MapHealthChecks("/alive", new HealthCheckOptions
-            {
-                Predicate = r => r.Tags.Contains("live")
-            });
-        }
+            Predicate = r => r.Tags.Contains("live")
+        });
 
         return app;
     }

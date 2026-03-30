@@ -58,6 +58,6 @@ ENV DOTNET_RUNNING_IN_CONTAINER=true
 COPY --from=build /app/publish .
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-    CMD wget -qO- http://localhost:8080/health || exit 1
+    CMD wget -qO- http://localhost:8080/health/live || exit 1
 
 ENTRYPOINT ["dotnet", "Vetolib.Api.dll"]

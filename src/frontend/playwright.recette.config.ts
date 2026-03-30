@@ -45,7 +45,7 @@ export default defineConfig({
       // Real backend via Vetolib.Api (not the Aspire AppHost for simplicity)
       command:
         "dotnet run --project ../backend/Vetolib.Api/Vetolib.Api.csproj --no-build --urls http://localhost:5295",
-      url: "http://localhost:5295/health",
+      url: "http://localhost:5295/health/live",
       reuseExistingServer: true,
       timeout: 120000,
     },
