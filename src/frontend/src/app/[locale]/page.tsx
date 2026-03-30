@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { PricingSection } from "@/components/features/landing/PricingSection";
 import { FaqSection } from "@/components/features/landing/FaqSection";
 import { FeaturesSection } from "@/components/features/landing/FeaturesSection";
+import { CompetitiveTableSection } from "@/components/features/landing/CompetitiveTableSection";
 import { FinalCtaSection } from "@/components/features/landing/FinalCtaSection";
 import { Footer } from "@/components/features/landing/Footer";
 import { NavLanguageSwitcher } from "@/components/features/landing/NavLanguageSwitcher";
@@ -79,7 +80,7 @@ const JSON_LD = {
     highPrice: "649",
   },
   featureList:
-    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, AI SOAP notes, WhatsApp messaging, Stock management, Multi-clinic management, Breeding & pedigree management, Arabic RTL support",
+    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, AI SOAP notes, WhatsApp messaging, Stock management, Multi-clinic management, Breeding & reproduction management, Falcon & camel species support, Arabic RTL support",
   availableOnDevice: "Desktop, Tablet, Mobile",
   countriesSupported: "AE",
 };
@@ -436,6 +437,32 @@ export default async function LandingPage({ params }: Props) {
               uae_hosting: t("trust_signals.badges.uae_hosting"),
               moccae: t("trust_signals.badges.moccae"),
             },
+          }}
+        />
+
+        {/* ── Competitive Comparison ─────────────────────────────────── */}
+        <CompetitiveTableSection
+          messages={{
+            title: t("competitive.title"),
+            subtitle: t("competitive.subtitle"),
+            columns: {
+              feature: t("competitive.columns.feature"),
+              vetolib: t("competitive.columns.vetolib"),
+              ezyvet: t("competitive.columns.ezyvet"),
+              digitail: t("competitive.columns.digitail"),
+            },
+            rows: [
+              { feature: t("competitive.rows.arabic.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.whatsapp.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.ai_triage.feature"), vetolib: "yes", ezyvet: "no", digitail: "partial" },
+              { feature: t("competitive.rows.uae_optimized.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.breeding.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.falcon_camel.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.ai_soap.feature"), vetolib: "yes", ezyvet: "no", digitail: "yes" },
+              { feature: t("competitive.rows.price.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.multi_clinic.feature"), vetolib: "yes", ezyvet: "yes", digitail: "yes" },
+              { feature: t("competitive.rows.file_attachments.feature"), vetolib: "yes", ezyvet: "yes", digitail: "partial" },
+            ],
           }}
         />
 

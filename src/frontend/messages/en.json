@@ -1096,27 +1096,27 @@
       "sign_in": "Sign In"
     },
     "hero": {
-      "headline": "Run Your Veterinary Clinic in Half the Time",
-      "subtitle": "AI handles your paperwork. WhatsApp handles your reminders. You handle the animals.",
-      "cta_primary": "Start Free Trial",
+      "headline": "The Only Vet Platform Built for the UAE — From Falcons to Felines",
+      "subtitle": "Manage Arabian horses, camels, falcons, and companion animals in one bilingual platform. AI documentation, WhatsApp reminders, and VAT-compliant invoicing — purpose-built for Gulf veterinary clinics.",
+      "cta_primary": "Start Your Free 30-Day Trial",
       "cta_secondary": "Book a Demo",
       "trust_badge": "30-day free Pro trial — no credit card required",
-      "social_proof_badge": "Join 50+ clinics across the UAE",
+      "social_proof_badge": "Trusted by clinics across Dubai, Abu Dhabi & the GCC",
       "image_alt": "Vetara dashboard showing appointments and patient health records"
     },
     "social_proof": {
-      "clinics": "50+ clinics",
-      "clinics_label": "worldwide",
-      "patients": "5,000+ patients",
-      "patients_label": "managed",
-      "invoiced": "AED 2M+ invoiced",
-      "invoiced_label": "and counting",
-      "uptime": "99.9% uptime",
-      "uptime_label": "guaranteed"
+      "clinics": "50+",
+      "clinics_label": "clinics across the UAE",
+      "patients": "5,000+",
+      "patients_label": "patients managed",
+      "invoiced": "AED 2M+",
+      "invoiced_label": "invoiced & counting",
+      "uptime": "99.9%",
+      "uptime_label": "uptime guaranteed"
     },
     "new_features": {
-      "title": "Built for Tomorrow's Veterinary Clinic",
-      "subtitle": "Vetara combines shared animal health records, intelligent AI tools, and seamless clinic operations — all in one platform.",
+      "title": "Built for UAE Veterinary Clinics and Breeders",
+      "subtitle": "Vetara combines shared animal health records, intelligent AI tools, breeding management, and seamless clinic operations — the only platform purpose-built for the Gulf market.",
       "health_passport": {
         "title": "Shared Animal Health Passport",
         "description": "Every animal carries a permanent health record accessible across any clinic — with owner consent. Consultations, vaccinations, prescriptions, and diagnoses, always available wherever the animal is seen.",
@@ -1157,8 +1157,8 @@
         "description": "Manage multiple sites from a single dashboard. Consolidated reporting, shared patient records, and centralised team management for veterinary groups."
       },
       "breeding": {
-        "title": "Breeding & Pedigree Management",
-        "description": "Track falcon pedigrees, Arabian horse lineage, pregnancy cycles, and heat predictions. Purpose-built for UAE breeders managing high-value animal reproduction programs.",
+        "title": "Breeding & Reproduction Management",
+        "description": "Track heat cycles, pregnancies, litters, and lineage for Arabian horses, camels, falcons, and companion animals. Essential tools for UAE breeders and equine clinics managing high-value reproduction programs.",
         "badge": "New"
       }
     },
@@ -1208,7 +1208,7 @@
         "title": "Start Managing Your Clinic",
         "description": "Book appointments, record consultations, send invoices — all from one place, in English or Arabic."
       },
-      "cta": "Get Started Free"
+      "cta": "Start Your Free Trial Now"
     },
     "pricing": {
       "title": "Simple, Transparent Pricing",
@@ -1284,8 +1284,8 @@
       }
     },
     "competitive": {
-      "title": "Why Vetara?",
-      "subtitle": "See how Vetara compares to other veterinary practice management solutions.",
+      "title": "Why UAE Clinics Choose Vetara",
+      "subtitle": "The only veterinary platform with native Arabic support, falcon and camel species templates, and UAE-specific compliance. See how we compare.",
       "columns": {
         "feature": "Feature",
         "vetolib": "Vetara",
@@ -1294,7 +1294,7 @@
       },
       "rows": {
         "arabic": {
-          "feature": "Arabic + English"
+          "feature": "Arabic + English (RTL)"
         },
         "whatsapp": {
           "feature": "WhatsApp Integration"
@@ -1303,10 +1303,16 @@
           "feature": "AI Triage"
         },
         "uae_optimized": {
-          "feature": "UAE Optimized"
+          "feature": "UAE Optimized (Sun-Thu, Ramadan)"
+        },
+        "breeding": {
+          "feature": "Breeding & Reproduction Tracking"
+        },
+        "falcon_camel": {
+          "feature": "Falcon & Camel Species Support"
         },
         "price": {
-          "feature": "Affordable Pricing"
+          "feature": "Transparent AED Pricing"
         },
         "ai_soap": {
           "feature": "AI SOAP Notes"
@@ -1410,14 +1416,14 @@
       "subtitle": "Everything you need to know before getting started."
     },
     "sticky_cta": {
-      "tagline": "Save 2 hours a day on clinic admin",
-      "cta": "Start Free Trial"
+      "tagline": "The UAE's first bilingual vet platform — save 2+ hours daily",
+      "cta": "Start Free 30-Day Trial"
     },
     "exit_intent": {
-      "headline": "Wait! Start your free 30-day Pro trial",
-      "subtitle": "Join 50+ UAE clinics already using Vetara. No credit card required.",
+      "headline": "Wait! Get 30 days of Pro features — free",
+      "subtitle": "Join veterinary clinics across Dubai, Abu Dhabi & the GCC. No credit card. No commitment.",
       "email_placeholder": "Enter your email address",
-      "cta": "Start Free Trial",
+      "cta": "Claim My Free Trial",
       "success": "We'll be in touch shortly!"
     },
     "pricing_badge": {
@@ -1425,14 +1431,14 @@
       "trial_under_plan": "30-day free Pro trial — no credit card required"
     },
     "final_cta": {
-      "headline": "Stop Managing Your Clinic with Spreadsheets.",
-      "subtitle": "Join 50+ veterinary clinics in the UAE who save 2 hours a day on admin tasks. Start your free 30-day trial — no credit card required.",
-      "cta": "Start Free Trial — No Card Needed",
-      "reassurance": "Cancel anytime. Your data is yours — always."
+      "headline": "Your Clinic Deserves Software Built for the UAE.",
+      "subtitle": "Join veterinary clinics across Dubai, Abu Dhabi, and the GCC who save 2+ hours daily. Arabic interface, WhatsApp reminders, breeding tools, and VAT-compliant invoicing — all included from day one.",
+      "cta": "Start Your Free 30-Day Trial Now",
+      "reassurance": "No credit card required. Cancel anytime. Your data stays yours."
     },
     "footer_cta": {
-      "headline": "Ready to transform your clinic?",
-      "cta": "Start Free Trial"
+      "headline": "Ready to modernize your veterinary practice?",
+      "cta": "Start Free 30-Day Trial"
     },
     "footer": {
       "copyright": "© 2026 Vetara.",
