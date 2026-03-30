@@ -136,7 +136,7 @@ export function MedicalRecordsList({ records, isLoading }: MedicalRecordsListPro
   }
 
   return (
-    <div data-testid="medical-records-list" className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden w-full animate-in fade-in duration-300">
+    <div data-testid="medical-records-list" className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden w-full animate-in fade-in duration-300">
       {/* Header row */}
       <div className="grid grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 ps-5 py-3 bg-muted border-b border-border/50">
         <span>{t('columns.reason')}</span>

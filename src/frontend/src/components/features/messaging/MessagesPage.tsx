@@ -177,11 +177,11 @@ export function MessagesPage() {
         onSearchChange={setSearchQuery}
       />
 
-      <div className="mt-4 flex flex-1 bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden min-h-0">
+      <div className="mt-4 flex flex-1 bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden min-h-0">
         {/* Conversation list — hidden on mobile when detail is shown */}
         <div
           className={cn(
-            'w-full md:w-80 lg:w-96 border-r border-border/50 flex flex-col flex-shrink-0 overflow-y-auto bg-white',
+            'w-full md:w-80 lg:w-96 border-r border-border/50 flex flex-col flex-shrink-0 overflow-y-auto bg-card',
             showMobileDetail ? 'hidden md:flex' : 'flex'
           )}
           data-testid="conversation-list-panel"
@@ -239,7 +239,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
   return (
     <div className="flex flex-col h-full">
       {/* Detail header */}
-      <div className="border-b border-border/50 p-4 flex items-start gap-3 bg-white">
+      <div className="border-b border-border/50 p-4 flex items-start gap-3 bg-card">
         <Button
           variant="ghost"
           size="sm"

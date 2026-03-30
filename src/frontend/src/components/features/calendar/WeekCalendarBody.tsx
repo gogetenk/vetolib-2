@@ -119,7 +119,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
   }
 
   return (
-    <div className="flex overflow-x-auto border border-border/60 rounded-xl bg-white shadow-sm" data-testid="calendar-week-view">
+    <div className="flex overflow-x-auto border border-border/60 rounded-xl bg-card shadow-sm" data-testid="calendar-week-view">
       <TimeColumn />
 
       <div className={`flex flex-1 min-w-0 ${isRtl ? 'flex-row-reverse' : ''}`}>

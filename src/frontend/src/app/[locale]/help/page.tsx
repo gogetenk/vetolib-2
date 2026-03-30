@@ -273,7 +273,7 @@ export default function HelpCenterPage() {
       })}
 
       {visibleSections.length === 0 && searchQuery.trim().length > 0 && (
-        <p className="px-3 py-4 text-sm text-stone-400" data-testid="help-no-results">
+        <p className="px-3 py-4 text-sm text-muted-foreground" data-testid="help-no-results">
           {t("no_results_for", { query: searchQuery })}
         </p>
       )}
@@ -324,7 +324,7 @@ export default function HelpCenterPage() {
               {t("subtitle")}
             </p>
             <div className="relative mx-auto mt-6 max-w-md">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder={t("search_placeholder")}

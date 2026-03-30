@@ -205,7 +205,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
   return (
     <div className="flex flex-col h-full" data-testid="conversation-detail-page">
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="border-b border-border/50 p-4 flex items-start gap-3 flex-shrink-0 bg-white">
+      <div className="border-b border-border/50 p-4 flex items-start gap-3 flex-shrink-0 bg-card">
         <Button
           variant="ghost"
           size="sm"
@@ -301,7 +301,7 @@ export function ConversationDetailPage({ conversationId }: ConversationDetailPag
 
           {/* Reply composer */}
           {!isAssistant && (
-            <div className="border-t border-border/50 flex-shrink-0 bg-white">
+            <div className="border-t border-border/50 flex-shrink-0 bg-card">
               <ReplyComposer
                 prefillText={suggestedText}
                 onPrefillConsumed={() => setSuggestedText('')}

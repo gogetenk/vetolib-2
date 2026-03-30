@@ -38,7 +38,7 @@ export function AlternativeSuggestions({
           <li
             key={alt.id}
             data-testid={`alternative-drug-${alt.id}`}
-            className="flex items-center justify-between gap-3 rounded-xl bg-white border border-green-100 px-3 py-2.5 dark:bg-green-900/20 dark:border-green-800"
+            className="flex items-center justify-between gap-3 rounded-xl bg-card border border-green-100 px-3 py-2.5 dark:bg-green-900/20 dark:border-green-800"
           >
             <div className="flex flex-col min-w-0">
               <span className="text-[13px] font-semibold text-green-900 dark:text-green-100 truncate">

@@ -171,7 +171,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
   return (
     <div
       ref={containerRef}
-      className="flex overflow-y-auto border border-border/60 rounded-xl bg-white shadow-sm max-h-[calc(100vh-200px)]"
+      className="flex overflow-y-auto border border-border/60 rounded-xl bg-card shadow-sm max-h-[calc(100vh-200px)]"
       data-testid="calendar-day-view"
     >
       {/* Time column */}
@@ -310,7 +310,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
 
                 {apt.consultationType === 'Teleconsultation' && (
                   <div className="flex-shrink-0 ms-2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
-                    <div className="bg-white/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-foreground">
+                    <div className="bg-card/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-foreground">
                       <Video className="w-3.5 h-3.5" />
                     </div>
                   </div>

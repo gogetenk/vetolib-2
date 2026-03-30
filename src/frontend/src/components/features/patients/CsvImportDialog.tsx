@@ -146,7 +146,7 @@ export function CsvImportDialog({ open, onOpenChange, onImported }: CsvImportDia
               size="sm"
               onClick={handleDownloadTemplate}
               data-testid="download-template-btn"
-              className="rounded-xl border-border/80 text-[12px] font-semibold hover:bg-white"
+              className="rounded-xl border-border/80 text-[12px] font-semibold hover:bg-card"
             >
               <Download className="h-4 w-4 me-1" />
               {t('download_template')}

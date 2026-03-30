@@ -143,7 +143,7 @@ export function InvoiceForm() {
               />
               {patientSearch && !selectedPatient && (
                 <div
-                  className="mt-1 rounded-xl border border-border/80 bg-white shadow-lg overflow-hidden"
+                  className="mt-1 rounded-xl border border-border/80 bg-card shadow-lg overflow-hidden"
                   data-testid="patient-dropdown"
                 >
                   {filteredPatients.map((p) => (

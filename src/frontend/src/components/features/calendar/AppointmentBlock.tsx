@@ -69,7 +69,7 @@ export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps
 
       {appointment.consultationType === 'Teleconsultation' && (
         <div className="flex-shrink-0 ms-2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
-          <div className="bg-white/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-foreground">
+          <div className="bg-card/80 w-[24px] h-[24px] rounded-lg shadow-sm border border-black/5 flex items-center justify-center text-foreground">
             <Video className="w-3.5 h-3.5" />
           </div>
         </div>

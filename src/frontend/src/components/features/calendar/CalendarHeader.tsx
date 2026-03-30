@@ -67,10 +67,10 @@ export function CalendarHeader({
   }
 
   return (
-    <div className="flex flex-col gap-4 pb-4 bg-white" data-testid="calendar-header">
+    <div className="flex flex-col gap-4 pb-4 bg-card" data-testid="calendar-header">
       {/* Top row: Personnel filter -- hidden on mobile */}
       <div className="hidden md:flex items-center gap-4 px-2">
-        <div className="flex items-center gap-2 bg-white rounded-full border border-border/80 p-1 shadow-sm">
+        <div className="flex items-center gap-2 bg-card rounded-full border border-border/80 p-1 shadow-sm">
           {/* Vet filter dropdown (like Weda personnel filter) */}
           <div className="relative" ref={filterRef} data-testid="calendar-vet-filter">
             <Button variant="ghost"
@@ -83,7 +83,7 @@ export function CalendarHeader({
             </Button>
 
             {/* Dropdown */}
-            <div className={`absolute left-0 top-full mt-2 z-50 min-w-56 rounded-xl border border-border/80 bg-white p-2 shadow-lg transition-all duration-200 origin-top-left ${isFilterOpen ? 'opacity-100 scale-y-100 translate-y-0' : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'}`}>
+            <div className={`absolute left-0 top-full mt-2 z-50 min-w-56 rounded-xl border border-border/80 bg-card p-2 shadow-lg transition-all duration-200 origin-top-left ${isFilterOpen ? 'opacity-100 scale-y-100 translate-y-0' : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'}`}>
               <Button variant="ghost"
                 className={`w-full text-start rounded-xl px-3 py-2.5 text-[13px] transition-colors hover:bg-muted ${selectedVetIds.length === 0 ? 'font-semibold text-primary bg-primary/10' : 'text-foreground'}`}
                 onClick={() => onVetFilterChange([])}
@@ -130,7 +130,7 @@ export function CalendarHeader({
         {/* Right: View toggle & New Appt */}
         <div className="flex-1 flex justify-end items-center gap-4">
           {/* View toggle -- hidden on mobile */}
-          <div className="hidden md:flex rounded-full border border-border/80 bg-white p-1 shadow-sm h-10 items-center">
+          <div className="hidden md:flex rounded-full border border-border/80 bg-card p-1 shadow-sm h-10 items-center">
             {views.map((view) => (
               <Button variant="ghost"
                 key={view.key}

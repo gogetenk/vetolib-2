@@ -546,7 +546,7 @@ export function MedicalRecordForm({
             </p>
           )}
 
-          <div className="sticky bottom-0 bg-white py-3 border-t border-border/50 flex gap-3 justify-end items-center -mx-6 px-6">
+          <div className="sticky bottom-0 bg-card py-3 border-t border-border/50 flex gap-3 justify-end items-center -mx-6 px-6">
             {isSubmitBlocked && (
               <p
                 className="text-xs text-destructive me-auto"

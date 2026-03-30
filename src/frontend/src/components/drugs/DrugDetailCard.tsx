@@ -65,7 +65,7 @@ export function DrugDetailCard({ drug }: DrugDetailCardProps) {
       </div>
 
       {/* Common Dosage */}
-      <div className="bg-white border border-border/80 rounded-xl p-4 shadow-sm" data-testid="drug-detail-dosage-section">
+      <div className="bg-card border border-border/80 rounded-xl p-4 shadow-sm" data-testid="drug-detail-dosage-section">
         <h3 className="text-[13px] font-bold uppercase tracking-wider text-foreground mb-2">
           {t('detail.common_dosage')}
         </h3>
@@ -76,7 +76,7 @@ export function DrugDetailCard({ drug }: DrugDetailCardProps) {
 
       {/* Dosage Guidelines by Species */}
       {drug.dosageGuidelines.length > 0 && (
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="drug-detail-guidelines-section">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="drug-detail-guidelines-section">
           <div className="px-4 pt-4 pb-2">
             <h3 className="text-[13px] font-bold uppercase tracking-wider text-foreground">
               {t('detail.dosage_guidelines')}

@@ -133,7 +133,12 @@ export function DrugCatalogTable({
           <Input
             data-testid="drug-search"
             placeholder={t('search_placeholder')}
+<<<<<<< HEAD
+            aria-label={t('search_placeholder')}
+            className="w-64 pl-9 bg-card border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
+=======
             className="w-64 ps-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
+>>>>>>> origin/develop
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
           />
@@ -191,7 +196,7 @@ export function DrugCatalogTable({
           {sorted.map(drug => (
             <div
               key={drug.id}
-              className="bg-white border border-border/80 rounded-xl p-4 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
+              className="bg-card border border-border/80 rounded-xl p-4 shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
               onClick={() => onView(drug)}
               data-testid={`drug-card-${drug.id}`}
             >
@@ -229,7 +234,7 @@ export function DrugCatalogTable({
           {t('no_drugs')}
         </p>
       ) : (
-        <div className="hidden md:block bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="drug-catalog-table">
+        <div className="hidden md:block bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden" data-testid="drug-catalog-table">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted hover:bg-muted border-b border-border/50">

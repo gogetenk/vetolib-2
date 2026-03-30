@@ -178,7 +178,7 @@ export function AppointmentDetailSheet({
         
         <div className="flex flex-col md:flex-row min-h-[600px]">
           {/* Left Column: Patient & Owner Info */}
-          <div className="w-full md:w-[40%] bg-white p-8 flex flex-col border-r border-border/50">
+          <div className="w-full md:w-[40%] bg-card p-8 flex flex-col border-r border-border/50">
             <div className="mb-8">
               <h2 className="text-[22px] font-bold text-foreground leading-tight flex items-center gap-2">
                 {ownerLastName} <span className="font-semibold text-primary">{ownerFirstName}</span> <span className="text-muted-foreground font-normal ms-1">{emoji}</span>
@@ -247,7 +247,7 @@ export function AppointmentDetailSheet({
               {/* Consultation Type */}
               <div>
                 <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.consultationType')}</h4>
-                <div className="bg-white border border-border/80 rounded-xl p-3.5 flex items-center justify-between shadow-sm">
+                <div className="bg-card border border-border/80 rounded-xl p-3.5 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${color.bg}`}>
                       <div className={`w-3 h-3 rounded-full ${color.dot}`}></div>
@@ -263,7 +263,7 @@ export function AppointmentDetailSheet({
               {/* Reason */}
               <div>
                 <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.reasonLabel')}</h4>
-                <div className="bg-white border border-border/80 rounded-xl p-4 min-h-[80px] shadow-sm text-[14px] font-medium text-foreground" data-testid="detail-reason">
+                <div className="bg-card border border-border/80 rounded-xl p-4 min-h-[80px] shadow-sm text-[14px] font-medium text-foreground" data-testid="detail-reason">
                   {appointment.reason || <span className="text-muted-foreground italic">{t('detail.noReasonProvided')}</span>}
                 </div>
               </div>
@@ -271,7 +271,7 @@ export function AppointmentDetailSheet({
               {/* Notes */}
               <div>
                 <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.notesAndDiscussion')}</h4>
-                <div className="bg-white border border-border/80 rounded-xl p-4 min-h-[100px] shadow-sm flex flex-col justify-between">
+                <div className="bg-card border border-border/80 rounded-xl p-4 min-h-[100px] shadow-sm flex flex-col justify-between">
                   <div className="text-[14px] font-medium text-foreground mb-4" data-testid="detail-notes">
                     {appointment.notes || <span className="text-muted-foreground italic">{t('detail.noNotes')}</span>}
                   </div>

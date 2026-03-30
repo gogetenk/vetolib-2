@@ -10,7 +10,7 @@ export function TimeColumn() {
   }
 
   return (
-    <div className="flex-shrink-0 w-16 border-e border-border/40 bg-white" data-testid="calendar-time-column">
+    <div className="flex-shrink-0 w-16 border-e border-border/40 bg-card" data-testid="calendar-time-column">
       {/* Header spacer to align with day headers */}
       <div className="h-14 border-b border-border/40" />
       {hours.map((hour) => (

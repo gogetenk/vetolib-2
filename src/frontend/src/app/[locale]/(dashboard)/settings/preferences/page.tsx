@@ -146,7 +146,7 @@ export default function PreferencesPage() {
 
       {/* Consent management (only visible to Admins) */}
       {isAdmin && (
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm p-5 space-y-3 transition-all duration-200 ease-in-out" data-testid="consent-management-section">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm p-5 space-y-3 transition-all duration-200 ease-in-out" data-testid="consent-management-section">
           <h3 className="text-[13px] font-bold text-foreground">{t('consent.title')}</h3>
           <p className="text-[12px] text-muted-foreground">{t('consent.description')}</p>
           <Button

@@ -113,7 +113,7 @@ export function ClinicSwitcher() {
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
           "hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full",
-          "border border-border/80 bg-white hover:bg-muted",
+          "border border-border/80 bg-card hover:bg-muted",
           "transition-colors text-[13px] font-semibold text-foreground",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1",
           open && "bg-muted"
@@ -139,7 +139,7 @@ export function ClinicSwitcher() {
           data-testid="clinic-switcher-dropdown"
           className={cn(
             "absolute ltr:left-0 rtl:right-0 top-full z-50 mt-1 w-72",
-            "rounded-xl border border-border/80 bg-white text-popover-foreground shadow-xl",
+            "rounded-xl border border-border/80 bg-card text-popover-foreground shadow-xl",
             "p-1.5",
             "animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200"
           )}

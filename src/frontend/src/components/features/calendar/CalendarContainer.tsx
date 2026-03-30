@@ -229,7 +229,7 @@ export function CalendarContainer() {
   }
 
   return (
-    <div className="flex flex-col h-full w-full bg-white rounded-xl" data-testid="calendar-container">
+    <div className="flex flex-col h-full w-full bg-card rounded-xl" data-testid="calendar-container">
       <CalendarHeader
         dateLabel={dateLabel}
         onPrev={goToPrev}
@@ -250,7 +250,7 @@ export function CalendarContainer() {
       {/* Loading skeleton */}
       {isLoading && (
         <div className="flex-1 animate-in fade-in duration-300" data-testid="calendar-loading-skeleton">
-          <div className="flex border border-border/60 rounded-xl bg-white shadow-sm overflow-hidden h-full">
+          <div className="flex border border-border/60 rounded-xl bg-card shadow-sm overflow-hidden h-full">
             <div className="flex-shrink-0 w-16 border-e border-border/40">
               {Array.from({ length: 8 }, (_, i) => (
                 <div key={i} className="h-16 border-b border-border/30 p-2">

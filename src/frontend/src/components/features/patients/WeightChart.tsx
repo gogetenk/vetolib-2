@@ -47,7 +47,7 @@ function CustomTooltip({
   })
 
   return (
-    <div className="rounded-lg border border-border/80 bg-white px-3 py-2 shadow-sm">
+    <div className="rounded-lg border border-border/80 bg-card px-3 py-2 shadow-sm">
       <p className="text-[12px] text-muted-foreground">{date}</p>
       <p className="text-[14px] font-bold text-foreground">
         {entry.value} kg

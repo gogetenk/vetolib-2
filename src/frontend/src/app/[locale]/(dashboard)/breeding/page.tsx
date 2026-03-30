@@ -109,7 +109,7 @@ export default function BreedingDashboardPage() {
 
       {/* Summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4" data-testid="breeding-summary-cards">
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm p-5" data-testid="breeding-active-pregnancies-card">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm p-5" data-testid="breeding-active-pregnancies-card">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-pink-50 text-pink-600">
               <Heart className="h-5 w-5" />
@@ -120,7 +120,7 @@ export default function BreedingDashboardPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm p-5" data-testid="breeding-recent-litters-card">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm p-5" data-testid="breeding-recent-litters-card">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600">
               <Baby className="h-5 w-5" />
@@ -131,7 +131,7 @@ export default function BreedingDashboardPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm p-5" data-testid="breeding-heat-cycles-card">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm p-5" data-testid="breeding-heat-cycles-card">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 text-amber-600">
               <CalendarClock className="h-5 w-5" />
@@ -148,11 +148,11 @@ export default function BreedingDashboardPage() {
       <section data-testid="breeding-dashboard-pregnancies">
         <h2 className="text-[15px] font-bold text-foreground mb-3">Active Pregnancies</h2>
         {activePregnancies.length === 0 ? (
-          <p className="text-muted-foreground text-[13px] py-6 text-center bg-white border border-border/80 rounded-xl" data-testid="breeding-dashboard-pregnancies-empty">
+          <p className="text-muted-foreground text-[13px] py-6 text-center bg-card border border-border/80 rounded-xl" data-testid="breeding-dashboard-pregnancies-empty">
             No active pregnancies.
           </p>
         ) : (
-          <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
               <span>Patient</span>
               <span>Mating Date</span>
@@ -195,11 +195,11 @@ export default function BreedingDashboardPage() {
       <section data-testid="breeding-dashboard-litters">
         <h2 className="text-[15px] font-bold text-foreground mb-3">Recent Litters</h2>
         {recentLitters.length === 0 ? (
-          <p className="text-muted-foreground text-[13px] py-6 text-center bg-white border border-border/80 rounded-xl" data-testid="breeding-dashboard-litters-empty">
+          <p className="text-muted-foreground text-[13px] py-6 text-center bg-card border border-border/80 rounded-xl" data-testid="breeding-dashboard-litters-empty">
             No litters recorded.
           </p>
         ) : (
-          <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
               <span>Mother</span>
               <span>Father</span>
@@ -234,11 +234,11 @@ export default function BreedingDashboardPage() {
       <section data-testid="breeding-dashboard-heat-cycles">
         <h2 className="text-[15px] font-bold text-foreground mb-3">Recent Heat Cycles</h2>
         {recentHeatCycles.length === 0 ? (
-          <p className="text-muted-foreground text-[13px] py-6 text-center bg-white border border-border/80 rounded-xl" data-testid="breeding-dashboard-heat-cycles-empty">
+          <p className="text-muted-foreground text-[13px] py-6 text-center bg-card border border-border/80 rounded-xl" data-testid="breeding-dashboard-heat-cycles-empty">
             No heat cycles recorded.
           </p>
         ) : (
-          <div className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
               <span>Patient</span>
               <span>Start Date</span>

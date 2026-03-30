@@ -157,7 +157,7 @@ export function SoapNotesPanel({ requestData, onAccept, open }: SoapNotesPanelPr
                   value={values[key]}
                   onChange={(e) => handleFieldChange(key, e.target.value)}
                   data-testid={`soap-${key}`}
-                  className="rounded-xl border-blue-200/80 bg-white text-[13px] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50"
+                  className="rounded-xl border-blue-200/80 bg-card text-[13px] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50"
                 />
               </div>
             ))}

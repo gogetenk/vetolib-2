@@ -88,7 +88,7 @@ export function HealthAlertPanel() {
 
   if (isLoading) {
     return (
-      <div data-testid="health-alerts-loading" className="bg-white border border-border/80 rounded-xl shadow-sm p-6">
+      <div data-testid="health-alerts-loading" className="bg-card border border-border/80 rounded-xl shadow-sm p-6">
         <div className="h-6 w-48 rounded bg-muted animate-pulse mb-4" />
         <div className="space-y-3">
           <div className="h-16 rounded bg-muted animate-pulse" />
@@ -102,7 +102,7 @@ export function HealthAlertPanel() {
     return (
       <div
         data-testid="health-alerts-panel"
-        className="bg-white border border-border/80 rounded-xl shadow-sm p-6"
+        className="bg-card border border-border/80 rounded-xl shadow-sm p-6"
       >
         <div className="flex items-center gap-2 mb-2">
           <ShieldAlert className="h-5 w-5 text-muted-foreground" />
@@ -118,7 +118,7 @@ export function HealthAlertPanel() {
   return (
     <div
       data-testid="health-alerts-panel"
-      className="bg-white border border-border/80 rounded-xl shadow-sm overflow-hidden"
+      className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden"
     >
       <div className="flex items-center justify-between p-4 border-b border-border/50">
         <div className="flex items-center gap-2">

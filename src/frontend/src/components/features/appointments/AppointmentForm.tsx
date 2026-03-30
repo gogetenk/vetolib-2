@@ -311,7 +311,7 @@ export function AppointmentForm() {
             />
           </div>
 
-          <div className="sticky bottom-0 bg-white py-3 border-t border-border/50 flex gap-3 justify-end -mx-6 px-6">
+          <div className="sticky bottom-0 bg-card py-3 border-t border-border/50 flex gap-3 justify-end -mx-6 px-6">
             <Button
               type="button"
               variant="outline"
