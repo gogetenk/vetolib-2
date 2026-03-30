@@ -102,6 +102,18 @@ public class UpdateInvoiceStatusHandlerTests : IDisposable
     }
 
     [Fact]
+    public async Task Handle_TransitionSentToPaid_SetsPaidAt()
+    {
+        await _handler.Handle(BuildCommand(InvoiceStatus.Sent), CancellationToken.None);
+
+        var result = await _handler.Handle(BuildCommand(InvoiceStatus.Paid), CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.PaidAt.Should().NotBeNull();
+        result.Value.PaidAt!.Value.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
     public async Task Handle_TransitionDraftToCancelled_ReturnsSuccess()
     {
         var cmd = BuildCommand(InvoiceStatus.Cancelled);
