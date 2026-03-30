@@ -185,6 +185,21 @@ par les appels réels vers `lib/api/{module}.ts`.
 
 **La veille est INTERDITE tant qu'une source a du travail.**
 
+**Règle anti-stagnation (v4.1 — post-mortem 2026-03-30) :**
+
+Un audit qui produit des findings SANS créer de tâches = travail non terminé.
+Après chaque audit, l'orchestrateur DOIT :
+1. Lire le rapport d'audit
+2. Créer des `tasks/todo-*` pour CHAQUE finding HIGH+ (pas seulement CRITICAL)
+3. Dispatcher immédiatement les tâches indépendantes
+4. Les 10 sources sont **cycliques** — les re-scanner après chaque vague de merges
+5. "0 TODO" ne signifie JAMAIS "rien à faire" — ça signifie "créer des tâches"
+
+**Si le backlog est vide et les audits ont des findings non traités → créer des tâches.**
+**Si les tâches sont créées → les dispatcher.**
+**Si les agents terminent → merger et re-scanner.**
+**Le cycle ne s'arrête JAMAIS.**
+
 ---
 
 ## Règles absolues
