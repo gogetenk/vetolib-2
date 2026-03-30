@@ -1,5 +1,5 @@
 import { apiGet, apiPost } from './client'
-import type { PagedResult } from './patients'
+import type { PagedResult } from './types'
 
 export interface MedicalRecordDto {
   id: string

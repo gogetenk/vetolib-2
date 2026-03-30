@@ -239,24 +239,22 @@ export default function BreedingDashboardPage() {
           </p>
         ) : (
           <div className="bg-card border border-border/80 rounded-xl shadow-sm overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
-              <span>Patient</span>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-[11px] font-bold text-foreground uppercase tracking-wider px-4 py-3 bg-muted border-b border-border/50">
               <span>Start Date</span>
               <span>End Date</span>
-              <span>Phase</span>
-              <span>Intensity</span>
+              <span>Duration</span>
+              <span>Notes</span>
             </div>
             {recentHeatCycles.map((cycle) => (
               <div
                 key={cycle.id}
                 data-testid={`breeding-dashboard-heat-cycle-${cycle.id}`}
-                className="grid grid-cols-1 md:grid-cols-5 gap-4 text-[13px] px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
+                className="grid grid-cols-1 md:grid-cols-4 gap-4 text-[13px] px-4 py-3 border-b border-border/30 last:border-b-0 hover:bg-muted/50 transition-colors"
               >
-                <span className="font-semibold text-foreground">{cycle.patientName}</span>
-                <span className="text-muted-foreground">{formatDate(cycle.startDate)}</span>
+                <span className="font-semibold text-foreground">{formatDate(cycle.startDate)}</span>
                 <span className="text-muted-foreground">{cycle.endDate ? formatDate(cycle.endDate) : 'Ongoing'}</span>
-                <Badge variant="secondary" className="w-fit text-[10px]">{cycle.phase}</Badge>
-                <span className="text-muted-foreground">{cycle.intensity}</span>
+                <span className="text-muted-foreground">{cycle.durationDays != null ? `${cycle.durationDays} days` : '-'}</span>
+                <span className="text-muted-foreground">{cycle.notes ?? '-'}</span>
               </div>
             ))}
           </div>

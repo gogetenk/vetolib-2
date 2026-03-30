@@ -1,4 +1,7 @@
 import { apiGet, apiPost, apiPatch } from './client'
+import type { Species, PagedResult } from './types'
+
+export type { Species, PagedResult }
 
 export type AppointmentStatus =
   | 'SCHEDULED'
@@ -8,8 +11,6 @@ export type AppointmentStatus =
   | 'CANCELLED'
 
 export type AppointmentAction = 'CHECK_IN' | 'START' | 'COMPLETE' | 'CANCEL'
-
-export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Exotic' | 'Falcon' | 'Reptile'
 
 export interface AppointmentDto {
   id: string
@@ -28,13 +29,6 @@ export interface AppointmentDto {
   clinicId: string
   consultationType?: string
   durationMinutes?: number
-}
-
-export interface PagedResult<T> {
-  items: T[]
-  totalCount: number
-  page: number
-  pageSize: number
 }
 
 export interface AppointmentFilters {

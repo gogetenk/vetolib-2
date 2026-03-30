@@ -231,50 +231,34 @@ const MOCK_HEAT_CYCLES: HeatCycleDto[] = [
   {
     id: 'hc-0000-0000-0000-000000000001',
     patientId: 'pat-0000-0000-0000-000000000004', // Bella
-    patientName: 'Bella',
     startDate: '2025-01-05',
     endDate: '2025-01-26',
-    phase: 'Anestrus',
-    intensity: 'Medium',
+    durationDays: 21,
     notes: 'Regular cycle',
-    recordedBy: 'Dr. Sarah Johnson',
-    clinicId: 'clinic-001',
   },
   {
     id: 'hc-0000-0000-0000-000000000002',
     patientId: 'pat-0000-0000-0000-000000000004', // Bella
-    patientName: 'Bella',
     startDate: '2025-07-01',
     endDate: '2025-07-22',
-    phase: 'Anestrus',
-    intensity: 'High',
+    durationDays: 21,
     notes: 'Mating occurred during estrus',
-    recordedBy: 'Dr. Ahmed Khalil',
-    clinicId: 'clinic-001',
   },
   {
     id: 'hc-0000-0000-0000-000000000003',
     patientId: 'pat-0000-0000-0000-000000000002', // Luna
-    patientName: 'Luna',
     startDate: '2025-11-10',
     endDate: '2025-11-17',
-    phase: 'Anestrus',
-    intensity: 'Low',
+    durationDays: 7,
     notes: 'Short cycle',
-    recordedBy: 'Dr. Sarah Johnson',
-    clinicId: 'clinic-001',
   },
   {
     id: 'hc-0000-0000-0000-000000000004',
     patientId: 'pat-0000-0000-0000-000000000004', // Bella — recent
-    patientName: 'Bella',
     startDate: '2026-01-15',
     endDate: '2026-02-05',
-    phase: 'Anestrus',
-    intensity: 'Medium',
+    durationDays: 21,
     notes: 'Pre-mating cycle',
-    recordedBy: 'Dr. Sarah Johnson',
-    clinicId: 'clinic-001',
   },
 ]
 
@@ -544,17 +528,18 @@ export const breedingHandlers = [
   // POST /api/v1/patients/heat-cycles
   http.post('/api/v1/patients/heat-cycles', async ({ request }) => {
     const body = (await request.json()) as CreateHeatCycleRequest
+    const startDateObj = new Date(body.startDate)
+    const endDateObj = body.endDate ? new Date(body.endDate) : null
+    const durationDays = endDateObj
+      ? Math.round((endDateObj.getTime() - startDateObj.getTime()) / (1000 * 60 * 60 * 24))
+      : null
     const newCycle: HeatCycleDto = {
       id: `hc-${crypto.randomUUID().slice(0, 8)}`,
       patientId: body.patientId,
-      patientName: 'Patient',
       startDate: body.startDate,
       endDate: body.endDate ?? null,
-      phase: body.phase,
-      intensity: body.intensity,
+      durationDays,
       notes: body.notes ?? null,
-      recordedBy: 'Dr. Sarah Johnson',
-      clinicId: 'clinic-001',
     }
     MOCK_HEAT_CYCLES.push(newCycle)
     return HttpResponse.json(newCycle, { status: 201 })

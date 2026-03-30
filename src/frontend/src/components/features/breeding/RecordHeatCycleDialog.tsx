@@ -12,14 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import type { CreateHeatCycleRequest, HeatCyclePhase } from '@/lib/api/breeding'
+import type { CreateHeatCycleRequest } from '@/lib/api/breeding'
 
 interface RecordHeatCycleDialogProps {
   open: boolean
@@ -33,9 +26,6 @@ function todayDateString(): string {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 }
 
-const PHASES: HeatCyclePhase[] = ['Proestrus', 'Estrus', 'Diestrus', 'Anestrus']
-const INTENSITIES = ['Low', 'Medium', 'High'] as const
-
 export function RecordHeatCycleDialog({
   open,
   onOpenChange,
@@ -44,8 +34,6 @@ export function RecordHeatCycleDialog({
 }: RecordHeatCycleDialogProps) {
   const [startDate, setStartDate] = useState(todayDateString())
   const [endDate, setEndDate] = useState('')
-  const [phase, setPhase] = useState<HeatCyclePhase>('Proestrus')
-  const [intensity, setIntensity] = useState<'Low' | 'Medium' | 'High'>('Medium')
   const [notes, setNotes] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -58,14 +46,10 @@ export function RecordHeatCycleDialog({
         patientId,
         startDate,
         endDate: endDate || null,
-        phase,
-        intensity,
         notes: notes.trim() || null,
       })
       setStartDate(todayDateString())
       setEndDate('')
-      setPhase('Proestrus')
-      setIntensity('Medium')
       setNotes('')
     } finally {
       setIsSubmitting(false)
@@ -76,8 +60,6 @@ export function RecordHeatCycleDialog({
     if (!newOpen) {
       setStartDate(todayDateString())
       setEndDate('')
-      setPhase('Proestrus')
-      setIntensity('Medium')
       setNotes('')
     }
     onOpenChange(newOpen)
@@ -112,36 +94,6 @@ export function RecordHeatCycleDialog({
               onChange={(e) => setEndDate(e.target.value)}
               data-testid="heat-end-date-input"
             />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="heat-phase">Phase</Label>
-            <Select value={phase} onValueChange={(val) => setPhase(val as HeatCyclePhase)}>
-              <SelectTrigger data-testid="heat-phase-select" id="heat-phase">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {PHASES.map((p) => (
-                  <SelectItem key={p} value={p} data-testid={`heat-phase-${p.toLowerCase()}`}>
-                    {p}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="heat-intensity">Intensity</Label>
-            <Select value={intensity} onValueChange={(val) => setIntensity(val as 'Low' | 'Medium' | 'High')}>
-              <SelectTrigger data-testid="heat-intensity-select" id="heat-intensity">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {INTENSITIES.map((i) => (
-                  <SelectItem key={i} value={i} data-testid={`heat-intensity-${i.toLowerCase()}`}>
-                    {i}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="heat-notes">
