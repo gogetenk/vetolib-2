@@ -149,6 +149,103 @@ public class UserDomainTests
         user.MustChangePassword.Should().BeFalse();
     }
 
+    // ─── EmailVerification ────────────────────────────────────────
+
+    [Fact]
+    public void Create_NewUser_EmailVerifiedIsFalse()
+    {
+        var result = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.EmailVerified.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Create_NewUser_HasVerificationToken()
+    {
+        var result = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.EmailVerificationToken.Should().NotBeNullOrEmpty();
+        result.Value.EmailVerificationExpiry.Should().NotBeNull();
+        result.Value.EmailVerificationExpiry.Should().BeAfter(DateTime.UtcNow);
+    }
+
+    [Fact]
+    public void VerifyEmail_WithValidToken_SetsEmailVerified()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+        var token = user.EmailVerificationToken!;
+
+        var result = user.VerifyEmail(token);
+
+        result.IsSuccess.Should().BeTrue();
+        user.EmailVerified.Should().BeTrue();
+        user.EmailVerificationToken.Should().BeNull();
+        user.EmailVerificationExpiry.Should().BeNull();
+    }
+
+    [Fact]
+    public void VerifyEmail_WithInvalidToken_ReturnsError()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+
+        var result = user.VerifyEmail("wrong-token");
+
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.Contains("INVALID_TOKEN"));
+    }
+
+    [Fact]
+    public void VerifyEmail_AlreadyVerified_ReturnsError()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+        var token = user.EmailVerificationToken!;
+        user.VerifyEmail(token);
+
+        var result = user.VerifyEmail(token);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.Contains("EMAIL_ALREADY_VERIFIED"));
+    }
+
+    [Fact]
+    public void RegenerateVerificationToken_WhenNotVerified_GeneratesNewToken()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+        var originalToken = user.EmailVerificationToken;
+
+        var result = user.RegenerateVerificationToken();
+
+        result.IsSuccess.Should().BeTrue();
+        user.EmailVerificationToken.Should().NotBe(originalToken);
+        user.EmailVerificationExpiry.Should().BeAfter(DateTime.UtcNow);
+    }
+
+    [Fact]
+    public void RegenerateVerificationToken_WhenAlreadyVerified_ReturnsError()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+        user.VerifyEmail(user.EmailVerificationToken!);
+
+        var result = user.RegenerateVerificationToken();
+
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.Contains("EMAIL_ALREADY_VERIFIED"));
+    }
+
+    [Fact]
+    public void ToDto_IncludesEmailVerified()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+        var dto = user.ToDto();
+        dto.EmailVerified.Should().BeFalse();
+
+        user.VerifyEmail(user.EmailVerificationToken!);
+        var dto2 = user.ToDto();
+        dto2.EmailVerified.Should().BeTrue();
+    }
+
     // ─── ToListItemDto ───────────────────────────────────────────
 
     [Fact]

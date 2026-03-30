@@ -9,6 +9,7 @@ using Vetolib.Auth.Application.Commands.ChangePassword;
 using Vetolib.Auth.Application.Commands.Login;
 using Vetolib.Auth.Application.Commands.Logout;
 using Vetolib.Auth.Application.Commands.RefreshToken;
+using Vetolib.Auth.Application.Commands.VerifyEmail;
 using Vetolib.Auth.Application.Queries.GetCurrentUser;
 using Vetolib.Auth.Contracts;
 
@@ -34,6 +35,13 @@ internal static class AuthEndpoints
             .RequireRateLimiting("auth")
             .WithSummary("Refresh access token")
             .WithDescription("Exchanges a valid refresh token for a new JWT access token and refresh token pair.");
+
+        publicGroup.MapPost("/verify-email", VerifyEmail)
+            .WithName("VerifyEmail")
+            .AllowAnonymous()
+            .RequireRateLimiting("auth")
+            .WithSummary("Verify user email address")
+            .WithDescription("Verifies a user's email address using the token sent to their email during registration. Sets EmailVerified to true.");
 
         var authGroup = app.MapGroup("/api/v1/auth")
             .WithTags("Auth")
@@ -110,4 +118,10 @@ internal static class AuthEndpoints
         return (await sender.Send(new ChangePasswordCommand(userId, request.CurrentPassword, request.NewPassword)))
             .ToMinimalApiResult();
     }
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> VerifyEmail(
+        string token,
+        ISender sender)
+        => (await sender.Send(new VerifyEmailCommand(token)))
+            .ToMinimalApiResult();
 }

@@ -47,8 +47,21 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasDefaultValue(0);
 
+        builder.Property(u => u.EmailVerified)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        builder.Property(u => u.EmailVerificationToken)
+            .HasMaxLength(256);
+
+        builder.Property(u => u.EmailVerificationExpiry);
+
         // Email must be globally unique (not per-clinic) — a user can't register with the same email across clinics
         builder.HasIndex(u => u.Email)
             .IsUnique();
+
+        // Token index for fast lookup during verification
+        builder.HasIndex(u => u.EmailVerificationToken)
+            .HasFilter("\"EmailVerificationToken\" IS NOT NULL");
     }
 }

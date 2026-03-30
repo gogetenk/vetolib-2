@@ -5,4 +5,5 @@ public record UserDto(
     string Email,
     UserRole Role,
     Guid ClinicId,
-    string? VetLicenseNumber);
+    string? VetLicenseNumber,
+    bool EmailVerified = false);

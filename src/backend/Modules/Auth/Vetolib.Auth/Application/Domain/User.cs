@@ -18,6 +18,9 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
     public DateTime? LockedUntil { get; private set; }
     public bool IsActive { get; private set; } = true;
     public bool MustChangePassword { get; private set; }
+    public bool EmailVerified { get; private set; }
+    public string? EmailVerificationToken { get; private set; }
+    public DateTime? EmailVerificationExpiry { get; private set; }
 
     private User() { } // EF Core constructor
 
@@ -51,8 +54,13 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
             IsLocked = false,
             FailedLoginAttempts = 0,
             IsActive = true,
-            MustChangePassword = false
+            MustChangePassword = false,
+            EmailVerified = false,
+            EmailVerificationToken = GenerateVerificationToken(),
+            EmailVerificationExpiry = DateTime.UtcNow.AddHours(24)
         };
+
+        user.AddDomainEvent(new EmailVerificationRequestedDomainEvent(user.Id, user.Email, user.EmailVerificationToken!));
 
         return Result<User>.Success(user);
     }
@@ -161,9 +169,52 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
+    public Result VerifyEmail(string token)
+    {
+        if (EmailVerified)
+            return Result.Error("EMAIL_ALREADY_VERIFIED:Email is already verified");
+
+        if (EmailVerificationToken is null || EmailVerificationExpiry is null)
+            return Result.Error("NO_VERIFICATION_PENDING:No email verification is pending");
+
+        if (DateTime.UtcNow > EmailVerificationExpiry.Value)
+            return Result.Error("TOKEN_EXPIRED:Verification token has expired");
+
+        if (!string.Equals(EmailVerificationToken, token, StringComparison.Ordinal))
+            return Result.Error("INVALID_TOKEN:Invalid verification token");
+
+        EmailVerified = true;
+        EmailVerificationToken = null;
+        EmailVerificationExpiry = null;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result RegenerateVerificationToken()
+    {
+        if (EmailVerified)
+            return Result.Error("EMAIL_ALREADY_VERIFIED:Email is already verified");
+
+        EmailVerificationToken = GenerateVerificationToken();
+        EmailVerificationExpiry = DateTime.UtcNow.AddHours(24);
+
+        AddDomainEvent(new EmailVerificationRequestedDomainEvent(Id, Email, EmailVerificationToken));
+
+        return Result.Success();
+    }
+
+    private static string GenerateVerificationToken()
+    {
+        return Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32))
+            .Replace("+", "-")
+            .Replace("/", "_")
+            .TrimEnd('=');
+    }
+
     public UserDto ToDto()
     {
-        return new UserDto(Id, Email, Role, ClinicId, VetLicenseNumber);
+        return new UserDto(Id, Email, Role, ClinicId, VetLicenseNumber, EmailVerified);
     }
 
     public UserListItemDto ToListItemDto()
