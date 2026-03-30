@@ -305,7 +305,7 @@ export function WeekCalendar() {
                       >
                         {/* Top half (XX:00 - XX:30) */}
                         <div
-                          className={`h-8 relative transition-colors duration-200 ease-in-out ${
+                          className={`h-8 min-h-[44px] sm:min-h-0 relative transition-colors duration-200 ease-in-out ${
                             isClickable
                               ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
                               : offHours
@@ -327,7 +327,7 @@ export function WeekCalendar() {
 
                         {/* Bottom half (XX:30 - XX+1:00) */}
                         <div
-                          className={`h-8 relative transition-colors duration-200 ease-in-out ${
+                          className={`h-8 min-h-[44px] sm:min-h-0 relative transition-colors duration-200 ease-in-out ${
                             isClickable
                               ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/20'
                               : offHours

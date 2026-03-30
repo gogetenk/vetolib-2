@@ -188,7 +188,7 @@ export function QuickAppointmentForm({
               onValueChange={(v) => v && setConsultationType(v)}
               data-testid="quick-create-type-select"
             >
-              <SelectTrigger className="w-full rounded-xl border-border/80 text-[13px]" data-testid="quick-create-type-select">
+              <SelectTrigger className="w-full rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="quick-create-type-select">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -213,7 +213,7 @@ export function QuickAppointmentForm({
               onValueChange={(v) => v && setVetId(v)}
               data-testid="quick-create-vet-select"
             >
-              <SelectTrigger className="w-full rounded-xl border-border/80 text-[13px]" data-testid="quick-create-vet-select">
+              <SelectTrigger className="w-full rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="quick-create-vet-select">
                 <SelectValue>
                   {vets.find((v) => v.id === vetId)?.name}
                 </SelectValue>

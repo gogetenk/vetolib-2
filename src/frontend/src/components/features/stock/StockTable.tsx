@@ -94,7 +94,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           onValueChange={(v) => setCategoryFilter(v ?? 'all')}
           data-testid="filter-category"
         >
-          <SelectTrigger className="w-44 rounded-xl border-border/80 text-[13px]" data-testid="filter-category-trigger">
+          <SelectTrigger className="w-44 rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="filter-category-trigger">
             <SelectValue placeholder={t('filters.all_categories')} />
           </SelectTrigger>
           <SelectContent>
@@ -118,7 +118,7 @@ export function StockTable({ items, onEdit, onMovement }: StockTableProps) {
           onValueChange={(v) => setStatusFilter(v ?? 'all')}
           data-testid="filter-status"
         >
-          <SelectTrigger className="w-44 rounded-xl border-border/80 text-[13px]" data-testid="filter-status-trigger">
+          <SelectTrigger className="w-44 rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="filter-status-trigger">
             <SelectValue placeholder={t('filters.all_statuses')} />
           </SelectTrigger>
           <SelectContent>

@@ -209,7 +209,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 onValueChange={(val) => setValue('species', val as Species, { shouldValidate: true })}
                 data-testid="patient-species-select"
               >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="patient-species-select-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="patient-species-select-trigger">
                   <SelectValue placeholder={t('select_species')}>
                     {selectedSpecies ? SPECIES_LABELS[selectedSpecies] : null}
                   </SelectValue>
@@ -271,7 +271,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 }
                 data-testid="select-gender"
               >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-gender-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="select-gender-trigger">
                   <SelectValue placeholder={t('select_gender')}>
                     {selectedGender ?? null}
                   </SelectValue>
@@ -294,7 +294,7 @@ export function PatientForm({ patient, onSuccess }: PatientFormProps) {
                 }
                 data-testid="patient-sex-select"
               >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="patient-sex-select-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="patient-sex-select-trigger">
                   <SelectValue placeholder={t('select_sex')}>
                     {selectedSex ? t(`sex_${selectedSex.toLowerCase().replace(' ', '_')}`) : null}
                   </SelectValue>

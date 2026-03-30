@@ -143,7 +143,7 @@ export function DrugCatalogTable({
           value={categoryFilter}
           onValueChange={(v) => onCategoryFilterChange(v ?? 'all')}
         >
-          <SelectTrigger className="w-48 rounded-xl border-border/80 text-[13px]" data-testid="filter-drug-category-trigger">
+          <SelectTrigger className="w-48 rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="filter-drug-category-trigger">
             <SelectValue placeholder={t('filters.all_categories')} />
           </SelectTrigger>
           <SelectContent>
@@ -166,7 +166,7 @@ export function DrugCatalogTable({
           value={speciesFilter}
           onValueChange={(v) => onSpeciesFilterChange(v ?? 'all')}
         >
-          <SelectTrigger className="w-40 rounded-xl border-border/80 text-[13px]" data-testid="filter-drug-species-trigger">
+          <SelectTrigger className="w-40 rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="filter-drug-species-trigger">
             <SelectValue placeholder={t('filters.all_species')} />
           </SelectTrigger>
           <SelectContent>

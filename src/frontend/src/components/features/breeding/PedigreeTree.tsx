@@ -66,7 +66,7 @@ export function PedigreeTree({ node }: PedigreeTreeProps) {
       className="bg-card border border-border/80 rounded-xl shadow-sm p-6 overflow-x-auto"
       data-testid="pedigree-tree"
     >
-      <div className="flex justify-center min-w-[500px]">
+      <div className="flex justify-center min-w-[320px] sm:min-w-[500px]">
         <PedigreeNode node={node} />
       </div>
     </div>
