@@ -88,6 +88,7 @@ internal class DashboardSteps
                 AnimalId: GenerateGuidFromString(animalName),
                 AnimalName: animalName,
                 OwnerName: $"Owner{i + 1}",
+                OwnerEmail: null,
                 Date: today,
                 StartTime: startTime,
                 DurationMinutes: 30,

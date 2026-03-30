@@ -17,14 +17,12 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class HeatCycleTrackingFeature : object, global::Xunit.IClassFixture<HeatCycleTrackingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = new string[] {
-                "wip"};
+        private static string[] featureTags = ((string[])(null));
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Breeding", "Heat cycle tracking", "  As a veterinarian or breeder,\r\n  I want to record heat cycles for female patien" +
                 "ts\r\n  so that I can predict optimal breeding windows and monitor reproductive he" +
@@ -109,19 +107,19 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
+#line 6
   #line hidden
-#line 8
+#line 7
     await testRunner.GivenAsync("a clinic \"Palm Jumeirah Vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 8
     await testRunner.AndAsync("an owner \"Sara Al Blooshi\" with email \"sara@example.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 10
+#line 9
     await testRunner.AndAsync("a patient \"Dalma\" species \"Dog\" breed \"Saluki\" sex \"Female\" belonging to \"Sara Al" +
                     " Blooshi\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 11
+#line 10
     await testRunner.AndAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -167,7 +165,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record a heat cycle", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 13
+#line 12
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -177,13 +175,13 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 14
+#line 13
     await testRunner.WhenAsync("I record a heat cycle for \"Dalma\" starting on 2026-01-10 ending on 2026-01-25", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 15
+#line 14
     await testRunner.ThenAsync("the heat cycle is recorded for \"Dalma\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -201,7 +199,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record multiple heat cycles", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 17
+#line 16
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -211,7 +209,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
                 global::Reqnroll.Table table32 = new global::Reqnroll.Table(new string[] {
@@ -223,13 +221,13 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
                 table32.AddRow(new string[] {
                             "2026-01-10",
                             "2026-01-25"});
-#line 18
+#line 17
     await testRunner.GivenAsync("the following heat cycles for \"Dalma\":", ((string)(null)), table32, "Given ");
 #line hidden
-#line 22
+#line 21
     await testRunner.WhenAsync("I view the heat cycle history of \"Dalma\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 23
+#line 22
     await testRunner.ThenAsync("I see 2 cycles in chronological order", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -247,7 +245,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Predict next heat cycle", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 25
+#line 24
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -257,7 +255,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
                 global::Reqnroll.Table table33 = new global::Reqnroll.Table(new string[] {
@@ -272,16 +270,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
                 table33.AddRow(new string[] {
                             "2026-01-10",
                             "2026-01-25"});
-#line 26
+#line 25
     await testRunner.GivenAsync("the following heat cycles for \"Dalma\":", ((string)(null)), table33, "Given ");
 #line hidden
-#line 31
+#line 30
     await testRunner.WhenAsync("I request the predicted next heat for \"Dalma\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 32
+#line 31
     await testRunner.ThenAsync("the system predicts the next heat around 2026-07-10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 33
+#line 32
     await testRunner.AndAsync("the average cycle interval is approximately 180 days", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -299,7 +297,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("End date must be after start date", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 35
+#line 34
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -309,14 +307,14 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 36
+#line 35
     await testRunner.WhenAsync("I attempt to record a heat cycle for \"Dalma\" starting on 2026-03-15 ending on 202" +
                         "6-03-10", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 37
+#line 36
     await testRunner.ThenAsync("the system rejects with reason \"End date must be after start date\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -334,7 +332,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Only female patients can have heat cycles", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 39
+#line 38
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -344,17 +342,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 40
+#line 39
     await testRunner.GivenAsync("a patient \"Zayed\" species \"Dog\" breed \"Saluki\" sex \"Male\" belonging to \"Sara Al B" +
                         "looshi\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 41
+#line 40
     await testRunner.WhenAsync("I attempt to record a heat cycle for \"Zayed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 42
+#line 41
     await testRunner.ThenAsync("the system rejects with reason \"Only female patients can have heat cycles recorde" +
                         "d\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -373,7 +371,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Spayed patients cannot have heat cycles", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 44
+#line 43
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -383,17 +381,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 45
+#line 44
     await testRunner.GivenAsync("a patient \"Noura\" species \"Dog\" breed \"Saluki\" sex \"SpayedFemale\" belonging to \"S" +
                         "ara Al Blooshi\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 46
+#line 45
     await testRunner.WhenAsync("I attempt to record a heat cycle for \"Noura\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 47
+#line 46
     await testRunner.ThenAsync("the system rejects with reason \"Spayed patients do not have heat cycles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -411,7 +409,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add notes to a heat cycle", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 49
+#line 48
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -421,14 +419,14 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 50
+#line 49
     await testRunner.WhenAsync("I record a heat cycle for \"Dalma\" starting on 2026-01-10 ending on 2026-01-25 wit" +
                         "h note \"Strong signs, good candidate for breeding\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 51
+#line 50
     await testRunner.ThenAsync("the heat cycle is recorded with the note", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -446,7 +444,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Heat cycles are visible to VET and ADMIN only", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 53
+#line 52
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -456,16 +454,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 54
+#line 53
     await testRunner.GivenAsync("I am authenticated as ASSISTANT", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 55
+#line 54
     await testRunner.WhenAsync("I attempt to view the heat cycle history of \"Dalma\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 56
+#line 55
     await testRunner.ThenAsync("the system rejects with reason \"Insufficient permissions\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

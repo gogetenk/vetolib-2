@@ -17,14 +17,12 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class LitterManagementFeature : object, global::Xunit.IClassFixture<LitterManagementFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = new string[] {
-                "wip"};
+        private static string[] featureTags = ((string[])(null));
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Breeding", "Litter management", "  As a breeder or veterinarian,\r\n  I want to record litters with their parents an" +
                 "d offspring\r\n  so that I can track breeding outcomes and link puppies/kittens/fo" +
@@ -109,23 +107,23 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
+#line 6
   #line hidden
-#line 8
+#line 7
     await testRunner.GivenAsync("a clinic \"Emirates Equine Centre\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 8
     await testRunner.AndAsync("an owner \"Khalid Al Nahyan\" with email \"khalid@example.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 10
+#line 9
     await testRunner.AndAsync("a patient \"Shams\" species \"Horse\" breed \"Arabian\" sex \"Female\" belonging to \"Khal" +
                     "id Al Nahyan\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 11
+#line 10
     await testRunner.AndAsync("a patient \"Buraq\" species \"Horse\" breed \"Arabian\" sex \"Male\" belonging to \"Khalid" +
                     " Al Nahyan\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 12
+#line 11
     await testRunner.AndAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -171,7 +169,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Register a new litter", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 14
+#line 13
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -181,17 +179,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 15
+#line 14
     await testRunner.WhenAsync("I register a litter for mother \"Shams\" with father \"Buraq\" on 2026-03-10 with 1 b" +
                         "orn and 1 alive", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 15
     await testRunner.ThenAsync("the litter is created and linked to \"Shams\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 17
+#line 16
     await testRunner.AndAsync("the litter shows \"Buraq\" as the father", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -209,7 +207,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Register a litter with external father", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 19
+#line 18
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -219,14 +217,14 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 20
+#line 19
     await testRunner.WhenAsync("I register a litter for mother \"Shams\" with external father \"Desert Wind\" on 2026" +
                         "-03-10 with 1 born and 1 alive", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 20
     await testRunner.ThenAsync("the litter is created with external father name \"Desert Wind\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -244,7 +242,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add offspring to a litter", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 23
+#line 22
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -254,19 +252,19 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 24
+#line 23
     await testRunner.GivenAsync("a litter for mother \"Shams\" born on 2026-03-10", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 25
+#line 24
     await testRunner.WhenAsync("I add offspring \"Najm\" sex \"Male\" breed \"Arabian\" to the litter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 25
     await testRunner.ThenAsync("\"Najm\" appears as a patient in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 27
+#line 26
     await testRunner.AndAsync("\"Najm\" is linked to the litter as offspring", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -284,7 +282,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Offspring count must be consistent", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 29
+#line 28
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -294,13 +292,13 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 30
+#line 29
     await testRunner.WhenAsync("I attempt to register a litter with 3 born and 5 alive", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 31
+#line 30
     await testRunner.ThenAsync("the system rejects with reason \"Alive count cannot exceed born count\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -318,7 +316,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("View litter details", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 33
+#line 32
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -328,16 +326,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 34
+#line 33
     await testRunner.GivenAsync("a litter for mother \"Shams\" with 3 offspring registered", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 35
+#line 34
     await testRunner.WhenAsync("I view the litter details", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 36
+#line 35
     await testRunner.ThenAsync("I see the mother \"Shams\", the father, birth date, and all 3 offspring", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -355,7 +353,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Mother must be female", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 38
+#line 37
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -365,13 +363,13 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 39
+#line 38
     await testRunner.WhenAsync("I attempt to register a litter for mother \"Buraq\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 40
+#line 39
     await testRunner.ThenAsync("the system rejects with reason \"Only female patients can be registered as mothers" +
                         "\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -390,7 +388,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Father and mother must be same species", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 42
+#line 41
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -400,17 +398,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 43
+#line 42
     await testRunner.GivenAsync("a patient \"Felix\" species \"Cat\" breed \"Persian\" sex \"Male\" belonging to \"Khalid A" +
                         "l Nahyan\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 44
+#line 43
     await testRunner.WhenAsync("I attempt to register a litter for mother \"Shams\" with father \"Felix\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 45
+#line 44
     await testRunner.ThenAsync("the system rejects with reason \"Father and mother must be the same species\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -428,7 +426,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("View all litters for a mother", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 47
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -438,16 +436,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 48
+#line 47
     await testRunner.GivenAsync("2 litters registered for mother \"Shams\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 49
+#line 48
     await testRunner.WhenAsync("I view the breeding history of \"Shams\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 50
+#line 49
     await testRunner.ThenAsync("I see 2 litters in reverse chronological order", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -465,7 +463,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Tenant isolation on litters", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 52
+#line 51
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -475,22 +473,22 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 53
+#line 52
     await testRunner.GivenAsync("a litter for mother \"Shams\" in clinic \"Emirates Equine Centre\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 54
+#line 53
     await testRunner.AndAsync("a clinic \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 55
+#line 54
     await testRunner.AndAsync("I am authenticated as VET in \"Dubai Pet Care\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 56
+#line 55
     await testRunner.WhenAsync("I list litters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 57
+#line 56
     await testRunner.ThenAsync("I do not see litters from \"Emirates Equine Centre\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

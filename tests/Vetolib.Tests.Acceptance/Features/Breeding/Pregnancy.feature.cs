@@ -17,14 +17,12 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class PregnancyAndGestationTrackingFeature : object, global::Xunit.IClassFixture<PregnancyAndGestationTrackingFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = new string[] {
-                "wip"};
+        private static string[] featureTags = ((string[])(null));
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Breeding", "Pregnancy and gestation tracking", "  As a veterinarian managing breeding animals,\r\n  I want to track pregnancies fro" +
                 "m mating to delivery\r\n  so that I can schedule follow-up exams and anticipate co" +
@@ -109,19 +107,19 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
+#line 6
   #line hidden
-#line 8
+#line 7
     await testRunner.GivenAsync("a clinic \"Royal Stud Farm\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 8
     await testRunner.AndAsync("an owner \"Mohammed Al Maktoum\" with email \"mohammed@example.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 10
+#line 9
     await testRunner.AndAsync("a patient \"Yasmin\" species \"Horse\" breed \"Arabian\" sex \"Female\" belonging to \"Moh" +
                     "ammed Al Maktoum\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 11
+#line 10
     await testRunner.AndAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -167,7 +165,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record a natural mating", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 13
+#line 12
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -177,16 +175,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 14
+#line 13
     await testRunner.WhenAsync("I record a pregnancy for \"Yasmin\" with method \"Natural\" mated on 2026-02-15", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 15
+#line 14
     await testRunner.ThenAsync("the pregnancy is created for \"Yasmin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 16
+#line 15
     await testRunner.AndAsync("the expected due date is calculated based on species gestation period", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -204,7 +202,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record an artificial insemination", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 18
+#line 17
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -214,14 +212,14 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 19
+#line 18
     await testRunner.WhenAsync("I record a pregnancy for \"Yasmin\" with method \"ArtificialInsemination\" mated on 2" +
                         "026-02-15", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 19
     await testRunner.ThenAsync("the pregnancy is created with method \"ArtificialInsemination\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -239,7 +237,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record an embryo transfer", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 22
+#line 21
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -249,14 +247,14 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 23
+#line 22
     await testRunner.WhenAsync("I record a pregnancy for \"Yasmin\" with method \"EmbryoTransfer\" mated on 2026-02-1" +
                         "5", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 24
+#line 23
     await testRunner.ThenAsync("the pregnancy is created with method \"EmbryoTransfer\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -274,7 +272,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Expected due date is species-specific", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 26
+#line 25
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -284,17 +282,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 27
+#line 26
     await testRunner.GivenAsync("a patient \"Bella\" species \"Dog\" breed \"Saluki\" sex \"Female\" belonging to \"Mohamme" +
                         "d Al Maktoum\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 27
     await testRunner.WhenAsync("I record a pregnancy for \"Bella\" with method \"Natural\" mated on 2026-01-01", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 29
+#line 28
     await testRunner.ThenAsync("the expected due date for \"Bella\" is approximately 63 days after mating", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -312,7 +310,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Schedule an ultrasound check", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 31
+#line 30
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -322,17 +320,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 32
+#line 31
     await testRunner.GivenAsync("a pregnancy recorded for \"Yasmin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 33
+#line 32
     await testRunner.WhenAsync("I schedule an ultrasound for \"Yasmin\" on 2026-03-15 with note \"28-day confirmatio" +
                         "n scan\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 34
+#line 33
     await testRunner.ThenAsync("the ultrasound appears in the pregnancy timeline", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -350,7 +348,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record delivery outcome — live birth", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 36
+#line 35
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -360,19 +358,19 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 37
+#line 36
     await testRunner.GivenAsync("a pregnancy recorded for \"Yasmin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 38
+#line 37
     await testRunner.WhenAsync("I record the delivery on 2026-12-20 with outcome \"LiveBirth\" and 1 offspring", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 39
+#line 38
     await testRunner.ThenAsync("the pregnancy is marked as completed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 40
+#line 39
     await testRunner.AndAsync("the actual delivery date is 2026-12-20", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -390,7 +388,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record delivery outcome — stillbirth", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 42
+#line 41
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -400,17 +398,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 43
+#line 42
     await testRunner.GivenAsync("a pregnancy recorded for \"Yasmin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 44
+#line 43
     await testRunner.WhenAsync("I record the delivery on 2026-12-20 with outcome \"Stillbirth\" and 0 live offsprin" +
                         "g", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 45
+#line 44
     await testRunner.ThenAsync("the pregnancy is marked as completed with outcome \"Stillbirth\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -428,7 +426,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Record delivery outcome — miscarriage", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 47
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -438,16 +436,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 48
+#line 47
     await testRunner.GivenAsync("a pregnancy recorded for \"Yasmin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 49
+#line 48
     await testRunner.WhenAsync("I record the pregnancy ended with outcome \"Miscarriage\" on 2026-08-01", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 50
+#line 49
     await testRunner.ThenAsync("the pregnancy is marked as completed with outcome \"Miscarriage\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -465,7 +463,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Only female patients can have pregnancies", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 52
+#line 51
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -475,17 +473,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 53
+#line 52
     await testRunner.GivenAsync("a patient \"Majid\" species \"Horse\" breed \"Arabian\" sex \"Male\" belonging to \"Mohamm" +
                         "ed Al Maktoum\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 54
+#line 53
     await testRunner.WhenAsync("I attempt to record a pregnancy for \"Majid\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 55
+#line 54
     await testRunner.ThenAsync("the system rejects with reason \"Only female patients can have pregnancies\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -503,7 +501,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Cannot record pregnancy for spayed patient", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 57
+#line 56
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -513,17 +511,17 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 58
+#line 57
     await testRunner.GivenAsync("a patient \"Noor\" species \"Dog\" breed \"Saluki\" sex \"SpayedFemale\" belonging to \"Mo" +
                         "hammed Al Maktoum\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 59
+#line 58
     await testRunner.WhenAsync("I attempt to record a pregnancy for \"Noor\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 60
+#line 59
     await testRunner.ThenAsync("the system rejects with reason \"Spayed patients cannot be pregnant\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -541,7 +539,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("View active pregnancies for a clinic", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 62
+#line 61
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -551,16 +549,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 63
+#line 62
     await testRunner.GivenAsync("2 active pregnancies in the clinic", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 64
+#line 63
     await testRunner.WhenAsync("I view active pregnancies", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 65
+#line 64
     await testRunner.ThenAsync("I see 2 pregnancies sorted by expected due date", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
