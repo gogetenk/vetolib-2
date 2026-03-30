@@ -2,27 +2,52 @@ namespace Vetolib.Notifications.Templates;
 
 internal static class InvoiceEmailTemplate
 {
-    public static string Subject(string invoiceNumber, string clinicName) =>
-        $"Invoice {invoiceNumber} from {clinicName}";
+    public static string Subject(string invoiceNumber, string clinicName, string language = "en") =>
+        language == "ar"
+            ? $"فاتورة {invoiceNumber} من {clinicName}"
+            : $"Invoice {invoiceNumber} from {clinicName}";
 
-    public static string HtmlBody(string ownerName, string invoiceNumber, decimal totalAmount, string currency, string clinicName) => $"""
-        <p>Hello {ownerName},</p>
-        <p>Please find attached your invoice <strong>{invoiceNumber}</strong> from <strong>{clinicName}</strong>.</p>
-        <p><strong>Total amount: {totalAmount:F2} {currency}</strong></p>
-        <p>Thank you for trusting us with your pet's care.</p>
-        <p>Best regards,<br/>{clinicName}</p>
-        """;
+    public static string HtmlBody(string ownerName, string invoiceNumber, decimal totalAmount, string currency, string clinicName, string language = "en") =>
+        language == "ar"
+            ? $"""
+            <p>مرحبا {ownerName},</p>
+            <p>يرجى الاطلاع على فاتورتكم <strong>{invoiceNumber}</strong> من <strong>{clinicName}</strong>.</p>
+            <p><strong>المبلغ الإجمالي: {totalAmount:F2} {currency}</strong></p>
+            <p>شكرا لثقتكم بنا في رعاية حيوانكم الأليف.</p>
+            <p>مع أطيب التحيات،<br/>{clinicName}</p>
+            """
+            : $"""
+            <p>Hello {ownerName},</p>
+            <p>Please find attached your invoice <strong>{invoiceNumber}</strong> from <strong>{clinicName}</strong>.</p>
+            <p><strong>Total amount: {totalAmount:F2} {currency}</strong></p>
+            <p>Thank you for trusting us with your pet's care.</p>
+            <p>Best regards,<br/>{clinicName}</p>
+            """;
 
-    public static string PlainTextBody(string ownerName, string invoiceNumber, decimal totalAmount, string currency, string clinicName) => $"""
-        Hello {ownerName},
+    public static string PlainTextBody(string ownerName, string invoiceNumber, decimal totalAmount, string currency, string clinicName, string language = "en") =>
+        language == "ar"
+            ? $"""
+            مرحبا {ownerName},
 
-        Please find your invoice {invoiceNumber} from {clinicName}.
+            يرجى الاطلاع على فاتورتكم {invoiceNumber} من {clinicName}.
 
-        Total amount: {totalAmount:F2} {currency}
+            المبلغ الإجمالي: {totalAmount:F2} {currency}
 
-        Thank you for trusting us with your pet's care.
+            شكرا لثقتكم بنا في رعاية حيوانكم الأليف.
 
-        Best regards,
-        {clinicName}
-        """;
+            مع أطيب التحيات،
+            {clinicName}
+            """
+            : $"""
+            Hello {ownerName},
+
+            Please find your invoice {invoiceNumber} from {clinicName}.
+
+            Total amount: {totalAmount:F2} {currency}
+
+            Thank you for trusting us with your pet's care.
+
+            Best regards,
+            {clinicName}
+            """;
 }

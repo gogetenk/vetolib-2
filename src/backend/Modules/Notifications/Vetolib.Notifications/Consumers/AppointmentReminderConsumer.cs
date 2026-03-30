@@ -38,13 +38,14 @@ internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueInt
         // this is an owner-facing email. Per PO decision, owners always receive reminders.
         // No preference check needed.
 
+        var lang = evt.PreferredLanguage ?? "en";
         var time = evt.ScheduledAt.ToString("HH:mm");
 
         var message = new EmailMessage(
             To: evt.OwnerEmail,
-            Subject: ReminderEmailTemplate.Subject(evt.PatientName, time),
-            HtmlBody: ReminderEmailTemplate.HtmlBody(evt.OwnerName, evt.PatientName, evt.VetName, evt.ScheduledAt),
-            PlainTextBody: ReminderEmailTemplate.PlainTextBody(evt.OwnerName, evt.PatientName, evt.VetName, evt.ScheduledAt));
+            Subject: ReminderEmailTemplate.Subject(evt.PatientName, time, lang),
+            HtmlBody: ReminderEmailTemplate.HtmlBody(evt.OwnerName, evt.PatientName, evt.VetName, evt.ScheduledAt, lang),
+            PlainTextBody: ReminderEmailTemplate.PlainTextBody(evt.OwnerName, evt.PatientName, evt.VetName, evt.ScheduledAt, lang));
 
         var result = await _emailSender.SendAsync(message, context.CancellationToken);
 

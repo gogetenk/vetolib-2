@@ -10,4 +10,5 @@ public record UserInvitedIntegrationEvent
     public string FullName { get; init; } = string.Empty;
     public string TemporaryPassword { get; init; } = string.Empty;
     public string ClinicName { get; init; } = string.Empty;
+    public string PreferredLanguage { get; init; } = "en";
 }

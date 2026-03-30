@@ -31,11 +31,13 @@ internal class UserInvitedConsumer : IConsumer<UserInvitedIntegrationEvent>
         // has not yet logged in and cannot have set preferences.
         // Per PO decision: no preference check when no UserId is available. Always send.
 
+        var lang = evt.PreferredLanguage ?? "en";
+
         var message = new EmailMessage(
             To: evt.Email,
-            Subject: InvitationEmailTemplate.Subject(evt.ClinicName),
-            HtmlBody: InvitationEmailTemplate.HtmlBody(evt.FullName, evt.Email, evt.TemporaryPassword, evt.ClinicName),
-            PlainTextBody: InvitationEmailTemplate.PlainTextBody(evt.FullName, evt.Email, evt.TemporaryPassword, evt.ClinicName));
+            Subject: InvitationEmailTemplate.Subject(evt.ClinicName, lang),
+            HtmlBody: InvitationEmailTemplate.HtmlBody(evt.FullName, evt.Email, evt.TemporaryPassword, evt.ClinicName, lang),
+            PlainTextBody: InvitationEmailTemplate.PlainTextBody(evt.FullName, evt.Email, evt.TemporaryPassword, evt.ClinicName, lang));
 
         var result = await _emailSender.SendAsync(message, context.CancellationToken);
 
