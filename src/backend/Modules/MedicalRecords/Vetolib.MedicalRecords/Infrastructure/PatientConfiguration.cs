@@ -49,6 +49,12 @@ internal class PatientConfiguration : IEntityTypeConfiguration<Patient>
             .HasFilter("\"MicrochipNumber\" IS NOT NULL")
             .HasDatabaseName("IX_patients_ClinicId_MicrochipNumber");
 
+        builder.HasIndex(p => new { p.ClinicId, p.Name })
+            .HasDatabaseName("IX_patients_ClinicId_Name");
+
+        builder.HasIndex(p => new { p.ClinicId, p.Species })
+            .HasDatabaseName("IX_patients_ClinicId_Species");
+
         builder.HasMany(p => p.PatientOwners)
             .WithOne(po => po.Patient)
             .HasForeignKey(po => po.PatientId);

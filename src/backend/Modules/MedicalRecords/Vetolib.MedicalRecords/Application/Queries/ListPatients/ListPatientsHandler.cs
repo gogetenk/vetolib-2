@@ -32,6 +32,10 @@ internal class ListPatientsHandler : IRequestHandler<ListPatientsQuery, Result<P
         if (!string.IsNullOrWhiteSpace(query.Microchip))
             q = q.Where(p => p.MicrochipNumber == query.Microchip);
 
+        if (!string.IsNullOrWhiteSpace(query.OwnerPhone))
+            q = q.Where(p => p.PatientOwners.Any(po =>
+                po.Owner != null && po.Owner.Phone != null && po.Owner.Phone.Contains(query.OwnerPhone)));
+
         var total = await q.CountAsync(ct);
 
         var page = query.Page < 1 ? 1 : query.Page;
