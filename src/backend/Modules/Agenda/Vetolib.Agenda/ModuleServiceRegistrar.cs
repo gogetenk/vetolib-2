@@ -37,6 +37,9 @@ public static class ModuleServiceRegistrar
         services.AddScoped<SlotScoringService>();
         services.AddScoped<DurationEstimator>();
 
+        // Background service — scans for upcoming appointments (23–25h window) and publishes reminder events
+        services.AddHostedService<AppointmentReminderService>();
+
         return services;
     }
 
