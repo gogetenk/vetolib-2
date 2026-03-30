@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -29,6 +29,77 @@ function formatFullDate(isoDate: string): string {
 }
 
 // ─── Attachment preview ───────────────────────────────────────────────────────
+
+function LightboxDialog({ attachment, onClose }: { attachment: MessageAttachmentDto; onClose: () => void }) {
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    // Auto-focus close button on open
+    closeButtonRef.current?.focus()
+  }, [])
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      onClose()
+      return
+    }
+    // Focus trap: cycle focus within dialog
+    if (e.key === 'Tab') {
+      const dialog = dialogRef.current
+      if (!dialog) return
+      const focusable = dialog.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+  }, [onClose])
+
+  return (
+    <div
+      ref={dialogRef}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Image: ${attachment.fileName}`}
+      data-testid="lightbox"
+      onClick={() => onClose()}
+      onKeyDown={handleKeyDown}
+    >
+      <button
+        ref={closeButtonRef}
+        type="button"
+        className="absolute top-4 right-4 text-white text-xl font-bold"
+        data-testid="lightbox-close"
+        onClick={() => onClose()}
+        aria-label="Close lightbox"
+      >
+        ×
+      </button>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={attachment.url}
+        alt={attachment.fileName}
+        className="max-w-[90vw] max-h-[90vh] object-contain rounded"
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+  )
+}
 
 function AttachmentPreview({ attachment }: { attachment: MessageAttachmentDto }) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -68,31 +139,7 @@ function AttachmentPreview({ attachment }: { attachment: MessageAttachmentDto })
 
       {/* Lightbox */}
       {lightboxOpen && isImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Image: ${attachment.fileName}`}
-          data-testid="lightbox"
-          onClick={() => setLightboxOpen(false)}
-        >
-          <button
-            type="button"
-            className="absolute top-4 right-4 text-white text-xl font-bold"
-            data-testid="lightbox-close"
-            onClick={() => setLightboxOpen(false)}
-            aria-label="Close lightbox"
-          >
-            ×
-          </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={attachment.url}
-            alt={attachment.fileName}
-            className="max-w-[90vw] max-h-[90vh] object-contain rounded"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
+        <LightboxDialog attachment={attachment} onClose={() => setLightboxOpen(false)} />
       )}
     </>
   )

@@ -17,8 +17,16 @@ export default function DashboardLayout({
     <PostHogProvider>
       <MessagingSseProvider>
         <div className="flex h-screen flex-col bg-background text-foreground overflow-hidden">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-background focus:text-foreground"
+            data-testid="skip-to-content"
+          >
+            Skip to main content
+          </a>
           <Header />
           <main
+            id="main-content"
             className="flex-1 flex flex-col w-full h-full relative animate-in fade-in-0 duration-300 ease-out overflow-y-auto"
             data-testid="dashboard-main"
           >
