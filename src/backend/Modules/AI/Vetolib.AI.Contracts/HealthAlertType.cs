@@ -16,5 +16,6 @@ public enum HealthAlertType
     FalconTrichomoniasis,
     FalconMoltAnomaly,
     FalconHealthCertificate,
-    FalconPostHuntRecovery
+    FalconPostHuntRecovery,
+    VaccinationDue
 }
