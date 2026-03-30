@@ -121,6 +121,10 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         Status = AppointmentStatus.Cancelled;
         if (reason is not null)
             Reason = reason;
+
+        // Raise domain event so the waitlist handler can notify matching entries
+        AddDomainEvent(new SlotAvailableEvent(ClinicId, VeterinarianId, Date, StartTime, DurationMinutes));
+
         return Result.Success();
     }
 

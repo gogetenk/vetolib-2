@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetolib.Agenda.Infrastructure;
@@ -11,9 +12,11 @@ using Vetolib.Agenda.Infrastructure;
 namespace Vetolib.Agenda.Infrastructure.Migrations
 {
     [DbContext(typeof(AgendaDbContext))]
-    partial class AgendaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260330231209_AddWaitlistEntries")]
+    partial class AddWaitlistEntries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,9 +245,6 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(0);
 
-                    b.Property<Guid?>("SeriesId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Source")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -272,9 +272,6 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SeriesId")
-                        .HasFilter("\"SeriesId\" IS NOT NULL");
 
                     b.HasIndex("ClinicId", "Date", "StartTime");
 
