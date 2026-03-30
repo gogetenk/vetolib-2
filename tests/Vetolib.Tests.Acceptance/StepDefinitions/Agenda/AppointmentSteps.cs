@@ -425,11 +425,12 @@ internal class AppointmentSteps
         var response = await _client.GetAsync($"/api/appointments?date={dateOnly:yyyy-MM-dd}");
         response.EnsureSuccessStatusCode();
 
-        var appointments = await response.Content.ReadFromJsonAsync<List<AppointmentDto>>(JsonOptions);
-        appointments.Should().NotBeNull().And.NotBeEmpty("the agenda should contain at least the created appointment");
+        var pagedResult = await response.Content.ReadFromJsonAsync<AppointmentPagedResultDto>(JsonOptions);
+        pagedResult.Should().NotBeNull();
+        pagedResult!.Items.Should().NotBeEmpty("the agenda should contain at least the created appointment");
 
         var expectedTime = TimeOnly.Parse(timeStr);
-        appointments.Should().Contain(a =>
+        pagedResult.Items.Should().Contain(a =>
             a.VeterinarianId == _vetId &&
             a.StartTime == expectedTime);
     }
@@ -438,8 +439,9 @@ internal class AppointmentSteps
     public async Task ThenISeeAppointmentsInTheList(int count)
     {
         _response.IsSuccessStatusCode.Should().BeTrue();
-        var appointments = await _response.Content.ReadFromJsonAsync<List<AppointmentDto>>(JsonOptions);
-        appointments.Should().NotBeNull().And.HaveCount(count);
+        var pagedResult = await _response.Content.ReadFromJsonAsync<AppointmentPagedResultDto>(JsonOptions);
+        pagedResult.Should().NotBeNull();
+        pagedResult!.Items.Should().HaveCount(count);
     }
 
     // NOTE: "the system rejects with code" is handled by SharedSteps (unscoped).

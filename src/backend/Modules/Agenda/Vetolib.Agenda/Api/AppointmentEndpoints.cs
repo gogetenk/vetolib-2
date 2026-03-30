@@ -105,10 +105,12 @@ internal static class AppointmentEndpoints
     }
 
     private static async Task<IResult> ListAppointments(
+        ISender sender,
         DateOnly date,
-        ISender sender)
+        int pageNumber = 1,
+        int pageSize = 50)
     {
-        return (await sender.Send(new ListAppointmentsQuery(date))).ToMinimalApiResult();
+        return (await sender.Send(new ListAppointmentsQuery(date, pageNumber, pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> UpdateStatus(
@@ -150,7 +152,7 @@ internal static class AppointmentEndpoints
 
         if (newStatus is null)
             return Ardalis.Result.Result<AppointmentDto>
-                .Error($"UNSUPPORTED_ACTION:Action '{request.Action}' non reconnue. Valeurs acceptees: CHECK_IN, START, COMPLETE, CANCEL, NO_SHOW")
+                .Error($"UNSUPPORTED_ACTION:Action '{request.Action}' is not recognized. Accepted values: CHECK_IN, START, COMPLETE, CANCEL, NO_SHOW")
                 .ToMinimalApiResult();
 
         var cmd = new UpdateAppointmentStatusCommand(id, newStatus.Value, request.Reason);

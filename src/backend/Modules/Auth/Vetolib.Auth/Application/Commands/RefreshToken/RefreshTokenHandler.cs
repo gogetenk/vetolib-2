@@ -25,7 +25,7 @@ internal class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, Result
             .FirstOrDefaultAsync(rt => rt.Token == cmd.RefreshToken, ct);
 
         if (existingToken is null || !existingToken.IsValid())
-            return Result<AuthTokenDto>.Error("INVALID_REFRESH_TOKEN:Le refresh token est invalide ou expire");
+            return Result<AuthTokenDto>.Error("INVALID_REFRESH_TOKEN:The refresh token is invalid or expired");
 
         // Revoke the old token (rotation)
         existingToken.Revoke();
@@ -36,7 +36,7 @@ internal class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, Result
             .FirstOrDefaultAsync(u => u.Id == existingToken.UserId, ct);
 
         if (user is null)
-            return Result<AuthTokenDto>.Error("INVALID_REFRESH_TOKEN:Utilisateur non trouve");
+            return Result<AuthTokenDto>.Error("INVALID_REFRESH_TOKEN:User not found");
 
         // Check if user account is deactivated — persist revocation and reject
         if (!user.IsActive)

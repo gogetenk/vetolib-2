@@ -103,9 +103,9 @@ public sealed class TenantIsolationTests : IntegrationTestBase
         // Assert — appointment is visible when listing as Clinic A
         var listResponse = await clinicAClient.GetAsync($"/api/v1/appointments?date={tomorrow:yyyy-MM-dd}");
         listResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        var appointments = await listResponse.Content.ReadFromJsonAsync<IReadOnlyList<AppointmentDto>>(JsonOptions);
-        appointments.Should().NotBeNull();
-        appointments.Should().Contain(a => a.Id == created.Id,
+        var pagedResult = await listResponse.Content.ReadFromJsonAsync<AppointmentPagedResultDto>(JsonOptions);
+        pagedResult.Should().NotBeNull();
+        pagedResult!.Items.Should().Contain(a => a.Id == created.Id,
             "Appointment created by Clinic A must be visible to Clinic A");
 
         // Restore primary clinic context

@@ -30,6 +30,7 @@ internal class DurationEstimator
         // but here we stay inside the tenant. The MultiTenant filter on Appointments is already
         // scoped to the current clinic so we do NOT need IgnoreQueryFilters.
         var history = await _context.Appointments
+            .AsNoTracking()
             .Where(a =>
                 a.VeterinarianId == veterinarianId &&
                 a.Reason != null &&
@@ -64,6 +65,7 @@ internal class DurationEstimator
 
         // Single query: load last 20 completed appointments per vet+type, grouped by vet
         var histories = await _context.Appointments
+            .AsNoTracking()
             .Where(a =>
                 veterinarianIds.Contains(a.VeterinarianId) &&
                 a.Reason != null &&
