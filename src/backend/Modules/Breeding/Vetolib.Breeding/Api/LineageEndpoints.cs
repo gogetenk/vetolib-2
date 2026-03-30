@@ -20,10 +20,18 @@ internal static class LineageEndpoints
             .RequireAuthorization()
             .WithTags("Lineage");
 
-        group.MapPut("/lineage", SetLineage).WithName("SetLineage");
-        group.MapGet("/lineage", GetLineage).WithName("GetLineage");
-        group.MapGet("/pedigree", GetPedigree).WithName("GetPedigree");
-        group.MapGet("/descendants", GetDescendants).WithName("GetDescendants");
+        group.MapPut("/lineage", SetLineage).WithName("SetLineage")
+            .WithSummary("Set patient lineage")
+            .WithDescription("Sets or updates the mother, father, and registry information for a patient's lineage.");
+        group.MapGet("/lineage", GetLineage).WithName("GetLineage")
+            .WithSummary("Get patient lineage")
+            .WithDescription("Returns the direct parent information (mother and father) for a patient.");
+        group.MapGet("/pedigree", GetPedigree).WithName("GetPedigree")
+            .WithSummary("Get patient pedigree tree")
+            .WithDescription("Returns the multi-generational pedigree tree for a patient. Defaults to 3 generations.");
+        group.MapGet("/descendants", GetDescendants).WithName("GetDescendants")
+            .WithSummary("Get patient descendants")
+            .WithDescription("Returns all known descendants (children, grandchildren, etc.) of a patient.");
 
         return app;
     }

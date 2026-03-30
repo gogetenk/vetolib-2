@@ -24,17 +24,25 @@ internal static class DashboardEndpoints
 
         group.MapGet("/stats", GetStats)
             .WithName("GetDashboardStats")
+            .WithSummary("Get dashboard statistics")
+            .WithDescription("Returns key metrics: today's appointment count, pending check-ins, unpaid invoice total, and total patients.")
             .CacheOutput("Dashboard1min");
 
         group.MapGet("/today-appointments", GetTodayAppointments)
             .WithName("GetTodayAppointments")
+            .WithSummary("Get today's appointments")
+            .WithDescription("Returns the list of all appointments scheduled for today with patient, vet, and status details.")
             .CacheOutput("Dashboard1min");
 
         group.MapGet("/recent-activity", GetRecentActivity)
-            .WithName("GetRecentActivity");
+            .WithName("GetRecentActivity")
+            .WithSummary("Get recent activity feed")
+            .WithDescription("Returns the most recent clinic activity items including appointments and status changes.");
 
         group.MapGet("/analytics", GetAnalytics)
             .WithName("GetDashboardAnalytics")
+            .WithSummary("Get dashboard analytics")
+            .WithDescription("Returns analytics data including revenue by month, no-show rate, patients by species, and appointments by status. Requires Vet or Admin role.")
             .RequireAuthorization("VetOrAdmin")
             .CacheOutput("Dashboard1min");
 

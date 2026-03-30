@@ -19,9 +19,15 @@ internal static class ReminderEndpoints
             .RequireAuthorization("VetOrAdmin")
             .WithTags("Reminders");
 
-        group.MapGet("/config", GetConfig).WithName("GetReminderConfig");
-        group.MapPut("/config", UpdateConfig).WithName("UpdateReminderConfig");
-        group.MapGet("/logs", GetLogs).WithName("ListReminderLogs");
+        group.MapGet("/config", GetConfig).WithName("GetReminderConfig")
+            .WithSummary("Get reminder configuration")
+            .WithDescription("Returns the current reminder settings including enabled types and lead times.");
+        group.MapPut("/config", UpdateConfig).WithName("UpdateReminderConfig")
+            .WithSummary("Update reminder configuration")
+            .WithDescription("Updates reminder settings such as appointment, vaccination, and follow-up reminder toggles and lead times.");
+        group.MapGet("/logs", GetLogs).WithName("ListReminderLogs")
+            .WithSummary("List reminder logs")
+            .WithDescription("Returns a paginated list of sent reminder logs, optionally filtered by reminder type.");
 
         return app;
     }

@@ -58,12 +58,16 @@ internal static class MessagingEndpoints
         {
             var query = new ListConversationsQuery(status, category, fromDate, toDate, page, pageSize);
             return (await sender.Send(query, ct)).ToMinimalApiResult();
-        }).WithName("ListConversations");
+        }).WithName("ListConversations")
+          .WithSummary("List conversations")
+          .WithDescription("Returns a paginated, filterable list of messaging conversations for the current clinic.");
 
         // GET /conversations/{id} — get conversation with messages
         group.MapGet("/conversations/{id:guid}", async (Guid id, ISender sender, CancellationToken ct) =>
             (await sender.Send(new GetConversationByIdQuery(id), ct)).ToMinimalApiResult()
-        ).WithName("GetConversationById");
+        ).WithName("GetConversationById")
+          .WithSummary("Get conversation by ID")
+          .WithDescription("Returns a conversation with all its messages, including internal notes for staff.");
 
         // POST /conversations/{id}/reply — send reply (ClinicStaff, not Assistant)
         group.MapPost("/conversations/{id:guid}/reply", async (
@@ -74,7 +78,9 @@ internal static class MessagingEndpoints
         {
             var cmd = new SendReplyCommand(id, request.Body, request.AiSuggestedReply, request.WasSuggestedReplyUsed, request.AttachmentIds);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
-        }).WithName("SendReply");
+        }).WithName("SendReply")
+          .WithSummary("Send a reply to a conversation")
+          .WithDescription("Sends a staff reply message in an existing conversation. Supports AI-suggested reply tracking.");
 
         // POST /conversations/{id}/notes — add internal note (VetOrAdmin)
         group.MapPost("/conversations/{id:guid}/notes", async (
@@ -85,7 +91,9 @@ internal static class MessagingEndpoints
         {
             var cmd = new AddInternalNoteCommand(id, request.Body);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
-        }).WithName("AddInternalNote");
+        }).WithName("AddInternalNote")
+          .WithSummary("Add an internal note")
+          .WithDescription("Adds a private staff-only note to a conversation. Not visible to pet owners.");
 
         // PATCH /conversations/{id}/status — change status (ClinicStaff)
         group.MapPatch("/conversations/{id:guid}/status", async (
@@ -96,7 +104,9 @@ internal static class MessagingEndpoints
         {
             var cmd = new ChangeConversationStatusCommand(id, request.Action);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
-        }).WithName("ChangeConversationStatus");
+        }).WithName("ChangeConversationStatus")
+          .WithSummary("Change conversation status")
+          .WithDescription("Updates the status of a conversation (e.g., Open, InProgress, Resolved, Closed).");
 
         // PATCH /conversations/{id}/transfer — transfer conversation (ClinicStaff)
         group.MapPatch("/conversations/{id:guid}/transfer", async (
@@ -107,7 +117,9 @@ internal static class MessagingEndpoints
         {
             var cmd = new TransferConversationCommand(id, request.AssignedToUserId, request.AssignedToRole);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
-        }).WithName("TransferConversation");
+        }).WithName("TransferConversation")
+          .WithSummary("Transfer a conversation")
+          .WithDescription("Reassigns a conversation to a different staff member or role.");
 
         // PATCH /conversations/{id}/category — re-categorize (ClinicStaff)
         group.MapPatch("/conversations/{id:guid}/category", async (
@@ -118,12 +130,16 @@ internal static class MessagingEndpoints
         {
             var cmd = new RecategorizeConversationCommand(id, request.NewCategory);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
-        }).WithName("RecategorizeConversation");
+        }).WithName("RecategorizeConversation")
+          .WithSummary("Re-categorize a conversation")
+          .WithDescription("Changes the message category of a conversation (e.g., MedicalUrgency, Appointment, General).");
 
         // POST /conversations/{id}/spam — mark as spam (ClinicStaff)
         group.MapPost("/conversations/{id:guid}/spam", async (Guid id, ISender sender, CancellationToken ct) =>
             (await sender.Send(new MarkAsSpamCommand(id), ct)).ToMinimalApiResult()
-        ).WithName("MarkAsSpam");
+        ).WithName("MarkAsSpam")
+          .WithSummary("Mark conversation as spam")
+          .WithDescription("Flags a conversation as spam, hiding it from the active conversation list.");
 
         // POST /conversations/{id}/convert-to-appointment — convert to appointment (ClinicStaff)
         group.MapPost("/conversations/{id:guid}/convert-to-appointment", async (
@@ -135,7 +151,9 @@ internal static class MessagingEndpoints
             var cmd = new ConvertToAppointmentCommand(id, request?.PreferredDate, request?.Notes);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).RequireAuthorization("ClinicStaff")
-          .WithName("ConvertToAppointment");
+          .WithName("ConvertToAppointment")
+          .WithSummary("Convert conversation to appointment")
+          .WithDescription("Creates an appointment from a messaging conversation. Requires ClinicStaff authorization.");
 
         // POST /conversations/{conversationId}/messages/{messageId}/add-to-record — attach message to medical record (VetOrAdmin)
         group.MapPost("/conversations/{conversationId:guid}/messages/{messageId:guid}/add-to-record", async (
@@ -147,7 +165,9 @@ internal static class MessagingEndpoints
             var cmd = new AddMessageToRecordCommand(conversationId, messageId);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).RequireAuthorization(policy => policy.RequireRole("Vet", AdminRole))
-          .WithName("AddMessageToRecord");
+          .WithName("AddMessageToRecord")
+          .WithSummary("Attach message to medical record")
+          .WithDescription("Links a conversation message to the patient's medical record for clinical documentation. Requires Vet or Admin role.");
 
         // POST /conversations/outbound — create proactive conversation (AdminOnly)
         group.MapPost("/conversations/outbound", async (
@@ -163,12 +183,16 @@ internal static class MessagingEndpoints
                 request.Category);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).RequireAuthorization(policy => policy.RequireRole(AdminRole))
-          .WithName("CreateOutboundConversation");
+          .WithName("CreateOutboundConversation")
+          .WithSummary("Create an outbound conversation")
+          .WithDescription("Initiates a proactive conversation with a pet owner. Requires Admin role.");
 
         // GET /conversations/{id}/summary — AI conversation summary (VetOrAdmin)
         group.MapGet("/conversations/{id:guid}/summary", async (Guid id, ISender sender, CancellationToken ct) =>
             (await sender.Send(new GetConversationSummaryQuery(id), ct)).ToMinimalApiResult()
-        ).WithName("GetConversationSummary");
+        ).WithName("GetConversationSummary")
+          .WithSummary("Get AI conversation summary")
+          .WithDescription("Returns an AI-generated summary of the conversation for quick review by veterinary staff.");
 
         // -----------------------------------------------------------------------
         // Staff: Message Classification
@@ -185,7 +209,9 @@ internal static class MessagingEndpoints
             var cmd = new OverrideClassificationCommand(id, messageId, request.Urgency, request.Category);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).RequireAuthorization(policy => policy.RequireRole("Vet", AdminRole))
-          .WithName("OverrideClassification");
+          .WithName("OverrideClassification")
+          .WithSummary("Override message classification")
+          .WithDescription("Manually overrides the AI-assigned urgency and category of a message. Requires Vet or Admin role.");
 
         // POST /conversations/{id}/messages/{messageId}/classify/feedback — classification feedback
         group.MapPost("/conversations/{id:guid}/messages/{messageId:guid}/classify/feedback", async (
@@ -198,13 +224,17 @@ internal static class MessagingEndpoints
             var cmd = new ClassificationFeedbackCommand(id, messageId, request.IsCorrect);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).RequireAuthorization("ClinicStaff")
-          .WithName("ClassificationFeedback");
+          .WithName("ClassificationFeedback")
+          .WithSummary("Provide classification feedback")
+          .WithDescription("Records whether the AI classification of a message was correct, used to improve classification accuracy over time.");
 
         // GET /stats/classification-accuracy — classification accuracy report (Admin)
         group.MapGet("/stats/classification-accuracy", async (ISender sender, CancellationToken ct) =>
             (await sender.Send(new GetClassificationAccuracyQuery(), ct)).ToMinimalApiResult())
             .RequireAuthorization(policy => policy.RequireRole(AdminRole))
-            .WithName("GetClassificationAccuracy");
+            .WithName("GetClassificationAccuracy")
+            .WithSummary("Get classification accuracy report")
+            .WithDescription("Returns accuracy metrics for AI message classification based on staff feedback. Requires Admin role.");
 
         // -----------------------------------------------------------------------
         // Staff: File Upload
@@ -222,7 +252,9 @@ internal static class MessagingEndpoints
             var cmd = new UploadFilesCommand(request.Form.Files);
             return (await sender.Send(cmd, ct)).ToMinimalApiResult();
         }).DisableAntiforgery()
-          .WithName("UploadFiles");
+          .WithName("UploadFiles")
+          .WithSummary("Upload message attachments")
+          .WithDescription("Uploads files to attach to messages. Maximum 5 files, 10MB each. Accepts PDF, JPG, and PNG formats.");
 
         // -----------------------------------------------------------------------
         // Admin: Settings
@@ -233,23 +265,31 @@ internal static class MessagingEndpoints
 
         // GET /api/v1/messaging/settings/hours
         settings.MapGet("/hours", async (ISender sender, CancellationToken ct) =>
-            (await sender.Send(new GetMessagingHoursQuery(), ct)).ToMinimalApiResult());
+            (await sender.Send(new GetMessagingHoursQuery(), ct)).ToMinimalApiResult())
+            .WithSummary("Get messaging hours")
+            .WithDescription("Returns the clinic's configured messaging availability hours for each day of the week.");
 
         // PUT /api/v1/messaging/settings/hours
         settings.MapPut("/hours", async (UpdateMessagingHoursRequest request, ISender sender, CancellationToken ct) =>
-            (await sender.Send(new UpdateMessagingHoursCommand(request.Days), ct)).ToMinimalApiResult());
+            (await sender.Send(new UpdateMessagingHoursCommand(request.Days), ct)).ToMinimalApiResult())
+            .WithSummary("Update messaging hours")
+            .WithDescription("Sets the clinic's messaging availability hours. Requires Admin role.");
 
         // GET /api/v1/messaging/stats
         group.MapGet("/stats", async (ISender sender, CancellationToken ct) =>
             (await sender.Send(new GetTriageStatsQuery(), ct)).ToMinimalApiResult())
-            .RequireAuthorization(policy => policy.RequireRole(AdminRole));
+            .RequireAuthorization(policy => policy.RequireRole(AdminRole))
+            .WithSummary("Get messaging triage statistics")
+            .WithDescription("Returns triage statistics including conversation counts by status and category. Requires Admin role.");
 
         // Templates (quick response templates)
         // GET /api/v1/messaging/templates
         group.MapGet("/templates", async (MessageCategory? category, ISender sender, CancellationToken ct) =>
             (await sender.Send(new ListTemplatesQuery(category), ct)).ToMinimalApiResult())
             .RequireAuthorization("ClinicStaff")
-            .WithName("ListTemplates");
+            .WithName("ListTemplates")
+            .WithSummary("List message templates")
+            .WithDescription("Returns quick-response templates, optionally filtered by category.");
 
         // POST /api/v1/messaging/templates
         group.MapPost("/templates", async (CreateTemplateRequest request, IClinicContext clinicContext, ISender sender, CancellationToken ct) =>
@@ -260,7 +300,9 @@ internal static class MessagingEndpoints
                 request.ContentAr,
                 request.Category), ct)).ToMinimalApiResult())
             .RequireAuthorization(policy => policy.RequireRole(AdminRole))
-            .WithName("CreateTemplate");
+            .WithName("CreateTemplate")
+            .WithSummary("Create a message template")
+            .WithDescription("Creates a new quick-response template with English and Arabic content. Requires Admin role.");
 
         // PUT /api/v1/messaging/templates/{id}
         group.MapPut("/templates/{id:guid}", async (Guid id, UpdateTemplateRequest request, ISender sender, CancellationToken ct) =>
@@ -271,13 +313,17 @@ internal static class MessagingEndpoints
                 request.ContentAr,
                 request.Category), ct)).ToMinimalApiResult())
             .RequireAuthorization(policy => policy.RequireRole(AdminRole))
-            .WithName("UpdateTemplate");
+            .WithName("UpdateTemplate")
+            .WithSummary("Update a message template")
+            .WithDescription("Updates an existing quick-response template. Requires Admin role.");
 
         // DELETE /api/v1/messaging/templates/{id}
         group.MapDelete("/templates/{id:guid}", async (Guid id, ISender sender, CancellationToken ct) =>
             (await sender.Send(new DeleteTemplateCommand(id), ct)).ToMinimalApiResult())
             .RequireAuthorization(policy => policy.RequireRole(AdminRole))
-            .WithName("DeleteTemplate");
+            .WithName("DeleteTemplate")
+            .WithSummary("Delete a message template")
+            .WithDescription("Permanently removes a quick-response template. Requires Admin role.");
 
         return app;
     }

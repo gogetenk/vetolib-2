@@ -19,6 +19,8 @@ internal static class ClinicEndpoints
             .WithName("RegisterClinic")
             .AllowAnonymous()
             .RequireRateLimiting("signup")
+            .WithSummary("Register a new clinic")
+            .WithDescription("Creates a new clinic with an admin user account. This is the entry point for new clinic sign-ups. Rate limited to prevent abuse.")
             .Produces<RegisterClinicResponse>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status422UnprocessableEntity)

@@ -27,32 +27,46 @@ internal static class PatientEndpoints
 
         group.MapPost("/", CreatePatient)
             .RequireAuthorization("VetOrAdmin")
-            .WithName("CreatePatient");
+            .WithName("CreatePatient")
+            .WithSummary("Register a new patient")
+            .WithDescription("Creates a new patient (animal) record with species, breed, owner information, and optional microchip number.");
 
         group.MapGet("/", ListPatients)
             .WithName("ListPatients")
+            .WithSummary("List patients")
+            .WithDescription("Returns a paginated, filterable list of patients. Supports filtering by name, species, and microchip number.")
             .CacheOutput(p => p.SetVaryByQuery("page", "pageSize", "species", "name", "microchip").Expire(TimeSpan.FromSeconds(30)).Tag("patients"));
 
         group.MapGet("/{id:guid}", GetPatientById)
             .WithName("GetPatientById")
+            .WithSummary("Get patient by ID")
+            .WithDescription("Returns the basic details of a single patient record.")
             .CacheOutput("Moderate2min");
 
         group.MapGet("/{id:guid}/detail", GetPatientDetail)
             .WithName("GetPatientDetail")
+            .WithSummary("Get patient extended detail")
+            .WithDescription("Returns full patient details including recent medical records, weight history, and breeding information.")
             .CacheOutput("Moderate2min");
 
         group.MapPatch("/{id:guid}", UpdatePatient)
             .RequireAuthorization("VetOrAdmin")
-            .WithName("UpdatePatient");
+            .WithName("UpdatePatient")
+            .WithSummary("Update a patient")
+            .WithDescription("Updates patient information such as name, breed, owner details, or microchip number.");
 
         group.MapPost("/import", ImportPatients)
             .RequireAuthorization("VetOrAdmin")
             .WithName("ImportPatients")
+            .WithSummary("Import patients from CSV")
+            .WithDescription("Bulk-imports patient records from a CSV file. Use GET /import/template to download the expected format.")
             .DisableAntiforgery();
 
         group.MapGet("/import/template", GetImportTemplate)
             .RequireAuthorization()
-            .WithName("GetImportTemplate");
+            .WithName("GetImportTemplate")
+            .WithSummary("Download CSV import template")
+            .WithDescription("Returns a sample CSV file with the expected columns and format for patient bulk import.");
 
         return app;
     }

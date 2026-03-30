@@ -20,13 +20,19 @@ internal static class HeatCycleEndpoints
             .WithTags("HeatCycles");
 
         group.MapPost("/", RecordHeatCycle)
-            .WithName("RecordHeatCycle");
+            .WithName("RecordHeatCycle")
+            .WithSummary("Record a heat cycle")
+            .WithDescription("Records a heat cycle observation for a female patient with start date, optional end date, and notes.");
 
         group.MapGet("/", GetHeatCycles)
-            .WithName("GetHeatCycles");
+            .WithName("GetHeatCycles")
+            .WithSummary("List heat cycles")
+            .WithDescription("Returns all recorded heat cycles for a specific patient, ordered by most recent first.");
 
         group.MapGet("/prediction", PredictNextHeat)
-            .WithName("PredictNextHeat");
+            .WithName("PredictNextHeat")
+            .WithSummary("Predict next heat cycle")
+            .WithDescription("Calculates the predicted date of the next heat cycle based on historical cycle data for the patient.");
 
         return app;
     }

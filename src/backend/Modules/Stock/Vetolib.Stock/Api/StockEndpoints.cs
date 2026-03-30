@@ -20,11 +20,21 @@ internal static class StockEndpoints
             .RequireAuthorization()
             .WithTags("Stock");
 
-        group.MapGet("/", List).WithName("ListStockItems");
-        group.MapPost("/", Create).RequireAuthorization("VetOrAdmin").WithName("CreateStockItem");
-        group.MapPatch("/{id:guid}", Update).RequireAuthorization("VetOrAdmin").WithName("UpdateStockItem");
-        group.MapPost("/{id:guid}/movements", RecordMovement).RequireAuthorization("VetOrAdmin").WithName("RecordStockMovement");
-        group.MapGet("/alerts", GetAlerts).WithName("GetStockAlerts");
+        group.MapGet("/", List).WithName("ListStockItems")
+            .WithSummary("List stock items")
+            .WithDescription("Returns a paginated list of stock items, filterable by category, low stock, and expiring soon.");
+        group.MapPost("/", Create).RequireAuthorization("VetOrAdmin").WithName("CreateStockItem")
+            .WithSummary("Create a stock item")
+            .WithDescription("Adds a new item to the stock inventory with quantity, unit, threshold, and optional expiry date.");
+        group.MapPatch("/{id:guid}", Update).RequireAuthorization("VetOrAdmin").WithName("UpdateStockItem")
+            .WithSummary("Update a stock item")
+            .WithDescription("Updates the name or minimum threshold of an existing stock item.");
+        group.MapPost("/{id:guid}/movements", RecordMovement).RequireAuthorization("VetOrAdmin").WithName("RecordStockMovement")
+            .WithSummary("Record a stock movement")
+            .WithDescription("Records a stock movement (intake, consumption, adjustment, or disposal) with quantity and reason.");
+        group.MapGet("/alerts", GetAlerts).WithName("GetStockAlerts")
+            .WithSummary("Get stock alerts")
+            .WithDescription("Returns items that are below minimum threshold or expiring soon.");
 
         return app;
     }

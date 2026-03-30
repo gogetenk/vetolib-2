@@ -29,33 +29,47 @@ internal static class AIEndpoints
             .WithTags("AI");
 
         group.MapPost("/triage", TriageSymptoms)
-            .WithName("TriageSymptoms");
+            .WithName("TriageSymptoms")
+            .WithSummary("Triage symptoms with AI")
+            .WithDescription("Submits animal symptoms for AI-based severity assessment. Returns urgency level and recommended actions.");
 
         group.MapPut("/triage/{id:guid}/accept", AcceptTriage)
             .WithName("AcceptTriage")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .WithSummary("Accept a triage recommendation")
+            .WithDescription("Confirms the AI triage recommendation as accurate. Requires Vet or Admin role.");
 
         group.MapPut("/triage/{id:guid}/override", OverrideTriage)
             .WithName("OverrideTriage")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .WithSummary("Override a triage severity")
+            .WithDescription("Manually overrides the AI-assigned severity level for a triage. Requires Vet or Admin role.");
 
         // No-show prediction — visible only to clinic staff (never to Owner role)
         // The group already requires "ClinicStaff" which excludes Owner role.
         group.MapGet("/no-show-prediction/{appointmentId:guid}", PredictNoShow)
-            .WithName("PredictNoShow");
+            .WithName("PredictNoShow")
+            .WithSummary("Predict no-show probability")
+            .WithDescription("Returns the AI-predicted probability that a patient will not show up for a specific appointment.");
 
         group.MapPost("/no-show-predictions/batch", PredictNoShowBatch)
-            .WithName("PredictNoShowBatch");
+            .WithName("PredictNoShowBatch")
+            .WithSummary("Batch no-show predictions")
+            .WithDescription("Returns no-show predictions for all appointments on a given date.");
 
         // SOAP notes generation — AI-assisted medical record writing
         group.MapPost("/soap-notes", GenerateSoapNotes)
             .WithName("GenerateSoapNotes")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .WithSummary("Generate SOAP notes")
+            .WithDescription("Uses AI to generate structured SOAP (Subjective, Objective, Assessment, Plan) notes from clinical input.");
 
         // Drug interaction checking — used by prescription form before saving
         group.MapPost("/check-interactions", CheckInteractions)
             .WithName("CheckInteractions")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .WithSummary("Check drug interactions")
+            .WithDescription("Checks for potential drug interactions based on the patient's current prescriptions and the proposed medication.");
 
         return app;
     }

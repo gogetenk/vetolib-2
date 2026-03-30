@@ -22,6 +22,8 @@ internal static class SseEndpoints
             .RequireAuthorization()
             .WithTags("Messaging")
             .WithName("MessagingSSE")
+            .WithSummary("Messaging real-time event stream")
+            .WithDescription("Server-Sent Events (SSE) endpoint for real-time messaging notifications. Streams new messages, status changes, and unread counts.")
             // Disable buffering so events are streamed immediately
             .DisableRateLimiting();
 

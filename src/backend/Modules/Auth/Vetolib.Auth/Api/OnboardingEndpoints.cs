@@ -22,10 +22,18 @@ internal static class OnboardingEndpoints
             .RequireAuthorization()
             .WithTags("Onboarding");
 
-        group.MapGet("/", GetState).WithName("GetOnboardingState");
-        group.MapPost("/steps/{stepId}/complete", CompleteStep).WithName("CompleteOnboardingStep");
-        group.MapPost("/banner/dismiss", DismissBanner).WithName("DismissWelcomeBanner");
-        group.MapPost("/checklist/dismiss", DismissChecklist).WithName("DismissChecklist");
+        group.MapGet("/", GetState).WithName("GetOnboardingState")
+            .WithSummary("Get onboarding state")
+            .WithDescription("Returns the current onboarding progress for the authenticated user, including completed steps and banner visibility.");
+        group.MapPost("/steps/{stepId}/complete", CompleteStep).WithName("CompleteOnboardingStep")
+            .WithSummary("Complete an onboarding step")
+            .WithDescription("Marks a specific onboarding step as completed for the authenticated user.");
+        group.MapPost("/banner/dismiss", DismissBanner).WithName("DismissWelcomeBanner")
+            .WithSummary("Dismiss the welcome banner")
+            .WithDescription("Hides the welcome banner permanently for the authenticated user.");
+        group.MapPost("/checklist/dismiss", DismissChecklist).WithName("DismissChecklist")
+            .WithSummary("Dismiss the onboarding checklist")
+            .WithDescription("Hides the onboarding checklist permanently for the authenticated user.");
 
         return app;
     }

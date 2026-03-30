@@ -20,15 +20,23 @@ internal static class LitterEndpoints
             .RequireAuthorization()
             .WithTags("Litters");
 
-        group.MapPost("/", Create).WithName("CreateLitter");
-        group.MapGet("/{id:guid}", GetById).WithName("GetLitterById");
-        group.MapPost("/{id:guid}/offspring", AddOffspring).WithName("AddOffspringToLitter");
+        group.MapPost("/", Create).WithName("CreateLitter")
+            .WithSummary("Record a new litter")
+            .WithDescription("Creates a litter record for a mother patient with birth date, counts, and optional father reference.");
+        group.MapGet("/{id:guid}", GetById).WithName("GetLitterById")
+            .WithSummary("Get litter by ID")
+            .WithDescription("Returns the full details of a litter including offspring list.");
+        group.MapPost("/{id:guid}/offspring", AddOffspring).WithName("AddOffspringToLitter")
+            .WithSummary("Add offspring to a litter")
+            .WithDescription("Links an existing patient record as an offspring of the litter with a birth order.");
 
         // Patient-scoped litter listing
         app.MapGet("/api/v1/patients/{id:guid}/litters", GetByMother)
             .RequireAuthorization()
             .WithTags("Litters")
-            .WithName("GetLittersByMother");
+            .WithName("GetLittersByMother")
+            .WithSummary("Get litters by mother")
+            .WithDescription("Returns all litters for a specific mother patient.");
 
         return app;
     }

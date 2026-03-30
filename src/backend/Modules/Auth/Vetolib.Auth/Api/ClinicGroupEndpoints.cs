@@ -23,16 +23,24 @@ internal static class ClinicGroupEndpoints
             .WithTags("ClinicGroups");
 
         group.MapPost("/", CreateClinicGroup)
-            .WithName("CreateClinicGroup");
+            .WithName("CreateClinicGroup")
+            .WithSummary("Create a clinic group")
+            .WithDescription("Creates a new clinic group for multi-clinic management. Requires Admin role.");
 
         group.MapPost("/{id:guid}/clinics", AddClinicToGroup)
-            .WithName("AddClinicToGroup");
+            .WithName("AddClinicToGroup")
+            .WithSummary("Add a clinic to a group")
+            .WithDescription("Associates an existing clinic with a clinic group. Requires Admin role.");
 
         group.MapGet("/{id:guid}/clinics", ListGroupClinics)
-            .WithName("ListGroupClinics");
+            .WithName("ListGroupClinics")
+            .WithSummary("List clinics in a group")
+            .WithDescription("Returns all clinics that belong to the specified clinic group.");
 
         group.MapDelete("/{id:guid}/clinics/{clinicId:guid}", RemoveClinicFromGroup)
-            .WithName("RemoveClinicFromGroup");
+            .WithName("RemoveClinicFromGroup")
+            .WithSummary("Remove a clinic from a group")
+            .WithDescription("Removes a clinic from a clinic group. Requires Admin role.");
 
         // Switch clinic endpoint under /api/v1/auth
         var authGroup = app.MapGroup("/api/v1/auth")
@@ -40,7 +48,9 @@ internal static class ClinicGroupEndpoints
             .WithTags("Auth");
 
         authGroup.MapPost("/switch-clinic", SwitchClinic)
-            .WithName("SwitchClinic");
+            .WithName("SwitchClinic")
+            .WithSummary("Switch active clinic")
+            .WithDescription("Switches the authenticated user's active clinic context and returns new tokens scoped to the target clinic.");
 
         return app;
     }

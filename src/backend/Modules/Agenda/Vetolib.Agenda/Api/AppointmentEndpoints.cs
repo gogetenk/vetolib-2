@@ -26,30 +26,46 @@ internal static class AppointmentEndpoints
 
         group.MapPost("/", CreateAppointment)
             .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
-            .WithName("CreateAppointment");
+            .WithName("CreateAppointment")
+            .WithSummary("Create a new appointment")
+            .WithDescription("Creates an appointment for a patient at a specific time slot with a veterinarian. Validates time slot availability and conflict detection.");
 
         group.MapGet("/", ListAppointments)
-            .WithName("ListAppointments");
+            .WithName("ListAppointments")
+            .WithSummary("List appointments by date")
+            .WithDescription("Returns all appointments for a given date within the current clinic.");
 
         group.MapPatch("/{id:guid}/status", UpdateStatus)
-            .WithName("UpdateAppointmentStatus");
+            .WithName("UpdateAppointmentStatus")
+            .WithSummary("Update appointment status")
+            .WithDescription("Directly sets the status of an appointment. Prefer the /transition endpoint for state-machine-based transitions.");
 
         // Action-based transition endpoint used by the frontend and BDD tests
         // Action values: CHECK_IN, START, COMPLETE, CANCEL, NO_SHOW
         group.MapPatch("/{id:guid}/transition", TransitionAppointment)
-            .WithName("TransitionAppointment");
+            .WithName("TransitionAppointment")
+            .WithSummary("Transition appointment state")
+            .WithDescription("Performs a state-machine transition on an appointment. Valid actions: CHECK_IN, START, COMPLETE, CANCEL, NO_SHOW.");
 
         group.MapGet("/{id:guid}", GetAppointmentById)
-            .WithName("GetAppointmentById");
+            .WithName("GetAppointmentById")
+            .WithSummary("Get appointment by ID")
+            .WithDescription("Returns the full details of a single appointment.");
 
         group.MapPut("/{id:guid}", EditAppointment)
-            .WithName("EditAppointment");
+            .WithName("EditAppointment")
+            .WithSummary("Edit an appointment")
+            .WithDescription("Updates the date, time, duration, veterinarian, or reason of an existing appointment.");
 
         group.MapGet("/availability", GetAvailability)
-            .WithName("GetAvailability");
+            .WithName("GetAvailability")
+            .WithSummary("Get veterinarian availability")
+            .WithDescription("Returns available time slots for a specific veterinarian on a given date, considering existing appointments and duration.");
 
         group.MapPost("/suggest-slot", SuggestSlot)
-            .WithName("SuggestSlot");
+            .WithName("SuggestSlot")
+            .WithSummary("Suggest an appointment slot")
+            .WithDescription("Uses scheduling heuristics to suggest the best available time slot based on consultation type and preferences.");
 
         // Unversioned alias (used by BDD step definitions and older clients)
         var legacyGroup = app.MapGroup("/api/appointments")
