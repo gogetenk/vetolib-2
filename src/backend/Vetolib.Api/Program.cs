@@ -27,6 +27,8 @@ using Vetolib.Preferences;
 using Vetolib.Preferences.Infrastructure;
 using Vetolib.Breeding;
 using Vetolib.Breeding.Infrastructure;
+using Microsoft.OpenApi;
+using Scalar.AspNetCore;
 using Vetolib.ServiceDefaults;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Shared.Infrastructure.Email;
@@ -285,7 +287,24 @@ builder.Services.ConfigureHttpJsonOptions(opts =>
     opts.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
 
 // OpenAPI
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, ct) =>
+    {
+        document.Components ??= new OpenApiComponents();
+        document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>
+        {
+            ["Bearer"] = new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                In = ParameterLocation.Header,
+                BearerFormat = "JWT"
+            }
+        };
+        return Task.CompletedTask;
+    });
+});
 
 var app = builder.Build();
 
@@ -323,6 +342,7 @@ app.MapBreedingEndpoints();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 // Database initialization — migrations + seed data
