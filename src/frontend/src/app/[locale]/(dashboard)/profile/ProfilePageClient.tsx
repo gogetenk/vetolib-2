@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { PageContainer } from "@/components/ui/page-container"
 import { getStoredUser } from "@/lib/api/auth"
 import { useRole } from "@/hooks/use-role"
+import { useTranslations } from "next-intl"
 
 interface ProfileInfo {
   name: string
@@ -16,6 +17,7 @@ interface ProfileInfo {
 
 export default function ProfilePageClient() {
   const role = useRole()
+  const t = useTranslations("profile")
   const profile = useMemo<ProfileInfo | null>(() => {
     const user = getStoredUser()
     if (user) {
@@ -33,17 +35,17 @@ export default function ProfilePageClient() {
       <div>
         <h1 className="text-[22px] font-bold text-foreground flex items-center gap-2">
           <span className="w-1 h-5 bg-primary rounded-full"></span>
-          Profile
+          {t("title")}
         </h1>
         <p className="text-[13px] text-muted-foreground mt-1 ml-3">
-          View your account information.
+          {t("subtitle")}
         </p>
       </div>
 
       <Card className="border-border/80 shadow-sm" data-testid="profile-card">
         <CardHeader>
-          <CardTitle className="text-[15px] font-bold text-foreground">Account Details</CardTitle>
-          <CardDescription className="text-[13px] text-muted-foreground">Your personal information and role within the clinic.</CardDescription>
+          <CardTitle className="text-[15px] font-bold text-foreground">{t("account_details")}</CardTitle>
+          <CardDescription className="text-[13px] text-muted-foreground">{t("account_description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           {profile ? (
@@ -53,7 +55,7 @@ export default function ProfilePageClient() {
                   <User className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">Name</p>
+                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">{t("name_label")}</p>
                   <p className="text-[14px] font-semibold text-foreground">{profile.name}</p>
                 </div>
               </div>
@@ -63,7 +65,7 @@ export default function ProfilePageClient() {
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">Email</p>
+                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">{t("email_label")}</p>
                   <p className="text-[14px] font-semibold text-foreground">{profile.email}</p>
                 </div>
               </div>
@@ -73,7 +75,7 @@ export default function ProfilePageClient() {
                   <Shield className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">Role</p>
+                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">{t("role_label")}</p>
                   <p className="text-[14px] font-semibold text-foreground capitalize">{role.toLowerCase()}</p>
                 </div>
               </div>
@@ -81,14 +83,14 @@ export default function ProfilePageClient() {
               <div className="flex items-center gap-4" data-testid="profile-clinic">
                 <div className="h-9 w-9" />
                 <div>
-                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">Clinic</p>
+                  <p className="text-[12px] font-semibold text-muted-foreground uppercase tracking-wider">{t("clinic_label")}</p>
                   <p className="text-[14px] font-semibold text-foreground">{profile.clinicName}</p>
                 </div>
               </div>
             </>
           ) : (
             <p className="text-[13px] text-muted-foreground" data-testid="profile-not-loaded">
-              Unable to load profile information. Please log in again.
+              {t("not_loaded")}
             </p>
           )}
         </CardContent>
@@ -96,12 +98,12 @@ export default function ProfilePageClient() {
 
       <Card className="border-border/80 shadow-sm" data-testid="profile-security-card">
         <CardHeader>
-          <CardTitle className="text-[15px] font-bold text-foreground">Security</CardTitle>
-          <CardDescription className="text-[13px] text-muted-foreground">Manage your password and security settings.</CardDescription>
+          <CardTitle className="text-[15px] font-bold text-foreground">{t("security_title")}</CardTitle>
+          <CardDescription className="text-[13px] text-muted-foreground">{t("security_description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <Button variant="outline" data-testid="change-password-btn" className="rounded-xl h-10 px-5 font-semibold border-border/80 hover:bg-muted">
-            Change Password
+            {t("change_password")}
           </Button>
         </CardContent>
       </Card>
