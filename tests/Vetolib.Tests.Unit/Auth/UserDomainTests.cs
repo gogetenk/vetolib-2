@@ -116,6 +116,39 @@ public class UserDomainTests
         userResult.Value.IsActive.Should().BeTrue();
     }
 
+    // ─── MustChangePassword ────────────────────────────────────────
+
+    [Fact]
+    public void Create_NewUser_MustChangePasswordIsFalse()
+    {
+        var result = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.MustChangePassword.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Invite_NewUser_MustChangePasswordIsTrue()
+    {
+        var result = User.Invite(ValidClinicId, "invited@clinic.ae", "Dr. Omar", "TempPass1", UserRole.Vet);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.MustChangePassword.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ChangePassword_ClearsMustChangePasswordFlag()
+    {
+        var user = User.Invite(ValidClinicId, "invited@clinic.ae", "Dr. Omar", "TempPass1", UserRole.Vet).Value;
+
+        user.MustChangePassword.Should().BeTrue();
+
+        var changeResult = user.ChangePassword("TempPass1", "NewPass1234!");
+
+        changeResult.IsSuccess.Should().BeTrue();
+        user.MustChangePassword.Should().BeFalse();
+    }
+
     // ─── ToListItemDto ───────────────────────────────────────────
 
     [Fact]

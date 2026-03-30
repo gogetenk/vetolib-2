@@ -65,6 +65,13 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
         // Success: reset failed attempts
         user.ResetFailedAttempts();
 
+        // Check if user must change their password before accessing the app
+        if (user.MustChangePassword)
+        {
+            await _context.SaveChangesAsync(ct);
+            return Result<AuthTokenDto>.Error("MUST_CHANGE_PASSWORD:You must change your password before accessing the application");
+        }
+
         // Generate tokens
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
         var refreshTokenValue = _jwtTokenService.GenerateRefreshToken();
