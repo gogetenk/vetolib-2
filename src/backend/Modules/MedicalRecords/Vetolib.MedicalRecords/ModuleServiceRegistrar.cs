@@ -56,6 +56,7 @@ public static class ModuleServiceRegistrar
         app.MapMedicalRecordEndpoints();
         app.MapDrugCatalogEndpoints();
         app.MapWeightEndpoints();
+        app.MapMedicalRecordTemplateEndpoints();
         return app;
     }
 }

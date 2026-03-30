@@ -339,15 +339,15 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Password must have at least 10 characters and a special character")]
+        [global::Xunit.SkippableFactAttribute(DisplayName="Password without special character is rejected")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Clinic self-service registration")]
-        [global::Xunit.TraitAttribute("Description", "Password must have at least 10 characters and a special character")]
-        public async global::System.Threading.Tasks.Task PasswordMustHaveAtLeast10CharactersAndASpecialCharacter()
+        [global::Xunit.TraitAttribute("Description", "Password without special character is rejected")]
+        public async global::System.Threading.Tasks.Task PasswordWithoutSpecialCharacterIsRejected()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Password must have at least 10 characters and a special character", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Password without special character is rejected", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 42
@@ -369,7 +369,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                 table23.AddRow(new string[] {
                             "Happy Paws",
                             "newowner2@happypaws.ae",
-                            "NoSpecialChar1234",
+                            "NoSpecialChar1a",
                             "+971501234567",
                             "AE"});
 #line 43
