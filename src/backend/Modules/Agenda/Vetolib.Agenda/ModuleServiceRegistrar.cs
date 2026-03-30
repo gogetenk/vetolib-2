@@ -33,6 +33,9 @@ public static class ModuleServiceRegistrar
         // IOnCallVetReader — used by the Messaging module for emergency after-hours escalation
         services.AddScoped<IOnCallVetReader, OnCallVetReader>();
 
+        // Bind AgendaOptions (slot scoring weights, working hours, default durations) from configuration
+        services.Configure<AgendaOptions>(configuration.GetSection("Agenda"));
+
         // SlotScoringService and DurationEstimator — injected directly (not via interface) by SuggestSlotHandler
         services.AddScoped<SlotScoringService>();
         services.AddScoped<DurationEstimator>();

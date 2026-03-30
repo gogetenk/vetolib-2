@@ -137,6 +137,12 @@ builder.Services.AddAuditInterceptor<AuthDbContext>();
 builder.Services.AddAuditInterceptor<AgendaDbContext>();
 builder.Services.AddAuditInterceptor<MedicalRecordsDbContext>();
 builder.Services.AddAuditInterceptor<BillingDbContext>();
+builder.Services.AddAuditInterceptor<MessagingDbContext>();
+builder.Services.AddAuditInterceptor<StockDbContext>();
+builder.Services.AddAuditInterceptor<AIDbContext>();
+builder.Services.AddAuditInterceptor<BreedingDbContext>();
+builder.Services.AddAuditInterceptor<PreferencesDbContext>();
+builder.Services.AddAuditInterceptor<NotificationsDbContext>();
 
 // Email service (SmtpEmailSender pointing to MailHog in dev)
 builder.Services.AddEmailSender(builder.Configuration);
@@ -144,8 +150,9 @@ builder.Services.AddEmailSender(builder.Configuration);
 // MassTransit — integration events + EF Core Outbox
 builder.Services.AddMassTransit(x =>
 {
-    // Auto-register all consumers from the Notifications module assembly
+    // Auto-register all consumers from module assemblies
     x.AddConsumers(typeof(NotificationsModuleServiceRegistrar).Assembly);
+    x.AddConsumers(typeof(Vetolib.Preferences.ModuleServiceRegistrar).Assembly);
 
     // EF Core Outbox — guarantees at-least-once delivery for integration events.
     // Each module DbContext that publishes events gets its own outbox tables.
