@@ -79,7 +79,7 @@ const JSON_LD = {
     highPrice: "649",
   },
   featureList:
-    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, AI SOAP notes, WhatsApp messaging, Stock management, Multi-clinic management, Arabic RTL support",
+    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, AI SOAP notes, WhatsApp messaging, Stock management, Multi-clinic management, Breeding & pedigree management, Arabic RTL support",
   availableOnDevice: "Desktop, Tablet, Mobile",
   countriesSupported: "AE",
 };
@@ -333,6 +333,11 @@ export default async function LandingPage({ params }: Props) {
             multi_clinic: {
               title: t("new_features.multi_clinic.title"),
               description: t("new_features.multi_clinic.description"),
+            },
+            breeding: {
+              title: t("new_features.breeding.title"),
+              description: t("new_features.breeding.description"),
+              badge: t("new_features.breeding.badge"),
             },
           }}
         />
