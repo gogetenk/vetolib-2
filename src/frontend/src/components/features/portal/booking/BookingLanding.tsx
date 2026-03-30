@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
-import { CalendarDays, ListChecks, Clock, MapPin, Phone } from 'lucide-react'
+import { CalendarDays, ListChecks, Clock, MapPin, Phone, MessageCircle } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { LtrText } from '@/components/ui/ltr-text'
@@ -84,6 +84,18 @@ export function BookingLanding() {
           </CardContent>
         </Card>
       )}
+
+      {/* WhatsApp Booking Button */}
+      <a
+        href={`https://wa.me/${clinicInfo?.phone?.replace(/\s/g, '').replace(/^\+/, '') || '971501234567'}?text=${encodeURIComponent(`Hi, I'd like to book an appointment for my pet at ${clinicInfo?.name || 'your clinic'}.`)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-testid="whatsapp-booking-button"
+        className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-[#1DA851] hover:shadow-md min-h-[44px]"
+      >
+        <MessageCircle className="w-5 h-5" aria-hidden="true" />
+        {t('landing.whatsapp_cta')}
+      </a>
 
       {/* Next Appointment preview card */}
       {nextAppointment && (

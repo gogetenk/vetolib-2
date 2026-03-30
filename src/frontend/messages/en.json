@@ -1102,7 +1102,8 @@
       "cta_secondary": "Book a Demo",
       "trust_badge": "30-day free Pro trial — no credit card required",
       "social_proof_badge": "Trusted by clinics across Dubai, Abu Dhabi & the GCC",
-      "image_alt": "Vetara dashboard showing appointments and patient health records"
+      "image_alt": "Vetara dashboard showing appointments and patient health records",
+      "whatsapp_cta": "Book via WhatsApp"
     },
     "social_proof": {
       "clinics": "50+",
@@ -1590,7 +1591,8 @@
         "nextAppointment": "Next Appointment",
         "myAppointmentsSubtitle": "View and manage your upcoming and past appointments",
         "bookNewSubtitle": "Schedule a new visit for your pet",
-        "link_expired": "This link has expired. Please contact your clinic to receive a new one."
+        "link_expired": "This link has expired. Please contact your clinic to receive a new one.",
+        "whatsapp_cta": "Book via WhatsApp"
       },
       "wizard": {
         "step1Title": "Select Your Pet",
