@@ -17,6 +17,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
     public int FailedLoginAttempts { get; private set; }
     public DateTime? LockedUntil { get; private set; }
     public bool IsActive { get; private set; } = true;
+    public bool MustChangePassword { get; private set; }
 
     private User() { } // EF Core constructor
 
@@ -49,7 +50,8 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
             VetLicenseNumber = vetLicenseNumber,
             IsLocked = false,
             FailedLoginAttempts = 0,
-            IsActive = true
+            IsActive = true,
+            MustChangePassword = false
         };
 
         return Result<User>.Success(user);
@@ -80,7 +82,8 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
             Role = role,
             IsLocked = false,
             FailedLoginAttempts = 0,
-            IsActive = true
+            IsActive = true,
+            MustChangePassword = true
         };
 
         user.AddDomainEvent(new UserInvitedDomainEvent(user.Id, user.Email, user.FullName, temporaryPassword, clinicName));
@@ -145,6 +148,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
             return Result.Invalid(passwordErrors);
 
         PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+        MustChangePassword = false;
         UpdatedAt = DateTime.UtcNow;
         return Result.Success();
     }

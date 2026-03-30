@@ -152,6 +152,28 @@ public class LoginHandlerTests
     }
 
     [Fact]
+    public async Task Handle_MustChangePassword_ReturnsError()
+    {
+        // Arrange
+        using var context = BuildContext();
+        var user = User.Invite(FixedClinicId, "invited@desertpaws.ae", "Invited User", "Admin1234!", UserRole.Vet, "Desert Paws Clinic");
+        user.IsSuccess.Should().BeTrue();
+        context.Users.Add(user.Value);
+        await context.SaveChangesAsync();
+
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
+        var command = new LoginCommand("invited@desertpaws.ae", "Admin1234!");
+
+        // Act
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.IsSuccess.Should().BeFalse();
+        result.Status.Should().Be(ResultStatus.Error);
+        result.Errors.Should().Contain(e => e.Contains("MUST_CHANGE_PASSWORD"));
+    }
+
+    [Fact]
     public async Task Handle_EmailLookupIsCaseInsensitive()
     {
         // Arrange
