@@ -24,7 +24,6 @@ internal class UserInvitedDomainEventHandler : INotificationHandler<UserInvitedD
         {
             Email = notification.Email,
             FullName = notification.FullName,
-            TemporaryPassword = notification.TemporaryPassword,
             ClinicName = notification.ClinicName,
         }, ct);
     }
