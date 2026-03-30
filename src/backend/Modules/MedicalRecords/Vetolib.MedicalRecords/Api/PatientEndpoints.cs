@@ -85,7 +85,8 @@ internal static class PatientEndpoints
             request.OwnerName,
             request.OwnerPhone,
             request.Sex,
-            request.MicrochipNumber);
+            request.MicrochipNumber,
+            request.OwnerEmail);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }

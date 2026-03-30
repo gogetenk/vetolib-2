@@ -8,4 +8,5 @@ public record CreatePatientRequest(
     string OwnerName,
     string OwnerPhone,
     Sex? Sex = null,
-    string? MicrochipNumber = null);
+    string? MicrochipNumber = null,
+    string? OwnerEmail = null);
