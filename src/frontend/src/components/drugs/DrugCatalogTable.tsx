@@ -133,12 +133,8 @@ export function DrugCatalogTable({
           <Input
             data-testid="drug-search"
             placeholder={t('search_placeholder')}
-<<<<<<< HEAD
             aria-label={t('search_placeholder')}
-            className="w-64 pl-9 bg-card border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
-=======
-            className="w-64 ps-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
->>>>>>> origin/develop
+            className="w-64 ps-9 bg-card border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
           />
