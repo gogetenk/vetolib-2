@@ -5,10 +5,12 @@ import { aiVeterinaryTriage } from "./articles/ai-veterinary-triage";
 import { arabicSoftwareDubaiVet } from "./articles/arabic-software-dubai-vet";
 import { outgrownSpreadsheetsVet } from "./articles/outgrown-spreadsheets-vet";
 import { breedingManagementUae } from "./articles/breeding-management-uae";
+import { howToChooseVeterinarySoftwareUae } from "./articles/how-to-choose-veterinary-software-uae";
 
 export type { BlogArticle } from "./types";
 
 export const allArticles: BlogArticle[] = [
+  howToChooseVeterinarySoftwareUae,
   breedingManagementUae,
   outgrownSpreadsheetsVet,
   arabicSoftwareDubaiVet,
