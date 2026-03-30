@@ -1,4 +1,5 @@
 using FluentValidation;
+using Vetolib.Notifications.Contracts.Enums;
 
 namespace Vetolib.Notifications.Application.Commands.UpdateReminderConfig;
 
@@ -13,5 +14,9 @@ internal class UpdateReminderConfigValidator : AbstractValidator<UpdateReminderC
         RuleFor(x => x.VaccinationDueLeadTimeDays)
             .InclusiveBetween(1, 30)
             .WithMessage("Vaccination lead time must be between 1 and 30 days.");
+
+        RuleFor(x => x.PreferredReminderChannel)
+            .IsInEnum()
+            .WithMessage("Invalid reminder channel. Must be Email, WhatsApp, or Both.");
     }
 }

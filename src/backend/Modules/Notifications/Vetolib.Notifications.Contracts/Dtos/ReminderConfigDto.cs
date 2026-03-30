@@ -7,4 +7,5 @@ public record ReminderConfigDto(
     bool VaccinationDueEnabled,
     bool FollowUpEnabled,
     int Appointment24hLeadTimeHours,
-    int VaccinationDueLeadTimeDays);
+    int VaccinationDueLeadTimeDays,
+    ReminderChannel PreferredReminderChannel);

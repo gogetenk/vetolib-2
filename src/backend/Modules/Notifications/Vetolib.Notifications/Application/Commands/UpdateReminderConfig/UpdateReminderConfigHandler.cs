@@ -40,7 +40,8 @@ internal class UpdateReminderConfigHandler : IRequestHandler<UpdateReminderConfi
             request.VaccinationDueEnabled,
             request.FollowUpEnabled,
             request.Appointment24hLeadTimeHours,
-            request.VaccinationDueLeadTimeDays);
+            request.VaccinationDueLeadTimeDays,
+            request.PreferredReminderChannel);
 
         if (!updateResult.IsSuccess)
             return Result<ReminderConfigDto>.Invalid(updateResult.ValidationErrors.ToList());
@@ -52,6 +53,7 @@ internal class UpdateReminderConfigHandler : IRequestHandler<UpdateReminderConfi
             config.VaccinationDueEnabled,
             config.FollowUpEnabled,
             config.Appointment24hLeadTimeHours,
-            config.VaccinationDueLeadTimeDays));
+            config.VaccinationDueLeadTimeDays,
+            config.PreferredReminderChannel));
     }
 }

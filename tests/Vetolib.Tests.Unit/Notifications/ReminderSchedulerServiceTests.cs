@@ -69,7 +69,7 @@ public class ReminderSchedulerServiceTests : IDisposable
     {
         var config = ReminderConfig.CreateDefault(
             new Guid("11111111-1111-1111-1111-111111111111")).Value;
-        config.Update(true, false, true, 24, 7);
+        config.Update(true, false, true, 24, 7, Vetolib.Notifications.Contracts.Enums.ReminderChannel.Email);
         _dbContext.ReminderConfigs.Add(config);
         await _dbContext.SaveChangesAsync();
 
