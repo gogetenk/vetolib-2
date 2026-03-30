@@ -1162,8 +1162,8 @@
         "description": "Gérez plusieurs sites depuis un tableau de bord unique. Reporting consolidé, dossiers patients partagés et gestion d'équipe centralisée pour les groupes vétérinaires."
       },
       "breeding": {
-        "title": "Gestion de l'élevage et des pedigrees",
-        "description": "Suivez les pedigrees de faucons, les lignées de chevaux arabes, les cycles de gestation et les prédictions de chaleurs. Conçu pour les éleveurs des EAU gérant des programmes de reproduction d'animaux de haute valeur.",
+        "title": "Gestion de la reproduction",
+        "description": "Suivez les cycles de chaleur, les gestations, les portées et la lignée pour les chevaux arabes, les chameaux, les faucons et les animaux de compagnie. Outils essentiels pour les éleveurs et les cliniques équines.",
         "badge": "Nouveau"
       }
     },
@@ -1299,7 +1299,7 @@
       },
       "rows": {
         "arabic": {
-          "feature": "Arabe + Anglais + Français"
+          "feature": "Arabe + Anglais + Français (RTL)"
         },
         "whatsapp": {
           "feature": "Intégration WhatsApp"
@@ -1308,10 +1308,16 @@
           "feature": "Triage IA"
         },
         "uae_optimized": {
-          "feature": "Optimisé international"
+          "feature": "Optimisé Émirats (Dim-Jeu, Ramadan)"
+        },
+        "breeding": {
+          "feature": "Suivi reproduction & élevage"
+        },
+        "falcon_camel": {
+          "feature": "Support faucon & chameau"
         },
         "price": {
-          "feature": "Tarifs abordables"
+          "feature": "Tarifs transparents"
         },
         "ai_soap": {
           "feature": "Notes SOAP par IA"
