@@ -18,7 +18,6 @@ export interface InviteUserRequest {
 
 export interface InviteUserResponse {
   user: UserDto
-  temporaryPassword: string
 }
 
 export interface ChangeRoleRequest {

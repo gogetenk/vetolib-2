@@ -125,12 +125,8 @@ test.describe("Team management — ADMIN view", () => {
 
     await page.getByTestId("invite-submit-btn").click()
 
-    // Should show the temporary password alert
-    await expect(page.getByTestId("temp-password-alert")).toBeVisible()
-    await expect(page.getByTestId("temp-password-value")).toBeVisible()
-
-    // Copy button should be present
-    await expect(page.getByTestId("copy-password-btn")).toBeVisible()
+    // Should show the success alert (password sent by email)
+    await expect(page.getByTestId("invite-success-alert")).toBeVisible()
   })
 
   test("invite dialog validates required fields", async ({ page }) => {

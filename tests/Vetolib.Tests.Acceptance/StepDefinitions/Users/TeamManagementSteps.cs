@@ -212,9 +212,10 @@ internal class TeamManagementSteps
     [Then(@"a temporary password is generated")]
     public void ThenTemporaryPasswordIsGenerated()
     {
+        // S-06: Temporary password is no longer returned in the API response.
+        // It is sent directly via email. We verify the invite succeeded instead.
         _inviteResponse.Should().NotBeNull();
-        _inviteResponse!.TemporaryPassword.Should().NotBeNullOrEmpty();
-        _inviteResponse.TemporaryPassword.Length.Should().BeGreaterThanOrEqualTo(8);
+        _inviteResponse!.Email.Should().NotBeNullOrEmpty();
     }
 
     [Then(@"the new user appears in the team list")]
