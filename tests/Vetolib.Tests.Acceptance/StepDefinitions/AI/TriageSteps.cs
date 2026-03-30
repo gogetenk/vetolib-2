@@ -57,7 +57,7 @@ internal class TriageSteps
         var client = _ctx.Get<HttpClient>();
 
         var email = $"ai-test-{role.ToLowerInvariant()}-{Guid.NewGuid():N}@happypaws.ae";
-        const string password = "SecurePass1";
+        const string password = "SecurePass1!";
 
         using var scope = factory.Services.CreateScope();
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();

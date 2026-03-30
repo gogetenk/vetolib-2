@@ -161,7 +161,7 @@ internal class SharedSteps
         var client = _ctx.Get<HttpClient>();
 
         var email = $"{role.ToLowerInvariant()}@test-shared.com";
-        var password = "SecurePass1";
+        var password = "SecurePass1!";
 
         // Set clinic context
         var testClinicContext = factory.Services.GetRequiredService<TestClinicContext>();

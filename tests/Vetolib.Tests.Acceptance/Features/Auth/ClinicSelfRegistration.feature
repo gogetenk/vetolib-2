@@ -39,9 +39,9 @@ Feature: Clinic self-service registration
     Then the request is rejected
     And the operation is rejected because Password is invalid
 
-  Scenario: Password must have at least 10 characters and a special character
+  Scenario: Password without special character is rejected
     When I register a new clinic with:
       | ClinicName  | Email                    | Password          | Phone         | Country |
-      | Happy Paws  | newowner2@happypaws.ae   | NoSpecialChar1234 | +971501234567 | AE      |
+      | Happy Paws  | newowner2@happypaws.ae   | NoSpecialChar1a   | +971501234567 | AE      |
     Then the request is rejected
     And the operation is rejected because Password is invalid

@@ -77,7 +77,7 @@ internal class AppointmentSteps
         var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
 
         var email = $"{vetName.Replace(" ", "").Replace(".", "").ToLowerInvariant()}@happypaws.ae";
-        var userResult = User.Create(_clinicId, email, "SecurePass1", UserRole.Vet, licenseNumber);
+        var userResult = User.Create(_clinicId, email, "SecurePass1!", UserRole.Vet, licenseNumber);
         userResult.IsSuccess.Should().BeTrue();
 
         // Override the Id using reflection to match our generated GUID
@@ -722,7 +722,7 @@ internal class AppointmentSteps
             _vetId = GenerateGuidFromString(_vetName);
             using var scope = _factory.Services.CreateScope();
             var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-            var userResult = User.Create(_clinicId, "testvet-status@happypaws.ae", "SecurePass1", UserRole.Vet, "UAE-VET-99999");
+            var userResult = User.Create(_clinicId, "testvet-status@happypaws.ae", "SecurePass1!", UserRole.Vet, "UAE-VET-99999");
             userResult.IsSuccess.Should().BeTrue();
             typeof(Vetolib.Shared.Kernel.BaseEntity)
                 .GetProperty("Id")!

@@ -9,15 +9,15 @@ Feature: Authentication and session management
     Given a clinic "Happy Paws" with identifier "clinic-happy-paws"
     And an existing user with the following information:
       | Email              | Password     | Role         | ClinicId          | VetLicenseNumber |
-      | vet@happypaws.ae   | SecurePass1  | Vet          | clinic-happy-paws | UAE-VET-12345    |
+      | vet@happypaws.ae   | SecurePass1!  | Vet          | clinic-happy-paws | UAE-VET-12345    |
     And an existing admin user:
       | Email                | Password     | Role  | ClinicId          |
-      | admin@happypaws.ae   | AdminPass1   | Admin | clinic-happy-paws |
+      | admin@happypaws.ae   | AdminPass1!   | Admin | clinic-happy-paws |
 
   # ─── Login — Happy Path ──────────────────────────────────
 
   Scenario: Successful login authenticates the user
-    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1!"
     Then I am successfully authenticated
     And I receive a refresh token
     And the response contains the user information:
@@ -26,7 +26,7 @@ Feature: Authentication and session management
     And the session is linked to the clinic "clinic-happy-paws"
 
   Scenario: The access token expires after 15 minutes
-    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1!"
     Then the access token has a validity duration of 15 minutes
 
   # ─── Refresh Token — Happy Path ──────────────────────────
@@ -72,7 +72,7 @@ Feature: Authentication and session management
     And the error message is "Invalid email or password"
 
   Scenario: Non-existent email returns an error
-    When I log in with email "inconnu@happypaws.ae" and password "SecurePass1"
+    When I log in with email "inconnu@happypaws.ae" and password "SecurePass1!"
     Then the system rejects with code "INVALID_CREDENTIALS"
     And the error message is "Invalid email or password"
 
@@ -85,13 +85,13 @@ Feature: Authentication and session management
 
   Scenario: Login refused during lockout period even with the correct password
     Given the account "vet@happypaws.ae" is locked after 5 failed attempts
-    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1!"
     Then the system rejects with code "ACCOUNT_LOCKED"
     And the message indicates the account is locked
 
   Scenario: Successful login after lockout period expires
     Given the account "vet@happypaws.ae" was locked 16 minutes ago
-    When I log in with email "vet@happypaws.ae" and password "SecurePass1"
+    When I log in with email "vet@happypaws.ae" and password "SecurePass1!"
     Then I am successfully authenticated
     And the failed attempts counter is reset
 
@@ -121,8 +121,8 @@ Feature: Authentication and session management
     Given a clinic "Desert Vet" with identifier "clinic-desert-vet"
     And an existing user with the following information:
       | Email                | Password     | Role | ClinicId           |
-      | recep@desertvet.ae   | SecurePass1  | Receptionist | clinic-desert-vet |
-    When I log in with email "recep@desertvet.ae" and password "SecurePass1"
+      | recep@desertvet.ae   | SecurePass1!  | Receptionist | clinic-desert-vet |
+    When I log in with email "recep@desertvet.ae" and password "SecurePass1!"
     Then the session is linked to the clinic "clinic-desert-vet"
     And the requests from this user only return data from "clinic-desert-vet"
 
@@ -132,7 +132,7 @@ Feature: Authentication and session management
     Given I am logged in as "admin@happypaws.ae"
     When I create a user with the following information:
       | Email                  | Password     | Role         | VetLicenseNumber |
-      | newvet@happypaws.ae    | NewVetPass1  | Vet          | UAE-VET-99999    |
+      | newvet@happypaws.ae    | NewVetPass1!  | Vet          | UAE-VET-99999    |
     Then the user is created successfully
     And the created user belongs to clinic "clinic-happy-paws"
 
@@ -140,14 +140,14 @@ Feature: Authentication and session management
     Given I am logged in as "vet@happypaws.ae"
     When I attempt to create a user with the following information:
       | Email                  | Password     | Role         |
-      | autre@happypaws.ae     | OtherPass1   | Receptionist |
+      | autre@happypaws.ae     | OtherPass1!   | Receptionist |
     Then the system rejects with code "FORBIDDEN"
 
   Scenario: The Vet role requires a veterinary license number
     Given I am logged in as "admin@happypaws.ae"
     When I attempt to create a user with the following information:
       | Email                  | Password     | Role | VetLicenseNumber |
-      | novet@happypaws.ae     | NoVetPass1   | Vet  |                  |
+      | novet@happypaws.ae     | NoVetPass1!   | Vet  |                  |
     Then the system rejects with code "VET_LICENSE_REQUIRED"
     And the error message is "A veterinary license number is required for the Vet role"
 
@@ -160,7 +160,9 @@ Feature: Authentication and session management
     And the message contains "<reason>"
 
     Examples:
-      | password | reason                                      |
-      | Short1   | Password must contain at least 8 characters |
-      | alllowercase1 | Password must contain at least one uppercase letter |
-      | AllUpperCase  | Password must contain at least one digit    |
+      | password      | reason                                                |
+      | Sh@1a         | Password must be at least 8 characters                |
+      | alllower@1    | Password must contain at least one uppercase letter   |
+      | ALLUPPER@1    | Password must contain at least one lowercase letter   |
+      | AllLower@case | Password must contain at least one digit               |
+      | AllLower1case | Password must contain at least one special character   |

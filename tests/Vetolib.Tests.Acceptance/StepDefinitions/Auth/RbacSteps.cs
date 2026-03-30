@@ -166,7 +166,7 @@ internal class RbacSteps
         var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
         testClinicContext.ClinicId = clinicId;
 
-        var vet = User.Create(clinicId, vetEmail, "SecurePass1", UserRole.Vet, "VET-RBAC-001");
+        var vet = User.Create(clinicId, vetEmail, "SecurePass1!", UserRole.Vet, "VET-RBAC-001");
         vet.IsSuccess.Should().BeTrue();
         db.Users.Add(vet.Value);
         await db.SaveChangesAsync();

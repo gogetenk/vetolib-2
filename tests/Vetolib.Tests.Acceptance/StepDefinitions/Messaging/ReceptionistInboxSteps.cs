@@ -518,13 +518,13 @@ internal class ReceptionistInboxSteps
             .FirstOrDefaultAsync(u => u.Email == email);
         if (existing is null)
         {
-            var userResult = User.Create(clinicId, email, "SecurePass1", role, null);
+            var userResult = User.Create(clinicId, email, "SecurePass1!", role, null);
             authDb.Users.Add(userResult.Value);
             await authDb.SaveChangesAsync();
         }
 
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(email, "SecurePass1"));
+            new LoginRequest(email, "SecurePass1!"));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, $"Login as {role} should succeed");
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
@@ -548,13 +548,13 @@ internal class ReceptionistInboxSteps
             .FirstOrDefaultAsync(u => u.Email == adminEmail);
         if (existing is null)
         {
-            var userResult = User.Create(clinicId, adminEmail, "SecurePass1", UserRole.Admin, null);
+            var userResult = User.Create(clinicId, adminEmail, "SecurePass1!", UserRole.Admin, null);
             authDb.Users.Add(userResult.Value);
             await authDb.SaveChangesAsync();
         }
 
         var loginResponse = await _client.PostAsJsonAsync("/api/v1/auth/login",
-            new LoginRequest(adminEmail, "SecurePass1"));
+            new LoginRequest(adminEmail, "SecurePass1!"));
         loginResponse.StatusCode.Should().Be(HttpStatusCode.OK, "Login as Admin for seeding should succeed");
 
         var authToken = await loginResponse.Content.ReadFromJsonAsync<AuthTokenDto>(JsonOptions);
