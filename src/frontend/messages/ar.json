@@ -1774,6 +1774,49 @@
         }
       }
     },
+    "wizard": {
+      "title": "إعداد عيادتك",
+      "skip": "تخطي الإعداد",
+      "back": "رجوع",
+      "next": "التالي",
+      "finish": "إنهاء الإعداد",
+      "finishing": "جارٍ الإعداد...",
+      "skip_step": "تخطي",
+      "steps": {
+        "welcome": {
+          "label": "مرحباً",
+          "description": "أكّد تفاصيل عيادتك للبدء."
+        },
+        "team": {
+          "label": "الفريق",
+          "description": "ادعُ أول عضو في فريقك. يمكنك القيام بذلك لاحقاً.",
+          "email": "البريد الإلكتروني",
+          "email_placeholder": "زميل@العيادة.ae",
+          "name": "الاسم الكامل",
+          "name_placeholder": "د. أحمد المنصوري",
+          "role": "الدور",
+          "role_vet": "طبيب بيطري",
+          "role_assistant": "مساعد",
+          "role_receptionist": "موظف استقبال"
+        },
+        "patient": {
+          "label": "أول مريض",
+          "description": "أضف أول حيوان أليف للبدء. يمكنك تخطي هذه الخطوة.",
+          "pet_name": "اسم الحيوان الأليف",
+          "pet_name_placeholder": "مثال: سيمبا",
+          "species": "النوع",
+          "species_placeholder": "مثال: كلب، قطة، حصان",
+          "owner_name": "اسم المالك",
+          "owner_name_placeholder": "مثال: فاطمة الهاشمي",
+          "owner_phone": "هاتف المالك",
+          "owner_phone_placeholder": "+971 50 123 4567"
+        }
+      },
+      "clinic_name": "اسم العيادة",
+      "clinic_name_placeholder": "مثال: عيادة بيطرية صحراء الكفوف",
+      "timezone": "المنطقة الزمنية",
+      "timezone_default": "آسيا/دبي (الإمارات)"
+    },
     "empty": {
       "patients": {
         "title": "قائمة المرضى فارغة",

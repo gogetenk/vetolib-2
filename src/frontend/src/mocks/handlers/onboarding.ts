@@ -45,6 +45,7 @@ function makeDefaultState(role: string): OnboardingStateDto {
   return {
     welcomeBannerVisible: true,
     checklistVisible: true,
+    wizardCompleted: false,
     progress: {
       totalSteps: steps.length,
       completedSteps: 0,
@@ -132,6 +133,22 @@ export const onboardingHandlers = [
     }
     step.completed = true
     recalcProgress(state)
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // POST /api/v1/onboarding/wizard/complete
+  http.post('/api/v1/onboarding/wizard/complete', async ({ request }) => {
+    await delay(150)
+    const state = getOrCreateState(request)
+    state.wizardCompleted = true
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // POST /api/v1/onboarding/wizard/skip
+  http.post('/api/v1/onboarding/wizard/skip', async ({ request }) => {
+    await delay(80)
+    const state = getOrCreateState(request)
+    state.wizardCompleted = true
     return new HttpResponse(null, { status: 204 })
   }),
 ]
