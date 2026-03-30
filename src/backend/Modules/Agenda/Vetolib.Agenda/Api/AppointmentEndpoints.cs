@@ -96,12 +96,25 @@ internal static class AppointmentEndpoints
 
     private static async Task<IResult> UpdateStatus(
         Guid id,
-        UpdateAppointmentStatusRequest request,
+        UpdateAppointmentStatusRawRequest request,
         ISender sender)
     {
-        var cmd = new UpdateAppointmentStatusCommand(id, request.NewStatus, request.Reason);
+        if (!Enum.TryParse<AppointmentStatus>(request.NewStatus, ignoreCase: true, out var status))
+            return Results.BadRequest(new
+            {
+                title = "Invalid request",
+                errors = new[] { $"'{request.NewStatus}' is not a valid appointment status. Valid values: {string.Join(", ", Enum.GetNames<AppointmentStatus>())}" }
+            });
+
+        var cmd = new UpdateAppointmentStatusCommand(id, status, request.Reason);
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
+
+    /// <summary>
+    /// Raw request DTO that accepts status as string to enable graceful validation
+    /// instead of relying on JSON enum deserialization (which would produce 500).
+    /// </summary>
+    internal record UpdateAppointmentStatusRawRequest(string NewStatus, string? Reason);
 
     private static async Task<IResult> TransitionAppointment(
         Guid id,
