@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Vetolib.Notifications.Contracts.Enums;
 using Vetolib.Notifications.Domain;
 using Xunit;
 
@@ -20,6 +21,7 @@ public class ReminderConfigDomainTests
         result.Value.FollowUpEnabled.Should().BeTrue();
         result.Value.Appointment24hLeadTimeHours.Should().Be(24);
         result.Value.VaccinationDueLeadTimeDays.Should().Be(7);
+        result.Value.PreferredReminderChannel.Should().Be(ReminderChannel.Email);
     }
 
     [Fact]
@@ -41,7 +43,8 @@ public class ReminderConfigDomainTests
             vaccinationDueEnabled: true,
             followUpEnabled: false,
             appointment24hLeadTimeHours: 48,
-            vaccinationDueLeadTimeDays: 14);
+            vaccinationDueLeadTimeDays: 14,
+            preferredReminderChannel: ReminderChannel.WhatsApp);
 
         result.IsSuccess.Should().BeTrue();
         config.Appointment24hEnabled.Should().BeFalse();
@@ -49,6 +52,7 @@ public class ReminderConfigDomainTests
         config.FollowUpEnabled.Should().BeFalse();
         config.Appointment24hLeadTimeHours.Should().Be(48);
         config.VaccinationDueLeadTimeDays.Should().Be(14);
+        config.PreferredReminderChannel.Should().Be(ReminderChannel.WhatsApp);
     }
 
     [Fact]
@@ -56,7 +60,7 @@ public class ReminderConfigDomainTests
     {
         var config = ReminderConfig.CreateDefault(ClinicId).Value;
 
-        var result = config.Update(true, true, true, 0, 7);
+        var result = config.Update(true, true, true, 0, 7, ReminderChannel.Email);
 
         result.IsSuccess.Should().BeFalse();
         result.ValidationErrors.Should().NotBeEmpty();
@@ -67,7 +71,7 @@ public class ReminderConfigDomainTests
     {
         var config = ReminderConfig.CreateDefault(ClinicId).Value;
 
-        var result = config.Update(true, true, true, 73, 7);
+        var result = config.Update(true, true, true, 73, 7, ReminderChannel.Email);
 
         result.IsSuccess.Should().BeFalse();
     }
@@ -77,7 +81,7 @@ public class ReminderConfigDomainTests
     {
         var config = ReminderConfig.CreateDefault(ClinicId).Value;
 
-        var result = config.Update(true, true, true, 24, 0);
+        var result = config.Update(true, true, true, 24, 0, ReminderChannel.Email);
 
         result.IsSuccess.Should().BeFalse();
     }
@@ -87,7 +91,7 @@ public class ReminderConfigDomainTests
     {
         var config = ReminderConfig.CreateDefault(ClinicId).Value;
 
-        var result = config.Update(true, true, true, 24, 31);
+        var result = config.Update(true, true, true, 24, 31, ReminderChannel.Email);
 
         result.IsSuccess.Should().BeFalse();
     }
@@ -97,11 +101,33 @@ public class ReminderConfigDomainTests
     {
         var config = ReminderConfig.CreateDefault(ClinicId).Value;
 
-        var result = config.Update(false, false, false, 24, 7);
+        var result = config.Update(false, false, false, 24, 7, ReminderChannel.Email);
 
         result.IsSuccess.Should().BeTrue();
         config.Appointment24hEnabled.Should().BeFalse();
         config.VaccinationDueEnabled.Should().BeFalse();
         config.FollowUpEnabled.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Update_WithBothChannel_ReturnsSuccess()
+    {
+        var config = ReminderConfig.CreateDefault(ClinicId).Value;
+
+        var result = config.Update(true, true, true, 24, 7, ReminderChannel.Both);
+
+        result.IsSuccess.Should().BeTrue();
+        config.PreferredReminderChannel.Should().Be(ReminderChannel.Both);
+    }
+
+    [Fact]
+    public void Update_WithInvalidChannel_ReturnsInvalid()
+    {
+        var config = ReminderConfig.CreateDefault(ClinicId).Value;
+
+        var result = config.Update(true, true, true, 24, 7, (ReminderChannel)99);
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().NotBeEmpty();
     }
 }

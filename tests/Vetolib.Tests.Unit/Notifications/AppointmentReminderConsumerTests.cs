@@ -7,6 +7,8 @@ using NSubstitute;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Notifications.Consumers;
 using Vetolib.Notifications.Contracts.Enums;
+using Vetolib.Notifications.Contracts.Events;
+using Vetolib.Notifications.Domain;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Preferences.Contracts;
 using Vetolib.Shared.Kernel;
@@ -17,13 +19,17 @@ namespace Vetolib.Tests.Unit.Notifications;
 public class AppointmentReminderConsumerTests : IDisposable
 {
     private readonly IEmailSender _emailSender;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<AppointmentReminderConsumer> _logger;
     private readonly NotificationsDbContext _dbContext;
     private readonly AppointmentReminderConsumer _consumer;
 
+    private static readonly Guid TestClinicId = new("22222222-2222-2222-2222-222222222222");
+
     public AppointmentReminderConsumerTests()
     {
         _emailSender = Substitute.For<IEmailSender>();
+        _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _logger = Microsoft.Extensions.Logging.Abstractions.NullLogger<AppointmentReminderConsumer>.Instance;
 
         var options = new DbContextOptionsBuilder<NotificationsDbContext>()
@@ -34,6 +40,7 @@ public class AppointmentReminderConsumerTests : IDisposable
         _consumer = new AppointmentReminderConsumer(
             _emailSender,
             Substitute.For<IPreferenceChecker>(),
+            _publishEndpoint,
             _dbContext,
             _logger);
     }
@@ -51,15 +58,29 @@ public class AppointmentReminderConsumerTests : IDisposable
         return context;
     }
 
-    private static AppointmentReminderDueIntegrationEvent BuildEvent() => new()
+    private static AppointmentReminderDueIntegrationEvent BuildEvent(
+        Guid? clinicId = null,
+        string ownerPhone = "") => new()
     {
         OwnerEmail = "ahmed.al-rashidi@example.com",
         OwnerName = "Ahmed Al-Rashidi",
         PatientName = "Baxter",
         VetName = "Dr. Sarah Al-Mansoori",
         ScheduledAt = new DateTime(2026, 3, 12, 10, 30, 0),
-        ClinicName = "Dubai Veterinary Clinic"
+        ClinicName = "Dubai Veterinary Clinic",
+        ClinicId = clinicId ?? Guid.Empty,
+        OwnerPhone = ownerPhone
     };
+
+    private async Task SeedReminderConfig(Guid clinicId, ReminderChannel channel)
+    {
+        var config = ReminderConfig.CreateDefault(clinicId).Value;
+        config.Update(true, true, true, 24, 7, channel);
+        _dbContext.ReminderConfigs.Add(config);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    // --- Existing email tests (updated for new constructor) ---
 
     [Fact]
     public async Task Consume_WhenEmailSendSucceeds_DoesNotThrow()
@@ -162,5 +183,147 @@ public class AppointmentReminderConsumerTests : IDisposable
         var logs = await _dbContext.ReminderLogs.ToListAsync();
         logs.Should().HaveCount(1);
         logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Failed);
+    }
+
+    // --- Channel routing tests ---
+
+    [Fact]
+    public async Task ResolveChannel_WhenNoConfig_ReturnsEmail()
+    {
+        var channel = await _consumer.ResolveChannelAsync(TestClinicId, CancellationToken.None);
+
+        channel.Should().Be(ReminderChannel.Email);
+    }
+
+    [Fact]
+    public async Task ResolveChannel_WhenEmptyClinicId_ReturnsEmail()
+    {
+        var channel = await _consumer.ResolveChannelAsync(Guid.Empty, CancellationToken.None);
+
+        channel.Should().Be(ReminderChannel.Email);
+    }
+
+    [Fact]
+    public async Task ResolveChannel_WhenConfigIsWhatsApp_ReturnsWhatsApp()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.WhatsApp);
+
+        var channel = await _consumer.ResolveChannelAsync(TestClinicId, CancellationToken.None);
+
+        channel.Should().Be(ReminderChannel.WhatsApp);
+    }
+
+    [Fact]
+    public async Task ResolveChannel_WhenConfigIsBoth_ReturnsBoth()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Both);
+
+        var channel = await _consumer.ResolveChannelAsync(TestClinicId, CancellationToken.None);
+
+        channel.Should().Be(ReminderChannel.Both);
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsWhatsApp_DoesNotSendEmail()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.WhatsApp);
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _emailSender.DidNotReceive().SendAsync(
+            Arg.Any<EmailMessage>(),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsWhatsApp_PublishesWhatsAppEvent()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.WhatsApp);
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _publishEndpoint.Received(1).Publish(
+            Arg.Is<SendWhatsAppReminderEvent>(e =>
+                e.OwnerPhone == "+971501234567" &&
+                e.OwnerName == "Ahmed Al-Rashidi" &&
+                e.PatientName == "Baxter"),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsBoth_SendsEmailAndPublishesWhatsApp()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Both);
+        _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _emailSender.Received(1).SendAsync(
+            Arg.Any<EmailMessage>(),
+            Arg.Any<CancellationToken>());
+
+        await _publishEndpoint.Received(1).Publish(
+            Arg.Is<SendWhatsAppReminderEvent>(e => e.OwnerPhone == "+971501234567"),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsWhatsApp_ButNoPhone_SkipsWhatsApp()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.WhatsApp);
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _publishEndpoint.DidNotReceive().Publish(
+            Arg.Any<SendWhatsAppReminderEvent>(),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsEmail_DoesNotPublishWhatsApp()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Email);
+        _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _publishEndpoint.DidNotReceive().Publish(
+            Arg.Any<SendWhatsAppReminderEvent>(),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsBoth_LogsBothChannels()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Both);
+        _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        logs.Should().HaveCount(2);
+        logs.Should().Contain(l => l.Channel == NotificationChannel.Email);
+        logs.Should().Contain(l => l.Channel == NotificationChannel.Sms); // WhatsApp logged as Sms
     }
 }

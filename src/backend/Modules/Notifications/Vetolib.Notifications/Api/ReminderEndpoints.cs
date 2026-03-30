@@ -43,7 +43,8 @@ internal static class ReminderEndpoints
             dto.VaccinationDueEnabled,
             dto.FollowUpEnabled,
             dto.Appointment24hLeadTimeHours,
-            dto.VaccinationDueLeadTimeDays))).ToMinimalApiResult();
+            dto.VaccinationDueLeadTimeDays,
+            dto.PreferredReminderChannel))).ToMinimalApiResult();
 
     private static async Task<IResult> GetLogs(
         ReminderType? type,

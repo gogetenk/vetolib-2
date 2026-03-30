@@ -44,6 +44,7 @@ internal class NotificationsDbContext : DbContext
         {
             b.ToTable("reminder_configs", "notifications");
             b.HasKey(e => e.Id);
+            b.Property(e => e.PreferredReminderChannel).HasConversion<string>().HasDefaultValue(Contracts.Enums.ReminderChannel.Email);
             b.HasIndex(e => e.ClinicId).IsUnique();
         });
     }

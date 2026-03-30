@@ -84,7 +84,7 @@ internal class AppointmentReminderService : BackgroundService
             if (hoursUntil < 23 || hoursUntil > 25)
                 continue;
 
-            // Publish integration event — Notifications module sends the email
+            // Publish integration event — Notifications module sends the email/WhatsApp
             await publishEndpoint.Publish(new AppointmentReminderDueIntegrationEvent
             {
                 OwnerEmail = appointment.OwnerEmail!,
@@ -92,7 +92,8 @@ internal class AppointmentReminderService : BackgroundService
                 PatientName = appointment.AnimalName,
                 VetName = appointment.VeterinarianName,
                 ScheduledAt = scheduledAt,
-                ClinicName = _configuration["ClinicName"] ?? "Vetolib Veterinary Clinic"
+                ClinicName = _configuration["ClinicName"] ?? "Vetolib Veterinary Clinic",
+                ClinicId = appointment.ClinicId
             }, ct);
 
             appointment.MarkReminderSent();
