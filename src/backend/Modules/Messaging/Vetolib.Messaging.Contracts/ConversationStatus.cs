@@ -5,5 +5,6 @@ public enum ConversationStatus
     Open,
     InProgress,
     Resolved,
-    Closed
+    Closed,
+    Spam
 }
