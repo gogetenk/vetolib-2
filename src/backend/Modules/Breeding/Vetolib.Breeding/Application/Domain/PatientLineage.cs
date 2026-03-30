@@ -85,10 +85,12 @@ internal class PatientLineage : BaseEntity, IMultiTenant
     {
         var errors = new List<string>();
 
+        bool speciesMismatch = false;
+
         if (mother is not null)
         {
             if (mother.Species != offspring.Species)
-                errors.Add("Parent and offspring must be the same species");
+                speciesMismatch = true;
 
             if (mother.Sex != Sex.Female && mother.Sex != Sex.SpayedFemale)
                 errors.Add("Mother must be female");
@@ -97,11 +99,14 @@ internal class PatientLineage : BaseEntity, IMultiTenant
         if (father is not null)
         {
             if (father.Species != offspring.Species)
-                errors.Add("Parent and offspring must be the same species");
+                speciesMismatch = true;
 
             if (father.Sex != Sex.Male && father.Sex != Sex.NeuteredMale)
                 errors.Add("Father must be male");
         }
+
+        if (speciesMismatch)
+            errors.Add("Parent and offspring must be the same species");
 
         if (errors.Count > 0)
             return Result.Error(string.Join("; ", errors));
