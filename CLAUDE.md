@@ -253,6 +253,20 @@ public class AppointmentController : ControllerBase { ... }
 Chaque agent ne touche qu'aux fichiers de son module. Un agent Agenda ne modifie jamais `Modules/Auth/` ou `Shared/`.
 Si un besoin inter-module apparaît → créer un fichier `questions/` et se bloquer.
 
+### 6b. Règle du boy scout (ajout v3.7)
+
+**Un agent qui voit un problème pendant son travail DOIT le signaler**, même si ce n'est pas sa tâche.
+
+Si pendant l'implémentation d'une tâche, l'agent constate :
+- Du code mort (fichier vide, middleware non wired, annotation sans effet)
+- Un bug potentiel (calcul incorrect, null non géré, race condition)
+- Une incohérence (DTO frontend ≠ backend, @wip sur des tests implémentés)
+- Un TODO/HACK/FIXME dans le code existant
+
+→ L'agent **termine sa tâche** (priorité #1) puis **remonte l'anomalie** dans son rapport de statut sous une section `## Anomalies constatées`. L'orchestrateur crée les tâches refacto correspondantes.
+
+**Pourquoi** : les agents voient du code que les audits automatiques ne couvrent pas. Chaque agent est une paire d'yeux supplémentaire.
+
 ### 7. Fail-fast obligatoire
 
 Se bloquer immédiatement et créer `questions/{task-id}-{timestamp}.md` si :
