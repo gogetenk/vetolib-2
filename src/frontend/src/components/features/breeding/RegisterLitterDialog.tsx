@@ -33,27 +33,37 @@ export function RegisterLitterDialog({
   motherId,
   onSubmit,
 }: RegisterLitterDialogProps) {
-  const [dateOfBirth, setDateOfBirth] = useState(todayDateString())
-  const [fatherId, setFatherId] = useState('')
-  const [breed, setBreed] = useState('')
+  const [birthDate, setBirthDate] = useState(todayDateString())
+  const [fatherPatientId, setFatherPatientId] = useState('')
+  const [externalFatherName, setExternalFatherName] = useState('')
+  const [bornCount, setBornCount] = useState('')
+  const [aliveCount, setAliveCount] = useState('')
   const [notes, setNotes] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const resetForm = () => {
+    setBirthDate(todayDateString())
+    setFatherPatientId('')
+    setExternalFatherName('')
+    setBornCount('')
+    setAliveCount('')
+    setNotes('')
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     try {
       await onSubmit({
-        motherId,
-        fatherId: fatherId.trim() || null,
-        dateOfBirth,
-        breed: breed.trim() || null,
+        motherPatientId: motherId,
+        fatherPatientId: fatherPatientId.trim() || null,
+        externalFatherName: externalFatherName.trim() || null,
+        birthDate,
+        bornCount: parseInt(bornCount, 10),
+        aliveCount: parseInt(aliveCount, 10),
         notes: notes.trim() || null,
       })
-      setDateOfBirth(todayDateString())
-      setFatherId('')
-      setBreed('')
-      setNotes('')
+      resetForm()
     } finally {
       setIsSubmitting(false)
     }
@@ -61,10 +71,7 @@ export function RegisterLitterDialog({
 
   const handleOpenChange = (newOpen: boolean) => {
     if (!newOpen) {
-      setDateOfBirth(todayDateString())
-      setFatherId('')
-      setBreed('')
-      setNotes('')
+      resetForm()
     }
     onOpenChange(newOpen)
   }
@@ -81,34 +88,60 @@ export function RegisterLitterDialog({
             <Input
               id="litter-dob"
               type="date"
-              value={dateOfBirth}
-              onChange={(e) => setDateOfBirth(e.target.value)}
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
               data-testid="litter-dob-input"
               required
             />
           </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="litter-born-count">Born Count</Label>
+              <Input
+                id="litter-born-count"
+                type="number"
+                min={0}
+                value={bornCount}
+                onChange={(e) => setBornCount(e.target.value)}
+                data-testid="litter-born-count-input"
+                required
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="litter-alive-count">Alive Count</Label>
+              <Input
+                id="litter-alive-count"
+                type="number"
+                min={0}
+                value={aliveCount}
+                onChange={(e) => setAliveCount(e.target.value)}
+                data-testid="litter-alive-count-input"
+                required
+              />
+            </div>
+          </div>
           <div className="space-y-1.5">
             <Label htmlFor="litter-father">
-              Father ID <span className="text-muted-foreground font-normal">(optional)</span>
+              Father Patient ID <span className="text-muted-foreground font-normal">(optional)</span>
             </Label>
             <Input
               id="litter-father"
               placeholder="e.g. pat-0000-0000-0000-000000000001"
-              value={fatherId}
-              onChange={(e) => setFatherId(e.target.value)}
+              value={fatherPatientId}
+              onChange={(e) => setFatherPatientId(e.target.value)}
               data-testid="litter-father-input"
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="litter-breed">
-              Breed <span className="text-muted-foreground font-normal">(optional)</span>
+            <Label htmlFor="litter-external-father">
+              External Father Name <span className="text-muted-foreground font-normal">(optional)</span>
             </Label>
             <Input
-              id="litter-breed"
-              placeholder="e.g. Golden Labrador Mix"
-              value={breed}
-              onChange={(e) => setBreed(e.target.value)}
-              data-testid="litter-breed-input"
+              id="litter-external-father"
+              placeholder="e.g. Champion Rex"
+              value={externalFatherName}
+              onChange={(e) => setExternalFatherName(e.target.value)}
+              data-testid="litter-external-father-input"
             />
           </div>
           <div className="space-y-1.5">

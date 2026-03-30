@@ -296,19 +296,19 @@ const MOCK_PREDICTIONS: Record<string, HeatCyclePredictionDto> = {
 export const breedingHandlers = [
   // === Litters ===
 
-  // POST /api/litters
-  http.post('/api/litters', async ({ request }) => {
+  // POST /api/v1/litters
+  http.post('/api/v1/litters', async ({ request }) => {
     const body = (await request.json()) as CreateLitterRequest
     const newLitter: LitterDto = {
       id: `lit-${crypto.randomUUID().slice(0, 8)}`,
-      motherId: body.motherId,
+      motherId: body.motherPatientId,
       motherName: 'Unknown',
-      fatherId: body.fatherId ?? null,
-      fatherName: body.fatherId ? 'Unknown' : null,
-      dateOfBirth: body.dateOfBirth,
+      fatherId: body.fatherPatientId ?? null,
+      fatherName: body.fatherPatientId ? 'Unknown' : (body.externalFatherName ?? null),
+      dateOfBirth: body.birthDate,
       species: 'Dog',
-      breed: body.breed ?? null,
-      offspringCount: 0,
+      breed: null,
+      offspringCount: body.bornCount,
       notes: body.notes ?? null,
       clinicId: 'clinic-001',
     }
@@ -316,25 +316,27 @@ export const breedingHandlers = [
     return HttpResponse.json(newLitter, { status: 201 })
   }),
 
-  // GET /api/litters
-  http.get('/api/litters', ({ request }) => {
-    const url = new URL(request.url)
-    const patientId = url.searchParams.get('patientId')
-    const filtered = patientId
-      ? MOCK_LITTERS.filter(l => l.motherId === patientId || l.fatherId === patientId)
-      : MOCK_LITTERS
+  // GET /api/v1/litters
+  http.get('/api/v1/litters', () => {
+    return HttpResponse.json(MOCK_LITTERS)
+  }),
+
+  // GET /api/v1/patients/:id/litters
+  http.get('/api/v1/patients/:id/litters', ({ params }) => {
+    const patientId = params.id as string
+    const filtered = MOCK_LITTERS.filter(l => l.motherId === patientId || l.fatherId === patientId)
     return HttpResponse.json(filtered)
   }),
 
-  // GET /api/litters/:id
-  http.get('/api/litters/:id', ({ params }) => {
+  // GET /api/v1/litters/:id
+  http.get('/api/v1/litters/:id', ({ params }) => {
     const litter = MOCK_LITTERS.find(l => l.id === params.id)
     if (!litter) return new HttpResponse(null, { status: 404 })
     return HttpResponse.json(litter)
   }),
 
-  // POST /api/litters/:id/offspring
-  http.post('/api/litters/:id/offspring', async ({ params, request }) => {
+  // POST /api/v1/litters/:id/offspring
+  http.post('/api/v1/litters/:id/offspring', async ({ params, request }) => {
     const litterId = params.id as string
     const litter = MOCK_LITTERS.find(l => l.id === litterId)
     if (!litter) return new HttpResponse(null, { status: 404 })
@@ -360,16 +362,16 @@ export const breedingHandlers = [
     return HttpResponse.json(newOffspring, { status: 201 })
   }),
 
-  // GET /api/litters/:id/offspring
-  http.get('/api/litters/:id/offspring', ({ params }) => {
+  // GET /api/v1/litters/:id/offspring
+  http.get('/api/v1/litters/:id/offspring', ({ params }) => {
     const offspring = MOCK_OFFSPRING[params.id as string] ?? []
     return HttpResponse.json(offspring)
   }),
 
   // === Lineage ===
 
-  // GET /api/patients/:id/lineage
-  http.get('/api/patients/:id/lineage', ({ params }) => {
+  // GET /api/v1/patients/:id/lineage
+  http.get('/api/v1/patients/:id/lineage', ({ params }) => {
     const patientId = params.id as string
     const lineage = MOCK_LINEAGES[patientId] ?? {
       patientId,
@@ -382,8 +384,8 @@ export const breedingHandlers = [
     return HttpResponse.json(lineage)
   }),
 
-  // PUT /api/patients/:id/lineage
-  http.put('/api/patients/:id/lineage', async ({ params, request }) => {
+  // PUT /api/v1/patients/:id/lineage
+  http.put('/api/v1/patients/:id/lineage', async ({ params, request }) => {
     const patientId = params.id as string
     const body = (await request.json()) as SetLineageRequest
     const existing = MOCK_LINEAGES[patientId] ?? {
@@ -406,8 +408,8 @@ export const breedingHandlers = [
     return HttpResponse.json(existing)
   }),
 
-  // GET /api/patients/:id/pedigree
-  http.get('/api/patients/:id/pedigree', ({ params }) => {
+  // GET /api/v1/patients/:id/pedigree
+  http.get('/api/v1/patients/:id/pedigree', ({ params }) => {
     const pedigree = getMockPedigree(params.id as string)
     if (!pedigree) {
       return HttpResponse.json({
@@ -423,8 +425,8 @@ export const breedingHandlers = [
     return HttpResponse.json(pedigree)
   }),
 
-  // GET /api/patients/:id/descendants
-  http.get('/api/patients/:id/descendants', ({ params }) => {
+  // GET /api/v1/patients/:id/descendants
+  http.get('/api/v1/patients/:id/descendants', ({ params }) => {
     const patientId = params.id as string
     // Find litters where this patient is a parent
     const litters = MOCK_LITTERS.filter(l => l.motherId === patientId || l.fatherId === patientId)
@@ -445,8 +447,8 @@ export const breedingHandlers = [
 
   // === Pregnancy ===
 
-  // POST /api/pregnancies
-  http.post('/api/pregnancies', async ({ request }) => {
+  // POST /api/v1/breeding/pregnancies
+  http.post('/api/v1/breeding/pregnancies', async ({ request }) => {
     const body = (await request.json()) as CreatePregnancyRequest
     const newPregnancy: PregnancyDto = {
       id: `preg-${crypto.randomUUID().slice(0, 8)}`,
@@ -464,21 +466,21 @@ export const breedingHandlers = [
     return HttpResponse.json(newPregnancy, { status: 201 })
   }),
 
-  // GET /api/pregnancies/active (must be before :id to avoid conflict)
-  http.get('/api/pregnancies/active', () => {
+  // GET /api/v1/breeding/pregnancies/active (must be before :id to avoid conflict)
+  http.get('/api/v1/breeding/pregnancies/active', () => {
     const active = MOCK_PREGNANCIES.filter(p => p.status === 'Active')
     return HttpResponse.json(active)
   }),
 
-  // GET /api/pregnancies/:id
-  http.get('/api/pregnancies/:id', ({ params }) => {
+  // GET /api/v1/breeding/pregnancies/:id
+  http.get('/api/v1/breeding/pregnancies/:id', ({ params }) => {
     const pregnancy = MOCK_PREGNANCIES.find(p => p.id === params.id)
     if (!pregnancy) return new HttpResponse(null, { status: 404 })
     return HttpResponse.json(pregnancy)
   }),
 
-  // GET /api/pregnancies (with patientId filter)
-  http.get('/api/pregnancies', ({ request }) => {
+  // GET /api/v1/breeding/pregnancies (with patientId filter)
+  http.get('/api/v1/breeding/pregnancies', ({ request }) => {
     const url = new URL(request.url)
     const patientId = url.searchParams.get('patientId')
     const filtered = patientId
@@ -487,8 +489,8 @@ export const breedingHandlers = [
     return HttpResponse.json(filtered)
   }),
 
-  // PUT /api/pregnancies/:id/delivery
-  http.put('/api/pregnancies/:id/delivery', async ({ params, request }) => {
+  // PUT /api/v1/breeding/pregnancies/:id/delivery
+  http.put('/api/v1/breeding/pregnancies/:id/delivery', async ({ params, request }) => {
     const pregnancy = MOCK_PREGNANCIES.find(p => p.id === params.id)
     if (!pregnancy) return new HttpResponse(null, { status: 404 })
     const body = (await request.json()) as RecordDeliveryRequest
@@ -498,8 +500,8 @@ export const breedingHandlers = [
     return HttpResponse.json(pregnancy)
   }),
 
-  // PUT /api/pregnancies/:id/loss
-  http.put('/api/pregnancies/:id/loss', async ({ params, request }) => {
+  // PUT /api/v1/breeding/pregnancies/:id/loss
+  http.put('/api/v1/breeding/pregnancies/:id/loss', async ({ params, request }) => {
     const pregnancy = MOCK_PREGNANCIES.find(p => p.id === params.id)
     if (!pregnancy) return new HttpResponse(null, { status: 404 })
     const body = (await request.json()) as RecordLossRequest
@@ -508,8 +510,8 @@ export const breedingHandlers = [
     return HttpResponse.json(pregnancy)
   }),
 
-  // POST /api/pregnancies/:id/checks
-  http.post('/api/pregnancies/:id/checks', async ({ params, request }) => {
+  // POST /api/v1/breeding/pregnancies/:id/checks
+  http.post('/api/v1/breeding/pregnancies/:id/checks', async ({ params, request }) => {
     const pregnancy = MOCK_PREGNANCIES.find(p => p.id === params.id)
     if (!pregnancy) return new HttpResponse(null, { status: 404 })
     const body = (await request.json()) as CreatePregnancyCheckRequest
@@ -525,8 +527,8 @@ export const breedingHandlers = [
     return HttpResponse.json(newCheck, { status: 201 })
   }),
 
-  // PUT /api/pregnancies/:id/checks/:checkId
-  http.put('/api/pregnancies/:id/checks/:checkId', async ({ params, request }) => {
+  // PUT /api/v1/breeding/pregnancies/:id/checks/:checkId
+  http.put('/api/v1/breeding/pregnancies/:id/checks/:checkId', async ({ params, request }) => {
     const pregnancy = MOCK_PREGNANCIES.find(p => p.id === params.id)
     if (!pregnancy) return new HttpResponse(null, { status: 404 })
     const check = pregnancy.checks.find(c => c.id === params.checkId)
@@ -539,8 +541,8 @@ export const breedingHandlers = [
 
   // === Heat Cycles ===
 
-  // POST /api/heat-cycles
-  http.post('/api/heat-cycles', async ({ request }) => {
+  // POST /api/v1/patients/heat-cycles
+  http.post('/api/v1/patients/heat-cycles', async ({ request }) => {
     const body = (await request.json()) as CreateHeatCycleRequest
     const newCycle: HeatCycleDto = {
       id: `hc-${crypto.randomUUID().slice(0, 8)}`,
@@ -558,24 +560,29 @@ export const breedingHandlers = [
     return HttpResponse.json(newCycle, { status: 201 })
   }),
 
-  // GET /api/heat-cycles
-  http.get('/api/heat-cycles', ({ request }) => {
-    const url = new URL(request.url)
-    const patientId = url.searchParams.get('patientId')
-    const filtered = patientId
-      ? MOCK_HEAT_CYCLES.filter(c => c.patientId === patientId)
-      : MOCK_HEAT_CYCLES
+  // GET /api/v1/patients/:id/heat-cycles
+  http.get('/api/v1/patients/:id/heat-cycles', ({ params }) => {
+    const patientId = params.id as string
+    // Check if this is a prediction sub-route (handled separately)
+    const filtered = MOCK_HEAT_CYCLES.filter(c => c.patientId === patientId)
     const sorted = [...filtered].sort(
       (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
     )
     return HttpResponse.json(sorted)
   }),
 
-  // GET /api/heat-cycles/prediction
-  http.get('/api/heat-cycles/prediction', ({ request }) => {
-    const url = new URL(request.url)
-    const patientId = url.searchParams.get('patientId')
-    if (!patientId || !MOCK_PREDICTIONS[patientId]) {
+  // GET /api/v1/patients/heat-cycles (all heat cycles)
+  http.get('/api/v1/patients/heat-cycles', () => {
+    const sorted = [...MOCK_HEAT_CYCLES].sort(
+      (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+    )
+    return HttpResponse.json(sorted)
+  }),
+
+  // GET /api/v1/patients/:id/heat-cycles/prediction
+  http.get('/api/v1/patients/:id/heat-cycles/prediction', ({ params }) => {
+    const patientId = params.id as string
+    if (!MOCK_PREDICTIONS[patientId]) {
       return HttpResponse.json(
         { title: 'Not enough data for prediction' },
         { status: 404 }
