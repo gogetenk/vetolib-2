@@ -33,10 +33,12 @@ export interface OffspringDto {
 }
 
 export interface CreateLitterRequest {
-  motherId: string
-  fatherId?: string | null
-  dateOfBirth: string
-  breed?: string | null
+  motherPatientId: string
+  fatherPatientId?: string | null
+  externalFatherName?: string | null
+  birthDate: string
+  bornCount: number
+  aliveCount: number
   notes?: string | null
 }
 
@@ -160,86 +162,90 @@ export interface CreateHeatCycleRequest {
 
 // Litters
 export async function createLitter(data: CreateLitterRequest): Promise<LitterDto> {
-  return apiPost<LitterDto>('/api/litters', data)
+  return apiPost<LitterDto>('/api/v1/litters', data)
 }
 
 export async function getLitters(patientId?: string): Promise<LitterDto[]> {
-  const query = patientId ? `?patientId=${patientId}` : ''
-  return apiGet<LitterDto[]>(`/api/litters${query}`)
+  if (patientId) {
+    return apiGet<LitterDto[]>(`/api/v1/patients/${patientId}/litters`)
+  }
+  return apiGet<LitterDto[]>('/api/v1/litters')
 }
 
 export async function getLitter(id: string): Promise<LitterDto> {
-  return apiGet<LitterDto>(`/api/litters/${id}`)
+  return apiGet<LitterDto>(`/api/v1/litters/${id}`)
 }
 
 export async function getLitterOffspring(litterId: string): Promise<OffspringDto[]> {
-  return apiGet<OffspringDto[]>(`/api/litters/${litterId}/offspring`)
+  return apiGet<OffspringDto[]>(`/api/v1/litters/${litterId}/offspring`)
 }
 
 export async function addOffspring(litterId: string, data: AddOffspringRequest): Promise<OffspringDto> {
-  return apiPost<OffspringDto>(`/api/litters/${litterId}/offspring`, data)
+  return apiPost<OffspringDto>(`/api/v1/litters/${litterId}/offspring`, data)
 }
 
 // Lineage
 export async function getLineage(patientId: string): Promise<LineageDto> {
-  return apiGet<LineageDto>(`/api/patients/${patientId}/lineage`)
+  return apiGet<LineageDto>(`/api/v1/patients/${patientId}/lineage`)
 }
 
 export async function setLineage(patientId: string, data: SetLineageRequest): Promise<LineageDto> {
-  return apiPut<LineageDto>(`/api/patients/${patientId}/lineage`, data)
+  return apiPut<LineageDto>(`/api/v1/patients/${patientId}/lineage`, data)
 }
 
 export async function getPedigree(patientId: string): Promise<PedigreeNodeDto> {
-  return apiGet<PedigreeNodeDto>(`/api/patients/${patientId}/pedigree`)
+  return apiGet<PedigreeNodeDto>(`/api/v1/patients/${patientId}/pedigree`)
 }
 
 export async function getDescendants(patientId: string): Promise<PedigreeNodeDto[]> {
-  return apiGet<PedigreeNodeDto[]>(`/api/patients/${patientId}/descendants`)
+  return apiGet<PedigreeNodeDto[]>(`/api/v1/patients/${patientId}/descendants`)
 }
 
 // Pregnancy
 export async function createPregnancy(data: CreatePregnancyRequest): Promise<PregnancyDto> {
-  return apiPost<PregnancyDto>('/api/pregnancies', data)
+  return apiPost<PregnancyDto>('/api/v1/breeding/pregnancies', data)
 }
 
 export async function getPregnancy(id: string): Promise<PregnancyDto> {
-  return apiGet<PregnancyDto>(`/api/pregnancies/${id}`)
+  return apiGet<PregnancyDto>(`/api/v1/breeding/pregnancies/${id}`)
 }
 
 export async function getPregnanciesByPatient(patientId: string): Promise<PregnancyDto[]> {
-  return apiGet<PregnancyDto[]>(`/api/pregnancies?patientId=${patientId}`)
+  return apiGet<PregnancyDto[]>(`/api/v1/breeding/pregnancies?patientId=${patientId}`)
 }
 
 export async function getActivePregnancies(): Promise<PregnancyDto[]> {
-  return apiGet<PregnancyDto[]>('/api/pregnancies/active')
+  return apiGet<PregnancyDto[]>('/api/v1/breeding/pregnancies/active')
 }
 
 export async function recordDelivery(pregnancyId: string, data: RecordDeliveryRequest): Promise<PregnancyDto> {
-  return apiPut<PregnancyDto>(`/api/pregnancies/${pregnancyId}/delivery`, data)
+  return apiPut<PregnancyDto>(`/api/v1/breeding/pregnancies/${pregnancyId}/delivery`, data)
 }
 
 export async function recordLoss(pregnancyId: string, data: RecordLossRequest): Promise<PregnancyDto> {
-  return apiPut<PregnancyDto>(`/api/pregnancies/${pregnancyId}/loss`, data)
+  return apiPut<PregnancyDto>(`/api/v1/breeding/pregnancies/${pregnancyId}/loss`, data)
 }
 
 export async function createPregnancyCheck(pregnancyId: string, data: CreatePregnancyCheckRequest): Promise<PregnancyCheckDto> {
-  return apiPost<PregnancyCheckDto>(`/api/pregnancies/${pregnancyId}/checks`, data)
+  return apiPost<PregnancyCheckDto>(`/api/v1/breeding/pregnancies/${pregnancyId}/checks`, data)
 }
 
 export async function updatePregnancyCheck(pregnancyId: string, checkId: string, data: UpdatePregnancyCheckRequest): Promise<PregnancyCheckDto> {
-  return apiPut<PregnancyCheckDto>(`/api/pregnancies/${pregnancyId}/checks/${checkId}`, data)
+  return apiPut<PregnancyCheckDto>(`/api/v1/breeding/pregnancies/${pregnancyId}/checks/${checkId}`, data)
 }
 
 // Heat Cycles
 export async function createHeatCycle(data: CreateHeatCycleRequest): Promise<HeatCycleDto> {
-  return apiPost<HeatCycleDto>('/api/heat-cycles', data)
+  return apiPost<HeatCycleDto>('/api/v1/patients/heat-cycles', data)
 }
 
 export async function getHeatCycles(patientId?: string): Promise<HeatCycleDto[]> {
-  const query = patientId ? `?patientId=${patientId}` : ''
-  return apiGet<HeatCycleDto[]>(`/api/heat-cycles${query}`)
+  if (patientId) {
+    return apiGet<HeatCycleDto[]>(`/api/v1/patients/${patientId}/heat-cycles`)
+  }
+  return apiGet<HeatCycleDto[]>('/api/v1/patients/heat-cycles')
 }
 
 export async function getHeatCyclePrediction(patientId: string): Promise<HeatCyclePredictionDto> {
-  return apiGet<HeatCyclePredictionDto>(`/api/heat-cycles/prediction?patientId=${patientId}`)
+  return apiGet<HeatCyclePredictionDto>(`/api/v1/patients/${patientId}/heat-cycles/prediction`)
 }
