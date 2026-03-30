@@ -33,7 +33,8 @@ internal class MedicalRecordConfiguration : IEntityTypeConfiguration<MedicalReco
             .WithOne()
             .HasForeignKey(p => p.MedicalRecordId);
 
-        builder.HasIndex(r => r.PatientId)
-            .HasDatabaseName("IX_medical_records_PatientId");
+        builder.HasIndex(r => new { r.PatientId, r.ExaminedAt })
+            .HasDatabaseName("IX_medical_records_PatientId_ExaminedAt")
+            .IsDescending(false, true);
     }
 }

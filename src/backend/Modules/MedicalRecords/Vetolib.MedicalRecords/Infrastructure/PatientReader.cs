@@ -59,29 +59,30 @@ internal class PatientReader : IPatientReader
         if (patient is null)
             return Result<PatientContextDto>.NotFound($"Patient {patientId} not found");
 
-        // Load only the last 50 medical records (bounded to avoid loading entire history)
-        const int maxRecords = 50;
-        var recentRecords = await _context.MedicalRecords
-            .Where(r => r.PatientId == patientId)
-            .OrderByDescending(r => r.ExaminedAt)
-            .Take(maxRecords)
-            .Include(r => r.Prescriptions)
-            .AsSplitQuery()
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var ageYears = today.Year - patient.BirthDate.Year;
         if (patient.BirthDate > today.AddYears(-ageYears)) ageYears--;
 
-        var lastRecord = recentRecords.FirstOrDefault();
-
+        DateTime? lastExaminedAt;
         IReadOnlyList<string>? activeMedications = null;
         IReadOnlyList<string>? knownAllergies = null;
         IReadOnlyList<string>? vaccinationHistory = null;
 
         if (includeFullMedicalContext)
         {
+            // Load the last 50 medical records with prescriptions for full context
+            const int maxRecords = 50;
+            var recentRecords = await _context.MedicalRecords
+                .Where(r => r.PatientId == patientId)
+                .OrderByDescending(r => r.ExaminedAt)
+                .Take(maxRecords)
+                .Include(r => r.Prescriptions)
+                .AsSplitQuery()
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            lastExaminedAt = recentRecords.FirstOrDefault()?.ExaminedAt;
+
             activeMedications = recentRecords
                 .SelectMany(r => r.Prescriptions)
                 .Select(p => $"{p.Medication} ({p.Dosage})")
@@ -101,13 +102,22 @@ internal class PatientReader : IPatientReader
                 .Select(r => $"{r.Treatment["VACCINE:".Length..].Trim()} ({r.ExaminedAt:yyyy-MM-dd})")
                 .ToList();
         }
+        else
+        {
+            // Lightweight path: only fetch the most recent ExaminedAt date
+            lastExaminedAt = await _context.MedicalRecords
+                .Where(r => r.PatientId == patientId)
+                .OrderByDescending(r => r.ExaminedAt)
+                .Select(r => (DateTime?)r.ExaminedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
 
         var context = new PatientContextDto(
             patient.Id,
             patient.Name,
             patient.Species.ToString(),
             ageYears,
-            lastRecord?.ExaminedAt,
+            lastExaminedAt,
             activeMedications,
             knownAllergies,
             vaccinationHistory);
