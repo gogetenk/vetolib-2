@@ -140,8 +140,13 @@ internal static class PatientEndpoints
         IClinicContext clinicContext,
         ISender sender)
     {
+        const long maxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+
         if (file is null || file.Length == 0)
             return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError("CSV file is required.")).ToMinimalApiResult();
+
+        if (file.Length > maxFileSizeBytes)
+            return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError("CSV file exceeds maximum allowed size of 5 MB.")).ToMinimalApiResult();
 
         await using var stream = file.OpenReadStream();
         var cmd = new ImportPatientsCommand(clinicContext.ClinicId, stream);

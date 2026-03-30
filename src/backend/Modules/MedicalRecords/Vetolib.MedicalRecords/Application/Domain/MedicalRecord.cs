@@ -43,6 +43,9 @@ internal class MedicalRecord : BaseEntity, IMultiTenant, IAggregateRoot
         if (string.IsNullOrWhiteSpace(vetName))
             errors.Add(new ValidationError(nameof(vetName), "Veterinarian name is required"));
 
+        if (examinedAt > DateTime.UtcNow.AddMinutes(1))
+            errors.Add(new ValidationError(nameof(examinedAt), "Examination date cannot be in the future"));
+
         if (errors.Count > 0)
             return Result<MedicalRecord>.Invalid(errors);
 
