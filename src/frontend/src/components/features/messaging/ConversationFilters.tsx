@@ -42,7 +42,11 @@ export function ConversationFilters({
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
           data-testid="filter-search"
+<<<<<<< HEAD
           className="pl-9 bg-card border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
+=======
+          className="ps-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
+>>>>>>> origin/develop
           placeholder={t('search_placeholder')}
           aria-label={t('search_placeholder')}
           value={searchQuery}

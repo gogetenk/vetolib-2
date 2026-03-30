@@ -118,7 +118,7 @@ export function WeightTab({ patientId }: WeightTabProps) {
             data-testid="weight-add-button"
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
           >
-            <Plus className="h-4 w-4 mr-1.5" />
+            <Plus className="h-4 w-4 me-1.5" />
             {t('add_weight')}
           </Button>
         )}

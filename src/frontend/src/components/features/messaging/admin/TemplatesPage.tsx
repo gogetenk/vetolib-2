@@ -98,7 +98,7 @@ export function TemplatesPage() {
             <span className="w-1 h-5 bg-primary rounded-full"></span>
             {t("templates.title")}
           </h2>
-          <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("templates.subtitle")}</p>
+          <p className="text-[13px] text-muted-foreground mt-1 ms-3">{t("templates.subtitle")}</p>
         </div>
         <Button data-testid="add-template-btn" onClick={handleAddClick} className="font-semibold rounded-xl h-10 px-5 shadow-sm">
           {t("templates.add")}
@@ -121,7 +121,7 @@ export function TemplatesPage() {
                 <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground">{t("templates.col_name")}</TableHead>
                 <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground">{t("templates.col_category")}</TableHead>
                 <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground">{t("templates.col_updated")}</TableHead>
-                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground text-right">{t("templates.col_actions")}</TableHead>
+                <TableHead className="h-12 px-6 text-[11px] font-bold uppercase tracking-wider text-foreground text-end">{t("templates.col_actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -140,7 +140,7 @@ export function TemplatesPage() {
                   <TableCell className="px-6 py-4 text-[13px] text-muted-foreground">
                     {new Date(tpl.updatedAt).toLocaleDateString()}
                   </TableCell>
-                  <TableCell className="px-6 py-4 text-right">
+                  <TableCell className="px-6 py-4 text-end">
                     <div className="flex justify-end gap-2">
                       <Button
                         variant="outline"

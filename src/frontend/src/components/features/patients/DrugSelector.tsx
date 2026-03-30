@@ -176,7 +176,7 @@ export function DrugSelector({
       <div className="flex items-center justify-between">
         <Label htmlFor={isFreeText ? 'drug-selector-free-text-input' : 'drug-selector-input'} className="text-[13px] font-semibold text-foreground">
           {displayLabel}
-          {required && <span className="text-destructive ml-1">*</span>}
+          {required && <span className="text-destructive ms-1">*</span>}
         </Label>
         <button
           type="button"
@@ -262,7 +262,7 @@ export function DrugSelector({
                       {drug.innName}
                     </span>
                   </div>
-                  <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
+                  <div className="flex flex-col items-end gap-1 shrink-0 ms-2">
                     <Badge variant="secondary" className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap rounded-md">
                       {drug.category}
                     </Badge>

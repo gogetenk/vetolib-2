@@ -122,7 +122,7 @@ export default function PreferencesPage() {
           <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t('title')}
         </h1>
-        <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t('subtitle')}</p>
+        <p className="text-[13px] text-muted-foreground mt-1 ms-3">{t('subtitle')}</p>
       </div>
 
       {/* Category sections */}

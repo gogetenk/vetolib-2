@@ -52,9 +52,9 @@ export function ConversationListItem({
       data-testid={`conversation-item-${conversation.id}`}
       onClick={onClick}
       className={cn(
-        'w-full text-left px-4 py-3.5 border-b border-border/30 transition-all duration-200 ease-in-out hover:bg-muted/50',
-        isSelected && 'bg-primary/10 border-l-[3px] border-l-primary',
-        !isSelected && 'border-l-[3px] border-l-transparent',
+        'w-full text-start px-4 py-3.5 border-b border-border/30 transition-all duration-200 ease-in-out hover:bg-muted/50',
+        isSelected && 'bg-primary/10 border-s-[3px] border-s-primary',
+        !isSelected && 'border-s-[3px] border-s-transparent',
         isUrgency && !isSelected && 'bg-red-50/30 hover:bg-red-50/60',
       )}
     >
@@ -93,7 +93,7 @@ export function ConversationListItem({
         {conversation.unreadCount > 0 && (
           <span
             data-testid={`unread-count-${conversation.id}`}
-            className="ml-auto flex-shrink-0 h-5 min-w-5 rounded-full bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center px-1.5 shadow-sm animate-pulse-badge"
+            className="ms-auto flex-shrink-0 h-5 min-w-5 rounded-full bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center px-1.5 shadow-sm animate-pulse-badge"
           >
             {conversation.unreadCount}
           </span>

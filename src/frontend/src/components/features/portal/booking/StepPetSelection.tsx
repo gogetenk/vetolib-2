@@ -113,7 +113,7 @@ export function StepPetSelection({ selectedPetId, onSelect }: StepPetSelectionPr
             aria-selected={isSelected}
             aria-label={`${pet.name}, ${pet.species}, ${pet.breed}, ${pet.ageYears} year${pet.ageYears !== 1 ? 's' : ''} old`}
             className={cn(
-              'relative flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
+              'relative flex items-center gap-4 rounded-xl border-2 p-4 text-start transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
               isSelected
                 ? 'border-primary bg-primary/5 shadow-md scale-[1.02]'
                 : 'border-border/80 bg-white hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm'

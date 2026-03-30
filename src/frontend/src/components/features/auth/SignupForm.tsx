@@ -229,7 +229,7 @@ export function SignupForm() {
                   disabled={isSubmitting}
                   aria-invalid={!!errors.password}
                   aria-describedby={errors.password ? "password-error" : undefined}
-                  className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                  className={`pe-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("password")}
                 />
                 <button
@@ -316,7 +316,7 @@ export function SignupForm() {
                   disabled={isSubmitting}
                   aria-invalid={!!errors.confirmPassword}
                   aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
-                  className={`pr-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                  className={`pe-10 transition-all duration-200 ease-in-out focus:scale-[1.01] ${errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                   {...register("confirmPassword")}
                 />
                 <button
@@ -358,7 +358,7 @@ export function SignupForm() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span className="ml-2">{t("submitting")}</span>
+                  <span className="ms-2">{t("submitting")}</span>
                 </>
               ) : (
                 t("submit")

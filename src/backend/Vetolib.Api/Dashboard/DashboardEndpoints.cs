@@ -46,7 +46,14 @@ internal static class DashboardEndpoints
         var logger = loggerFactory.CreateLogger("DashboardEndpoints");
 
         // All queries use public types from .Contracts — no runtime assembly coupling
-        var appointmentsResult = await sender.Send(new GetTodayAppointmentsQuery());
+        // Parallelize independent queries to reduce latency on cache miss (P-17)
+        var appointmentsTask = sender.Send(new GetTodayAppointmentsQuery());
+        var unpaidTask = sender.Send(new GetUnpaidInvoicesTotalQuery());
+        var patientCountTask = sender.Send(new GetPatientCountQuery());
+
+        await Task.WhenAll(appointmentsTask, unpaidTask, patientCountTask);
+
+        var appointmentsResult = appointmentsTask.Result;
         if (!appointmentsResult.IsSuccess)
         {
             logger.LogWarning("Dashboard GetStats: GetTodayAppointmentsQuery failed — {Errors}",
@@ -55,7 +62,7 @@ internal static class DashboardEndpoints
                 .ToMinimalApiResult();
         }
 
-        var unpaidResult = await sender.Send(new GetUnpaidInvoicesTotalQuery());
+        var unpaidResult = unpaidTask.Result;
         if (!unpaidResult.IsSuccess)
         {
             logger.LogWarning("Dashboard GetStats: GetUnpaidInvoicesTotalQuery failed — {Errors}",
@@ -64,7 +71,7 @@ internal static class DashboardEndpoints
                 .ToMinimalApiResult();
         }
 
-        var patientCountResult = await sender.Send(new GetPatientCountQuery());
+        var patientCountResult = patientCountTask.Result;
         if (!patientCountResult.IsSuccess)
         {
             logger.LogWarning("Dashboard GetStats: GetPatientCountQuery failed — {Errors}",
@@ -133,7 +140,14 @@ internal static class DashboardEndpoints
     {
         var logger = loggerFactory.CreateLogger("DashboardEndpoints");
 
-        var revenueResult = await sender.Send(new GetRevenueByMonthQuery());
+        // Parallelize independent queries to reduce latency on cache miss (P-17)
+        var revenueTask = sender.Send(new GetRevenueByMonthQuery());
+        var appointmentsAnalyticsTask = sender.Send(new GetAppointmentsAnalyticsQuery());
+        var speciesTask = sender.Send(new GetPatientsBySpeciesQuery());
+
+        await Task.WhenAll(revenueTask, appointmentsAnalyticsTask, speciesTask);
+
+        var revenueResult = revenueTask.Result;
         if (!revenueResult.IsSuccess)
         {
             logger.LogWarning("Dashboard Analytics: GetRevenueByMonthQuery failed — {Errors}",
@@ -143,7 +157,7 @@ internal static class DashboardEndpoints
                 .ToMinimalApiResult();
         }
 
-        var appointmentsAnalyticsResult = await sender.Send(new GetAppointmentsAnalyticsQuery());
+        var appointmentsAnalyticsResult = appointmentsAnalyticsTask.Result;
         if (!appointmentsAnalyticsResult.IsSuccess)
         {
             logger.LogWarning("Dashboard Analytics: GetAppointmentsAnalyticsQuery failed — {Errors}",
@@ -153,7 +167,7 @@ internal static class DashboardEndpoints
                 .ToMinimalApiResult();
         }
 
-        var speciesResult = await sender.Send(new GetPatientsBySpeciesQuery());
+        var speciesResult = speciesTask.Result;
         if (!speciesResult.IsSuccess)
         {
             logger.LogWarning("Dashboard Analytics: GetPatientsBySpeciesQuery failed — {Errors}",

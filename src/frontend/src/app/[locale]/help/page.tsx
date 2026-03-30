@@ -83,7 +83,7 @@ function renderContent(text: string) {
     if (/^\d+\.\s/.test(trimmed)) {
       const items = trimmed.split(/\n/).filter((l) => l.trim());
       return (
-        <ol key={i} className="list-decimal space-y-1.5 pl-6 text-stone-700">
+        <ol key={i} className="list-decimal space-y-1.5 ps-6 text-stone-700">
           {items.map((item, j) => (
             <li key={j} className="leading-relaxed">
               <span
@@ -103,7 +103,7 @@ function renderContent(text: string) {
     if (/^[-*]\s/.test(trimmed) || /^\s+[-*]\s/.test(trimmed)) {
       const items = trimmed.split(/\n/).filter((l) => l.trim());
       return (
-        <ul key={i} className="list-disc space-y-1.5 pl-6 text-stone-700">
+        <ul key={i} className="list-disc space-y-1.5 ps-6 text-stone-700">
           {items.map((item, j) => (
             <li key={j} className="leading-relaxed">
               <span
@@ -240,7 +240,7 @@ export default function HelpCenterPage() {
               data-testid={`help-section-${section.key}`}
             >
               <Icon className="h-4 w-4 shrink-0" />
-              <span className="flex-1 text-left">{section.label}</span>
+              <span className="flex-1 text-start">{section.label}</span>
               <ChevronDown
                 className={`h-3.5 w-3.5 shrink-0 transition-transform ${
                   isExpanded && (activeSection === section.key || searchQuery)
@@ -251,12 +251,12 @@ export default function HelpCenterPage() {
             </button>
             {(activeSection === section.key || searchQuery.trim().length > 0) &&
               sectionArticles.length > 0 && (
-                <div className="ml-4 mt-1 space-y-0.5 border-l border-stone-200 pl-3">
+                <div className="ms-4 mt-1 space-y-0.5 border-l border-stone-200 ps-3">
                   {sectionArticles.map((article) => (
                     <button
                       key={article.id}
                       onClick={() => handleArticleClick(article.id)}
-                      className={`block w-full rounded-md px-2.5 py-1.5 text-left text-sm transition-colors ${
+                      className={`block w-full rounded-md px-2.5 py-1.5 text-start text-sm transition-colors ${
                         activeArticleId === article.id
                           ? "bg-primary/5 font-medium text-primary"
                           : "text-stone-500 hover:bg-stone-50 hover:text-stone-700"
@@ -333,7 +333,7 @@ export default function HelpCenterPage() {
                   setSearchQuery(e.target.value);
                   setActiveArticleId(null);
                 }}
-                className="pl-10"
+                className="ps-10"
                 data-testid="help-search"
               />
             </div>
@@ -427,7 +427,7 @@ export default function HelpCenterPage() {
                           <button
                             key={article.id}
                             onClick={() => handleArticleClick(article.id)}
-                            className="group flex items-start gap-3 rounded-xl border border-stone-100 bg-white p-4 text-left transition-all hover:border-primary/20 hover:shadow-sm"
+                            className="group flex items-start gap-3 rounded-xl border border-stone-100 bg-white p-4 text-start transition-all hover:border-primary/20 hover:shadow-sm"
                             data-testid={`help-card-${article.id}`}
                           >
                             <div className="flex-1">

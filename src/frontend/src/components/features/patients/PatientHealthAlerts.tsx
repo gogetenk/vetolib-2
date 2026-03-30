@@ -134,7 +134,7 @@ export function PatientHealthAlerts({ patientId }: PatientHealthAlertsProps) {
                     </Badge>
                     {alert.status === 'Acknowledged' && (
                       <Badge variant="outline" className="text-[10px]">
-                        <CheckCircle className="h-3 w-3 mr-1" />
+                        <CheckCircle className="h-3 w-3 me-1" />
                         Acknowledged
                       </Badge>
                     )}
@@ -152,7 +152,7 @@ export function PatientHealthAlerts({ patientId }: PatientHealthAlertsProps) {
                   onClick={() => handleConvert(alert)}
                   className="text-xs"
                 >
-                  <CalendarPlus className="h-3.5 w-3.5 mr-1" />
+                  <CalendarPlus className="h-3.5 w-3.5 me-1" />
                   Schedule
                 </Button>
                 {alert.status !== 'Acknowledged' && (
@@ -163,7 +163,7 @@ export function PatientHealthAlerts({ patientId }: PatientHealthAlertsProps) {
                     onClick={() => handleAcknowledge(alert)}
                     className="text-xs"
                   >
-                    <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                    <CheckCircle className="h-3.5 w-3.5 me-1" />
                     Acknowledge
                   </Button>
                 )}
@@ -174,7 +174,7 @@ export function PatientHealthAlerts({ patientId }: PatientHealthAlertsProps) {
                   onClick={() => setDismissingAlert(alert)}
                   className="text-xs text-muted-foreground"
                 >
-                  <XCircle className="h-3.5 w-3.5 mr-1" />
+                  <XCircle className="h-3.5 w-3.5 me-1" />
                   Dismiss
                 </Button>
               </div>
@@ -204,7 +204,7 @@ export function PatientHealthAlerts({ patientId }: PatientHealthAlertsProps) {
                 <Badge variant="secondary" className="text-[10px]">Dismissed</Badge>
               </div>
               {alert.dismissReason && (
-                <p className="text-[11px] text-muted-foreground ml-6" data-testid={`patient-alert-dismiss-reason-${alert.id}`}>
+                <p className="text-[11px] text-muted-foreground ms-6" data-testid={`patient-alert-dismiss-reason-${alert.id}`}>
                   Reason: {alert.dismissReason}
                 </p>
               )}

@@ -206,7 +206,19 @@ internal class OwnerPortalSteps
     [When(@"I select the category {string}")]
     public void WhenISelectTheCategory(string category)
     {
-        _ctx.Set(category, "SelectedCategory");
+        // Map user-facing category text to API enum value
+        var apiCategory = category switch
+        {
+            "My pet has a health problem" => "MedicalQuestion",
+            "Post-operative follow-up" => "PostOperativeFollowUp",
+            "I want to book an appointment" => "AppointmentRequest",
+            "Administrative question" => "Administrative",
+            "Feedback" => "Feedback",
+            "Medical emergency" => "MedicalUrgency",
+            "Other" => "Other",
+            _ => category // Pass through if already an enum name
+        };
+        _ctx.Set(apiCategory, "SelectedCategory");
     }
 
     [When(@"I type {string}")]

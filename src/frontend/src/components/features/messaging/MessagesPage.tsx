@@ -243,7 +243,7 @@ function ConversationDetail({ conversation, role, onStatusChange, onBack, t }: C
         <Button
           variant="ghost"
           size="sm"
-          className="md:hidden -ml-1"
+          className="md:hidden -ms-1"
           data-testid="btn-back-to-list"
           onClick={onBack}
         >

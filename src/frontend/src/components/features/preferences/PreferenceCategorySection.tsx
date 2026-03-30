@@ -34,7 +34,7 @@ export function PreferenceCategorySection({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-muted hover:bg-muted/80 transition-colors text-left"
+        className="w-full flex items-center justify-between px-4 py-3 bg-muted hover:bg-muted/80 transition-colors text-start"
         data-testid={`pref-section-toggle-${category.key}`}
         aria-expanded={isOpen}
       >

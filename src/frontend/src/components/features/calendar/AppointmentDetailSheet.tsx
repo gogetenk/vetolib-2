@@ -181,7 +181,7 @@ export function AppointmentDetailSheet({
           <div className="w-full md:w-[40%] bg-card p-8 flex flex-col border-r border-border/50">
             <div className="mb-8">
               <h2 className="text-[22px] font-bold text-foreground leading-tight flex items-center gap-2">
-                {ownerLastName} <span className="font-semibold text-primary">{ownerFirstName}</span> <span className="text-muted-foreground font-normal ml-1">{emoji}</span>
+                {ownerLastName} <span className="font-semibold text-primary">{ownerFirstName}</span> <span className="text-muted-foreground font-normal ms-1">{emoji}</span>
               </h2>
               <p className="text-[13px] text-muted-foreground mt-1 font-medium">
                 Patient: <span className="text-foreground" data-testid="detail-patient-name">{appointment.patientName}</span> • {appointment.species}
@@ -239,7 +239,7 @@ export function AppointmentDetailSheet({
                     {appointment.status.replace('_', ' ')}
                   </Badge>
                 </div>
-                <p className="text-[13px] text-muted-foreground font-medium ml-3 flex items-center gap-2">
+                <p className="text-[13px] text-muted-foreground font-medium ms-3 flex items-center gap-2">
                   <UserIcon className="w-3.5 h-3.5" /> {appointment.vetName} <span className="text-border mx-1">•</span> <span className="text-primary font-bold">{dateStr}</span> <span className="text-border mx-1">•</span> {timeStr}
                 </p>
               </div>
@@ -280,11 +280,11 @@ export function AppointmentDetailSheet({
                     <Input 
                       type="text" 
                       placeholder={t('detail.writeANote')} 
-                      className="w-full bg-muted/50 rounded-xl pl-4 pr-12 py-2.5 text-[13px]"
+                      className="w-full bg-muted/50 rounded-xl ps-4 pe-12 py-2.5 text-[13px]"
                       disabled
                     />
                     <Button size="icon-sm" className="absolute right-1.5 top-[18px] rounded-lg" disabled>
-                      <SendIcon className="w-3.5 h-3.5 ml-0.5" />
+                      <SendIcon className="w-3.5 h-3.5 ms-0.5" />
                     </Button>
                   </div>
                 </div>

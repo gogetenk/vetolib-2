@@ -101,7 +101,7 @@ export function TriageStatsPage() {
           <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t("title")}
         </h2>
-        <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("subtitle")}</p>
+        <p className="text-[13px] text-muted-foreground mt-1 ms-3">{t("subtitle")}</p>
       </div>
 
       {/* KPI Cards */}
@@ -226,19 +226,19 @@ export function TriageStatsPage() {
             <table className="w-full text-[12px]" data-testid="classification-by-category-table">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left py-2 text-muted-foreground font-medium">{t("classification_col_category")}</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">{t("classification_col_classified")}</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">{t("classification_col_accurate")}</th>
-                  <th className="text-right py-2 text-muted-foreground font-medium">{t("classification_col_accuracy")}</th>
+                  <th className="text-start py-2 text-muted-foreground font-medium">{t("classification_col_category")}</th>
+                  <th className="text-end py-2 text-muted-foreground font-medium">{t("classification_col_classified")}</th>
+                  <th className="text-end py-2 text-muted-foreground font-medium">{t("classification_col_accurate")}</th>
+                  <th className="text-end py-2 text-muted-foreground font-medium">{t("classification_col_accuracy")}</th>
                 </tr>
               </thead>
               <tbody>
                 {classificationStats.byCategory.map((cat) => (
                   <tr key={cat.category} className="border-b border-border/50">
                     <td className="py-2 text-foreground">{tCat(cat.category)}</td>
-                    <td className="py-2 text-right text-foreground">{cat.totalClassified}</td>
-                    <td className="py-2 text-right text-foreground">{cat.accurateCount}</td>
-                    <td className="py-2 text-right">
+                    <td className="py-2 text-end text-foreground">{cat.totalClassified}</td>
+                    <td className="py-2 text-end text-foreground">{cat.accurateCount}</td>
+                    <td className="py-2 text-end">
                       <span className={cat.accuracyPercent >= 85 ? 'text-green-700' : cat.accuracyPercent >= 70 ? 'text-amber-700' : 'text-red-700'}>
                         {cat.accuracyPercent.toFixed(1)}%
                       </span>

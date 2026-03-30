@@ -13,7 +13,7 @@ public class CreatePregnancyValidatorTests
     public void Valid_command_passes()
     {
         var cmd = new CreatePregnancyCommand(Guid.NewGuid(), null,
-            DateOnly.FromDateTime(DateTime.UtcNow), MatingMethod.Natural, "Female", "Dog", null);
+            DateOnly.FromDateTime(DateTime.UtcNow), MatingMethod.Natural, null);
         var result = _validator.Validate(cmd);
         result.IsValid.Should().BeTrue();
     }
@@ -22,7 +22,7 @@ public class CreatePregnancyValidatorTests
     public void Empty_patient_id_fails()
     {
         var cmd = new CreatePregnancyCommand(Guid.Empty, null,
-            DateOnly.FromDateTime(DateTime.UtcNow), MatingMethod.Natural, "Female", "Dog", null);
+            DateOnly.FromDateTime(DateTime.UtcNow), MatingMethod.Natural, null);
         var result = _validator.Validate(cmd);
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.PropertyName == "PatientId");
@@ -32,7 +32,7 @@ public class CreatePregnancyValidatorTests
     public void Invalid_mating_method_fails()
     {
         var cmd = new CreatePregnancyCommand(Guid.NewGuid(), null,
-            DateOnly.FromDateTime(DateTime.UtcNow), (MatingMethod)999, "Female", "Dog", null);
+            DateOnly.FromDateTime(DateTime.UtcNow), (MatingMethod)999, null);
         var result = _validator.Validate(cmd);
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.PropertyName == "MatingMethod");

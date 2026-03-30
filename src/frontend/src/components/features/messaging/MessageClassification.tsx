@@ -125,13 +125,13 @@ export function MessageClassificationBadges({
           className="text-[10px] h-4 px-1.5 border-amber-300 bg-amber-50 text-amber-700"
           data-testid={`classification-needs-review-${messageId}`}
         >
-          <AlertTriangle className="h-2.5 w-2.5 mr-0.5" aria-hidden />
+          <AlertTriangle className="h-2.5 w-2.5 me-0.5" aria-hidden />
           {t('needs_review')}
         </Badge>
       )}
 
       {/* Feedback buttons */}
-      <div className="flex items-center gap-0.5 ml-1">
+      <div className="flex items-center gap-0.5 ms-1">
         <button
           type="button"
           className={cn(

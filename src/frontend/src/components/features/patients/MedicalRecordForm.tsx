@@ -549,7 +549,7 @@ export function MedicalRecordForm({
           <div className="sticky bottom-0 bg-card py-3 border-t border-border/50 flex gap-3 justify-end items-center -mx-6 px-6">
             {isSubmitBlocked && (
               <p
-                className="text-xs text-destructive mr-auto"
+                className="text-xs text-destructive me-auto"
                 data-testid="submit-blocked-notice"
                 role="status"
               >

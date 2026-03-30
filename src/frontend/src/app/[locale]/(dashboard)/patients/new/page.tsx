@@ -27,7 +27,7 @@ export default async function NewPatientPage() {
           <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t('form.title')}
         </h1>
-        <p className="text-[13px] text-muted-foreground mt-1 ml-3">
+        <p className="text-[13px] text-muted-foreground mt-1 ms-3">
           Register a new patient and their owner.
         </p>
       </div>

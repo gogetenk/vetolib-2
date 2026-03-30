@@ -90,7 +90,7 @@ export function MonthDayCell({
               className={`w-full text-start flex items-center gap-1 rounded-md px-1 py-0.5 text-[10px] truncate transition-all duration-200 ease-in-out hover:shadow-sm hover:scale-[1.02] ${color.bg}`}
               onClick={(e) => handleAppointmentClick(e, apt)}
             >
-              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${color.border.replace('border-l-', 'bg-')}`} />
+              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${color.border.replace('border-s-', 'bg-')}`} />
               <span className="text-muted-foreground flex-shrink-0">
                 {timeFormatter.format(scheduledDate)}
               </span>
@@ -131,7 +131,7 @@ export function MonthDayCell({
                     onClick={(e) => handleAppointmentClick(e, apt)}
                     data-testid={`month-popover-appointment-${apt.id}`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${color.border.replace('border-l-', 'bg-')}`} />
+                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${color.border.replace('border-s-', 'bg-')}`} />
                     <span className="text-muted-foreground flex-shrink-0">
                       {timeFormatter.format(scheduledDate)}
                     </span>

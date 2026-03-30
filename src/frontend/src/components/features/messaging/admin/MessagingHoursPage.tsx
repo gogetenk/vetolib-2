@@ -70,7 +70,7 @@ export function MessagingHoursPage() {
           <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t("title")}
         </h2>
-        <p className="text-[13px] text-muted-foreground mt-1 ml-3">{t("subtitle")}</p>
+        <p className="text-[13px] text-muted-foreground mt-1 ms-3">{t("subtitle")}</p>
       </div>
 
       {isLoading ? (
@@ -82,16 +82,16 @@ export function MessagingHoursPage() {
           <table className="w-full">
             <thead className="bg-muted">
               <tr>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground w-32">
+                <th className="px-4 py-3 text-start text-[11px] font-bold uppercase tracking-wider text-foreground w-32">
                   {t("col_day")}
                 </th>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground">
+                <th className="px-4 py-3 text-start text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t("col_status")}
                 </th>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground">
+                <th className="px-4 py-3 text-start text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t("col_open")}
                 </th>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-foreground">
+                <th className="px-4 py-3 text-start text-[11px] font-bold uppercase tracking-wider text-foreground">
                   {t("col_close")}
                 </th>
               </tr>

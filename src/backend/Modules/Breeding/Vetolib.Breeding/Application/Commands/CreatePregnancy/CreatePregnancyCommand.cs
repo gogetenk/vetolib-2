@@ -9,7 +9,5 @@ internal record CreatePregnancyCommand(
     Guid? FatherPatientId,
     DateOnly MatingDate,
     MatingMethod MatingMethod,
-    string PatientSex,
-    string PatientSpecies,
     string? Notes
 ) : IRequest<Result<PregnancyDto>>;

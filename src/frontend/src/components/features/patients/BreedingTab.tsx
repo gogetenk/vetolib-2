@@ -152,7 +152,7 @@ export function BreedingTab({ patientId, patientSex, patientSpecies }: BreedingT
               data-testid="breeding-register-litter-btn"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
             >
-              <Plus className="h-4 w-4 mr-1.5" />
+              <Plus className="h-4 w-4 me-1.5" />
               Register Litter
             </Button>
           )}
@@ -199,7 +199,7 @@ export function BreedingTab({ patientId, patientSex, patientSpecies }: BreedingT
                 data-testid="breeding-record-pregnancy-btn"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
-                <Plus className="h-4 w-4 mr-1.5" />
+                <Plus className="h-4 w-4 me-1.5" />
                 Record Pregnancy
               </Button>
             )}
@@ -253,7 +253,7 @@ export function BreedingTab({ patientId, patientSex, patientSpecies }: BreedingT
                 data-testid="breeding-record-heat-cycle-btn"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >
-                <Plus className="h-4 w-4 mr-1.5" />
+                <Plus className="h-4 w-4 me-1.5" />
                 Record Heat Cycle
               </Button>
             )}
@@ -266,7 +266,7 @@ export function BreedingTab({ patientId, patientSex, patientSpecies }: BreedingT
               <p className="text-[13px] text-amber-800 mt-1">
                 Predicted start: <span className="font-bold">{formatDate(prediction.predictedNextStartDate)}</span>
                 {' '}&bull; Average cycle: {prediction.averageCycleDays} days
-                {' '}&bull; Confidence: <Badge variant="secondary" className="ml-1 text-[10px]">{prediction.confidence}</Badge>
+                {' '}&bull; Confidence: <Badge variant="secondary" className="ms-1 text-[10px]">{prediction.confidence}</Badge>
               </p>
             </div>
           )}
