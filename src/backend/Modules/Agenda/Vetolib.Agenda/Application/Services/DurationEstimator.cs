@@ -50,6 +50,55 @@ internal class DurationEstimator
         return Result<int>.Success(average);
     }
 
+    /// <summary>
+    /// Batch-estimates durations for multiple vets in a single DB query,
+    /// avoiding the N+1 problem when called per-vet in a loop.
+    /// </summary>
+    public async Task<Dictionary<Guid, int>> EstimateBatchAsync(
+        IReadOnlyList<Guid> veterinarianIds,
+        string consultationType,
+        CancellationToken ct = default)
+    {
+        if (veterinarianIds.Count == 0)
+            return new Dictionary<Guid, int>();
+
+        // Single query: load last 20 completed appointments per vet+type, grouped by vet
+        var histories = await _context.Appointments
+            .Where(a =>
+                veterinarianIds.Contains(a.VeterinarianId) &&
+                a.Reason != null &&
+                a.Reason.ToLower().StartsWith(consultationType.ToLower()) &&
+                a.Status == AppointmentStatus.Completed)
+            .GroupBy(a => a.VeterinarianId)
+            .Select(g => new
+            {
+                VetId = g.Key,
+                Durations = g.OrderByDescending(a => a.Date)
+                    .Take(20)
+                    .Select(a => a.DurationMinutes)
+                    .ToList()
+            })
+            .ToListAsync(ct);
+
+        var defaultDuration = GetDefaultDuration(consultationType);
+        var result = new Dictionary<Guid, int>();
+
+        foreach (var vetId in veterinarianIds)
+        {
+            var history = histories.FirstOrDefault(h => h.VetId == vetId);
+            if (history is null || history.Durations.Count < 5)
+            {
+                result[vetId] = defaultDuration;
+            }
+            else
+            {
+                result[vetId] = (int)Math.Round(history.Durations.Average());
+            }
+        }
+
+        return result;
+    }
+
     public int GetDefaultDuration(string consultationType)
     {
         var key = consultationType.ToLowerInvariant();

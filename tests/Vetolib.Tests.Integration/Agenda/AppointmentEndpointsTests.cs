@@ -39,6 +39,7 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
             AnimalId: animalId,
             AnimalName: "Max",
             OwnerName: "Ahmed Al-Rashid",
+            OwnerEmail: "ahmed@email.ae",
             Date: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             StartTime: TimeOnly.Parse("09:00"),
             DurationMinutes: 30,
@@ -62,7 +63,7 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
     {
         // Arrange
         var request = new CreateAppointmentRequest(
-            Guid.NewGuid(), "Dr. Test", Guid.NewGuid(), "Luna", "Owner",
+            Guid.NewGuid(), "Dr. Test", Guid.NewGuid(), "Luna", "Owner", null,
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             TimeOnly.Parse("10:00"), 30, null);
 
@@ -88,6 +89,7 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
             AnimalId: Guid.NewGuid(),
             AnimalName: "Bella",
             OwnerName: "Khalid Al-Mansouri",
+            OwnerEmail: "khalid@email.ae",
             Date: tomorrow,
             StartTime: TimeOnly.Parse("11:00"),
             DurationMinutes: 45,
@@ -119,6 +121,7 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
             AnimalId: Guid.NewGuid(),
             AnimalName: "Rocky",
             OwnerName: "Sara Al-Nuaimi",
+            OwnerEmail: "sara@email.ae",
             Date: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             StartTime: TimeOnly.Parse("14:00"),
             DurationMinutes: 30,
@@ -151,6 +154,7 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
             AnimalId: Guid.NewGuid(),
             AnimalName: "Milo",
             OwnerName: "Omar Al-Sabah",
+            OwnerEmail: null,
             Date: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2)),
             StartTime: TimeOnly.Parse("15:00"),
             DurationMinutes: 30,
@@ -184,11 +188,11 @@ public sealed class AppointmentEndpointsTests : IntegrationTestBase
 
         var todayRequest = new CreateAppointmentRequest(
             Guid.NewGuid(), "Dr. Yousef Al-Rashidi", Guid.NewGuid(),
-            "Simba", "Noura Al-Khatib", today, TimeOnly.Parse("08:00"), 20, null);
+            "Simba", "Noura Al-Khatib", null, today, TimeOnly.Parse("08:00"), 20, null);
 
         var tomorrowRequest = new CreateAppointmentRequest(
             Guid.NewGuid(), "Dr. Yousef Al-Rashidi", Guid.NewGuid(),
-            "Cleo", "Noura Al-Khatib", tomorrow, TimeOnly.Parse("08:00"), 20, null);
+            "Cleo", "Noura Al-Khatib", null, tomorrow, TimeOnly.Parse("08:00"), 20, null);
 
         await adminClient.PostAsJsonAsync("/api/v1/appointments", todayRequest, JsonOptions);
         await adminClient.PostAsJsonAsync("/api/v1/appointments", tomorrowRequest, JsonOptions);

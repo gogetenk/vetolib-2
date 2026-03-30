@@ -17,14 +17,12 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::Xunit.TraitAttribute("Category", "wip")]
     public partial class PatientLineageAndPedigreeFeature : object, global::Xunit.IClassFixture<PatientLineageAndPedigreeFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
-        private static string[] featureTags = new string[] {
-                "wip"};
+        private static string[] featureTags = ((string[])(null));
         
         private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Breeding", "Patient lineage and pedigree", "  As a breeder or veterinarian,\r\n  I want to navigate a patient\'s family tree — p" +
                 "arents, grandparents, and descendants —\r\n  so that I can track genetic lines and" +
@@ -109,15 +107,15 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
+#line 6
   #line hidden
-#line 8
+#line 7
     await testRunner.GivenAsync("a clinic \"Haras de la Reine\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 8
     await testRunner.AndAsync("an owner \"Jean-Pierre Dupont\" with email \"jp@example.fr\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 10
+#line 9
     await testRunner.AndAsync("I am authenticated as VET", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
         }
@@ -163,7 +161,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Set parents on a patient", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 12
+#line 11
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -173,25 +171,25 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 13
+#line 12
     await testRunner.GivenAsync("a patient \"Etoile\" species \"Horse\" breed \"Selle Francais\" sex \"Female\" belonging " +
                         "to \"Jean-Pierre Dupont\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 14
+#line 13
     await testRunner.AndAsync("a patient \"Tonnerre\" species \"Horse\" breed \"Selle Francais\" sex \"Male\" belonging " +
                         "to \"Jean-Pierre Dupont\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 14
     await testRunner.AndAsync("a patient \"Aurore\" species \"Horse\" breed \"Selle Francais\" sex \"Female\" belonging " +
                         "to \"Jean-Pierre Dupont\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 16
+#line 15
     await testRunner.WhenAsync("I set the mother of \"Etoile\" to \"Aurore\" and the father to \"Tonnerre\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 17
+#line 16
     await testRunner.ThenAsync("the lineage of \"Etoile\" shows \"Aurore\" as mother and \"Tonnerre\" as father", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -209,7 +207,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Navigate upward — view grandparents", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 19
+#line 18
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -219,7 +217,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
                 global::Reqnroll.Table table34 = new global::Reqnroll.Table(new string[] {
@@ -238,19 +236,19 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
                             "Tonnerre",
                             "Brume",
                             "Orage"});
-#line 20
+#line 19
     await testRunner.GivenAsync("a 3-generation lineage:", ((string)(null)), table34, "Given ");
 #line hidden
-#line 25
+#line 24
     await testRunner.WhenAsync("I view the pedigree of \"Etoile\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 25
     await testRunner.ThenAsync("I see 2 generations of ancestors", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 27
+#line 26
     await testRunner.AndAsync("the maternal grandmother is \"Comete\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 28
+#line 27
     await testRunner.AndAsync("the paternal grandfather is \"Orage\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -268,7 +266,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Navigate downward — view descendants", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 30
+#line 29
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -278,16 +276,16 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 31
+#line 30
     await testRunner.GivenAsync("\"Aurore\" is the mother of \"Etoile\" and \"Soleil\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 32
+#line 31
     await testRunner.WhenAsync("I view the descendants of \"Aurore\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 33
+#line 32
     await testRunner.ThenAsync("I see \"Etoile\" and \"Soleil\" as offspring", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -305,7 +303,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Lineage respects species consistency", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 35
+#line 34
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -315,21 +313,21 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 36
+#line 35
     await testRunner.GivenAsync("a patient \"Cleo\" species \"Cat\" breed \"Chartreux\" sex \"Female\" belonging to \"Jean-" +
                         "Pierre Dupont\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 37
+#line 36
     await testRunner.AndAsync("a patient \"Sultan\" species \"Horse\" breed \"Arabian\" sex \"Male\" belonging to \"Jean-" +
                         "Pierre Dupont\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 38
+#line 37
     await testRunner.WhenAsync("I attempt to set the father of \"Cleo\" to \"Sultan\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 39
+#line 38
     await testRunner.ThenAsync("the system rejects with reason \"Parent and offspring must be the same species\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -347,7 +345,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("LOF-registered dog lineage (France)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 41
+#line 40
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -357,20 +355,20 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 42
+#line 41
     await testRunner.GivenAsync("a patient \"Oscar\" species \"Dog\" breed \"Berger de Beauce\" sex \"Male\" belonging to " +
                         "\"Jean-Pierre Dupont\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 43
+#line 42
     await testRunner.AndAsync("\"Oscar\" has LOF number \"123456\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 44
+#line 43
     await testRunner.WhenAsync("I view the profile of \"Oscar\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 45
+#line 44
     await testRunner.ThenAsync("I see the LOF registration number \"123456\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -388,7 +386,7 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Falcon pedigree (UAE)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 47
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -398,27 +396,27 @@ namespace Vetolib.Tests.Acceptance.Features.Breeding
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 48
+#line 47
     await testRunner.GivenAsync("a clinic \"Abu Dhabi Falcon Hospital\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 49
+#line 48
     await testRunner.AndAsync("an owner \"Sultan Al Falasi\" with email \"sultan@example.ae\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 50
+#line 49
     await testRunner.AndAsync("a patient \"Haboob\" species \"Falcon\" breed \"Peregrine\" sex \"Male\" belonging to \"Su" +
                         "ltan Al Falasi\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 51
+#line 50
     await testRunner.AndAsync("a patient \"Rimal\" species \"Falcon\" breed \"Peregrine\" sex \"Female\" belonging to \"S" +
                         "ultan Al Falasi\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 52
+#line 51
     await testRunner.WhenAsync("I set the mother of \"Haboob\" to \"Rimal\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 53
+#line 52
     await testRunner.ThenAsync("the lineage of \"Haboob\" shows \"Rimal\" as mother", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

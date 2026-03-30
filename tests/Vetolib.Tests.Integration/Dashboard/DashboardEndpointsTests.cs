@@ -31,6 +31,7 @@ public sealed class DashboardEndpointsTests : IntegrationTestBase
             AnimalId: Guid.NewGuid(),
             AnimalName: "Luna",
             OwnerName: "Fatima Al-Zaabi",
+            OwnerEmail: "fatima@email.ae",
             Date: DateOnly.FromDateTime(DateTime.UtcNow),
             StartTime: TimeOnly.Parse("09:00"),
             DurationMinutes: 30,

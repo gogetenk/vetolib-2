@@ -10,7 +10,7 @@ public class CreateAppointmentValidatorTests
 
     private static CreateAppointmentCommand ValidCommand() => new(
         Guid.NewGuid(), Guid.NewGuid(), "Dr. Ahmed", Guid.NewGuid(),
-        "Buddy", "Mohammed Al Rashid",
+        "Buddy", "Mohammed Al Rashid", "mohammed@email.ae",
         DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
         new TimeOnly(10, 0), 30, "Annual checkup");
 

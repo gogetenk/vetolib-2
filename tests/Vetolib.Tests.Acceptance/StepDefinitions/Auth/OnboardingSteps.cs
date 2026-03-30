@@ -125,7 +125,7 @@ internal class OnboardingSteps
         for (var i = 0; i < count; i++)
         {
             var appointment = Appointment.Create(
-                clinicId, vet.Id, "Dr. Onboarding", Guid.NewGuid(), $"Animal_{i}", "Owner Test",
+                clinicId, vet.Id, "Dr. Onboarding", Guid.NewGuid(), $"Animal_{i}", "Owner Test", null,
                 DateOnly.FromDateTime(DateTime.UtcNow.AddDays(i + 1)),
                 new TimeOnly(9, 0), 30, null);
             appointment.IsSuccess.Should().BeTrue();
