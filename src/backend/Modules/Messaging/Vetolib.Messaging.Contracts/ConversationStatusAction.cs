@@ -4,5 +4,6 @@ public enum ConversationStatusAction
 {
     Resolve,
     Close,
-    Reopen
+    Reopen,
+    Escalate
 }

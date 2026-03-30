@@ -32,6 +32,7 @@ internal class ChangeConversationStatusHandler : IRequestHandler<ChangeConversat
             ConversationStatusAction.Resolve => conversation.Resolve(),
             ConversationStatusAction.Close => conversation.Close(),
             ConversationStatusAction.Reopen => conversation.Reopen(),
+            ConversationStatusAction.Escalate => conversation.MarkEscalationSent(),
             _ => Result.Error("Unknown action.")
         };
 

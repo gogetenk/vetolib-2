@@ -49,8 +49,11 @@ internal class ListConversationsHandler : IRequestHandler<ListConversationsQuery
         var user = _httpContextAccessor.HttpContext?.User;
         var role = user?.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty;
 
+        // When explicitly filtering for Spam, show spam conversations; otherwise exclude them
+        var showSpam = query.Status == ConversationStatus.Spam;
+
         var q = _context.Conversations
-            .Where(c => !c.IsSpam)
+            .Where(c => showSpam ? c.IsSpam : !c.IsSpam)
             .AsQueryable();
 
         // Role-based filtering
