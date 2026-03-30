@@ -86,10 +86,10 @@ export function PatientCard({ patient }: PatientCardProps) {
 
           <div className="pt-4 border-t border-border/30 flex justify-between items-center text-[12px] text-muted-foreground mt-auto">
             <span data-testid={`patient-last-visit-${patient.id}`}>
-              Last visit: <LtrText className="font-semibold text-foreground ml-1">{formatDate(patient.lastVisitDate)}</LtrText>
+              Last visit: <LtrText className="font-semibold text-foreground ms-1">{formatDate(patient.lastVisitDate)}</LtrText>
             </span>
             <span data-testid={`patient-next-appt-${patient.id}`}>
-              Next: <LtrText className="font-bold text-primary ml-1">{formatDate(patient.nextAppointmentDate)}</LtrText>
+              Next: <LtrText className="font-bold text-primary ms-1">{formatDate(patient.nextAppointmentDate)}</LtrText>
             </span>
           </div>
         </CardContent>

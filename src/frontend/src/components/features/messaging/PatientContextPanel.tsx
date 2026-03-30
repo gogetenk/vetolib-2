@@ -129,7 +129,7 @@ export function PatientContextPanel({
                     <Pill className="h-3.5 w-3.5 flex-shrink-0" aria-hidden />
                     <span className="text-xs font-medium">{t('current_prescriptions')}</span>
                   </div>
-                  <ul className="ml-5 space-y-0.5">
+                  <ul className="ms-5 space-y-0.5">
                     {context.currentPrescriptions.map((rx) => (
                       <li key={rx} className="text-xs text-muted-foreground list-disc">{rx}</li>
                     ))}
@@ -143,7 +143,7 @@ export function PatientContextPanel({
                     <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0" aria-hidden />
                     <span className="text-xs font-medium">{t('known_allergies')}</span>
                   </div>
-                  <ul className="ml-5 space-y-0.5">
+                  <ul className="ms-5 space-y-0.5">
                     {context.knownAllergies.map((allergy) => (
                       <li key={allergy} className="text-xs text-red-700 list-disc">{allergy}</li>
                     ))}
@@ -157,7 +157,7 @@ export function PatientContextPanel({
                     <Syringe className="h-3.5 w-3.5 flex-shrink-0" aria-hidden />
                     <span className="text-xs font-medium">{t('vaccinations')}</span>
                   </div>
-                  <ul className="ml-5 space-y-0.5">
+                  <ul className="ms-5 space-y-0.5">
                     {context.vaccinationHistory.map((vax) => (
                       <li key={vax} className="text-xs text-muted-foreground list-disc">{vax}</li>
                     ))}
@@ -171,11 +171,11 @@ export function PatientContextPanel({
                   <span className="text-xs font-medium">{t('last_examination')}</span>
                 </div>
                 {context.lastExaminationDate ? (
-                  <p className="text-xs text-muted-foreground ml-5">
+                  <p className="text-xs text-muted-foreground ms-5">
                     {formatDate(context.lastExaminationDate)}
                   </p>
                 ) : (
-                  <p className="text-xs text-muted-foreground ml-5 italic">{t('no_records')}</p>
+                  <p className="text-xs text-muted-foreground ms-5 italic">{t('no_records')}</p>
                 )}
               </div>
             </>

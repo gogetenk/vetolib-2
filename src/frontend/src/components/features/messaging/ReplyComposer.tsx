@@ -289,7 +289,7 @@ export function ReplyComposer({
           >
             <Paperclip className="h-4 w-4" />
             {attachments.length > 0 && (
-              <span className="text-xs text-muted-foreground ml-1">
+              <span className="text-xs text-muted-foreground ms-1">
                 {attachments.length}/{MAX_FILES}
               </span>
             )}
@@ -323,7 +323,7 @@ export function ReplyComposer({
               aria-label={t('add_note')}
               className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted"
             >
-              <StickyNote className="h-4 w-4 mr-1.5" aria-hidden />
+              <StickyNote className="h-4 w-4 me-1.5" aria-hidden />
               {t('add_note')}
             </Button>
           )}
@@ -337,11 +337,11 @@ export function ReplyComposer({
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
           >
             {isSending ? (
-              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />
+              <Loader2 className="h-4 w-4 me-1.5 animate-spin" aria-hidden />
             ) : sendSuccess ? (
-              <Check className="h-4 w-4 mr-1.5 animate-success-check text-green-200" aria-hidden />
+              <Check className="h-4 w-4 me-1.5 animate-success-check text-green-200" aria-hidden />
             ) : (
-              <Send className="h-4 w-4 mr-1.5" aria-hidden />
+              <Send className="h-4 w-4 me-1.5" aria-hidden />
             )}
             {isSending ? t('sending') : sendSuccess ? t('send_reply') : t('send_reply')}
           </Button>

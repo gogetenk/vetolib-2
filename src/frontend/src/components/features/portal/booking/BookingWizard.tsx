@@ -97,7 +97,7 @@ function StepIndicator({
 
               <span
                 className={cn(
-                  'ml-1 mr-2 hidden sm:block text-xs font-medium whitespace-nowrap transition-colors duration-300',
+                  'ms-1 me-2 hidden sm:block text-xs font-medium whitespace-nowrap transition-colors duration-300',
                   isCurrent ? 'text-primary' : isDone ? 'text-muted-foreground' : 'text-muted-foreground/60'
                 )}
                 aria-hidden="true"

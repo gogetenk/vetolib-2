@@ -260,7 +260,7 @@ export function MessageBubble({ message, onClassificationUpdate }: MessageBubble
       >
         <div className="max-w-[80%]">
           {message.senderName && (
-            <p className="text-xs text-muted-foreground mb-1 ml-1">{message.senderName}</p>
+            <p className="text-xs text-muted-foreground mb-1 ms-1">{message.senderName}</p>
           )}
           <div className="bg-muted rounded-xl px-4 py-3 text-[13px] text-foreground">
             {message.body}
@@ -277,7 +277,7 @@ export function MessageBubble({ message, onClassificationUpdate }: MessageBubble
           )}
           <button
             type="button"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors mt-1 ml-1"
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors mt-1 ms-1"
             onClick={() => setShowFullDate((p) => !p)}
             data-testid={`message-timestamp-${message.id}`}
             aria-label={showFullDate ? 'Show relative time' : 'Show full date and time'}
@@ -307,7 +307,7 @@ export function MessageBubble({ message, onClassificationUpdate }: MessageBubble
     >
       <div className="max-w-[80%]">
         {message.senderName && (
-          <p className="text-xs text-muted-foreground mb-1 mr-1 text-right">{message.senderName}</p>
+          <p className="text-xs text-muted-foreground mb-1 me-1 text-end">{message.senderName}</p>
         )}
         <div
           className={cn(

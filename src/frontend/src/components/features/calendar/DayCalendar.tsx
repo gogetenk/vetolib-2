@@ -189,7 +189,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
       </div>
 
       {/* Day column */}
-      <div className={`flex-1 min-w-0 ${isRtl ? 'text-right' : ''}`}>
+      <div className={`flex-1 min-w-0 ${isRtl ? 'text-end' : ''}`}>
         <div className="relative" style={{ height: `${totalHours * HOUR_HEIGHT}px` }}>
           {/* Hour lines with clickable slots */}
           {Array.from({ length: totalHours }, (_, i) => {

@@ -167,7 +167,7 @@ export function HealthAlertPanel() {
                       </span>
                       {alert.status === 'Acknowledged' && (
                         <Badge variant="outline" className="text-[10px]" data-testid={`alert-acknowledged-badge-${alert.id}`}>
-                          <CheckCircle className="h-3 w-3 mr-1" />
+                          <CheckCircle className="h-3 w-3 me-1" />
                           {t('acknowledged')}
                         </Badge>
                       )}
@@ -193,7 +193,7 @@ export function HealthAlertPanel() {
                       onClick={() => handleConvertToAppointment(alert)}
                       className="text-xs"
                     >
-                      <CalendarPlus className="h-3.5 w-3.5 mr-1" />
+                      <CalendarPlus className="h-3.5 w-3.5 me-1" />
                       {t('schedule_appointment')}
                     </Button>
                     {alert.status !== 'Acknowledged' && (
@@ -204,7 +204,7 @@ export function HealthAlertPanel() {
                         onClick={() => handleAcknowledge(alert)}
                         className="text-xs"
                       >
-                        <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                        <CheckCircle className="h-3.5 w-3.5 me-1" />
                         {t('acknowledge')}
                       </Button>
                     )}
@@ -215,7 +215,7 @@ export function HealthAlertPanel() {
                       onClick={() => setDismissingAlert(alert)}
                       className="text-xs text-muted-foreground"
                     >
-                      <XCircle className="h-3.5 w-3.5 mr-1" />
+                      <XCircle className="h-3.5 w-3.5 me-1" />
                       {t('dismiss')}
                     </Button>
                   </div>

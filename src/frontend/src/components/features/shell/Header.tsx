@@ -48,7 +48,7 @@ export function Header() {
           data-testid="header-logo"
           className="flex items-center justify-center font-bold text-2xl text-foreground tracking-tighter"
         >
-          <PawPrint className="h-6 w-6 mr-1" />
+          <PawPrint className="h-6 w-6 me-1" />
           <span>Vetara</span>
         </Link>
 
@@ -56,7 +56,7 @@ export function Header() {
         <ClinicSwitcher />
 
         {/* Desktop Navigation Tabs */}
-        <nav className="hidden lg:flex items-center gap-1 h-full ml-4">
+        <nav className="hidden lg:flex items-center gap-1 h-full ms-4">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(`/${locale}${item.href}`);
             return (
@@ -71,7 +71,7 @@ export function Header() {
               >
                 {item.label}
                 {item.badge && (
-                  <span className="ml-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground px-1">
+                  <span className="ms-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground px-1">
                     {item.badge}
                   </span>
                 )}

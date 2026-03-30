@@ -327,7 +327,7 @@ export function AppointmentForm() {
               disabled={isSubmitting}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
             >
-              {isSubmitting && <Loader2 className="h-4 w-4 mr-1.5 animate-spin" aria-hidden />}
+              {isSubmitting && <Loader2 className="h-4 w-4 me-1.5 animate-spin" aria-hidden />}
               {isSubmitting ? t('saving') : t('save')}
             </Button>
           </div>

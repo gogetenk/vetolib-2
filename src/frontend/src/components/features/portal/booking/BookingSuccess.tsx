@@ -151,7 +151,7 @@ export function BookingSuccess({
 
       {/* Appointment summary */}
       <div
-        className="w-full rounded-xl border border-primary/20 bg-primary/5 p-5 text-left space-y-3 animate-[fadeIn_0.5s_ease-out_0.5s_both]"
+        className="w-full rounded-xl border border-primary/20 bg-primary/5 p-5 text-start space-y-3 animate-[fadeIn_0.5s_ease-out_0.5s_both]"
         data-testid="booking-success-details"
       >
         <div className="flex items-center gap-3">

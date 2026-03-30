@@ -119,7 +119,7 @@ export function StepConsultationType({
                 aria-selected={isSelected}
                 aria-label={`${type.name} — ${type.durationMinutes} minutes`}
                 className={cn(
-                  'relative flex flex-col items-start gap-1 rounded-xl border-2 p-4 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
+                  'relative flex flex-col items-start gap-1 rounded-xl border-2 p-4 text-start transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 cursor-pointer',
                   isSelected
                     ? 'border-primary bg-primary/5 shadow-md scale-[1.02]'
                     : 'border-border/80 bg-white hover:border-primary/40 hover:bg-primary/5 hover:shadow-sm'
@@ -211,7 +211,7 @@ export function StepConsultationType({
           aria-label="Reason for visit"
           className="w-full resize-none rounded-xl border border-border/80 bg-white px-3 py-2.5 text-sm text-foreground placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
-        <p className="mt-1 text-xs text-muted-foreground text-right" aria-live="polite">
+        <p className="mt-1 text-xs text-muted-foreground text-end" aria-live="polite">
           {reason.length}/500
         </p>
       </div>

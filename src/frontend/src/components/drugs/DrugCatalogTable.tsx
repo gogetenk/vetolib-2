@@ -40,9 +40,9 @@ type SortDir = 'asc' | 'desc'
 function SortIcon({ field, sortField, sortDir }: { field: SortField; sortField: SortField; sortDir: SortDir }) {
   if (sortField !== field) return null
   return sortDir === 'asc' ? (
-    <ChevronUp className="inline h-3 w-3 ml-1" />
+    <ChevronUp className="inline h-3 w-3 ms-1" />
   ) : (
-    <ChevronDown className="inline h-3 w-3 ml-1" />
+    <ChevronDown className="inline h-3 w-3 ms-1" />
   )
 }
 
@@ -133,7 +133,7 @@ export function DrugCatalogTable({
           <Input
             data-testid="drug-search"
             placeholder={t('search_placeholder')}
-            className="w-64 pl-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
+            className="w-64 ps-9 bg-white border-border/80 rounded-xl h-10 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50 focus:shadow-md transition-shadow"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
           />
