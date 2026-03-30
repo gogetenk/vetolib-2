@@ -36,7 +36,6 @@ public class UserInvitedConsumerTests
     {
         Email = "khalid.al-nuaimi@vetoclinic.ae",
         FullName = "Khalid Al-Nuaimi",
-        TemporaryPassword = "Temp@Pass123!",
         ClinicName = "Sharjah Animal Hospital"
     };
 

@@ -108,7 +108,6 @@ public sealed class IntegrationEventTests : EventIntegrationTestBase
         {
             Email = "test@harness-check.ae",
             FullName = "Test User",
-            TemporaryPassword = "Temp1234",
             ClinicName = "Harness Test Clinic"
         });
 
