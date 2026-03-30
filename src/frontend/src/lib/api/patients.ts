@@ -1,6 +1,7 @@
 import { apiGet, apiPost, apiPatch, apiPostFormData, apiGetBlob } from './client'
+import type { Species, PagedResult } from './types'
 
-export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Camel' | 'Exotic' | 'Falcon' | 'Reptile'
+export type { Species, PagedResult }
 
 export type Sex = 'Male' | 'Female' | 'Intact Male' | 'Intact Female' | 'Unknown'
 
@@ -35,13 +36,6 @@ export interface CreatePatientRequest {
   ownerName: string
   ownerPhone: string
   ownerEmail?: string
-}
-
-export interface PagedResult<T> {
-  items: T[]
-  totalCount: number
-  page: number
-  pageSize: number
 }
 
 export interface PatientFilters {

@@ -1,4 +1,7 @@
 import { apiGet, apiPost, apiPatch, apiDelete, apiGetBlob } from './client'
+import type { PagedResult } from './types'
+
+export type { PagedResult }
 
 export type InvoiceStatus = 'DRAFT' | 'SENT' | 'PAID' | 'CANCELLED'
 
@@ -29,13 +32,6 @@ export interface InvoiceDto {
   paidAt: string | null
   dueDate: string | null
   clinicId: string
-}
-
-export interface PagedResult<T> {
-  items: T[]
-  totalCount: number
-  page: number
-  pageSize: number
 }
 
 export interface InvoiceFilters {

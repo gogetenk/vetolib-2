@@ -3,7 +3,6 @@ import { apiGet, apiPost, apiPut } from './client'
 // --- Enums / types ---
 
 export type PregnancyStatus = 'Active' | 'Delivered' | 'Lost'
-export type HeatCyclePhase = 'Proestrus' | 'Estrus' | 'Diestrus' | 'Anestrus'
 
 // --- Litter ---
 
@@ -132,14 +131,10 @@ export interface UpdatePregnancyCheckRequest {
 export interface HeatCycleDto {
   id: string
   patientId: string
-  patientName: string
   startDate: string
   endDate: string | null
-  phase: HeatCyclePhase
-  intensity: 'Low' | 'Medium' | 'High'
+  durationDays: number | null
   notes: string | null
-  recordedBy: string
-  clinicId: string
 }
 
 export interface HeatCyclePredictionDto {
@@ -153,8 +148,6 @@ export interface CreateHeatCycleRequest {
   patientId: string
   startDate: string
   endDate?: string | null
-  phase: HeatCyclePhase
-  intensity: 'Low' | 'Medium' | 'High'
   notes?: string | null
 }
 
