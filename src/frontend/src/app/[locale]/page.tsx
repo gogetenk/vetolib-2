@@ -28,6 +28,7 @@ import { TrustSignalsSection } from "@/components/features/landing/TrustSignalsS
 import { DemoFormSection } from "@/components/features/landing/DemoFormSection";
 import { StickyCtaBar } from "@/components/features/landing/StickyCtaBar";
 import { ExitIntentPopup } from "@/components/features/landing/ExitIntentPopup";
+import { TrackedCtaLink } from "@/components/features/landing/TrackedCtaLink";
 import { LatestBlogSection } from "@/components/features/blog/LatestBlogSection";
 
 interface Props {
@@ -247,9 +248,13 @@ export default async function LandingPage({ params }: Props) {
                 </HeroStagger>
                 <HeroStagger index={2}>
                   <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                    <Link href={signupHref} data-testid="hero-cta-start-trial">
-                      <Button size="lg" className="group/cta relative w-full overflow-hidden bg-primary px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] sm:w-auto" data-testid="btn-hero-start-trial">{t("hero.cta_primary")}</Button>
-                    </Link>
+                    <TrackedCtaLink
+                      href={signupHref}
+                      location="hero"
+                      data-testid="hero-cta-start-trial"
+                      buttonTestId="btn-hero-start-trial"
+                      buttonClassName="group/cta relative w-full overflow-hidden bg-primary px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] sm:w-auto"
+                    >{t("hero.cta_primary")}</TrackedCtaLink>
                   </div>
                 </HeroStagger>
                 <HeroStagger index={3}>
@@ -438,15 +443,13 @@ export default async function LandingPage({ params }: Props) {
 
             <ScrollReveal direction="fade-up" delay={600}>
               <div className="mt-14 text-center">
-                <Link href={signupHref} data-testid="how-it-works-cta">
-                  <Button
-                    size="lg"
-                    className="bg-primary px-10 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02]"
-                    data-testid="btn-how-it-works-start-trial"
-                  >
-                    {t("how_it_works.cta")}
-                  </Button>
-                </Link>
+                <TrackedCtaLink
+                  href={signupHref}
+                  location="features"
+                  data-testid="how-it-works-cta"
+                  buttonTestId="btn-how-it-works-start-trial"
+                  buttonClassName="bg-primary px-10 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02]"
+                >{t("how_it_works.cta")}</TrackedCtaLink>
               </div>
             </ScrollReveal>
           </div>

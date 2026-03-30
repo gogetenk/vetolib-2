@@ -2,7 +2,7 @@ import { posthog, isPostHogAvailable } from '@/lib/posthog'
 
 declare global {
   interface Window {
-    gtag?: (command: string, event: string, params?: Record<string, string>) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -12,6 +12,11 @@ export function trackEvent(
 ): void {
   if (isPostHogAvailable()) {
     posthog.capture(name, properties)
+  }
+
+  // Also forward to Google Analytics 4 if available
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', name, properties)
   }
 }
 
