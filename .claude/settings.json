@@ -16,6 +16,10 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/verify-before-push.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-wip-features.sh"
           }
         ]
       }
