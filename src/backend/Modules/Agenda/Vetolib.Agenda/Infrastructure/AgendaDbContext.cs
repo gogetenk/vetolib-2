@@ -11,6 +11,7 @@ internal class AgendaDbContext : MultiTenantDbContext
 {
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<ConsultationType> ConsultationTypes => Set<ConsultationType>();
+    public DbSet<VisitFeedback> VisitFeedbacks => Set<VisitFeedback>();
 
     public AgendaDbContext(
         DbContextOptions<AgendaDbContext> options,
