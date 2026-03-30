@@ -75,6 +75,7 @@
     "profile": "Profile",
     "sign_out": "Sign Out",
     "stock": "Stock",
+    "breeding": "Breeding",
     "read_only": "Read only",
     "messaging_settings": "Messaging Settings",
     "switch_clinic": "Switch clinic",
@@ -305,7 +306,8 @@
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
         "health_alerts": "Health Alerts",
-        "weight": "Weight"
+        "weight": "Weight",
+        "breeding": "Breeding"
       },
       "weight_label": "Weight:",
       "weight_not_recorded": "Not recorded",

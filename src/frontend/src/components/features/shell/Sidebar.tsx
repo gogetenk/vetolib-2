@@ -13,6 +13,7 @@ import {
   Users,
   Package,
   MessageSquare,
+  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -64,6 +65,13 @@ function getMainNavItems(t: (key: string) => string): NavItem[] {
       label: t("messages"),
       icon: <MessageSquare className="h-5 w-5" />,
       testId: "nav-messages",
+    },
+    {
+      href: "/breeding",
+      label: t("breeding"),
+      icon: <Heart className="h-5 w-5" />,
+      testId: "nav-breeding",
+      roles: ["VET", "ADMIN"],
     },
     {
       href: "/stock",
