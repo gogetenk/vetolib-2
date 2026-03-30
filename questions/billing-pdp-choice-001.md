@@ -37,3 +37,22 @@ Option C a terme, avec Option A comme implementation initiale (PPF gratuit en at
 - [ ] Valider l'approche multi-PDP
 - [ ] Definir si la facturation electronique est incluse ou payante
 - [ ] Prioriser les PDP partenaires a contacter
+
+## Reponse PO
+
+**La facturation electronique francaise (PDP/PPF) est totalement hors scope MVP.** Le MVP cible UAE (Dubai) ou la facturation electronique n'est pas imposee par la FTA pour les PME veterinaires a ce stade.
+
+Decisions pour le futur (quand la France sera ciblee) :
+
+1. **Approche multi-PDP validee (Option C a terme).** L'architecture avec `IEInvoicingGateway` est la bonne abstraction. On ne se lie pas a un fournisseur.
+
+2. **Phase 1 France** : PPF (Chorus Pro) gratuit comme implementation initiale. Zero cout pour Vetolib et les cliniques. Suffisant pour la conformite legale.
+
+3. **La facturation electronique sera incluse dans le plan de base** (pas un add-on). C'est une obligation legale, pas un service a valeur ajoutee. Facturer pour la conformite reglementaire serait mal percu par les cliniques.
+
+4. **PDP partenaires** : a evaluer 6 mois avant le lancement France. Pennylane et Sage sont les plus credibles pour les TPE/PME. Pas d'action avant Q4 2026 au plus tot.
+
+**Cette question n'est pas bloquante.** Aucune tache en cours n'en depend.
+
+-> Debloque : non
+-> Escalade humain requise : non

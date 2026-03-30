@@ -2,6 +2,52 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
+## 2026-03-30T01:45 -- Nightly forge session (19 DONE, 10 PRs merged)
+
+- TODO: 1 (API docs) | WIP: 0 | DONE: 19
+- develop CI: GREEN (messaging fix merged)
+- Worktrees: pruned 20 stale, 1 active (landing UAE copy)
+
+### PRs merged this session (10)
+| PR | Description |
+|---|---|
+| #157 | Sex enum + field |
+| #158 | Falcon + Reptile species |
+| #159 | MicrochipNumber field |
+| #160 | Breeding scaffold |
+| #161 | Frontend patient extended |
+| #162 | Weight history |
+| #163 | Frontend weight chart |
+| #164 | Litter entity |
+| #165 | Pregnancy tracking |
+| #166 | HeatCycle tracking |
+| #167 | Lineage + pedigree |
+| #168 | Perf critical fixes |
+| #169 | 36 validator tests (1139 TU) |
+| #170 | Frontend breeding dashboard |
+| #171 | Security CRITICAL + HIGH fixes |
+| #172 | SEO CRITICAL fixes |
+| #173 | Breeding step definitions |
+| #174 | UX critical (brand, i18n, French) |
+| #175 | Messaging Spam/Escalate enums |
+
+### Audits produced (7)
+- UX audit (31 issues: 3 CRITICAL, 10 HIGH)
+- Security audit (1 CRITICAL, 5 HIGH, 7 MEDIUM)
+- Performance audit (4 HIGH, 8 MEDIUM)
+- Test coverage audit (validators 16%, messaging 0 TI)
+- Landing/SEO/onboarding audit (3 CRITICAL)
+- Notifications audit (6 dead templates, 4 stub consumers)
+- Monitoring prod-readiness (4.7/10 score)
+
+### Studies produced (3)
+- API documentation study (120 endpoints, zero docs)
+- Deployment readiness (4.7/10, ~1 week to prod)
+- Monitoring prod-readiness (health checks disabled in prod)
+
+### Breeders backlog: COMPLETE (12/12)
+All 12 tasks from the breeders feature set are done and merged.
+
 ## 2026-03-28T17:00 -- Forge cycle (WAVE 1 DISPATCHED)
 
 - TODO: 9 | WIP: 3 | DONE: 0 (vague breeders)

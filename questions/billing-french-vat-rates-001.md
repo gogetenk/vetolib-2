@@ -35,3 +35,20 @@ En attendant, implementer le systeme multi-taux avec des taux configurables par 
 
 - [ ] Valider l'approche "taux configurables par la clinique" comme solution initiale
 - [ ] Planifier la consultation d'un expert-comptable veterinaire
+
+## Reponse PO
+
+**La France est hors scope MVP.** Le marche cible est UAE (Dubai), ou le regime fiscal est TVA 5% uniforme (FTA). Il n'y a pas de taux multiples a gerer pour le MVP.
+
+Concernant la France (second marche, post-MVP) :
+
+1. **L'approche "taux configurables par la clinique" est validee.** C'est la bonne solution architecturale : chaque clinique saisit ses taux (ou son comptable le fait). Vetolib ne doit pas etre un conseil fiscal -- on fournit l'outil, pas l'expertise comptable.
+
+2. **Pas de taux pre-remplis pour la France au MVP.** Quand la France sera ciblee, on fournira des taux par defaut (20% actes, 5.5% alimentation, 10% pension) avec un avertissement "verifiez avec votre comptable". La consultation d'un expert-comptable veterinaire sera planifiee a ce moment-la.
+
+3. **Pour le MVP UAE** : un seul taux de TVA par defaut (5%), configurable par clinique. Certaines prestations veterinaires peuvent etre exonerees selon les reglements FTA -- c'est la responsabilite de la clinique de configurer correctement.
+
+**Cette question n'est pas bloquante pour le MVP.** La tache `todo-back-billing-multi-tax-001` n'est pas prioritaire.
+
+-> Debloque : non (tache non prioritaire, France hors scope MVP)
+-> Escalade humain requise : non
