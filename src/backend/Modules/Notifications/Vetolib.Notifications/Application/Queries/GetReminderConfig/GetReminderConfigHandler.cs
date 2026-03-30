@@ -2,6 +2,7 @@ using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Notifications.Contracts.Dtos;
+using Vetolib.Notifications.Contracts.Enums;
 using Vetolib.Notifications.Domain;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Shared.Kernel;
@@ -33,7 +34,8 @@ internal class GetReminderConfigHandler : IRequestHandler<GetReminderConfigQuery
                 VaccinationDueEnabled: true,
                 FollowUpEnabled: true,
                 Appointment24hLeadTimeHours: 24,
-                VaccinationDueLeadTimeDays: 7));
+                VaccinationDueLeadTimeDays: 7,
+                PreferredReminderChannel: ReminderChannel.Email));
         }
 
         return Result<ReminderConfigDto>.Success(new ReminderConfigDto(
@@ -41,6 +43,7 @@ internal class GetReminderConfigHandler : IRequestHandler<GetReminderConfigQuery
             config.VaccinationDueEnabled,
             config.FollowUpEnabled,
             config.Appointment24hLeadTimeHours,
-            config.VaccinationDueLeadTimeDays));
+            config.VaccinationDueLeadTimeDays,
+            config.PreferredReminderChannel));
     }
 }

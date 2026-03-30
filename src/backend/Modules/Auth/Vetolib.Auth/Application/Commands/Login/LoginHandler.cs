@@ -72,6 +72,9 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
             return Result<AuthTokenDto>.Error("MUST_CHANGE_PASSWORD:You must change your password before accessing the application");
         }
 
+        // Check email verification status — allow login but include warning
+        var emailNotVerified = !user.EmailVerified;
+
         // Generate tokens
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
         var refreshTokenValue = _jwtTokenService.GenerateRefreshToken();
@@ -83,7 +86,14 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
         _context.RefreshTokens.Add(refreshTokenResult.Value);
         await _context.SaveChangesAsync(ct);
 
-        return Result<AuthTokenDto>.Success(
-            new AuthTokenDto(accessToken, refreshTokenValue, user.ToDto()));
+        var tokenDto = new AuthTokenDto(accessToken, refreshTokenValue, user.ToDto());
+
+        if (emailNotVerified)
+        {
+            // Return success with a message — login is allowed but UI should prompt verification
+            return Result<AuthTokenDto>.Success(tokenDto, "EMAIL_NOT_VERIFIED:Please verify your email address");
+        }
+
+        return Result<AuthTokenDto>.Success(tokenDto);
     }
 }

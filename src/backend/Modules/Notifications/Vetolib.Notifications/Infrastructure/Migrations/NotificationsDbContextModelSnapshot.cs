@@ -211,6 +211,12 @@ namespace Vetolib.Notifications.Infrastructure.Migrations
                     b.Property<bool>("FollowUpEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("PreferredReminderChannel")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("Email");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 

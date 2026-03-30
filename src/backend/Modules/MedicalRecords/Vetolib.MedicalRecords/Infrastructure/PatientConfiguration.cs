@@ -35,6 +35,15 @@ internal class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder.Property(p => p.MicrochipNumber)
             .HasMaxLength(15);
 
+        builder.Property(p => p.PhotoBase64)
+            .IsRequired(false);
+
+        builder.Property(p => p.PhotoContentType)
+            .IsRequired(false)
+            .HasMaxLength(50);
+
+        builder.Ignore(p => p.HasPhoto);
+
         builder.HasIndex(p => new { p.ClinicId, p.MicrochipNumber })
             .IsUnique()
             .HasFilter("\"MicrochipNumber\" IS NOT NULL")

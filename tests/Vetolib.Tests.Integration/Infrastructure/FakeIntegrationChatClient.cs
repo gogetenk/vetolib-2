@@ -19,7 +19,16 @@ public sealed class FakeIntegrationChatClient : IChatClient
         if (_shouldThrow)
             throw new InvalidOperationException("Fake AI error");
 
-        var message = new ChatMessage(ChatRole.Assistant, "Consultation générale recommandée.");
+        var json = """
+            {
+              "severity": "Normal",
+              "estimatedDurationMinutes": 30,
+              "recommendedSpecialty": "general practitioner",
+              "reasoning": "Symptoms suggest a non-emergency condition requiring prompt veterinary attention.",
+              "confidence": 0.85
+            }
+            """;
+        var message = new ChatMessage(ChatRole.Assistant, json);
         var response = new ChatResponse(message);
         return Task.FromResult(response);
     }

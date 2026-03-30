@@ -268,6 +268,13 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<string>("PhotoBase64")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoContentType")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<int>("Sex")
                         .HasColumnType("integer");
 

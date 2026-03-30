@@ -117,4 +117,63 @@ public class FacturXPdfGeneratorTests
         var trailer = System.Text.Encoding.Latin1.GetString(pdfBytes);
         trailer.Should().Contain("%%EOF");
     }
+
+    [Fact]
+    public void EmbedXmlAttachment_ContainsAFRelationship()
+    {
+        var generator = new FacturXPdfGenerator();
+        var dto = BuildFrenchInvoiceDto();
+        var pdfBytes = generator.Generate(dto, "Clinique Vet Paris", "FR12345678901");
+
+        var pdfString = System.Text.Encoding.Latin1.GetString(pdfBytes);
+        pdfString.Should().Contain("/AFRelationship /Data",
+            "the filespec must declare AFRelationship for Factur-X compliance");
+    }
+
+    [Fact]
+    public void EmbedXmlAttachment_ContainsEmbeddedFileSubtype()
+    {
+        var generator = new FacturXPdfGenerator();
+        var dto = BuildFrenchInvoiceDto();
+        var pdfBytes = generator.Generate(dto, "Clinique Vet Paris", "FR12345678901");
+
+        var pdfString = System.Text.Encoding.Latin1.GetString(pdfBytes);
+        pdfString.Should().Contain("/Subtype /text#2Fxml",
+            "the embedded file stream must declare its MIME type as text/xml");
+    }
+
+    /// <summary>
+    /// Documents known PDF/A-3 compliance gaps. The current implementation embeds the XML
+    /// attachment correctly but does NOT produce a fully PDF/A-3 compliant document.
+    /// See PDFA3_COMPLIANCE.md in the Billing module for the full gap analysis.
+    /// </summary>
+    [Fact]
+    public void Generate_PdfA3ComplianceGaps_DocumentedAsKnownLimitation()
+    {
+        var generator = new FacturXPdfGenerator();
+        var dto = BuildFrenchInvoiceDto();
+        var pdfBytes = generator.Generate(dto, "Clinique Vet Paris", "FR12345678901");
+
+        var pdfString = System.Text.Encoding.Latin1.GetString(pdfBytes);
+
+        // GAP 1: No PDF/A-3 OutputIntent with sRGB ICC profile
+        // PDF/A-3 requires: /OutputIntents [<< /Type /OutputIntent /S /GTS_PDFA1 ... >>]
+        pdfString.Should().NotContain("/GTS_PDFA1",
+            "KNOWN GAP: OutputIntent with sRGB ICC profile is not yet embedded");
+
+        // GAP 2: No XMP metadata declaring PDF/A conformance
+        // PDF/A-3 requires XMP metadata with pdfaid:part=3 and pdfaid:conformance=B
+        pdfString.Should().NotContain("pdfaid:part",
+            "KNOWN GAP: XMP metadata for PDF/A-3 conformance is not yet present");
+
+        // GAP 3: No /AF array in document catalog
+        // PDF/A-3 requires the document catalog to contain /AF [filespec_ref]
+        // Our implementation only adds the filespec with /AFRelationship but does not
+        // patch the existing catalog's /AF array (would require full PDF rewrite)
+
+        // Despite these gaps, the functional requirements are met:
+        // - The PDF is valid and viewable
+        // - The factur-x.xml is embedded and extractable
+        // - The CII XML conforms to EN16931
+    }
 }

@@ -174,6 +174,56 @@ public class LoginHandlerTests
     }
 
     [Fact]
+    public async Task Handle_UnverifiedEmail_ReturnsSuccessWithWarningMessage()
+    {
+        // Arrange
+        using var context = BuildContext();
+        var user = CreateActiveUser(FixedClinicId);
+        // User is created with EmailVerified=false by default
+        user.EmailVerified.Should().BeFalse();
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+
+        _jwtTokenService.GenerateAccessToken(Arg.Any<User>()).Returns("jwt-access-token");
+        _jwtTokenService.GenerateRefreshToken().Returns("refresh-token-value");
+
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
+        var command = new LoginCommand("admin@desertpaws.ae", "Admin1234!");
+
+        // Act
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        // Assert — login succeeds but with a success message indicating email not verified
+        result.IsSuccess.Should().BeTrue();
+        result.SuccessMessage.Should().Contain("EMAIL_NOT_VERIFIED");
+    }
+
+    [Fact]
+    public async Task Handle_VerifiedEmail_ReturnsSuccessWithoutWarning()
+    {
+        // Arrange
+        using var context = BuildContext();
+        var user = CreateActiveUser(FixedClinicId);
+        user.VerifyEmail(user.EmailVerificationToken!);
+        user.EmailVerified.Should().BeTrue();
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+
+        _jwtTokenService.GenerateAccessToken(Arg.Any<User>()).Returns("jwt-access-token");
+        _jwtTokenService.GenerateRefreshToken().Returns("refresh-token-value");
+
+        var handler = new LoginHandler(context, _jwtTokenService, Options.Create(new AuthSecurityOptions()));
+        var command = new LoginCommand("admin@desertpaws.ae", "Admin1234!");
+
+        // Act
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        // Assert — login succeeds without the warning message
+        result.IsSuccess.Should().BeTrue();
+        result.SuccessMessage.Should().BeNullOrEmpty();
+    }
+
+    [Fact]
     public async Task Handle_EmailLookupIsCaseInsensitive()
     {
         // Arrange

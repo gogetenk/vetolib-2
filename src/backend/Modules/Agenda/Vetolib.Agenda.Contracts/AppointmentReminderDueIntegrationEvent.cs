@@ -13,4 +13,6 @@ public record AppointmentReminderDueIntegrationEvent
     public DateTime ScheduledAt { get; init; }
     public string ClinicName { get; init; } = string.Empty;
     public string PreferredLanguage { get; init; } = "en";
+    public Guid ClinicId { get; init; }
+    public string OwnerPhone { get; init; } = string.Empty;
 }

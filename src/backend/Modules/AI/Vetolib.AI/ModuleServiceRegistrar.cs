@@ -118,6 +118,7 @@ public static class ModuleServiceRegistrar
         services.AddTransient<IHealthAlertRule, DentalProphylaxisRule>();
         services.AddTransient<IHealthAlertRule, SeniorWellnessRule>();
         services.AddTransient<IHealthAlertRule, VaccinationOverdueRule>();
+        services.AddTransient<IHealthAlertRule, VaccinationDueRule>();
         services.AddTransient<IHealthAlertRule, WeightTrendRule>();
         services.AddTransient<IHealthAlertRule, DiabetesRiskRule>();
         services.AddTransient<IHealthAlertRule, ArthritisFollowUpRule>();
