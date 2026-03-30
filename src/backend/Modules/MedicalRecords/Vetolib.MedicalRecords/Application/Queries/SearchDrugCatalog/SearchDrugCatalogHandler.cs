@@ -26,6 +26,7 @@ internal class SearchDrugCatalogHandler : IRequestHandler<SearchDrugCatalogQuery
             .Include(d => d.SpeciesContraindications)
             .Include(d => d.Interactions)
             .Include(d => d.DosageGuidelines)
+            .AsSplitQuery()
             .Where(d => d.IsActive);
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))

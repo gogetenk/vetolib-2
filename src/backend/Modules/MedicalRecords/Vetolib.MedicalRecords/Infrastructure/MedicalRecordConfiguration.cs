@@ -32,5 +32,8 @@ internal class MedicalRecordConfiguration : IEntityTypeConfiguration<MedicalReco
         builder.HasMany(r => r.Prescriptions)
             .WithOne()
             .HasForeignKey(p => p.MedicalRecordId);
+
+        builder.HasIndex(r => r.PatientId)
+            .HasDatabaseName("IX_medical_records_PatientId");
     }
 }
