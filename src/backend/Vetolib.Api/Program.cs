@@ -280,6 +280,22 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+// Output caching — named policies referenced by endpoints via .CacheOutput("PolicyName").
+// IMPORTANT: every policy varies by Authorization header to prevent cross-tenant data leakage
+// (different JWTs carry different ClinicId claims → different cache entries).
+builder.Services.AddOutputCache(options =>
+{
+    options.AddBasePolicy(builder => builder.NoCache());
+    options.AddPolicy("Dashboard1min", builder =>
+        builder.Expire(TimeSpan.FromMinutes(1))
+            .SetVaryByQuery("*")
+            .SetVaryByHeader("Authorization"));
+    options.AddPolicy("Moderate2min", builder =>
+        builder.Expire(TimeSpan.FromMinutes(2))
+            .SetVaryByQuery("*")
+            .SetVaryByHeader("Authorization"));
+});
+
 // JSON: accept string enum values in request bodies (e.g., "MedicalQuestion" instead of 2).
 // Also serializes enum responses as strings for consistency.
 // All step definitions that read enum-containing DTOs must use JsonStringEnumConverter too.
@@ -324,6 +340,7 @@ app.UseCors();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseOutputCache();
 
 // Map endpoints
 app.MapDefaultEndpoints();
