@@ -38,6 +38,20 @@ internal class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, Result
         if (user is null)
             return Result<AuthTokenDto>.Error("INVALID_REFRESH_TOKEN:Utilisateur non trouve");
 
+        // Check if user account is deactivated — persist revocation and reject
+        if (!user.IsActive)
+        {
+            try
+            {
+                await _context.SaveChangesAsync(ct);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Token was already rotated by another request — safe to ignore
+            }
+            return Result<AuthTokenDto>.Error("ACCOUNT_DEACTIVATED:Your account has been deactivated. Contact your clinic admin.");
+        }
+
         // Generate new tokens
         var newAccessToken = _jwtTokenService.GenerateAccessToken(user);
         var newRefreshTokenValue = _jwtTokenService.GenerateRefreshToken();
@@ -47,7 +61,17 @@ internal class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, Result
             return Result<AuthTokenDto>.Error("Failed to create new refresh token");
 
         _context.RefreshTokens.Add(newRefreshTokenResult.Value);
-        await _context.SaveChangesAsync(ct);
+
+        try
+        {
+            await _context.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            // Race condition: another request already rotated this token.
+            // The concurrency token on IsRevoked ensures only one request wins.
+            return Result<AuthTokenDto>.Error("INVALID_REFRESH_TOKEN:Token has already been used");
+        }
 
         return Result<AuthTokenDto>.Success(
             new AuthTokenDto(newAccessToken, newRefreshTokenValue, user.ToDto()));
