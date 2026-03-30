@@ -1,4 +1,3 @@
-@wip
 Feature: Litter management
   As a breeder or veterinarian,
   I want to record litters with their parents and offspring

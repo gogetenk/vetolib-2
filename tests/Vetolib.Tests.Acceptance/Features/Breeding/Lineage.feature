@@ -1,4 +1,3 @@
-@wip
 Feature: Patient lineage and pedigree
   As a breeder or veterinarian,
   I want to navigate a patient's family tree — parents, grandparents, and descendants —

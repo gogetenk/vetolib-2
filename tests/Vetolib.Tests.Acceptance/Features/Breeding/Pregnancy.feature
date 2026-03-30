@@ -1,4 +1,3 @@
-@wip
 Feature: Pregnancy and gestation tracking
   As a veterinarian managing breeding animals,
   I want to track pregnancies from mating to delivery
