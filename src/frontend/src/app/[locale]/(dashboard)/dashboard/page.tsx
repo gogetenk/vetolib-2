@@ -9,6 +9,7 @@ import { AccumulatedValueCard } from '@/components/features/dashboard/Accumulate
 import { HealthAlertPanel } from '@/components/features/dashboard/HealthAlertPanel'
 import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
 import { SetupChecklist } from '@/components/features/onboarding/SetupChecklist'
+import { OnboardingWizard } from '@/components/features/onboarding/OnboardingWizard'
 import { PageContainer } from '@/components/ui/page-container'
 import { useRole } from '@/hooks/use-role'
 import { getStoredUser } from '@/lib/api/auth'
@@ -81,6 +82,7 @@ export default function DashboardHomePage() {
 
   return (
     <PageContainer data-testid="dashboard-home">
+      <OnboardingWizard initialClinicName={clinicName} />
       <WelcomeBanner role={role} clinicName={clinicName} />
 
       <div className="flex flex-col gap-1" data-testid="dashboard-greeting">

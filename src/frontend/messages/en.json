@@ -1790,6 +1790,49 @@
         }
       }
     },
+    "wizard": {
+      "title": "Set Up Your Clinic",
+      "skip": "Skip setup",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Finish Setup",
+      "finishing": "Setting up...",
+      "skip_step": "Skip",
+      "steps": {
+        "welcome": {
+          "label": "Welcome",
+          "description": "Confirm your clinic details to get started."
+        },
+        "team": {
+          "label": "Team",
+          "description": "Invite your first team member. You can always do this later.",
+          "email": "Email",
+          "email_placeholder": "colleague@clinic.ae",
+          "name": "Full Name",
+          "name_placeholder": "Dr. Ahmed Al Mansoori",
+          "role": "Role",
+          "role_vet": "Veterinarian",
+          "role_assistant": "Assistant",
+          "role_receptionist": "Receptionist"
+        },
+        "patient": {
+          "label": "First Patient",
+          "description": "Add your first patient to get started. You can skip this step.",
+          "pet_name": "Pet Name",
+          "pet_name_placeholder": "e.g. Simba",
+          "species": "Species",
+          "species_placeholder": "e.g. Dog, Cat, Horse",
+          "owner_name": "Owner Name",
+          "owner_name_placeholder": "e.g. Fatima Al Hashimi",
+          "owner_phone": "Owner Phone",
+          "owner_phone_placeholder": "+971 50 123 4567"
+        }
+      },
+      "clinic_name": "Clinic Name",
+      "clinic_name_placeholder": "e.g. Desert Paws Veterinary Clinic",
+      "timezone": "Timezone",
+      "timezone_default": "Asia/Dubai (UAE)"
+    },
     "empty": {
       "patients": {
         "title": "Your patient list is empty",
