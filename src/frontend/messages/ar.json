@@ -75,6 +75,7 @@
     "profile": "الملف الشخصي",
     "sign_out": "تسجيل الخروج",
     "stock": "المخزون",
+    "breeding": "التربية",
     "read_only": "للقراءة فقط",
     "messaging_settings": "إعدادات الرسائل",
     "switch_clinic": "تبديل العيادة",
@@ -307,7 +308,8 @@
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
         "health_alerts": "Health Alerts",
-        "weight": "الوزن"
+        "weight": "الوزن",
+        "breeding": "التربية"
       },
       "weight_label": "Weight:",
       "weight_not_recorded": "Not recorded",
