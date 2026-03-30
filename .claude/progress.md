@@ -2,6 +2,35 @@
 
 _Mis a jour par l'orchestrator a chaque cycle._
 
+## 2026-03-31T03:00 -- Extended forge session (52 PRs merged, deep quality)
+
+- PRs merged: 52 (#157-#221)
+- Unit tests: ~1309 (was 822 at start)
+- develop CI: in_progress (rapid merges)
+
+### Quality improvements
+- 12 deep module audits (Agenda, Auth, Billing, MedicalRecords, Mobile, CI pipeline, Dead wiring, Endpoint wiring, TypeScript, Accessibility, Test coverage, Module decomposition)
+- CRITICAL financial bugs fixed (SubTotal×Quantity, PaidAt, weighted VAT)
+- CRITICAL security fixes (RandomNumberGenerator, plaintext passwords removed from events, email global uniqueness, refresh token race condition, deactivated user refresh blocked)
+- CRITICAL dead wiring fixed (Notifications endpoints, AppointmentReminderService, OutputCache, MassTransit consumer discovery, audit interceptor on all DbContexts)
+- Prescription stock integration wired (PrescriptionCreatedEvent now published)
+- Dosage validation enforced at creation (not just preflight)
+- MustChangePassword enforcement in login flow
+- N+1 queries fixed (SuggestSlot batch, dashboard Task.WhenAll)
+- Memory bomb fixed (PatientAlertDataReader batched)
+- 140 RTL directional classes fixed
+- Mobile responsive (PedigreeTree, iOS zoom, touch targets)
+- 3 blog articles (breeding UAE, falcon health, vet software guide)
+- Onboarding wizard + legal pages (agents in progress)
+
+### Process improvements
+- Evaluator agent (DOD-based gate before merge)
+- Boy scout rule (agents report anomalies)
+- guard-wip-features.sh hook (blocks disabled tests)
+- Anti-stagnation rule (audits must create tasks)
+- Wiring audit + module decomposition audit in 12 sources
+- Forge OSS repo updated with all lessons learned
+
 ## 2026-03-30T01:45 -- Nightly forge session (19 DONE, 10 PRs merged)
 
 - TODO: 1 (API docs) | WIP: 0 | DONE: 19
