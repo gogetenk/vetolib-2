@@ -5,6 +5,7 @@ using Vetolib.Agenda.Infrastructure;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Preferences.Infrastructure;
@@ -93,6 +94,14 @@ public abstract class IntegrationTestBase : IAsyncLifetime
         await messagingDb.OwnerPortalTokens.IgnoreQueryFilters().ExecuteDeleteAsync();
         await messagingDb.ResponseTemplates.IgnoreQueryFilters().ExecuteDeleteAsync();
         await messagingDb.MessagingHours.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        var breedingDb = scope.ServiceProvider.GetRequiredService<BreedingDbContext>();
+        await breedingDb.LitterOffspring.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.Litters.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.PregnancyChecks.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.Pregnancies.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.HeatCycles.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.PatientLineages.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         var preferencesDb = scope.ServiceProvider.GetRequiredService<PreferencesDbContext>();
         await preferencesDb.UserPreferences.IgnoreQueryFilters().ExecuteDeleteAsync();
