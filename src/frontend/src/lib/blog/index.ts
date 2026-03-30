@@ -5,11 +5,13 @@ import { aiVeterinaryTriage } from "./articles/ai-veterinary-triage";
 import { arabicSoftwareDubaiVet } from "./articles/arabic-software-dubai-vet";
 import { outgrownSpreadsheetsVet } from "./articles/outgrown-spreadsheets-vet";
 import { falconHealthManagementUae } from "./articles/falcon-health-management-uae";
+import { breedingManagementUae } from "./articles/breeding-management-uae";
 
 export type { BlogArticle } from "./types";
 
 export const allArticles: BlogArticle[] = [
   falconHealthManagementUae,
+  breedingManagementUae,
   outgrownSpreadsheetsVet,
   arabicSoftwareDubaiVet,
   aiVeterinaryTriage,
