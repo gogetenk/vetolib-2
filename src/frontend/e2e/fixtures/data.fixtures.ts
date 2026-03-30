@@ -21,13 +21,13 @@ export interface PatientData {
 
 export interface AppointmentData {
   id: string;
-  patientName: string;
-  species: string;
-  ownerName: string;
-  ownerPhone: string;
-  vetId: string;
-  scheduledAt: string;
-  reason: string;
+  animalId: string;
+  veterinarianId: string;
+  date: string;
+  startTime: string;
+  durationMinutes: number;
+  reason: string | null;
+  source: string;
   status: string;
 }
 
@@ -127,23 +127,29 @@ export async function createPatient(
 export async function createAppointment(
   request: APIRequestContext,
   overrides: Partial<{
-    patientName: string;
-    species: string;
-    ownerName: string;
-    ownerPhone: string;
-    vetId: string;
-    scheduledAt: string;
+    animalId: string;
+    veterinarianId: string;
+    date: string;
+    startTime: string;
+    durationMinutes: number;
     reason: string;
+    source: string;
   }> = {}
 ): Promise<AppointmentData> {
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+  const defaultDate = tomorrowDate.toISOString().split("T")[0];
+
   const data = {
-    patientName: overrides.patientName ?? uniqueName("Max"),
-    species: overrides.species ?? "Dog",
-    ownerName: overrides.ownerName ?? "Ahmed Al-Mansoori",
-    ownerPhone: overrides.ownerPhone ?? "+971 50 999 0001",
-    vetId: overrides.vetId ?? "00000000-0000-0000-0002-000000000002", // Dr. Sarah seed ID
-    scheduledAt: overrides.scheduledAt ?? tomorrowAt(10),
+    animalId:
+      overrides.animalId ?? "00000000-0000-0000-0001-000000000001",
+    veterinarianId:
+      overrides.veterinarianId ?? "00000000-0000-0000-0002-000000000002",
+    date: overrides.date ?? defaultDate,
+    startTime: overrides.startTime ?? "10:00:00",
+    durationMinutes: overrides.durationMinutes ?? 30,
     reason: overrides.reason ?? "Annual checkup",
+    source: overrides.source ?? "Staff",
   };
 
   const response = await request.post(`${BACKEND_URL}/api/v1/appointments`, {
@@ -160,14 +166,14 @@ export async function createAppointment(
   const json = await response.json();
   return {
     id: json.id,
-    patientName: data.patientName,
-    species: data.species,
-    ownerName: data.ownerName,
-    ownerPhone: data.ownerPhone,
-    vetId: data.vetId,
-    scheduledAt: data.scheduledAt,
+    animalId: data.animalId,
+    veterinarianId: data.veterinarianId,
+    date: data.date,
+    startTime: data.startTime,
+    durationMinutes: data.durationMinutes,
     reason: data.reason,
-    status: json.status ?? "SCHEDULED",
+    source: data.source,
+    status: json.status ?? "Scheduled",
   };
 }
 

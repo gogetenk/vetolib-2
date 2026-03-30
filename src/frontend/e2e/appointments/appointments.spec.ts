@@ -8,59 +8,74 @@ const MOCK_VETS = [
   { id: 'vet-002', name: 'Dr. Ahmed Khalil' },
 ]
 
-function getTodayAt(hour: number, minute = 0) {
+function getTodayDateAndTime(hour: number, minute = 0) {
   const d = new Date()
-  d.setHours(hour, minute, 0, 0)
-  return d.toISOString()
+  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  const startTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`
+  const endMinute = minute + 30
+  const endH = endMinute >= 60 ? hour + 1 : hour
+  const endM = endMinute >= 60 ? endMinute - 60 : endMinute
+  const endTime = `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}:00`
+  return { date, startTime, endTime }
 }
 
 function makeMockAppointments() {
   return [
     {
       id: 'a1b2c3d4-0000-0000-0000-000000000001',
-      patientName: 'Max',
-      species: 'Dog',
+      animalId: 'animal-001',
+      animalName: 'Max',
       ownerName: 'Ahmed Al-Rashid',
-      ownerPhone: '+971 50 123 4567',
-      vetId: 'vet-001',
-      vetName: 'Dr. Sarah Johnson',
-      status: 'SCHEDULED',
-      scheduledAt: getTodayAt(9),
+      veterinarianId: 'vet-001',
+      veterinarianName: 'Dr. Sarah Johnson',
+      status: 'Scheduled',
+      ...getTodayDateAndTime(9),
+      durationMinutes: 30,
       reason: 'Annual vaccination',
       clinicId: 'clinic-001',
+      source: 'Staff',
+      rescheduleCount: 0,
+      originalAppointmentId: null,
+      consultationType: 'Vaccination',
     },
     {
       id: 'a1b2c3d4-0000-0000-0000-000000000002',
-      patientName: 'Luna',
-      species: 'Cat',
+      animalId: 'animal-002',
+      animalName: 'Luna',
       ownerName: 'Fatima Hassan',
-      ownerPhone: '+971 55 987 6543',
-      vetId: 'vet-002',
-      vetName: 'Dr. Ahmed Khalil',
-      status: 'IN_PROGRESS',
-      scheduledAt: getTodayAt(10, 30),
+      veterinarianId: 'vet-002',
+      veterinarianName: 'Dr. Ahmed Khalil',
+      status: 'InProgress',
+      ...getTodayDateAndTime(10, 30),
+      durationMinutes: 30,
       reason: 'Skin condition follow-up',
       clinicId: 'clinic-001',
+      source: 'Staff',
+      rescheduleCount: 0,
+      originalAppointmentId: null,
+      consultationType: 'Dermatology',
     },
     {
       id: 'a1b2c3d4-0000-0000-0000-000000000003',
-      patientName: 'Coco',
-      species: 'Bird',
+      animalId: 'animal-003',
+      animalName: 'Coco',
       ownerName: 'Mohammed Al-Zaabi',
-      ownerPhone: '+971 52 345 6789',
-      vetId: 'vet-001',
-      vetName: 'Dr. Sarah Johnson',
-      status: 'SCHEDULED',
-      scheduledAt: getTodayAt(11),
+      veterinarianId: 'vet-001',
+      veterinarianName: 'Dr. Sarah Johnson',
+      status: 'Scheduled',
+      ...getTodayDateAndTime(11),
+      durationMinutes: 30,
       reason: 'Wing check-up',
       clinicId: 'clinic-001',
+      source: 'Staff',
+      rescheduleCount: 0,
+      originalAppointmentId: null,
+      consultationType: 'General Checkup',
     },
   ]
 }
 
-type MockAppt = ReturnType<typeof makeMockAppointments>[number] & {
-  cancellationReason?: string
-}
+type MockAppt = ReturnType<typeof makeMockAppointments>[number]
 
 async function setupRoutes(page: import('@playwright/test').Page) {
   const appointments: MockAppt[] = makeMockAppointments()
@@ -87,15 +102,12 @@ async function setupRoutes(page: import('@playwright/test').Page) {
         return
       }
       const transitions: Record<string, string> = {
-        CHECK_IN: 'CHECKED_IN',
-        START: 'IN_PROGRESS',
-        COMPLETE: 'COMPLETED',
-        CANCEL: 'CANCELLED',
+        CHECK_IN: 'CheckedIn',
+        START: 'InProgress',
+        COMPLETE: 'Completed',
+        CANCEL: 'Cancelled',
       }
       appt.status = (transitions[body.action] ?? appt.status) as MockAppt['status']
-      if (body.action === 'CANCEL' && body.reason) {
-        appt.cancellationReason = body.reason
-      }
       await route.fulfill({ json: appt })
       return
     }
@@ -115,13 +127,13 @@ async function setupRoutes(page: import('@playwright/test').Page) {
     // GET /api/appointments (list)
     if (method === 'GET' && path === '/api/appointments') {
       const status = url.searchParams.get('status')
-      const vetId = url.searchParams.get('vetId')
+      const veterinarianId = url.searchParams.get('veterinarianId')
       const page_ = parseInt(url.searchParams.get('page') ?? '1')
       const pageSize = parseInt(url.searchParams.get('pageSize') ?? '10')
 
       let items: MockAppt[] = [...appointments]
       if (status) items = items.filter(a => a.status === status)
-      if (vetId) items = items.filter(a => a.vetId === vetId)
+      if (veterinarianId) items = items.filter(a => a.veterinarianId === veterinarianId)
 
       const totalCount = items.length
       const paged = items.slice((page_ - 1) * pageSize, page_ * pageSize)
@@ -135,10 +147,10 @@ async function setupRoutes(page: import('@playwright/test').Page) {
     // POST /api/appointments
     if (method === 'POST' && path === '/api/appointments') {
       const body = JSON.parse(request.postData() ?? '{}')
-      const vet = MOCK_VETS.find(v => v.id === body.vetId)
+      const vet = MOCK_VETS.find(v => v.id === body.veterinarianId)
 
       const conflict = appointments.find(
-        a => a.vetId === body.vetId && a.scheduledAt === body.scheduledAt && a.status !== 'CANCELLED'
+        a => a.veterinarianId === body.veterinarianId && a.date === body.date && a.startTime === body.startTime && a.status !== 'Cancelled'
       )
       if (conflict) {
         await route.fulfill({
@@ -148,18 +160,29 @@ async function setupRoutes(page: import('@playwright/test').Page) {
         return
       }
 
+      const durationMinutes = body.durationMinutes ?? 30
+      const [h, m] = (body.startTime as string).split(':').map(Number)
+      const totalMin = h * 60 + m + durationMinutes
+      const endTime = `${String(Math.floor(totalMin / 60)).padStart(2, '0')}:${String(totalMin % 60).padStart(2, '0')}:00`
+
       const newAppt: MockAppt = {
         id: `new-${Date.now()}`,
-        status: 'SCHEDULED',
+        status: 'Scheduled',
         clinicId: 'clinic-001',
-        vetName: vet?.name ?? '',
-        patientName: body.patientName,
-        species: body.species,
-        ownerName: body.ownerName,
-        ownerPhone: body.ownerPhone,
-        vetId: body.vetId,
-        scheduledAt: body.scheduledAt,
-        reason: body.reason,
+        veterinarianName: vet?.name ?? '',
+        veterinarianId: body.veterinarianId,
+        animalId: body.animalId,
+        animalName: 'New Patient',
+        ownerName: 'Unknown Owner',
+        date: body.date,
+        startTime: body.startTime,
+        endTime,
+        durationMinutes,
+        reason: body.reason ?? null,
+        source: body.source ?? 'Staff',
+        rescheduleCount: 0,
+        originalAppointmentId: null,
+        consultationType: 'General Checkup',
       }
       appointments.push(newAppt)
       await route.fulfill({ status: 201, json: newAppt })
@@ -222,14 +245,7 @@ test.describe('Appointments', () => {
     await page.click('[data-testid="new-appointment-btn"]')
     await page.waitForSelector('[data-testid="appointment-form"]', { timeout: 10000 })
 
-    await page.fill('[data-testid="input-patient-name"]', 'Simba')
-
-    await page.click('[data-testid="select-species-trigger"]')
-    await page.waitForSelector('[data-testid="species-option-cat"]', { timeout: 5000 })
-    await page.click('[data-testid="species-option-cat"]')
-
-    await page.fill('[data-testid="input-owner-name"]', 'Khalid Al-Mansoori')
-    await page.fill('[data-testid="input-owner-phone"]', '+971 50 999 0001')
+    await page.fill('[data-testid="input-animal-id"]', 'animal-new-001')
 
     await page.click('[data-testid="select-vet-trigger"]')
     await page.waitForSelector('[data-testid="vet-option-vet-001"]', { timeout: 10000 })
@@ -265,7 +281,7 @@ test.describe('Appointments', () => {
     await page.waitForSelector('[data-testid="confirm-dialog"]')
     await page.click('[data-testid="btn-dialog-confirm"]')
 
-    await expect(page.locator('[data-testid="status-badge-checked_in"]')).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[data-testid="status-badge-checkedin"]')).toBeVisible({ timeout: 10000 })
   })
 
   test('Cancel an appointment with reason', async ({ page }) => {
@@ -284,9 +300,6 @@ test.describe('Appointments', () => {
     await page.click('[data-testid="btn-dialog-confirm"]')
 
     await expect(page.locator('[data-testid="status-badge-cancelled"]')).toBeVisible({ timeout: 10000 })
-    await expect(page.locator('[data-testid="detail-cancellation-reason"]')).toContainText(
-      'Owner called to cancel'
-    )
   })
 
   test('Filter appointments by status', async ({ page }) => {
@@ -313,12 +326,7 @@ test.describe('Appointments', () => {
     await page.click('[data-testid="new-appointment-btn"]')
     await page.waitForSelector('[data-testid="appointment-form"]', { timeout: 10000 })
 
-    await page.fill('[data-testid="input-patient-name"]', 'Rocky')
-    await page.click('[data-testid="select-species-trigger"]')
-    await page.waitForSelector('[data-testid="species-option-dog"]', { timeout: 5000 })
-    await page.click('[data-testid="species-option-dog"]')
-    await page.fill('[data-testid="input-owner-name"]', 'Test Owner')
-    await page.fill('[data-testid="input-owner-phone"]', '+971 55 000 0000')
+    await page.fill('[data-testid="input-animal-id"]', 'animal-conflict-001')
 
     await page.click('[data-testid="select-vet-trigger"]')
     await page.waitForSelector('[data-testid="vet-option-vet-001"]', { timeout: 10000 })

@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { getConsultationColor } from './consultation-colors'
 import type { CalendarAppointment } from './types'
+import { appointmentToDate } from '@/lib/api/appointments'
 
 const MAX_VISIBLE = 3
 
@@ -85,7 +86,7 @@ export function MonthDayCell({
       <div className="space-y-0.5">
         {visible.map((apt) => {
           const color = getConsultationColor(apt.consultationType)
-          const scheduledDate = new Date(apt.scheduledAt)
+          const scheduledDate = appointmentToDate(apt)
           return (
             <button
               key={apt.id}
@@ -97,7 +98,7 @@ export function MonthDayCell({
               <span className="text-muted-foreground flex-shrink-0">
                 {timeFormatter.format(scheduledDate)}
               </span>
-              <span className={`truncate ${color.text}`}>{apt.patientName}</span>
+              <span className={`truncate ${color.text}`}>{apt.animalName}</span>
             </button>
           )
         })}
@@ -126,7 +127,7 @@ export function MonthDayCell({
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {appointments.map((apt) => {
                 const color = getConsultationColor(apt.consultationType)
-                const scheduledDate = new Date(apt.scheduledAt)
+                const scheduledDate = appointmentToDate(apt)
                 return (
                   <button
                     key={apt.id}
@@ -139,7 +140,7 @@ export function MonthDayCell({
                       {timeFormatter.format(scheduledDate)}
                     </span>
                     <span className={`truncate ${color.text}`}>
-                      {apt.patientName} — {apt.ownerName}
+                      {apt.animalName} — {apt.ownerName}
                     </span>
                   </button>
                 )

@@ -6,12 +6,16 @@ const STATUS_COLORS: Record<string, string> = {
   sent: 'bg-blue-100 text-blue-700',
   paid: 'bg-success/15 text-success',
   overdue: 'bg-red-100 text-red-700',
-  // Appointment statuses
+  // Appointment statuses (PascalCase from backend, normalized via toLowerCase)
   scheduled: 'bg-blue-100 text-blue-700',
+  checkedin: 'bg-indigo-100 text-indigo-700',
   checked_in: 'bg-indigo-100 text-indigo-700',
+  inprogress: 'bg-amber-100 text-amber-700',
   in_progress: 'bg-amber-100 text-amber-700',
   completed: 'bg-success/15 text-success',
   cancelled: 'bg-red-100 text-red-700',
+  noshow: 'bg-orange-100 text-orange-700',
+  no_show: 'bg-orange-100 text-orange-700',
   // Message statuses
   open: 'bg-success/15 text-success',
   resolved: 'bg-stone-100 text-stone-600',

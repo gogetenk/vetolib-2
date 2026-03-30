@@ -6,6 +6,7 @@ import { PlusIcon } from 'lucide-react'
 import { TimeColumn, START_HOUR, END_HOUR } from './TimeColumn'
 import { AppointmentBlock } from './AppointmentBlock'
 import type { CalendarAppointment, CalendarDay } from './types'
+import { appointmentToDate } from '@/lib/api/appointments'
 
 function isSameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
@@ -75,7 +76,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
 
   const filteredAppointments = useMemo(() => {
     return appointments.filter((apt) => {
-      const aptDate = new Date(apt.scheduledAt)
+      const aptDate = appointmentToDate(apt)
       return aptDate >= weekStart && aptDate <= new Date(weekEnd.getTime() + 24 * 60 * 60 * 1000)
     })
   }, [appointments, weekStart, weekEnd])
@@ -83,7 +84,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
   const appointmentsByDay = useMemo(() => {
     const map = new Map<string, CalendarAppointment[]>()
     for (const apt of filteredAppointments) {
-      const dateKey = new Date(apt.scheduledAt).toDateString()
+      const dateKey = appointmentToDate(apt).toDateString()
       const existing = map.get(dateKey) ?? []
       existing.push(apt)
       map.set(dateKey, existing)

@@ -192,11 +192,12 @@
       "retry": "Try again"
     },
     "status": {
-      "SCHEDULED": "Scheduled",
-      "CHECKED_IN": "Checked In",
-      "IN_PROGRESS": "In Progress",
-      "COMPLETED": "Completed",
-      "CANCELLED": "Cancelled"
+      "Scheduled": "Scheduled",
+      "CheckedIn": "Checked In",
+      "InProgress": "In Progress",
+      "Completed": "Completed",
+      "Cancelled": "Cancelled",
+      "NoShow": "No Show"
     }
   },
   "patients": {

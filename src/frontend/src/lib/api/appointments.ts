@@ -1,33 +1,41 @@
 import { apiGet, apiPost, apiPatch } from './client'
 
 export type AppointmentStatus =
-  | 'SCHEDULED'
-  | 'CHECKED_IN'
-  | 'IN_PROGRESS'
-  | 'COMPLETED'
-  | 'CANCELLED'
+  | 'Scheduled'
+  | 'CheckedIn'
+  | 'InProgress'
+  | 'Completed'
+  | 'Cancelled'
+  | 'NoShow'
 
 export type AppointmentAction = 'CHECK_IN' | 'START' | 'COMPLETE' | 'CANCEL'
+
+export type BookingSource = 'Staff' | 'OwnerPortal'
 
 export type Species = 'Dog' | 'Cat' | 'Bird' | 'Rabbit' | 'Horse' | 'Exotic' | 'Falcon' | 'Reptile'
 
 export interface AppointmentDto {
   id: string
-  patientId?: string
-  patientName: string
-  species: Species
-  ownerName: string
-  ownerPhone: string
-  vetId: string
-  vetName: string
-  status: AppointmentStatus
-  scheduledAt: string
-  reason: string
-  notes?: string
-  cancellationReason?: string
   clinicId: string
-  consultationType?: string
-  durationMinutes?: number
+  veterinarianId: string
+  veterinarianName: string
+  animalId: string
+  animalName: string
+  ownerName: string
+  date: string            // DateOnly "YYYY-MM-DD"
+  startTime: string       // TimeOnly "HH:mm:ss"
+  durationMinutes: number
+  endTime: string         // TimeOnly "HH:mm:ss"
+  status: AppointmentStatus
+  reason: string | null
+  source: BookingSource
+  rescheduleCount: number
+  originalAppointmentId: string | null
+}
+
+/** Build a JS Date from the backend date + startTime fields */
+export function appointmentToDate(dto: Pick<AppointmentDto, 'date' | 'startTime'>): Date {
+  return new Date(`${dto.date}T${dto.startTime}`)
 }
 
 export interface PagedResult<T> {
@@ -39,21 +47,20 @@ export interface PagedResult<T> {
 
 export interface AppointmentFilters {
   status?: AppointmentStatus
-  vetId?: string
+  veterinarianId?: string
   date?: string
   page?: number
   pageSize?: number
 }
 
 export interface CreateAppointmentRequest {
-  patientName: string
-  species: Species
-  ownerName: string
-  ownerPhone: string
-  vetId: string
-  scheduledAt: string
-  reason: string
-  notes?: string
+  animalId: string
+  veterinarianId: string
+  date: string
+  startTime: string
+  durationMinutes: number
+  reason?: string
+  source: BookingSource
 }
 
 export interface VetDto {
@@ -70,7 +77,7 @@ export async function getAppointments(
 ): Promise<PagedResult<AppointmentDto>> {
   const params = new URLSearchParams()
   if (filters?.status) params.set('status', filters.status)
-  if (filters?.vetId) params.set('vetId', filters.vetId)
+  if (filters?.veterinarianId) params.set('veterinarianId', filters.veterinarianId)
   if (filters?.date) params.set('date', filters.date)
   if (filters?.page) params.set('page', String(filters.page))
   if (filters?.pageSize) params.set('pageSize', String(filters.pageSize))

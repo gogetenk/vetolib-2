@@ -32,28 +32,18 @@ import {
 import { StatusBadge } from './StatusBadge'
 import { EmptyState } from '@/components/features/onboarding/EmptyState'
 import { LtrText } from '@/components/ui/ltr-text'
-import { getAppointments } from '@/lib/api/appointments'
+import { getAppointments, appointmentToDate } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentStatus } from '@/lib/api/appointments'
 import { useTranslations, useLocale } from 'next-intl'
 
-const SPECIES_ICONS: Record<string, string> = {
-  Dog: '🐕',
-  Cat: '🐈',
-  Bird: '🦜',
-  Rabbit: '🐇',
-  Horse: '🐎',
-  Exotic: '🦎',
-  Falcon: '🦅',
-  Reptile: '🦎',
-}
-
 const STATUS_KEYS: { value: AppointmentStatus | 'ALL'; key: string }[] = [
   { value: 'ALL', key: 'all_statuses' },
-  { value: 'SCHEDULED', key: 'status.SCHEDULED' },
-  { value: 'CHECKED_IN', key: 'status.CHECKED_IN' },
-  { value: 'IN_PROGRESS', key: 'status.IN_PROGRESS' },
-  { value: 'COMPLETED', key: 'status.COMPLETED' },
-  { value: 'CANCELLED', key: 'status.CANCELLED' },
+  { value: 'Scheduled', key: 'status.Scheduled' },
+  { value: 'CheckedIn', key: 'status.CheckedIn' },
+  { value: 'InProgress', key: 'status.InProgress' },
+  { value: 'Completed', key: 'status.Completed' },
+  { value: 'Cancelled', key: 'status.Cancelled' },
+  { value: 'NoShow', key: 'status.NoShow' },
 ]
 
 const PAGE_SIZE = 10
@@ -99,20 +89,20 @@ export function AppointmentsTable() {
     const q = searchQuery.toLowerCase()
     return appointments.filter(
       (a) =>
-        a.patientName.toLowerCase().includes(q) ||
+        a.animalName.toLowerCase().includes(q) ||
         a.ownerName.toLowerCase().includes(q)
     )
   }, [appointments, searchQuery])
 
   const columns: ColumnDef<AppointmentDto>[] = [
     {
-      accessorKey: 'scheduledAt',
+      id: 'datetime',
       header: t('columns.datetime'),
-      cell: ({ getValue }) => {
-        const val = getValue<string>()
+      cell: ({ row }) => {
+        const d = appointmentToDate(row.original)
         return (
           <span data-testid="cell-datetime" className="text-[13px] text-foreground">
-            <LtrText>{format(new Date(val), 'dd MMM yyyy HH:mm')}</LtrText>
+            <LtrText>{format(d, 'dd MMM yyyy HH:mm')}</LtrText>
           </span>
         )
       },
@@ -122,7 +112,7 @@ export function AppointmentsTable() {
       header: t('columns.patient'),
       cell: ({ row }) => (
         <span data-testid="cell-patient" className="text-[13px] font-medium text-foreground">
-          {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
+          {row.original.animalName}
         </span>
       ),
     },
@@ -134,7 +124,7 @@ export function AppointmentsTable() {
       ),
     },
     {
-      accessorKey: 'vetName',
+      accessorKey: 'veterinarianName',
       header: t('columns.vet'),
       cell: ({ getValue }) => (
         <span data-testid="cell-vet" className="text-[13px] text-foreground">{getValue<string>()}</span>
@@ -273,15 +263,15 @@ export function AppointmentsTable() {
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-[14px] text-foreground truncate">
-                    {SPECIES_ICONS[row.original.species] ?? '🐾'} {row.original.patientName}
+                    {row.original.animalName}
                   </p>
                   <p className="text-[13px] text-muted-foreground mt-0.5">{row.original.ownerName}</p>
                 </div>
                 <StatusBadge status={row.original.status} />
               </div>
               <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
-                <span><LtrText>{format(new Date(row.original.scheduledAt), 'dd MMM yyyy HH:mm')}</LtrText></span>
-                <span>{row.original.vetName}</span>
+                <span><LtrText>{format(appointmentToDate(row.original), 'dd MMM yyyy HH:mm')}</LtrText></span>
+                <span>{row.original.veterinarianName}</span>
               </div>
             </Link>
           ))

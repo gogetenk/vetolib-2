@@ -7,16 +7,18 @@ import { getConsultationColor } from './consultation-colors'
 import { START_HOUR, END_HOUR } from './TimeColumn'
 import type { CalendarAppointment } from './types'
 import type { AppointmentStatus } from '@/lib/api/appointments'
+import { appointmentToDate } from '@/lib/api/appointments'
 
 const SLOT_HEIGHT = 16 // 15-minute slot = 16px, so 1 hour = 64px (same as week view)
 const HOUR_HEIGHT = SLOT_HEIGHT * 4 // 64px per hour
 
 const _STATUS_COLORS: Record<AppointmentStatus, string> = {
-  SCHEDULED: 'bg-blue-500',
-  CHECKED_IN: 'bg-yellow-500',
-  IN_PROGRESS: 'bg-green-500',
-  COMPLETED: 'bg-stone-400',
-  CANCELLED: 'bg-red-500',
+  Scheduled: 'bg-blue-500',
+  CheckedIn: 'bg-yellow-500',
+  InProgress: 'bg-green-500',
+  Completed: 'bg-stone-400',
+  Cancelled: 'bg-red-500',
+  NoShow: 'bg-orange-500',
 }
 void _STATUS_COLORS
 
@@ -30,8 +32,8 @@ function computeOverlapLayout(appointments: CalendarAppointment[]): LayoutedAppo
   if (appointments.length === 0) return []
 
   const sorted = [...appointments].sort((a, b) => {
-    const aTime = new Date(a.scheduledAt).getTime()
-    const bTime = new Date(b.scheduledAt).getTime()
+    const aTime = appointmentToDate(a).getTime()
+    const bTime = appointmentToDate(b).getTime()
     if (aTime !== bTime) return aTime - bTime
     return (b.durationMinutes ?? 30) - (a.durationMinutes ?? 30)
   })
@@ -40,7 +42,7 @@ function computeOverlapLayout(appointments: CalendarAppointment[]): LayoutedAppo
   const aptColumnMap = new Map<string, number>()
 
   for (const apt of sorted) {
-    const start = new Date(apt.scheduledAt).getTime()
+    const start = appointmentToDate(apt).getTime()
     const end = start + (apt.durationMinutes ?? 30) * 60000
 
     let placed = false
@@ -62,13 +64,13 @@ function computeOverlapLayout(appointments: CalendarAppointment[]): LayoutedAppo
   const result: LayoutedAppointment[] = []
   for (const apt of sorted) {
     const col = aptColumnMap.get(apt.id) ?? 0
-    const aptStart = new Date(apt.scheduledAt).getTime()
+    const aptStart = appointmentToDate(apt).getTime()
     const aptEnd = aptStart + (apt.durationMinutes ?? 30) * 60000
 
     let maxCols = 0
     for (const column of columns) {
       const hasOverlap = column.items.some((other) => {
-        const otherStart = new Date(other.scheduledAt).getTime()
+        const otherStart = appointmentToDate(other).getTime()
         const otherEnd = otherStart + (other.durationMinutes ?? 30) * 60000
         return otherStart < aptEnd && otherEnd > aptStart
       })
@@ -116,7 +118,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
   // Filter appointments for this day
   const dayAppointments = useMemo(() => {
     return appointments.filter((apt) => {
-      const aptDate = new Date(apt.scheduledAt)
+      const aptDate = appointmentToDate(apt)
       return (
         aptDate.getFullYear() === date.getFullYear() &&
         aptDate.getMonth() === date.getMonth() &&
@@ -267,7 +269,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
           {/* Appointment blocks */}
           {layouted.map(({ appointment: apt, column, totalColumns }) => {
             const color = getConsultationColor(apt.consultationType)
-            const scheduledDate = new Date(apt.scheduledAt)
+            const scheduledDate = appointmentToDate(apt)
             const hours = scheduledDate.getHours()
             const minutes = scheduledDate.getMinutes()
             const topPx = (hours - START_HOUR) * HOUR_HEIGHT + (minutes / 60) * HOUR_HEIGHT
@@ -303,7 +305,7 @@ export function DayCalendarBody({ date, appointments, onAppointmentClick, onSlot
                 <div className="flex flex-col min-w-0 flex-1 justify-center ms-2 py-0.5">
                   <span className="text-[12px] tracking-tight truncate text-foreground leading-tight">
                     <span className="font-bold">{apt.ownerName.split(' ')[0].toUpperCase()}</span>{' '}
-                    <span className="font-medium text-foreground/90">{apt.patientName}</span>
+                    <span className="font-medium text-foreground/90">{apt.animalName}</span>
                   </span>
                   
                   {heightPx >= 40 && (

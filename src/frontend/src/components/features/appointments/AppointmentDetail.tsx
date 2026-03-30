@@ -17,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { StatusBadge } from './StatusBadge'
 import { LtrText } from '@/components/ui/ltr-text'
-import { transitionAppointment, cancelAppointment } from '@/lib/api/appointments'
+import { transitionAppointment, cancelAppointment, appointmentToDate } from '@/lib/api/appointments'
 import type { AppointmentDto, AppointmentAction } from '@/lib/api/appointments'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 import { useTranslations } from 'next-intl'
@@ -32,7 +32,7 @@ interface TransitionConfig {
 }
 
 const TRANSITIONS: Record<string, TransitionConfig[]> = {
-  SCHEDULED: [
+  Scheduled: [
     {
       action: 'CHECK_IN',
       labelKey: 'actions.check_in',
@@ -49,7 +49,7 @@ const TRANSITIONS: Record<string, TransitionConfig[]> = {
       variant: 'destructive',
     },
   ],
-  CHECKED_IN: [
+  CheckedIn: [
     {
       action: 'START',
       labelKey: 'actions.start',
@@ -58,7 +58,7 @@ const TRANSITIONS: Record<string, TransitionConfig[]> = {
       variant: 'default',
     },
   ],
-  IN_PROGRESS: [
+  InProgress: [
     {
       action: 'COMPLETE',
       labelKey: 'actions.complete',
@@ -67,8 +67,9 @@ const TRANSITIONS: Record<string, TransitionConfig[]> = {
       variant: 'default',
     },
   ],
-  COMPLETED: [],
-  CANCELLED: [],
+  Completed: [],
+  Cancelled: [],
+  NoShow: [],
 }
 
 interface AppointmentDetailProps {
@@ -115,10 +116,7 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
       <Card className="border-border/80 shadow-sm" data-testid="appointment-detail">
         <CardHeader className="flex flex-row items-start justify-between">
           <div>
-            <CardTitle className="text-[18px] font-bold text-foreground" data-testid="detail-patient-name">{appointment.patientName}</CardTitle>
-            <p className="text-[13px] text-muted-foreground mt-1" data-testid="detail-species">
-              {appointment.species}
-            </p>
+            <CardTitle className="text-[18px] font-bold text-foreground" data-testid="detail-patient-name">{appointment.animalName}</CardTitle>
           </div>
           <StatusBadge status={appointment.status} />
         </CardHeader>
@@ -127,43 +125,21 @@ export function AppointmentDetail({ appointment: initial }: AppointmentDetailPro
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('owner')}</p>
               <p className="text-[14px] text-foreground" data-testid="detail-owner-name">{appointment.ownerName}</p>
-              <p className="text-[13px] text-muted-foreground" data-testid="detail-owner-phone">
-                <a href={`tel:${appointment.ownerPhone.replace(/\s+/g, '')}`} className="text-primary hover:underline">
-                  <LtrText>{appointment.ownerPhone}</LtrText>
-                </a>
-              </p>
             </div>
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('vet')}</p>
-              <p className="text-[14px] text-foreground" data-testid="detail-vet-name">{appointment.vetName}</p>
+              <p className="text-[14px] text-foreground" data-testid="detail-vet-name">{appointment.veterinarianName}</p>
             </div>
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('datetime')}</p>
               <p className="text-[14px] text-foreground" data-testid="detail-datetime">
-                <LtrText>{format(new Date(appointment.scheduledAt), 'dd MMM yyyy HH:mm')}</LtrText>
+                <LtrText>{format(appointmentToDate(appointment), 'dd MMM yyyy HH:mm')}</LtrText>
               </p>
             </div>
             <div>
               <p className="text-[13px] font-semibold text-muted-foreground">{t('reason')}</p>
-              <p className="text-[14px] text-foreground" data-testid="detail-reason">{appointment.reason}</p>
+              <p className="text-[14px] text-foreground" data-testid="detail-reason">{appointment.reason ?? '-'}</p>
             </div>
-            {appointment.notes && (
-              <div className="md:col-span-2">
-                <p className="text-[13px] font-semibold text-muted-foreground">{t('notes')}</p>
-                <p className="text-[14px] text-foreground" data-testid="detail-notes">{appointment.notes}</p>
-              </div>
-            )}
-            {appointment.cancellationReason && (
-              <div className="md:col-span-2">
-                <p className="text-[13px] font-semibold text-muted-foreground">{t('cancellation_reason')}</p>
-                <p
-                  className="text-destructive"
-                  data-testid="detail-cancellation-reason"
-                >
-                  {appointment.cancellationReason}
-                </p>
-              </div>
-            )}
           </div>
 
           {/* Transition buttons */}

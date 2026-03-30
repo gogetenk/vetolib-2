@@ -194,11 +194,12 @@
       "retry": "Réessayer"
     },
     "status": {
-      "SCHEDULED": "Planifié",
-      "CHECKED_IN": "Arrivé",
-      "IN_PROGRESS": "En cours",
-      "COMPLETED": "Terminé",
-      "CANCELLED": "Annulé"
+      "Scheduled": "Planifié",
+      "CheckedIn": "Arrivé",
+      "InProgress": "En cours",
+      "Completed": "Terminé",
+      "Cancelled": "Annulé",
+      "NoShow": "Absent"
     }
   },
   "patients": {

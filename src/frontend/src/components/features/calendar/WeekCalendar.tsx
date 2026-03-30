@@ -9,7 +9,7 @@ import { QuickAppointmentForm } from './QuickAppointmentForm'
 import { AppointmentDetailSheet } from './AppointmentDetailSheet'
 import type { CalendarAppointment, CalendarDay, CalendarView } from './types'
 import type { VetDto } from '@/lib/api/appointments'
-import { getAppointments, getVets } from '@/lib/api/appointments'
+import { getAppointments, getVets, appointmentToDate } from '@/lib/api/appointments'
 import { PlusIcon } from 'lucide-react'
 
 // UAE: week starts on Sunday (0), weekend is Friday (5) and Saturday (6)
@@ -148,9 +148,9 @@ export function WeekCalendar() {
   // Filter appointments for this week and selected vets
   const filteredAppointments = useMemo(() => {
     return appointments.filter((apt) => {
-      const aptDate = new Date(apt.scheduledAt)
+      const aptDate = appointmentToDate(apt)
       const inWeek = aptDate >= weekStart && aptDate <= new Date(weekEnd.getTime() + 24 * 60 * 60 * 1000)
-      const vetMatch = selectedVetIds.length === 0 || selectedVetIds.includes(apt.vetId)
+      const vetMatch = selectedVetIds.length === 0 || selectedVetIds.includes(apt.veterinarianId)
       return inWeek && vetMatch
     })
   }, [appointments, weekStart, weekEnd, selectedVetIds])
@@ -159,7 +159,7 @@ export function WeekCalendar() {
   const appointmentsByDay = useMemo(() => {
     const map = new Map<string, CalendarAppointment[]>()
     for (const apt of filteredAppointments) {
-      const dateKey = new Date(apt.scheduledAt).toDateString()
+      const dateKey = appointmentToDate(apt).toDateString()
       const existing = map.get(dateKey) ?? []
       existing.push(apt)
       map.set(dateKey, existing)

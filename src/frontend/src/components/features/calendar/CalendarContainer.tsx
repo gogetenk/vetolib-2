@@ -114,7 +114,7 @@ export function CalendarContainer() {
   // Filter by selected vets
   const filteredAppointments = useMemo(() => {
     if (selectedVetIds.length === 0) return appointments
-    return appointments.filter((apt) => selectedVetIds.includes(apt.vetId))
+    return appointments.filter((apt) => selectedVetIds.includes(apt.veterinarianId))
   }, [appointments, selectedVetIds])
 
   // Derived values

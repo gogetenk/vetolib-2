@@ -1,11 +1,12 @@
 import { apiGet } from './client'
 
 export type AppointmentStatus =
-  | 'SCHEDULED'
-  | 'CHECKED_IN'
-  | 'IN_PROGRESS'
-  | 'COMPLETED'
-  | 'CANCELLED'
+  | 'Scheduled'
+  | 'CheckedIn'
+  | 'InProgress'
+  | 'Completed'
+  | 'Cancelled'
+  | 'NoShow'
 
 export type ConsultationType =
   | 'GENERAL'
@@ -26,13 +27,13 @@ export interface DashboardStatsDto {
 
 export interface TodayAppointmentDto {
   id: string
-  patientName: string
-  species: string
+  animalName: string
   ownerName: string
-  vetName: string
-  vetId: string
+  veterinarianName: string
+  veterinarianId: string
   status: AppointmentStatus
-  scheduledAt: string
+  date: string
+  startTime: string
   consultationType?: ConsultationType
 }
 

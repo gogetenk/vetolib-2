@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { useLocale } from 'next-intl'
 import { MonthDayCell } from './MonthDayCell'
 import type { CalendarAppointment } from './types'
+import { appointmentToDate } from '@/lib/api/appointments'
 
 function isSameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
@@ -52,14 +53,14 @@ export function MonthCalendarBody({ year, month, appointments, onDayClick, onApp
   const appointmentsByDate = useMemo(() => {
     const map = new Map<string, CalendarAppointment[]>()
     for (const apt of appointments) {
-      const d = new Date(apt.scheduledAt)
+      const d = appointmentToDate(apt)
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
       const existing = map.get(key) ?? []
       existing.push(apt)
       map.set(key, existing)
     }
     for (const [key, apts] of map) {
-      apts.sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())
+      apts.sort((a, b) => appointmentToDate(a).getTime() - appointmentToDate(b).getTime())
       map.set(key, apts)
     }
     return map

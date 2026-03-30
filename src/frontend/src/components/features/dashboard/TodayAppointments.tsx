@@ -30,11 +30,12 @@ const STATUS_VARIANTS: Record<
   AppointmentStatus,
   'default' | 'secondary' | 'destructive' | 'outline'
 > = {
-  SCHEDULED: 'secondary',
-  CHECKED_IN: 'default',
-  IN_PROGRESS: 'default',
-  COMPLETED: 'outline',
-  CANCELLED: 'destructive',
+  Scheduled: 'secondary',
+  CheckedIn: 'default',
+  InProgress: 'default',
+  Completed: 'outline',
+  Cancelled: 'destructive',
+  NoShow: 'destructive',
 }
 
 const CONSULTATION_TYPE_COLORS: Record<ConsultationType, { dot: string; badge: string; text: string }> = {
@@ -46,8 +47,8 @@ const CONSULTATION_TYPE_COLORS: Record<ConsultationType, { dot: string; badge: s
   GROOMING: { dot: 'bg-amber-400', badge: 'bg-amber-100 text-amber-700', text: 'Grooming' },
 }
 
-function formatTime(isoDate: string): string {
-  return new Date(isoDate).toLocaleTimeString('en-AE', {
+function formatTime(date: string, startTime: string): string {
+  return new Date(`${date}T${startTime}`).toLocaleTimeString('en-AE', {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: 'Asia/Dubai',
@@ -86,7 +87,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
     try {
       await apiPatch(`/api/appointments/${id}/transition`, { action: 'CHECK_IN' })
       setAppointments((prev) =>
-        prev.map((a) => (a.id === id ? { ...a, status: 'CHECKED_IN' } : a))
+        prev.map((a) => (a.id === id ? { ...a, status: 'CheckedIn' as const } : a))
       )
       toast.success(t('checked_in_success'))
       router.refresh()
@@ -170,17 +171,14 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       className="text-[13px] font-mono text-muted-foreground w-12 shrink-0"
                       data-testid={`appointment-time-${appt.id}`}
                     >
-                      {formatTime(appt.scheduledAt)}
+                      {formatTime(appt.date, appt.startTime)}
                     </LtrText>
                     <Link
                       href={`/appointments/${appt.id}`}
                       className="hover:underline truncate"
                       data-testid={`appointment-link-${appt.id}`}
                     >
-                      <span className="text-[14px] font-semibold text-foreground">{appt.patientName}</span>
-                      <span className="text-muted-foreground ms-1 text-[13px]">
-                        ({appt.species})
-                      </span>
+                      <span className="text-[14px] font-semibold text-foreground">{appt.animalName}</span>
                     </Link>
                     {typeConfig && (
                       <span
@@ -194,7 +192,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       className="text-[13px] text-muted-foreground hidden md:inline truncate"
                       data-testid={`appointment-vet-${appt.id}`}
                     >
-                      {appt.vetName}
+                      {appt.veterinarianName}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
@@ -205,7 +203,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                     >
                       {tStatus(appt.status)}
                     </Badge>
-                    {canCheckIn && appt.status === 'SCHEDULED' && (
+                    {canCheckIn && appt.status === 'Scheduled' && (
                       <Button
                         size="sm"
                         variant="outline"

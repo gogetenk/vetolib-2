@@ -21,13 +21,11 @@ import {
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createAppointment, getVets } from '@/lib/api/appointments'
-import type { VetDto, Species } from '@/lib/api/appointments'
+import type { VetDto } from '@/lib/api/appointments'
 import { ApiError } from '@/lib/api/client'
 import { trackEvent, AnalyticsEvents } from '@/lib/analytics'
 import { useAhaMoment } from '@/hooks/use-aha-moment'
 import { useTranslations } from 'next-intl'
-
-const SPECIES_OPTIONS: Species[] = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic', 'Falcon', 'Reptile']
 
 const TIME_SLOTS: string[] = []
 for (let h = 8; h <= 18; h++) {
@@ -37,15 +35,12 @@ for (let h = 8; h <= 18; h++) {
 TIME_SLOTS.push('19:00')
 
 const schema = z.object({
-  patientName: z.string().min(1, 'Patient name is required'),
-  species: z.enum(['Dog', 'Cat', 'Bird', 'Rabbit', 'Horse', 'Exotic', 'Falcon', 'Reptile'] as [Species, ...Species[]], { message: 'Please select a species' }),
-  ownerName: z.string().min(1, 'Owner name is required'),
-  ownerPhone: z.string().min(1, 'Owner phone is required'),
-  vetId: z.string().min(1, 'Vet is required'),
+  animalId: z.string().min(1, 'Animal is required'),
+  veterinarianId: z.string().min(1, 'Vet is required'),
   date: z.string().min(1, 'Date is required'),
   time: z.string().min(1, 'Time is required'),
-  reason: z.string().min(1, 'Reason is required'),
-  notes: z.string().optional(),
+  durationMinutes: z.coerce.number().min(5, 'Duration must be at least 5 minutes'),
+  reason: z.string().optional(),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -69,7 +64,7 @@ export function AppointmentForm() {
     resolver: zodResolver(schema),
   })
 
-  const selectedVetId = watch('vetId')
+  const selectedVetId = watch('veterinarianId')
   const selectedVetName = vets.find((v) => v.id === selectedVetId)?.name
 
   // Shake form on validation errors
@@ -90,21 +85,16 @@ export function AppointmentForm() {
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true)
     try {
-      const scheduledAt = new Date(`${values.date}T${values.time}:00`).toISOString()
       await createAppointment({
-        patientName: values.patientName,
-        species: values.species,
-        ownerName: values.ownerName,
-        ownerPhone: values.ownerPhone,
-        vetId: values.vetId,
-        scheduledAt,
+        animalId: values.animalId,
+        veterinarianId: values.veterinarianId,
+        date: values.date,
+        startTime: `${values.time}:00`,
+        durationMinutes: values.durationMinutes,
         reason: values.reason,
-        notes: values.notes,
+        source: 'Staff',
       })
-      trackEvent(AnalyticsEvents.APPOINTMENT_CREATED, {
-        species: values.species,
-        has_notes: String(Boolean(values.notes)),
-      })
+      trackEvent(AnalyticsEvents.APPOINTMENT_CREATED, {})
       toast.success(t('toast.created'))
       triggerAha('first_appointment')
       router.push('/appointments')
@@ -133,87 +123,28 @@ export function AppointmentForm() {
           data-testid="appointment-form"
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {/* Patient Name */}
+            {/* Animal ID */}
             <div className="space-y-1">
-              <Label htmlFor="patientName" className="text-[13px] font-semibold text-foreground">{t('patient_name')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="animalId" className="text-[13px] font-semibold text-foreground">{t('animal')} <span className="text-destructive">*</span></Label>
               <Input
-                id="patientName"
-                data-testid="input-patient-name"
-                {...register('patientName')}
-                placeholder={t('patient_name_placeholder')}
+                id="animalId"
+                data-testid="input-animal-id"
+                {...register('animalId')}
+                placeholder={t('animal_placeholder')}
                 className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
               />
-              {errors.patientName && (
-                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-patient-name">
-                  {errors.patientName.message}
-                </p>
-              )}
-            </div>
-
-            {/* Species */}
-            <div className="space-y-1">
-              <Label htmlFor="species" className="text-[13px] font-semibold text-foreground">{t('species')} <span className="text-destructive">*</span></Label>
-              <Select
-                onValueChange={(val) => setValue('species', val as Species)}
-                data-testid="select-species"
-              >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-species-trigger">
-                  <SelectValue placeholder={t('select_species')} />
-                </SelectTrigger>
-                <SelectContent>
-                  {SPECIES_OPTIONS.map((s) => (
-                    <SelectItem key={s} value={s} data-testid={`species-option-${s.toLowerCase()}`}>
-                      {s}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.species && (
-                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-species">
-                  {errors.species.message}
-                </p>
-              )}
-            </div>
-
-            {/* Owner Name */}
-            <div className="space-y-1">
-              <Label htmlFor="ownerName" className="text-[13px] font-semibold text-foreground">{t('owner_name')} <span className="text-destructive">*</span></Label>
-              <Input
-                id="ownerName"
-                data-testid="input-owner-name"
-                {...register('ownerName')}
-                placeholder={t('owner_name_placeholder')}
-                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
-              />
-              {errors.ownerName && (
-                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-owner-name">
-                  {errors.ownerName.message}
-                </p>
-              )}
-            </div>
-
-            {/* Owner Phone */}
-            <div className="space-y-1">
-              <Label htmlFor="ownerPhone" className="text-[13px] font-semibold text-foreground">{t('owner_phone')} <span className="text-destructive">*</span></Label>
-              <Input
-                id="ownerPhone"
-                data-testid="input-owner-phone"
-                {...register('ownerPhone')}
-                placeholder={t('owner_phone_placeholder')}
-                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
-              />
-              {errors.ownerPhone && (
-                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-owner-phone">
-                  {errors.ownerPhone.message}
+              {errors.animalId && (
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-animal-id">
+                  {errors.animalId.message}
                 </p>
               )}
             </div>
 
             {/* Vet */}
             <div className="space-y-1">
-              <Label htmlFor="vetId" className="text-[13px] font-semibold text-foreground">{t('vet')} <span className="text-destructive">*</span></Label>
+              <Label htmlFor="veterinarianId" className="text-[13px] font-semibold text-foreground">{t('vet')} <span className="text-destructive">*</span></Label>
               <Select
-                onValueChange={(val) => setValue('vetId', val as string)}
+                onValueChange={(val) => setValue('veterinarianId', val as string)}
                 data-testid="select-vet"
               >
                 <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-vet-trigger">
@@ -229,9 +160,29 @@ export function AppointmentForm() {
                   ))}
                 </SelectContent>
               </Select>
-              {errors.vetId && (
+              {errors.veterinarianId && (
                 <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-vet">
-                  {errors.vetId.message}
+                  {errors.veterinarianId.message}
+                </p>
+              )}
+            </div>
+
+            {/* Duration */}
+            <div className="space-y-1">
+              <Label htmlFor="durationMinutes" className="text-[13px] font-semibold text-foreground">{t('duration')} <span className="text-destructive">*</span></Label>
+              <Input
+                id="durationMinutes"
+                type="number"
+                data-testid="input-duration"
+                {...register('durationMinutes')}
+                defaultValue={30}
+                min={5}
+                step={5}
+                className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
+              />
+              {errors.durationMinutes && (
+                <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-duration">
+                  {errors.durationMinutes.message}
                 </p>
               )}
             </div>
@@ -282,31 +233,13 @@ export function AppointmentForm() {
 
           {/* Reason */}
           <div className="space-y-1">
-            <Label htmlFor="reason" className="text-[13px] font-semibold text-foreground">{t('reason')} <span className="text-destructive">*</span></Label>
+            <Label htmlFor="reason" className="text-[13px] font-semibold text-foreground">{t('reason')}</Label>
             <Textarea
               id="reason"
               data-testid="textarea-reason"
               {...register('reason')}
               placeholder={t('reason_placeholder')}
               rows={3}
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
-            />
-            {errors.reason && (
-              <p className="text-sm text-destructive animate-slide-up-fade" data-testid="error-reason">
-                {errors.reason.message}
-              </p>
-            )}
-          </div>
-
-          {/* Notes */}
-          <div className="space-y-1">
-            <Label htmlFor="notes" className="text-[13px] font-semibold text-foreground">{t('notes')}</Label>
-            <Textarea
-              id="notes"
-              data-testid="textarea-notes"
-              {...register('notes')}
-              placeholder={t('notes_placeholder')}
-              rows={2}
               className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>

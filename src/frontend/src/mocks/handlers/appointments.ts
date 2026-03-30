@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import type { AppointmentDto, VetDto, PagedResult } from '@/lib/api/appointments'
+import type { AppointmentDto, VetDto, PagedResult, BookingSource } from '@/lib/api/appointments'
 
 const MOCK_VETS: VetDto[] = [
   { id: 'vet-0000-0000-0000-000000000001', name: 'Dr. Sarah Johnson' },
@@ -10,112 +10,142 @@ const MOCK_VETS: VetDto[] = [
 
 const CLINIC_ID = 'clinic-001'
 
+/** Helper to build a date string and time string from an ISO-like input */
+function toDateAndTime(isoDateStr: string): { date: string; startTime: string; endTime: string } {
+  const d = new Date(isoDateStr)
+  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  const startTime = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:00`
+  // Default endTime 30 min later
+  const end = new Date(d.getTime() + 30 * 60_000)
+  const endTime = `${String(end.getHours()).padStart(2, '0')}:${String(end.getMinutes()).padStart(2, '0')}:00`
+  return { date, startTime, endTime }
+}
+
+function computeEndTime(startTime: string, durationMinutes: number): string {
+  const [h, m] = startTime.split(':').map(Number)
+  const totalMinutes = h * 60 + m + durationMinutes
+  const endH = Math.floor(totalMinutes / 60)
+  const endM = totalMinutes % 60
+  return `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}:00`
+}
+
+interface CalendarAppointment extends AppointmentDto {
+  consultationType: string
+}
+
 function mockAppointment(
   seq: number,
-  overrides: Partial<AppointmentDto> & Pick<AppointmentDto, 'patientName' | 'species' | 'ownerName' | 'ownerPhone' | 'vetId' | 'vetName' | 'status' | 'scheduledAt' | 'reason'>,
-): AppointmentDto {
+  overrides: Partial<CalendarAppointment> & Pick<CalendarAppointment, 'animalName' | 'ownerName' | 'veterinarianId' | 'veterinarianName' | 'status' | 'date' | 'startTime' | 'reason'>,
+): CalendarAppointment {
+  const durationMinutes = overrides.durationMinutes ?? 30
   return {
     id: `apt-0000-0000-0000-00000000000${seq}`,
     clinicId: CLINIC_ID,
+    animalId: `animal-0000-0000-0000-00000000000${seq}`,
+    durationMinutes,
+    endTime: computeEndTime(overrides.startTime, durationMinutes),
+    source: 'Staff' as BookingSource,
+    rescheduleCount: 0,
+    originalAppointmentId: null,
     consultationType: 'General Checkup',
-    durationMinutes: 30,
     ...overrides,
   }
 }
 
 // Helper: get current week dates (Sun-Sat) relative to today
-function getCurrentWeekDate(dayOffset: number, hour: number, minute: number = 0): string {
+function getCurrentWeekDate(dayOffset: number, hour: number, minute: number = 0): { date: string; startTime: string } {
   const now = new Date()
   const sunday = new Date(now)
   sunday.setDate(now.getDate() - now.getDay())
   sunday.setHours(hour, minute, 0, 0)
   sunday.setDate(sunday.getDate() + dayOffset)
-  return sunday.toISOString()
+  const date = `${sunday.getFullYear()}-${String(sunday.getMonth() + 1).padStart(2, '0')}-${String(sunday.getDate()).padStart(2, '0')}`
+  const startTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`
+  return { date, startTime }
 }
 
-const MOCK_APPOINTMENTS: AppointmentDto[] = [
+const MOCK_APPOINTMENTS: CalendarAppointment[] = [
   mockAppointment(1, {
-    patientName: 'Max', species: 'Dog', ownerName: 'Ahmed Al-Rashid', ownerPhone: '+971 50 123 4567',
-    vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'SCHEDULED',
-    scheduledAt: getCurrentWeekDate(0, 9, 0), // Sunday 9:00
-    reason: 'Annual vaccination', notes: 'Owner requested morning slot',
+    animalName: 'Max', ownerName: 'Ahmed Al-Rashid',
+    veterinarianId: MOCK_VETS[0].id, veterinarianName: MOCK_VETS[0].name, status: 'Scheduled',
+    ...getCurrentWeekDate(0, 9, 0),
+    reason: 'Annual vaccination',
     consultationType: 'Vaccination', durationMinutes: 30,
   }),
   mockAppointment(2, {
-    patientName: 'Luna', species: 'Cat', ownerName: 'Fatima Hassan', ownerPhone: '+971 55 987 6543',
-    vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'CHECKED_IN',
-    scheduledAt: getCurrentWeekDate(1, 10, 30), // Monday 10:30
+    animalName: 'Luna', ownerName: 'Fatima Hassan',
+    veterinarianId: MOCK_VETS[1].id, veterinarianName: MOCK_VETS[1].name, status: 'CheckedIn',
+    ...getCurrentWeekDate(1, 10, 30),
     reason: 'Skin condition follow-up',
     consultationType: 'Dermatology', durationMinutes: 45,
   }),
   mockAppointment(3, {
-    patientName: 'Rocky', species: 'Dog', ownerName: 'Mohammed Al-Zaabi', ownerPhone: '+971 54 321 0987',
-    vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'IN_PROGRESS',
-    scheduledAt: getCurrentWeekDate(1, 14, 0), // Monday 14:00
-    reason: 'Post-surgery check', notes: 'Please prepare examination room 2',
+    animalName: 'Rocky', ownerName: 'Mohammed Al-Zaabi',
+    veterinarianId: MOCK_VETS[0].id, veterinarianName: MOCK_VETS[0].name, status: 'InProgress',
+    ...getCurrentWeekDate(1, 14, 0),
+    reason: 'Post-surgery check',
     consultationType: 'Follow-up', durationMinutes: 30,
   }),
   mockAppointment(4, {
-    patientName: 'Mango', species: 'Bird', ownerName: 'Noura Al-Ketbi', ownerPhone: '+971 56 456 7890',
-    vetId: MOCK_VETS[2].id, vetName: MOCK_VETS[2].name, status: 'COMPLETED',
-    scheduledAt: getCurrentWeekDate(2, 8, 30), // Tuesday 8:30
+    animalName: 'Mango', ownerName: 'Noura Al-Ketbi',
+    veterinarianId: MOCK_VETS[2].id, veterinarianName: MOCK_VETS[2].name, status: 'Completed',
+    ...getCurrentWeekDate(2, 8, 30),
     reason: 'Feather loss examination',
     consultationType: 'Exotic Animal', durationMinutes: 60,
   }),
   mockAppointment(5, {
-    patientName: 'Oreo', species: 'Rabbit', ownerName: 'Saeed Al-Hamdan', ownerPhone: '+971 50 789 0123',
-    vetId: MOCK_VETS[3].id, vetName: MOCK_VETS[3].name, status: 'CANCELLED',
-    scheduledAt: getCurrentWeekDate(3, 14, 0), // Wednesday 14:00
-    reason: 'Routine check', cancellationReason: 'Owner request -- travel',
+    animalName: 'Oreo', ownerName: 'Saeed Al-Hamdan',
+    veterinarianId: MOCK_VETS[3].id, veterinarianName: MOCK_VETS[3].name, status: 'Cancelled',
+    ...getCurrentWeekDate(3, 14, 0),
+    reason: 'Routine check',
     consultationType: 'General Checkup', durationMinutes: 30,
   }),
   mockAppointment(6, {
-    patientName: 'Sultan', species: 'Horse', ownerName: 'Hamdan Al-Maktoum', ownerPhone: '+971 52 111 2233',
-    vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'SCHEDULED',
-    scheduledAt: getCurrentWeekDate(4, 7, 0), // Thursday 7:00
-    reason: 'Dental examination', notes: 'Large animal -- book extended slot',
+    animalName: 'Sultan', ownerName: 'Hamdan Al-Maktoum',
+    veterinarianId: MOCK_VETS[1].id, veterinarianName: MOCK_VETS[1].name, status: 'Scheduled',
+    ...getCurrentWeekDate(4, 7, 0),
+    reason: 'Dental examination',
     consultationType: 'Dental', durationMinutes: 90,
   }),
-  // Additional appointments for richer calendar view
   mockAppointment(7, {
     id: 'apt-0000-0000-0000-000000000007',
-    patientName: 'Cleo', species: 'Cat', ownerName: 'Mariam Al-Suwaidi', ownerPhone: '+971 55 222 3344',
-    vetId: MOCK_VETS[2].id, vetName: MOCK_VETS[2].name, status: 'SCHEDULED',
-    scheduledAt: getCurrentWeekDate(0, 11, 0), // Sunday 11:00
+    animalName: 'Cleo', ownerName: 'Mariam Al-Suwaidi',
+    veterinarianId: MOCK_VETS[2].id, veterinarianName: MOCK_VETS[2].name, status: 'Scheduled',
+    ...getCurrentWeekDate(0, 11, 0),
     reason: 'Emergency vomiting',
     consultationType: 'Emergency', durationMinutes: 45,
   }),
   mockAppointment(8, {
     id: 'apt-0000-0000-0000-000000000008',
-    patientName: 'Buddy', species: 'Dog', ownerName: 'Rashid Al-Mualla', ownerPhone: '+971 50 444 5566',
-    vetId: MOCK_VETS[0].id, vetName: MOCK_VETS[0].name, status: 'SCHEDULED',
-    scheduledAt: getCurrentWeekDate(2, 15, 30), // Tuesday 15:30
+    animalName: 'Buddy', ownerName: 'Rashid Al-Mualla',
+    veterinarianId: MOCK_VETS[0].id, veterinarianName: MOCK_VETS[0].name, status: 'Scheduled',
+    ...getCurrentWeekDate(2, 15, 30),
     reason: 'Teeth cleaning',
     consultationType: 'Grooming', durationMinutes: 60,
   }),
   mockAppointment(9, {
     id: 'apt-0000-0000-0000-000000000009',
-    patientName: 'Simba', species: 'Cat', ownerName: 'Aisha Al-Falasi', ownerPhone: '+971 56 777 8899',
-    vetId: MOCK_VETS[3].id, vetName: MOCK_VETS[3].name, status: 'SCHEDULED',
-    scheduledAt: getCurrentWeekDate(3, 9, 0), // Wednesday 9:00
+    animalName: 'Simba', ownerName: 'Aisha Al-Falasi',
+    veterinarianId: MOCK_VETS[3].id, veterinarianName: MOCK_VETS[3].name, status: 'Scheduled',
+    ...getCurrentWeekDate(3, 9, 0),
     reason: 'Blood work and X-ray',
     consultationType: 'Laboratory / Diagnostics', durationMinutes: 60,
   }),
   mockAppointment(10, {
     id: 'apt-0000-0000-0000-00000000000a',
-    patientName: 'Kira', species: 'Dog', ownerName: 'Yousef Al-Hashimi', ownerPhone: '+971 54 111 2233',
-    vetId: MOCK_VETS[1].id, vetName: MOCK_VETS[1].name, status: 'SCHEDULED',
-    scheduledAt: getCurrentWeekDate(4, 10, 0), // Thursday 10:00
+    animalName: 'Kira', ownerName: 'Yousef Al-Hashimi',
+    veterinarianId: MOCK_VETS[1].id, veterinarianName: MOCK_VETS[1].name, status: 'Scheduled',
+    ...getCurrentWeekDate(4, 10, 0),
     reason: 'Spay surgery',
     consultationType: 'Surgery', durationMinutes: 120,
   }),
 ]
 
 const STATUS_TRANSITIONS: Record<string, string> = {
-  CHECK_IN: 'CHECKED_IN',
-  START: 'IN_PROGRESS',
-  COMPLETE: 'COMPLETED',
-  CANCEL: 'CANCELLED',
+  CHECK_IN: 'CheckedIn',
+  START: 'InProgress',
+  COMPLETE: 'Completed',
+  CANCEL: 'Cancelled',
 }
 
 export const appointmentHandlers = [
@@ -128,7 +158,7 @@ export const appointmentHandlers = [
   http.get('/api/appointments', ({ request }) => {
     const url = new URL(request.url)
     const status = url.searchParams.get('status')
-    const vetId = url.searchParams.get('vetId')
+    const veterinarianId = url.searchParams.get('veterinarianId')
     const date = url.searchParams.get('date')
     const page = Number.parseInt(url.searchParams.get('page') ?? '1', 10)
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10', 10)
@@ -138,17 +168,17 @@ export const appointmentHandlers = [
     if (status) {
       items = items.filter((apt) => apt.status === status)
     }
-    if (vetId) {
-      items = items.filter((apt) => apt.vetId === vetId)
+    if (veterinarianId) {
+      items = items.filter((apt) => apt.veterinarianId === veterinarianId)
     }
     if (date) {
-      items = items.filter((apt) => apt.scheduledAt.startsWith(date))
+      items = items.filter((apt) => apt.date === date)
     }
 
     const start = (page - 1) * pageSize
     const paged = items.slice(start, start + pageSize)
 
-    return HttpResponse.json<PagedResult<AppointmentDto>>({
+    return HttpResponse.json<PagedResult<CalendarAppointment>>({
       items: paged,
       totalCount: items.length,
       page,
@@ -166,32 +196,34 @@ export const appointmentHandlers = [
   // POST /api/appointments
   http.post('/api/appointments', async ({ request }) => {
     const body = await request.json() as {
-      patientName: string
-      species: string
-      ownerName: string
-      ownerPhone: string
-      vetId: string
-      scheduledAt: string
-      reason: string
-      notes?: string
+      animalId: string
+      veterinarianId: string
+      date: string
+      startTime: string
+      durationMinutes: number
+      reason?: string
+      source: BookingSource
     }
 
-    const vet = MOCK_VETS.find((v) => v.id === body.vetId)
-    const newAppointment: AppointmentDto = {
+    const vet = MOCK_VETS.find((v) => v.id === body.veterinarianId)
+    const newAppointment: CalendarAppointment = {
       id: crypto.randomUUID(),
-      patientName: body.patientName,
-      species: body.species as AppointmentDto['species'],
-      ownerName: body.ownerName,
-      ownerPhone: body.ownerPhone,
-      vetId: body.vetId,
-      vetName: vet?.name ?? 'Unknown Vet',
-      status: 'SCHEDULED',
-      scheduledAt: body.scheduledAt,
-      reason: body.reason,
-      notes: body.notes,
+      animalId: body.animalId,
+      animalName: 'New Patient',
+      ownerName: 'Unknown Owner',
+      veterinarianId: body.veterinarianId,
+      veterinarianName: vet?.name ?? 'Unknown Vet',
+      status: 'Scheduled',
+      date: body.date,
+      startTime: body.startTime,
+      durationMinutes: body.durationMinutes,
+      endTime: computeEndTime(body.startTime, body.durationMinutes),
+      reason: body.reason ?? null,
       clinicId: CLINIC_ID,
+      source: body.source,
+      rescheduleCount: 0,
+      originalAppointmentId: null,
       consultationType: 'General Checkup',
-      durationMinutes: 30,
     }
 
     MOCK_APPOINTMENTS.push(newAppointment)
@@ -211,9 +243,6 @@ export const appointmentHandlers = [
     }
 
     appointment.status = newStatus as AppointmentDto['status']
-    if (body.action === 'CANCEL' && body.reason) {
-      appointment.cancellationReason = body.reason
-    }
 
     return HttpResponse.json(appointment)
   }),

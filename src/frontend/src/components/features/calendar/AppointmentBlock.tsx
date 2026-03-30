@@ -5,13 +5,15 @@ import { getConsultationColor } from './consultation-colors'
 import { START_HOUR } from './TimeColumn'
 import type { CalendarAppointment } from './types'
 import type { AppointmentStatus } from '@/lib/api/appointments'
+import { appointmentToDate } from '@/lib/api/appointments'
 
 const STATUS_OPACITY: Record<AppointmentStatus, string> = {
-  SCHEDULED: 'opacity-100',
-  CHECKED_IN: 'opacity-100 ring-1 ring-inset ring-yellow-400',
-  IN_PROGRESS: 'opacity-100 ring-1 ring-inset ring-green-500',
-  COMPLETED: 'opacity-60',
-  CANCELLED: 'opacity-40 line-through',
+  Scheduled: 'opacity-100',
+  CheckedIn: 'opacity-100 ring-1 ring-inset ring-yellow-400',
+  InProgress: 'opacity-100 ring-1 ring-inset ring-green-500',
+  Completed: 'opacity-60',
+  Cancelled: 'opacity-40 line-through',
+  NoShow: 'opacity-40',
 }
 
 interface AppointmentBlockProps {
@@ -22,7 +24,7 @@ interface AppointmentBlockProps {
 export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps) {
   const color = getConsultationColor(appointment.consultationType)
 
-  const scheduledDate = new Date(appointment.scheduledAt)
+  const scheduledDate = appointmentToDate(appointment)
   const hours = scheduledDate.getHours()
   const minutes = scheduledDate.getMinutes()
 
@@ -57,7 +59,7 @@ export function AppointmentBlock({ appointment, onClick }: AppointmentBlockProps
       <div className="flex flex-col min-w-0 flex-1 justify-center ms-2 py-0.5">
         <span className="text-[12px] tracking-tight truncate text-foreground leading-tight">
           <span className="font-bold">{appointment.ownerName.split(' ')[0].toUpperCase()}</span>{' '}
-          <span className="font-medium text-foreground/90">{appointment.patientName}</span>
+          <span className="font-medium text-foreground/90">{appointment.animalName}</span>
         </span>
         
         {heightPx >= 40 && (

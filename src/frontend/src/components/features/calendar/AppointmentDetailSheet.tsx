@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { getConsultationColor } from './consultation-colors'
-import { transitionAppointment, cancelAppointment } from '@/lib/api/appointments'
+import { transitionAppointment, cancelAppointment, appointmentToDate } from '@/lib/api/appointments'
 import type { AppointmentStatus, AppointmentAction } from '@/lib/api/appointments'
 import type { CalendarAppointment } from './types'
 import {
@@ -29,23 +29,13 @@ import {
   UserIcon,
 } from 'lucide-react'
 
-const SPECIES_EMOJI: Record<string, string> = {
-  Dog: '🐶',
-  Cat: '🐱',
-  Bird: '🐦',
-  Rabbit: '🐰',
-  Horse: '🐴',
-  Exotic: '🦎',
-  Falcon: '🦅',
-  Reptile: '🦎',
-}
-
 const STATUS_BADGE_VARIANT: Record<AppointmentStatus, string> = {
-  SCHEDULED: 'bg-primary/10 text-primary',
-  CHECKED_IN: 'bg-orange-50 text-orange-500',
-  IN_PROGRESS: 'bg-success/10 text-success',
-  COMPLETED: 'bg-muted text-muted-foreground',
-  CANCELLED: 'bg-red-50 text-red-500',
+  Scheduled: 'bg-primary/10 text-primary',
+  CheckedIn: 'bg-orange-50 text-orange-500',
+  InProgress: 'bg-success/10 text-success',
+  Completed: 'bg-muted text-muted-foreground',
+  Cancelled: 'bg-red-50 text-red-500',
+  NoShow: 'bg-orange-100 text-orange-700',
 }
 
 interface AppointmentDetailSheetProps {
@@ -65,7 +55,7 @@ interface TransitionConfig {
 
 function getAvailableTransitions(status: AppointmentStatus): TransitionConfig[] {
   switch (status) {
-    case 'SCHEDULED':
+    case 'Scheduled':
       return [
         {
           action: 'CHECK_IN',
@@ -82,7 +72,7 @@ function getAvailableTransitions(status: AppointmentStatus): TransitionConfig[] 
           testId: 'detail-sheet-cancel-btn',
         },
       ]
-    case 'CHECKED_IN':
+    case 'CheckedIn':
       return [
         {
           action: 'START',
@@ -99,7 +89,7 @@ function getAvailableTransitions(status: AppointmentStatus): TransitionConfig[] 
           testId: 'detail-sheet-cancel-btn',
         },
       ]
-    case 'IN_PROGRESS':
+    case 'InProgress':
       return [
         {
           action: 'COMPLETE',
@@ -127,9 +117,8 @@ export function AppointmentDetailSheet({
   if (!appointment) return null
 
   const color = getConsultationColor(appointment.consultationType)
-  const emoji = SPECIES_EMOJI[appointment.species] ?? '🐾'
 
-  const dateObj = new Date(appointment.scheduledAt)
+  const dateObj = appointmentToDate(appointment)
   const dateStr = new Intl.DateTimeFormat(locale, {
     weekday: 'short',
     day: 'numeric',
@@ -181,10 +170,10 @@ export function AppointmentDetailSheet({
           <div className="w-full md:w-[40%] bg-card p-8 flex flex-col border-r border-border/50">
             <div className="mb-8">
               <h2 className="text-[22px] font-bold text-foreground leading-tight flex items-center gap-2">
-                {ownerLastName} <span className="font-semibold text-primary">{ownerFirstName}</span> <span className="text-muted-foreground font-normal ms-1">{emoji}</span>
+                {ownerLastName} <span className="font-semibold text-primary">{ownerFirstName}</span>
               </h2>
               <p className="text-[13px] text-muted-foreground mt-1 font-medium">
-                Patient: <span className="text-foreground" data-testid="detail-patient-name">{appointment.patientName}</span> • {appointment.species}
+                Patient: <span className="text-foreground" data-testid="detail-patient-name">{appointment.animalName}</span>
               </p>
             </div>
 
@@ -198,7 +187,7 @@ export function AppointmentDetailSheet({
                   </div>
                   <div className="flex items-start gap-3">
                     <PhoneIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
-                    <span className="text-[14px] text-foreground font-medium">{appointment.ownerPhone || t('detail.notProvided')}</span>
+                    <span className="text-[14px] text-foreground font-medium">{t('detail.notProvided')}</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <MailIcon className="w-4 h-4 text-muted-foreground mt-0.5" />
@@ -211,11 +200,11 @@ export function AppointmentDetailSheet({
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="text-[13px] font-bold text-foreground">{t('detail.attendingVet')}</h3>
-                    <p className="text-[14px] text-foreground font-medium mt-1" data-testid="detail-vet-name">{appointment.vetName}</p>
+                    <p className="text-[14px] text-foreground font-medium mt-1" data-testid="detail-vet-name">{appointment.veterinarianName}</p>
                   </div>
                 </div>
                 
-                <Link href={`/${locale}/patients/${appointment.patientId ?? ''}`}>
+                <Link href={`/${locale}/patients/${appointment.animalId}`}>
                   <Button size="lg" className="w-full font-semibold rounded-xl h-11 shadow-sm mt-2 flex items-center gap-2">
                     {t('detail.viewPatientRecord')}
                     <ExternalLinkIcon className="w-4 h-4" />
@@ -240,7 +229,7 @@ export function AppointmentDetailSheet({
                   </Badge>
                 </div>
                 <p className="text-[13px] text-muted-foreground font-medium ms-3 flex items-center gap-2">
-                  <UserIcon className="w-3.5 h-3.5" /> {appointment.vetName} <span className="text-border mx-1">•</span> <span className="text-primary font-bold">{dateStr}</span> <span className="text-border mx-1">•</span> {timeStr}
+                  <UserIcon className="w-3.5 h-3.5" /> {appointment.veterinarianName} <span className="text-border mx-1">•</span> <span className="text-primary font-bold">{dateStr}</span> <span className="text-border mx-1">•</span> {timeStr}
                 </p>
               </div>
 
@@ -264,7 +253,7 @@ export function AppointmentDetailSheet({
               <div>
                 <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.reasonLabel')}</h4>
                 <div className="bg-card border border-border/80 rounded-xl p-4 min-h-[80px] shadow-sm text-[14px] font-medium text-foreground" data-testid="detail-reason">
-                  {appointment.reason || <span className="text-muted-foreground italic">{t('detail.noReasonProvided')}</span>}
+                  {appointment.reason ?? <span className="text-muted-foreground italic">{t('detail.noReasonProvided')}</span>}
                 </div>
               </div>
 
@@ -273,7 +262,7 @@ export function AppointmentDetailSheet({
                 <h4 className="text-[13px] font-bold text-foreground mb-2">{t('detail.notesAndDiscussion')}</h4>
                 <div className="bg-card border border-border/80 rounded-xl p-4 min-h-[100px] shadow-sm flex flex-col justify-between">
                   <div className="text-[14px] font-medium text-foreground mb-4" data-testid="detail-notes">
-                    {appointment.notes || <span className="text-muted-foreground italic">{t('detail.noNotes')}</span>}
+                    <span className="text-muted-foreground italic">{t('detail.noNotes')}</span>
                   </div>
                   {/* Fake input for discussion like Weda */}
                   <div className="relative mt-auto border-t border-border/50 pt-3">

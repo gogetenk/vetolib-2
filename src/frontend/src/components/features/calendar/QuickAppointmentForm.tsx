@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/select'
 import { CONSULTATION_COLORS } from './consultation-colors'
 import { createAppointment } from '@/lib/api/appointments'
-import type { VetDto, Species } from '@/lib/api/appointments'
+import type { VetDto } from '@/lib/api/appointments'
 import { ExternalLinkIcon } from 'lucide-react'
 
 interface QuickAppointmentFormProps {
@@ -60,8 +60,7 @@ export function QuickAppointmentForm({
 
   const roundedTime = roundToNearest15(time)
 
-  const [patientName, setPatientName] = useState('')
-  const [ownerName, setOwnerName] = useState('')
+  const [animalId, setAnimalId] = useState('')
   const [consultationType, setConsultationType] = useState<string>('General Checkup')
   const [vetId, setVetId] = useState<string>(vets[0]?.id ?? '')
   const [reason, setReason] = useState('')
@@ -82,25 +81,21 @@ export function QuickAppointmentForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!patientName || !ownerName || !vetId) return
+    if (!animalId || !vetId) return
 
     setSubmitting(true)
     try {
-      const [hours, minutes] = editableTime.split(':').map(Number)
-      const scheduledAt = new Date(date)
-      scheduledAt.setHours(hours, minutes, 0, 0)
-
       await createAppointment({
-        patientName,
-        species: 'Dog' as Species,
-        ownerName,
-        ownerPhone: '',
-        vetId,
-        scheduledAt: scheduledAt.toISOString(),
-        reason,
+        animalId,
+        veterinarianId: vetId,
+        date: date.toISOString().split('T')[0],
+        startTime: `${editableTime}:00`,
+        durationMinutes: 30,
+        reason: reason || undefined,
+        source: 'Staff',
       })
 
-      toast.success(t('success', { name: patientName, time: editableTime }))
+      toast.success(t('success', { name: animalId, time: editableTime }))
       onOpenChange(false)
       resetForm()
       onCreated()
@@ -112,8 +107,8 @@ export function QuickAppointmentForm({
   }
 
   function resetForm() {
+    setAnimalId('')
     setPatientName('')
-    setOwnerName('')
     setConsultationType('General Checkup')
     setReason('')
     setEditableTime(roundedTime)
@@ -152,30 +147,16 @@ export function QuickAppointmentForm({
             />
           </div>
 
-          {/* Patient */}
+          {/* Animal ID */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="quick-patient" className="text-[13px] font-semibold text-foreground">{t('patient')}</Label>
+            <Label htmlFor="quick-animal-id" className="text-[13px] font-semibold text-foreground">{t('patient')}</Label>
             <Input
-              id="quick-patient"
-              value={patientName}
-              onChange={(e) => setPatientName(e.target.value)}
+              id="quick-animal-id"
+              value={animalId}
+              onChange={(e) => setAnimalId(e.target.value)}
               placeholder={t('patient')}
               required
               data-testid="quick-create-patient-input"
-              className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
-            />
-          </div>
-
-          {/* Owner */}
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="quick-owner" className="text-[13px] font-semibold text-foreground">{t('owner')}</Label>
-            <Input
-              id="quick-owner"
-              value={ownerName}
-              onChange={(e) => setOwnerName(e.target.value)}
-              placeholder={t('owner')}
-              required
-              data-testid="quick-create-owner-input"
               className="rounded-xl border-border/80 text-[13px] focus:ring-2 focus:ring-primary/20 focus:border-primary/50"
             />
           </div>
@@ -263,7 +244,7 @@ export function QuickAppointmentForm({
               </Button>
               <Button
                 type="submit"
-                disabled={submitting || !patientName || !ownerName}
+                disabled={submitting || !animalId}
                 data-testid="quick-create-submit-btn"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl shadow-sm"
               >

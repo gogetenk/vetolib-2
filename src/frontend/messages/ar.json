@@ -194,11 +194,12 @@
       "retry": "حاول مرة أخرى"
     },
     "status": {
-      "SCHEDULED": "مجدول",
-      "CHECKED_IN": "تم الوصول",
-      "IN_PROGRESS": "قيد الفحص",
-      "COMPLETED": "مكتمل",
-      "CANCELLED": "ملغى"
+      "Scheduled": "مجدول",
+      "CheckedIn": "تم الوصول",
+      "InProgress": "قيد الفحص",
+      "Completed": "مكتمل",
+      "Cancelled": "ملغى",
+      "NoShow": "غائب"
     }
   },
   "patients": {
