@@ -4,10 +4,12 @@ import { whatsappIntegrationDubaiVet } from "./articles/whatsapp-integration-dub
 import { aiVeterinaryTriage } from "./articles/ai-veterinary-triage";
 import { arabicSoftwareDubaiVet } from "./articles/arabic-software-dubai-vet";
 import { outgrownSpreadsheetsVet } from "./articles/outgrown-spreadsheets-vet";
+import { breedingManagementUae } from "./articles/breeding-management-uae";
 
 export type { BlogArticle } from "./types";
 
 export const allArticles: BlogArticle[] = [
+  breedingManagementUae,
   outgrownSpreadsheetsVet,
   arabicSoftwareDubaiVet,
   aiVeterinaryTriage,
