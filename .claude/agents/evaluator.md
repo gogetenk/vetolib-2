@@ -43,6 +43,16 @@ Run these checks on the changed files:
 - [ ] No merge conflict markers
 - [ ] No console.log / debugger left
 
+### Phase 2.5: Wiring verification
+For EACH new or modified file, verify it's not dead code:
+- Endpoints: do they have at least 1 route (`MapGet`/`MapPost`/etc.)? Are they registered in the module's `ModuleServiceRegistrar`? An endpoint group without routes is a bug.
+- Middleware: is it registered in Program.cs (`AddXxx` + `UseXxx`)? E.g. `CacheOutput()` without `AddOutputCache()` = dead annotation.
+- DI services: are they registered and resolvable? Check `AddScoped`/`AddSingleton`/`AddTransient` in the registrar.
+- Consumers: are they discovered by MassTransit (`AddConsumers`)?
+- Annotations (`CacheOutput`, `RequireRateLimiting`, `RequireAuthorization`): is the referenced policy/service actually registered?
+
+A file that compiles but does nothing at runtime is **worse than a missing file** — it creates false confidence.
+
 ### Phase 3: Contract alignment (frontend tasks only)
 Compare frontend types with backend DTOs:
 - Field names match

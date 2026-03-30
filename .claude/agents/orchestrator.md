@@ -188,18 +188,29 @@ par les appels réels vers `lib/api/{module}.ts`.
 
 **Si 0 tasks todo ET 0 agents actifs, verifier ces 10 sources AVANT de dire "veille" :**
 
-1. Audits non resolus (docs/specs/*-AUDIT-*.md)
+1. Audits non resolus (docs/audits/*.md — chaque finding HIGH+ doit avoir une tâche)
 2. Refacto en attente (tasks/refacto/todo-*.md)
 3. Questions PO (questions/*.md)
-4. Tests manquants (handlers sans TU, .feature sans steps)
+4. Tests manquants + scaffolds vides (handlers sans TU, .feature sans steps, **endpoints sans routes, fichiers vides qui compilent mais ne font rien**)
 5. UX audit (dispatcher l'agent UX Designer)
 6. Performance audit
 7. Securite audit
-8. Business (leads, outreach, contenu)
-9. Innovation (R&D, etudes)
-10. Code quality (lint, dead code, deps)
+8. **Wiring audit** — code qui EXISTE mais qui est MORT (middleware non enregistré, DI non wired, annotations sans effect). Chercher : CacheOutput sans AddOutputCache, RequireRateLimiting sans policy, IService? toujours null, consumers non découverts.
+9. **Module decomposition audit** — les bounded contexts sont-ils cohérents ? Pas trop fins (overhead > valeur) ? Pas trop gros (responsabilités mélangées) ? Le couplage inter-modules est-il minimal ?
+10. Business (leads, outreach, contenu)
+11. Innovation (R&D, etudes)
+12. Code quality (lint, dead code, deps)
 
 **La veille est INTERDITE tant qu'une source a du travail.**
+
+**Smoke test post-merge (v4.2 — post-mortem 2026-03-30) :**
+
+After each wave of merges, the orchestrator MUST verify that ALL registered endpoints actually work:
+1. List all `Map{Module}Endpoints()` calls in `Vetolib.Api/Program.cs`
+2. For each module's `*Endpoints.cs` files, verify the endpoint group has at least 1 route (`MapGet`/`MapPost`/`MapPut`/`MapDelete`)
+3. Flag empty endpoint groups (group defined but no routes) as bugs — create fix tasks immediately
+4. Verify middleware/service registration: if any endpoint uses `CacheOutput()`, `RequireRateLimiting()`, etc., confirm the corresponding `Add*()` exists in `Program.cs`
+5. An endpoint that compiles but returns 404/500 at runtime is worse than no endpoint — it wastes debugging time
 
 **Règle anti-stagnation (v4.1 — post-mortem 2026-03-30) :**
 

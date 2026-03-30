@@ -164,6 +164,18 @@ Après chaque `dotnet ef migrations add`, l'agent DOIT vérifier :
 
 **Pourquoi** : les migrations auto-générées peuvent produire des `AlterColumn` fantômes quand le snapshot diverge du schéma réel. 7 commits de fix en une session à cause de ça.
 
+### 3g. Couverture endpoint obligatoire (ajout v3.6 — post-mortem 2026-03-30)
+
+**Chaque module DOIT avoir au moins 1 test d'intégration par endpoint.**
+Un endpoint sans TI est un endpoint non vérifié — il peut compiler mais retourner 500 en runtime.
+
+Vérification : pour chaque `MapXxx` dans les fichiers `*Endpoints.cs`, il DOIT exister un test correspondant dans `tests/Vetolib.Tests.Integration/`.
+
+**Un scaffold vide (endpoint group sans routes) est un bug.** Il doit être soit complété soit supprimé.
+Code qui compiles mais qui ne fait rien (middleware non enregistré, annotations sans policy, endpoint group sans `MapGet`/`MapPost`) = dead code = à supprimer ou implémenter.
+
+**Pourquoi** : OutputCache middleware was never registered while `CacheOutput()` was called on endpoints. BreedingEndpoints.cs existed as an empty file. 9 hours of idle forge time while these issues existed undetected because audits checked "code exists" but never checked "code actually works".
+
 ### 3c. Commit immédiat après GREEN (ajout v3.2 — post-mortem 2026-03-11)
 
 **Dès que les tests sont GREEN → `git add` + `git commit` + `git push` IMMÉDIATEMENT.**
