@@ -48,7 +48,17 @@ internal static class SseEndpoints
         context.Response.Headers.Connection = "keep-alive";
         context.Response.Headers["X-Accel-Buffering"] = "no";
 
-        var reader = broadcaster.Subscribe(connectionId, clinicId, role);
+        var subscribeResult = broadcaster.Subscribe(connectionId, clinicId, role);
+        if (!subscribeResult.IsSuccess)
+        {
+            context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+            context.Response.Headers.RetryAfter = "30";
+            await context.Response.WriteAsync(
+                subscribeResult.Errors.FirstOrDefault() ?? "Too many SSE connections.", ct);
+            return;
+        }
+
+        var reader = subscribeResult.Value;
 
         try
         {
