@@ -6,6 +6,8 @@ namespace Vetolib.MedicalRecords.Infrastructure;
 
 internal class PatientAlertDataReader : IPatientAlertDataReader
 {
+    private const int BatchSize = 100;
+
     private readonly MedicalRecordsDbContext _context;
 
     public PatientAlertDataReader(MedicalRecordsDbContext context)
@@ -18,39 +20,51 @@ internal class PatientAlertDataReader : IPatientAlertDataReader
     {
         var cutoffDate = DateTime.UtcNow.AddMonths(-24);
 
-        var patients = await _context.Patients
-            .Include(p => p.MedicalRecords.Where(r => r.ExaminedAt >= cutoffDate))
-            .Include(p => p.WeightEntries)
-            .AsNoTracking()
-            .ToListAsync(ct);
+        // Get total count first to avoid loading all patients at once
+        var totalPatients = await _context.Patients.CountAsync(ct);
 
-        var dtos = patients.Select(p =>
+        var allDtos = new List<PatientAlertDataDto>(totalPatients);
+
+        // Process patients in batches to avoid memory pressure on large clinics
+        for (var skip = 0; skip < totalPatients; skip += BatchSize)
         {
-            var recentRecords = p.MedicalRecords
-                .OrderByDescending(r => r.ExaminedAt)
-                .Select(r => new MedicalRecordSummaryDto(
-                    r.Id,
-                    r.Diagnosis,
-                    r.VetName,
-                    r.ExaminedAt))
-                .ToList();
+            var batch = await _context.Patients
+                .OrderBy(p => p.Id)
+                .Skip(skip)
+                .Take(BatchSize)
+                .Include(p => p.MedicalRecords.Where(r => r.ExaminedAt >= cutoffDate))
+                .Include(p => p.WeightEntries)
+                .AsNoTracking()
+                .ToListAsync(ct);
 
-            var weightHistory = p.WeightEntries
-                .OrderByDescending(w => w.RecordedAt)
-                .Select(w => new WeightEntryDto(w.Id, w.PatientId, w.WeightKg, w.RecordedAt, w.RecordedBy, w.Note))
-                .ToList();
+            foreach (var p in batch)
+            {
+                var recentRecords = p.MedicalRecords
+                    .OrderByDescending(r => r.ExaminedAt)
+                    .Select(r => new MedicalRecordSummaryDto(
+                        r.Id,
+                        r.Diagnosis,
+                        r.VetName,
+                        r.ExaminedAt))
+                    .ToList();
 
-            return new PatientAlertDataDto(
-                p.Id,
-                p.Name,
-                p.Species,
-                p.Breed,
-                p.BirthDate,
-                p.WeightKg,
-                recentRecords,
-                weightHistory);
-        }).ToList();
+                var weightHistory = p.WeightEntries
+                    .OrderByDescending(w => w.RecordedAt)
+                    .Select(w => new WeightEntryDto(w.Id, w.PatientId, w.WeightKg, w.RecordedAt, w.RecordedBy, w.Note))
+                    .ToList();
 
-        return Result<IReadOnlyList<PatientAlertDataDto>>.Success(dtos);
+                allDtos.Add(new PatientAlertDataDto(
+                    p.Id,
+                    p.Name,
+                    p.Species,
+                    p.Breed,
+                    p.BirthDate,
+                    p.WeightKg,
+                    recentRecords,
+                    weightHistory));
+            }
+        }
+
+        return Result<IReadOnlyList<PatientAlertDataDto>>.Success(allDtos);
     }
 }
