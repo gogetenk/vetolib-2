@@ -174,7 +174,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
                     >
                       {/* Top half (XX:00 - XX:30) */}
                       <div
-                        className={`h-8 relative transition-colors duration-200 ease-in-out ${
+                        className={`h-8 min-h-[44px] sm:min-h-0 relative transition-colors duration-200 ease-in-out ${
                           isClickable
                             ? 'cursor-pointer hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset'
                             : offHours
@@ -199,7 +199,7 @@ export function WeekCalendarBody({ weekStart, appointments, onAppointmentClick, 
 
                       {/* Bottom half (XX:30 - XX+1:00) */}
                       <div
-                        className={`h-8 relative transition-colors duration-200 ease-in-out ${
+                        className={`h-8 min-h-[44px] sm:min-h-0 relative transition-colors duration-200 ease-in-out ${
                           isClickable
                             ? 'cursor-pointer hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset'
                             : offHours

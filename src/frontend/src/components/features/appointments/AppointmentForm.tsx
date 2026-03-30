@@ -157,7 +157,7 @@ export function AppointmentForm() {
                 onValueChange={(val) => setValue('species', val as Species)}
                 data-testid="select-species"
               >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-species-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="select-species-trigger">
                   <SelectValue placeholder={t('select_species')} />
                 </SelectTrigger>
                 <SelectContent>
@@ -216,7 +216,7 @@ export function AppointmentForm() {
                 onValueChange={(val) => setValue('vetId', val as string)}
                 data-testid="select-vet"
               >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-vet-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="select-vet-trigger">
                   <SelectValue placeholder={t('select_vet')}>
                     {selectedVetName}
                   </SelectValue>
@@ -261,7 +261,7 @@ export function AppointmentForm() {
                 onValueChange={(val) => setValue('time', val as string)}
                 data-testid="select-time"
               >
-                <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-time-trigger">
+                <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="select-time-trigger">
                   <SelectValue placeholder={t('select_time')} />
                 </SelectTrigger>
                 <SelectContent>

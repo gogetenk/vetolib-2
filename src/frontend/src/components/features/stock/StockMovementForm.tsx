@@ -111,7 +111,7 @@ export function StockMovementForm({ open, onOpenChange, item, onSubmit }: StockM
                 setValue('type', val as MovementType, { shouldValidate: true })
               }
             >
-              <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-movement-type-trigger">
+              <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="select-movement-type-trigger">
                 <SelectValue placeholder={t('movement.select_type')} />
               </SelectTrigger>
               <SelectContent>

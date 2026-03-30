@@ -214,7 +214,7 @@ export function ConversationActions({
                 value={selectedRole}
                 onValueChange={(v) => setSelectedRole(v as string)}
               >
-                <SelectTrigger className="w-full rounded-xl border-border/80 text-[13px]">
+                <SelectTrigger className="w-full rounded-xl border-border/80 text-base sm:text-[13px]">
                   <SelectValue>{selectedRole || t('select_role')}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>

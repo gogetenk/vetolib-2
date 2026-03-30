@@ -136,7 +136,7 @@ export function StockItemForm({ open, onOpenChange, item, onSubmit }: StockItemF
                 setValue('category', val as StockCategory, { shouldValidate: true })
               }
             >
-              <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-stock-category-trigger">
+              <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="select-stock-category-trigger">
                 <SelectValue placeholder={t('form.select_category')} />
               </SelectTrigger>
               <SelectContent>

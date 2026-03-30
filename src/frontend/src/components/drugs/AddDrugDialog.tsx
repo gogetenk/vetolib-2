@@ -132,7 +132,7 @@ export function AddDrugDialog({ open, onOpenChange, onSubmit }: AddDrugDialogPro
               {t('form.category')} <span className="text-destructive">*</span>
             </Label>
             <Select value={category} onValueChange={(v) => { if (v) setCategory(v as DrugCategory) }}>
-              <SelectTrigger className="rounded-xl border-border/80 text-[13px]" data-testid="select-drug-category">
+              <SelectTrigger className="rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="select-drug-category">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

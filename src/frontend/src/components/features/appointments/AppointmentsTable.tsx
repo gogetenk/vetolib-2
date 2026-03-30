@@ -196,7 +196,7 @@ export function AppointmentsTable() {
             setPage(1)
           }}
         >
-          <SelectTrigger className="w-48 rounded-xl border-border/80 text-[13px]" data-testid="status-filter" aria-label="Filter by status">
+          <SelectTrigger className="w-48 rounded-xl border-border/80 text-base sm:text-[13px]" data-testid="status-filter" aria-label="Filter by status">
             <SelectValue placeholder={t('all_statuses')} />
           </SelectTrigger>
           <SelectContent>
