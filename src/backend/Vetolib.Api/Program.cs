@@ -353,7 +353,6 @@ app.MapDashboardApiEndpoints();
 app.MapAIEndpoints();
 app.MapMessagingEndpoints();
 app.MapStockEndpoints();
-app.MapPreferencesEndpoints();
 app.MapBreedingEndpoints();
 app.MapNotificationsEndpoints();
 

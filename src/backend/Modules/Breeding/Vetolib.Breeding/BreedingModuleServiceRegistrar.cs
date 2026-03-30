@@ -35,7 +35,6 @@ public static class BreedingModuleServiceRegistrar
 
     public static IEndpointRouteBuilder MapBreedingEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapBreedingApiEndpoints();
         app.MapLitterEndpoints();
         app.MapPregnancyApiEndpoints();
         app.MapHeatCycleEndpoints();
