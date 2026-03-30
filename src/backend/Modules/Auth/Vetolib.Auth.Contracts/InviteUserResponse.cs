@@ -4,5 +4,4 @@ public record InviteUserResponse(
     Guid Id,
     string Email,
     string FullName,
-    UserRole Role,
-    string TemporaryPassword);
+    UserRole Role);

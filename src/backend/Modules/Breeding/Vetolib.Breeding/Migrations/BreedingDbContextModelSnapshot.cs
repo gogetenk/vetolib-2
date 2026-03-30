@@ -136,6 +136,53 @@ namespace Vetolib.Breeding.Migrations
                     b.ToTable("litter_offspring", "breeding");
                 });
 
+            modelBuilder.Entity("Vetolib.Breeding.Application.Domain.PatientLineage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("FatherPatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("MotherPatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RegistryNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("RegistryType")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId", "FatherPatientId")
+                        .HasDatabaseName("ix_patient_lineages_clinic_father");
+
+                    b.HasIndex("ClinicId", "MotherPatientId")
+                        .HasDatabaseName("ix_patient_lineages_clinic_mother");
+
+                    b.HasIndex("ClinicId", "PatientId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_patient_lineages_clinic_patient");
+
+                    b.ToTable("patient_lineages", "breeding");
+                });
+
             modelBuilder.Entity("Vetolib.Breeding.Domain.Pregnancy", b =>
                 {
                     b.Property<Guid>("Id")

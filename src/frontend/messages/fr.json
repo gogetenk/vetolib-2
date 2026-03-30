@@ -75,6 +75,7 @@
     "profile": "Profil",
     "sign_out": "Déconnexion",
     "stock": "Stock",
+    "breeding": "Reproduction",
     "read_only": "Lecture seule",
     "messaging_settings": "Paramètres de messagerie",
     "switch_clinic": "Changer de clinique",
@@ -307,7 +308,8 @@
         "prescriptions": "Prescriptions",
         "vaccinations": "Vaccinations",
         "health_alerts": "Alertes sante",
-        "weight": "Poids"
+        "weight": "Poids",
+        "breeding": "Reproduction"
       },
       "weight_label": "Poids :",
       "weight_not_recorded": "Non enregistre",
@@ -613,6 +615,7 @@
       "submitting": "Envoi en cours...",
       "success_title": "Invitation envoyee avec succes !",
       "success_password_hint": "Partagez ce mot de passe de maniere securisee — il ne sera plus affiche.",
+      "success_email_hint": "Un mot de passe temporaire a ete envoye a l'adresse e-mail du nouveau membre.",
       "copy": "Copier",
       "copied": "Copie !",
       "done": "Termine",
@@ -1157,6 +1160,11 @@
       "multi_clinic": {
         "title": "Sélecteur multi-cliniques",
         "description": "Gérez plusieurs sites depuis un tableau de bord unique. Reporting consolidé, dossiers patients partagés et gestion d'équipe centralisée pour les groupes vétérinaires."
+      },
+      "breeding": {
+        "title": "Gestion de l'élevage et des pedigrees",
+        "description": "Suivez les pedigrees de faucons, les lignées de chevaux arabes, les cycles de gestation et les prédictions de chaleurs. Conçu pour les éleveurs des EAU gérant des programmes de reproduction d'animaux de haute valeur.",
+        "badge": "Nouveau"
       }
     },
     "features": {

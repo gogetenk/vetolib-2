@@ -77,8 +77,10 @@ internal static class InvoiceEndpoints
             .ToMinimalApiResult();
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> ListInvoices(
-        ISender sender)
-        => (await sender.Send(new ListInvoicesQuery()))
+        ISender sender,
+        int pageNumber = 1,
+        int pageSize = 20)
+        => (await sender.Send(new ListInvoicesQuery(pageNumber, pageSize)))
             .ToMinimalApiResult();
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> GetInvoiceById(

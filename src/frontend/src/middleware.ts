@@ -65,9 +65,22 @@ function isPublicPath(pathname: string): boolean {
     if (pathname === signupPath || pathname.startsWith(`${signupPath}/`)) {
       return true;
     }
+
+    // Blog: /en/blog or /ar/blog (and sub-paths like /en/blog/some-slug)
+    const blogPath = `/${locale}/blog`;
+    if (pathname === blogPath || pathname.startsWith(`${blogPath}/`)) {
+      return true;
+    }
   }
 
   return false;
+}
+
+/** Returns NextResponse.next() with the current pathname forwarded as a header for hreflang use. */
+function nextWithPathname(pathname: string): NextResponse {
+  const response = NextResponse.next();
+  response.headers.set("x-pathname", pathname);
+  return response;
 }
 
 export function middleware(request: NextRequest) {
@@ -88,12 +101,12 @@ export function middleware(request: NextRequest) {
   // Determine the locale for redirects
   const locale = extractLocale(pathname);
 
-  // Handle root path: redirect to /{locale}/login or /{locale}/appointments
+  // Handle root path: redirect to /{locale} (landing) or /{locale}/appointments
   if (pathname === "/") {
     if (token) {
       return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
     }
-    return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+    return NextResponse.redirect(new URL(`/${locale}`, request.url));
   }
 
   // Handle bare /login without locale prefix → redirect to /{locale}/login
@@ -112,16 +125,17 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
   }
 
-  // Redirect authenticated users away from login/signup pages (not portal or landing)
+  // Redirect authenticated users away from login/signup pages (not portal, landing, or blog)
   const isPortalPath = /\/portal\//.test(pathname);
   const isLandingPage = SUPPORTED_LOCALES.some(l => pathname === `/${l}`);
-  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage) {
+  const isBlogPath = /\/blog(\/|$)/.test(pathname);
+  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage && !isBlogPath) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 
   // Allow public paths for unauthenticated users
   if (isPublicPath(pathname)) {
-    return NextResponse.next();
+    return nextWithPathname(pathname);
   }
 
   // Protect all other routes: redirect to /{locale}/login if not authenticated
@@ -131,7 +145,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  return nextWithPathname(pathname);
 }
 
 export const config = {

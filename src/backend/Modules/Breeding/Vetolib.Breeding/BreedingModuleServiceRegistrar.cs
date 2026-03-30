@@ -39,6 +39,7 @@ public static class BreedingModuleServiceRegistrar
         app.MapLitterEndpoints();
         app.MapPregnancyApiEndpoints();
         app.MapHeatCycleEndpoints();
+        app.MapLineageEndpoints();
         return app;
     }
 }

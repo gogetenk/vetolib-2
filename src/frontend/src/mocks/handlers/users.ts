@@ -78,11 +78,10 @@ export const userHandlers = [
     }
     MOCK_USERS.push(newUser)
 
-    // Return the new user along with a temporary password
+    // Return the new user (temporary password is sent by email, not in the response)
     return HttpResponse.json(
       {
         user: newUser,
-        temporaryPassword: 'Temp@' + Math.random().toString(36).slice(2, 10),
       },
       { status: 201 }
     )

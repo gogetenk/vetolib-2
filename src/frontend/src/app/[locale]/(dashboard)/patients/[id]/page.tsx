@@ -20,8 +20,9 @@ import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import { PatientHealthAlerts } from '@/components/features/patients/PatientHealthAlerts'
 import { WeightTab } from '@/components/features/patients/WeightTab'
+import { BreedingTab } from '@/components/features/patients/BreedingTab'
 
-type TabId = 'medical-records' | 'prescriptions' | 'vaccinations' | 'health-alerts' | 'weight'
+type TabId = 'medical-records' | 'prescriptions' | 'vaccinations' | 'health-alerts' | 'weight' | 'breeding'
 
 function calculateAge(dateOfBirth: string): string {
   const birth = new Date(dateOfBirth)
@@ -208,6 +209,7 @@ export default function PatientDetailPage() {
     { id: 'vaccinations', label: td('tabs.vaccinations'), testId: 'tab-vaccinations' },
     { id: 'health-alerts', label: td('tabs.health_alerts'), testId: 'tab-health-alerts' },
     { id: 'weight', label: td('tabs.weight'), testId: 'weight-tab' },
+    { id: 'breeding', label: td('tabs.breeding'), testId: 'tab-breeding' },
   ]
 
   if (isLoadingPatient) {
@@ -421,6 +423,11 @@ export default function PatientDetailPage() {
           {activeTab === 'weight' && (
             <div id="panel-weight" role="tabpanel" aria-labelledby="tab-weight" data-testid="tabpanel-weight" className="animate-in fade-in duration-200">
               <WeightTab patientId={id} />
+            </div>
+          )}
+          {activeTab === 'breeding' && (
+            <div id="panel-breeding" role="tabpanel" aria-labelledby="tab-breeding" data-testid="tabpanel-breeding" className="animate-in fade-in duration-200">
+              <BreedingTab patientId={id} patientSex={patient.sex} patientSpecies={patient.species} />
             </div>
           )}
         </div>

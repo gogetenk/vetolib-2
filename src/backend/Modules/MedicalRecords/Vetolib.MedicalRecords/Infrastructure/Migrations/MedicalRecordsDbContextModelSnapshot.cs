@@ -190,7 +190,9 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("PatientId", "ExaminedAt")
+                        .IsDescending(false, true)
+                        .HasDatabaseName("IX_medical_records_PatientId_ExaminedAt");
 
                     b.ToTable("medical_records", "medical");
                 });
