@@ -53,8 +53,6 @@ internal class PatientReader : IPatientReader
         CancellationToken cancellationToken = default)
     {
         var patient = await _context.Patients
-            .Include(p => p.MedicalRecords)
-                .ThenInclude(r => r.Prescriptions)
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == patientId, cancellationToken);
 
@@ -65,17 +63,27 @@ internal class PatientReader : IPatientReader
         var ageYears = today.Year - patient.BirthDate.Year;
         if (patient.BirthDate > today.AddYears(-ageYears)) ageYears--;
 
-        var lastRecord = patient.MedicalRecords
-            .OrderByDescending(r => r.ExaminedAt)
-            .FirstOrDefault();
-
+        DateTime? lastExaminedAt;
         IReadOnlyList<string>? activeMedications = null;
         IReadOnlyList<string>? knownAllergies = null;
         IReadOnlyList<string>? vaccinationHistory = null;
 
         if (includeFullMedicalContext)
         {
-            activeMedications = patient.MedicalRecords
+            // Load the last 50 medical records with prescriptions for full context
+            const int maxRecords = 50;
+            var recentRecords = await _context.MedicalRecords
+                .Where(r => r.PatientId == patientId)
+                .OrderByDescending(r => r.ExaminedAt)
+                .Take(maxRecords)
+                .Include(r => r.Prescriptions)
+                .AsSplitQuery()
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            lastExaminedAt = recentRecords.FirstOrDefault()?.ExaminedAt;
+
+            activeMedications = recentRecords
                 .SelectMany(r => r.Prescriptions)
                 .Select(p => $"{p.Medication} ({p.Dosage})")
                 .Distinct()
@@ -83,16 +91,25 @@ internal class PatientReader : IPatientReader
 
             // Allergies and vaccinations are extracted from diagnosis/treatment notes
             // using a simple keyword convention (prefix "ALLERGY:" or "VACCINE:")
-            knownAllergies = patient.MedicalRecords
+            knownAllergies = recentRecords
                 .Where(r => r.Diagnosis.StartsWith("ALLERGY:", StringComparison.OrdinalIgnoreCase))
                 .Select(r => r.Diagnosis["ALLERGY:".Length..].Trim())
                 .Distinct()
                 .ToList();
 
-            vaccinationHistory = patient.MedicalRecords
+            vaccinationHistory = recentRecords
                 .Where(r => r.Treatment.StartsWith("VACCINE:", StringComparison.OrdinalIgnoreCase))
                 .Select(r => $"{r.Treatment["VACCINE:".Length..].Trim()} ({r.ExaminedAt:yyyy-MM-dd})")
                 .ToList();
+        }
+        else
+        {
+            // Lightweight path: only fetch the most recent ExaminedAt date
+            lastExaminedAt = await _context.MedicalRecords
+                .Where(r => r.PatientId == patientId)
+                .OrderByDescending(r => r.ExaminedAt)
+                .Select(r => (DateTime?)r.ExaminedAt)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         var context = new PatientContextDto(
@@ -100,7 +117,7 @@ internal class PatientReader : IPatientReader
             patient.Name,
             patient.Species.ToString(),
             ageYears,
-            lastRecord?.ExaminedAt,
+            lastExaminedAt,
             activeMedications,
             knownAllergies,
             vaccinationHistory);
