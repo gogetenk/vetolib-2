@@ -133,7 +133,7 @@ export function TriageStatsPage() {
       </div>
 
       {/* Messages by Category Bar Chart */}
-      <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-category-chart">
+      <div className="bg-card border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-category-chart">
         <h3 className="text-[14px] font-bold text-foreground mb-4">{t("by_category")}</h3>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={categoryData} margin={{ top: 4, right: 16, bottom: 40, left: 0 }}>
@@ -169,7 +169,7 @@ export function TriageStatsPage() {
       </div>
 
       {/* Volume per day Line Chart */}
-      <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-volume-chart">
+      <div className="bg-card border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-volume-chart">
         <h3 className="text-[14px] font-bold text-foreground mb-4">{t("volume_per_day")}</h3>
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={volumeData} margin={{ top: 4, right: 16, bottom: 8, left: 0 }}>
@@ -204,7 +204,7 @@ export function TriageStatsPage() {
       </div>
       {/* Classification Accuracy Section */}
       {classificationStats && (
-        <div className="bg-white border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-classification-accuracy">
+        <div className="bg-card border border-border/80 rounded-xl shadow-sm p-6" data-testid="stats-classification-accuracy">
           <h3 className="text-[14px] font-bold text-foreground mb-4">{t("classification_accuracy_title")}</h3>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 mb-4">

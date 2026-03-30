@@ -47,7 +47,7 @@ function CustomTooltip({
   })
 
   return (
-    <div className="rounded-lg border border-border/80 bg-white px-3 py-2 shadow-sm">
+    <div className="rounded-lg border border-border/80 bg-card px-3 py-2 shadow-sm">
       <p className="text-[12px] text-muted-foreground">{date}</p>
       <p className="text-[14px] font-bold text-foreground">
         {entry.value} kg
@@ -72,19 +72,19 @@ export function WeightChart({ data }: WeightChartProps) {
         data={data}
         margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
         <XAxis
           dataKey="date"
           tickFormatter={formatChartDate}
-          tick={{ fontSize: 11, fill: '#888' }}
+          tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
           tickLine={false}
-          axisLine={{ stroke: '#e5e5e5' }}
+          axisLine={{ stroke: 'hsl(var(--border))' }}
         />
         <YAxis
           domain={[yMin, yMax]}
-          tick={{ fontSize: 11, fill: '#888' }}
+          tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
           tickLine={false}
-          axisLine={{ stroke: '#e5e5e5' }}
+          axisLine={{ stroke: 'hsl(var(--border))' }}
           unit=" kg"
           width={65}
         />

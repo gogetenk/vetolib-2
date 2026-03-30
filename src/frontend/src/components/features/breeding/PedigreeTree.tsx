@@ -8,7 +8,7 @@ interface PedigreeTreeProps {
 
 function PedigreeNode({ node, depth = 0 }: { node: PedigreeNodeDto; depth?: number }) {
   const sexIcon = node.sex === 'Male' ? '\u2642' : node.sex === 'Female' ? '\u2640' : '\u26A5'
-  const bgColor = depth === 0 ? 'bg-primary/10 border-primary/30' : depth === 1 ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'
+  const bgColor = depth === 0 ? 'bg-primary/10 border-primary/30' : depth === 1 ? 'bg-blue-50 border-blue-200' : 'bg-muted border-border'
 
   return (
     <div className="flex flex-col items-center" data-testid={`pedigree-node-${node.id}`}>
@@ -63,7 +63,7 @@ function PedigreeNode({ node, depth = 0 }: { node: PedigreeNodeDto; depth?: numb
 export function PedigreeTree({ node }: PedigreeTreeProps) {
   return (
     <div
-      className="bg-white border border-border/80 rounded-xl shadow-sm p-6 overflow-x-auto"
+      className="bg-card border border-border/80 rounded-xl shadow-sm p-6 overflow-x-auto"
       data-testid="pedigree-tree"
     >
       <div className="flex justify-center min-w-[500px]">

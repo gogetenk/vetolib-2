@@ -24,7 +24,7 @@ import { classifyMessage, sendClassificationFeedback } from '@/lib/api/messaging
 const URGENCY_STYLES: Record<ClassificationUrgency, string> = {
   Critical: 'bg-red-100 text-red-800 border-red-200',
   High: 'bg-orange-100 text-orange-800 border-orange-200',
-  Normal: 'bg-gray-100 text-gray-700 border-gray-200',
+  Normal: 'bg-muted text-muted-foreground border-border',
   Low: 'bg-green-100 text-green-800 border-green-200',
 }
 
@@ -180,7 +180,7 @@ export function MessageClassificationBadges({
         {showOverride && (
           <div
             className={cn(
-              'absolute z-50 mt-1 w-56 bg-white border border-border rounded-lg shadow-lg p-3 space-y-3',
+              'absolute z-50 mt-1 w-56 bg-card border border-border rounded-lg shadow-lg p-3 space-y-3',
               align === 'right' ? 'right-0' : 'left-0'
             )}
             data-testid={`classification-override-panel-${messageId}`}
