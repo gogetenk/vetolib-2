@@ -119,7 +119,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                         "VetLicenseNumber"});
             table24.AddRow(new string[] {
                         "vet@happypaws.ae",
-                        "SecurePass1",
+                        "SecurePass1!",
                         "Vet",
                         "clinic-happy-paws",
                         "UAE-VET-12345"});
@@ -133,7 +133,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                         "ClinicId"});
             table25.AddRow(new string[] {
                         "admin@happypaws.ae",
-                        "AdminPass1",
+                        "AdminPass1!",
                         "Admin",
                         "clinic-happy-paws"});
 #line 13
@@ -143,7 +143,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Auth/Login.feature.ndjson", 23);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Auth/Login.feature.ndjson", 25);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -196,7 +196,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 20
-    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 21
     await testRunner.ThenAsync("I am successfully authenticated", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -249,7 +249,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 29
-    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 30
     await testRunner.ThenAsync("the access token has a validity duration of 15 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -499,7 +499,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 75
-    await testRunner.WhenAsync("I log in with email \"inconnu@happypaws.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I log in with email \"inconnu@happypaws.ae\" and password \"SecurePass1!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 76
     await testRunner.ThenAsync("the system rejects with code \"INVALID_CREDENTIALS\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -576,7 +576,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.GivenAsync("the account \"vet@happypaws.ae\" is locked after 5 failed attempts", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 88
-    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 89
     await testRunner.ThenAsync("the system rejects with code \"ACCOUNT_LOCKED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -616,7 +616,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
     await testRunner.GivenAsync("the account \"vet@happypaws.ae\" was locked 16 minutes ago", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 94
-    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I log in with email \"vet@happypaws.ae\" and password \"SecurePass1!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 95
     await testRunner.ThenAsync("I am successfully authenticated", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -776,14 +776,14 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "ClinicId"});
                 table28.AddRow(new string[] {
                             "recep@desertvet.ae",
-                            "SecurePass1",
+                            "SecurePass1!",
                             "Receptionist",
                             "clinic-desert-vet"});
 #line 122
     await testRunner.AndAsync("an existing user with the following information:", ((string)(null)), table28, "And ");
 #line hidden
 #line 125
-    await testRunner.WhenAsync("I log in with email \"recep@desertvet.ae\" and password \"SecurePass1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I log in with email \"recep@desertvet.ae\" and password \"SecurePass1!\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 126
     await testRunner.ThenAsync("the session is linked to the clinic \"clinic-desert-vet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -829,7 +829,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "VetLicenseNumber"});
                 table29.AddRow(new string[] {
                             "newvet@happypaws.ae",
-                            "NewVetPass1",
+                            "NewVetPass1!",
                             "Vet",
                             "UAE-VET-99999"});
 #line 133
@@ -878,7 +878,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "Role"});
                 table30.AddRow(new string[] {
                             "autre@happypaws.ae",
-                            "OtherPass1",
+                            "OtherPass1!",
                             "Receptionist"});
 #line 141
     await testRunner.WhenAsync("I attempt to create a user with the following information:", ((string)(null)), table30, "When ");
@@ -924,7 +924,7 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
                             "VetLicenseNumber"});
                 table31.AddRow(new string[] {
                             "novet@happypaws.ae",
-                            "NoVetPass1",
+                            "NoVetPass1!",
                             "Vet",
                             ""});
 #line 148
@@ -943,9 +943,11 @@ namespace Vetolib.Tests.Acceptance.Features.Auth
         [global::Xunit.SkippableTheoryAttribute(DisplayName="Invalid password during user creation")]
         [global::Xunit.TraitAttribute("FeatureTitle", "Authentication and session management")]
         [global::Xunit.TraitAttribute("Description", "Invalid password during user creation")]
-        [global::Xunit.InlineDataAttribute("Short1", "Password must contain at least 8 characters", "18", new string[0])]
-        [global::Xunit.InlineDataAttribute("alllowercase1", "Password must contain at least one uppercase letter", "19", new string[0])]
-        [global::Xunit.InlineDataAttribute("AllUpperCase", "Password must contain at least one digit", "20", new string[0])]
+        [global::Xunit.InlineDataAttribute("Sh@1a", "Password must be at least 8 characters", "18", new string[0])]
+        [global::Xunit.InlineDataAttribute("alllower@1", "Password must contain at least one uppercase letter", "19", new string[0])]
+        [global::Xunit.InlineDataAttribute("ALLUPPER@1", "Password must contain at least one lowercase letter", "20", new string[0])]
+        [global::Xunit.InlineDataAttribute("AllLower@case", "Password must contain at least one digit", "21", new string[0])]
+        [global::Xunit.InlineDataAttribute("AllLower1case", "Password must contain at least one special character", "22", new string[0])]
         public async global::System.Threading.Tasks.Task InvalidPasswordDuringUserCreation(string password, string reason, string @__pickleIndex, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
