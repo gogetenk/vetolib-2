@@ -1155,6 +1155,11 @@
       "multi_clinic": {
         "title": "Multi-Clinic Switcher",
         "description": "Manage multiple sites from a single dashboard. Consolidated reporting, shared patient records, and centralised team management for veterinary groups."
+      },
+      "breeding": {
+        "title": "Breeding & Pedigree Management",
+        "description": "Track falcon pedigrees, Arabian horse lineage, pregnancy cycles, and heat predictions. Purpose-built for UAE breeders managing high-value animal reproduction programs.",
+        "badge": "New"
       }
     },
     "features": {

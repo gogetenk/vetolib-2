@@ -1143,6 +1143,11 @@
       "multi_clinic": {
         "title": "Sélecteur multi-cliniques",
         "description": "Gérez plusieurs sites depuis un tableau de bord unique. Reporting consolidé, dossiers patients partagés et gestion d'équipe centralisée pour les groupes vétérinaires."
+      },
+      "breeding": {
+        "title": "Gestion de l'élevage et des pedigrees",
+        "description": "Suivez les pedigrees de faucons, les lignées de chevaux arabes, les cycles de gestation et les prédictions de chaleurs. Conçu pour les éleveurs des EAU gérant des programmes de reproduction d'animaux de haute valeur.",
+        "badge": "Nouveau"
       }
     },
     "features": {

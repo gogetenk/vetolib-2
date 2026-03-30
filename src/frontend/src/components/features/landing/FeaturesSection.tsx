@@ -7,6 +7,7 @@ import {
   FileText,
   MessageCircle,
   Building2,
+  Dna,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollReveal } from "./ScrollReveal";
@@ -38,6 +39,7 @@ interface Props {
     whatsapp?: CardData;
     file_attachments?: CardData;
     multi_clinic?: CardData;
+    breeding?: CardData;
   };
 }
 
@@ -51,6 +53,7 @@ const ICONS: Record<string, React.ElementType> = {
   whatsapp: MessageCircle,
   file_attachments: Package,
   multi_clinic: Building2,
+  breeding: Dna,
 };
 
 export function FeaturesSection({ title, subtitle, cards }: Props) {
@@ -95,6 +98,7 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
     { key: "whatsapp", data: cards.whatsapp },
     { key: "file_attachments", data: cards.file_attachments },
     { key: "multi_clinic", data: cards.multi_clinic },
+    { key: "breeding", data: cards.breeding },
   ];
   for (const { key, data } of optionalCards) {
     if (data) {
