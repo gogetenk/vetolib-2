@@ -2284,5 +2284,11 @@
       "diagnosis_required": "Le diagnostic est requis",
       "treatment_required": "Le traitement est requis"
     }
+  },
+  "cookieConsent": {
+    "message": "Nous utilisons des cookies pour ameliorer votre experience. En continuant, vous acceptez notre politique de cookies.",
+    "acceptAll": "Tout accepter",
+    "necessaryOnly": "Necessaires uniquement",
+    "ariaLabel": "Consentement aux cookies"
   }
 }
