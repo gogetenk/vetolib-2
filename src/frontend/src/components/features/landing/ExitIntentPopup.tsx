@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef, type FormEvent } from "react";
+import { useEffect, useState, useCallback, useRef, type FormEvent, type KeyboardEvent } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -85,15 +85,59 @@ export function ExitIntentPopup({
     }, 2000);
   }
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      closeButtonRef.current?.focus();
+    }
+  }, [open]);
+
+  const handleDialogKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        dismiss();
+        return;
+      }
+      // Focus trap: cycle focus within dialog
+      if (e.key === "Tab") {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+        const focusable = dialog.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    },
+    [dismiss]
+  );
+
   if (!open) return null;
 
   return (
     <div
+      ref={dialogRef}
       data-testid="exit-intent-overlay"
       className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) dismiss();
       }}
+      onKeyDown={handleDialogKeyDown}
       role="dialog"
       aria-modal="true"
       aria-label={headline}
@@ -103,6 +147,7 @@ export function ExitIntentPopup({
         className="relative mx-4 w-full max-w-md animate-in fade-in slide-in-from-bottom-4 rounded-2xl bg-white p-8 shadow-2xl"
       >
         <button
+          ref={closeButtonRef}
           onClick={dismiss}
           className="absolute right-4 top-4 rounded-full p-1 text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600"
           aria-label="Close"
