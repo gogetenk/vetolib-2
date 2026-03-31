@@ -7,10 +7,12 @@ import { outgrownSpreadsheetsVet } from "./articles/outgrown-spreadsheets-vet";
 import { falconHealthManagementUae } from "./articles/falcon-health-management-uae";
 import { breedingManagementUae } from "./articles/breeding-management-uae";
 import { howToChooseVeterinarySoftwareUae } from "./articles/how-to-choose-veterinary-software-uae";
+import { accessPetMedicalRecordsOnline } from "./articles/access-pet-medical-records-online";
 
 export type { BlogArticle } from "./types";
 
 export const allArticles: BlogArticle[] = [
+  accessPetMedicalRecordsOnline,
   howToChooseVeterinarySoftwareUae,
   falconHealthManagementUae,
   breedingManagementUae,
