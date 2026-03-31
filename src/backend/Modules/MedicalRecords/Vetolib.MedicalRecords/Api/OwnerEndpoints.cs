@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Ardalis.Result.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +19,7 @@ internal static class OwnerEndpoints
             .WithTags("Owners");
 
         group.MapPost("/", CreateOwner)
+            .RequireAuthorization(policy => policy.RequireRole("Vet", "Admin", "Receptionist"))
             .WithName("CreateOwner")
             .WithSummary("Create a new owner")
             .WithDescription("Registers a new pet owner with contact details. Requires Vet, Admin, or Receptionist role.");
@@ -29,15 +29,9 @@ internal static class OwnerEndpoints
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> CreateOwner(
         CreateOwnerRequest request,
-        ClaimsPrincipal user,
         IClinicContext clinicContext,
         ISender sender)
     {
-        // Only VET, Admin, and Receptionist can create owners
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role is not ("Vet" or "Admin" or "Receptionist"))
-            return Ardalis.Result.Result<OwnerDto>.Forbidden().ToMinimalApiResult();
-
         var cmd = new CreateOwnerCommand(
             clinicContext.ClinicId,
             request.FirstName,

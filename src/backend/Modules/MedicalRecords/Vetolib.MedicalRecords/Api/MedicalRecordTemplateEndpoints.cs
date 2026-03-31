@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Ardalis.Result.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -28,16 +27,19 @@ internal static class MedicalRecordTemplateEndpoints
             .WithDescription("Returns all medical record templates for the current clinic, including system templates. Supports filtering by category and species.");
 
         group.MapPost("/", CreateTemplate)
+            .RequireAuthorization(policy => policy.RequireRole("Vet", "Admin"))
             .WithName("CreateMedicalRecordTemplate")
             .WithSummary("Create a custom template")
             .WithDescription("Creates a custom medical record template for the current clinic. Requires Vet or Admin role.");
 
         group.MapPut("/{id:guid}", UpdateTemplate)
+            .RequireAuthorization(policy => policy.RequireRole("Vet", "Admin"))
             .WithName("UpdateMedicalRecordTemplate")
             .WithSummary("Update a custom template")
             .WithDescription("Updates a custom medical record template. System templates are read-only and cannot be modified. Requires Vet or Admin role.");
 
         group.MapDelete("/{id:guid}", DeleteTemplate)
+            .RequireAuthorization(policy => policy.RequireRole("Vet", "Admin"))
             .WithName("DeleteMedicalRecordTemplate")
             .WithSummary("Delete a custom template")
             .WithDescription("Deletes a custom medical record template. System templates cannot be deleted. Requires Vet or Admin role.");
@@ -55,14 +57,9 @@ internal static class MedicalRecordTemplateEndpoints
 
     private static async Task<IResult> CreateTemplate(
         CreateMedicalRecordTemplateRequest request,
-        ClaimsPrincipal user,
         IClinicContext clinicContext,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role is not ("Vet" or "Admin"))
-            return Ardalis.Result.Result<MedicalRecordTemplateDto>.Forbidden().ToMinimalApiResult();
-
         var cmd = new CreateMedicalRecordTemplateCommand(
             clinicContext.ClinicId,
             request.Name,
@@ -79,13 +76,8 @@ internal static class MedicalRecordTemplateEndpoints
     private static async Task<IResult> UpdateTemplate(
         Guid id,
         UpdateMedicalRecordTemplateRequest request,
-        ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role is not ("Vet" or "Admin"))
-            return Ardalis.Result.Result<MedicalRecordTemplateDto>.Forbidden().ToMinimalApiResult();
-
         var cmd = new UpdateMedicalRecordTemplateCommand(
             id,
             request.Name,
@@ -101,13 +93,8 @@ internal static class MedicalRecordTemplateEndpoints
 
     private static async Task<IResult> DeleteTemplate(
         Guid id,
-        ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role is not ("Vet" or "Admin"))
-            return Ardalis.Result.Result.Forbidden().ToMinimalApiResult();
-
         return (await sender.Send(new DeleteMedicalRecordTemplateCommand(id))).ToMinimalApiResult();
     }
 }
