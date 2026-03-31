@@ -1166,6 +1166,20 @@
         "title": "Breeding & Reproduction Management",
         "description": "Track heat cycles, pregnancies, litters, and lineage for Arabian horses, camels, falcons, and companion animals. Essential tools for UAE breeders and equine clinics managing high-value reproduction programs.",
         "badge": "New"
+      },
+      "ai_health_alerts": {
+        "title": "AI Health Alerts",
+        "description": "Predictive health monitoring with species-specific rules for falcons, camels, and companion animals. Get notified before conditions become emergencies — so you can intervene earlier and improve outcomes.",
+        "badge": "New"
+      },
+      "recurring_appointments": {
+        "title": "Recurring Appointments",
+        "description": "Set up automated appointment series for follow-ups, chronic care, and vaccination schedules. Reduce no-shows and keep patients on track without manual rebooking."
+      },
+      "qr_checkin": {
+        "title": "QR Check-in",
+        "description": "Clients scan a QR code on arrival to check in instantly — no reception queue. Reduces wait times and frees your front desk for higher-value tasks.",
+        "badge": "Coming soon"
       }
     },
     "features": {
@@ -1226,65 +1240,65 @@
       "vat_note": "Prices excl. VAT 5%.",
       "starter": {
         "name": "Starter",
-        "price_monthly": "AED 299",
-        "price_annual": "AED 254",
-        "usd_hint_monthly": "~$81 USD/vet/mo",
-        "usd_hint_annual": "~$69 USD/vet/mo",
-        "per_month": "/vet/month",
-        "description": "For solo vets and small clinics (up to 5 vets).",
+        "price_monthly": "Free",
+        "price_annual": "Free",
+        "usd_hint_monthly": "",
+        "usd_hint_annual": "",
+        "per_month": "",
+        "description": "For solo vets starting out — try Vetara at zero cost.",
+        "features": [
+          "1 veterinarian",
+          "Up to 50 patients",
+          "Basic scheduling",
+          "SOAP medical records",
+          "Email reminders",
+          "Bilingual EN + AR interface",
+          "Client booking portal",
+          "Email support"
+        ],
+        "cta": "Get Started Free"
+      },
+      "pro": {
+        "name": "Professional",
+        "badge": "Most Popular",
+        "price_monthly": "AED 149",
+        "price_annual": "AED 127",
+        "usd_hint_monthly": "~$41 USD/mo",
+        "usd_hint_annual": "~$35 USD/mo",
+        "per_month": "/month",
+        "description": "For growing clinics needing AI, WhatsApp, and full automation.",
         "features": [
           "Up to 5 veterinarians",
           "Unlimited patients",
-          "Smart scheduling with conflict detection",
-          "SOAP medical records & vaccination tracking",
-          "UAE-compliant invoicing (VAT 5%)",
-          "Client booking portal",
-          "Email notifications & reminders",
-          "Bilingual EN + AR interface",
-          "Email support (24h response)"
-        ],
-        "cta": "Start Free Trial"
-      },
-      "pro": {
-        "name": "Pro",
-        "badge": "Most Popular",
-        "price_monthly": "AED 449",
-        "price_annual": "AED 382",
-        "usd_hint_monthly": "~$122 USD/vet/mo",
-        "usd_hint_annual": "~$104 USD/vet/mo",
-        "per_month": "/vet/month",
-        "description": "For growing clinics needing AI and automation (up to 15 vets).",
-        "features": [
-          "Everything in Starter, plus:",
+          "WhatsApp reminders & follow-ups",
+          "AI health alerts (falcon & species-specific)",
+          "Breeding & reproduction module",
+          "Analytics dashboard & reporting",
           "AI SOAP Notes / Scribe",
           "AI triage & no-show prediction",
           "Stock & inventory management",
-          "WhatsApp integration (reminders & follow-ups)",
-          "Advanced reporting (revenue per vet, trends)",
-          "Ramadan & Sun-Thu scheduling",
-          "Up to 15 veterinarians",
           "Priority support (4h response)"
         ],
         "cta": "Start Free Trial"
       },
       "enterprise": {
         "name": "Enterprise",
-        "price_monthly": "AED 649",
-        "price_annual": "AED 552",
-        "usd_hint_monthly": "~$177 USD/vet/mo",
-        "usd_hint_annual": "~$150 USD/vet/mo",
-        "per_month": "/vet/month",
-        "description": "For multi-site groups and veterinary hospitals. Unlimited vets.",
+        "price_monthly": "Custom",
+        "price_annual": "Custom",
+        "usd_hint_monthly": "",
+        "usd_hint_annual": "",
+        "per_month": "",
+        "description": "For multi-site groups and veterinary hospitals. Unlimited everything.",
         "features": [
-          "Everything in Pro, plus:",
-          "Multi-site management & consolidated reporting",
+          "Unlimited veterinarians",
+          "Multi-clinic management",
           "REST API access for custom integrations",
           "Custom roles & permissions",
+          "Priority support (phone, 1h response)",
+          "Custom integrations & onboarding",
           "Dedicated account manager",
           "99.9% SLA guarantee",
-          "Unlimited veterinarians",
-          "Premium support (phone, 1h response)",
-          "Assisted onboarding & data migration"
+          "Assisted data migration"
         ],
         "cta": "Contact Sales"
       }
