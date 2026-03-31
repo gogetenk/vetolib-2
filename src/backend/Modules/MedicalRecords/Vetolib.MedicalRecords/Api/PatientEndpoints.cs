@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.MedicalRecords.Application.Commands.CreatePatient;
 using Vetolib.MedicalRecords.Application.Commands.DeletePatientPhoto;
+using Vetolib.MedicalRecords.Application.Commands.ImportPatientFhir;
 using Vetolib.MedicalRecords.Application.Commands.ImportPatients;
 using Vetolib.MedicalRecords.Application.Commands.UpdatePatient;
 using Vetolib.MedicalRecords.Application.Commands.UploadPatientPhoto;
@@ -77,6 +78,12 @@ internal static class PatientEndpoints
             .WithSummary("Import patients from CSV")
             .WithDescription("Bulk-imports patient records from a CSV file. Use GET /import/template to download the expected format.")
             .DisableAntiforgery();
+
+        group.MapPost("/import/fhir", ImportPatientFhir)
+            .RequireAuthorization("VetOrAdmin")
+            .WithName("ImportPatientFhir")
+            .WithSummary("Import patient from FHIR R4 Bundle")
+            .WithDescription("Imports a patient and associated medical records from a FHIR R4 JSON Bundle. Parses Patient, Encounter, MedicationRequest, and Observation (body-weight) resources. Deduplicates by microchip number — if a patient with the same microchip already exists, records are merged into the existing patient.");
 
         group.MapGet("/import/template", GetImportTemplate)
             .RequireAuthorization()
@@ -257,4 +264,15 @@ internal static class PatientEndpoints
 
         return Results.Content(result.Value.Json, result.Value.ContentType);
     }
+
+    private static async Task<IResult> ImportPatientFhir(
+        FhirImportRequest request,
+        IClinicContext clinicContext,
+        ISender sender)
+    {
+        var cmd = new ImportPatientFhirCommand(clinicContext.ClinicId, request.FhirBundleJson);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
 }
+
+internal record FhirImportRequest(string FhirBundleJson);
