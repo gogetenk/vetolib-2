@@ -1828,6 +1828,18 @@
       "weight": {
         "empty": "No weight records found.",
         "latest": "Current weight"
+      },
+      "reminders": {
+        "title": "Vaccination Reminders",
+        "empty": "No upcoming vaccination reminders.",
+        "due": "Due",
+        "status_upcoming": "Upcoming",
+        "status_overdue": "Overdue",
+        "status_completed": "Completed",
+        "book_appointment": "Book",
+        "notification_prefs": "Notification Preferences",
+        "whatsapp": "WhatsApp reminders",
+        "email": "Email reminders"
       }
     }
   },

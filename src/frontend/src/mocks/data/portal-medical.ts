@@ -168,6 +168,65 @@ export const MOCK_PORTAL_PRESCRIPTIONS: Record<string, PortalPrescriptionDto[]> 
   ],
 }
 
+// ─── Vaccination Reminders ───────────────────────────────────────────────────
+
+import type {
+  VaccinationReminderDto,
+  NotificationPreferencesDto,
+} from '@/lib/api/portal'
+
+export const MOCK_PORTAL_VACCINATION_REMINDERS: Record<string, VaccinationReminderDto[]> = {
+  'animal-001': [
+    {
+      id: 'vr-001',
+      vaccineName: 'Bordetella (Kennel Cough)',
+      dueDate: '2026-06-01',
+      status: 'Upcoming',
+      animalId: 'animal-001',
+      animalName: 'Max',
+    },
+    {
+      id: 'vr-002',
+      vaccineName: 'Rabies',
+      dueDate: '2026-12-15',
+      status: 'Upcoming',
+      animalId: 'animal-001',
+      animalName: 'Max',
+    },
+    {
+      id: 'vr-003',
+      vaccineName: 'DHPP (Distemper, Hepatitis, Parainfluenza, Parvovirus)',
+      dueDate: '2026-12-15',
+      status: 'Upcoming',
+      animalId: 'animal-001',
+      animalName: 'Max',
+    },
+  ],
+  'animal-002': [
+    {
+      id: 'vr-004',
+      vaccineName: 'FVRCP (Feline Distemper)',
+      dueDate: '2026-10-10',
+      status: 'Upcoming',
+      animalId: 'animal-002',
+      animalName: 'Luna',
+    },
+    {
+      id: 'vr-005',
+      vaccineName: 'Rabies',
+      dueDate: '2026-10-10',
+      status: 'Upcoming',
+      animalId: 'animal-002',
+      animalName: 'Luna',
+    },
+  ],
+}
+
+export const MOCK_NOTIFICATION_PREFERENCES: NotificationPreferencesDto = {
+  whatsappEnabled: true,
+  emailEnabled: false,
+}
+
 // ─── Weight History ──────────────────────────────────────────────────────────
 
 export const MOCK_PORTAL_WEIGHT_HISTORY: Record<string, PortalWeightEntryDto[]> = {

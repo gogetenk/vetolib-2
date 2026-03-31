@@ -195,3 +195,44 @@ export function getAnimalPrescriptions(animalId: string): Promise<PortalPrescrip
 export function getAnimalWeightHistory(animalId: string): Promise<PortalWeightEntryDto[]> {
   return portalFetch<PortalWeightEntryDto[]>(`${BASE}/animals/${animalId}/weight`)
 }
+
+// ─── Vaccination Reminders ──────────────────────────────────────────────────
+
+export type VaccinationReminderStatus = 'Upcoming' | 'Overdue' | 'Completed'
+
+export interface VaccinationReminderDto {
+  id: string
+  vaccineName: string
+  dueDate: string
+  status: VaccinationReminderStatus
+  animalId: string
+  animalName: string
+}
+
+export function getAnimalVaccinationReminders(
+  animalId: string
+): Promise<VaccinationReminderDto[]> {
+  return portalFetch<VaccinationReminderDto[]>(
+    `${BASE}/animals/${animalId}/vaccination-reminders`
+  )
+}
+
+// ─── Notification Preferences ───────────────────────────────────────────────
+
+export interface NotificationPreferencesDto {
+  whatsappEnabled: boolean
+  emailEnabled: boolean
+}
+
+export function getNotificationPreferences(): Promise<NotificationPreferencesDto> {
+  return portalFetch<NotificationPreferencesDto>(`${BASE}/notification-preferences`)
+}
+
+export function updateNotificationPreferences(
+  body: NotificationPreferencesDto
+): Promise<NotificationPreferencesDto> {
+  return portalFetch<NotificationPreferencesDto>(`${BASE}/notification-preferences`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+}
