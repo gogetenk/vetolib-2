@@ -56,5 +56,8 @@ internal class ConversationConfiguration : IEntityTypeConfiguration<Conversation
 
         // P-05: index for owner portal queries (ListOwnerConversations, ExportOwnerConversations)
         builder.HasIndex(c => new { c.ClinicId, c.OwnerId });
+
+        // Performance: composite index for status+category filtering
+        builder.HasIndex(c => new { c.ClinicId, c.Status, c.Category });
     }
 }
