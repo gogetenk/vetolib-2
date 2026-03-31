@@ -1,17 +1,25 @@
 using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Vetolib.Notifications.Domain;
+using Vetolib.Shared.Infrastructure;
+using Vetolib.Shared.Kernel;
 
 namespace Vetolib.Notifications.Infrastructure;
 
 /// <summary>
 /// Dedicated DbContext for the Notifications module.
+/// Inherits MultiTenantDbContext to apply automatic WHERE ClinicId = @current filter
+/// on all IMultiTenant entities (ReminderLog, ReminderConfig).
 /// Includes MassTransit Outbox tables and reminder-related entities.
 /// </summary>
-internal class NotificationsDbContext : DbContext
+internal class NotificationsDbContext : MultiTenantDbContext
 {
-    public NotificationsDbContext(DbContextOptions<NotificationsDbContext> options)
-        : base(options)
+    public NotificationsDbContext(
+        DbContextOptions<NotificationsDbContext> options,
+        IClinicContext clinicContext,
+        IPublisher publisher)
+        : base(options, clinicContext, publisher)
     {
     }
 

@@ -1,6 +1,7 @@
 using Ardalis.Result;
 using FluentAssertions;
 using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -38,7 +39,9 @@ public class AppointmentReminderConsumerTests : IDisposable
         var options = new DbContextOptionsBuilder<NotificationsDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
-        _dbContext = new NotificationsDbContext(options);
+        var clinicContext = Substitute.For<IClinicContext>();
+        clinicContext.ClinicId.Returns(TestClinicId);
+        _dbContext = new NotificationsDbContext(options, clinicContext, Substitute.For<IPublisher>());
 
         _consumer = new AppointmentReminderConsumer(
             _emailSender,
@@ -72,7 +75,7 @@ public class AppointmentReminderConsumerTests : IDisposable
         VetName = "Dr. Sarah Al-Mansoori",
         ScheduledAt = new DateTime(2026, 3, 12, 10, 30, 0),
         ClinicName = "Dubai Veterinary Clinic",
-        ClinicId = clinicId ?? Guid.Empty,
+        ClinicId = clinicId ?? TestClinicId,
         OwnerPhone = ownerPhone
     };
 
