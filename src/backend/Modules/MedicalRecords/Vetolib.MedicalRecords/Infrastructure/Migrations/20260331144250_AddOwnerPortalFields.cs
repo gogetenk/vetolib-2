@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -11,12 +11,8 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<Guid>(
-                name: "OwnerAccountId",
-                schema: "medical",
-                table: "owners",
-                type: "uuid",
-                nullable: true);
+            // OwnerAccountId column and index already added by AddOwnerAccountIdToOwner migration.
+            // Only add the IsVisibleToOwner column here.
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsVisibleToOwner",
@@ -25,28 +21,11 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                 type: "boolean",
                 nullable: false,
                 defaultValue: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_owners_OwnerAccountId",
-                schema: "medical",
-                table: "owners",
-                column: "OwnerAccountId",
-                filter: "\"OwnerAccountId\" IS NOT NULL");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_owners_OwnerAccountId",
-                schema: "medical",
-                table: "owners");
-
-            migrationBuilder.DropColumn(
-                name: "OwnerAccountId",
-                schema: "medical",
-                table: "owners");
-
             migrationBuilder.DropColumn(
                 name: "IsVisibleToOwner",
                 schema: "medical",
