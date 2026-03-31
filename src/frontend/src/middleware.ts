@@ -83,6 +83,12 @@ function isPublicPath(pathname: string): boolean {
     if (pathname === privacyPath || pathname.startsWith(`${privacyPath}/`)) {
       return true;
     }
+
+    // Pricing: /en/pricing or /ar/pricing
+    const pricingPath = `/${locale}/pricing`;
+    if (pathname === pricingPath || pathname.startsWith(`${pricingPath}/`)) {
+      return true;
+    }
   }
 
   return false;
@@ -142,7 +148,8 @@ export function middleware(request: NextRequest) {
   const isLandingPage = SUPPORTED_LOCALES.some(l => pathname === `/${l}`);
   const isBlogPath = /\/blog(\/|$)/.test(pathname);
   const isLegalPath = /\/(terms|privacy)(\/|$)/.test(pathname);
-  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage && !isBlogPath && !isLegalPath) {
+  const isPricingPath = /\/pricing(\/|$)/.test(pathname);
+  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage && !isBlogPath && !isLegalPath && !isPricingPath) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 
