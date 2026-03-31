@@ -12,8 +12,8 @@ using Vetolib.Agenda.Infrastructure;
 namespace Vetolib.Agenda.Infrastructure.Migrations
 {
     [DbContext(typeof(AgendaDbContext))]
-    [Migration("20260331213236_SyncModelSnapshot_Agenda")]
-    partial class SyncModelSnapshot_Agenda
+    [Migration("20260331214647_SyncSnapshot_AgendaV2")]
+    partial class SyncSnapshot_AgendaV2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
