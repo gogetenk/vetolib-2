@@ -19,6 +19,8 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
     public string? MicrochipNumber { get; private set; }
     public string? PhotoBase64 { get; private set; }
     public string? PhotoContentType { get; private set; }
+    public Guid? TransferredToClinicId { get; private set; }
+    public DateTime? TransferredAt { get; private set; }
 
     private readonly List<PatientOwner> _patientOwners = [];
     public IReadOnlyList<PatientOwner> PatientOwners => _patientOwners.AsReadOnly();
@@ -188,6 +190,24 @@ internal partial class Patient : BaseEntity, IMultiTenant, IAggregateRoot
 
         var data = Convert.FromBase64String(PhotoBase64);
         return Result<(byte[] Data, string ContentType)>.Success((data, PhotoContentType));
+    }
+
+    public bool IsTransferred => TransferredToClinicId is not null;
+
+    public Result MarkAsTransferred(Guid targetClinicId)
+    {
+        if (targetClinicId == Guid.Empty)
+            return Result.Error("Target clinic ID is required");
+
+        if (targetClinicId == ClinicId)
+            return Result.Error("Cannot transfer patient to the same clinic");
+
+        if (IsTransferred)
+            return Result.Error("Patient has already been transferred");
+
+        TransferredToClinicId = targetClinicId;
+        TransferredAt = DateTime.UtcNow;
+        return Result.Success();
     }
 
     [GeneratedRegex(@"^\d{15}$")]
