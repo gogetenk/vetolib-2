@@ -23,5 +23,9 @@ internal class StockItemConfiguration : IEntityTypeConfiguration<StockItem>
             .WithOne()
             .HasForeignKey(m => m.StockItemId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Performance: composite indexes for common query patterns
+        builder.HasIndex(x => new { x.ClinicId, x.Quantity });
+        builder.HasIndex(x => new { x.ClinicId, x.ExpiryDate });
     }
 }

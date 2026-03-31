@@ -24,6 +24,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
     public int RescheduleCount { get; private set; }
     public Guid? OriginalAppointmentId { get; private set; }
     public Guid? SeriesId { get; private set; }
+    public DateTime? WaitingRoomAt { get; private set; }
 
     private Appointment() { } // EF Core constructor
 
@@ -90,9 +91,24 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         return Result<Appointment>.Success(appointment);
     }
 
-    public Result CheckIn()
+    public Result MarkWaitingRoom()
     {
         if (Status != AppointmentStatus.Scheduled)
+            return Result.Error($"INVALID_TRANSITION:Cannot transition to WAITING_ROOM from {Status}");
+
+        Status = AppointmentStatus.WaitingRoom;
+        WaitingRoomAt = DateTime.UtcNow;
+
+        AddDomainEvent(new PatientArrivedEvent(
+            ClinicId, Id, VeterinarianId, VeterinarianName,
+            AnimalName, OwnerName, StartTime));
+
+        return Result.Success();
+    }
+
+    public Result CheckIn()
+    {
+        if (Status != AppointmentStatus.Scheduled && Status != AppointmentStatus.WaitingRoom)
             return Result.Error($"INVALID_TRANSITION:Cannot transition to CHECKED_IN from {Status}");
         Status = AppointmentStatus.CheckedIn;
         return Result.Success();
@@ -136,7 +152,7 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
 
     public Result MarkNoShow()
     {
-        if (Status != AppointmentStatus.Scheduled && Status != AppointmentStatus.CheckedIn)
+        if (Status != AppointmentStatus.Scheduled && Status != AppointmentStatus.WaitingRoom && Status != AppointmentStatus.CheckedIn)
             return Result.Error($"INVALID_TRANSITION:Cannot transition to NO_SHOW from {Status}");
         Status = AppointmentStatus.NoShow;
         return Result.Success();

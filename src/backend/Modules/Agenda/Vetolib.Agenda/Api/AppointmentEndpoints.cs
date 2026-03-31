@@ -9,9 +9,11 @@ using Vetolib.Agenda.Application.Commands.CreateAppointment;
 using Vetolib.Agenda.Application.Commands.CreateAppointmentSeries;
 using Vetolib.Agenda.Application.Commands.EditAppointment;
 using Vetolib.Agenda.Application.Commands.GenerateCheckInQr;
+using Vetolib.Agenda.Application.Commands.MarkWaitingRoom;
 using Vetolib.Agenda.Application.Commands.UpdateAppointmentStatus;
 using Vetolib.Agenda.Application.Queries.GetAppointmentById;
 using Vetolib.Agenda.Application.Queries.GetAvailability;
+using Vetolib.Agenda.Application.Queries.GetWaitingRoom;
 using Vetolib.Agenda.Application.Queries.ListAppointments;
 using Vetolib.Agenda.Application.Queries.SuggestSlot;
 using Vetolib.Agenda.Contracts;
@@ -26,6 +28,7 @@ internal static class AppointmentEndpoints
         // Versioned group (canonical)
         var group = app.MapGroup("/api/v1/appointments")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Appointments");
 
         group.MapPost("/", CreateAppointment)
@@ -83,6 +86,17 @@ internal static class AppointmentEndpoints
             .WithSummary("Cancel all future appointments in a series")
             .WithDescription("Cancels all future scheduled appointments that belong to the specified series.");
 
+        group.MapPut("/{id:guid}/waiting-room", MarkWaitingRoom)
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Receptionist"))
+            .WithName("MarkWaitingRoom")
+            .WithSummary("Mark patient as arrived in waiting room")
+            .WithDescription("Receptionist marks a patient as arrived. Validates the appointment is Scheduled for today, sets status to WaitingRoom, and notifies the assigned vet.");
+
+        group.MapGet("/waiting-room", GetWaitingRoomList)
+            .WithName("GetWaitingRoom")
+            .WithSummary("Get current waiting room patients")
+            .WithDescription("Returns all patients currently in the waiting room for the clinic today, sorted by arrival time (FIFO).");
+
         group.MapGet("/{id:guid}/checkin-qr", GetCheckInQr)
             .WithName("GetCheckInQr")
             .WithSummary("Generate QR code payload for appointment check-in")
@@ -96,6 +110,7 @@ internal static class AppointmentEndpoints
         // Unversioned alias (used by BDD step definitions and older clients)
         var legacyGroup = app.MapGroup("/api/appointments")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Appointments");
 
         legacyGroup.MapPost("/", CreateAppointment)
@@ -136,6 +151,7 @@ internal static class AppointmentEndpoints
         int pageNumber = 1,
         int pageSize = 50)
     {
+        if (pageSize is < 1 or > 200) pageSize = 50;
         return (await sender.Send(new ListAppointmentsQuery(date, pageNumber, pageSize))).ToMinimalApiResult();
     }
 
@@ -168,6 +184,7 @@ internal static class AppointmentEndpoints
     {
         var newStatus = request.Action.ToUpperInvariant() switch
         {
+            "WAITING_ROOM" => AppointmentStatus.WaitingRoom,
             "CHECK_IN" => AppointmentStatus.CheckedIn,
             "START"    => AppointmentStatus.InProgress,
             "COMPLETE" => AppointmentStatus.Completed,
@@ -178,7 +195,7 @@ internal static class AppointmentEndpoints
 
         if (newStatus is null)
             return Ardalis.Result.Result<AppointmentDto>
-                .Error($"UNSUPPORTED_ACTION:Action '{request.Action}' is not recognized. Accepted values: CHECK_IN, START, COMPLETE, CANCEL, NO_SHOW")
+                .Error($"UNSUPPORTED_ACTION:Action '{request.Action}' is not recognized. Accepted values: WAITING_ROOM, CHECK_IN, START, COMPLETE, CANCEL, NO_SHOW")
                 .ToMinimalApiResult();
 
         var cmd = new UpdateAppointmentStatusCommand(id, newStatus.Value, request.Reason);
@@ -268,6 +285,19 @@ internal static class AppointmentEndpoints
         ISender sender)
     {
         return (await sender.Send(new GenerateCheckInQrCommand(id))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> MarkWaitingRoom(
+        Guid id,
+        ISender sender)
+    {
+        return (await sender.Send(new MarkWaitingRoomCommand(id))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GetWaitingRoomList(
+        ISender sender)
+    {
+        return (await sender.Send(new GetWaitingRoomQuery())).ToMinimalApiResult();
     }
 
     private static async Task<IResult> CheckInFromQr(

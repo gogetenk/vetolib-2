@@ -7,7 +7,7 @@ using Vetolib.Agenda.Infrastructure;
 namespace Vetolib.Agenda.Application.Queries.ListWaitlistEntries;
 
 internal class ListWaitlistEntriesHandler
-    : IRequestHandler<ListWaitlistEntriesQuery, Result<List<WaitlistEntryDto>>>
+    : IRequestHandler<ListWaitlistEntriesQuery, Result<WaitlistPagedResultDto>>
 {
     private readonly AgendaDbContext _context;
 
@@ -16,15 +16,25 @@ internal class ListWaitlistEntriesHandler
         _context = context;
     }
 
-    public async Task<Result<List<WaitlistEntryDto>>> Handle(
+    public async Task<Result<WaitlistPagedResultDto>> Handle(
         ListWaitlistEntriesQuery query, CancellationToken ct)
     {
-        var entries = await _context.WaitlistEntries
-            .AsNoTracking()
+        var page = query.PageNumber < 1 ? 1 : query.PageNumber;
+        var pageSize = query.PageSize < 1 ? 20 : Math.Min(query.PageSize, 200);
+
+        var baseQuery = _context.WaitlistEntries
+            .AsNoTracking();
+
+        var totalCount = await baseQuery.CountAsync(ct);
+
+        var entries = await baseQuery
             .OrderBy(e => e.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(e => e.ToDto())
             .ToListAsync(ct);
 
-        return Result<List<WaitlistEntryDto>>.Success(entries);
+        return Result<WaitlistPagedResultDto>.Success(
+            new WaitlistPagedResultDto(entries, totalCount, page, pageSize));
     }
 }

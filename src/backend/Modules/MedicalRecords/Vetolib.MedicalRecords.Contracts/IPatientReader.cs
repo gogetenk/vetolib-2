@@ -28,4 +28,11 @@ public interface IPatientReader
     /// Used by Breeding module to validate mother sex and species match.
     /// </summary>
     Task<Result<PatientBasicInfoDto>> GetPatientBasicInfoAsync(Guid patientId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns patients matching the given IDs within the current tenant scope.
+    /// Used by Breeding module to resolve patient details in batch (avoids N+1).
+    /// Patients not found are silently excluded from the result.
+    /// </summary>
+    Task<Result<IReadOnlyList<PatientDto>>> GetPatientsByIdsAsync(IReadOnlyCollection<Guid> patientIds, CancellationToken ct = default);
 }

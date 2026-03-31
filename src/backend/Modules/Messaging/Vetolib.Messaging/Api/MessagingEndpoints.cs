@@ -39,6 +39,7 @@ internal static class MessagingEndpoints
     {
         var group = app.MapGroup("/api/v1/messaging")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Messaging");
 
         // -----------------------------------------------------------------------
@@ -56,6 +57,7 @@ internal static class MessagingEndpoints
             int pageSize = 20,
             CancellationToken ct = default) =>
         {
+            if (pageSize is < 1 or > 200) pageSize = 20;
             var query = new ListConversationsQuery(status, category, fromDate, toDate, page, pageSize);
             return (await sender.Send(query, ct)).ToMinimalApiResult();
         }).WithName("ListConversations")

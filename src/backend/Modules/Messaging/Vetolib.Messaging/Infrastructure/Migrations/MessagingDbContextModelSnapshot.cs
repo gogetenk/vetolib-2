@@ -262,6 +262,8 @@ namespace Vetolib.Messaging.Infrastructure.Migrations
 
                     b.HasIndex("ClinicId", "OwnerId");
 
+                    b.HasIndex("ClinicId", "Status", "Category");
+
                     b.ToTable("conversations", "messaging");
                 });
 

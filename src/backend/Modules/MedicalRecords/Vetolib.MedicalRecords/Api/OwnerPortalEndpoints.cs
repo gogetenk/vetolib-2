@@ -18,6 +18,7 @@ internal static class OwnerPortalEndpoints
     {
         var group = app.MapGroup("/api/v1/portal")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("OwnerPortal");
 
         group.MapGet("/my-animals", GetMyAnimals)

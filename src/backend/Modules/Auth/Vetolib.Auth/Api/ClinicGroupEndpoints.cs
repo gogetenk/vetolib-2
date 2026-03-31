@@ -23,6 +23,7 @@ internal static class ClinicGroupEndpoints
     {
         var group = app.MapGroup("/api/v1/clinic-groups")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("ClinicGroups");
 
         group.MapPost("/", CreateClinicGroup)
@@ -64,6 +65,7 @@ internal static class ClinicGroupEndpoints
         // Switch clinic endpoint under /api/v1/auth
         var authGroup = app.MapGroup("/api/v1/auth")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Auth");
 
         authGroup.MapPost("/switch-clinic", SwitchClinic)
@@ -101,14 +103,25 @@ internal static class ClinicGroupEndpoints
         if (role != "Admin")
             return Result.Forbidden().ToMinimalApiResult();
 
-        return (await sender.Send(new AddClinicToGroupCommand(id, request.ClinicId)))
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new AddClinicToGroupCommand(id, request.ClinicId, userId)))
             .ToMinimalApiResult();
     }
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> ListGroupClinics(
         Guid id,
+        ClaimsPrincipal user,
         ISender sender)
-        => (await sender.Send(new ListGroupClinicsQuery(id))).ToMinimalApiResult();
+    {
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result<ClinicGroupDto>.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new ListGroupClinicsQuery(id, userId))).ToMinimalApiResult();
+    }
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> RemoveClinicFromGroup(
         Guid id,
@@ -120,7 +133,11 @@ internal static class ClinicGroupEndpoints
         if (role != "Admin")
             return Result.Forbidden().ToMinimalApiResult();
 
-        return (await sender.Send(new RemoveClinicFromGroupCommand(id, clinicId)))
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new RemoveClinicFromGroupCommand(id, clinicId, userId)))
             .ToMinimalApiResult();
     }
 

@@ -467,6 +467,10 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
+                    b.HasIndex("ClinicId", "CreatedAt");
+
+                    b.HasIndex("ClinicId", "MedicalRecordId");
+
                     b.ToTable("prescriptions", "medical");
                 });
 

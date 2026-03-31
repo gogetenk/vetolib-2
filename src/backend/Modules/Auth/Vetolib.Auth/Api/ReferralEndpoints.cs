@@ -16,7 +16,8 @@ internal static class ReferralEndpoints
     {
         var group = app.MapGroup("/api/v1/portal/referral-code")
             .WithTags("Referral")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .RequireRateLimiting("api");
 
         group.MapGet("/", GetOrCreateReferralCode)
             .WithName("GetOrCreateReferralCode")

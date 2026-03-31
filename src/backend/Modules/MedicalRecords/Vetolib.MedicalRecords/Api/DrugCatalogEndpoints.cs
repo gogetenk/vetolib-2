@@ -40,6 +40,7 @@ internal static class DrugCatalogEndpoints
 
         var prescriptionsGroup = app.MapGroup("/api/v1/medical-records/prescriptions")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Prescriptions");
 
         prescriptionsGroup.MapPost("/preflight", PrescriptionPreflight)
