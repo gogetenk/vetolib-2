@@ -18,7 +18,8 @@ internal static class PortalEndpoints
     internal static IEndpointRouteBuilder MapPortalApiEndpoints(this IEndpointRouteBuilder app)
     {
         var publicGroup = app.MapGroup("/api/v1/portal")
-            .WithTags("Portal");
+            .WithTags("Portal")
+            .RequireRateLimiting("api");
 
         publicGroup.MapPost("/register", Register)
             .WithName("RegisterOwnerAccount")
@@ -43,7 +44,8 @@ internal static class PortalEndpoints
 
         var authGroup = app.MapGroup("/api/v1/portal")
             .WithTags("Portal")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .RequireRateLimiting("api");
 
         authGroup.MapPost("/link-microchip", LinkByMicrochip)
             .WithName("LinkOwnerByMicrochip")

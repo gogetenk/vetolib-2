@@ -17,6 +17,7 @@ internal static class WaitlistEndpoints
     {
         var group = app.MapGroup("/api/v1/waitlist")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Waitlist");
 
         group.MapPost("/", AddToWaitlist)

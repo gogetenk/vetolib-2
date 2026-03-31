@@ -16,6 +16,7 @@ internal static class OwnerEndpoints
     {
         var group = app.MapGroup("/api/v1/owners")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Owners");
 
         group.MapPost("/", CreateOwner)

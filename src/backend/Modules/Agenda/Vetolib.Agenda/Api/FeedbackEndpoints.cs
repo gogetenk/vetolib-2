@@ -17,6 +17,7 @@ internal static class FeedbackEndpoints
         // Submit feedback on a specific appointment
         var appointmentsGroup = app.MapGroup("/api/v1/appointments")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Feedback");
 
         appointmentsGroup.MapPost("/{id:guid}/feedback", SubmitFeedback)
@@ -27,6 +28,7 @@ internal static class FeedbackEndpoints
         // Admin feedback endpoints
         var feedbackGroup = app.MapGroup("/api/v1/feedback")
             .RequireAuthorization(policy => policy.RequireRole("Admin"))
+            .RequireRateLimiting("api")
             .WithTags("Feedback");
 
         feedbackGroup.MapGet("/", ListFeedback)

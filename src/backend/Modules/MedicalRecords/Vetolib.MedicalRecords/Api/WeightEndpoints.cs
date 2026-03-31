@@ -18,6 +18,7 @@ internal static class WeightEndpoints
     {
         var group = app.MapGroup("/api/v1/patients/{patientId:guid}/weights")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Weights");
 
         group.MapPost("/", AddWeightEntry)

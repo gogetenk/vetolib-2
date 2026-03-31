@@ -23,6 +23,7 @@ internal static class ClinicGroupEndpoints
     {
         var group = app.MapGroup("/api/v1/clinic-groups")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("ClinicGroups");
 
         group.MapPost("/", CreateClinicGroup)
@@ -64,6 +65,7 @@ internal static class ClinicGroupEndpoints
         // Switch clinic endpoint under /api/v1/auth
         var authGroup = app.MapGroup("/api/v1/auth")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Auth");
 
         authGroup.MapPost("/switch-clinic", SwitchClinic)

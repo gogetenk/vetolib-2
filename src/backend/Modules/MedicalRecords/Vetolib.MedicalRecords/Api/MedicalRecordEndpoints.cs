@@ -18,6 +18,7 @@ internal static class MedicalRecordEndpoints
     {
         var group = app.MapGroup("/api/v1/patients/{patientId:guid}/records")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("MedicalRecords");
 
         group.MapPost("/", AddMedicalRecord)

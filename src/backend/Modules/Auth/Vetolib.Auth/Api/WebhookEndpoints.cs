@@ -19,7 +19,8 @@ internal static class WebhookEndpoints
     {
         var adminGroup = app.MapGroup("/api/v1/webhooks")
             .WithTags("Webhooks")
-            .RequireAuthorization("VetOrAdmin");
+            .RequireAuthorization("VetOrAdmin")
+            .RequireRateLimiting("api");
 
         adminGroup.MapPost("/", RegisterWebhook)
             .WithName("RegisterWebhook")
@@ -38,7 +39,8 @@ internal static class WebhookEndpoints
 
         // Public endpoint — no auth, HMAC-verified
         var publicGroup = app.MapGroup("/api/v1/webhooks")
-            .WithTags("Webhooks");
+            .WithTags("Webhooks")
+            .RequireRateLimiting("api");
 
         publicGroup.MapPost("/receive", ReceiveWebhook)
             .WithName("ReceiveWebhook")

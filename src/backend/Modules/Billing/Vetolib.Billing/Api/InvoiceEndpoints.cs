@@ -23,6 +23,7 @@ internal static class InvoiceEndpoints
     {
         var group = app.MapGroup("/api/v1/invoices")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Invoices");
 
         group.MapPost("/", CreateInvoice)

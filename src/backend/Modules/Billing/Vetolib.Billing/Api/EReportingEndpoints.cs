@@ -15,6 +15,7 @@ internal static class EReportingEndpoints
     {
         var group = app.MapGroup("/api/v1/billing/ereporting")
             .RequireAuthorization(policy => policy.RequireRole("Admin"))
+            .RequireRateLimiting("api")
             .WithTags("EReporting");
 
         group.MapPost("/submit", SubmitEReporting)

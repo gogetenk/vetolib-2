@@ -28,6 +28,7 @@ internal static class AppointmentEndpoints
         // Versioned group (canonical)
         var group = app.MapGroup("/api/v1/appointments")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Appointments");
 
         group.MapPost("/", CreateAppointment)
@@ -109,6 +110,7 @@ internal static class AppointmentEndpoints
         // Unversioned alias (used by BDD step definitions and older clients)
         var legacyGroup = app.MapGroup("/api/appointments")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Appointments");
 
         legacyGroup.MapPost("/", CreateAppointment)
