@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Vetolib.Agenda.Contracts;
+using Vetolib.Notifications.Contracts;
 using Vetolib.Notifications.Contracts.Enums;
 using Vetolib.Notifications.Contracts.Events;
 using Vetolib.Notifications.Domain;
@@ -15,6 +16,7 @@ namespace Vetolib.Notifications.Consumers;
 internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueIntegrationEvent>
 {
     private readonly IEmailSender _emailSender;
+    private readonly ISmsProvider _smsProvider;
     private readonly IPreferenceChecker _preferenceChecker;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly NotificationsDbContext _dbContext;
@@ -22,12 +24,14 @@ internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueInt
 
     public AppointmentReminderConsumer(
         IEmailSender emailSender,
+        ISmsProvider smsProvider,
         IPreferenceChecker preferenceChecker,
         IPublishEndpoint publishEndpoint,
         NotificationsDbContext dbContext,
         ILogger<AppointmentReminderConsumer> logger)
     {
         _emailSender = emailSender;
+        _smsProvider = smsProvider;
         _preferenceChecker = preferenceChecker;
         _publishEndpoint = publishEndpoint;
         _dbContext = dbContext;
@@ -40,8 +44,9 @@ internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueInt
 
         var channel = await ResolveChannelAsync(evt.ClinicId, context.CancellationToken);
 
-        var shouldSendEmail = channel is ReminderChannel.Email or ReminderChannel.Both;
-        var shouldSendWhatsApp = channel is ReminderChannel.WhatsApp or ReminderChannel.Both;
+        var shouldSendEmail = channel is ReminderChannel.Email or ReminderChannel.Both or ReminderChannel.All;
+        var shouldSendWhatsApp = channel is ReminderChannel.WhatsApp or ReminderChannel.Both or ReminderChannel.All;
+        var shouldSendSms = channel is ReminderChannel.Sms or ReminderChannel.All;
 
         if (shouldSendEmail)
         {
@@ -51,6 +56,11 @@ internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueInt
         if (shouldSendWhatsApp)
         {
             await SendWhatsAppReminderAsync(evt, context.CancellationToken);
+        }
+
+        if (shouldSendSms)
+        {
+            await SendSmsReminderAsync(evt, context.CancellationToken);
         }
     }
 
@@ -146,5 +156,48 @@ internal class AppointmentReminderConsumer : IConsumer<AppointmentReminderDueInt
         }
 
         _logger.LogInformation("WhatsApp reminder event published for {Phone}", evt.OwnerPhone);
+    }
+
+    private async Task SendSmsReminderAsync(AppointmentReminderDueIntegrationEvent evt, CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(evt.OwnerPhone))
+        {
+            _logger.LogWarning(
+                "SMS reminder skipped for {Email} — no phone number available.",
+                evt.OwnerEmail);
+            return;
+        }
+
+        var time = evt.ScheduledAt.ToString("HH:mm");
+        var message = $"Reminder: {evt.PatientName} has an appointment with {evt.VetName} at {time}. — {evt.ClinicName}";
+
+        var result = await _smsProvider.SendSmsAsync(evt.OwnerPhone, message, ct);
+
+        var logResult = ReminderLog.Create(
+            ReminderType.Appointment24h,
+            NotificationChannel.Sms,
+            evt.OwnerPhone,
+            evt.ClinicId,
+            appointmentId: null);
+
+        if (logResult.IsSuccess)
+        {
+            var log = logResult.Value;
+            if (result.IsSuccess) log.MarkSent(); else log.MarkFailed();
+            _dbContext.ReminderLogs.Add(log);
+            await _dbContext.SaveChangesAsync(ct);
+        }
+
+        if (!result.IsSuccess)
+        {
+            _logger.LogWarning(
+                "Failed to send SMS reminder to {Phone}: {Errors}",
+                evt.OwnerPhone,
+                string.Join(", ", result.Errors));
+
+            throw new InvalidOperationException($"Failed to send SMS reminder to {evt.OwnerPhone}");
+        }
+
+        _logger.LogInformation("SMS reminder sent to {Phone}", evt.OwnerPhone);
     }
 }
