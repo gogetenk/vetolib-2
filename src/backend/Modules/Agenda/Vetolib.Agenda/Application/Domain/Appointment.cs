@@ -111,6 +111,12 @@ internal class Appointment : BaseEntity, IMultiTenant, IAggregateRoot
         if (Status != AppointmentStatus.InProgress)
             return Result.Error($"INVALID_TRANSITION:Cannot transition to COMPLETED from {Status}");
         Status = AppointmentStatus.Completed;
+
+        AddDomainEvent(new AppointmentCompletedEvent(
+            ClinicId, Id, VeterinarianId, VeterinarianName,
+            AnimalId, AnimalName, OwnerName, OwnerEmail,
+            Date, Reason));
+
         return Result.Success();
     }
 

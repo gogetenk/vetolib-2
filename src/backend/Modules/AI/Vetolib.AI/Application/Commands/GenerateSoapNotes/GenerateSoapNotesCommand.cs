@@ -12,4 +12,5 @@ internal record GenerateSoapNotesCommand(
     string Vitals,
     string Diagnosis,
     string TreatmentPlan,
-    List<string> Prescriptions) : IRequest<Result<SoapNoteDto>>;
+    List<string> Prescriptions,
+    SoapLanguage Language = SoapLanguage.En) : IRequest<Result<SoapNoteDto>>;

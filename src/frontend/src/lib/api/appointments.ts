@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPatch } from './client'
+import { apiGet, apiPost, apiPatch, apiPut } from './client'
 import type { Species, PagedResult } from './types'
 
 export type { Species, PagedResult }
@@ -97,4 +97,22 @@ export async function cancelAppointment(
     action: 'CANCEL',
     reason,
   })
+}
+
+export interface WaitingRoomPatientDto {
+  id: string
+  patientName: string
+  species: Species
+  ownerName: string
+  vetName: string
+  scheduledAt: string
+  arrivedAt: string
+}
+
+export async function getWaitingRoom(): Promise<WaitingRoomPatientDto[]> {
+  return apiGet<WaitingRoomPatientDto[]>('/api/v1/appointments/waiting-room')
+}
+
+export async function markAsArrived(id: string): Promise<AppointmentDto> {
+  return apiPut<AppointmentDto>(`/api/v1/appointments/${id}/waiting-room`, {})
 }

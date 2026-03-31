@@ -31,7 +31,8 @@ internal class GenerateSoapNotesHandler : IRequestHandler<GenerateSoapNotesComma
             Vitals: cmd.Vitals,
             Diagnosis: cmd.Diagnosis,
             TreatmentPlan: cmd.TreatmentPlan,
-            Prescriptions: cmd.Prescriptions);
+            Prescriptions: cmd.Prescriptions,
+            Language: cmd.Language);
 
         _logger.LogInformation(
             "Generating SOAP notes for patient {PatientName} ({Species}/{Breed})",

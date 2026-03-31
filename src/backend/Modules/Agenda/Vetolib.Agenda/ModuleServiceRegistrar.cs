@@ -34,6 +34,9 @@ public static class ModuleServiceRegistrar
         // IOnCallVetReader — used by the Messaging module for emergency after-hours escalation
         services.AddScoped<IOnCallVetReader, OnCallVetReader>();
 
+        // IAppointmentStatsReader — used by Auth module for clinic group dashboard
+        services.AddScoped<IAppointmentStatsReader, AppointmentStatsReader>();
+
         // Bind AgendaOptions (slot scoring weights, working hours, default durations) from configuration
         services.Configure<AgendaOptions>(configuration.GetSection("Agenda"));
 
@@ -68,8 +71,10 @@ public static class ModuleServiceRegistrar
     {
         app.MapAppointmentApiEndpoints();
         app.MapConsultationTypeEndpoints();
+        app.MapFollowUpRuleEndpoints();
         app.MapFeedbackApiEndpoints();
         app.MapWaitlistEndpoints();
+        app.MapStaffScheduleEndpoints();
         return app;
     }
 }

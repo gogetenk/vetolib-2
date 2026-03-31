@@ -533,7 +533,11 @@
       "checked_in_success": "تم تسجيل وصول المريض",
       "checked_in_failed": "فشل تسجيل وصول المريض",
       "checking_in": "جارٍ تسجيل الوصول...",
-      "check_in": "تسجيل الوصول"
+      "check_in": "تسجيل الوصول",
+      "mark_arrived": "تسجيل الوصول",
+      "marking_arrived": "جارٍ التسجيل...",
+      "arrived_toast": "{name} وصل",
+      "arrived_failed": "فشل تسجيل وصول المريض"
     },
     "recent_activity": {
       "title": "النشاط الأخير",
@@ -570,6 +574,17 @@
         "08": "أغسطس",
         "09": "سبتمبر"
       }
+    },
+    "waiting_room": {
+      "title": "غرفة الانتظار",
+      "empty": "لا يوجد مرضى في الانتظار حالياً",
+      "error_load": "فشل تحميل غرفة الانتظار",
+      "call_next": "استدعاء التالي",
+      "calling": "جارٍ الاستدعاء...",
+      "called_success": "تم استدعاء {name}",
+      "called_failed": "فشل استدعاء المريض",
+      "wait_minutes": "{count} دقيقة",
+      "scheduled_at": "الموعد {time}"
     },
     "errors": {
       "load_clinic_data": "Failed to load clinic data",
@@ -2132,7 +2147,51 @@
     "notifications_title": "إعدادات الإشعارات",
     "notifications_description": "إعداد التذكيرات التلقائية للمواعيد والتطعيمات والمتابعة.",
     "working_hours_title": "ساعات العمل",
-    "working_hours_description": "حدد ساعات فتح وإغلاق العيادة لكل يوم من أيام الأسبوع."
+    "working_hours_description": "حدد ساعات فتح وإغلاق العيادة لكل يوم من أيام الأسبوع.",
+    "audit_title": "سجل التدقيق",
+    "audit_description": "عرض سجل مفصل لجميع الإجراءات المنفذة في عيادتك للامتثال."
+  },
+  "audit_trail": {
+    "title": "سجل التدقيق",
+    "subtitle": "تتبع جميع الإجراءات المنفذة في عيادتك للامتثال والمساءلة.",
+    "access_denied": "الوصول مرفوض",
+    "admin_only": "يمكن لمسؤولي العيادة فقط الوصول إلى سجل التدقيق.",
+    "go_back": "العودة",
+    "filters": "التصفية",
+    "start_date": "تاريخ البدء",
+    "end_date": "تاريخ الانتهاء",
+    "user": "المستخدم",
+    "user_placeholder": "البحث باسم المستخدم...",
+    "action": "الإجراء",
+    "all_actions": "جميع الإجراءات",
+    "apply_filters": "تطبيق التصفية",
+    "clear_filters": "مسح التصفية",
+    "columns": {
+      "date": "التاريخ",
+      "user": "المستخدم",
+      "action": "الإجراء",
+      "entity": "الكيان",
+      "details": "التفاصيل"
+    },
+    "actions": {
+      "create": "إنشاء",
+      "update": "تحديث",
+      "delete": "حذف"
+    },
+    "expand": "توسيع الصف",
+    "collapse": "طي الصف",
+    "click_to_expand": "انقر للتوسيع",
+    "click_to_collapse": "انقر للطي",
+    "field": "الحقل",
+    "old_value": "القيمة القديمة",
+    "new_value": "القيمة الجديدة",
+    "no_details": "لا توجد تفاصيل تغيير متاحة.",
+    "no_entries": "لم يتم العثور على سجلات تدقيق مطابقة لتصفيتك.",
+    "showing": "عرض {from}-{to} من {total}",
+    "page_of": "صفحة {page} من {total}",
+    "errors": {
+      "load_failed": "فشل تحميل سجلات التدقيق."
+    }
   },
   "soap_notes": {
     "title": "ملاحظات SOAP بالذكاء الاصطناعي",
@@ -2742,6 +2801,18 @@
       "load_failed": "فشل في تحميل ساعات العمل.",
       "save_failed": "فشل في حفظ ساعات العمل."
     }
+  },
+  "notification_center": {
+    "aria_label": "الإشعارات",
+    "panel_title": "الإشعارات",
+    "mark_all_read": "تعيين الكل كمقروء",
+    "mark_read": "تعيين كمقروء",
+    "loading": "جارٍ تحميل الإشعارات...",
+    "empty": "لا توجد إشعارات بعد",
+    "just_now": "الآن",
+    "minutes_ago": "منذ {count} دقيقة",
+    "hours_ago": "منذ {count} ساعة",
+    "days_ago": "منذ {count} يوم"
   },
   "developers": {
     "meta": {

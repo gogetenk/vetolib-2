@@ -562,28 +562,28 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table36 = new global::Reqnroll.Table(new string[] {
                             "Species"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Dog"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Cat"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Bird"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Rabbit"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Horse"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Exotic"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Camel"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Falcon"});
-                table35.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "Reptile"});
 #line 66
-    await testRunner.ThenAsync("the following species are available:", ((string)(null)), table35, "Then ");
+    await testRunner.ThenAsync("the following species are available:", ((string)(null)), table36, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

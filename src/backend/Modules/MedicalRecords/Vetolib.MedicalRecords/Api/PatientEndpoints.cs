@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Ardalis.Result.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,7 @@ using Vetolib.MedicalRecords.Application.Commands.CreatePatient;
 using Vetolib.MedicalRecords.Application.Commands.DeletePatientPhoto;
 using Vetolib.MedicalRecords.Application.Commands.ImportPatientFhir;
 using Vetolib.MedicalRecords.Application.Commands.ImportPatients;
+using Vetolib.MedicalRecords.Application.Commands.TransferPatient;
 using Vetolib.MedicalRecords.Application.Commands.UpdatePatient;
 using Vetolib.MedicalRecords.Application.Commands.UploadPatientPhoto;
 using Vetolib.MedicalRecords.Application.Queries.ExportPatientFhir;
@@ -108,6 +110,12 @@ internal static class PatientEndpoints
             .WithName("DeletePatientPhoto")
             .WithSummary("Delete patient photo")
             .WithDescription("Removes the photo from a patient profile.");
+
+        group.MapPost("/{id:guid}/transfer", TransferPatientEndpoint)
+            .RequireAuthorization("VetOrAdmin")
+            .WithName("TransferPatient")
+            .WithSummary("Transfer patient to another clinic")
+            .WithDescription("Transfers a patient to a target clinic. Creates a full copy of the patient (and optionally medical records and weight history) in the target clinic, and marks the source patient as transferred. The source clinic keeps a read-only copy.");
 
         return app;
     }
@@ -271,6 +279,28 @@ internal static class PatientEndpoints
         ISender sender)
     {
         var cmd = new ImportPatientFhirCommand(clinicContext.ClinicId, request.FhirBundleJson);
+        return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> TransferPatientEndpoint(
+        Guid id,
+        TransferPatientRequest request,
+        IClinicContext clinicContext,
+        ClaimsPrincipal user,
+        ISender sender)
+    {
+        var transferredBy = user.FindFirst(ClaimTypes.Name)?.Value
+            ?? user.FindFirst(ClaimTypes.Email)?.Value
+            ?? "Unknown";
+
+        var cmd = new TransferPatientCommand(
+            clinicContext.ClinicId,
+            id,
+            request.TargetClinicId,
+            request.IncludeRecords,
+            request.IncludeWeightHistory,
+            transferredBy);
+
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 }

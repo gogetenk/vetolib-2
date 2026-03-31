@@ -250,20 +250,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 23
     await testRunner.WhenAsync("I go to Messaging Settings > Templates", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table38 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table40 = new global::Reqnroll.Table(new string[] {
                             "Field",
                             "Value"});
-                table38.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Name",
                             "Vaccination reminder"});
-                table38.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "English",
                             "Your pet is due for vaccination. Please book an appointment."});
-                table38.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Arabic",
                             "حيوانك الأليف بحاجة إلى التطعيم. يرجى حجز موعد."});
 #line 24
-    await testRunner.AndAsync("I create a new template with:", ((string)(null)), table38, "And ");
+    await testRunner.AndAsync("I create a new template with:", ((string)(null)), table40, "And ");
 #line hidden
 #line 29
     await testRunner.ThenAsync("the template should be available to all staff when replying to messages", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -339,20 +339,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 38
     await testRunner.WhenAsync("I go to Messaging Settings > Statistics", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table39 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table41 = new global::Reqnroll.Table(new string[] {
                             "Metric"});
-                table39.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Average first response time"});
-                table39.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Messages by category (pie chart)"});
-                table39.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "AI triage accuracy (% re-categorized)"});
-                table39.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Volume per day (trend)"});
-                table39.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Conversion rate: message to appointment"});
 #line 39
-    await testRunner.ThenAsync("I should see:", ((string)(null)), table39, "Then ");
+    await testRunner.ThenAsync("I should see:", ((string)(null)), table41, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

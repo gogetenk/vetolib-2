@@ -71,6 +71,8 @@ internal static class DashboardEndpoints
             .WithDescription("Returns the number of appointments per veterinarian for the current ISO week (Monday to Sunday).")
             .CacheOutput("Dashboard1min");
 
+        app.MapMonthlyReportEndpoint();
+
         return app;
     }
 

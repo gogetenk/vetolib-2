@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Vetolib.Tests.Unit" />
+    <InternalsVisibleTo Include="Vetolib.Tests.Integration" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.2" />
     <PackageReference Include="MassTransit" Version="8.*" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.*" />

@@ -35,6 +35,9 @@ public static class ModuleServiceRegistrar
         // Cross-module reader — used by AI module for predictive health alerts
         services.AddScoped<IPatientAlertDataReader, PatientAlertDataReader>();
 
+        // Cross-clinic stats reader — used by Auth module for clinic group dashboard
+        services.AddScoped<IPatientStatsReader, PatientStatsReader>();
+
         // Owner portal authorization
         services.AddScoped<IOwnerAuthorizationService, OwnerAuthorizationService>();
 
