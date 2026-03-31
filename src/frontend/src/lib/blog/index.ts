@@ -8,10 +8,12 @@ import { falconHealthManagementUae } from "./articles/falcon-health-management-u
 import { breedingManagementUae } from "./articles/breeding-management-uae";
 import { howToChooseVeterinarySoftwareUae } from "./articles/how-to-choose-veterinary-software-uae";
 import { accessPetMedicalRecordsOnline } from "./articles/access-pet-medical-records-online";
+import { vaccinationScheduleDogsCats2026 } from "./articles/vaccination-schedule-dogs-cats-2026";
 
 export type { BlogArticle } from "./types";
 
 export const allArticles: BlogArticle[] = [
+  vaccinationScheduleDogsCats2026,
   accessPetMedicalRecordsOnline,
   howToChooseVeterinarySoftwareUae,
   falconHealthManagementUae,
