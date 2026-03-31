@@ -352,4 +352,671 @@ public sealed class MessagingEndpointsTests : IntegrationTestBase
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
+
+    // ── PATCH /api/v1/messaging/conversations/{id}/transfer ────────────────
+
+    [Fact]
+    public async Task TransferConversation_ValidRequest_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+        var transferRequest = new ConversationTransferRequest(
+            AssignedToUserId: Guid.NewGuid(),
+            AssignedToRole: "Vet");
+
+        // Act
+        var response = await adminClient.PatchAsJsonAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/transfer",
+            transferRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task TransferConversation_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var transferRequest = new ConversationTransferRequest(Guid.NewGuid(), "Vet");
+
+        // Act
+        var response = await Client.WithoutAuth().PatchAsJsonAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/transfer",
+            transferRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── PATCH /api/v1/messaging/conversations/{id}/category ────────────────
+
+    [Fact]
+    public async Task RecategorizeConversation_ValidRequest_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+        var recatRequest = new ConversationRecategorizeRequest(MessageCategory.MedicalUrgency);
+
+        // Act
+        var response = await adminClient.PatchAsJsonAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/category",
+            recatRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task RecategorizeConversation_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var recatRequest = new ConversationRecategorizeRequest(MessageCategory.Other);
+
+        // Act
+        var response = await Client.WithoutAuth().PatchAsJsonAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/category",
+            recatRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── POST /api/v1/messaging/conversations/{id}/spam ─────────────────────
+
+    [Fact]
+    public async Task MarkAsSpam_ValidRequest_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+
+        // Act
+        var response = await adminClient.PostAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/spam", null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task MarkAsSpam_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().PostAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/spam", null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── POST /api/v1/messaging/conversations/{id}/convert-to-appointment ───
+
+    [Fact]
+    public async Task ConvertToAppointment_ValidRequest_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+        var request = new ConvertToAppointmentRequest(
+            PreferredDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(7)),
+            Notes: "Owner prefers morning appointments");
+
+        // Act
+        var response = await adminClient.PostAsJsonAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/convert-to-appointment",
+            request,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
+    }
+
+    [Fact]
+    public async Task ConvertToAppointment_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var request = new ConvertToAppointmentRequest(null, null);
+
+        // Act
+        var response = await Client.WithoutAuth().PostAsJsonAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/convert-to-appointment",
+            request,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── POST /conversations/{conversationId}/messages/{messageId}/add-to-record ──
+
+    [Fact]
+    public async Task AddMessageToRecord_ValidRequest_ReturnsSuccessOrNotFound()
+    {
+        // Arrange — create a conversation with a message
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+
+        // Get the conversation to retrieve a real message ID
+        var getResponse = await adminClient.GetAsync(
+            $"/api/v1/messaging/conversations/{created.Id}");
+        var conversation = await getResponse.Content
+            .ReadFromJsonAsync<ConversationWithMessagesDto>(JsonOpts);
+        var messageId = conversation!.Messages.First().Id;
+
+        // Act
+        var response = await adminClient.PostAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/messages/{messageId}/add-to-record",
+            null);
+
+        // Assert — may return OK or NotFound (if patient has no medical record yet)
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task AddMessageToRecord_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().PostAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/messages/{Guid.NewGuid()}/add-to-record",
+            null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task AddMessageToRecord_ReceptionistRole_Returns403()
+    {
+        // Arrange — receptionist should not be able to add to medical records
+        var receptionistClient = CreateReceptionistClient();
+
+        // Act
+        var response = await receptionistClient.PostAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/messages/{Guid.NewGuid()}/add-to-record",
+            null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    // ── GET /api/v1/messaging/conversations/{id}/summary ───────────────────
+
+    [Fact]
+    public async Task GetConversationSummary_ExistingConversation_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+
+        // Act
+        var response = await adminClient.GetAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/summary");
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task GetConversationSummary_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().GetAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/summary");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── PATCH /conversations/{id}/messages/{messageId}/classify ─────────────
+
+    [Fact]
+    public async Task OverrideClassification_ValidRequest_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+        var getResponse = await adminClient.GetAsync(
+            $"/api/v1/messaging/conversations/{created.Id}");
+        var conversation = await getResponse.Content
+            .ReadFromJsonAsync<ConversationWithMessagesDto>(JsonOpts);
+        var messageId = conversation!.Messages.First().Id;
+
+        var overrideRequest = new ClassifyMessageOverrideRequest(
+            Urgency: ClassifiedUrgency.High,
+            Category: ClassifiedCategory.MedicalConcern);
+
+        // Act
+        var response = await adminClient.PatchAsJsonAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/messages/{messageId}/classify",
+            overrideRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task OverrideClassification_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var overrideRequest = new ClassifyMessageOverrideRequest(
+            ClassifiedUrgency.Low, ClassifiedCategory.Other);
+
+        // Act
+        var response = await Client.WithoutAuth().PatchAsJsonAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/messages/{Guid.NewGuid()}/classify",
+            overrideRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task OverrideClassification_ReceptionistRole_Returns403()
+    {
+        // Arrange — receptionist should not override classification
+        var receptionistClient = CreateReceptionistClient();
+        var overrideRequest = new ClassifyMessageOverrideRequest(
+            ClassifiedUrgency.Low, ClassifiedCategory.Other);
+
+        // Act
+        var response = await receptionistClient.PatchAsJsonAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/messages/{Guid.NewGuid()}/classify",
+            overrideRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    // ── POST /conversations/{id}/messages/{messageId}/classify/feedback ─────
+
+    [Fact]
+    public async Task ClassificationFeedback_ValidRequest_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var created = await CreateOutboundConversationAsync(adminClient);
+        var getResponse = await adminClient.GetAsync(
+            $"/api/v1/messaging/conversations/{created.Id}");
+        var conversation = await getResponse.Content
+            .ReadFromJsonAsync<ConversationWithMessagesDto>(JsonOpts);
+        var messageId = conversation!.Messages.First().Id;
+
+        var feedbackRequest = new ClassificationFeedbackRequest(IsCorrect: true);
+
+        // Act
+        var response = await adminClient.PostAsJsonAsync(
+            $"/api/v1/messaging/conversations/{created.Id}/messages/{messageId}/classify/feedback",
+            feedbackRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task ClassificationFeedback_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var feedbackRequest = new ClassificationFeedbackRequest(IsCorrect: false);
+
+        // Act
+        var response = await Client.WithoutAuth().PostAsJsonAsync(
+            $"/api/v1/messaging/conversations/{Guid.NewGuid()}/messages/{Guid.NewGuid()}/classify/feedback",
+            feedbackRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── GET /api/v1/messaging/stats/classification-accuracy ────────────────
+
+    [Fact]
+    public async Task GetClassificationAccuracy_Admin_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+
+        // Act
+        var response = await adminClient.GetAsync(
+            "/api/v1/messaging/stats/classification-accuracy");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetClassificationAccuracy_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().GetAsync(
+            "/api/v1/messaging/stats/classification-accuracy");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task GetClassificationAccuracy_NonAdmin_Returns403()
+    {
+        // Arrange
+        var receptionistClient = CreateReceptionistClient();
+
+        // Act
+        var response = await receptionistClient.GetAsync(
+            "/api/v1/messaging/stats/classification-accuracy");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    // ── GET /api/v1/messaging/settings/hours ───────────────────────────────
+
+    [Fact]
+    public async Task GetMessagingHours_Admin_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+
+        // Act
+        var response = await adminClient.GetAsync(
+            "/api/v1/messaging/settings/hours");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetMessagingHours_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().GetAsync(
+            "/api/v1/messaging/settings/hours");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task GetMessagingHours_NonAdmin_Returns403()
+    {
+        // Arrange
+        var receptionistClient = CreateReceptionistClient();
+
+        // Act
+        var response = await receptionistClient.GetAsync(
+            "/api/v1/messaging/settings/hours");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    // ── PUT /api/v1/messaging/settings/hours ───────────────────────────────
+
+    [Fact]
+    public async Task UpdateMessagingHours_Admin_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var request = new UpdateMessagingHoursRequest(
+            Days: new List<MessagingHoursDayRequest>
+            {
+                new(0, new TimeOnly(8, 0), new TimeOnly(18, 0), false),
+                new(1, new TimeOnly(8, 0), new TimeOnly(18, 0), false),
+                new(5, new TimeOnly(0, 0), new TimeOnly(0, 0), true)
+            });
+
+        // Act
+        var response = await adminClient.PutAsJsonAsync(
+            "/api/v1/messaging/settings/hours",
+            request,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task UpdateMessagingHours_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var request = new UpdateMessagingHoursRequest(
+            Days: new List<MessagingHoursDayRequest>());
+
+        // Act
+        var response = await Client.WithoutAuth().PutAsJsonAsync(
+            "/api/v1/messaging/settings/hours",
+            request,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── GET /api/v1/messaging/stats ────────────────────────────────────────
+
+    [Fact]
+    public async Task GetTriageStats_Admin_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+
+        // Act
+        var response = await adminClient.GetAsync("/api/v1/messaging/stats");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetTriageStats_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().GetAsync("/api/v1/messaging/stats");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task GetTriageStats_NonAdmin_Returns403()
+    {
+        // Arrange
+        var receptionistClient = CreateReceptionistClient();
+
+        // Act
+        var response = await receptionistClient.GetAsync("/api/v1/messaging/stats");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    // ── GET /api/v1/messaging/templates ────────────────────────────────────
+
+    [Fact]
+    public async Task ListTemplates_Authenticated_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+
+        // Act
+        var response = await adminClient.GetAsync("/api/v1/messaging/templates");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task ListTemplates_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().GetAsync("/api/v1/messaging/templates");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── POST /api/v1/messaging/templates ───────────────────────────────────
+
+    [Fact]
+    public async Task CreateTemplate_Admin_ReturnsSuccess()
+    {
+        // Arrange
+        var adminClient = CreateAdminClient();
+        var request = new CreateTemplateRequest(
+            Name: "Vaccination Reminder",
+            ContentEn: "Dear {owner}, your pet {pet} is due for vaccination.",
+            ContentAr: "عزيزي {owner}، حيوانك الأليف {pet} مستحق للتطعيم.",
+            Category: MessageCategory.Administrative);
+
+        // Act
+        var response = await adminClient.PostAsJsonAsync(
+            "/api/v1/messaging/templates",
+            request,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
+    }
+
+    [Fact]
+    public async Task CreateTemplate_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var request = new CreateTemplateRequest("Test", "en", "ar", null);
+
+        // Act
+        var response = await Client.WithoutAuth().PostAsJsonAsync(
+            "/api/v1/messaging/templates",
+            request,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task CreateTemplate_NonAdmin_Returns403()
+    {
+        // Arrange
+        var receptionistClient = CreateReceptionistClient();
+        var request = new CreateTemplateRequest("Test", "en", "ar", null);
+
+        // Act
+        var response = await receptionistClient.PostAsJsonAsync(
+            "/api/v1/messaging/templates",
+            request,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    // ── PUT /api/v1/messaging/templates/{id} ───────────────────────────────
+
+    [Fact]
+    public async Task UpdateTemplate_Admin_ExistingTemplate_ReturnsSuccess()
+    {
+        // Arrange — create a template first
+        var adminClient = CreateAdminClient();
+        var createRequest = new CreateTemplateRequest(
+            "Surgery Follow-up",
+            "Dear {owner}, how is {pet} recovering?",
+            "عزيزي {owner}، كيف حال {pet}؟",
+            MessageCategory.PostOperativeFollowUp);
+        var createResponse = await adminClient.PostAsJsonAsync(
+            "/api/v1/messaging/templates", createRequest, JsonOpts);
+        var created = await createResponse.Content
+            .ReadFromJsonAsync<ResponseTemplateDto>(JsonOpts);
+
+        var updateRequest = new UpdateTemplateRequest(
+            "Surgery Follow-up Updated",
+            "Dear {owner}, how is {pet} doing after surgery?",
+            "عزيزي {owner}، كيف حال {pet} بعد العملية؟",
+            MessageCategory.PostOperativeFollowUp);
+
+        // Act
+        var response = await adminClient.PutAsJsonAsync(
+            $"/api/v1/messaging/templates/{created!.Id}",
+            updateRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task UpdateTemplate_Unauthenticated_Returns401()
+    {
+        // Arrange
+        var updateRequest = new UpdateTemplateRequest("Test", "en", "ar", null);
+
+        // Act
+        var response = await Client.WithoutAuth().PutAsJsonAsync(
+            $"/api/v1/messaging/templates/{Guid.NewGuid()}",
+            updateRequest,
+            JsonOpts);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── DELETE /api/v1/messaging/templates/{id} ────────────────────────────
+
+    [Fact]
+    public async Task DeleteTemplate_Admin_ExistingTemplate_ReturnsSuccess()
+    {
+        // Arrange — create a template first
+        var adminClient = CreateAdminClient();
+        var createRequest = new CreateTemplateRequest(
+            "Temporary Template",
+            "To be deleted",
+            "سيتم حذفها",
+            null);
+        var createResponse = await adminClient.PostAsJsonAsync(
+            "/api/v1/messaging/templates", createRequest, JsonOpts);
+        var created = await createResponse.Content
+            .ReadFromJsonAsync<ResponseTemplateDto>(JsonOpts);
+
+        // Act
+        var response = await adminClient.DeleteAsync(
+            $"/api/v1/messaging/templates/{created!.Id}");
+
+        // Assert
+        response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task DeleteTemplate_Unauthenticated_Returns401()
+    {
+        // Act
+        var response = await Client.WithoutAuth().DeleteAsync(
+            $"/api/v1/messaging/templates/{Guid.NewGuid()}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task DeleteTemplate_NonAdmin_Returns403()
+    {
+        // Arrange
+        var receptionistClient = CreateReceptionistClient();
+
+        // Act
+        var response = await receptionistClient.DeleteAsync(
+            $"/api/v1/messaging/templates/{Guid.NewGuid()}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
 }
