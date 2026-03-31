@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { listPortalConversations } from '@/lib/api/portal'
 import { ApiError } from '@/lib/api/client'
 import type { PortalConversationDto, ConversationStatus } from '@/lib/api/messaging-types'
+import { ReferralCard } from '@/components/features/portal/ReferralCard'
 
 const STATUS_COLORS: Record<ConversationStatus, string> = {
   Open: 'bg-success/15 text-success',
@@ -169,6 +170,9 @@ export function PortalLanding() {
           {t('download_all')}
         </Link>
       </div>
+
+      {/* Referral card */}
+      <ReferralCard />
     </div>
   )
 }

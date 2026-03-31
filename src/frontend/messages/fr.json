@@ -1879,6 +1879,15 @@
         "whatsapp": "Rappels WhatsApp",
         "email": "Rappels par e-mail"
       }
+    },
+    "referral": {
+      "title": "Partagez Vetara",
+      "description": "Vous aimez Vetara ? Partagez votre code de parrainage avec vos amis pour les aider a decouvrir de meilleurs soins pour leurs animaux.",
+      "copy_code": "Copier le code",
+      "copied": "Copie !",
+      "share_whatsapp": "Partager via WhatsApp",
+      "friends_joined": "{count} amis inscrits",
+      "whatsapp_message": "Salut ! J'utilise Vetara pour la sante de mon animal. Rejoins avec mon code de parrainage : {code}"
     }
   },
   "onboarding": {
