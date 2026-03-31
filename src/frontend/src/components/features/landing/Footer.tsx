@@ -86,7 +86,7 @@ export function Footer({ locale, messages: m, signupHref, footerCta }: Props) {
       title: m.columns.resources.title,
       links: [
         { label: m.columns.resources.help_center, href: `/${locale}/help` },
-        { label: m.columns.resources.api_docs, href: "#" },
+        { label: m.columns.resources.api_docs, href: `/${locale}/developers` },
         { label: m.columns.resources.status, href: "#" },
       ],
     },
