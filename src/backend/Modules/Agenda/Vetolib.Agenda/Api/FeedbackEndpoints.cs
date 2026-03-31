@@ -63,6 +63,7 @@ internal static class FeedbackEndpoints
         int pageNumber = 1,
         int pageSize = 50)
     {
+        if (pageSize is < 1 or > 200) pageSize = 50;
         return (await sender.Send(new ListVisitFeedbackQuery(pageNumber, pageSize))).ToMinimalApiResult();
     }
 

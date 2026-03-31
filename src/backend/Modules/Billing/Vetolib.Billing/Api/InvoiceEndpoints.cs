@@ -104,8 +104,11 @@ internal static class InvoiceEndpoints
         ISender sender,
         int pageNumber = 1,
         int pageSize = 20)
-        => (await sender.Send(new ListInvoicesQuery(pageNumber, pageSize)))
+    {
+        if (pageSize is < 1 or > 200) pageSize = 20;
+        return (await sender.Send(new ListInvoicesQuery(pageNumber, pageSize)))
             .ToMinimalApiResult();
+    }
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> GetInvoiceById(
         Guid id,

@@ -52,8 +52,12 @@ internal static class ReminderEndpoints
         int? page,
         int? pageSize,
         ISender sender)
-        => (await sender.Send(new ListReminderLogsQuery(
+    {
+        var size = pageSize ?? 20;
+        if (size is < 1 or > 200) size = 20;
+        return (await sender.Send(new ListReminderLogsQuery(
             type,
             page ?? 1,
-            pageSize ?? 20))).ToMinimalApiResult();
+            size))).ToMinimalApiResult();
+    }
 }
