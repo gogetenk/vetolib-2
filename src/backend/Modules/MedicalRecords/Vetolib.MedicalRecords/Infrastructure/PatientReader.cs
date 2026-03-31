@@ -139,4 +139,23 @@ internal class PatientReader : IPatientReader
         return Result<PatientBasicInfoDto>.Success(
             new PatientBasicInfoDto(patient.Id, patient.Name, patient.Species, patient.Sex));
     }
+
+    public async Task<Result<IReadOnlyDictionary<Guid, PatientDto>>> GetPatientsByIdsAsync(
+        IReadOnlyCollection<Guid> patientIds,
+        CancellationToken cancellationToken = default)
+    {
+        if (patientIds.Count == 0)
+            return Result<IReadOnlyDictionary<Guid, PatientDto>>.Success(
+                new Dictionary<Guid, PatientDto>());
+
+        var patients = await _context.Patients
+            .Include(p => p.PatientOwners)
+                .ThenInclude(po => po.Owner)
+            .Where(p => patientIds.Contains(p.Id))
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        var dict = patients.ToDictionary(p => p.Id, p => p.ToDto());
+        return Result<IReadOnlyDictionary<Guid, PatientDto>>.Success(dict);
+    }
 }
