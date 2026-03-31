@@ -2,18 +2,13 @@ import { http, HttpResponse } from 'msw'
 import type { ReminderConfigDto, ReminderLogDto } from '@/lib/api/reminders'
 
 // In-memory store for reminder configuration
-const reminderConfig: ReminderConfigDto = {
-  appointmentReminders: {
-    enabled: true,
-    timingHours: 24,
-  },
-  vaccinationReminders: {
-    enabled: true,
-  },
-  followUpReminders: {
-    enabled: false,
-    daysAfter: 7,
-  },
+let reminderConfig: ReminderConfigDto = {
+  appointment24hEnabled: true,
+  vaccinationDueEnabled: true,
+  followUpEnabled: false,
+  appointment24hLeadTimeHours: 24,
+  vaccinationDueLeadTimeDays: 30,
+  preferredReminderChannel: 'Both',
 }
 
 const reminderLogs: ReminderLogDto[] = [
@@ -77,11 +72,7 @@ export const reminderHandlers = [
   // PUT /api/v1/notifications/reminders/config
   http.put('/api/v1/notifications/reminders/config', async ({ request }) => {
     const body = (await request.json()) as ReminderConfigDto
-
-    reminderConfig.appointmentReminders = body.appointmentReminders
-    reminderConfig.vaccinationReminders = body.vaccinationReminders
-    reminderConfig.followUpReminders = body.followUpReminders
-
+    reminderConfig = { ...body }
     return new HttpResponse(null, { status: 204 })
   }),
 

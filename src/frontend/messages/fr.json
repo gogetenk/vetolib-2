@@ -2040,6 +2040,13 @@
       "status_failed": "Échoué",
       "status_pending": "En attente"
     },
+    "channel": {
+      "title": "Canal de rappel préféré",
+      "description": "Choisissez comment les rappels sont envoyés aux propriétaires.",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "both": "Les deux"
+    },
     "errors": {
       "load_failed": "Échec du chargement des paramètres de rappel.",
       "save_failed": "Échec de l'enregistrement des paramètres de rappel."
