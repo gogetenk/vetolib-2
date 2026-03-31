@@ -37,6 +37,9 @@ public static class AuthModuleServiceRegistrar
         // JWT Token Service
         services.AddScoped<IJwtTokenService, JwtTokenService>();
 
+        // Owner Portal JWT Service
+        services.AddScoped<IOwnerPortalJwtService, OwnerPortalJwtService>();
+
         // Cross-module readers
         services.AddScoped<IClinicVetReader, ClinicVetReader>();
 
@@ -109,6 +112,8 @@ public static class AuthModuleServiceRegistrar
         app.MapClinicApiEndpoints();
         app.MapClinicGroupApiEndpoints();
         app.MapOnboardingEndpoints();
+        app.MapReferralApiEndpoints();
+        app.MapPortalApiEndpoints();
         return app;
     }
 }

@@ -8,6 +8,11 @@ import {
   Building2,
   Star,
   ShieldCheck,
+  Pill,
+  HeartPulse,
+  Stethoscope,
+  FileText,
+  Link2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PricingSection } from "@/components/features/landing/PricingSection";
@@ -30,7 +35,7 @@ import { StickyCtaBar } from "@/components/features/landing/StickyCtaBar";
 import { ExitIntentPopup } from "@/components/features/landing/ExitIntentPopup";
 import { TrackedCtaLink } from "@/components/features/landing/TrackedCtaLink";
 import { LatestBlogSection } from "@/components/features/blog/LatestBlogSection";
-import { WhatsAppBookingButton } from "@/components/features/landing/WhatsAppBookingButton";
+
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -73,18 +78,17 @@ const JSON_LD_SOFTWARE = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description:
-    "UAE veterinary clinic management platform with AI triage, WhatsApp integration, Arabic + English support, and UAE-compliant invoicing.",
+    "Modern veterinary clinic management platform with AI triage, WhatsApp integration, multilingual support, and compliant invoicing.",
   applicationSubCategory: "Veterinary Practice Management",
   offers: {
     "@type": "AggregateOffer",
-    priceCurrency: "AED",
+    priceCurrency: "USD",
     lowPrice: "0",
     highPrice: "149",
   },
   featureList:
-    "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, AI SOAP notes, WhatsApp messaging, Stock management, Multi-clinic management, Breeding & reproduction management, Falcon & camel species support, Arabic RTL support",
+    "Appointment scheduling, Medical records, Compliant invoicing, AI triage, AI SOAP notes, Drug interaction checks, WhatsApp messaging, Stock management, Multi-clinic management, Breeding & reproduction management, Multilingual support",
   availableOnDevice: "Desktop, Tablet, Mobile",
-  countriesSupported: "AE",
 };
 
 const JSON_LD_ORGANIZATION = {
@@ -191,6 +195,20 @@ export default async function LandingPage({ params }: Props) {
             >
               Blog
             </Link>
+            <Link
+              href={`/${locale}/pet-owners`}
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-pet-owners"
+            >
+              {t("nav.pet_owners")}
+            </Link>
+            <Link
+              href={`/${locale}/developers`}
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-developers"
+            >
+              {t("nav.developers")}
+            </Link>
             <NavLanguageSwitcher locale={locale} />
             <Link href={loginHref} data-testid="nav-signin-link">
               <Button variant="outline" size="sm" className="transition-all duration-200 hover:scale-[1.02]" data-testid="btn-nav-signin">
@@ -217,6 +235,8 @@ export default async function LandingPage({ params }: Props) {
                 { label: t("nav.demo"), href: "#demo", testId: "nav-link-demo" },
                 { label: t("nav.faq"), href: "#faq", testId: "nav-link-faq" },
                 { label: "Blog", href: `/${locale}/blog`, testId: "nav-link-blog" },
+                { label: t("nav.pet_owners"), href: `/${locale}/pet-owners`, testId: "nav-link-pet-owners" },
+                { label: t("nav.developers"), href: `/${locale}/developers`, testId: "nav-link-developers" },
               ]}
               signInLabel={t("nav.sign_in")}
               ctaLabel={t("hero.cta_primary")}
@@ -256,10 +276,13 @@ export default async function LandingPage({ params }: Props) {
                       buttonTestId="btn-hero-start-trial"
                       buttonClassName="group/cta relative w-full overflow-hidden bg-primary px-10 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] sm:w-auto"
                     >{t("hero.cta_primary")}</TrackedCtaLink>
-                    <WhatsAppBookingButton
-                      label={t("hero.whatsapp_cta")}
-                      clinicName="Vetara"
-                    />
+                    <a
+                      href="#pricing"
+                      className="inline-flex items-center justify-center rounded-md border border-stone-300 bg-white px-10 py-3 text-base font-semibold text-stone-700 transition-all duration-300 hover:bg-stone-50 hover:border-stone-400 hover:scale-[1.02] sm:w-auto"
+                      data-testid="hero-cta-see-pricing"
+                    >
+                      {t("hero.cta_secondary")}
+                    </a>
                   </div>
                 </HeroStagger>
                 <HeroStagger index={3}>
@@ -392,6 +415,79 @@ export default async function LandingPage({ params }: Props) {
           }}
         />
 
+        {/* ── AI Section ──────────────────────────────────────────────── */}
+        <section
+          data-testid="section-ai"
+          className="bg-gradient-to-br from-primary/5 via-white to-accent/30 py-20 sm:py-28"
+        >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <ScrollReveal direction="fade-up">
+              <div className="mx-auto max-w-2xl text-center">
+                <p className="text-sm font-semibold uppercase tracking-wider text-primary">
+                  AI
+                </p>
+                <h2 className="mt-2 text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
+                  {t("ai_section.title")}
+                </h2>
+                <p className="mt-4 text-lg text-stone-600">
+                  {t("ai_section.subtitle")}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {([
+                { key: "drug_interactions", Icon: Pill },
+                { key: "health_predictions", Icon: HeartPulse },
+                { key: "smart_triage", Icon: Stethoscope },
+                { key: "soap_notes", Icon: FileText },
+              ] as const).map(({ key, Icon }, idx) => (
+                <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
+                  <div
+                    data-testid={`ai-card-${key}`}
+                    className="flex flex-col items-center rounded-2xl border border-stone-100 bg-white p-6 text-center shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                  >
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                      <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                    </div>
+                    <h3 className="mt-4 text-base font-semibold text-stone-900">
+                      {t(`ai_section.${key}.title`)}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                      {t(`ai_section.${key}.description`)}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Connected Vision ───────────────────────────────────────── */}
+        <section
+          data-testid="section-connected-vision"
+          className="border-y border-stone-100 bg-stone-50 py-20 sm:py-28"
+        >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl text-center">
+              <ScrollReveal direction="fade-up">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+                  <Link2 className="h-7 w-7 text-primary" aria-hidden="true" />
+                </div>
+                <h2 className="mt-6 text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
+                  {t("connected_vision.title")}
+                </h2>
+                <p className="mt-4 text-lg font-medium text-stone-700">
+                  {t("connected_vision.subtitle")}
+                </p>
+                <p className="mt-4 text-base leading-relaxed text-stone-600">
+                  {t("connected_vision.description")}
+                </p>
+              </ScrollReveal>
+            </div>
+          </div>
+        </section>
+
         {/* ── How It Works ───────────────────────────────────────────── */}
         <section
           data-testid="section-how-it-works"
@@ -487,84 +583,6 @@ export default async function LandingPage({ params }: Props) {
           }}
         />
 
-        {/* ── Competitive Comparison ─────────────────────────────────── */}
-        <CompetitiveTableSection
-          messages={{
-            title: t("competitive.title"),
-            subtitle: t("competitive.subtitle"),
-            columns: {
-              feature: t("competitive.columns.feature"),
-              vetolib: t("competitive.columns.vetolib"),
-              ezyvet: t("competitive.columns.ezyvet"),
-              digitail: t("competitive.columns.digitail"),
-            },
-            rows: [
-              { feature: t("competitive.rows.arabic.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
-              { feature: t("competitive.rows.whatsapp.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
-              { feature: t("competitive.rows.ai_triage.feature"), vetolib: "yes", ezyvet: "no", digitail: "partial" },
-              { feature: t("competitive.rows.uae_optimized.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
-              { feature: t("competitive.rows.breeding.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
-              { feature: t("competitive.rows.falcon_camel.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
-              { feature: t("competitive.rows.ai_soap.feature"), vetolib: "yes", ezyvet: "no", digitail: "yes" },
-              { feature: t("competitive.rows.price.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
-              { feature: t("competitive.rows.multi_clinic.feature"), vetolib: "yes", ezyvet: "yes", digitail: "yes" },
-              { feature: t("competitive.rows.file_attachments.feature"), vetolib: "yes", ezyvet: "yes", digitail: "partial" },
-            ],
-          }}
-        />
-
-        {/* ── Testimonials ───────────────────────────────────────────── */}
-        <section
-          data-testid="section-testimonials"
-          className="bg-white py-20 sm:py-28"
-        >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <ScrollReveal direction="fade-up">
-              <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
-                  {t("testimonials.title")}
-                </h2>
-                <p className="mt-4 text-lg text-stone-600">
-                  {t("testimonials.subtitle")}
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {(["quote1", "quote2", "quote3"] as const).map((key, idx) => {
-                const rating = parseInt(t(`testimonials.${key}.rating`), 10) || 5;
-                return (
-                  <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
-                    <figure data-testid={`testimonial-${key}`} className="flex flex-col rounded-2xl border border-stone-100 bg-stone-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
-                      <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className={`h-4 w-4 ${i < rating ? "fill-amber-400 text-amber-400" : "fill-stone-200 text-stone-200"}`} aria-hidden="true" />
-                        ))}
-                      </div>
-                      <blockquote className="mt-4 flex-1">
-                        <p className="text-sm leading-relaxed text-stone-700">&ldquo;{t(`testimonials.${key}.text`)}&rdquo;</p>
-                      </blockquote>
-                      <figcaption className="mt-6 flex items-center gap-3 border-t border-stone-100 pt-4">
-                        <Image src={`/avatars/testimonial-${idx + 1}.svg`} alt={t(`testimonials.${key}.name`)} width={40} height={40} className="h-10 w-10 shrink-0 rounded-full object-cover" unoptimized />
-                        <div>
-                          <p className="text-sm font-semibold text-stone-900">{t(`testimonials.${key}.name`)}</p>
-                          <p className="text-xs text-stone-500">{t(`testimonials.${key}.role`)} &bull;{" "}{t(`testimonials.${key}.clinic`)}</p>
-                          <p className="text-xs text-stone-400">{t(`testimonials.${key}.emirate`)}</p>
-                        </div>
-                      </figcaption>
-                    </figure>
-                  </ScrollReveal>
-                );
-              })}
-            </div>
-
-            {/* Mobile carousel hint — subtle scroll indicator */}
-            <p className="mt-6 text-center text-xs text-stone-400 sm:hidden">
-              {t("testimonials.scroll_hint")}
-            </p>
-          </div>
-        </section>
-
         {/* ── Pricing ────────────────────────────────────────────────── */}
         <PricingSection
           loginHref={signupHref}
@@ -645,6 +663,84 @@ export default async function LandingPage({ params }: Props) {
           }}
         />
 
+
+        {/* ── Testimonials ───────────────────────────────────────────── */}
+        <section
+          data-testid="section-testimonials"
+          className="bg-white py-20 sm:py-28"
+        >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <ScrollReveal direction="fade-up">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl lg:text-4xl">
+                  {t("testimonials.title")}
+                </h2>
+                <p className="mt-4 text-lg text-stone-600">
+                  {t("testimonials.subtitle")}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {(["quote1", "quote2", "quote3"] as const).map((key, idx) => {
+                const rating = parseInt(t(`testimonials.${key}.rating`), 10) || 5;
+                return (
+                  <ScrollReveal key={key} delay={idx * 150} direction="fade-up">
+                    <figure data-testid={`testimonial-${key}`} className="flex flex-col rounded-2xl border border-stone-100 bg-stone-50 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                      <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className={`h-4 w-4 ${i < rating ? "fill-amber-400 text-amber-400" : "fill-stone-200 text-stone-200"}`} aria-hidden="true" />
+                        ))}
+                      </div>
+                      <blockquote className="mt-4 flex-1">
+                        <p className="text-sm leading-relaxed text-stone-700">&ldquo;{t(`testimonials.${key}.text`)}&rdquo;</p>
+                      </blockquote>
+                      <figcaption className="mt-6 flex items-center gap-3 border-t border-stone-100 pt-4">
+                        <Image src={`/avatars/testimonial-${idx + 1}.svg`} alt={t(`testimonials.${key}.name`)} width={40} height={40} className="h-10 w-10 shrink-0 rounded-full object-cover" unoptimized />
+                        <div>
+                          <p className="text-sm font-semibold text-stone-900">{t(`testimonials.${key}.name`)}</p>
+                          <p className="text-xs text-stone-500">{t(`testimonials.${key}.role`)} &bull;{" "}{t(`testimonials.${key}.clinic`)}</p>
+                          <p className="text-xs text-stone-400">{t(`testimonials.${key}.emirate`)}</p>
+                        </div>
+                      </figcaption>
+                    </figure>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+
+            {/* Mobile carousel hint — subtle scroll indicator */}
+            <p className="mt-6 text-center text-xs text-stone-400 sm:hidden">
+              {t("testimonials.scroll_hint")}
+            </p>
+          </div>
+        </section>
+
+        {/* ── Competitive Comparison ─────────────────────────────────── */}
+        <CompetitiveTableSection
+          messages={{
+            title: t("competitive.title"),
+            subtitle: t("competitive.subtitle"),
+            columns: {
+              feature: t("competitive.columns.feature"),
+              vetolib: t("competitive.columns.vetolib"),
+              ezyvet: t("competitive.columns.ezyvet"),
+              digitail: t("competitive.columns.digitail"),
+            },
+            rows: [
+              { feature: t("competitive.rows.arabic.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.whatsapp.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.ai_triage.feature"), vetolib: "yes", ezyvet: "no", digitail: "partial" },
+              { feature: t("competitive.rows.uae_optimized.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.breeding.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.falcon_camel.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.ai_soap.feature"), vetolib: "yes", ezyvet: "no", digitail: "yes" },
+              { feature: t("competitive.rows.price.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
+              { feature: t("competitive.rows.multi_clinic.feature"), vetolib: "yes", ezyvet: "yes", digitail: "yes" },
+              { feature: t("competitive.rows.file_attachments.feature"), vetolib: "yes", ezyvet: "yes", digitail: "partial" },
+            ],
+          }}
+        />
 
         {/* ── Demo Form ────────────────────────────────────────────── */}
         <DemoFormSection

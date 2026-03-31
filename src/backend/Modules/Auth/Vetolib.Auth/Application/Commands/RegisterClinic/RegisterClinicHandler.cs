@@ -47,6 +47,20 @@ internal class RegisterClinicHandler : IRequestHandler<RegisterClinicCommand, Re
 
         var user = userResult.Value;
 
+        // Process referral code if provided
+        if (!string.IsNullOrWhiteSpace(cmd.ReferralCode))
+        {
+            var referralCode = await _context.ReferralCodes
+                .FirstOrDefaultAsync(r => r.Code == cmd.ReferralCode.ToUpperInvariant(), ct);
+
+            if (referralCode is not null)
+            {
+                user.SetReferrer(referralCode.OwnerUserId);
+                referralCode.IncrementUsage();
+            }
+            // If referral code not found, we silently ignore it (don't block registration)
+        }
+
         // Persist both in the same transaction
         _context.Clinics.Add(clinic);
         _context.Users.Add(user);

@@ -8,11 +8,15 @@ import { falconHealthManagementUae } from "./articles/falcon-health-management-u
 import { breedingManagementUae } from "./articles/breeding-management-uae";
 import { howToChooseVeterinarySoftwareUae } from "./articles/how-to-choose-veterinary-software-uae";
 import { firstVetVisitWhatToExpect } from "./articles/first-vet-visit-what-to-expect";
+import { accessPetMedicalRecordsOnline } from "./articles/access-pet-medical-records-online";
+import { vaccinationScheduleDogsCats2026 } from "./articles/vaccination-schedule-dogs-cats-2026";
 
 export type { BlogArticle } from "./types";
 
 export const allArticles: BlogArticle[] = [
   firstVetVisitWhatToExpect,
+  vaccinationScheduleDogsCats2026,
+  accessPetMedicalRecordsOnline,
   howToChooseVeterinarySoftwareUae,
   falconHealthManagementUae,
   breedingManagementUae,

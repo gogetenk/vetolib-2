@@ -9,4 +9,5 @@ internal record RegisterClinicCommand(
     string Email,
     string Password,
     string Phone,
-    string Country) : IRequest<Result<RegisterClinicResponse>>;
+    string Country,
+    string? ReferralCode = null) : IRequest<Result<RegisterClinicResponse>>;

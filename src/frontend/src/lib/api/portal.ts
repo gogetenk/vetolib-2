@@ -132,3 +132,118 @@ export function getPortalClinicInfo(): Promise<PortalClinicInfoDto> {
 export function listPortalPets(): Promise<PortalPetDto[]> {
   return portalFetch<PortalPetDto[]>(`${BASE}/pets`)
 }
+
+// ─── My Animals (new portal endpoints) ───────────────────────────────────────
+
+export interface PortalAnimalDto {
+  id: string
+  name: string
+  species: string
+  breed: string
+  dateOfBirth: string | null
+  lastVisitDate: string | null
+}
+
+export interface PortalMedicalRecordDto {
+  id: string
+  visitDate: string
+  reason: string
+  diagnosis: string
+  treatment: string
+  vetName: string
+}
+
+export interface PortalVaccinationDto {
+  id: string
+  name: string
+  administeredAt: string
+  nextDueAt: string | null
+  vetName: string
+}
+
+export interface PortalPrescriptionDto {
+  id: string
+  drugName: string
+  dosage: string
+  frequency: string
+  startDate: string
+  endDate: string | null
+  prescribedBy: string
+}
+
+export interface PortalWeightEntryDto {
+  date: string
+  weightKg: number
+}
+
+export function listMyAnimals(): Promise<PortalAnimalDto[]> {
+  return portalFetch<PortalAnimalDto[]>(`${BASE}/my-animals`)
+}
+
+export function getAnimalRecords(animalId: string): Promise<PortalMedicalRecordDto[]> {
+  return portalFetch<PortalMedicalRecordDto[]>(`${BASE}/animals/${animalId}/records`)
+}
+
+export function getAnimalVaccinations(animalId: string): Promise<PortalVaccinationDto[]> {
+  return portalFetch<PortalVaccinationDto[]>(`${BASE}/animals/${animalId}/vaccinations`)
+}
+
+export function getAnimalPrescriptions(animalId: string): Promise<PortalPrescriptionDto[]> {
+  return portalFetch<PortalPrescriptionDto[]>(`${BASE}/animals/${animalId}/prescriptions`)
+}
+
+export function getAnimalWeightHistory(animalId: string): Promise<PortalWeightEntryDto[]> {
+  return portalFetch<PortalWeightEntryDto[]>(`${BASE}/animals/${animalId}/weight`)
+}
+
+// ─── Vaccination Reminders ──────────────────────────────────────────────────
+
+export type VaccinationReminderStatus = 'Upcoming' | 'Overdue' | 'Completed'
+
+export interface VaccinationReminderDto {
+  id: string
+  vaccineName: string
+  dueDate: string
+  status: VaccinationReminderStatus
+  animalId: string
+  animalName: string
+}
+
+export function getAnimalVaccinationReminders(
+  animalId: string
+): Promise<VaccinationReminderDto[]> {
+  return portalFetch<VaccinationReminderDto[]>(
+    `${BASE}/animals/${animalId}/vaccination-reminders`
+  )
+}
+
+// ─── Notification Preferences ───────────────────────────────────────────────
+
+export interface NotificationPreferencesDto {
+  whatsappEnabled: boolean
+  emailEnabled: boolean
+}
+
+export function getNotificationPreferences(): Promise<NotificationPreferencesDto> {
+  return portalFetch<NotificationPreferencesDto>(`${BASE}/notification-preferences`)
+}
+
+export function updateNotificationPreferences(
+  body: NotificationPreferencesDto
+): Promise<NotificationPreferencesDto> {
+  return portalFetch<NotificationPreferencesDto>(`${BASE}/notification-preferences`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+}
+
+// ─── Referral Code ─────────────────────────────────────────────────────────────
+
+export interface ReferralCodeDto {
+  code: string
+  usageCount: number
+}
+
+export function getReferralCode(): Promise<ReferralCodeDto> {
+  return portalFetch<ReferralCodeDto>(`${BASE}/referral-code`)
+}

@@ -47,6 +47,11 @@ function isPublicPath(pathname: string): boolean {
     return true;
   }
 
+  // Shared record links are public: /en/shared/... or /ar/shared/... or /shared/...
+  if (/\/shared\//.test(pathname) || /\/shared$/.test(pathname)) {
+    return true;
+  }
+
   // Locale-prefixed public pages: login, signup, and locale root (landing page)
   for (const locale of SUPPORTED_LOCALES) {
     // Landing page: /en or /ar (exact match)
@@ -81,6 +86,24 @@ function isPublicPath(pathname: string): boolean {
     // Privacy Policy: /en/privacy or /ar/privacy
     const privacyPath = `/${locale}/privacy`;
     if (pathname === privacyPath || pathname.startsWith(`${privacyPath}/`)) {
+      return true;
+    }
+
+    // Pet Owners landing: /en/pet-owners or /ar/pet-owners
+    const petOwnersPath = `/${locale}/pet-owners`;
+    if (pathname === petOwnersPath || pathname.startsWith(`${petOwnersPath}/`)) {
+      return true;
+    }
+
+    // Pricing: /en/pricing or /ar/pricing
+    const pricingPath = `/${locale}/pricing`;
+    if (pathname === pricingPath || pathname.startsWith(`${pricingPath}/`)) {
+      return true;
+    }
+
+    // Developers: /en/developers or /ar/developers
+    const developersPath = `/${locale}/developers`;
+    if (pathname === developersPath || pathname.startsWith(`${developersPath}/`)) {
       return true;
     }
   }
@@ -137,12 +160,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
   }
 
-  // Redirect authenticated users away from login/signup pages (not portal, landing, blog, or legal pages)
+  // Redirect authenticated users away from login/signup pages (not portal, landing, blog, legal, or shared pages)
   const isPortalPath = /\/portal\//.test(pathname);
+  const isSharedPath = /\/shared\//.test(pathname);
   const isLandingPage = SUPPORTED_LOCALES.some(l => pathname === `/${l}`);
   const isBlogPath = /\/blog(\/|$)/.test(pathname);
   const isLegalPath = /\/(terms|privacy)(\/|$)/.test(pathname);
-  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage && !isBlogPath && !isLegalPath) {
+  const isPetOwnersPath = /\/pet-owners(\/|$)/.test(pathname);
+  const isPricingPath = /\/pricing(\/|$)/.test(pathname);
+  const isDevelopersPath = /\/developers(\/|$)/.test(pathname);
+  if (isPublicPath(pathname) && token && !isPortalPath && !isSharedPath && !isLandingPage && !isBlogPath && !isLegalPath && !isPetOwnersPath && !isPricingPath && !isDevelopersPath) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 

@@ -57,6 +57,12 @@ export default async function LocaleLayout({ children, params }: Props) {
         <link rel="alternate" hrefLang="ar" href={`/ar${subPath}`} />
         <link rel="alternate" hrefLang="fr" href={`/fr${subPath}`} />
         <link rel="alternate" hrefLang="x-default" href={`/en${subPath}`} />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#16a34a" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Vetara" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
       </head>
       <GoogleAnalytics />
       <body

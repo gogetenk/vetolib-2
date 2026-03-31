@@ -29,6 +29,10 @@ internal class MedicalRecordConfiguration : IEntityTypeConfiguration<MedicalReco
 
         builder.Property(r => r.ExaminedAt).IsRequired();
 
+        builder.Property(r => r.IsVisibleToOwner)
+            .IsRequired()
+            .HasDefaultValue(true);
+
         builder.HasMany(r => r.Prescriptions)
             .WithOne()
             .HasForeignKey(p => p.MedicalRecordId);

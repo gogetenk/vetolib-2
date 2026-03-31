@@ -1090,29 +1090,31 @@
   },
   "landing": {
     "meta": {
-      "title": "Vetara — The Smart Veterinary Practice Management Platform",
-      "description": "UAE veterinary clinic management platform — AI triage, AI SOAP notes, WhatsApp integration, Arabic + English support, and VAT-compliant invoicing. 30-day free trial."
+      "title": "Vetara — The Modern Veterinary Platform",
+      "description": "Replace your outdated clinic software. Manage appointments, medical records, and billing — with AI that catches what you might miss. 30-day free trial."
     },
     "nav": {
       "features": "Features",
       "pricing": "Pricing",
       "faq": "FAQ",
       "demo": "Book a Demo",
+      "pet_owners": "Pet Owners",
+      "developers": "Developers",
       "sign_in": "Sign In"
     },
     "hero": {
-      "headline": "The Only Vet Platform Built for the UAE — From Falcons to Felines",
-      "subtitle": "Manage Arabian horses, camels, falcons, and companion animals in one bilingual platform. AI documentation, WhatsApp reminders, and VAT-compliant invoicing — purpose-built for Gulf veterinary clinics.",
-      "cta_primary": "Start Your Free 30-Day Trial",
-      "cta_secondary": "Book a Demo",
+      "headline": "The modern veterinary platform — fast, connected, intelligent",
+      "subtitle": "Replace your outdated clinic software. Manage appointments, medical records, and billing — with AI that catches what you might miss.",
+      "cta_primary": "Start Free",
+      "cta_secondary": "See Pricing",
       "trust_badge": "30-day free Pro trial — no credit card required",
-      "social_proof_badge": "Trusted by clinics across Dubai, Abu Dhabi & the GCC",
+      "social_proof_badge": "Trusted by veterinary clinics worldwide",
       "image_alt": "Vetara dashboard showing appointments and patient health records",
       "whatsapp_cta": "Book via WhatsApp"
     },
     "social_proof": {
       "clinics": "50+",
-      "clinics_label": "clinics across the UAE",
+      "clinics_label": "veterinary clinics",
       "patients": "5,000+",
       "patients_label": "patients managed",
       "invoiced": "AED 2M+",
@@ -1121,8 +1123,8 @@
       "uptime_label": "uptime guaranteed"
     },
     "new_features": {
-      "title": "Built for UAE Veterinary Clinics and Breeders",
-      "subtitle": "Vetara combines shared animal health records, intelligent AI tools, breeding management, and seamless clinic operations — the only platform purpose-built for the Gulf market.",
+      "title": "Everything your clinic needs, in one place",
+      "subtitle": "Vetara combines scheduling, medical records, billing, and intelligent AI tools — so you can focus on care, not software.",
       "health_passport": {
         "title": "Shared Animal Health Passport",
         "description": "Every animal carries a permanent health record accessible across any clinic — with owner consent. Consultations, vaccinations, prescriptions, and diagnoses, always available wherever the animal is seen.",
@@ -1184,7 +1186,7 @@
     },
     "features": {
       "title": "Everything You Need to Run a Better Clinic",
-      "subtitle": "Replace four separate tools with one platform — built specifically for veterinary practices in the UAE.",
+      "subtitle": "Replace four separate tools with one platform — built specifically for veterinary practices.",
       "scheduling": {
         "title": "Smart Scheduling",
         "description": "Book appointments, manage vet availability, check-in patients on arrival. Conflict detection prevents double-bookings."
@@ -1303,9 +1305,35 @@
         "cta": "Contact Sales"
       }
     },
+    "ai_section": {
+      "title": "Powered by AI: catch what you might miss",
+      "subtitle": "Vetara's built-in intelligence helps you make better clinical decisions — without changing how you work.",
+      "drug_interactions": {
+        "title": "Drug Interaction Checks",
+        "description": "Automatic alerts when prescriptions conflict. Catch dangerous interactions before they reach the patient."
+      },
+      "health_predictions": {
+        "title": "Predictive Health Risks",
+        "description": "Species-specific monitoring flags early warning signs — so you can intervene before conditions become emergencies."
+      },
+      "smart_triage": {
+        "title": "Automated Triage",
+        "description": "AI analyses symptoms and suggests urgency level before the appointment. Your team stays focused on the cases that matter most."
+      },
+      "soap_notes": {
+        "title": "AI SOAP Notes",
+        "description": "Auto-generate structured consultation reports from voice or text. Save over an hour per day on documentation."
+      }
+    },
+    "connected_vision": {
+      "title": "One animal, one record, every vet",
+      "subtitle": "Vetara's shared health passport means every animal carries a permanent, portable medical record — accessible by any clinic, with owner consent.",
+      "description": "Consultations, vaccinations, prescriptions, and diagnoses follow the animal wherever it goes. No more faxing records or starting from scratch. The full picture, always available.",
+      "cta": "Learn more about connected records"
+    },
     "competitive": {
-      "title": "Why UAE Clinics Choose Vetara",
-      "subtitle": "The only veterinary platform with native Arabic support, falcon and camel species templates, and UAE-specific compliance. See how we compare.",
+      "title": "Why Clinics Choose Vetara",
+      "subtitle": "The only veterinary platform with native multilingual support, AI-powered clinical tools, and transparent pricing. See how we compare.",
       "columns": {
         "feature": "Feature",
         "vetolib": "Vetara",
@@ -1346,12 +1374,12 @@
       }
     },
     "trust_signals": {
-      "title": "Built for UAE Veterinary Clinics",
+      "title": "Built for modern veterinary clinics",
       "badges": {
-        "arabic_english": "Arabic + English",
+        "arabic_english": "Multilingual (EN, AR, FR)",
         "whatsapp": "WhatsApp Integrated",
-        "uae_hosting": "UAE Data Hosting",
-        "moccae": "MOCCAE Ready"
+        "uae_hosting": "Secure Cloud Hosting",
+        "moccae": "Compliance Ready"
       }
     },
     "demo_form": {
@@ -1370,7 +1398,7 @@
       "success_description": "Our team will contact you within 24 hours to schedule your personalized demo."
     },
     "testimonials": {
-      "title": "Trusted by Veterinary Clinics Across the UAE",
+      "title": "Trusted by Veterinary Clinics",
       "subtitle": "See what clinic owners and managers say about Vetara.",
       "disclaimer": "These testimonials are illustrative examples. Real testimonials will be added before launch.",
       "quote1": {
@@ -1436,12 +1464,12 @@
       "subtitle": "Everything you need to know before getting started."
     },
     "sticky_cta": {
-      "tagline": "The UAE's first bilingual vet platform — save 2+ hours daily",
-      "cta": "Start Free 30-Day Trial"
+      "tagline": "The modern veterinary platform — save 2+ hours daily",
+      "cta": "Start Free"
     },
     "exit_intent": {
       "headline": "Wait! Get 30 days of Pro features — free",
-      "subtitle": "Join veterinary clinics across Dubai, Abu Dhabi & the GCC. No credit card. No commitment.",
+      "subtitle": "Join veterinary clinics worldwide. No credit card. No commitment.",
       "email_placeholder": "Enter your email address",
       "cta": "Claim My Free Trial",
       "success": "We'll be in touch shortly!"
@@ -1451,18 +1479,18 @@
       "trial_under_plan": "30-day free Pro trial — no credit card required"
     },
     "final_cta": {
-      "headline": "Your Clinic Deserves Software Built for the UAE.",
-      "subtitle": "Join veterinary clinics across Dubai, Abu Dhabi, and the GCC who save 2+ hours daily. Arabic interface, WhatsApp reminders, breeding tools, and VAT-compliant invoicing — all included from day one.",
-      "cta": "Start Your Free 30-Day Trial Now",
+      "headline": "Your clinic deserves modern software.",
+      "subtitle": "Join veterinary clinics worldwide who save 2+ hours daily. Multilingual interface, WhatsApp reminders, AI clinical tools, and compliant invoicing — all included from day one.",
+      "cta": "Start Free",
       "reassurance": "No credit card required. Cancel anytime. Your data stays yours."
     },
     "footer_cta": {
       "headline": "Ready to modernize your veterinary practice?",
-      "cta": "Start Free 30-Day Trial"
+      "cta": "Start Free"
     },
     "footer": {
       "copyright": "© 2026 Vetara.",
-      "tagline": "Made for veterinary clinics in the UAE.",
+      "tagline": "The modern veterinary platform.",
       "lang_en": "EN",
       "lang_fr": "FR",
       "lang_ar": "AR",
@@ -1597,6 +1625,43 @@
       "downloading": "Preparing download...",
       "back": "Back to conversations",
       "error": "Failed to export conversations. Please try again."
+    },
+    "pets": {
+      "title": "My Pets",
+      "no_pets": "No pets found.",
+      "age": "{years} years old",
+      "back_to_pets": "Back to my pets",
+      "not_found": "Pet not found.",
+      "overview": "Overview",
+      "species_label": "Species",
+      "breed_label": "Breed",
+      "age_label": "Age"
+    },
+    "sharing": {
+      "share_records": "Share Records",
+      "modal_title": "Share Medical Records",
+      "modal_description": "Generate a secure link to share your pet's medical records. The link expires after 72 hours.",
+      "create_error": "Failed to create share link. Please try again.",
+      "expires_in": "Link expires in {hours} hours",
+      "active_links": "Active Share Links",
+      "created": "Created {date}",
+      "expires": "Expires {date}",
+      "expired": "Expired",
+      "views": "{count} views",
+      "revoke": "Revoke link"
+    },
+    "shared_record": {
+      "age": "{years} years old",
+      "vaccinations": "Vaccinations",
+      "no_vaccinations": "No vaccination records available.",
+      "given": "Given: {date}",
+      "next_due": "Due: {date}",
+      "consultations": "Recent Consultations",
+      "no_consultations": "No consultation records available.",
+      "not_found": "This shared record link is invalid or has expired.",
+      "error_generic": "Something went wrong. Please try again later.",
+      "error_hint": "The link may have expired or been revoked by the pet owner.",
+      "notice": "This record was shared securely via Vetara. The link will expire automatically."
     },
     "booking": {
       "landing": {
@@ -1752,6 +1817,83 @@
         "grooming": "Grooming",
         "labTests": "Lab Tests"
       }
+    },
+    "my_pets": {
+      "title": "My Pets",
+      "loading": "Loading your pets...",
+      "link_expired": "This link has expired. Please contact your clinic to receive a new one.",
+      "error_generic": "Something went wrong. Please try again later.",
+      "no_animals": "No pets registered on your account.",
+      "last_visit": "Last visit",
+      "no_visits": "No visits yet"
+    },
+    "pwa": {
+      "install_title": "Install Vetara",
+      "install_description": "Add Vetara to your home screen for quick access to your pet's health records.",
+      "install_button": "Install",
+      "dismiss": "Dismiss"
+    },
+    "animal_detail": {
+      "loading": "Loading...",
+      "not_found": "Pet not found.",
+      "error_generic": "Something went wrong. Please try again later.",
+      "back": "Back to My Pets",
+      "born": "Born",
+      "tab_loading": "Loading...",
+      "tabs": {
+        "overview": "Overview",
+        "records": "Medical Records",
+        "vaccinations": "Vaccinations",
+        "prescriptions": "Prescriptions",
+        "weight": "Weight"
+      },
+      "overview": {
+        "name": "Name",
+        "species": "Species",
+        "breed": "Breed",
+        "date_of_birth": "Date of Birth",
+        "last_visit": "Last Visit"
+      },
+      "records": {
+        "empty": "No medical records found.",
+        "diagnosis": "Diagnosis",
+        "treatment": "Treatment"
+      },
+      "vaccinations": {
+        "empty": "No vaccinations found.",
+        "administered": "Administered",
+        "next_due": "Next due"
+      },
+      "prescriptions": {
+        "empty": "No prescriptions found.",
+        "dosage": "Dosage",
+        "frequency": "Frequency"
+      },
+      "weight": {
+        "empty": "No weight records found.",
+        "latest": "Current weight"
+      },
+      "reminders": {
+        "title": "Vaccination Reminders",
+        "empty": "No upcoming vaccination reminders.",
+        "due": "Due",
+        "status_upcoming": "Upcoming",
+        "status_overdue": "Overdue",
+        "status_completed": "Completed",
+        "book_appointment": "Book",
+        "notification_prefs": "Notification Preferences",
+        "whatsapp": "WhatsApp reminders",
+        "email": "Email reminders"
+      }
+    },
+    "referral": {
+      "title": "Share Vetara",
+      "description": "Love Vetara? Share your referral code with friends and help them discover better pet care.",
+      "copy_code": "Copy code",
+      "copied": "Copied!",
+      "share_whatsapp": "Share via WhatsApp",
+      "friends_joined": "{count} friends joined",
+      "whatsapp_message": "Hey! I use Vetara for my pet's healthcare. Join with my referral code: {code}"
     }
   },
   "onboarding": {
@@ -1992,7 +2134,9 @@
     "messaging_title": "Messaging Settings",
     "messaging_description": "Set up automated reminders, templates, and messaging hours.",
     "notifications_title": "Notification Settings",
-    "notifications_description": "Configure automatic reminders for appointments, vaccinations, and follow-ups."
+    "notifications_description": "Configure automatic reminders for appointments, vaccinations, and follow-ups.",
+    "working_hours_title": "Working Hours",
+    "working_hours_description": "Set your clinic opening and closing hours for each day of the week."
   },
   "soap_notes": {
     "title": "AI SOAP Notes",
@@ -2450,10 +2594,358 @@
       }
     }
   },
+  "pricing_page": {
+    "meta_title": "Pricing — Vetara",
+    "meta_description": "Compare Vetara plans: Starter (Free), Professional (149 AED/mo), and Enterprise. Find the right plan for your veterinary clinic in the UAE.",
+    "nav_home": "Home",
+    "nav_pricing": "Pricing",
+    "heading": "Choose the Right Plan for Your Clinic",
+    "subtitle": "Per-vet pricing with no hidden fees. All plans include a 30-day free Pro trial.",
+    "toggle_monthly": "Monthly",
+    "toggle_annual": "Annual",
+    "annual_savings": "Save 15%",
+    "trial_note": "30-day free Pro trial on all plans — no credit card required.",
+    "vat_note": "Prices excl. VAT 5%.",
+    "early_access_badge": "Early access pricing — locked for founding clinics",
+    "trial_under_plan": "30-day free Pro trial — no credit card required",
+    "starter": {
+      "name": "Starter",
+      "price_monthly": "Free",
+      "price_annual": "Free",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "For solo vets starting out — try Vetara at zero cost.",
+      "features": [
+        "1 veterinarian",
+        "Up to 50 patients",
+        "Basic scheduling",
+        "SOAP medical records",
+        "Email reminders",
+        "Bilingual EN + AR interface",
+        "Client booking portal",
+        "Email support"
+      ],
+      "cta": "Get Started Free"
+    },
+    "pro": {
+      "name": "Professional",
+      "badge": "Most Popular",
+      "price_monthly": "AED 149",
+      "price_annual": "AED 127",
+      "usd_hint_monthly": "~$41 USD/mo",
+      "usd_hint_annual": "~$35 USD/mo",
+      "per_month": "/month",
+      "description": "For growing clinics needing AI, WhatsApp, and full automation.",
+      "features": [
+        "Up to 5 veterinarians",
+        "Unlimited patients",
+        "WhatsApp reminders & follow-ups",
+        "AI health alerts (falcon & species-specific)",
+        "Breeding & reproduction module",
+        "Analytics dashboard & reporting",
+        "AI SOAP Notes / Scribe",
+        "AI triage & no-show prediction",
+        "Stock & inventory management",
+        "Priority support (4h response)"
+      ],
+      "cta": "Start Free Trial"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price_monthly": "Custom",
+      "price_annual": "Custom",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "For multi-site groups and veterinary hospitals. Unlimited everything.",
+      "features": [
+        "Unlimited veterinarians",
+        "Multi-clinic management",
+        "REST API access for custom integrations",
+        "Custom roles & permissions",
+        "Priority support (phone, 1h response)",
+        "Custom integrations & onboarding",
+        "Dedicated account manager",
+        "99.9% SLA guarantee",
+        "Assisted data migration"
+      ],
+      "cta": "Contact Sales"
+    },
+    "comparison": {
+      "title": "Feature Comparison",
+      "subtitle": "See exactly what's included in each plan.",
+      "feature": "Feature",
+      "starter_col": "Starter",
+      "pro_col": "Professional",
+      "enterprise_col": "Enterprise",
+      "scheduling": "Scheduling",
+      "medical_records": "Medical Records",
+      "email_reminders": "Email Reminders",
+      "client_portal": "Client Portal",
+      "bilingual_interface": "Bilingual Interface (EN + AR)",
+      "soap_notes": "SOAP Notes",
+      "whatsapp_reminders": "WhatsApp Reminders",
+      "ai_health_alerts": "AI Health Alerts",
+      "ai_triage": "AI Triage",
+      "ai_soap_scribe": "AI SOAP Scribe",
+      "stock_management": "Stock Management",
+      "breeding_module": "Breeding Module",
+      "analytics_dashboard": "Analytics Dashboard",
+      "recurring_appointments": "Recurring Appointments",
+      "qr_checkin": "QR Check-In",
+      "multi_clinic": "Multi-Clinic",
+      "api_access": "API Access",
+      "custom_roles": "Custom Roles",
+      "priority_support": "Priority Support",
+      "dedicated_account_manager": "Dedicated Account Manager",
+      "custom_integrations": "Custom Integrations",
+      "patients": "Patients",
+      "patients_starter": "Up to 50",
+      "patients_pro": "Unlimited",
+      "patients_enterprise": "Unlimited",
+      "vets": "Veterinarians",
+      "vets_starter": "1",
+      "vets_pro": "Up to 5",
+      "vets_enterprise": "Unlimited"
+    },
+    "faq": {
+      "title": "Pricing FAQ",
+      "subtitle": "Common questions about billing, plans, and features.",
+      "0": {
+        "question": "Is there really a free plan?",
+        "answer": "Yes. The Starter plan is free forever with no credit card required. It includes core features like scheduling, medical records, and email reminders for up to 50 patients and 1 veterinarian."
+      },
+      "1": {
+        "question": "How does the 30-day free trial work?",
+        "answer": "Every new clinic gets 30 days of full Professional features at no cost. No credit card needed. After 30 days, you choose the plan that fits your clinic — or stay on Starter for free."
+      },
+      "2": {
+        "question": "What does 'per-vet' pricing mean?",
+        "answer": "Pricing is based on the plan tier, not the number of vets. Starter includes 1 vet, Professional includes up to 5, and Enterprise is unlimited. No per-seat surprises."
+      },
+      "3": {
+        "question": "Can I switch plans anytime?",
+        "answer": "Yes. Upgrade or downgrade at any time from your clinic dashboard. When upgrading, you only pay the prorated difference for the remaining billing period."
+      },
+      "4": {
+        "question": "Is VAT included in the prices?",
+        "answer": "Prices are listed excluding 5% UAE VAT. VAT is applied at checkout and clearly shown on your invoice, fully compliant with FTA regulations."
+      },
+      "5": {
+        "question": "How is annual billing different?",
+        "answer": "Annual billing saves you 15% compared to monthly. You pay once per year upfront. For Professional, that's AED 127/mo billed annually instead of AED 149/mo billed monthly."
+      },
+      "6": {
+        "question": "What happens to my data if I downgrade?",
+        "answer": "Your data is never deleted. If you downgrade to Starter, features like AI triage and WhatsApp become read-only. You can still view historical data — you just can't create new records with those features until you upgrade again."
+      },
+      "7": {
+        "question": "How do I contact sales for Enterprise?",
+        "answer": "Click 'Contact Sales' on the Enterprise plan or email hello@vetara.ae. Our team will schedule a demo and create a custom proposal tailored to your multi-clinic setup."
+      }
+    },
+    "final_cta": {
+      "headline": "Ready to Get Started?",
+      "subtitle": "Join veterinary clinics across the UAE. Start your 30-day free Pro trial today.",
+      "cta": "Start Your Free Trial",
+      "reassurance": "No credit card required. Cancel anytime."
+    }
+  },
   "cookieConsent": {
     "message": "We use cookies to improve your experience. By continuing, you accept our cookie policy.",
     "acceptAll": "Accept All",
     "necessaryOnly": "Necessary Only",
     "ariaLabel": "Cookie consent"
+  },
+  "pet_owners": {
+    "meta": {
+      "title": "Pet Owners — Your Pet's Health, Always in Your Pocket | Vetara",
+      "description": "Access your pet's medical records, book vet appointments, get vaccination reminders, and share records with any clinic — all from Vetara."
+    },
+    "nav": {
+      "features": "Features",
+      "how_it_works": "How It Works",
+      "for_clinics": "For Clinics",
+      "sign_in": "Sign In"
+    },
+    "hero": {
+      "headline": "Your pet's health, always in your pocket",
+      "subtitle": "Access medical records, book appointments, get vaccination reminders, and share your pet's history with any veterinarian — all from one app.",
+      "search_placeholder": "Search clinics near you...",
+      "search_button": "Search",
+      "trust_badge": "Trusted by pet owners across the UAE"
+    },
+    "value_props": {
+      "title": "Everything your pet needs, in one place",
+      "subtitle": "No more lost records or missed appointments. Vetara keeps your pet's health organized.",
+      "medical_records": {
+        "title": "Digital Medical Records",
+        "description": "Access your pet's full medical history anytime, anywhere. Lab results, prescriptions, and visit notes — always at your fingertips."
+      },
+      "booking": {
+        "title": "Easy Appointment Booking",
+        "description": "Book, reschedule, or cancel vet appointments in seconds. See real-time availability and choose the best slot for you."
+      },
+      "vaccination_reminders": {
+        "title": "Vaccination Reminders",
+        "description": "Never miss a vaccine or booster again. Get timely notifications when your pet is due for their next shot."
+      },
+      "record_sharing": {
+        "title": "Record Sharing",
+        "description": "Moving or visiting a new vet? Share your pet's complete health profile securely with any Vetara-connected clinic."
+      }
+    },
+    "clinic_search": {
+      "title": "Find a Vetara clinic near you",
+      "subtitle": "Search for veterinary clinics in your area that use Vetara.",
+      "placeholder": "Enter your area or clinic name...",
+      "button": "Search",
+      "no_results": "No clinics found. Try a different search term.",
+      "loading": "Searching clinics..."
+    },
+    "ask_vet": {
+      "title": "Your vet isn't on Vetara yet?",
+      "subtitle": "Let them know! We'll send a friendly invitation on your behalf.",
+      "vet_email_label": "Vet's email address",
+      "vet_email_placeholder": "vet@clinic.ae",
+      "your_name_label": "Your name",
+      "your_name_placeholder": "e.g. Ahmed Al-Maktoum",
+      "pet_name_label": "Your pet's name",
+      "pet_name_placeholder": "e.g. Zayed",
+      "message_label": "Message (optional)",
+      "message_placeholder": "Tell your vet why you'd love them on Vetara...",
+      "submit": "Send Invitation",
+      "submitting": "Sending...",
+      "success_title": "Invitation Sent!",
+      "success_description": "We'll let your vet know you'd love to use Vetara with them."
+    },
+    "how_it_works": {
+      "title": "How it works",
+      "subtitle": "Getting started is easy.",
+      "step1": {
+        "number": "1",
+        "title": "Find your clinic",
+        "description": "Search for your vet clinic on Vetara, or ask them to join."
+      },
+      "step2": {
+        "number": "2",
+        "title": "Connect your pet",
+        "description": "Your vet links your pet's records to your account."
+      },
+      "step3": {
+        "number": "3",
+        "title": "Stay in control",
+        "description": "Book appointments, view records, and get reminders — all from your phone."
+      }
+    },
+    "cta": {
+      "headline": "Give your pet the care they deserve",
+      "subtitle": "Join thousands of pet owners using Vetara to stay on top of their pet's health.",
+      "button": "Find a Clinic",
+      "reassurance": "Free for pet owners. Always."
+    },
+    "footer": {
+      "for_clinics": "Are you a veterinary clinic?",
+      "for_clinics_cta": "Learn about Vetara for Clinics"
+    }
+  },
+  "working_hours": {
+    "title": "Working Hours",
+    "subtitle": "Configure your clinic opening and closing hours for each day of the week.",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "save_success": "Working hours saved successfully.",
+    "table": {
+      "day": "Day",
+      "open": "Open",
+      "open_time": "Open Time",
+      "close_time": "Close Time",
+      "break_start": "Break Start",
+      "break_end": "Break End",
+      "optional": "Optional"
+    },
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    },
+    "status": {
+      "open": "Open",
+      "closed": "Closed"
+    },
+    "errors": {
+      "load_failed": "Failed to load working hours.",
+      "save_failed": "Failed to save working hours."
+    }
+  },
+  "developers": {
+    "meta": {
+      "title": "Developers — Vetara Open Veterinary Health API",
+      "description": "Build on Vetara's FHIR R4-compatible API. Export patient data, integrate medical records, and connect veterinary systems with our open health API."
+    },
+    "nav": {
+      "home": "Home",
+      "developers": "Developers"
+    },
+    "hero": {
+      "badge": "Developer Preview",
+      "title": "Build on Vetara — Open Veterinary Health API",
+      "subtitle": "Access veterinary health data through a FHIR R4-compatible API. Export patient records, integrate with lab systems, and build the next generation of veterinary tools.",
+      "cta_docs": "View API Docs",
+      "cta_access": "Get API Access"
+    },
+    "fhir": {
+      "title": "Built on FHIR R4 — The Healthcare Interoperability Standard",
+      "description": "FHIR (Fast Healthcare Interoperability Resources) is the global standard for exchanging healthcare data. Vetara extends FHIR R4 for veterinary use, so your integrations work with the same patterns used by human healthcare systems worldwide.",
+      "benefits": {
+        "0": "Standard FHIR R4 Patient resources adapted for veterinary patients (species, breed, owner)",
+        "1": "JSON-based payloads — no XML required, easy to parse in any language",
+        "2": "Compatible with existing FHIR tooling, libraries, and validators"
+      },
+      "learn_more": "Learn more about FHIR at hl7.org",
+      "example_title": "Example: FHIR Patient Resource"
+    },
+    "endpoints": {
+      "title": "API Endpoints",
+      "subtitle": "Our API is growing. Here are the endpoints currently available and what's coming next.",
+      "export_desc": "Export all patient records for your clinic as a FHIR R4 Bundle. Includes patient demographics, species, breed, and owner information.",
+      "import_desc": "Import patient records from external systems using FHIR R4 Bundles. Validate and merge with existing clinic data.",
+      "shared_records_desc": "Access shared pet records via the client portal. Pet owners can share medical history with any veterinarian.",
+      "coming_soon": "Coming Soon"
+    },
+    "auth": {
+      "badge": "Authentication",
+      "title": "Secure API Access",
+      "description": "All API requests require authentication. Currently, we support JWT tokens issued to clinic accounts. OAuth2 support for third-party integrations is on our roadmap.",
+      "jwt_title": "JWT Bearer Tokens (Available Now)",
+      "jwt_desc": "Authenticate with your clinic credentials and use the JWT token in the Authorization header for all API calls. Tokens are scoped to your clinic's data.",
+      "oauth_title": "OAuth2 for Third Parties",
+      "oauth_desc": "Coming soon: OAuth2 authorization code flow for third-party applications. Request access on behalf of clinics with granular scopes.",
+      "example_title": "Authentication Flow"
+    },
+    "code": {
+      "title": "Quick Start",
+      "subtitle": "Get up and running in minutes. Here's how to export your clinic's patient data as FHIR resources."
+    },
+    "scalar": {
+      "title": "Interactive API Documentation",
+      "description": "Explore all available endpoints, request/response schemas, and try requests directly from the browser using our Scalar-powered API docs.",
+      "cta": "Open API Docs"
+    },
+    "access": {
+      "title": "Get API Access",
+      "description": "API access is currently available to clinics on the Enterprise plan. Contact us to enable API access for your clinic or to discuss integration partnerships.",
+      "cta": "Request API Access",
+      "note": "We typically respond within 24 hours. Include your clinic name and use case in the email."
+    },
+    "footer": {
+      "terms": "Terms",
+      "privacy": "Privacy"
+    }
   }
 }
