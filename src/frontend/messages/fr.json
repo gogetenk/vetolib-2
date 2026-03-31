@@ -2130,7 +2130,51 @@
     "notifications_title": "Paramètres de notification",
     "notifications_description": "Configurez les rappels automatiques pour les rendez-vous, vaccinations et suivis.",
     "working_hours_title": "Horaires d'ouverture",
-    "working_hours_description": "Definissez les horaires d'ouverture et de fermeture de votre clinique pour chaque jour de la semaine."
+    "working_hours_description": "Definissez les horaires d'ouverture et de fermeture de votre clinique pour chaque jour de la semaine.",
+    "audit_title": "Journal d'audit",
+    "audit_description": "Consultez un journal detaille de toutes les actions effectuees dans votre clinique."
+  },
+  "audit_trail": {
+    "title": "Journal d'audit",
+    "subtitle": "Suivez toutes les actions effectuees dans votre clinique pour la conformite et la responsabilite.",
+    "access_denied": "Acces refuse",
+    "admin_only": "Seuls les administrateurs de la clinique peuvent acceder au journal d'audit.",
+    "go_back": "Retour",
+    "filters": "Filtres",
+    "start_date": "Date de debut",
+    "end_date": "Date de fin",
+    "user": "Utilisateur",
+    "user_placeholder": "Rechercher par nom d'utilisateur...",
+    "action": "Action",
+    "all_actions": "Toutes les actions",
+    "apply_filters": "Appliquer les filtres",
+    "clear_filters": "Effacer les filtres",
+    "columns": {
+      "date": "Date",
+      "user": "Utilisateur",
+      "action": "Action",
+      "entity": "Entite",
+      "details": "Details"
+    },
+    "actions": {
+      "create": "Creation",
+      "update": "Modification",
+      "delete": "Suppression"
+    },
+    "expand": "Developper la ligne",
+    "collapse": "Replier la ligne",
+    "click_to_expand": "Cliquer pour developper",
+    "click_to_collapse": "Cliquer pour replier",
+    "field": "Champ",
+    "old_value": "Ancienne valeur",
+    "new_value": "Nouvelle valeur",
+    "no_details": "Aucun detail de modification disponible.",
+    "no_entries": "Aucune entree d'audit trouvee correspondant a vos filtres.",
+    "showing": "Affichage de {from}-{to} sur {total}",
+    "page_of": "Page {page} sur {total}",
+    "errors": {
+      "load_failed": "Echec du chargement des entrees d'audit."
+    }
   },
   "soap_notes": {
     "title": "Notes SOAP IA",
