@@ -47,6 +47,11 @@ function isPublicPath(pathname: string): boolean {
     return true;
   }
 
+  // Shared record links are public: /en/shared/... or /ar/shared/... or /shared/...
+  if (/\/shared\//.test(pathname) || /\/shared$/.test(pathname)) {
+    return true;
+  }
+
   // Locale-prefixed public pages: login, signup, and locale root (landing page)
   for (const locale of SUPPORTED_LOCALES) {
     // Landing page: /en or /ar (exact match)
@@ -155,15 +160,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url));
   }
 
-  // Redirect authenticated users away from login/signup pages (not portal, landing, blog, or legal pages)
+  // Redirect authenticated users away from login/signup pages (not portal, landing, blog, legal, or shared pages)
   const isPortalPath = /\/portal\//.test(pathname);
+  const isSharedPath = /\/shared\//.test(pathname);
   const isLandingPage = SUPPORTED_LOCALES.some(l => pathname === `/${l}`);
   const isBlogPath = /\/blog(\/|$)/.test(pathname);
   const isLegalPath = /\/(terms|privacy)(\/|$)/.test(pathname);
   const isPetOwnersPath = /\/pet-owners(\/|$)/.test(pathname);
   const isPricingPath = /\/pricing(\/|$)/.test(pathname);
   const isDevelopersPath = /\/developers(\/|$)/.test(pathname);
-  if (isPublicPath(pathname) && token && !isPortalPath && !isLandingPage && !isBlogPath && !isLegalPath && !isPetOwnersPath && !isPricingPath && !isDevelopersPath) {
+  if (isPublicPath(pathname) && token && !isPortalPath && !isSharedPath && !isLandingPage && !isBlogPath && !isLegalPath && !isPetOwnersPath && !isPricingPath && !isDevelopersPath) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 

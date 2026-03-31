@@ -5,4 +5,5 @@ public record RegisterClinicRequest(
     string Email,
     string Password,
     string Phone,
-    string Country);
+    string Country,
+    string? ReferralCode = null);
