@@ -124,8 +124,9 @@ builder.AddNpgsqlDbContext<AuditDbContext>("vetolibdb", settings => settings.Dis
 builder.Services.AddMessagingDbContext(connectionString);
 builder.EnrichNpgsqlDbContext<MessagingDbContext>(settings => settings.DisableHealthChecks = true);
 
-// Notifications context — no IClinicContext dependency, pooling is fine
-builder.AddNpgsqlDbContext<NotificationsDbContext>("vetolibdb", settings => settings.DisableHealthChecks = true);
+// Notifications context — uses MultiTenantDbContext, needs AddDbContext (not pooled) for scoped IClinicContext
+builder.Services.AddNotificationsDbContext(connectionString);
+builder.EnrichNpgsqlDbContext<NotificationsDbContext>(settings => settings.DisableHealthChecks = true);
 
 // Multi-tenancy
 builder.Services.AddHttpContextAccessor();

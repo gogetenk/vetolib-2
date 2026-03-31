@@ -1,4 +1,5 @@
 using FluentAssertions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using NSubstitute;
 using Vetolib.Notifications.Contracts.Enums;
 using Vetolib.Notifications.Domain;
 using Vetolib.Notifications.Infrastructure;
+using Vetolib.Shared.Kernel;
 using Xunit;
 
 namespace Vetolib.Tests.Unit.Notifications;
@@ -23,11 +25,16 @@ public class ReminderSchedulerServiceTests : IDisposable
             .UseInMemoryDatabase(dbName)
             .Options;
 
-        _dbContext = new NotificationsDbContext(options);
+        var clinicContext = Substitute.For<IClinicContext>();
+        clinicContext.ClinicId.Returns(Guid.NewGuid());
+        var publisher = Substitute.For<IPublisher>();
+        _dbContext = new NotificationsDbContext(options, clinicContext, publisher);
 
         var services = new ServiceCollection();
         services.AddSingleton(options);
-        services.AddScoped(_ => new NotificationsDbContext(options));
+        services.AddScoped(_ => Substitute.For<IClinicContext>());
+        services.AddScoped(_ => Substitute.For<IPublisher>());
+        services.AddScoped(sp => new NotificationsDbContext(options, sp.GetRequiredService<IClinicContext>(), sp.GetRequiredService<IPublisher>()));
         services.AddLogging();
         _serviceProvider = services.BuildServiceProvider();
 
