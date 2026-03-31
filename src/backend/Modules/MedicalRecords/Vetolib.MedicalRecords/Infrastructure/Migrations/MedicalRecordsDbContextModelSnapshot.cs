@@ -360,6 +360,12 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<DateTime?>("TransferredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("TransferredToClinicId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -554,6 +560,55 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                     b.HasIndex("DrugCatalogEntryId");
 
                     b.ToTable("drug_species_contraindications", "medical");
+                });
+
+            modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.TransferLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FailureReason")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SourceClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<Guid>("TargetClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("TransferredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TransferredBy")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceClinicId", "PatientId")
+                        .HasDatabaseName("IX_transfer_logs_SourceClinicId_PatientId");
+
+                    b.ToTable("transfer_logs", "medical");
                 });
 
             modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.WeightEntry", b =>

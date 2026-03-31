@@ -207,20 +207,20 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table40 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table42 = new global::Reqnroll.Table(new string[] {
                             "Filename",
                             "Type"});
-                table40.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "blood-test.pdf",
                             "PDF"});
-                table40.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "urine-analysis.pdf",
                             "PDF"});
-                table40.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "xray-abdomen.jpg",
                             "JPEG"});
 #line 16
-    await testRunner.WhenAsync("I reply with the text \"Lab results attached\" and 3 files:", ((string)(null)), table40, "When ");
+    await testRunner.WhenAsync("I reply with the text \"Lab results attached\" and 3 files:", ((string)(null)), table42, "When ");
 #line hidden
 #line 21
     await testRunner.ThenAsync("all 3 files are visible in the conversation thread", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

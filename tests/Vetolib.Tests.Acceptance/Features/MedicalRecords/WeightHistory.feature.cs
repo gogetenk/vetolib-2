@@ -215,24 +215,24 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table36 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table38 = new global::Reqnroll.Table(new string[] {
                             "Date",
                             "WeightKg",
                             "Note"});
-                table36.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "2026-01-15",
                             "420.0",
                             "Initial assessment"});
-                table36.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "2026-02-15",
                             "435.0",
                             "Monthly check"});
-                table36.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "2026-03-15",
                             "450.5",
                             "Gaining well"});
 #line 19
-    await testRunner.GivenAsync("the following weight entries for \"Layla\":", ((string)(null)), table36, "Given ");
+    await testRunner.GivenAsync("the following weight entries for \"Layla\":", ((string)(null)), table38, "Given ");
 #line hidden
 #line 24
     await testRunner.WhenAsync("I view the weight history of \"Layla\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -376,20 +376,20 @@ namespace Vetolib.Tests.Acceptance.Features.MedicalRecords
 #line 7
   await this.FeatureBackgroundAsync();
 #line hidden
-                global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table39 = new global::Reqnroll.Table(new string[] {
                             "Date",
                             "WeightKg"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "2026-01-15",
                             "420.0"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "2026-02-15",
                             "435.0"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "2026-03-15",
                             "450.5"});
 #line 42
-    await testRunner.GivenAsync("the following weight entries for \"Layla\":", ((string)(null)), table37, "Given ");
+    await testRunner.GivenAsync("the following weight entries for \"Layla\":", ((string)(null)), table39, "Given ");
 #line hidden
 #line 47
     await testRunner.WhenAsync("I request the weight curve for \"Layla\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

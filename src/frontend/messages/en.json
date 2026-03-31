@@ -2136,7 +2136,51 @@
     "notifications_title": "Notification Settings",
     "notifications_description": "Configure automatic reminders for appointments, vaccinations, and follow-ups.",
     "working_hours_title": "Working Hours",
-    "working_hours_description": "Set your clinic opening and closing hours for each day of the week."
+    "working_hours_description": "Set your clinic opening and closing hours for each day of the week.",
+    "audit_title": "Audit Trail",
+    "audit_description": "View a detailed log of all actions performed in your clinic for compliance."
+  },
+  "audit_trail": {
+    "title": "Audit Trail",
+    "subtitle": "Track all actions performed across your clinic for compliance and accountability.",
+    "access_denied": "Access Denied",
+    "admin_only": "Only clinic administrators can access the audit trail.",
+    "go_back": "Go Back",
+    "filters": "Filters",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "user": "User",
+    "user_placeholder": "Search by user name...",
+    "action": "Action",
+    "all_actions": "All Actions",
+    "apply_filters": "Apply Filters",
+    "clear_filters": "Clear Filters",
+    "columns": {
+      "date": "Date",
+      "user": "User",
+      "action": "Action",
+      "entity": "Entity",
+      "details": "Details"
+    },
+    "actions": {
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete"
+    },
+    "expand": "Expand row",
+    "collapse": "Collapse row",
+    "click_to_expand": "Click to expand",
+    "click_to_collapse": "Click to collapse",
+    "field": "Field",
+    "old_value": "Old Value",
+    "new_value": "New Value",
+    "no_details": "No change details available.",
+    "no_entries": "No audit entries found matching your filters.",
+    "showing": "Showing {from}-{to} of {total}",
+    "page_of": "Page {page} of {total}",
+    "errors": {
+      "load_failed": "Failed to load audit entries."
+    }
   },
   "soap_notes": {
     "title": "AI SOAP Notes",

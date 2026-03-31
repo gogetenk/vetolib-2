@@ -18,6 +18,8 @@ internal class AuthDbContext : MultiTenantDbContext
     public DbSet<ReferralCode> ReferralCodes => Set<ReferralCode>();
     public DbSet<OwnerAccount> OwnerAccounts => Set<OwnerAccount>();
     public DbSet<VetInvitationLog> VetInvitationLogs => Set<VetInvitationLog>();
+    public DbSet<WebhookRegistration> WebhookRegistrations => Set<WebhookRegistration>();
+    public DbSet<WebhookLog> WebhookLogs => Set<WebhookLog>();
 
     public AuthDbContext(
         DbContextOptions<AuthDbContext> options,

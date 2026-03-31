@@ -2132,7 +2132,51 @@
     "notifications_title": "إعدادات الإشعارات",
     "notifications_description": "إعداد التذكيرات التلقائية للمواعيد والتطعيمات والمتابعة.",
     "working_hours_title": "ساعات العمل",
-    "working_hours_description": "حدد ساعات فتح وإغلاق العيادة لكل يوم من أيام الأسبوع."
+    "working_hours_description": "حدد ساعات فتح وإغلاق العيادة لكل يوم من أيام الأسبوع.",
+    "audit_title": "سجل التدقيق",
+    "audit_description": "عرض سجل مفصل لجميع الإجراءات المنفذة في عيادتك للامتثال."
+  },
+  "audit_trail": {
+    "title": "سجل التدقيق",
+    "subtitle": "تتبع جميع الإجراءات المنفذة في عيادتك للامتثال والمساءلة.",
+    "access_denied": "الوصول مرفوض",
+    "admin_only": "يمكن لمسؤولي العيادة فقط الوصول إلى سجل التدقيق.",
+    "go_back": "العودة",
+    "filters": "التصفية",
+    "start_date": "تاريخ البدء",
+    "end_date": "تاريخ الانتهاء",
+    "user": "المستخدم",
+    "user_placeholder": "البحث باسم المستخدم...",
+    "action": "الإجراء",
+    "all_actions": "جميع الإجراءات",
+    "apply_filters": "تطبيق التصفية",
+    "clear_filters": "مسح التصفية",
+    "columns": {
+      "date": "التاريخ",
+      "user": "المستخدم",
+      "action": "الإجراء",
+      "entity": "الكيان",
+      "details": "التفاصيل"
+    },
+    "actions": {
+      "create": "إنشاء",
+      "update": "تحديث",
+      "delete": "حذف"
+    },
+    "expand": "توسيع الصف",
+    "collapse": "طي الصف",
+    "click_to_expand": "انقر للتوسيع",
+    "click_to_collapse": "انقر للطي",
+    "field": "الحقل",
+    "old_value": "القيمة القديمة",
+    "new_value": "القيمة الجديدة",
+    "no_details": "لا توجد تفاصيل تغيير متاحة.",
+    "no_entries": "لم يتم العثور على سجلات تدقيق مطابقة لتصفيتك.",
+    "showing": "عرض {from}-{to} من {total}",
+    "page_of": "صفحة {page} من {total}",
+    "errors": {
+      "load_failed": "فشل تحميل سجلات التدقيق."
+    }
   },
   "soap_notes": {
     "title": "ملاحظات SOAP بالذكاء الاصطناعي",

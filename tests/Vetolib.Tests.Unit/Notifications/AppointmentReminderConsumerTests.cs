@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Vetolib.Agenda.Contracts;
 using Vetolib.Notifications.Consumers;
+using Vetolib.Notifications.Contracts;
 using Vetolib.Notifications.Contracts.Enums;
 using Vetolib.Notifications.Contracts.Events;
 using Vetolib.Notifications.Domain;
@@ -19,6 +20,7 @@ namespace Vetolib.Tests.Unit.Notifications;
 public class AppointmentReminderConsumerTests : IDisposable
 {
     private readonly IEmailSender _emailSender;
+    private readonly ISmsProvider _smsProvider;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<AppointmentReminderConsumer> _logger;
     private readonly NotificationsDbContext _dbContext;
@@ -29,6 +31,7 @@ public class AppointmentReminderConsumerTests : IDisposable
     public AppointmentReminderConsumerTests()
     {
         _emailSender = Substitute.For<IEmailSender>();
+        _smsProvider = Substitute.For<ISmsProvider>();
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _logger = Microsoft.Extensions.Logging.Abstractions.NullLogger<AppointmentReminderConsumer>.Instance;
 
@@ -39,6 +42,7 @@ public class AppointmentReminderConsumerTests : IDisposable
 
         _consumer = new AppointmentReminderConsumer(
             _emailSender,
+            _smsProvider,
             Substitute.For<IPreferenceChecker>(),
             _publishEndpoint,
             _dbContext,
@@ -325,5 +329,194 @@ public class AppointmentReminderConsumerTests : IDisposable
         logs.Should().HaveCount(2);
         logs.Should().Contain(l => l.Channel == NotificationChannel.Email);
         logs.Should().Contain(l => l.Channel == NotificationChannel.Sms); // WhatsApp logged as Sms
+    }
+
+    // --- SMS channel tests ---
+
+    [Fact]
+    public async Task Consume_WhenChannelIsSms_CallsSmsProvider()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _smsProvider.Received(1).SendSmsAsync(
+            "+971501234567",
+            Arg.Is<string>(m => m.Contains("Baxter")),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsSms_DoesNotSendEmail()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _emailSender.DidNotReceive().SendAsync(
+            Arg.Any<EmailMessage>(),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsSms_DoesNotPublishWhatsApp()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _publishEndpoint.DidNotReceive().Publish(
+            Arg.Any<SendWhatsAppReminderEvent>(),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsSms_ButNoPhone_SkipsSms()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _smsProvider.DidNotReceive().SendSmsAsync(
+            Arg.Any<string>(),
+            Arg.Any<string>(),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsSms_LogsSmsChannel()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        logs.Should().HaveCount(1);
+        logs[0].Channel.Should().Be(NotificationChannel.Sms);
+        logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Sent);
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsSmsAndSmsFails_ThrowsInvalidOperationException()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Error("SMS gateway unreachable"));
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        var act = async () => await _consumer.Consume(context);
+
+        await act.Should().ThrowAsync<InvalidOperationException>()
+            .WithMessage("*+971501234567*");
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsSmsAndSmsFails_LogsSmsAsFailed()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Error("SMS gateway unreachable"));
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        try { await _consumer.Consume(context); } catch { /* expected */ }
+
+        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        logs.Should().HaveCount(1);
+        logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Failed);
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsAll_SendsEmailWhatsAppAndSms()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.All);
+        _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        await _emailSender.Received(1).SendAsync(
+            Arg.Any<EmailMessage>(),
+            Arg.Any<CancellationToken>());
+
+        await _publishEndpoint.Received(1).Publish(
+            Arg.Is<SendWhatsAppReminderEvent>(e => e.OwnerPhone == "+971501234567"),
+            Arg.Any<CancellationToken>());
+
+        await _smsProvider.Received(1).SendSmsAsync(
+            "+971501234567",
+            Arg.Any<string>(),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task Consume_WhenChannelIsAll_LogsAllThreeChannels()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.All);
+        _emailSender.SendAsync(Arg.Any<EmailMessage>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+        _smsProvider.SendSmsAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success());
+
+        var evt = BuildEvent(clinicId: TestClinicId, ownerPhone: "+971501234567");
+        var context = BuildContext(evt);
+
+        await _consumer.Consume(context);
+
+        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        logs.Should().HaveCount(3);
+        logs.Should().Contain(l => l.Channel == NotificationChannel.Email);
+        logs.Should().Contain(l => l.Channel == NotificationChannel.Sms);
+    }
+
+    [Fact]
+    public async Task ResolveChannel_WhenConfigIsSms_ReturnsSms()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.Sms);
+
+        var channel = await _consumer.ResolveChannelAsync(TestClinicId, CancellationToken.None);
+
+        channel.Should().Be(ReminderChannel.Sms);
+    }
+
+    [Fact]
+    public async Task ResolveChannel_WhenConfigIsAll_ReturnsAll()
+    {
+        await SeedReminderConfig(TestClinicId, ReminderChannel.All);
+
+        var channel = await _consumer.ResolveChannelAsync(TestClinicId, CancellationToken.None);
+
+        channel.Should().Be(ReminderChannel.All);
     }
 }

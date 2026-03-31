@@ -1364,6 +1364,400 @@ public class HealthAlertRulesTests
         alerts.Should().BeEmpty();
     }
 
+    // ── CamelTrypanosomaRule ────────────────────────────────────────────────
+
+    [Fact]
+    public void CamelTrypanosoma_NonCamel_NoAlert()
+    {
+        var rule = new CamelTrypanosomaRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelTrypanosoma_WeightLossAndAnemia_GeneratesAlert()
+    {
+        var rule = new CamelTrypanosomaRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 6,
+            records: [Record("pale mucous membranes, lethargy observed")],
+            weightHistory: [W(380m, DateTime.UtcNow), W(420m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAMEL_TRYPANOSOMA");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void CamelTrypanosoma_WeightLossOnly_NoAlert()
+    {
+        var rule = new CamelTrypanosomaRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 6,
+            records: [Record("routine checkup")],
+            weightHistory: [W(380m, DateTime.UtcNow), W(420m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelTrypanosoma_AnemiaOnly_NoAlert()
+    {
+        var rule = new CamelTrypanosomaRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 6,
+            records: [Record("anemia signs noted")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelTrypanosoma_AlreadyDiagnosed_NoAlert()
+    {
+        var rule = new CamelTrypanosomaRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 6,
+            records: [Record("trypanosoma evansi confirmed, surra treatment started")],
+            weightHistory: [W(380m, DateTime.UtcNow), W(420m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelTrypanosoma_Dedup_NoAlert()
+    {
+        var rule = new CamelTrypanosomaRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 6,
+            records: [Record("anemia, pale mucous")],
+            weightHistory: [W(380m, DateTime.UtcNow), W(420m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("CAMEL_TRYPANOSOMA"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CamelHeatStressRule ──────────────────────────────────────────────────
+
+    [Fact]
+    public void CamelHeatStress_NonCamel_NoAlert()
+    {
+        var rule = new CamelHeatStressRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelHeatStress_DuringSummer_NoShadeNotes_GeneratesAlert()
+    {
+        var rule = new CamelHeatStressRule();
+        var now = DateTime.UtcNow;
+        var patient = CreatePatient(Species.Camel, "Dromedary", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        if (now.Month >= 6 && now.Month <= 9)
+        {
+            alerts.Should().HaveCount(1);
+            alerts[0].RuleId.Should().Be("CAMEL_HEAT_STRESS");
+        }
+        else
+        {
+            alerts.Should().BeEmpty(); // Outside summer window
+        }
+    }
+
+    [Fact]
+    public void CamelHeatStress_WithShadeNotes_NoAlert()
+    {
+        var rule = new CamelHeatStressRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 5,
+            records: [Record("shade and cooling misting system in place")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelHeatStress_Dedup_NoAlert()
+    {
+        var rule = new CamelHeatStressRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 5);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("CAMEL_HEAT_STRESS"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CamelFootRotRule ─────────────────────────────────────────────────────
+
+    [Fact]
+    public void CamelFootRot_NonCamel_NoAlert()
+    {
+        var rule = new CamelFootRotRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelFootRot_WithFootSymptoms_GeneratesAlert()
+    {
+        var rule = new CamelFootRotRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4,
+            records: [Record("foot swelling observed on left front pad")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAMEL_FOOT_ROT");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+    }
+
+    [Fact]
+    public void CamelFootRot_NoFootSymptoms_NoAlert()
+    {
+        var rule = new CamelFootRotRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4,
+            records: [Record("routine checkup, all normal")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelFootRot_AlreadyTreated_NoAlert()
+    {
+        var rule = new CamelFootRotRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4,
+            records: [Record("foot rot treatment completed, foot swelling resolved")]);
+
+        // "foot rot treatment" triggers the exclusion even though "foot swelling" matches
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelFootRot_Dedup_NoAlert()
+    {
+        var rule = new CamelFootRotRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4,
+            records: [Record("lameness detected")]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("CAMEL_FOOT_ROT"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CamelMERSScreeningRule ──────────────────────────────────────────────
+
+    [Fact]
+    public void CamelMERS_NonCamel_NoAlert()
+    {
+        var rule = new CamelMERSScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelMERS_RespiratorySymptoms_GeneratesAlert()
+    {
+        var rule = new CamelMERSScreeningRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 5,
+            records: [Record("nasal discharge and cough observed")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAMEL_MERS_SCREENING");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+        alerts[0].AlertType.Should().Be(HealthAlertType.CamelMERSScreening);
+    }
+
+    [Fact]
+    public void CamelMERS_NoRespiratorySymptoms_NoAlert()
+    {
+        var rule = new CamelMERSScreeningRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 5,
+            records: [Record("routine dental check")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelMERS_AlreadyCleared_NoAlert()
+    {
+        var rule = new CamelMERSScreeningRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 5,
+            records: [Record("nasal discharge, MERS negative confirmed")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelMERS_Dedup_NoAlert()
+    {
+        var rule = new CamelMERSScreeningRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 5,
+            records: [Record("cough and dyspnea")]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("CAMEL_MERS_SCREENING"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CamelRacingFitnessRule ──────────────────────────────────────────────
+
+    [Fact]
+    public void CamelRacingFitness_NonCamel_NoAlert()
+    {
+        var rule = new CamelRacingFitnessRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelRacingFitness_Underweight_GeneratesAlert()
+    {
+        var rule = new CamelRacingFitnessRule();
+        var now = DateTime.UtcNow;
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4, weightKg: 300m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        if (now.Month <= 4 || now.Month >= 10)
+        {
+            alerts.Should().HaveCount(1);
+            alerts[0].RuleId.Should().Be("CAMEL_RACING_FITNESS");
+        }
+        else
+        {
+            alerts.Should().BeEmpty(); // Outside racing season
+        }
+    }
+
+    [Fact]
+    public void CamelRacingFitness_RecentIllness_HighSeverity()
+    {
+        var rule = new CamelRacingFitnessRule();
+        var now = DateTime.UtcNow;
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4, weightKg: 450m,
+            records: [Record("fever and diarrhea treated")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        if (now.Month <= 4 || now.Month >= 10)
+        {
+            alerts.Should().HaveCount(1);
+            alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+        }
+        else
+        {
+            alerts.Should().BeEmpty();
+        }
+    }
+
+    [Fact]
+    public void CamelRacingFitness_NoVaccination_GeneratesAlert()
+    {
+        var rule = new CamelRacingFitnessRule();
+        var now = DateTime.UtcNow;
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4, weightKg: 450m,
+            records: [Record("routine dental check")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        if (now.Month <= 4 || now.Month >= 10)
+        {
+            alerts.Should().HaveCount(1);
+        }
+        else
+        {
+            alerts.Should().BeEmpty();
+        }
+    }
+
+    [Fact]
+    public void CamelRacingFitness_AllGood_NoAlert()
+    {
+        var rule = new CamelRacingFitnessRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4, weightKg: 450m,
+            records: [Record("vaccination booster administered")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelRacingFitness_TooYoung_NoAlert()
+    {
+        var rule = new CamelRacingFitnessRule();
+        var birthDate = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(-18));
+        var patient = new PatientAlertContext(
+            ClinicId, PatientId, "YoungCamel", Species.Camel, "Dromedary", birthDate,
+            300m, [], []);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CamelRacingFitness_Dedup_NoAlert()
+    {
+        var rule = new CamelRacingFitnessRule();
+        var patient = CreatePatient(Species.Camel, "Dromedary", 4, weightKg: 300m);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("CAMEL_RACING_FITNESS"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── All camel rules skip non-camel species ──────────────────────────────
+
+    [Theory]
+    [InlineData(nameof(CamelTrypanosomaRule))]
+    [InlineData(nameof(CamelHeatStressRule))]
+    [InlineData(nameof(CamelFootRotRule))]
+    [InlineData(nameof(CamelMERSScreeningRule))]
+    [InlineData(nameof(CamelRacingFitnessRule))]
+    public void AllCamelRules_DogPatient_NoAlert(string ruleTypeName)
+    {
+        var rule = CreateCamelRule(ruleTypeName);
+        var patient = CreatePatient(Species.Dog, "Labrador", 5,
+            records: [Record("foot swelling, nasal discharge, anemia, fever, diarrhea")],
+            weightHistory: [W(25m, DateTime.UtcNow), W(30m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
     private static IHealthAlertRule CreateFalconRule(string name) => name switch
     {
         nameof(FalconMoltWeightLossRule) => new FalconMoltWeightLossRule(),
@@ -1373,6 +1767,16 @@ public class HealthAlertRulesTests
         nameof(FalconMoltAnomalyRule) => new FalconMoltAnomalyRule(),
         nameof(FalconHealthCertificateRule) => new FalconHealthCertificateRule(),
         nameof(FalconPostHuntRecoveryRule) => new FalconPostHuntRecoveryRule(),
+        _ => throw new ArgumentException($"Unknown rule: {name}")
+    };
+
+    private static IHealthAlertRule CreateCamelRule(string name) => name switch
+    {
+        nameof(CamelTrypanosomaRule) => new CamelTrypanosomaRule(),
+        nameof(CamelHeatStressRule) => new CamelHeatStressRule(),
+        nameof(CamelFootRotRule) => new CamelFootRotRule(),
+        nameof(CamelMERSScreeningRule) => new CamelMERSScreeningRule(),
+        nameof(CamelRacingFitnessRule) => new CamelRacingFitnessRule(),
         _ => throw new ArgumentException($"Unknown rule: {name}")
     };
 }
