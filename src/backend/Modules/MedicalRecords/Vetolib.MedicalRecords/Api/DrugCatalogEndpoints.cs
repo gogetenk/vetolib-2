@@ -27,6 +27,11 @@ internal static class DrugCatalogEndpoints
             .WithSummary("Get a drug catalog entry by ID")
             .WithDescription("Returns full details of a specific drug catalog entry including INN name, display name, and category.");
 
+        group.MapGet("/{id:guid}/alternatives", GetDrugAlternatives)
+            .WithName("GetDrugAlternatives")
+            .WithSummary("Get alternative medications for a drug")
+            .WithDescription("Returns up to 10 alternative drugs ranked by relevance: same active ingredient first, then same category. Excludes drugs with known interactions when a patientId is provided.");
+
         group.MapPost("/", AddCustomDrug)
             .WithName("AddCustomDrugCatalogEntry")
             .WithSummary("Add a custom drug to the catalog")
@@ -58,6 +63,14 @@ internal static class DrugCatalogEndpoints
         ISender sender)
     {
         return (await sender.Send(new GetDrugCatalogEntryByIdQuery(id))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> GetDrugAlternatives(
+        Guid id,
+        ISender sender,
+        Guid? patientId = null)
+    {
+        return (await sender.Send(new GetDrugAlternativesQuery(id, patientId))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> PrescriptionPreflight(
