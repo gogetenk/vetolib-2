@@ -533,7 +533,11 @@
       "checked_in_success": "Arrivée du patient enregistrée",
       "checked_in_failed": "Échec de l'enregistrement de l'arrivée",
       "checking_in": "Enregistrement...",
-      "check_in": "Enregistrer l'arrivée"
+      "check_in": "Enregistrer l'arrivée",
+      "mark_arrived": "Marquer arrivé",
+      "marking_arrived": "En cours...",
+      "arrived_toast": "{name} est arrivé",
+      "arrived_failed": "Échec du marquage d'arrivée"
     },
     "recent_activity": {
       "title": "Activité récente",
@@ -570,6 +574,17 @@
         "08": "Août",
         "09": "Sep."
       }
+    },
+    "waiting_room": {
+      "title": "Salle d'attente",
+      "empty": "Aucun patient en attente",
+      "error_load": "Échec du chargement de la salle d'attente",
+      "call_next": "Appeler suivant",
+      "calling": "Appel en cours...",
+      "called_success": "{name} a été appelé",
+      "called_failed": "Échec de l'appel du patient",
+      "wait_minutes": "{count} min",
+      "scheduled_at": "RDV {time}"
     },
     "errors": {
       "load_clinic_data": "Echec du chargement des donnees de la clinique",
