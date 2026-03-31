@@ -136,7 +136,6 @@ public static class ModuleServiceRegistrar
         services.AddTransient<IHealthAlertRule, CamelFootRotRule>();
         services.AddTransient<IHealthAlertRule, CamelMERSScreeningRule>();
         services.AddTransient<IHealthAlertRule, CamelRacingFitnessRule>();
-<<<<<<< HEAD
         // Dog-specific rules
         services.AddTransient<IHealthAlertRule, DogHeartwormScreeningRule>();
         services.AddTransient<IHealthAlertRule, DogObesityRiskRule>();
