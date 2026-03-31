@@ -11,28 +11,28 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace Vetolib.Tests.Acceptance.Features.Messaging
+namespace Vetolib.Tests.Acceptance.Features.Portal
 {
     
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class AdminMessagingManagementFeature : object, global::Xunit.IClassFixture<AdminMessagingManagementFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class ClinicSearchFeature : object, global::Xunit.IClassFixture<ClinicSearchFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Messaging", "Admin Messaging Management", "  As a clinic admin\r\n  I want to manage all messaging configuration and monitor t" +
-                "riage quality\r\n  So that the messaging system runs effectively", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en"), "Features/Portal", "Clinic Search", "  As a pet owner\r\n  I want to search for veterinary clinics\r\n  So that I can find" +
+                " a clinic near me that treats my pet", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "AdminMessaging.feature"
+#line 1 "ClinicSearch.feature"
 #line hidden
         
-        public AdminMessagingManagementFeature(AdminMessagingManagementFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ClinicSearchFeature(ClinicSearchFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -106,16 +106,36 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
         
         public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
         {
-#line 7
+#line 6
   #line hidden
-#line 8
-    await testRunner.GivenAsync("I am authenticated as a user with role \"Admin\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+            global::Reqnroll.Table table46 = new global::Reqnroll.Table(new string[] {
+                        "Name",
+                        "City",
+                        "Supported Species"});
+            table46.AddRow(new string[] {
+                        "Desert Paws Vet Clinic",
+                        "Dubai",
+                        "Dog, Cat, Rabbit"});
+            table46.AddRow(new string[] {
+                        "Al Barsha Pet Hospital",
+                        "Dubai",
+                        "Dog, Cat, Horse, Falcon"});
+            table46.AddRow(new string[] {
+                        "Abu Dhabi Animal Care",
+                        "Abu Dhabi",
+                        "Dog, Cat"});
+            table46.AddRow(new string[] {
+                        "Sharjah Exotic Clinic",
+                        "Sharjah",
+                        "Falcon, Reptile, Bird"});
+#line 7
+    await testRunner.GivenAsync("the following clinics exist in the directory", ((string)(null)), table46, "Given ");
 #line hidden
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Messaging/AdminMessaging.feature.ndjson", 9);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Portal/ClinicSearch.feature.ndjson", 10);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -143,18 +163,18 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin sees all conversations")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin sees all conversations")]
-        public async global::System.Threading.Tasks.Task AdminSeesAllConversations()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Search clinics by name with partial match")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "Search clinics by name with partial match")]
+        public async global::System.Threading.Tasks.Task SearchClinicsByNameWithPartialMatch()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin sees all conversations", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search clinics by name with partial match", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
+#line 14
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -164,37 +184,34 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 11
-    await testRunner.GivenAsync("there are conversations across all categories", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 15
+    await testRunner.WhenAsync("I search for clinics with name \"Desert\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 12
-    await testRunner.WhenAsync("I open the Messages section", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 16
+    await testRunner.ThenAsync("I should see 1 clinic in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 13
-    await testRunner.ThenAsync("I should see all conversations regardless of category", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 14
-    await testRunner.AndAsync("I should be able to filter by: status, category, assigned staff, date range", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 17
+    await testRunner.AndAsync("the results should include \"Desert Paws Vet Clinic\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin reassigns a conversation")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin reassigns a conversation")]
-        public async global::System.Threading.Tasks.Task AdminReassignsAConversation()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Search clinics by city")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "Search clinics by city")]
+        public async global::System.Threading.Tasks.Task SearchClinicsByCity()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin reassigns a conversation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search clinics by city", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 16
+#line 19
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -204,37 +221,37 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 17
-    await testRunner.GivenAsync("a conversation is currently assigned to \"Dr. Ahmad\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 18
-    await testRunner.WhenAsync("I click \"Reassign\" and select \"Dr. Fatima\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 19
-    await testRunner.ThenAsync("the conversation should appear in Dr. Fatima\'s inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
 #line 20
-    await testRunner.AndAsync("Dr. Ahmad should no longer see it in his inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("I search for clinics in city \"Dubai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 21
+    await testRunner.ThenAsync("I should see 2 clinics in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 22
+    await testRunner.AndAsync("the results should include \"Desert Paws Vet Clinic\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 23
+    await testRunner.AndAsync("the results should include \"Al Barsha Pet Hospital\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures quick response templates")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin configures quick response templates")]
-        public async global::System.Threading.Tasks.Task AdminConfiguresQuickResponseTemplates()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Search clinics by supported species")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "Search clinics by supported species")]
+        public async global::System.Threading.Tasks.Task SearchClinicsBySupportedSpecies()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin configures quick response templates", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search clinics by supported species", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 22
+#line 25
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -244,43 +261,34 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 23
-    await testRunner.WhenAsync("I go to Messaging Settings > Templates", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 26
+    await testRunner.WhenAsync("I search for clinics that treat \"Falcon\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table40 = new global::Reqnroll.Table(new string[] {
-                            "Field",
-                            "Value"});
-                table40.AddRow(new string[] {
-                            "Name",
-                            "Vaccination reminder"});
-                table40.AddRow(new string[] {
-                            "English",
-                            "Your pet is due for vaccination. Please book an appointment."});
-                table40.AddRow(new string[] {
-                            "Arabic",
-                            "حيوانك الأليف بحاجة إلى التطعيم. يرجى حجز موعد."});
-#line 24
-    await testRunner.AndAsync("I create a new template with:", ((string)(null)), table40, "And ");
+#line 27
+    await testRunner.ThenAsync("I should see 2 clinics in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 28
+    await testRunner.AndAsync("the results should include \"Al Barsha Pet Hospital\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 29
-    await testRunner.ThenAsync("the template should be available to all staff when replying to messages", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("the results should include \"Sharjah Exotic Clinic\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin configures messaging hours")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin configures messaging hours")]
-        public async global::System.Threading.Tasks.Task AdminConfiguresMessagingHours()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Search clinics with combined filters")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "Search clinics with combined filters")]
+        public async global::System.Threading.Tasks.Task SearchClinicsWithCombinedFilters()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin configures messaging hours", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search clinics with combined filters", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 31
@@ -293,37 +301,31 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 32
-    await testRunner.WhenAsync("I go to Messaging Settings > Business Hours", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I search for clinics in city \"Dubai\" that treat \"Dog\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 33
-    await testRunner.AndAsync("I set hours to Sunday-Thursday 08:00-20:00, Friday 08:00-12:00", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 34
-    await testRunner.ThenAsync("messages sent outside these hours should trigger the auto-acknowledgment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 35
-    await testRunner.AndAsync("emergency messages should still notify the on-call vet at any hour", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("I should see 2 clinics in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views triage statistics dashboard")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin views triage statistics dashboard")]
-        public async global::System.Threading.Tasks.Task AdminViewsTriageStatisticsDashboard()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Search clinics with no matching results")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "Search clinics with no matching results")]
+        public async global::System.Threading.Tasks.Task SearchClinicsWithNoMatchingResults()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin views triage statistics dashboard", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search clinics with no matching results", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 37
+#line 35
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -333,43 +335,31 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 38
-    await testRunner.WhenAsync("I go to Messaging Settings > Statistics", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 36
+    await testRunner.WhenAsync("I search for clinics with name \"NonExistent\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table41 = new global::Reqnroll.Table(new string[] {
-                            "Metric"});
-                table41.AddRow(new string[] {
-                            "Average first response time"});
-                table41.AddRow(new string[] {
-                            "Messages by category (pie chart)"});
-                table41.AddRow(new string[] {
-                            "AI triage accuracy (% re-categorized)"});
-                table41.AddRow(new string[] {
-                            "Volume per day (trend)"});
-                table41.AddRow(new string[] {
-                            "Conversion rate: message to appointment"});
-#line 39
-    await testRunner.ThenAsync("I should see:", ((string)(null)), table41, "Then ");
+#line 37
+    await testRunner.ThenAsync("I should see 0 clinics in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin proactively messages an owner")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin proactively messages an owner")]
-        public async global::System.Threading.Tasks.Task AdminProactivelyMessagesAnOwner()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Search is case insensitive")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "Search is case insensitive")]
+        public async global::System.Threading.Tasks.Task SearchIsCaseInsensitive()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin proactively messages an owner", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search is case insensitive", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 47
+#line 39
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -379,43 +369,34 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 48
-    await testRunner.WhenAsync("I click \"New outbound message\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 40
+    await testRunner.WhenAsync("I search for clinics with name \"desert paws\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 49
-    await testRunner.AndAsync("I select owner \"Mrs. Al-Rashid\" and pet \"Luna\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 41
+    await testRunner.ThenAsync("I should see 1 clinic in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 50
-    await testRunner.AndAsync("I type \"Luna is due for her annual vaccination next month\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 51
-    await testRunner.AndAsync("I click \"Send\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 52
-    await testRunner.ThenAsync("the owner should receive an email notification", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 53
-    await testRunner.AndAsync("a new conversation should be created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 42
+    await testRunner.AndAsync("the results should include \"Desert Paws Vet Clinic\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Admin views spam folder")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Admin Messaging Management")]
-        [global::Xunit.TraitAttribute("Description", "Admin views spam folder")]
-        public async global::System.Threading.Tasks.Task AdminViewsSpamFolder()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Search results are paginated")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "Search results are paginated")]
+        public async global::System.Threading.Tasks.Task SearchResultsArePaginated()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Admin views spam folder", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search results are paginated", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 55
+#line 44
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -425,17 +406,51 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
   await this.FeatureBackgroundAsync();
 #line hidden
-#line 56
-    await testRunner.WhenAsync("I go to Messages > Spam", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 45
+    await testRunner.WhenAsync("I search for all clinics with page size 2", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 57
-    await testRunner.ThenAsync("I should see all messages marked as spam", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 46
+    await testRunner.ThenAsync("I should see 2 clinics in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 58
-    await testRunner.AndAsync("I should be able to restore a message to the inbox", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 47
+    await testRunner.AndAsync("the total count should be 4", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="No authentication required for clinic search")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Clinic Search")]
+        [global::Xunit.TraitAttribute("Description", "No authentication required for clinic search")]
+        public async global::System.Threading.Tasks.Task NoAuthenticationRequiredForClinicSearch()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "7";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("No authentication required for clinic search", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 49
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+  await this.FeatureBackgroundAsync();
+#line hidden
+#line 50
+    await testRunner.WhenAsync("I search for clinics without being logged in", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 51
+    await testRunner.ThenAsync("the search should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -448,12 +463,12 @@ namespace Vetolib.Tests.Acceptance.Features.Messaging
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await AdminMessagingManagementFeature.FeatureSetupAsync();
+                await ClinicSearchFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await AdminMessagingManagementFeature.FeatureTearDownAsync();
+                await ClinicSearchFeature.FeatureTearDownAsync();
             }
         }
     }

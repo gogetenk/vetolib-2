@@ -114,6 +114,7 @@ public static class AuthModuleServiceRegistrar
         app.MapOnboardingEndpoints();
         app.MapReferralApiEndpoints();
         app.MapPortalApiEndpoints();
+        app.MapWebhookApiEndpoints();
         return app;
     }
 }
