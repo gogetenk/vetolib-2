@@ -1993,7 +1993,9 @@
     "messaging_title": "Messaging Settings",
     "messaging_description": "Set up automated reminders, templates, and messaging hours.",
     "notifications_title": "Notification Settings",
-    "notifications_description": "Configure automatic reminders for appointments, vaccinations, and follow-ups."
+    "notifications_description": "Configure automatic reminders for appointments, vaccinations, and follow-ups.",
+    "working_hours_title": "Working Hours",
+    "working_hours_description": "Set your clinic opening and closing hours for each day of the week."
   },
   "soap_notes": {
     "title": "AI SOAP Notes",
@@ -2451,6 +2453,164 @@
       }
     }
   },
+  "pricing_page": {
+    "meta_title": "Pricing — Vetara",
+    "meta_description": "Compare Vetara plans: Starter (Free), Professional (149 AED/mo), and Enterprise. Find the right plan for your veterinary clinic in the UAE.",
+    "nav_home": "Home",
+    "nav_pricing": "Pricing",
+    "heading": "Choose the Right Plan for Your Clinic",
+    "subtitle": "Per-vet pricing with no hidden fees. All plans include a 30-day free Pro trial.",
+    "toggle_monthly": "Monthly",
+    "toggle_annual": "Annual",
+    "annual_savings": "Save 15%",
+    "trial_note": "30-day free Pro trial on all plans — no credit card required.",
+    "vat_note": "Prices excl. VAT 5%.",
+    "early_access_badge": "Early access pricing — locked for founding clinics",
+    "trial_under_plan": "30-day free Pro trial — no credit card required",
+    "starter": {
+      "name": "Starter",
+      "price_monthly": "Free",
+      "price_annual": "Free",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "For solo vets starting out — try Vetara at zero cost.",
+      "features": [
+        "1 veterinarian",
+        "Up to 50 patients",
+        "Basic scheduling",
+        "SOAP medical records",
+        "Email reminders",
+        "Bilingual EN + AR interface",
+        "Client booking portal",
+        "Email support"
+      ],
+      "cta": "Get Started Free"
+    },
+    "pro": {
+      "name": "Professional",
+      "badge": "Most Popular",
+      "price_monthly": "AED 149",
+      "price_annual": "AED 127",
+      "usd_hint_monthly": "~$41 USD/mo",
+      "usd_hint_annual": "~$35 USD/mo",
+      "per_month": "/month",
+      "description": "For growing clinics needing AI, WhatsApp, and full automation.",
+      "features": [
+        "Up to 5 veterinarians",
+        "Unlimited patients",
+        "WhatsApp reminders & follow-ups",
+        "AI health alerts (falcon & species-specific)",
+        "Breeding & reproduction module",
+        "Analytics dashboard & reporting",
+        "AI SOAP Notes / Scribe",
+        "AI triage & no-show prediction",
+        "Stock & inventory management",
+        "Priority support (4h response)"
+      ],
+      "cta": "Start Free Trial"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price_monthly": "Custom",
+      "price_annual": "Custom",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "For multi-site groups and veterinary hospitals. Unlimited everything.",
+      "features": [
+        "Unlimited veterinarians",
+        "Multi-clinic management",
+        "REST API access for custom integrations",
+        "Custom roles & permissions",
+        "Priority support (phone, 1h response)",
+        "Custom integrations & onboarding",
+        "Dedicated account manager",
+        "99.9% SLA guarantee",
+        "Assisted data migration"
+      ],
+      "cta": "Contact Sales"
+    },
+    "comparison": {
+      "title": "Feature Comparison",
+      "subtitle": "See exactly what's included in each plan.",
+      "feature": "Feature",
+      "starter_col": "Starter",
+      "pro_col": "Professional",
+      "enterprise_col": "Enterprise",
+      "scheduling": "Scheduling",
+      "medical_records": "Medical Records",
+      "email_reminders": "Email Reminders",
+      "client_portal": "Client Portal",
+      "bilingual_interface": "Bilingual Interface (EN + AR)",
+      "soap_notes": "SOAP Notes",
+      "whatsapp_reminders": "WhatsApp Reminders",
+      "ai_health_alerts": "AI Health Alerts",
+      "ai_triage": "AI Triage",
+      "ai_soap_scribe": "AI SOAP Scribe",
+      "stock_management": "Stock Management",
+      "breeding_module": "Breeding Module",
+      "analytics_dashboard": "Analytics Dashboard",
+      "recurring_appointments": "Recurring Appointments",
+      "qr_checkin": "QR Check-In",
+      "multi_clinic": "Multi-Clinic",
+      "api_access": "API Access",
+      "custom_roles": "Custom Roles",
+      "priority_support": "Priority Support",
+      "dedicated_account_manager": "Dedicated Account Manager",
+      "custom_integrations": "Custom Integrations",
+      "patients": "Patients",
+      "patients_starter": "Up to 50",
+      "patients_pro": "Unlimited",
+      "patients_enterprise": "Unlimited",
+      "vets": "Veterinarians",
+      "vets_starter": "1",
+      "vets_pro": "Up to 5",
+      "vets_enterprise": "Unlimited"
+    },
+    "faq": {
+      "title": "Pricing FAQ",
+      "subtitle": "Common questions about billing, plans, and features.",
+      "0": {
+        "question": "Is there really a free plan?",
+        "answer": "Yes. The Starter plan is free forever with no credit card required. It includes core features like scheduling, medical records, and email reminders for up to 50 patients and 1 veterinarian."
+      },
+      "1": {
+        "question": "How does the 30-day free trial work?",
+        "answer": "Every new clinic gets 30 days of full Professional features at no cost. No credit card needed. After 30 days, you choose the plan that fits your clinic — or stay on Starter for free."
+      },
+      "2": {
+        "question": "What does 'per-vet' pricing mean?",
+        "answer": "Pricing is based on the plan tier, not the number of vets. Starter includes 1 vet, Professional includes up to 5, and Enterprise is unlimited. No per-seat surprises."
+      },
+      "3": {
+        "question": "Can I switch plans anytime?",
+        "answer": "Yes. Upgrade or downgrade at any time from your clinic dashboard. When upgrading, you only pay the prorated difference for the remaining billing period."
+      },
+      "4": {
+        "question": "Is VAT included in the prices?",
+        "answer": "Prices are listed excluding 5% UAE VAT. VAT is applied at checkout and clearly shown on your invoice, fully compliant with FTA regulations."
+      },
+      "5": {
+        "question": "How is annual billing different?",
+        "answer": "Annual billing saves you 15% compared to monthly. You pay once per year upfront. For Professional, that's AED 127/mo billed annually instead of AED 149/mo billed monthly."
+      },
+      "6": {
+        "question": "What happens to my data if I downgrade?",
+        "answer": "Your data is never deleted. If you downgrade to Starter, features like AI triage and WhatsApp become read-only. You can still view historical data — you just can't create new records with those features until you upgrade again."
+      },
+      "7": {
+        "question": "How do I contact sales for Enterprise?",
+        "answer": "Click 'Contact Sales' on the Enterprise plan or email hello@vetara.ae. Our team will schedule a demo and create a custom proposal tailored to your multi-clinic setup."
+      }
+    },
+    "final_cta": {
+      "headline": "Ready to Get Started?",
+      "subtitle": "Join veterinary clinics across the UAE. Start your 30-day free Pro trial today.",
+      "cta": "Start Your Free Trial",
+      "reassurance": "No credit card required. Cancel anytime."
+    }
+  },
   "cookieConsent": {
     "message": "We use cookies to improve your experience. By continuing, you accept our cookie policy.",
     "acceptAll": "Accept All",
@@ -2547,6 +2707,39 @@
     "footer": {
       "for_clinics": "Are you a veterinary clinic?",
       "for_clinics_cta": "Learn about Vetara for Clinics"
+    }
+  },
+  "working_hours": {
+    "title": "Working Hours",
+    "subtitle": "Configure your clinic opening and closing hours for each day of the week.",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "save_success": "Working hours saved successfully.",
+    "table": {
+      "day": "Day",
+      "open": "Open",
+      "open_time": "Open Time",
+      "close_time": "Close Time",
+      "break_start": "Break Start",
+      "break_end": "Break End",
+      "optional": "Optional"
+    },
+    "days": {
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday"
+    },
+    "status": {
+      "open": "Open",
+      "closed": "Closed"
+    },
+    "errors": {
+      "load_failed": "Failed to load working hours.",
+      "save_failed": "Failed to save working hours."
     }
   }
 }
