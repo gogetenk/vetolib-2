@@ -43,6 +43,13 @@ internal class PatientConfiguration : IEntityTypeConfiguration<Patient>
             .HasMaxLength(50);
 
         builder.Ignore(p => p.HasPhoto);
+        builder.Ignore(p => p.IsTransferred);
+
+        builder.Property(p => p.TransferredToClinicId)
+            .IsRequired(false);
+
+        builder.Property(p => p.TransferredAt)
+            .IsRequired(false);
 
         builder.HasIndex(p => new { p.ClinicId, p.MicrochipNumber })
             .IsUnique()
