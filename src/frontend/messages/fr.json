@@ -2310,6 +2310,164 @@
       "treatment_required": "Le traitement est requis"
     }
   },
+  "pricing_page": {
+    "meta_title": "Tarifs — Vetara",
+    "meta_description": "Comparez les plans Vetara : Starter (Gratuit), Professionnel (149 AED/mois), et Entreprise. Trouvez le plan ideal pour votre clinique veterinaire aux EAU.",
+    "nav_home": "Accueil",
+    "nav_pricing": "Tarifs",
+    "heading": "Choisissez le Plan Ideal pour Votre Clinique",
+    "subtitle": "Tarification par veterinaire sans frais caches. Tous les plans incluent un essai gratuit Pro de 30 jours.",
+    "toggle_monthly": "Mensuel",
+    "toggle_annual": "Annuel",
+    "annual_savings": "Economisez 15%",
+    "trial_note": "Essai gratuit Pro de 30 jours sur tous les plans — sans carte bancaire.",
+    "vat_note": "Prix hors TVA 5%.",
+    "early_access_badge": "Tarifs early access — reserves aux cliniques fondatrices",
+    "trial_under_plan": "Essai gratuit Pro 30 jours — sans carte bancaire",
+    "starter": {
+      "name": "Starter",
+      "price_monthly": "Gratuit",
+      "price_annual": "Gratuit",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "Pour les veterinaires solo qui debutent — essayez Vetara gratuitement.",
+      "features": [
+        "1 veterinaire",
+        "Jusqu'a 50 patients",
+        "Planification de base",
+        "Dossiers medicaux SOAP",
+        "Rappels par email",
+        "Interface bilingue EN + AR",
+        "Portail de reservation client",
+        "Support par email"
+      ],
+      "cta": "Commencer Gratuitement"
+    },
+    "pro": {
+      "name": "Professionnel",
+      "badge": "Le Plus Populaire",
+      "price_monthly": "149 AED",
+      "price_annual": "127 AED",
+      "usd_hint_monthly": "~41 $/mois",
+      "usd_hint_annual": "~35 $/mois",
+      "per_month": "/mois",
+      "description": "Pour les cliniques en croissance ayant besoin d'IA, WhatsApp et automatisation complete.",
+      "features": [
+        "Jusqu'a 5 veterinaires",
+        "Patients illimites",
+        "Rappels et suivis WhatsApp",
+        "Alertes sante IA (faucons et especes specifiques)",
+        "Module elevage et reproduction",
+        "Tableau de bord analytique",
+        "Notes SOAP IA / Scribe",
+        "Triage IA et prediction de non-presentation",
+        "Gestion des stocks",
+        "Support prioritaire (reponse 4h)"
+      ],
+      "cta": "Demarrer l'Essai Gratuit"
+    },
+    "enterprise": {
+      "name": "Entreprise",
+      "price_monthly": "Sur mesure",
+      "price_annual": "Sur mesure",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "Pour les groupes multi-sites et hopitaux veterinaires. Tout illimite.",
+      "features": [
+        "Veterinaires illimites",
+        "Gestion multi-cliniques",
+        "Acces API REST pour integrations personnalisees",
+        "Roles et permissions personnalises",
+        "Support prioritaire (telephone, reponse 1h)",
+        "Integrations personnalisees et onboarding",
+        "Gestionnaire de compte dedie",
+        "Garantie SLA 99,9%",
+        "Migration de donnees assistee"
+      ],
+      "cta": "Contacter les Ventes"
+    },
+    "comparison": {
+      "title": "Comparaison des Fonctionnalites",
+      "subtitle": "Decouvrez exactement ce qui est inclus dans chaque plan.",
+      "feature": "Fonctionnalite",
+      "starter_col": "Starter",
+      "pro_col": "Professionnel",
+      "enterprise_col": "Entreprise",
+      "scheduling": "Planification",
+      "medical_records": "Dossiers Medicaux",
+      "email_reminders": "Rappels Email",
+      "client_portal": "Portail Client",
+      "bilingual_interface": "Interface Bilingue (EN + AR)",
+      "soap_notes": "Notes SOAP",
+      "whatsapp_reminders": "Rappels WhatsApp",
+      "ai_health_alerts": "Alertes Sante IA",
+      "ai_triage": "Triage IA",
+      "ai_soap_scribe": "Scribe SOAP IA",
+      "stock_management": "Gestion des Stocks",
+      "breeding_module": "Module Elevage",
+      "analytics_dashboard": "Tableau de Bord Analytique",
+      "recurring_appointments": "Rendez-vous Recurrents",
+      "qr_checkin": "Check-In QR",
+      "multi_clinic": "Multi-Clinique",
+      "api_access": "Acces API",
+      "custom_roles": "Roles Personnalises",
+      "priority_support": "Support Prioritaire",
+      "dedicated_account_manager": "Gestionnaire de Compte Dedie",
+      "custom_integrations": "Integrations Personnalisees",
+      "patients": "Patients",
+      "patients_starter": "Jusqu'a 50",
+      "patients_pro": "Illimites",
+      "patients_enterprise": "Illimites",
+      "vets": "Veterinaires",
+      "vets_starter": "1",
+      "vets_pro": "Jusqu'a 5",
+      "vets_enterprise": "Illimites"
+    },
+    "faq": {
+      "title": "FAQ Tarifs",
+      "subtitle": "Questions frequentes sur la facturation, les plans et les fonctionnalites.",
+      "0": {
+        "question": "Y a-t-il vraiment un plan gratuit ?",
+        "answer": "Oui. Le plan Starter est gratuit pour toujours sans carte bancaire. Il inclut les fonctionnalites essentielles comme la planification, les dossiers medicaux et les rappels email pour jusqu'a 50 patients et 1 veterinaire."
+      },
+      "1": {
+        "question": "Comment fonctionne l'essai gratuit de 30 jours ?",
+        "answer": "Chaque nouvelle clinique obtient 30 jours de fonctionnalites Professionnel completes gratuitement. Sans carte bancaire. Apres 30 jours, vous choisissez le plan qui convient a votre clinique — ou restez sur Starter gratuitement."
+      },
+      "2": {
+        "question": "Que signifie la tarification 'par veterinaire' ?",
+        "answer": "La tarification est basee sur le niveau du plan, pas le nombre de veterinaires. Starter inclut 1 vet, Professionnel jusqu'a 5, et Entreprise illimite. Pas de surprises par siege."
+      },
+      "3": {
+        "question": "Puis-je changer de plan a tout moment ?",
+        "answer": "Oui. Mettez a niveau ou retrogradez a tout moment depuis le tableau de bord de votre clinique. Lors d'une mise a niveau, vous ne payez que la difference au prorata pour la periode de facturation restante."
+      },
+      "4": {
+        "question": "La TVA est-elle incluse dans les prix ?",
+        "answer": "Les prix sont indiques hors TVA EAU de 5%. La TVA est appliquee au paiement et clairement indiquee sur votre facture, en conformite avec les reglementations FTA."
+      },
+      "5": {
+        "question": "En quoi la facturation annuelle est-elle differente ?",
+        "answer": "La facturation annuelle vous fait economiser 15% par rapport au mensuel. Vous payez une fois par an a l'avance. Pour le Professionnel, c'est 127 AED/mois facture annuellement au lieu de 149 AED/mois facture mensuellement."
+      },
+      "6": {
+        "question": "Qu'arrive-t-il a mes donnees si je retrocede ?",
+        "answer": "Vos donnees ne sont jamais supprimees. Si vous retrogradez vers Starter, les fonctionnalites comme le triage IA et WhatsApp deviennent en lecture seule. Vous pouvez toujours consulter les donnees historiques."
+      },
+      "7": {
+        "question": "Comment contacter les ventes pour l'Entreprise ?",
+        "answer": "Cliquez sur 'Contacter les Ventes' sur le plan Entreprise ou envoyez un email a hello@vetara.ae. Notre equipe planifiera une demo et creera une proposition personnalisee pour votre configuration multi-cliniques."
+      }
+    },
+    "final_cta": {
+      "headline": "Pret a Commencer ?",
+      "subtitle": "Rejoignez les cliniques veterinaires aux EAU. Commencez votre essai gratuit Pro de 30 jours aujourd'hui.",
+      "cta": "Demarrer Votre Essai Gratuit",
+      "reassurance": "Sans carte bancaire. Annulez a tout moment."
+    }
+  },
   "cookieConsent": {
     "message": "Nous utilisons des cookies pour ameliorer votre experience. En continuant, vous acceptez notre politique de cookies.",
     "acceptAll": "Tout accepter",
