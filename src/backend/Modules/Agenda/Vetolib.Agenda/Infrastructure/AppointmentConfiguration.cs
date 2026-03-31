@@ -68,6 +68,8 @@ internal class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
 
         builder.Property(a => a.SeriesId);
 
+        builder.Property(a => a.WaitingRoomAt);
+
         // Index for series queries
         builder.HasIndex(a => a.SeriesId)
             .HasFilter("\"SeriesId\" IS NOT NULL");

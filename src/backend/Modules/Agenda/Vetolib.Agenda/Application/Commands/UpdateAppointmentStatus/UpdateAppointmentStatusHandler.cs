@@ -28,6 +28,7 @@ internal class UpdateAppointmentStatusHandler
 
         var transitionResult = cmd.NewStatus switch
         {
+            AppointmentStatus.WaitingRoom => appointment.MarkWaitingRoom(),
             AppointmentStatus.CheckedIn  => appointment.CheckIn(),
             AppointmentStatus.InProgress => appointment.StartConsultation(),
             AppointmentStatus.Completed  => appointment.Complete(),

@@ -215,6 +215,24 @@ public class UpdateAppointmentStatusHandlerTests : IDisposable
         result.Errors.Should().Contain(e => e.Contains("INVALID_TRANSITION"));
     }
 
+    // ── WaitingRoom ────────────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task Handle_ScheduledToWaitingRoom_ReturnsSuccess()
+    {
+        var appointment = await SeedAppointment(); // Scheduled by default
+
+        var cmd = new UpdateAppointmentStatusCommand(
+            AppointmentId: appointment.Id,
+            NewStatus: AppointmentStatus.WaitingRoom,
+            Reason: null);
+
+        var result = await _handler.Handle(cmd, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Status.Should().Be(AppointmentStatus.WaitingRoom);
+    }
+
     // ── NoShow ─────────────────────────────────────────────────────────────────────
 
     [Fact]
