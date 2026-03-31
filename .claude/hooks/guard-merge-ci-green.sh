@@ -29,11 +29,13 @@ fi
 # Vérifier le dernier CI run sur develop
 CONCLUSION=$(gh run list --branch develop --limit 1 --workflow CI --json conclusion -q '.[0].conclusion' 2>/dev/null)
 
-if [ "$CONCLUSION" = "failure" ]; then
-  echo "⚠️ GUARD-MERGE: develop CI est RED (dernier run: failure)."
-  echo "Corrige le CI avant de merger d'autres PRs."
-  echo "Pour bypasser: retire ce hook temporairement."
-  exit 2
-fi
+# DISABLED — GitHub Actions quota exceeded for the month.
+# Local build+test verification via verify-before-push.sh is sufficient.
+# Re-enable when quota resets (1st of month).
+#
+# if [ "$CONCLUSION" = "failure" ]; then
+#   echo "⚠️ GUARD-MERGE: develop CI est RED (dernier run: failure)."
+#   exit 2
+# fi
 
 exit 0

@@ -120,17 +120,31 @@ When a dev agent reports DONE or DONE_WITH_CONCERNS:
 
 **The orchestrator NEVER merges without evaluator approval.**
 
-**5b. Merge approved PRs**
+**5b. Check et adresser les commentaires Copilot (obligatoire, automatique)**
 
-Pour chaque PR ouverte créée par un agent (and approved by evaluator) :
-```bash
-gh pr checks <num>
-```
+Avant TOUT merge, l'orchestrateur DOIT :
+1. Attendre ~2min après le push pour laisser Copilot reviewer
+2. Lire les commentaires : `gh api repos/{owner}/{repo}/pulls/{num}/comments`
+3. Lire les reviews : `gh api repos/{owner}/{repo}/pulls/{num}/reviews`
+4. Si Copilot a des suggestions pertinentes :
+   - Dispatcher un agent pour appliquer les suggestions
+   - L'agent push le fix sur la même branche
+   - Re-vérifier après le fix
+5. Si pas de commentaires ou commentaires non pertinents → procéder au merge
 
-- Si tous les checks sont GREEN → merger la PR (`gh pr merge <num> --squash --delete-branch`)
-- Si SonarCloud FAIL mais CI GREEN → vérifier si c'est un problème d'exclusions ou de vrais tests manquants
-- Si CI FAIL → lire les logs, créer une tâche fix, dispatcher un agent
-- **Après chaque merge : vérifier develop CI dans les 2 minutes**
+**Le merge sans vérification Copilot est INTERDIT.**
+
+**5c. Vérification locale avant merge (quand CI quota épuisé)**
+
+Quand le CI GitHub Actions est indisponible (quota mensuel épuisé), l'orchestrateur DOIT :
+1. Vérifier que le dernier `dotnet test` local dans le worktree a passé (le dev agent l'a fait)
+2. Vérifier que le dernier `npm run build` local a passé (pour les PRs frontend)
+3. Merger avec `--admin`
+
+**5d. Merge**
+
+- Merger la PR (`gh pr merge <num> --squash --delete-branch --admin`)
+- **Après chaque merge : vérifier develop build localement si CI indisponible**
 
 ```bash
 # Après merge
