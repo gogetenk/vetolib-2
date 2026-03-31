@@ -20,6 +20,7 @@ internal class ListWaitlistEntriesHandler
         ListWaitlistEntriesQuery query, CancellationToken ct)
     {
         var entries = await _context.WaitlistEntries
+            .AsNoTracking()
             .OrderBy(e => e.CreatedAt)
             .Select(e => e.ToDto())
             .ToListAsync(ct);

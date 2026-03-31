@@ -48,6 +48,7 @@ internal class GenerateHealthAlertsHandler : IRequestHandler<GenerateHealthAlert
 
         // 2. Load existing non-dismissed alerts to deduplicate
         var existingAlerts = await _dbContext.HealthAlerts
+            .AsNoTracking()
             .Where(a => a.Status != HealthAlertStatus.Dismissed)
             .ToListAsync(cancellationToken);
 

@@ -19,6 +19,7 @@ internal class PredictNextHeatHandler : IRequestHandler<PredictNextHeatQuery, Re
     public async Task<Result<HeatPredictionDto>> Handle(PredictNextHeatQuery query, CancellationToken ct)
     {
         var cycles = await _context.HeatCycles
+            .AsNoTracking()
             .Where(h => h.PatientId == query.PatientId)
             .OrderBy(h => h.StartDate)
             .ToListAsync(ct);
