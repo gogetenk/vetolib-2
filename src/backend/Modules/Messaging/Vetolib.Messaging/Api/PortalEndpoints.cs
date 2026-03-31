@@ -82,13 +82,15 @@ internal static class PortalEndpoints
         group.MapGet("/conversations", async (
             IPortalContext portal,
             ISender sender,
-            CancellationToken ct) =>
+            CancellationToken ct,
+            int page = 1,
+            int pageSize = 20) =>
         {
             var result = await sender.Send(
-                new ListOwnerConversationsQuery(portal.OwnerId, portal.ClinicId), ct);
+                new ListOwnerConversationsQuery(portal.OwnerId, portal.ClinicId, page, pageSize), ct);
             return result.ToMinimalApiResult();
         }).WithSummary("List owner conversations")
-          .WithDescription("Returns all conversations belonging to the authenticated pet owner.");
+          .WithDescription("Returns paginated conversations belonging to the authenticated pet owner.");
 
         // GET /conversations/{id} — get conversation with messages (no internal notes)
         group.MapGet("/conversations/{id:guid}", async (

@@ -14,6 +14,7 @@ using Vetolib.MedicalRecords.Application.Commands.TransferPatient;
 using Vetolib.MedicalRecords.Application.Commands.UpdatePatient;
 using Vetolib.MedicalRecords.Application.Commands.UploadPatientPhoto;
 using Vetolib.MedicalRecords.Application.Queries.ExportPatientFhir;
+using Vetolib.MedicalRecords.Application.Services;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientById;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientDetail;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientPhoto;
@@ -149,7 +150,8 @@ internal static class PatientEndpoints
         int page = 1,
         int pageSize = 20)
     {
-        return (await sender.Send(new ListPatientsQuery(name, species, microchip, ownerPhone, page <= 0 ? 1 : page, pageSize <= 0 ? 20 : pageSize))).ToMinimalApiResult();
+        if (pageSize is < 1 or > 200) pageSize = 20;
+        return (await sender.Send(new ListPatientsQuery(name, species, microchip, ownerPhone, page <= 0 ? 1 : page, pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> GetPatientById(
@@ -234,11 +236,22 @@ internal static class PatientEndpoints
         if (file.Length > maxFileSizeBytes)
             return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError("Photo exceeds maximum allowed size of 5 MB.")).ToMinimalApiResult();
 
+        // Content-type allowlist check
+        if (!PhotoFileValidator.AllowedContentTypes.Contains(file.ContentType))
+            return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError(
+                "Invalid content type. Allowed types: image/jpeg, image/png, image/webp.")).ToMinimalApiResult();
+
         await using var stream = file.OpenReadStream();
         using var memoryStream = new MemoryStream();
         await stream.CopyToAsync(memoryStream);
+        var photoData = memoryStream.ToArray();
 
-        var cmd = new UploadPatientPhotoCommand(id, memoryStream.ToArray(), file.ContentType);
+        // Magic-byte validation: actual file content must match declared content type
+        if (!PhotoFileValidator.IsValid(file.ContentType, photoData))
+            return Ardalis.Result.Result.Invalid(new Ardalis.Result.ValidationError(
+                "File content does not match declared content type. The file may be corrupted or disguised.")).ToMinimalApiResult();
+
+        var cmd = new UploadPatientPhotoCommand(id, photoData, file.ContentType);
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 

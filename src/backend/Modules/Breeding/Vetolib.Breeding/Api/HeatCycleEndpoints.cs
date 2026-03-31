@@ -28,7 +28,7 @@ internal static class HeatCycleEndpoints
         group.MapGet("/", GetHeatCycles)
             .WithName("GetHeatCycles")
             .WithSummary("List heat cycles")
-            .WithDescription("Returns all recorded heat cycles for a specific patient, ordered by most recent first.");
+            .WithDescription("Returns paginated heat cycles for a specific patient, ordered by start date. Supports page and pageSize query parameters.");
 
         group.MapGet("/prediction", PredictNextHeat)
             .WithName("PredictNextHeat")
@@ -56,9 +56,11 @@ internal static class HeatCycleEndpoints
 
     private static async Task<IResult> GetHeatCycles(
         Guid patientId,
-        ISender sender)
+        ISender sender,
+        int page = 1,
+        int pageSize = 20)
     {
-        return (await sender.Send(new GetHeatCyclesQuery(patientId))).ToMinimalApiResult();
+        return (await sender.Send(new GetHeatCyclesQuery(patientId, page, pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> PredictNextHeat(

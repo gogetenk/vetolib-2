@@ -72,6 +72,7 @@ internal static class UserEndpoints
         int page = 1,
         int pageSize = 20)
     {
+        if (pageSize is < 1 or > 200) pageSize = 20;
         return (await sender.Send(new ListUsersQuery(page, pageSize))).ToMinimalApiResult();
     }
 

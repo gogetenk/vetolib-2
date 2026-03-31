@@ -73,7 +73,8 @@ internal static class MedicalRecordEndpoints
         int page = 1,
         int pageSize = 20)
     {
-        return (await sender.Send(new ListMedicalRecordsQuery(patientId, page < 1 ? 1 : page, pageSize < 1 ? 20 : pageSize))).ToMinimalApiResult();
+        if (pageSize is < 1 or > 200) pageSize = 20;
+        return (await sender.Send(new ListMedicalRecordsQuery(patientId, page < 1 ? 1 : page, pageSize))).ToMinimalApiResult();
     }
 
     private static IResult DeleteMedicalRecord(

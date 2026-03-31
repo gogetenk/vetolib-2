@@ -66,6 +66,7 @@ internal static class ClinicEndpoints
         int page = 1,
         int pageSize = 20)
     {
+        if (pageSize is < 1 or > 200) pageSize = 20;
         var result = await sender.Send(new SearchClinicsQuery(name, city, species, page, pageSize));
         return result.ToMinimalApiResult();
     }

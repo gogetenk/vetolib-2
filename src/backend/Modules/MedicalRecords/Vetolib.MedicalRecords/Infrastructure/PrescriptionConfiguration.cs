@@ -37,5 +37,9 @@ internal class PrescriptionConfiguration : IEntityTypeConfiguration<Prescription
         builder.Property(p => p.OverrideSeverity)
             .HasMaxLength(50)
             .IsRequired(false);
+
+        // Performance: composite indexes for common query patterns
+        builder.HasIndex(p => new { p.ClinicId, p.MedicalRecordId });
+        builder.HasIndex(p => new { p.ClinicId, p.CreatedAt });
     }
 }
