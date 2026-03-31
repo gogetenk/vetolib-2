@@ -9,7 +9,7 @@ import {
   updateReminderConfig,
   getReminderLogs,
 } from "@/lib/api/reminders"
-import type { ReminderConfigDto, ReminderLogDto } from "@/lib/api/reminders"
+import type { ReminderConfigDto, ReminderLogDto, ReminderChannel } from "@/lib/api/reminders"
 import { PageContainer } from "@/components/ui/page-container"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
@@ -17,6 +17,13 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Table,
   TableBody,
@@ -117,21 +124,18 @@ export default function NotificationSettingsPage() {
               </div>
             </div>
             <Switch
-              checked={config.appointmentReminders.enabled}
+              checked={config.appointment24hEnabled}
               onCheckedChange={(checked: boolean) =>
                 setConfig({
                   ...config,
-                  appointmentReminders: {
-                    ...config.appointmentReminders,
-                    enabled: checked,
-                  },
+                  appointment24hEnabled: checked,
                 })
               }
               data-testid="appointment-reminders-toggle"
             />
           </div>
         </CardHeader>
-        {config.appointmentReminders.enabled && (
+        {config.appointment24hEnabled && (
           <CardContent>
             <div className="flex items-center gap-3">
               <label
@@ -145,14 +149,11 @@ export default function NotificationSettingsPage() {
                 type="number"
                 min={1}
                 max={72}
-                value={config.appointmentReminders.timingHours}
+                value={config.appointment24hLeadTimeHours}
                 onChange={(e) =>
                   setConfig({
                     ...config,
-                    appointmentReminders: {
-                      ...config.appointmentReminders,
-                      timingHours: Number(e.target.value) || 24,
-                    },
+                    appointment24hLeadTimeHours: Number(e.target.value) || 24,
                   })
                 }
                 className="w-20"
@@ -187,14 +188,11 @@ export default function NotificationSettingsPage() {
               </div>
             </div>
             <Switch
-              checked={config.vaccinationReminders.enabled}
+              checked={config.vaccinationDueEnabled}
               onCheckedChange={(checked: boolean) =>
                 setConfig({
                   ...config,
-                  vaccinationReminders: {
-                    ...config.vaccinationReminders,
-                    enabled: checked,
-                  },
+                  vaccinationDueEnabled: checked,
                 })
               }
               data-testid="vaccination-reminders-toggle"
@@ -224,21 +222,18 @@ export default function NotificationSettingsPage() {
               </div>
             </div>
             <Switch
-              checked={config.followUpReminders.enabled}
+              checked={config.followUpEnabled}
               onCheckedChange={(checked: boolean) =>
                 setConfig({
                   ...config,
-                  followUpReminders: {
-                    ...config.followUpReminders,
-                    enabled: checked,
-                  },
+                  followUpEnabled: checked,
                 })
               }
               data-testid="followup-reminders-toggle"
             />
           </div>
         </CardHeader>
-        {config.followUpReminders.enabled && (
+        {config.followUpEnabled && (
           <CardContent>
             <div className="flex items-center gap-3">
               <label
@@ -252,14 +247,11 @@ export default function NotificationSettingsPage() {
                 type="number"
                 min={1}
                 max={90}
-                value={config.followUpReminders.daysAfter}
+                value={config.vaccinationDueLeadTimeDays}
                 onChange={(e) =>
                   setConfig({
                     ...config,
-                    followUpReminders: {
-                      ...config.followUpReminders,
-                      daysAfter: Number(e.target.value) || 7,
-                    },
+                    vaccinationDueLeadTimeDays: Number(e.target.value) || 7,
                   })
                 }
                 className="w-20"
@@ -271,6 +263,38 @@ export default function NotificationSettingsPage() {
             </div>
           </CardContent>
         )}
+      </Card>
+
+      {/* Preferred Reminder Channel */}
+      <Card
+        className="border-border/80 shadow-sm"
+        data-testid="reminder-channel-section"
+      >
+        <CardHeader>
+          <CardTitle className="text-[15px] font-bold text-foreground">
+            {t("channel.title")}
+          </CardTitle>
+          <CardDescription className="text-[13px] text-muted-foreground">
+            {t("channel.description")}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Select
+            value={config.preferredReminderChannel}
+            onValueChange={(value: string | null) => {
+              if (value) setConfig({ ...config, preferredReminderChannel: value as ReminderChannel })
+            }}
+          >
+            <SelectTrigger className="w-48" data-testid="reminder-channel-select">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Email">{t("channel.email")}</SelectItem>
+              <SelectItem value="WhatsApp">{t("channel.whatsapp")}</SelectItem>
+              <SelectItem value="Both">{t("channel.both")}</SelectItem>
+            </SelectContent>
+          </Select>
+        </CardContent>
       </Card>
 
       {/* Save Button */}
