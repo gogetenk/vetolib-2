@@ -16,6 +16,19 @@ internal class ClinicConfiguration : IEntityTypeConfiguration<Clinic>
             .IsRequired()
             .HasMaxLength(256);
 
+        builder.Property(c => c.City)
+            .HasMaxLength(256);
+
+        builder.Property(c => c.LogoUrl)
+            .HasMaxLength(2048);
+
+        builder.Property(c => c.Slug)
+            .HasMaxLength(256);
+
+        builder.Property(c => c.SupportedSpecies)
+            .HasField("_supportedSpecies")
+            .HasColumnType("text[]");
+
         builder.Property(c => c.SubscriptionPlan)
             .IsRequired()
             .HasMaxLength(50)
@@ -24,7 +37,8 @@ internal class ClinicConfiguration : IEntityTypeConfiguration<Clinic>
         builder.Property(c => c.TrialEndsAt)
             .IsRequired();
 
-        // Clinic name uniqueness is enforced at application level (cross-tenant check)
-        // No unique index needed here as two clinics can theoretically have the same name
+        // Index for public clinic search (case-insensitive partial match on name + city filter)
+        builder.HasIndex(c => c.City);
+        builder.HasIndex(c => c.Slug).IsUnique();
     }
 }

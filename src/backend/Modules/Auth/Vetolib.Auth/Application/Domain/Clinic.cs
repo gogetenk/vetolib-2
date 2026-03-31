@@ -11,8 +11,14 @@ namespace Vetolib.Auth.Application.Domain;
 internal class Clinic : BaseEntity, IAggregateRoot
 {
     public string Name { get; private set; } = string.Empty;
+    public string? City { get; private set; }
+    public string? LogoUrl { get; private set; }
+    public string? Slug { get; private set; }
     public Contracts.SubscriptionPlan SubscriptionPlan { get; private set; }
     public DateTime TrialEndsAt { get; private set; }
+
+    private readonly List<string> _supportedSpecies = [];
+    public IReadOnlyList<string> SupportedSpecies => _supportedSpecies.AsReadOnly();
 
     private Clinic() { } // EF Core constructor
 
@@ -29,13 +35,37 @@ internal class Clinic : BaseEntity, IAggregateRoot
         if (errors.Count > 0)
             return Result<Clinic>.Invalid(errors);
 
+        var trimmed = name.Trim();
         var clinic = new Clinic
         {
-            Name = name.Trim(),
+            Name = trimmed,
+            Slug = GenerateSlug(trimmed),
             SubscriptionPlan = Contracts.SubscriptionPlan.Pro,
             TrialEndsAt = DateTime.UtcNow.AddDays(trialDays)
         };
 
         return Result<Clinic>.Success(clinic);
+    }
+
+    public Result UpdateDirectory(string? city, string? logoUrl, IEnumerable<string>? supportedSpecies)
+    {
+        City = city?.Trim();
+        LogoUrl = logoUrl?.Trim();
+
+        if (supportedSpecies is not null)
+        {
+            _supportedSpecies.Clear();
+            _supportedSpecies.AddRange(supportedSpecies.Select(s => s.Trim()));
+        }
+
+        return Result.Success();
+    }
+
+    internal static string GenerateSlug(string name)
+    {
+        return name.Trim()
+            .ToLowerInvariant()
+            .Replace(' ', '-')
+            .Replace("--", "-");
     }
 }

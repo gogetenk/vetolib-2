@@ -10,6 +10,7 @@ using Vetolib.MedicalRecords.Application.Commands.DeletePatientPhoto;
 using Vetolib.MedicalRecords.Application.Commands.ImportPatients;
 using Vetolib.MedicalRecords.Application.Commands.UpdatePatient;
 using Vetolib.MedicalRecords.Application.Commands.UploadPatientPhoto;
+using Vetolib.MedicalRecords.Application.Queries.ExportPatientFhir;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientById;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientDetail;
 using Vetolib.MedicalRecords.Application.Queries.GetPatientPhoto;
@@ -57,6 +58,12 @@ internal static class PatientEndpoints
             .WithName("GetPatientSummary")
             .WithSummary("Export patient medical summary")
             .WithDescription("Returns a structured medical summary for a patient including patient info, owner info, recent medical records, active prescriptions, vaccinations, and health alerts. Designed for sharing with other clinics or pet owners.");
+
+        group.MapGet("/{id:guid}/export/fhir", ExportPatientFhir)
+            .WithName("ExportPatientFhir")
+            .WithSummary("Export patient as FHIR R4 Bundle")
+            .WithDescription("Returns a FHIR R4 JSON Bundle containing the patient record mapped to standard FHIR resources: Patient (with patient-animal extension), RelatedPerson (owner), Encounter (medical records), MedicationRequest (prescriptions), and Observation (weight entries). Microchip is mapped to ISO 11784/11785 identifier.")
+            .Produces<string>(200, FhirBundleResult.FhirJsonContentType);
 
         group.MapPatch("/{id:guid}", UpdatePatient)
             .RequireAuthorization("VetOrAdmin")
@@ -237,5 +244,17 @@ internal static class PatientEndpoints
         ISender sender)
     {
         return (await sender.Send(new DeletePatientPhotoCommand(id))).ToMinimalApiResult();
+    }
+
+    private static async Task<IResult> ExportPatientFhir(
+        Guid id,
+        ISender sender)
+    {
+        var result = await sender.Send(new ExportPatientFhirQuery(id));
+
+        if (!result.IsSuccess)
+            return result.ToMinimalApiResult();
+
+        return Results.Content(result.Value.Json, result.Value.ContentType);
     }
 }

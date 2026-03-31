@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Vetolib.Auth.Application.Commands.RegisterClinic;
+using Vetolib.Auth.Application.Queries.SearchClinics;
 using Vetolib.Auth.Contracts;
 
 namespace Vetolib.Auth.Api;
@@ -26,6 +27,14 @@ internal static class ClinicEndpoints
             .Produces(StatusCodes.Status422UnprocessableEntity)
             .Produces(StatusCodes.Status429TooManyRequests);
 
+        publicGroup.MapGet("/search", SearchClinics)
+            .WithName("SearchClinics")
+            .AllowAnonymous()
+            .WithSummary("Search the public clinic directory")
+            .WithDescription("Search for veterinary clinics by name, city, or supported species. Returns paginated results. No authentication required — this is a public directory endpoint.")
+            .Produces<ClinicSearchPagedResultDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest);
+
         return app;
     }
 
@@ -46,5 +55,17 @@ internal static class ClinicEndpoints
 
         // Return 201 Created instead of default 200
         return Results.Created($"/api/v1/clinics/{result.Value.ClinicId}", result.Value);
+    }
+
+    private static async Task<IResult> SearchClinics(
+        ISender sender,
+        string? name = null,
+        string? city = null,
+        string? species = null,
+        int page = 1,
+        int pageSize = 20)
+    {
+        var result = await sender.Send(new SearchClinicsQuery(name, city, species, page, pageSize));
+        return result.ToMinimalApiResult();
     }
 }

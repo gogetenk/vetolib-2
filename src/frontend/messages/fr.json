@@ -1090,23 +1090,24 @@
   },
   "landing": {
     "meta": {
-      "title": "Vetara — La plateforme intelligente de gestion de clinique vétérinaire",
-      "description": "Plateforme de gestion de clinique vétérinaire — triage IA, notes SOAP automatiques, intégration WhatsApp, support français + anglais + arabe, et facturation conforme TVA. Essai gratuit 30 jours."
+      "title": "Vetara — La plateforme vétérinaire moderne",
+      "description": "Remplacez votre logiciel de clinique obsolète. Gérez rendez-vous, dossiers médicaux et facturation — avec une IA qui détecte ce que vous pourriez manquer. Essai gratuit 30 jours."
     },
     "nav": {
       "features": "Fonctionnalités",
       "pricing": "Tarifs",
       "faq": "FAQ",
       "demo": "Réserver une démo",
+      "pet_owners": "Propriétaires d'animaux",
       "sign_in": "Connexion"
     },
     "hero": {
-      "headline": "Gérez votre clinique vétérinaire en deux fois moins de temps",
-      "subtitle": "L'IA gère votre paperasse. WhatsApp gère vos rappels. Vous, vous soignez les animaux.",
-      "cta_primary": "Démarrer l'essai gratuit",
-      "cta_secondary": "Réserver une démo",
+      "headline": "La plateforme vétérinaire moderne — rapide, connectée, intelligente",
+      "subtitle": "Remplacez votre logiciel de clinique obsolète. Gérez rendez-vous, dossiers médicaux et facturation — avec une IA qui détecte ce que vous pourriez manquer.",
+      "cta_primary": "Démarrer gratuitement",
+      "cta_secondary": "Voir les tarifs",
       "trust_badge": "Essai gratuit Pro 30 jours — sans carte bancaire",
-      "social_proof_badge": "Rejoignez plus de 50 cliniques dans le monde",
+      "social_proof_badge": "Adopté par des cliniques vétérinaires dans le monde entier",
       "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients",
       "whatsapp_cta": "Réserver via WhatsApp"
     },
@@ -1121,8 +1122,8 @@
       "uptime_label": "garantie"
     },
     "new_features": {
-      "title": "Conçu pour la clinique vétérinaire de demain",
-      "subtitle": "Vetara combine des dossiers de santé animale partagés, des outils IA intelligents et une gestion fluide de la clinique — le tout en une seule plateforme.",
+      "title": "Tout ce dont votre clinique a besoin, au même endroit",
+      "subtitle": "Vetara combine planning, dossiers médicaux, facturation et outils IA intelligents — pour que vous vous concentriez sur les soins, pas sur les logiciels.",
       "health_passport": {
         "title": "Passeport santé animal partagé",
         "description": "Chaque animal dispose d'un dossier de santé permanent accessible depuis n'importe quelle clinique — avec le consentement du propriétaire. Consultations, vaccinations, prescriptions et diagnostics, toujours disponibles où que l'animal soit vu.",
@@ -1184,7 +1185,7 @@
     },
     "features": {
       "title": "Tout ce dont vous avez besoin pour mieux gérer votre clinique",
-      "subtitle": "Remplacez quatre outils distincts par une seule plateforme — conçue spécifiquement pour les cliniques vétérinaires.",
+      "subtitle": "Remplacez quatre outils distincts par une seule plateforme — conçue pour les cliniques vétérinaires.",
       "scheduling": {
         "title": "Planning intelligent",
         "description": "Prenez des rendez-vous, gérez la disponibilité des vétérinaires, enregistrez l'arrivée des patients. La détection de conflits empêche les doubles réservations."
@@ -1302,6 +1303,32 @@
         ],
         "cta": "Contacter l equipe commerciale"
       }
+    },
+    "ai_section": {
+      "title": "Propulsé par l'IA : détectez ce qui pourrait vous échapper",
+      "subtitle": "L'intelligence intégrée de Vetara vous aide à prendre de meilleures décisions cliniques — sans changer votre façon de travailler.",
+      "drug_interactions": {
+        "title": "Vérification des interactions médicamenteuses",
+        "description": "Alertes automatiques en cas de conflit entre prescriptions. Détectez les interactions dangereuses avant qu'elles n'atteignent le patient."
+      },
+      "health_predictions": {
+        "title": "Prédiction des risques sanitaires",
+        "description": "Surveillance spécifique par espèce qui repère les signes d'alerte précoces — pour intervenir avant que les situations ne deviennent des urgences."
+      },
+      "smart_triage": {
+        "title": "Triage automatisé",
+        "description": "L'IA analyse les symptômes et suggère un niveau d'urgence avant le rendez-vous. Votre équipe reste concentrée sur les cas les plus importants."
+      },
+      "soap_notes": {
+        "title": "Notes SOAP par IA",
+        "description": "Générez automatiquement des comptes-rendus de consultation structurés à partir de la voix ou du texte. Économisez plus d'une heure par jour sur la documentation."
+      }
+    },
+    "connected_vision": {
+      "title": "Un animal, un dossier, chaque vétérinaire",
+      "subtitle": "Le passeport santé partagé de Vetara signifie que chaque animal porte un dossier médical permanent et portable — accessible par n'importe quelle clinique, avec le consentement du propriétaire.",
+      "description": "Consultations, vaccinations, prescriptions et diagnostics suivent l'animal où qu'il aille. Plus besoin de faxer des dossiers ou de repartir de zéro. Le tableau complet, toujours disponible.",
+      "cta": "En savoir plus sur les dossiers connectés"
     },
     "competitive": {
       "title": "Pourquoi Vetara ?",
@@ -1430,14 +1457,14 @@
       "subtitle": "Tout ce que vous devez savoir avant de vous lancer."
     },
     "final_cta": {
-      "headline": "Arrêtez de gérer votre clinique avec des tableurs.",
-      "subtitle": "Rejoignez plus de 50 cliniques vétérinaires qui économisent 2 heures par jour sur les tâches administratives. Essai gratuit de 30 jours — aucune carte bancaire requise.",
-      "cta": "Essai gratuit — Sans carte bancaire",
-      "reassurance": "Annulez à tout moment. Vos données vous appartiennent — toujours."
+      "headline": "Votre clinique mérite un logiciel moderne.",
+      "subtitle": "Rejoignez les cliniques vétérinaires dans le monde entier qui gagnent 2 heures par jour. Interface multilingue, rappels WhatsApp, outils cliniques IA et facturation conforme — tout inclus dès le premier jour.",
+      "cta": "Démarrer gratuitement",
+      "reassurance": "Sans carte bancaire. Annulez à tout moment. Vos données vous appartiennent."
     },
     "footer": {
       "copyright": "© 2026 Vetara.",
-      "tagline": "Conçu pour les cliniques vétérinaires.",
+      "tagline": "La plateforme vétérinaire moderne.",
       "lang_en": "EN",
       "lang_ar": "AR",
       "lang_fr": "FR",
@@ -1468,8 +1495,8 @@
       }
     },
     "sticky_cta": {
-      "tagline": "Gagnez 2 heures par jour sur l'administration de votre clinique",
-      "cta": "Demarrer l'essai gratuit"
+      "tagline": "La plateforme vétérinaire moderne — gagnez 2h par jour",
+      "cta": "Démarrer gratuitement"
     },
     "pricing_badge": {
       "early_access": "Tarifs early access — réservés aux cliniques fondatrices",
@@ -1484,7 +1511,7 @@
     },
     "footer_cta": {
       "headline": "Pret a transformer votre clinique ?",
-      "cta": "Demarrer l'essai gratuit"
+      "cta": "Démarrer gratuitement"
     }
   },
   "portal": {
@@ -1746,6 +1773,68 @@
         "grooming": "Toilettage",
         "labTests": "Analyses de laboratoire"
       }
+    },
+    "my_pets": {
+      "title": "Mes animaux",
+      "loading": "Chargement de vos animaux...",
+      "link_expired": "Ce lien a expire. Veuillez contacter votre clinique pour en recevoir un nouveau.",
+      "error_generic": "Une erreur est survenue. Veuillez reessayer plus tard.",
+      "no_animals": "Aucun animal enregistre sur votre compte.",
+      "last_visit": "Derniere visite",
+      "no_visits": "Aucune visite"
+    },
+    "animal_detail": {
+      "loading": "Chargement...",
+      "not_found": "Animal introuvable.",
+      "error_generic": "Une erreur est survenue. Veuillez reessayer plus tard.",
+      "back": "Retour a mes animaux",
+      "born": "Ne(e) le",
+      "tab_loading": "Chargement...",
+      "tabs": {
+        "overview": "Apercu",
+        "records": "Dossiers medicaux",
+        "vaccinations": "Vaccinations",
+        "prescriptions": "Ordonnances",
+        "weight": "Poids"
+      },
+      "overview": {
+        "name": "Nom",
+        "species": "Espece",
+        "breed": "Race",
+        "date_of_birth": "Date de naissance",
+        "last_visit": "Derniere visite"
+      },
+      "records": {
+        "empty": "Aucun dossier medical.",
+        "diagnosis": "Diagnostic",
+        "treatment": "Traitement"
+      },
+      "vaccinations": {
+        "empty": "Aucune vaccination.",
+        "administered": "Administre le",
+        "next_due": "Prochaine dose"
+      },
+      "prescriptions": {
+        "empty": "Aucune ordonnance.",
+        "dosage": "Posologie",
+        "frequency": "Frequence"
+      },
+      "weight": {
+        "empty": "Aucun enregistrement de poids.",
+        "latest": "Poids actuel"
+      },
+      "reminders": {
+        "title": "Rappels de vaccination",
+        "empty": "Aucun rappel de vaccination a venir.",
+        "due": "Echeance",
+        "status_upcoming": "A venir",
+        "status_overdue": "En retard",
+        "status_completed": "Termine",
+        "book_appointment": "Reserver",
+        "notification_prefs": "Preferences de notification",
+        "whatsapp": "Rappels WhatsApp",
+        "email": "Rappels par e-mail"
+      }
     }
   },
   "onboarding": {
@@ -1986,7 +2075,9 @@
     "messaging_title": "Paramètres de messagerie",
     "messaging_description": "Configurez les rappels automatiques, les modèles et les horaires de messagerie.",
     "notifications_title": "Paramètres de notification",
-    "notifications_description": "Configurez les rappels automatiques pour les rendez-vous, vaccinations et suivis."
+    "notifications_description": "Configurez les rappels automatiques pour les rendez-vous, vaccinations et suivis.",
+    "working_hours_title": "Horaires d'ouverture",
+    "working_hours_description": "Definissez les horaires d'ouverture et de fermeture de votre clinique pour chaque jour de la semaine."
   },
   "soap_notes": {
     "title": "Notes SOAP IA",
@@ -2308,10 +2399,293 @@
       "treatment_required": "Le traitement est requis"
     }
   },
+  "pricing_page": {
+    "meta_title": "Tarifs — Vetara",
+    "meta_description": "Comparez les plans Vetara : Starter (Gratuit), Professionnel (149 AED/mois), et Entreprise. Trouvez le plan ideal pour votre clinique veterinaire aux EAU.",
+    "nav_home": "Accueil",
+    "nav_pricing": "Tarifs",
+    "heading": "Choisissez le Plan Ideal pour Votre Clinique",
+    "subtitle": "Tarification par veterinaire sans frais caches. Tous les plans incluent un essai gratuit Pro de 30 jours.",
+    "toggle_monthly": "Mensuel",
+    "toggle_annual": "Annuel",
+    "annual_savings": "Economisez 15%",
+    "trial_note": "Essai gratuit Pro de 30 jours sur tous les plans — sans carte bancaire.",
+    "vat_note": "Prix hors TVA 5%.",
+    "early_access_badge": "Tarifs early access — reserves aux cliniques fondatrices",
+    "trial_under_plan": "Essai gratuit Pro 30 jours — sans carte bancaire",
+    "starter": {
+      "name": "Starter",
+      "price_monthly": "Gratuit",
+      "price_annual": "Gratuit",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "Pour les veterinaires solo qui debutent — essayez Vetara gratuitement.",
+      "features": [
+        "1 veterinaire",
+        "Jusqu'a 50 patients",
+        "Planification de base",
+        "Dossiers medicaux SOAP",
+        "Rappels par email",
+        "Interface bilingue EN + AR",
+        "Portail de reservation client",
+        "Support par email"
+      ],
+      "cta": "Commencer Gratuitement"
+    },
+    "pro": {
+      "name": "Professionnel",
+      "badge": "Le Plus Populaire",
+      "price_monthly": "149 AED",
+      "price_annual": "127 AED",
+      "usd_hint_monthly": "~41 $/mois",
+      "usd_hint_annual": "~35 $/mois",
+      "per_month": "/mois",
+      "description": "Pour les cliniques en croissance ayant besoin d'IA, WhatsApp et automatisation complete.",
+      "features": [
+        "Jusqu'a 5 veterinaires",
+        "Patients illimites",
+        "Rappels et suivis WhatsApp",
+        "Alertes sante IA (faucons et especes specifiques)",
+        "Module elevage et reproduction",
+        "Tableau de bord analytique",
+        "Notes SOAP IA / Scribe",
+        "Triage IA et prediction de non-presentation",
+        "Gestion des stocks",
+        "Support prioritaire (reponse 4h)"
+      ],
+      "cta": "Demarrer l'Essai Gratuit"
+    },
+    "enterprise": {
+      "name": "Entreprise",
+      "price_monthly": "Sur mesure",
+      "price_annual": "Sur mesure",
+      "usd_hint_monthly": "",
+      "usd_hint_annual": "",
+      "per_month": "",
+      "description": "Pour les groupes multi-sites et hopitaux veterinaires. Tout illimite.",
+      "features": [
+        "Veterinaires illimites",
+        "Gestion multi-cliniques",
+        "Acces API REST pour integrations personnalisees",
+        "Roles et permissions personnalises",
+        "Support prioritaire (telephone, reponse 1h)",
+        "Integrations personnalisees et onboarding",
+        "Gestionnaire de compte dedie",
+        "Garantie SLA 99,9%",
+        "Migration de donnees assistee"
+      ],
+      "cta": "Contacter les Ventes"
+    },
+    "comparison": {
+      "title": "Comparaison des Fonctionnalites",
+      "subtitle": "Decouvrez exactement ce qui est inclus dans chaque plan.",
+      "feature": "Fonctionnalite",
+      "starter_col": "Starter",
+      "pro_col": "Professionnel",
+      "enterprise_col": "Entreprise",
+      "scheduling": "Planification",
+      "medical_records": "Dossiers Medicaux",
+      "email_reminders": "Rappels Email",
+      "client_portal": "Portail Client",
+      "bilingual_interface": "Interface Bilingue (EN + AR)",
+      "soap_notes": "Notes SOAP",
+      "whatsapp_reminders": "Rappels WhatsApp",
+      "ai_health_alerts": "Alertes Sante IA",
+      "ai_triage": "Triage IA",
+      "ai_soap_scribe": "Scribe SOAP IA",
+      "stock_management": "Gestion des Stocks",
+      "breeding_module": "Module Elevage",
+      "analytics_dashboard": "Tableau de Bord Analytique",
+      "recurring_appointments": "Rendez-vous Recurrents",
+      "qr_checkin": "Check-In QR",
+      "multi_clinic": "Multi-Clinique",
+      "api_access": "Acces API",
+      "custom_roles": "Roles Personnalises",
+      "priority_support": "Support Prioritaire",
+      "dedicated_account_manager": "Gestionnaire de Compte Dedie",
+      "custom_integrations": "Integrations Personnalisees",
+      "patients": "Patients",
+      "patients_starter": "Jusqu'a 50",
+      "patients_pro": "Illimites",
+      "patients_enterprise": "Illimites",
+      "vets": "Veterinaires",
+      "vets_starter": "1",
+      "vets_pro": "Jusqu'a 5",
+      "vets_enterprise": "Illimites"
+    },
+    "faq": {
+      "title": "FAQ Tarifs",
+      "subtitle": "Questions frequentes sur la facturation, les plans et les fonctionnalites.",
+      "0": {
+        "question": "Y a-t-il vraiment un plan gratuit ?",
+        "answer": "Oui. Le plan Starter est gratuit pour toujours sans carte bancaire. Il inclut les fonctionnalites essentielles comme la planification, les dossiers medicaux et les rappels email pour jusqu'a 50 patients et 1 veterinaire."
+      },
+      "1": {
+        "question": "Comment fonctionne l'essai gratuit de 30 jours ?",
+        "answer": "Chaque nouvelle clinique obtient 30 jours de fonctionnalites Professionnel completes gratuitement. Sans carte bancaire. Apres 30 jours, vous choisissez le plan qui convient a votre clinique — ou restez sur Starter gratuitement."
+      },
+      "2": {
+        "question": "Que signifie la tarification 'par veterinaire' ?",
+        "answer": "La tarification est basee sur le niveau du plan, pas le nombre de veterinaires. Starter inclut 1 vet, Professionnel jusqu'a 5, et Entreprise illimite. Pas de surprises par siege."
+      },
+      "3": {
+        "question": "Puis-je changer de plan a tout moment ?",
+        "answer": "Oui. Mettez a niveau ou retrogradez a tout moment depuis le tableau de bord de votre clinique. Lors d'une mise a niveau, vous ne payez que la difference au prorata pour la periode de facturation restante."
+      },
+      "4": {
+        "question": "La TVA est-elle incluse dans les prix ?",
+        "answer": "Les prix sont indiques hors TVA EAU de 5%. La TVA est appliquee au paiement et clairement indiquee sur votre facture, en conformite avec les reglementations FTA."
+      },
+      "5": {
+        "question": "En quoi la facturation annuelle est-elle differente ?",
+        "answer": "La facturation annuelle vous fait economiser 15% par rapport au mensuel. Vous payez une fois par an a l'avance. Pour le Professionnel, c'est 127 AED/mois facture annuellement au lieu de 149 AED/mois facture mensuellement."
+      },
+      "6": {
+        "question": "Qu'arrive-t-il a mes donnees si je retrocede ?",
+        "answer": "Vos donnees ne sont jamais supprimees. Si vous retrogradez vers Starter, les fonctionnalites comme le triage IA et WhatsApp deviennent en lecture seule. Vous pouvez toujours consulter les donnees historiques."
+      },
+      "7": {
+        "question": "Comment contacter les ventes pour l'Entreprise ?",
+        "answer": "Cliquez sur 'Contacter les Ventes' sur le plan Entreprise ou envoyez un email a hello@vetara.ae. Notre equipe planifiera une demo et creera une proposition personnalisee pour votre configuration multi-cliniques."
+      }
+    },
+    "final_cta": {
+      "headline": "Pret a Commencer ?",
+      "subtitle": "Rejoignez les cliniques veterinaires aux EAU. Commencez votre essai gratuit Pro de 30 jours aujourd'hui.",
+      "cta": "Demarrer Votre Essai Gratuit",
+      "reassurance": "Sans carte bancaire. Annulez a tout moment."
+    }
+  },
   "cookieConsent": {
     "message": "Nous utilisons des cookies pour ameliorer votre experience. En continuant, vous acceptez notre politique de cookies.",
     "acceptAll": "Tout accepter",
     "necessaryOnly": "Necessaires uniquement",
     "ariaLabel": "Consentement aux cookies"
+  },
+  "pet_owners": {
+    "meta": {
+      "title": "Proprietaires d'animaux — La sante de votre animal, toujours dans votre poche | Vetara",
+      "description": "Accedez aux dossiers medicaux de votre animal, reservez des rendez-vous veterinaires, recevez des rappels de vaccination et partagez les dossiers avec n'importe quelle clinique — tout depuis Vetara."
+    },
+    "nav": {
+      "features": "Fonctionnalites",
+      "how_it_works": "Comment ca marche",
+      "for_clinics": "Pour les cliniques",
+      "sign_in": "Se connecter"
+    },
+    "hero": {
+      "headline": "La sante de votre animal, toujours dans votre poche",
+      "subtitle": "Accedez aux dossiers medicaux, reservez des rendez-vous, recevez des rappels de vaccination et partagez l'historique de votre animal avec n'importe quel veterinaire — le tout depuis une seule application.",
+      "search_placeholder": "Rechercher des cliniques pres de chez vous...",
+      "search_button": "Rechercher",
+      "trust_badge": "Approuve par les proprietaires d'animaux aux EAU"
+    },
+    "value_props": {
+      "title": "Tout ce dont votre animal a besoin, au meme endroit",
+      "subtitle": "Plus de dossiers perdus ni de rendez-vous manques. Vetara organise la sante de votre animal.",
+      "medical_records": {
+        "title": "Dossiers medicaux numeriques",
+        "description": "Accedez a l'historique medical complet de votre animal a tout moment. Resultats de laboratoire, ordonnances et notes de visite — toujours a portee de main."
+      },
+      "booking": {
+        "title": "Reservation facile de rendez-vous",
+        "description": "Reservez, replanifiez ou annulez vos rendez-vous veterinaires en quelques secondes. Consultez la disponibilite en temps reel."
+      },
+      "vaccination_reminders": {
+        "title": "Rappels de vaccination",
+        "description": "Ne manquez plus jamais un vaccin ou un rappel. Recevez des notifications au bon moment quand votre animal doit recevoir son prochain vaccin."
+      },
+      "record_sharing": {
+        "title": "Partage de dossiers",
+        "description": "Vous demenagez ou consultez un nouveau veterinaire ? Partagez le profil sante complet de votre animal en toute securite avec n'importe quelle clinique connectee a Vetara."
+      }
+    },
+    "clinic_search": {
+      "title": "Trouvez une clinique Vetara pres de chez vous",
+      "subtitle": "Recherchez les cliniques veterinaires de votre region qui utilisent Vetara.",
+      "placeholder": "Entrez votre quartier ou le nom de la clinique...",
+      "button": "Rechercher",
+      "no_results": "Aucune clinique trouvee. Essayez un autre terme de recherche.",
+      "loading": "Recherche de cliniques..."
+    },
+    "ask_vet": {
+      "title": "Votre veterinaire n'est pas encore sur Vetara ?",
+      "subtitle": "Faites-le savoir ! Nous enverrons une invitation amicale en votre nom.",
+      "vet_email_label": "Adresse email du veterinaire",
+      "vet_email_placeholder": "vet@clinique.ae",
+      "your_name_label": "Votre nom",
+      "your_name_placeholder": "ex. Ahmed Al-Maktoum",
+      "pet_name_label": "Nom de votre animal",
+      "pet_name_placeholder": "ex. Zayed",
+      "message_label": "Message (optionnel)",
+      "message_placeholder": "Dites a votre vet pourquoi vous aimeriez utiliser Vetara avec lui...",
+      "submit": "Envoyer l'invitation",
+      "submitting": "Envoi en cours...",
+      "success_title": "Invitation envoyee !",
+      "success_description": "Nous informerons votre veterinaire que vous aimeriez utiliser Vetara avec lui."
+    },
+    "how_it_works": {
+      "title": "Comment ca marche",
+      "subtitle": "Commencer est facile.",
+      "step1": {
+        "number": "1",
+        "title": "Trouvez votre clinique",
+        "description": "Recherchez votre clinique veterinaire sur Vetara, ou demandez-leur de rejoindre."
+      },
+      "step2": {
+        "number": "2",
+        "title": "Connectez votre animal",
+        "description": "Votre veterinaire lie les dossiers de votre animal a votre compte."
+      },
+      "step3": {
+        "number": "3",
+        "title": "Gardez le controle",
+        "description": "Reservez des rendez-vous, consultez les dossiers et recevez des rappels — tout depuis votre telephone."
+      }
+    },
+    "cta": {
+      "headline": "Offrez a votre animal les soins qu'il merite",
+      "subtitle": "Rejoignez des milliers de proprietaires d'animaux qui utilisent Vetara pour veiller sur la sante de leurs compagnons.",
+      "button": "Trouver une clinique",
+      "reassurance": "Gratuit pour les proprietaires d'animaux. Toujours."
+    },
+    "footer": {
+      "for_clinics": "Vous etes une clinique veterinaire ?",
+      "for_clinics_cta": "Decouvrez Vetara pour les cliniques"
+    }
+  },
+  "working_hours": {
+    "title": "Horaires d'ouverture",
+    "subtitle": "Configurez les horaires d'ouverture et de fermeture de votre clinique pour chaque jour de la semaine.",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "save_success": "Horaires enregistres avec succes.",
+    "table": {
+      "day": "Jour",
+      "open": "Ouvert",
+      "open_time": "Heure d'ouverture",
+      "close_time": "Heure de fermeture",
+      "break_start": "Debut de pause",
+      "break_end": "Fin de pause",
+      "optional": "Facultatif"
+    },
+    "days": {
+      "sunday": "Dimanche",
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi"
+    },
+    "status": {
+      "open": "Ouvert",
+      "closed": "Ferme"
+    },
+    "errors": {
+      "load_failed": "Echec du chargement des horaires.",
+      "save_failed": "Echec de l'enregistrement des horaires."
+    }
   }
 }
