@@ -1789,6 +1789,12 @@
       "last_visit": "Last visit",
       "no_visits": "No visits yet"
     },
+    "pwa": {
+      "install_title": "Install Vetara",
+      "install_description": "Add Vetara to your home screen for quick access to your pet's health records.",
+      "install_button": "Install",
+      "dismiss": "Dismiss"
+    },
     "animal_detail": {
       "loading": "Loading...",
       "not_found": "Pet not found.",

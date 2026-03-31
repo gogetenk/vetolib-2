@@ -1783,6 +1783,12 @@
       "last_visit": "Derniere visite",
       "no_visits": "Aucune visite"
     },
+    "pwa": {
+      "install_title": "Installer Vetara",
+      "install_description": "Ajoutez Vetara sur votre ecran d'accueil pour un acces rapide aux dossiers de sante de votre animal.",
+      "install_button": "Installer",
+      "dismiss": "Fermer"
+    },
     "animal_detail": {
       "loading": "Chargement...",
       "not_found": "Animal introuvable.",
