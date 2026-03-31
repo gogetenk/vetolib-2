@@ -30,6 +30,12 @@ internal class OwnerConfiguration : IEntityTypeConfiguration<Owner>
         builder.Property(o => o.ClinicId)
             .IsRequired();
 
+        builder.Property(o => o.OwnerAccountId);
+
+        builder.HasIndex(o => o.OwnerAccountId)
+            .HasFilter("\"OwnerAccountId\" IS NOT NULL")
+            .HasDatabaseName("IX_owners_OwnerAccountId");
+
         builder.HasIndex(o => new { o.ClinicId, o.Email })
             .IsUnique();
 

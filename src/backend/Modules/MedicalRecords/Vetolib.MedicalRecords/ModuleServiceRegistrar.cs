@@ -35,6 +35,9 @@ public static class ModuleServiceRegistrar
         // Cross-module reader — used by AI module for predictive health alerts
         services.AddScoped<IPatientAlertDataReader, PatientAlertDataReader>();
 
+        // Owner portal authorization
+        services.AddScoped<IOwnerAuthorizationService, OwnerAuthorizationService>();
+
         return services;
     }
 
@@ -57,6 +60,7 @@ public static class ModuleServiceRegistrar
         app.MapDrugCatalogEndpoints();
         app.MapWeightEndpoints();
         app.MapMedicalRecordTemplateEndpoints();
+        app.MapOwnerPortalEndpoints();
         return app;
     }
 }
