@@ -73,6 +73,7 @@ public static class ModuleServiceRegistrar
         app.MapConsultationTypeEndpoints();
         app.MapFeedbackApiEndpoints();
         app.MapWaitlistEndpoints();
+        app.MapStaffScheduleEndpoints();
         return app;
     }
 }
