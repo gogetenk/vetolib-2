@@ -27,5 +27,15 @@ public enum HealthAlertType
     HorseLaminitis,
     HorseEquineInfluenza,
     HorseDentalCheck,
-    HorseDewormerRotation
+    HorseDewormerRotation,
+    DogHeartwormScreening,
+    DogObesityRisk,
+    DogDentalDisease,
+    DogParvovirusRisk,
+    DogSeniorScreening,
+    CatKidneyDiseaseScreening,
+    CatHyperthyroidism,
+    CatFelvRetest,
+    CatDentalResorption,
+    CatObesity
 }
