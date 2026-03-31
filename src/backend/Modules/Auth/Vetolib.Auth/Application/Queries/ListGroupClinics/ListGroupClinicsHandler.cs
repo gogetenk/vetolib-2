@@ -24,6 +24,10 @@ internal class ListGroupClinicsHandler : IRequestHandler<ListGroupClinicsQuery, 
         if (group is null)
             return Result<ClinicGroupDto>.NotFound("Clinic group not found");
 
+        // Verify ownership — prevent IDOR
+        if (group.OwnerUserId != query.RequestingUserId)
+            return Result<ClinicGroupDto>.Forbidden();
+
         var dto = new ClinicGroupDto(
             group.Id,
             group.Name,

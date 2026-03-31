@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Vetolib.Auth.Application.Commands.AddClinicToGroup;
 
-internal record AddClinicToGroupCommand(Guid GroupId, Guid ClinicId) : IRequest<Result>;
+internal record AddClinicToGroupCommand(Guid GroupId, Guid ClinicId, Guid RequestingUserId) : IRequest<Result>;
