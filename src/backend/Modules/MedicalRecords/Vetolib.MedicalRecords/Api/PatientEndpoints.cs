@@ -149,7 +149,8 @@ internal static class PatientEndpoints
         int page = 1,
         int pageSize = 20)
     {
-        return (await sender.Send(new ListPatientsQuery(name, species, microchip, ownerPhone, page <= 0 ? 1 : page, pageSize <= 0 ? 20 : pageSize))).ToMinimalApiResult();
+        if (pageSize is < 1 or > 200) pageSize = 20;
+        return (await sender.Send(new ListPatientsQuery(name, species, microchip, ownerPhone, page <= 0 ? 1 : page, pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> GetPatientById(
