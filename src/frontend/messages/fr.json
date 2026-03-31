@@ -1090,8 +1090,8 @@
   },
   "landing": {
     "meta": {
-      "title": "Vetara — La plateforme intelligente de gestion de clinique vétérinaire",
-      "description": "Plateforme de gestion de clinique vétérinaire — triage IA, notes SOAP automatiques, intégration WhatsApp, support français + anglais + arabe, et facturation conforme TVA. Essai gratuit 30 jours."
+      "title": "Vetara — La plateforme vétérinaire moderne",
+      "description": "Remplacez votre logiciel de clinique obsolète. Gérez rendez-vous, dossiers médicaux et facturation — avec une IA qui détecte ce que vous pourriez manquer. Essai gratuit 30 jours."
     },
     "nav": {
       "features": "Fonctionnalités",
@@ -1102,12 +1102,12 @@
       "sign_in": "Connexion"
     },
     "hero": {
-      "headline": "Gérez votre clinique vétérinaire en deux fois moins de temps",
-      "subtitle": "L'IA gère votre paperasse. WhatsApp gère vos rappels. Vous, vous soignez les animaux.",
-      "cta_primary": "Démarrer l'essai gratuit",
-      "cta_secondary": "Réserver une démo",
+      "headline": "La plateforme vétérinaire moderne — rapide, connectée, intelligente",
+      "subtitle": "Remplacez votre logiciel de clinique obsolète. Gérez rendez-vous, dossiers médicaux et facturation — avec une IA qui détecte ce que vous pourriez manquer.",
+      "cta_primary": "Démarrer gratuitement",
+      "cta_secondary": "Voir les tarifs",
       "trust_badge": "Essai gratuit Pro 30 jours — sans carte bancaire",
-      "social_proof_badge": "Rejoignez plus de 50 cliniques dans le monde",
+      "social_proof_badge": "Adopté par des cliniques vétérinaires dans le monde entier",
       "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients",
       "whatsapp_cta": "Réserver via WhatsApp"
     },
@@ -1122,8 +1122,8 @@
       "uptime_label": "garantie"
     },
     "new_features": {
-      "title": "Conçu pour la clinique vétérinaire de demain",
-      "subtitle": "Vetara combine des dossiers de santé animale partagés, des outils IA intelligents et une gestion fluide de la clinique — le tout en une seule plateforme.",
+      "title": "Tout ce dont votre clinique a besoin, au même endroit",
+      "subtitle": "Vetara combine planning, dossiers médicaux, facturation et outils IA intelligents — pour que vous vous concentriez sur les soins, pas sur les logiciels.",
       "health_passport": {
         "title": "Passeport santé animal partagé",
         "description": "Chaque animal dispose d'un dossier de santé permanent accessible depuis n'importe quelle clinique — avec le consentement du propriétaire. Consultations, vaccinations, prescriptions et diagnostics, toujours disponibles où que l'animal soit vu.",
@@ -1185,7 +1185,7 @@
     },
     "features": {
       "title": "Tout ce dont vous avez besoin pour mieux gérer votre clinique",
-      "subtitle": "Remplacez quatre outils distincts par une seule plateforme — conçue spécifiquement pour les cliniques vétérinaires.",
+      "subtitle": "Remplacez quatre outils distincts par une seule plateforme — conçue pour les cliniques vétérinaires.",
       "scheduling": {
         "title": "Planning intelligent",
         "description": "Prenez des rendez-vous, gérez la disponibilité des vétérinaires, enregistrez l'arrivée des patients. La détection de conflits empêche les doubles réservations."
@@ -1303,6 +1303,32 @@
         ],
         "cta": "Contacter l equipe commerciale"
       }
+    },
+    "ai_section": {
+      "title": "Propulsé par l'IA : détectez ce qui pourrait vous échapper",
+      "subtitle": "L'intelligence intégrée de Vetara vous aide à prendre de meilleures décisions cliniques — sans changer votre façon de travailler.",
+      "drug_interactions": {
+        "title": "Vérification des interactions médicamenteuses",
+        "description": "Alertes automatiques en cas de conflit entre prescriptions. Détectez les interactions dangereuses avant qu'elles n'atteignent le patient."
+      },
+      "health_predictions": {
+        "title": "Prédiction des risques sanitaires",
+        "description": "Surveillance spécifique par espèce qui repère les signes d'alerte précoces — pour intervenir avant que les situations ne deviennent des urgences."
+      },
+      "smart_triage": {
+        "title": "Triage automatisé",
+        "description": "L'IA analyse les symptômes et suggère un niveau d'urgence avant le rendez-vous. Votre équipe reste concentrée sur les cas les plus importants."
+      },
+      "soap_notes": {
+        "title": "Notes SOAP par IA",
+        "description": "Générez automatiquement des comptes-rendus de consultation structurés à partir de la voix ou du texte. Économisez plus d'une heure par jour sur la documentation."
+      }
+    },
+    "connected_vision": {
+      "title": "Un animal, un dossier, chaque vétérinaire",
+      "subtitle": "Le passeport santé partagé de Vetara signifie que chaque animal porte un dossier médical permanent et portable — accessible par n'importe quelle clinique, avec le consentement du propriétaire.",
+      "description": "Consultations, vaccinations, prescriptions et diagnostics suivent l'animal où qu'il aille. Plus besoin de faxer des dossiers ou de repartir de zéro. Le tableau complet, toujours disponible.",
+      "cta": "En savoir plus sur les dossiers connectés"
     },
     "competitive": {
       "title": "Pourquoi Vetara ?",
@@ -1431,14 +1457,14 @@
       "subtitle": "Tout ce que vous devez savoir avant de vous lancer."
     },
     "final_cta": {
-      "headline": "Arrêtez de gérer votre clinique avec des tableurs.",
-      "subtitle": "Rejoignez plus de 50 cliniques vétérinaires qui économisent 2 heures par jour sur les tâches administratives. Essai gratuit de 30 jours — aucune carte bancaire requise.",
-      "cta": "Essai gratuit — Sans carte bancaire",
-      "reassurance": "Annulez à tout moment. Vos données vous appartiennent — toujours."
+      "headline": "Votre clinique mérite un logiciel moderne.",
+      "subtitle": "Rejoignez les cliniques vétérinaires dans le monde entier qui gagnent 2 heures par jour. Interface multilingue, rappels WhatsApp, outils cliniques IA et facturation conforme — tout inclus dès le premier jour.",
+      "cta": "Démarrer gratuitement",
+      "reassurance": "Sans carte bancaire. Annulez à tout moment. Vos données vous appartiennent."
     },
     "footer": {
       "copyright": "© 2026 Vetara.",
-      "tagline": "Conçu pour les cliniques vétérinaires.",
+      "tagline": "La plateforme vétérinaire moderne.",
       "lang_en": "EN",
       "lang_ar": "AR",
       "lang_fr": "FR",
@@ -1469,8 +1495,8 @@
       }
     },
     "sticky_cta": {
-      "tagline": "Gagnez 2 heures par jour sur l'administration de votre clinique",
-      "cta": "Demarrer l'essai gratuit"
+      "tagline": "La plateforme vétérinaire moderne — gagnez 2h par jour",
+      "cta": "Démarrer gratuitement"
     },
     "pricing_badge": {
       "early_access": "Tarifs early access — réservés aux cliniques fondatrices",
@@ -1485,7 +1511,7 @@
     },
     "footer_cta": {
       "headline": "Pret a transformer votre clinique ?",
-      "cta": "Demarrer l'essai gratuit"
+      "cta": "Démarrer gratuitement"
     }
   },
   "portal": {
