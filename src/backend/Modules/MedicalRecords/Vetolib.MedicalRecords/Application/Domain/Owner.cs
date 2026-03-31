@@ -11,6 +11,7 @@ internal class Owner : BaseEntity, IMultiTenant
     public string LastName { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public string? Phone { get; private set; }
+    public Guid? OwnerAccountId { get; private set; }
 
     private readonly List<PatientOwner> _patientOwners = [];
     public IReadOnlyList<PatientOwner> PatientOwners => _patientOwners.AsReadOnly();
@@ -46,6 +47,15 @@ internal class Owner : BaseEntity, IMultiTenant
         };
 
         return Result<Owner>.Success(owner);
+    }
+
+    public Result LinkToOwnerAccount(Guid ownerAccountId)
+    {
+        if (ownerAccountId == Guid.Empty)
+            return Result.Invalid(new ValidationError(nameof(ownerAccountId), "OwnerAccountId cannot be empty"));
+
+        OwnerAccountId = ownerAccountId;
+        return Result.Success();
     }
 
     public Result UpdatePhone(string phone)

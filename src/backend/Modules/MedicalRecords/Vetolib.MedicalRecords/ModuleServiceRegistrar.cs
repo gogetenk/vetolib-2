@@ -35,6 +35,9 @@ public static class ModuleServiceRegistrar
         // Cross-module reader — used by AI module for predictive health alerts
         services.AddScoped<IPatientAlertDataReader, PatientAlertDataReader>();
 
+        // Cross-module linker — used by Auth module for owner registration auto-link
+        services.AddScoped<IOwnerAccountLinker, OwnerAccountLinker>();
+
         return services;
     }
 
