@@ -88,6 +88,18 @@ function isPublicPath(pathname: string): boolean {
     if (pathname === privacyPath || pathname.startsWith(`${privacyPath}/`)) {
       return true;
     }
+
+    // Pet Owners landing: /en/pet-owners or /ar/pet-owners
+    const petOwnersPath = `/${locale}/pet-owners`;
+    if (pathname === petOwnersPath || pathname.startsWith(`${petOwnersPath}/`)) {
+      return true;
+    }
+
+    // Pricing: /en/pricing or /ar/pricing
+    const pricingPath = `/${locale}/pricing`;
+    if (pathname === pricingPath || pathname.startsWith(`${pricingPath}/`)) {
+      return true;
+    }
   }
 
   return false;
@@ -148,7 +160,9 @@ export function middleware(request: NextRequest) {
   const isLandingPage = SUPPORTED_LOCALES.some(l => pathname === `/${l}`);
   const isBlogPath = /\/blog(\/|$)/.test(pathname);
   const isLegalPath = /\/(terms|privacy)(\/|$)/.test(pathname);
-  if (isPublicPath(pathname) && token && !isPortalPath && !isSharedPath && !isLandingPage && !isBlogPath && !isLegalPath) {
+  const isPetOwnersPath = /\/pet-owners(\/|$)/.test(pathname);
+  const isPricingPath = /\/pricing(\/|$)/.test(pathname);
+  if (isPublicPath(pathname) && token && !isPortalPath && !isSharedPath && !isLandingPage && !isBlogPath && !isLegalPath && !isPetOwnersPath && !isPricingPath) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 

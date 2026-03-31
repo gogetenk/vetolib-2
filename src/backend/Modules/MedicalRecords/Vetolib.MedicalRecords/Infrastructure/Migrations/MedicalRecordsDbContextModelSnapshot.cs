@@ -172,6 +172,11 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                     b.Property<DateTime>("ExaminedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsVisibleToOwner")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
@@ -285,6 +290,9 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<Guid?>("OwnerAccountId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Phone")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
@@ -293,6 +301,10 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerAccountId")
+                        .HasDatabaseName("IX_owners_OwnerAccountId")
+                        .HasFilter("\"OwnerAccountId\" IS NOT NULL");
 
                     b.HasIndex("ClinicId", "Email")
                         .IsUnique();
@@ -450,6 +462,58 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
                     b.HasIndex("MedicalRecordId");
 
                     b.ToTable("prescriptions", "medical");
+                });
+
+            modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.SharedRecordLink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AccessCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OwnerAccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Token")
+                        .IsUnique()
+                        .HasDatabaseName("IX_shared_record_links_Token");
+
+                    b.HasIndex("ClinicId", "PatientId")
+                        .HasDatabaseName("IX_shared_record_links_ClinicId_PatientId");
+
+                    b.HasIndex("OwnerAccountId", "RevokedAt", "ExpiresAt")
+                        .HasDatabaseName("IX_shared_record_links_OwnerAccountId_Active");
+
+                    b.ToTable("shared_record_links", "medical");
                 });
 
             modelBuilder.Entity("Vetolib.MedicalRecords.Application.Domain.SpeciesContraindication", b =>

@@ -8,6 +8,7 @@ using Vetolib.Billing.Infrastructure;
 using Vetolib.Breeding.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
 using Vetolib.Messaging.Infrastructure;
+using Vetolib.Notifications.Infrastructure;
 using Vetolib.Preferences.Infrastructure;
 using Vetolib.Shared.Infrastructure;
 using Vetolib.Stock.Infrastructure;
@@ -62,6 +63,8 @@ public abstract class IntegrationTestBase : IAsyncLifetime
         await authDb.Clinics.ExecuteDeleteAsync();
 
         var agendaDb = scope.ServiceProvider.GetRequiredService<AgendaDbContext>();
+        await agendaDb.VisitFeedbacks.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await agendaDb.WaitlistEntries.IgnoreQueryFilters().ExecuteDeleteAsync();
         await agendaDb.Appointments.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         var billingDb = scope.ServiceProvider.GetRequiredService<BillingDbContext>();
@@ -69,6 +72,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
         await billingDb.Invoices.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         var medicalDb = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+        await medicalDb.MedicalRecordTemplates.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.Prescriptions.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.MedicalRecords.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.PatientOwners.IgnoreQueryFilters().ExecuteDeleteAsync();
@@ -95,6 +99,10 @@ public abstract class IntegrationTestBase : IAsyncLifetime
         await messagingDb.ResponseTemplates.IgnoreQueryFilters().ExecuteDeleteAsync();
         await messagingDb.MessagingHours.IgnoreQueryFilters().ExecuteDeleteAsync();
 
+        var notificationsDb = scope.ServiceProvider.GetRequiredService<NotificationsDbContext>();
+        await notificationsDb.ReminderLogs.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await notificationsDb.ReminderConfigs.IgnoreQueryFilters().ExecuteDeleteAsync();
+
         var breedingDb = scope.ServiceProvider.GetRequiredService<BreedingDbContext>();
         await breedingDb.LitterOffspring.IgnoreQueryFilters().ExecuteDeleteAsync();
         await breedingDb.Litters.IgnoreQueryFilters().ExecuteDeleteAsync();
@@ -104,6 +112,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
         await breedingDb.PatientLineages.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         var preferencesDb = scope.ServiceProvider.GetRequiredService<PreferencesDbContext>();
+        await preferencesDb.ClinicWorkingHours.IgnoreQueryFilters().ExecuteDeleteAsync();
         await preferencesDb.UserPreferences.IgnoreQueryFilters().ExecuteDeleteAsync();
         await preferencesDb.ClinicPreferenceDefaults.IgnoreQueryFilters().ExecuteDeleteAsync();
         await preferencesDb.ConsentAuditEntries.IgnoreQueryFilters().ExecuteDeleteAsync();

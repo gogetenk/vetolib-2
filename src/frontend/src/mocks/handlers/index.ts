@@ -18,6 +18,8 @@ import { healthAlertHandlers } from './health-alerts'
 import { weightHandlers } from './weights'
 import { breedingHandlers } from './breeding'
 import { recordSharingHandlers } from './record-sharing'
+import { petOwnerHandlers } from './pet-owners'
+import { workingHoursHandlers } from './working-hours'
 
 export const handlers = [
   ...authHandlers,
@@ -40,4 +42,6 @@ export const handlers = [
   ...weightHandlers,
   ...breedingHandlers,
   ...recordSharingHandlers,
+  ...petOwnerHandlers,
+  ...workingHoursHandlers,
 ]
