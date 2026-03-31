@@ -32,6 +32,7 @@ internal class ExportPatientFhirHandler : IRequestHandler<ExportPatientFhirQuery
             .AsNoTracking()
             .Where(r => r.PatientId == query.PatientId)
             .OrderByDescending(r => r.ExaminedAt)
+            .Take(1000)
             .Include(r => r.Prescriptions)
             .AsSplitQuery()
             .ToListAsync(ct);
@@ -40,6 +41,7 @@ internal class ExportPatientFhirHandler : IRequestHandler<ExportPatientFhirQuery
             .AsNoTracking()
             .Where(w => w.PatientId == query.PatientId)
             .OrderByDescending(w => w.RecordedAt)
+            .Take(1000)
             .ToListAsync(ct);
 
         var json = FhirR4Mapper.BuildBundle(patient, owner, medicalRecords, weightEntries);

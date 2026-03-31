@@ -75,6 +75,7 @@ internal class GetPatientSummaryHandler : IRequestHandler<GetPatientSummaryQuery
             .Where(r => r.PatientId == query.PatientId)
             .Where(r => r.Treatment.StartsWith("VACCINE:"))
             .OrderByDescending(r => r.ExaminedAt)
+            .Take(100)
             .Select(r => new PatientSummaryVaccinationDto(
                 r.Treatment.Substring(8).Trim(),
                 r.ExaminedAt,
@@ -88,6 +89,7 @@ internal class GetPatientSummaryHandler : IRequestHandler<GetPatientSummaryQuery
             .Where(r => r.Diagnosis.StartsWith("ALLERGY:"))
             .Select(r => r.Diagnosis.Substring(8).Trim())
             .Distinct()
+            .Take(100)
             .ToListAsync(ct);
 
         var firstOwner = patient.PatientOwners
