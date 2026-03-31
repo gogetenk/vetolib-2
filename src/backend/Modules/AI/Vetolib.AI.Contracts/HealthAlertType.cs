@@ -22,5 +22,10 @@ public enum HealthAlertType
     CamelHeatStress,
     CamelFootRot,
     CamelMERSScreening,
-    CamelRacingFitness
+    CamelRacingFitness,
+    HorseColicRisk,
+    HorseLaminitis,
+    HorseEquineInfluenza,
+    HorseDentalCheck,
+    HorseDewormerRotation
 }
