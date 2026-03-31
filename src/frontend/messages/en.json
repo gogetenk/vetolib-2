@@ -1779,6 +1779,56 @@
         "grooming": "Grooming",
         "labTests": "Lab Tests"
       }
+    },
+    "my_pets": {
+      "title": "My Pets",
+      "loading": "Loading your pets...",
+      "link_expired": "This link has expired. Please contact your clinic to receive a new one.",
+      "error_generic": "Something went wrong. Please try again later.",
+      "no_animals": "No pets registered on your account.",
+      "last_visit": "Last visit",
+      "no_visits": "No visits yet"
+    },
+    "animal_detail": {
+      "loading": "Loading...",
+      "not_found": "Pet not found.",
+      "error_generic": "Something went wrong. Please try again later.",
+      "back": "Back to My Pets",
+      "born": "Born",
+      "tab_loading": "Loading...",
+      "tabs": {
+        "overview": "Overview",
+        "records": "Medical Records",
+        "vaccinations": "Vaccinations",
+        "prescriptions": "Prescriptions",
+        "weight": "Weight"
+      },
+      "overview": {
+        "name": "Name",
+        "species": "Species",
+        "breed": "Breed",
+        "date_of_birth": "Date of Birth",
+        "last_visit": "Last Visit"
+      },
+      "records": {
+        "empty": "No medical records found.",
+        "diagnosis": "Diagnosis",
+        "treatment": "Treatment"
+      },
+      "vaccinations": {
+        "empty": "No vaccinations found.",
+        "administered": "Administered",
+        "next_due": "Next due"
+      },
+      "prescriptions": {
+        "empty": "No prescriptions found.",
+        "dosage": "Dosage",
+        "frequency": "Frequency"
+      },
+      "weight": {
+        "empty": "No weight records found.",
+        "latest": "Current weight"
+      }
     }
   },
   "onboarding": {
