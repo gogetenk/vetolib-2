@@ -1625,6 +1625,43 @@
       "back": "Back to conversations",
       "error": "Failed to export conversations. Please try again."
     },
+    "pets": {
+      "title": "My Pets",
+      "no_pets": "No pets found.",
+      "age": "{years} years old",
+      "back_to_pets": "Back to my pets",
+      "not_found": "Pet not found.",
+      "overview": "Overview",
+      "species_label": "Species",
+      "breed_label": "Breed",
+      "age_label": "Age"
+    },
+    "sharing": {
+      "share_records": "Share Records",
+      "modal_title": "Share Medical Records",
+      "modal_description": "Generate a secure link to share your pet's medical records. The link expires after 72 hours.",
+      "create_error": "Failed to create share link. Please try again.",
+      "expires_in": "Link expires in {hours} hours",
+      "active_links": "Active Share Links",
+      "created": "Created {date}",
+      "expires": "Expires {date}",
+      "expired": "Expired",
+      "views": "{count} views",
+      "revoke": "Revoke link"
+    },
+    "shared_record": {
+      "age": "{years} years old",
+      "vaccinations": "Vaccinations",
+      "no_vaccinations": "No vaccination records available.",
+      "given": "Given: {date}",
+      "next_due": "Due: {date}",
+      "consultations": "Recent Consultations",
+      "no_consultations": "No consultation records available.",
+      "not_found": "This shared record link is invalid or has expired.",
+      "error_generic": "Something went wrong. Please try again later.",
+      "error_hint": "The link may have expired or been revoked by the pet owner.",
+      "notice": "This record was shared securely via Vetara. The link will expire automatically."
+    },
     "booking": {
       "landing": {
         "title": "Appointments",
