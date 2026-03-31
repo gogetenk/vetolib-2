@@ -71,6 +71,7 @@ public static class ModuleServiceRegistrar
     {
         app.MapAppointmentApiEndpoints();
         app.MapConsultationTypeEndpoints();
+        app.MapFollowUpRuleEndpoints();
         app.MapFeedbackApiEndpoints();
         app.MapWaitlistEndpoints();
         return app;
