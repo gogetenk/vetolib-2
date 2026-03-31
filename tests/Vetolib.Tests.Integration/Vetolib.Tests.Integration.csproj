@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\src\backend\Modules\Billing\Vetolib.Billing\Vetolib.Billing.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Billing\Vetolib.Billing.Contracts\Vetolib.Billing.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Notifications\Vetolib.Notifications\Vetolib.Notifications.csproj" />
+    <ProjectReference Include="..\..\src\backend\Modules\Notifications\Vetolib.Notifications.Contracts\Vetolib.Notifications.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Stock\Vetolib.Stock\Vetolib.Stock.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Stock\Vetolib.Stock.Contracts\Vetolib.Stock.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\AI\Vetolib.AI\Vetolib.AI.csproj" />
