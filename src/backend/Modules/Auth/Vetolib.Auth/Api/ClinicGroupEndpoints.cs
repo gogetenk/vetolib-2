@@ -9,6 +9,9 @@ using Vetolib.Auth.Application.Commands.AddClinicToGroup;
 using Vetolib.Auth.Application.Commands.CreateClinicGroup;
 using Vetolib.Auth.Application.Commands.RemoveClinicFromGroup;
 using Vetolib.Auth.Application.Commands.SwitchClinic;
+using Vetolib.Auth.Application.Queries.GetGroupClinicStats;
+using Vetolib.Auth.Application.Queries.GetGroupDashboardStats;
+using Vetolib.Auth.Application.Queries.GetGroupRevenueComparison;
 using Vetolib.Auth.Application.Queries.ListGroupClinics;
 using Vetolib.Auth.Contracts;
 
@@ -41,6 +44,22 @@ internal static class ClinicGroupEndpoints
             .WithName("RemoveClinicFromGroup")
             .WithSummary("Remove a clinic from a group")
             .WithDescription("Removes a clinic from a clinic group. Requires Admin role.");
+
+        // Dashboard endpoints
+        group.MapGet("/{id:guid}/dashboard/stats", GetGroupDashboardStats)
+            .WithName("GetGroupDashboardStats")
+            .WithSummary("Get aggregated dashboard stats for a clinic group")
+            .WithDescription("Returns total patients, appointments, and revenue across all clinics in the group. Requires Admin role and group ownership.");
+
+        group.MapGet("/{id:guid}/dashboard/clinics", GetGroupClinicStats)
+            .WithName("GetGroupClinicStats")
+            .WithSummary("List clinics in a group with individual stats")
+            .WithDescription("Returns per-clinic stats (patients, appointments, revenue) for all clinics in the group. Requires Admin role and group ownership.");
+
+        group.MapGet("/{id:guid}/dashboard/revenue-comparison", GetGroupRevenueComparison)
+            .WithName("GetGroupRevenueComparison")
+            .WithSummary("Compare revenue across clinics in a group")
+            .WithDescription("Returns revenue per clinic for comparison within the group. Requires Admin role and group ownership.");
 
         // Switch clinic endpoint under /api/v1/auth
         var authGroup = app.MapGroup("/api/v1/auth")
@@ -115,6 +134,57 @@ internal static class ClinicGroupEndpoints
             return Result<AuthTokenDto>.Unauthorized().ToMinimalApiResult();
 
         return (await sender.Send(new SwitchClinicCommand(userId, request.ClinicId)))
+            .ToMinimalApiResult();
+    }
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> GetGroupDashboardStats(
+        Guid id,
+        ClaimsPrincipal user,
+        ISender sender)
+    {
+        var role = user.FindFirst(ClaimTypes.Role)?.Value;
+        if (role != "Admin")
+            return Result<ClinicGroupDashboardStatsDto>.Forbidden().ToMinimalApiResult();
+
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result<ClinicGroupDashboardStatsDto>.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new GetGroupDashboardStatsQuery(id, userId)))
+            .ToMinimalApiResult();
+    }
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> GetGroupClinicStats(
+        Guid id,
+        ClaimsPrincipal user,
+        ISender sender)
+    {
+        var role = user.FindFirst(ClaimTypes.Role)?.Value;
+        if (role != "Admin")
+            return Result<IReadOnlyList<ClinicGroupClinicStatsDto>>.Forbidden().ToMinimalApiResult();
+
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result<IReadOnlyList<ClinicGroupClinicStatsDto>>.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new GetGroupClinicStatsQuery(id, userId)))
+            .ToMinimalApiResult();
+    }
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> GetGroupRevenueComparison(
+        Guid id,
+        ClaimsPrincipal user,
+        ISender sender)
+    {
+        var role = user.FindFirst(ClaimTypes.Role)?.Value;
+        if (role != "Admin")
+            return Result<ClinicGroupRevenueComparisonDto>.Forbidden().ToMinimalApiResult();
+
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result<ClinicGroupRevenueComparisonDto>.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new GetGroupRevenueComparisonQuery(id, userId)))
             .ToMinimalApiResult();
     }
 

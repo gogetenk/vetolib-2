@@ -39,6 +39,9 @@ public static class ModuleServiceRegistrar
         // E-invoicing gateway (mock for now — will be replaced by real PDP implementation)
         services.AddSingleton<IEInvoicingGateway, MockEInvoicingGateway>();
 
+        // IRevenueStatsReader — used by Auth module for clinic group dashboard
+        services.AddScoped<IRevenueStatsReader, RevenueStatsReader>();
+
         // MediatR
         services.AddMediatR(cfg =>
         {
