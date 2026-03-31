@@ -101,14 +101,25 @@ internal static class ClinicGroupEndpoints
         if (role != "Admin")
             return Result.Forbidden().ToMinimalApiResult();
 
-        return (await sender.Send(new AddClinicToGroupCommand(id, request.ClinicId)))
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new AddClinicToGroupCommand(id, request.ClinicId, userId)))
             .ToMinimalApiResult();
     }
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> ListGroupClinics(
         Guid id,
+        ClaimsPrincipal user,
         ISender sender)
-        => (await sender.Send(new ListGroupClinicsQuery(id))).ToMinimalApiResult();
+    {
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result<ClinicGroupDto>.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new ListGroupClinicsQuery(id, userId))).ToMinimalApiResult();
+    }
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> RemoveClinicFromGroup(
         Guid id,
@@ -120,7 +131,11 @@ internal static class ClinicGroupEndpoints
         if (role != "Admin")
             return Result.Forbidden().ToMinimalApiResult();
 
-        return (await sender.Send(new RemoveClinicFromGroupCommand(id, clinicId)))
+        var userId = GetCurrentUserId(user);
+        if (userId == Guid.Empty)
+            return Result.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new RemoveClinicFromGroupCommand(id, clinicId, userId)))
             .ToMinimalApiResult();
     }
 

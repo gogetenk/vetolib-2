@@ -13,5 +13,9 @@ internal class AddClinicToGroupValidator : AbstractValidator<AddClinicToGroupCom
         RuleFor(x => x.ClinicId)
             .NotEmpty()
             .WithMessage("ClinicId is required");
+
+        RuleFor(x => x.RequestingUserId)
+            .NotEmpty()
+            .WithMessage("RequestingUserId is required");
     }
 }

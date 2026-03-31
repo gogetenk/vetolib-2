@@ -23,6 +23,10 @@ internal class AddClinicToGroupHandler : IRequestHandler<AddClinicToGroupCommand
         if (group is null)
             return Result.NotFound("Clinic group not found");
 
+        // Verify ownership — prevent IDOR
+        if (group.OwnerUserId != cmd.RequestingUserId)
+            return Result.Forbidden();
+
         // Verify the clinic exists
         var clinicExists = await _context.Clinics
             .IgnoreQueryFilters()

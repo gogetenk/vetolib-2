@@ -29,14 +29,23 @@ internal class SwitchClinicHandler : IRequestHandler<SwitchClinicCommand, Result
         if (user is null)
             return Result<AuthTokenDto>.NotFound("User not found");
 
-        // Check if the user has access to the target clinic via any clinic group
-        var hasAccess = await _context.ClinicGroups
+        // Defense-in-depth: verify the user belongs to the target clinic.
+        // Allow if:
+        //   1. Target is the user's own (home) clinic, OR
+        //   2. User owns a clinic group that contains the target clinic, OR
+        //   3. User has a staff account (User record) at the target clinic
+        var isOwnClinic = user.ClinicId == cmd.TargetClinicId;
+
+        var ownsGroupWithClinic = !isOwnClinic && await _context.ClinicGroups
             .Include(g => g.Members)
             .Where(g => g.OwnerUserId == cmd.UserId)
             .AnyAsync(g => g.Members.Any(m => m.ClinicId == cmd.TargetClinicId), ct);
 
-        // Also allow if the user's own clinic is the target
-        if (!hasAccess && user.ClinicId != cmd.TargetClinicId)
+        var isStaffAtClinic = !isOwnClinic && !ownsGroupWithClinic && await _context.Users
+            .IgnoreQueryFilters()
+            .AnyAsync(u => u.Email == user.Email && u.ClinicId == cmd.TargetClinicId && u.IsActive, ct);
+
+        if (!isOwnClinic && !ownsGroupWithClinic && !isStaffAtClinic)
             return Result<AuthTokenDto>.Forbidden();
 
         // Create a "virtual" user view with the target clinic to generate the JWT
