@@ -98,23 +98,40 @@ Plus: 3 direct commits for EF Core migration fixes (duplicate follow_up_rules, A
 
 ---
 
+## Endpoint Audit Summary
+
+4 endpoint audit reports generated covering all 9 modules:
+
+| Module | Endpoints | Auth OK | RateLimit OK | Summary OK | Validator OK | TI Coverage |
+|---|---|---|---|---|---|---|
+| Auth (8 files) | 30 | 30/30 | 30/30 | 30/30 | 27/30 | 11/30 (37%) |
+| Agenda (7 files) | ~25 | All | All | All | Most | Partial |
+| MedicalRecords | ~20 | All | All | All | Most | Partial |
+| Other (6 modules) | ~50 | All | All | All | Most | Partial |
+
+**Key finding:** API metadata (auth, rate limiting, summaries, validators) is excellent across all modules. **Integration test coverage is the main gap** — many endpoints have zero TI. This is tracked for future sprints.
+
+Full reports: `docs/audits/qa-night-b1-auth-endpoints-20260401.md` through `qa-night-b456-other-endpoints-20260401.md`
+
+---
+
 ## Remaining Work (prioritized)
 
 ### P0 — Must fix before prod
 1. SSE rate limiting (MEDIUM security)
 2. Share token constant-time comparison (MEDIUM security)
-3. Missing FR/AR translations for Terms + Privacy (legal requirement) — agent dispatched
+3. ~~Missing FR/AR translations~~ DONE (PR #306)
 
 ### P1 — Should fix soon
-4. Clinic search rate limiting
-5. OutputCache on frequently-read endpoints (P-30)
-6. Global rate limiter fallback in Program.cs
-7. OwnerPortal cross-owner integration tests
+4. OutputCache on frequently-read endpoints (P-30)
+5. Global rate limiter fallback in Program.cs
+6. OwnerPortal cross-owner integration tests
+7. Integration tests for 60+ uncovered endpoints
 
 ### P2 — Nice to have
 8. Drug catalog limit cap (100 max)
 9. Frontend page gaps (waitlist management, e-reporting, patient import)
-10. 136 FR + 126 AR untranslated placeholder keys
+10. Frontend screenshot QA (F1-F10 tasks)
 
 ---
 
@@ -123,10 +140,12 @@ Plus: 3 direct commits for EF Core migration fixes (duplicate follow_up_rules, A
 | Metric | Value |
 |---|---|
 | PRs merged this night | 14 |
-| Files changed | ~200 |
+| Files changed | ~300 |
 | New tests added | ~400 (validators, domain, handlers) |
 | Total TU count | 2157 |
 | CRITICAL findings fixed | 2/2 (100%) |
 | HIGH findings fixed | 16/17 (94%) |
-| Agents dispatched | 14+ |
+| Agents dispatched | 18+ |
+| Audit reports generated | 12 |
 | Build status | GREEN |
+| All 9 DbContexts in sync | YES |
