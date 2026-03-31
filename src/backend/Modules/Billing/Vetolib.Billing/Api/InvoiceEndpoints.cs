@@ -7,6 +7,7 @@ using Vetolib.Billing.Application.Commands.AddInvoiceItem;
 using Vetolib.Billing.Application.Commands.CreateInvoice;
 using Vetolib.Billing.Application.Commands.SubmitToEInvoicing;
 using Vetolib.Billing.Application.Commands.UpdateInvoiceStatus;
+using Vetolib.Billing.Application.Queries.ExportInvoicesCsv;
 using Vetolib.Billing.Application.Queries.GenerateInvoicePdf;
 using Vetolib.Billing.Application.Queries.GetEInvoicingStatus;
 using Vetolib.Billing.Application.Queries.GetInvoiceById;
@@ -65,6 +66,12 @@ internal static class InvoiceEndpoints
             .WithName("GetEInvoicingStatus")
             .WithSummary("Get e-invoicing submission status")
             .WithDescription("Returns the current e-invoicing submission status and any platform response details.");
+
+        group.MapGet("/export/csv", ExportInvoicesCsv)
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
+            .WithName("ExportInvoicesCsv")
+            .WithSummary("Export invoices as CSV")
+            .WithDescription("Exports invoices within a date range as a CSV file for accountant import (Quickbooks/Xero format). Admin only.");
 
         return app;
     }
@@ -144,4 +151,19 @@ internal static class InvoiceEndpoints
         ISender sender)
         => (await sender.Send(new GetEInvoicingStatusQuery(id)))
             .ToMinimalApiResult();
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> ExportInvoicesCsv(
+        DateTime from,
+        DateTime to,
+        ISender sender)
+    {
+        var result = await sender.Send(new ExportInvoicesCsvQuery(from, to));
+        if (!result.IsSuccess)
+            return result.ToMinimalApiResult();
+
+        return Results.File(
+            result.Value.CsvBytes,
+            contentType: "text/csv",
+            fileDownloadName: result.Value.FileName);
+    }
 }
