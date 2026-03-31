@@ -1,4 +1,5 @@
 using FluentValidation;
+using Vetolib.AI.Contracts;
 
 namespace Vetolib.AI.Application.Commands.GenerateSoapNotes;
 
@@ -17,5 +18,9 @@ internal class GenerateSoapNotesValidator : AbstractValidator<GenerateSoapNotesC
         RuleFor(x => x.PatientName)
             .NotEmpty()
             .WithMessage("Patient name is required.");
+
+        RuleFor(x => x.Language)
+            .IsInEnum()
+            .WithMessage("Language must be 'En', 'Ar', or 'Both'.");
     }
 }

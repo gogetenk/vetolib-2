@@ -1758,6 +1758,630 @@ public class HealthAlertRulesTests
         alerts.Should().BeEmpty();
     }
 
+    // ── DogHeartwormScreeningRule ────────────────────────────────────────────
+
+    [Fact]
+    public void DogHeartworm_AdultDog_NoRecords_GeneratesAlert()
+    {
+        var rule = new DogHeartwormScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Labrador Retriever", 3);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("DOG_HEARTWORM_SCREENING");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+    }
+
+    [Fact]
+    public void DogHeartworm_OlderDog_HighSeverity()
+    {
+        var rule = new DogHeartwormScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Beagle", 6);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void DogHeartworm_YoungPuppy_NoAlert()
+    {
+        var rule = new DogHeartwormScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 0); // < 6 months
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogHeartworm_Cat_NoAlert()
+    {
+        var rule = new DogHeartwormScreeningRule();
+        var patient = CreatePatient(Species.Cat, "Persian", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogHeartworm_RecentTest_NoAlert()
+    {
+        var rule = new DogHeartwormScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5, records: [Record("heartworm test negative")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogHeartworm_Duplicate_NoAlert()
+    {
+        var rule = new DogHeartwormScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("DOG_HEARTWORM_SCREENING"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── DogObesityRiskRule ────────────────────────────────────────────────────
+
+    [Fact]
+    public void DogObesity_OverweightLabrador_GeneratesAlert()
+    {
+        var rule = new DogObesityRiskRule();
+        // Labrador average is 32kg, 20% over = 38.4kg, so 42kg triggers
+        var patient = CreatePatient(Species.Dog, "Labrador Retriever", 5, weightKg: 42m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("DOG_OBESITY_RISK");
+    }
+
+    [Fact]
+    public void DogObesity_NormalWeight_NoAlert()
+    {
+        var rule = new DogObesityRiskRule();
+        var patient = CreatePatient(Species.Dog, "Labrador Retriever", 5, weightKg: 30m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogObesity_NoWeight_NoAlert()
+    {
+        var rule = new DogObesityRiskRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5, weightKg: null);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogObesity_Cat_NoAlert()
+    {
+        var rule = new DogObesityRiskRule();
+        var patient = CreatePatient(Species.Cat, "Persian", 5, weightKg: 8m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogObesity_SeverelyOverweight_HighSeverity()
+    {
+        var rule = new DogObesityRiskRule();
+        // Labrador avg 32kg, 40%+ over = 44.8kg+
+        var patient = CreatePatient(Species.Dog, "Labrador Retriever", 5, weightKg: 50m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    // ── DogDentalDiseaseRule ──────────────────────────────────────────────────
+
+    [Fact]
+    public void DogDental_Age3_NoCleaning_GeneratesAlert()
+    {
+        var rule = new DogDentalDiseaseRule();
+        var patient = CreatePatient(Species.Dog, "Beagle", 4);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("DOG_DENTAL_DISEASE");
+    }
+
+    [Fact]
+    public void DogDental_SmallBreed_HighSeverity()
+    {
+        var rule = new DogDentalDiseaseRule();
+        var patient = CreatePatient(Species.Dog, "Yorkshire Terrier", 4);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void DogDental_Age2_TooYoung_NoAlert()
+    {
+        var rule = new DogDentalDiseaseRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 2);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogDental_RecentCleaning_NoAlert()
+    {
+        var rule = new DogDentalDiseaseRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5, records: [Record("dental cleaning performed")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogDental_Cat_NoAlert()
+    {
+        var rule = new DogDentalDiseaseRule();
+        var patient = CreatePatient(Species.Cat, "Siamese", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── DogParvovirusRiskRule ─────────────────────────────────────────────────
+
+    [Fact]
+    public void DogParvo_YoungPuppy_NoVaccine_GeneratesAlert()
+    {
+        var rule = new DogParvovirusRiskRule();
+        // 2 months old puppy
+        var patient = CreatePatient(Species.Dog, "Labrador", 0);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("DOG_PARVOVIRUS_RISK");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void DogParvo_OlderDog_NoAlert()
+    {
+        var rule = new DogParvovirusRiskRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 1);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogParvo_VaccinatedPuppy_NoAlert()
+    {
+        var rule = new DogParvovirusRiskRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 0, records: [Record("DHPP vaccine administered")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogParvo_Cat_NoAlert()
+    {
+        var rule = new DogParvovirusRiskRule();
+        var patient = CreatePatient(Species.Cat, "Kitten", 0);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── DogSeniorScreeningRule ────────────────────────────────────────────────
+
+    [Fact]
+    public void DogSenior_LargeBreed_Age7_GeneratesAlert()
+    {
+        var rule = new DogSeniorScreeningRule();
+        // Large breed (30kg) at age 7 = senior
+        var patient = CreatePatient(Species.Dog, "Labrador Retriever", 7, weightKg: 30m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("DOG_SENIOR_SCREENING");
+    }
+
+    [Fact]
+    public void DogSenior_SmallBreed_Age7_NotSeniorYet()
+    {
+        var rule = new DogSeniorScreeningRule();
+        // Small breed (5kg) at age 7 = not senior until 10
+        var patient = CreatePatient(Species.Dog, "Chihuahua", 7, weightKg: 3m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogSenior_SmallBreed_Age10_GeneratesAlert()
+    {
+        var rule = new DogSeniorScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Chihuahua", 10, weightKg: 3m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void DogSenior_RecentBloodPanel_NoAlert()
+    {
+        var rule = new DogSeniorScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 8, weightKg: 30m,
+            records: [Record("senior screen CBC chemistry all normal")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DogSenior_Cat_NoAlert()
+    {
+        var rule = new DogSeniorScreeningRule();
+        var patient = CreatePatient(Species.Cat, "Persian", 10, weightKg: 5m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CatKidneyDiseaseScreeningRule ─────────────────────────────────────────
+
+    [Fact]
+    public void CatKidney_OldCat_NoRecords_GeneratesAlert()
+    {
+        var rule = new CatKidneyDiseaseScreeningRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 8);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAT_KIDNEY_DISEASE_SCREENING");
+    }
+
+    [Fact]
+    public void CatKidney_YoungCat_NoAlert()
+    {
+        var rule = new CatKidneyDiseaseScreeningRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatKidney_WithWeightLoss_HighSeverity()
+    {
+        var rule = new CatKidneyDiseaseScreeningRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 9, weightKg: 3.5m,
+            weightHistory: [W(3.5m, DateTime.UtcNow), W(4.5m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void CatKidney_RecentPanel_NoAlert()
+    {
+        var rule = new CatKidneyDiseaseScreeningRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 10,
+            records: [Record("kidney panel BUN creatinine normal")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatKidney_Dog_NoAlert()
+    {
+        var rule = new CatKidneyDiseaseScreeningRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 10);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CatHyperthyroidismRule ────────────────────────────────────────────────
+
+    [Fact]
+    public void CatHyperthyroid_OldCat_WeightLoss_IncreasedAppetite_HighSeverity()
+    {
+        var rule = new CatHyperthyroidismRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 12, weightKg: 3m,
+            records: [Record("polyphagia noted")],
+            weightHistory: [W(3m, DateTime.UtcNow), W(4m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAT_HYPERTHYROIDISM");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void CatHyperthyroid_OldCat_OnlyWeightLoss_MediumSeverity()
+    {
+        var rule = new CatHyperthyroidismRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 11, weightKg: 3m,
+            weightHistory: [W(3m, DateTime.UtcNow), W(4m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+    }
+
+    [Fact]
+    public void CatHyperthyroid_OldCat_NoSymptoms_NoAlert()
+    {
+        var rule = new CatHyperthyroidismRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 12);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatHyperthyroid_YoungCat_NoAlert()
+    {
+        var rule = new CatHyperthyroidismRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 5,
+            records: [Record("polyphagia")],
+            weightHistory: [W(3m, DateTime.UtcNow), W(4m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatHyperthyroid_RecentThyroidTest_NoAlert()
+    {
+        var rule = new CatHyperthyroidismRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 12,
+            records: [Record("T4 level normal"), Record("polyphagia")],
+            weightHistory: [W(3m, DateTime.UtcNow), W(4m, DateTime.UtcNow.AddMonths(-3))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CatFelvRetestRule ─────────────────────────────────────────────────────
+
+    [Fact]
+    public void CatFelv_OutdoorCat_NoTest_GeneratesAlert()
+    {
+        var rule = new CatFelvRetestRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 3,
+            records: [Record("outdoor cat, annual checkup")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAT_FELV_RETEST");
+    }
+
+    [Fact]
+    public void CatFelv_IndoorCat_NoAlert()
+    {
+        var rule = new CatFelvRetestRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 3);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatFelv_RecentTest_NoAlert()
+    {
+        var rule = new CatFelvRetestRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 3,
+            records: [Record("outdoor cat, FeLV test negative")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatFelv_Dog_NoAlert()
+    {
+        var rule = new CatFelvRetestRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5,
+            records: [Record("outdoor dog")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CatDentalResorptionRule ───────────────────────────────────────────────
+
+    [Fact]
+    public void CatDentalResorption_Age5_NoDentalExam_GeneratesAlert()
+    {
+        var rule = new CatDentalResorptionRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 6);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAT_DENTAL_RESORPTION");
+    }
+
+    [Fact]
+    public void CatDentalResorption_OlderCat_HighSeverity()
+    {
+        var rule = new CatDentalResorptionRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 9);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void CatDentalResorption_YoungCat_NoAlert()
+    {
+        var rule = new CatDentalResorptionRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 3);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatDentalResorption_RecentDentalExam_NoAlert()
+    {
+        var rule = new CatDentalResorptionRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 7,
+            records: [Record("dental exam and dental radiograph normal")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatDentalResorption_Dog_NoAlert()
+    {
+        var rule = new CatDentalResorptionRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 7);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── CatObesityRule ────────────────────────────────────────────────────────
+
+    [Fact]
+    public void CatObesity_OverweightDomesticShorthair_GeneratesAlert()
+    {
+        var rule = new CatObesityRule();
+        // DSH threshold is 5.5kg
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 5, weightKg: 7m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("CAT_OBESITY");
+    }
+
+    [Fact]
+    public void CatObesity_NormalWeight_NoAlert()
+    {
+        var rule = new CatObesityRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 5, weightKg: 4.5m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatObesity_MaineCoon_HigherThreshold()
+    {
+        var rule = new CatObesityRule();
+        // Maine Coon threshold is 9kg — 7kg should NOT trigger
+        var patient = CreatePatient(Species.Cat, "Maine Coon", 5, weightKg: 7m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatObesity_MaineCoon_Overweight_GeneratesAlert()
+    {
+        var rule = new CatObesityRule();
+        // Maine Coon threshold is 9kg — 10kg triggers
+        var patient = CreatePatient(Species.Cat, "Maine Coon", 5, weightKg: 10m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void CatObesity_NoWeight_NoAlert()
+    {
+        var rule = new CatObesityRule();
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 5, weightKg: null);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatObesity_Dog_NoAlert()
+    {
+        var rule = new CatObesityRule();
+        var patient = CreatePatient(Species.Dog, "Labrador", 5, weightKg: 40m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CatObesity_SeverelyOverweight_HighSeverity()
+    {
+        var rule = new CatObesityRule();
+        // DSH threshold 5.5kg, 30%+ over = 7.15kg+
+        var patient = CreatePatient(Species.Cat, "Domestic Shorthair", 5, weightKg: 8m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
     private static IHealthAlertRule CreateFalconRule(string name) => name switch
     {
         nameof(FalconMoltWeightLossRule) => new FalconMoltWeightLossRule(),

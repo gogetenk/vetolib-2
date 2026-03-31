@@ -74,6 +74,7 @@ public static class ModuleServiceRegistrar
         app.MapFollowUpRuleEndpoints();
         app.MapFeedbackApiEndpoints();
         app.MapWaitlistEndpoints();
+        app.MapStaffScheduleEndpoints();
         return app;
     }
 }

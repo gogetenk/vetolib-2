@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\backend\Vetolib.Api\Vetolib.Api.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Auth\Vetolib.Auth\Vetolib.Auth.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Auth\Vetolib.Auth.Contracts\Vetolib.Auth.Contracts.csproj" />
     <ProjectReference Include="..\..\src\backend\Modules\Notifications\Vetolib.Notifications\Vetolib.Notifications.csproj" />
