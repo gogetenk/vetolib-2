@@ -30,7 +30,8 @@ internal class OwnerConfiguration : IEntityTypeConfiguration<Owner>
         builder.Property(o => o.ClinicId)
             .IsRequired();
 
-        builder.Property(o => o.OwnerAccountId);
+        builder.Property(o => o.OwnerAccountId)
+            .IsRequired(false);
 
         builder.HasIndex(o => o.OwnerAccountId)
             .HasFilter("\"OwnerAccountId\" IS NOT NULL")

@@ -38,6 +38,9 @@ public static class ModuleServiceRegistrar
         // Owner portal authorization
         services.AddScoped<IOwnerAuthorizationService, OwnerAuthorizationService>();
 
+        // Cross-module linker — used by Auth module for owner registration auto-link
+        services.AddScoped<IOwnerAccountLinker, OwnerAccountLinker>();
+
         return services;
     }
 

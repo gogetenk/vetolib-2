@@ -58,6 +58,15 @@ internal class Owner : BaseEntity, IMultiTenant
         return Result.Success();
     }
 
+    public Result LinkToOwnerAccount(Guid ownerAccountId)
+    {
+        if (ownerAccountId == Guid.Empty)
+            return Result.Invalid(new ValidationError(nameof(ownerAccountId), "OwnerAccountId cannot be empty"));
+
+        OwnerAccountId = ownerAccountId;
+        return Result.Success();
+    }
+
     public Result UpdatePhone(string phone)
     {
         if (string.IsNullOrWhiteSpace(phone))
