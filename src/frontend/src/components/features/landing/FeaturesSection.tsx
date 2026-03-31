@@ -8,6 +8,9 @@ import {
   MessageCircle,
   Building2,
   Dna,
+  BellRing,
+  CalendarClock,
+  QrCode,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollReveal } from "./ScrollReveal";
@@ -40,6 +43,9 @@ interface Props {
     file_attachments?: CardData;
     multi_clinic?: CardData;
     breeding?: CardData;
+    ai_health_alerts?: CardData;
+    recurring_appointments?: CardData;
+    qr_checkin?: CardData;
   };
 }
 
@@ -54,6 +60,9 @@ const ICONS: Record<string, React.ElementType> = {
   file_attachments: Package,
   multi_clinic: Building2,
   breeding: Dna,
+  ai_health_alerts: BellRing,
+  recurring_appointments: CalendarClock,
+  qr_checkin: QrCode,
 };
 
 export function FeaturesSection({ title, subtitle, cards }: Props) {
@@ -99,6 +108,9 @@ export function FeaturesSection({ title, subtitle, cards }: Props) {
     { key: "file_attachments", data: cards.file_attachments },
     { key: "multi_clinic", data: cards.multi_clinic },
     { key: "breeding", data: cards.breeding },
+    { key: "ai_health_alerts", data: cards.ai_health_alerts },
+    { key: "recurring_appointments", data: cards.recurring_appointments },
+    { key: "qr_checkin", data: cards.qr_checkin },
   ];
   for (const { key, data } of optionalCards) {
     if (data) {

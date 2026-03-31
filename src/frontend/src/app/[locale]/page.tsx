@@ -78,8 +78,8 @@ const JSON_LD_SOFTWARE = {
   offers: {
     "@type": "AggregateOffer",
     priceCurrency: "AED",
-    lowPrice: "299",
-    highPrice: "649",
+    lowPrice: "0",
+    highPrice: "149",
   },
   featureList:
     "Appointment scheduling, Medical records, VAT-compliant invoicing, AI triage, AI SOAP notes, WhatsApp messaging, Stock management, Multi-clinic management, Breeding & reproduction management, Falcon & camel species support, Arabic RTL support",
@@ -375,6 +375,20 @@ export default async function LandingPage({ params }: Props) {
               description: t("new_features.breeding.description"),
               badge: t("new_features.breeding.badge"),
             },
+            ai_health_alerts: {
+              title: t("new_features.ai_health_alerts.title"),
+              description: t("new_features.ai_health_alerts.description"),
+              badge: t("new_features.ai_health_alerts.badge"),
+            },
+            recurring_appointments: {
+              title: t("new_features.recurring_appointments.title"),
+              description: t("new_features.recurring_appointments.description"),
+            },
+            qr_checkin: {
+              title: t("new_features.qr_checkin.title"),
+              description: t("new_features.qr_checkin.description"),
+              badge: t("new_features.qr_checkin.badge"),
+            },
           }}
         />
 
@@ -581,7 +595,6 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.starter.features.5"),
                 t("pricing.starter.features.6"),
                 t("pricing.starter.features.7"),
-                t("pricing.starter.features.8"),
               ],
               cta: t("pricing.starter.cta"),
             },
@@ -604,6 +617,7 @@ export default async function LandingPage({ params }: Props) {
                 t("pricing.pro.features.6"),
                 t("pricing.pro.features.7"),
                 t("pricing.pro.features.8"),
+                t("pricing.pro.features.9"),
               ],
               cta: t("pricing.pro.cta"),
             },

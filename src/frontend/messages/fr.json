@@ -1166,6 +1166,20 @@
         "title": "Gestion de la reproduction",
         "description": "Suivez les cycles de chaleur, les gestations, les portées et la lignée pour les chevaux arabes, les chameaux, les faucons et les animaux de compagnie. Outils essentiels pour les éleveurs et les cliniques équines.",
         "badge": "Nouveau"
+      },
+      "ai_health_alerts": {
+        "title": "Alertes sanitaires IA",
+        "description": "Surveillance predictive avec regles specifiques par espece pour faucons, chameaux et animaux de compagnie. Soyez alerte avant que les conditions ne deviennent des urgences.",
+        "badge": "Nouveau"
+      },
+      "recurring_appointments": {
+        "title": "Rendez-vous recurrents",
+        "description": "Configurez des series de rendez-vous automatiques pour les suivis, les soins chroniques et les calendriers de vaccination. Reduisez les absences sans re-reservation manuelle."
+      },
+      "qr_checkin": {
+        "title": "Check-in QR",
+        "description": "Les clients scannent un code QR a leur arrivee pour s enregistrer instantanement — sans file d attente. Reduit les temps d attente et libere l accueil.",
+        "badge": "Bientot disponible"
       }
     },
     "features": {
@@ -1226,67 +1240,67 @@
       "vat_note": "Prix HT, TVA 20 % en sus.",
       "starter": {
         "name": "Starter",
-        "price_monthly": "69 EUR",
-        "price_annual": "59 EUR",
-        "usd_hint_monthly": "~81 USD/vét/mois",
-        "usd_hint_annual": "~69 USD/vét/mois",
-        "per_month": "/vét/mois",
-        "description": "Pour les vétérinaires indépendants et petites cliniques (max 5 vétérinaires).",
+        "price_monthly": "Gratuit",
+        "price_annual": "Gratuit",
+        "usd_hint_monthly": "",
+        "usd_hint_annual": "",
+        "per_month": "",
+        "description": "Pour les veterinaires independants — essayez Vetara sans frais.",
         "features": [
-          "Jusqu'à 5 vétérinaires",
-          "Patients illimités",
-          "Planning intelligent avec détection de conflits",
-          "Dossiers médicaux SOAP et suivi vaccinal",
-          "Facturation conforme TVA (20 %)",
-          "Portail de réservation client",
-          "Notifications et rappels par e-mail",
+          "1 veterinaire",
+          "Jusqu a 50 patients",
+          "Planning de base",
+          "Dossiers medicaux SOAP",
+          "Rappels par e-mail",
           "Interface bilingue FR + EN",
-          "Support par e-mail (réponse sous 24 h)"
+          "Portail de reservation client",
+          "Support par e-mail"
         ],
-        "cta": "Démarrer l'essai gratuit"
+        "cta": "Commencer gratuitement"
       },
       "pro": {
-        "name": "Pro",
+        "name": "Professionnel",
         "badge": "Le plus populaire",
-        "price_monthly": "99 EUR",
-        "price_annual": "84 EUR",
-        "usd_hint_monthly": "~122 USD/vét/mois",
-        "usd_hint_annual": "~104 USD/vét/mois",
-        "per_month": "/vét/mois",
-        "description": "Pour les cliniques en croissance avec IA et automatisation (max 15 vétérinaires).",
+        "price_monthly": "39 EUR",
+        "price_annual": "33 EUR",
+        "usd_hint_monthly": "~41 USD/mois",
+        "usd_hint_annual": "~35 USD/mois",
+        "per_month": "/mois",
+        "description": "Pour les cliniques en croissance avec IA, WhatsApp et automatisation complete.",
         "features": [
-          "Tout ce qui est dans Starter, plus :",
+          "Jusqu a 5 veterinaires",
+          "Patients illimites",
+          "Rappels et suivis WhatsApp",
+          "Alertes sanitaires IA (faucons et especes specifiques)",
+          "Module reproduction et elevage",
+          "Tableau de bord analytique et reporting",
           "Notes SOAP automatiques par IA",
-          "Triage IA et prédiction des absences",
+          "Triage IA et prediction des absences",
           "Gestion des stocks et inventaire",
-          "Intégration WhatsApp (rappels et suivis)",
-          "Reporting avancé (CA par vét, tendances)",
-          "Horaires Ramadan et dim-jeu configurables",
-          "Jusqu'à 15 vétérinaires",
-          "Support prioritaire (réponse sous 4 h)"
+          "Support prioritaire (reponse sous 4 h)"
         ],
-        "cta": "Démarrer l'essai gratuit"
+        "cta": "Demarrer l essai gratuit"
       },
       "enterprise": {
         "name": "Entreprise",
-        "price_monthly": "149 EUR",
-        "price_annual": "127 EUR",
-        "usd_hint_monthly": "~177 USD/vét/mois",
-        "usd_hint_annual": "~150 USD/vét/mois",
-        "per_month": "/vét/mois",
-        "description": "Pour les groupes multi-sites et hôpitaux vétérinaires. Vétérinaires illimités.",
+        "price_monthly": "Sur mesure",
+        "price_annual": "Sur mesure",
+        "usd_hint_monthly": "",
+        "usd_hint_annual": "",
+        "per_month": "",
+        "description": "Pour les groupes multi-sites et hopitaux veterinaires. Tout en illimite.",
         "features": [
-          "Tout ce qui est dans Pro, plus :",
-          "Gestion multi-sites et reporting consolidé",
-          "Accès API REST pour intégrations custom",
-          "Rôles et permissions personnalisés",
-          "Chargé de compte dédié",
+          "Veterinaires illimites",
+          "Gestion multi-cliniques",
+          "Acces API REST pour integrations custom",
+          "Roles et permissions personnalises",
+          "Support premium (telephone, reponse sous 1 h)",
+          "Integrations personnalisees et onboarding",
+          "Charge de compte dedie",
           "SLA garanti 99,9 %",
-          "Vétérinaires illimités",
-          "Support premium (téléphone, réponse sous 1 h)",
-          "Onboarding assisté et migration de données"
+          "Migration de donnees assistee"
         ],
-        "cta": "Contacter l'équipe commerciale"
+        "cta": "Contacter l equipe commerciale"
       }
     },
     "competitive": {
