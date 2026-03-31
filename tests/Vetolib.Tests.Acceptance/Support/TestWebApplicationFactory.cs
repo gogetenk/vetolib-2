@@ -13,6 +13,7 @@ using Vetolib.AI.Contracts;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
@@ -66,9 +67,9 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             var knownDbContextTypes = new[]
             {
                 typeof(AuthDbContext), typeof(AgendaDbContext), typeof(BillingDbContext),
-                typeof(MedicalRecordsDbContext), typeof(AuditDbContext), typeof(NotificationsDbContext),
-                typeof(StockDbContext), typeof(AIDbContext), typeof(MessagingDbContext),
-                typeof(PreferencesDbContext)
+                typeof(BreedingDbContext), typeof(MedicalRecordsDbContext), typeof(AuditDbContext),
+                typeof(NotificationsDbContext), typeof(StockDbContext), typeof(AIDbContext),
+                typeof(MessagingDbContext), typeof(PreferencesDbContext)
             };
 
             var descriptorsToRemove = services
@@ -93,6 +94,8 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             services.AddDbContext<AgendaDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
             services.AddDbContext<BillingDbContext>(opts =>
+                opts.UseNpgsql(_connectionString));
+            services.AddDbContext<BreedingDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));
             services.AddDbContext<MedicalRecordsDbContext>(opts =>
                 opts.UseNpgsql(_connectionString));

@@ -15,6 +15,7 @@ using Vetolib.Agenda.Infrastructure;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
@@ -104,6 +105,10 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
         var preferencesDb = scope.ServiceProvider.GetRequiredService<PreferencesDbContext>();
         var preferencesCreator = preferencesDb.GetService<IRelationalDatabaseCreator>()!;
         try { await preferencesCreator.CreateTablesAsync(); } catch { }
+
+        var breedingDb = scope.ServiceProvider.GetRequiredService<BreedingDbContext>();
+        var breedingCreator = breedingDb.GetService<IRelationalDatabaseCreator>()!;
+        try { await breedingCreator.CreateTablesAsync(); } catch { }
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -138,9 +143,9 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
             var knownDbContextTypes = new[]
             {
                 typeof(AuthDbContext), typeof(AgendaDbContext), typeof(BillingDbContext),
-                typeof(MedicalRecordsDbContext), typeof(AuditDbContext), typeof(NotificationsDbContext),
-                typeof(StockDbContext), typeof(AIDbContext), typeof(MessagingDbContext),
-                typeof(PreferencesDbContext)
+                typeof(BreedingDbContext), typeof(MedicalRecordsDbContext), typeof(AuditDbContext),
+                typeof(NotificationsDbContext), typeof(StockDbContext), typeof(AIDbContext),
+                typeof(MessagingDbContext), typeof(PreferencesDbContext)
             };
 
             var descriptorsToRemove = services
@@ -163,6 +168,7 @@ public sealed class VetolibWebApplicationFactory : WebApplicationFactory<Program
             services.AddDbContext<AuthDbContext>(opts => opts.UseNpgsql(cs));
             services.AddDbContext<AgendaDbContext>(opts => opts.UseNpgsql(cs));
             services.AddDbContext<BillingDbContext>(opts => opts.UseNpgsql(cs));
+            services.AddDbContext<BreedingDbContext>(opts => opts.UseNpgsql(cs));
             services.AddDbContext<MedicalRecordsDbContext>(opts => opts.UseNpgsql(cs));
             services.AddDbContext<AuditDbContext>(opts => opts.UseNpgsql(cs));
             services.AddDbContext<NotificationsDbContext>(opts => opts.UseNpgsql(cs));

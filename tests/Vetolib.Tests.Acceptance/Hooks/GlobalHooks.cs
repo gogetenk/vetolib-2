@@ -7,6 +7,7 @@ using Vetolib.Agenda.Infrastructure;
 using Vetolib.AI.Infrastructure;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Billing.Infrastructure;
+using Vetolib.Breeding.Infrastructure;
 using Vetolib.MedicalRecords.Infrastructure;
 using Vetolib.Messaging.Infrastructure;
 using Vetolib.Notifications.Infrastructure;
@@ -86,6 +87,10 @@ internal class GlobalHooks
         var preferencesCreator = preferencesDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
         try { await preferencesCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
 
+        var breedingDb = scope.ServiceProvider.GetRequiredService<BreedingDbContext>();
+        var breedingCreator = breedingDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
+        try { await breedingCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
+
         // Clean seed data inserted by DbInitializer.SeedAsync() during app startup.
         // Without this, the first BDD scenario to run may conflict with seed users
         // (e.g. admin@desertpaws.ae exists with a random password, causing login failures).
@@ -160,6 +165,14 @@ internal class GlobalHooks
         await preferencesDb.UserPreferences.IgnoreQueryFilters().ExecuteDeleteAsync();
         await preferencesDb.ClinicPreferenceDefaults.IgnoreQueryFilters().ExecuteDeleteAsync();
         await preferencesDb.ConsentAuditEntries.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        var breedingDb = scope.ServiceProvider.GetRequiredService<BreedingDbContext>();
+        await breedingDb.LitterOffspring.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.Litters.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.PregnancyChecks.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.Pregnancies.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.HeatCycles.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await breedingDb.PatientLineages.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         // Reset FakeChatClient state
         _factory.FakeChatClient.SetShouldThrow(false);

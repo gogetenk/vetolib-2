@@ -245,7 +245,7 @@ internal class LineageSteps
         }
     }
 
-    [When(@"I set the mother of ""(.*)"" to ""(.*)""")]
+    [When(@"I set the mother of ""(.*)"" to ""([^""]+)""$")]
     public async Task WhenISetTheMotherOf(string patientName, string motherName)
     {
         var patientIds = GetPatientIds();

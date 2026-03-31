@@ -17,7 +17,10 @@ namespace Vetolib.Tests.Acceptance.StepDefinitions.Breeding;
 /// Handles owner creation, patient creation with sex, and common assertions.
 /// </summary>
 [Binding]
-[Scope(Tag = "wip")]
+[Scope(Feature = "Heat cycle tracking")]
+[Scope(Feature = "Pregnancy and gestation tracking")]
+[Scope(Feature = "Patient lineage and pedigree")]
+[Scope(Feature = "Litter management")]
 internal class BreedingSharedSteps
 {
     private readonly ScenarioContext _ctx;
