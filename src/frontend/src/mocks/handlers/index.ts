@@ -17,6 +17,7 @@ import { reminderHandlers } from './reminders'
 import { healthAlertHandlers } from './health-alerts'
 import { weightHandlers } from './weights'
 import { breedingHandlers } from './breeding'
+import { recordSharingHandlers } from './record-sharing'
 
 export const handlers = [
   ...authHandlers,
@@ -38,4 +39,5 @@ export const handlers = [
   ...healthAlertHandlers,
   ...weightHandlers,
   ...breedingHandlers,
+  ...recordSharingHandlers,
 ]

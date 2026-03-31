@@ -1592,6 +1592,43 @@
       "back": "Retour aux conversations",
       "error": "Échec de l'export des conversations. Veuillez réessayer."
     },
+    "pets": {
+      "title": "Mes animaux",
+      "no_pets": "Aucun animal trouvé.",
+      "age": "{years} ans",
+      "back_to_pets": "Retour à mes animaux",
+      "not_found": "Animal introuvable.",
+      "overview": "Aperçu",
+      "species_label": "Espèce",
+      "breed_label": "Race",
+      "age_label": "Âge"
+    },
+    "sharing": {
+      "share_records": "Partager le dossier",
+      "modal_title": "Partager le dossier médical",
+      "modal_description": "Générez un lien sécurisé pour partager le dossier médical de votre animal. Le lien expire après 72 heures.",
+      "create_error": "Impossible de créer le lien de partage. Veuillez réessayer.",
+      "expires_in": "Le lien expire dans {hours} heures",
+      "active_links": "Liens de partage actifs",
+      "created": "Créé le {date}",
+      "expires": "Expire le {date}",
+      "expired": "Expiré",
+      "views": "{count} vues",
+      "revoke": "Révoquer le lien"
+    },
+    "shared_record": {
+      "age": "{years} ans",
+      "vaccinations": "Vaccinations",
+      "no_vaccinations": "Aucun enregistrement de vaccination disponible.",
+      "given": "Administré le : {date}",
+      "next_due": "Prochain : {date}",
+      "consultations": "Consultations récentes",
+      "no_consultations": "Aucun enregistrement de consultation disponible.",
+      "not_found": "Ce lien de dossier partagé est invalide ou a expiré.",
+      "error_generic": "Une erreur est survenue. Veuillez réessayer plus tard.",
+      "error_hint": "Le lien a peut-être expiré ou a été révoqué par le propriétaire de l'animal.",
+      "notice": "Ce dossier a été partagé de manière sécurisée via Vetara. Le lien expirera automatiquement."
+    },
     "booking": {
       "landing": {
         "title": "Rendez-vous",
