@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Vetolib.Auth.Application.Commands.InviteVet;
 using Vetolib.Auth.Application.Commands.LinkOwnerByMicrochip;
 using Vetolib.Auth.Application.Commands.OwnerPortalLogin;
 using Vetolib.Auth.Application.Commands.RegisterOwnerAccount;
@@ -26,6 +27,13 @@ internal static class PortalEndpoints
             .WithSummary("Register a new pet owner account")
             .WithDescription("Creates a global OwnerAccount and auto-links to existing owner records across all clinics by email or phone.");
 
+        publicGroup.MapPost("/invite-vet", InviteVet)
+            .WithName("InviteVet")
+            .AllowAnonymous()
+            .RequireRateLimiting("auth")
+            .WithSummary("Ask your vet to join Vetara")
+            .WithDescription("Sends a viral invitation email to a veterinarian on behalf of a pet owner. Rate limited to 3 invitations per vet email per day.");
+
         publicGroup.MapPost("/login", PortalLogin)
             .WithName("OwnerPortalLogin")
             .AllowAnonymous()
@@ -44,6 +52,13 @@ internal static class PortalEndpoints
 
         return app;
     }
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> InviteVet(
+        InviteVetRequest request,
+        ISender sender)
+        => (await sender.Send(new InviteVetCommand(
+            request.VetEmail, request.OwnerName, request.PetName, request.Message)))
+            .ToMinimalApiResult();
 
     private static async Task<Microsoft.AspNetCore.Http.IResult> Register(
         RegisterOwnerAccountRequest request,
