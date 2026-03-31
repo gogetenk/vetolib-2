@@ -109,6 +109,7 @@ public static class AuthModuleServiceRegistrar
         app.MapClinicApiEndpoints();
         app.MapClinicGroupApiEndpoints();
         app.MapOnboardingEndpoints();
+        app.MapReferralApiEndpoints();
         return app;
     }
 }

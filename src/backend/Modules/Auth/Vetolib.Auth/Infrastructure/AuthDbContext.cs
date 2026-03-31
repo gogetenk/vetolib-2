@@ -15,6 +15,7 @@ internal class AuthDbContext : MultiTenantDbContext
     public DbSet<OnboardingState> OnboardingStates => Set<OnboardingState>();
     public DbSet<ClinicGroup> ClinicGroups => Set<ClinicGroup>();
     public DbSet<ClinicGroupMember> ClinicGroupMembers => Set<ClinicGroupMember>();
+    public DbSet<ReferralCode> ReferralCodes => Set<ReferralCode>();
 
     public AuthDbContext(
         DbContextOptions<AuthDbContext> options,
