@@ -1988,7 +1988,9 @@
     "messaging_title": "إعدادات الرسائل",
     "messaging_description": "إعداد التذكيرات التلقائية والقوالب وساعات المراسلة.",
     "notifications_title": "إعدادات الإشعارات",
-    "notifications_description": "إعداد التذكيرات التلقائية للمواعيد والتطعيمات والمتابعة."
+    "notifications_description": "إعداد التذكيرات التلقائية للمواعيد والتطعيمات والمتابعة.",
+    "working_hours_title": "ساعات العمل",
+    "working_hours_description": "حدد ساعات فتح وإغلاق العيادة لكل يوم من أيام الأسبوع."
   },
   "soap_notes": {
     "title": "ملاحظات SOAP بالذكاء الاصطناعي",
@@ -2315,5 +2317,38 @@
     "acceptAll": "قبول الكل",
     "necessaryOnly": "الضروري فقط",
     "ariaLabel": "موافقة ملفات تعريف الارتباط"
+  },
+  "working_hours": {
+    "title": "ساعات العمل",
+    "subtitle": "حدد ساعات فتح وإغلاق العيادة لكل يوم من أيام الأسبوع.",
+    "save": "حفظ التغييرات",
+    "saving": "جارٍ الحفظ...",
+    "save_success": "تم حفظ ساعات العمل بنجاح.",
+    "table": {
+      "day": "اليوم",
+      "open": "مفتوح",
+      "open_time": "وقت الفتح",
+      "close_time": "وقت الإغلاق",
+      "break_start": "بداية الاستراحة",
+      "break_end": "نهاية الاستراحة",
+      "optional": "اختياري"
+    },
+    "days": {
+      "sunday": "الأحد",
+      "monday": "الاثنين",
+      "tuesday": "الثلاثاء",
+      "wednesday": "الأربعاء",
+      "thursday": "الخميس",
+      "friday": "الجمعة",
+      "saturday": "السبت"
+    },
+    "status": {
+      "open": "مفتوح",
+      "closed": "مغلق"
+    },
+    "errors": {
+      "load_failed": "فشل في تحميل ساعات العمل.",
+      "save_failed": "فشل في حفظ ساعات العمل."
+    }
   }
 }

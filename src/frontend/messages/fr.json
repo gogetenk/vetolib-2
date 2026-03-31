@@ -1986,7 +1986,9 @@
     "messaging_title": "Paramètres de messagerie",
     "messaging_description": "Configurez les rappels automatiques, les modèles et les horaires de messagerie.",
     "notifications_title": "Paramètres de notification",
-    "notifications_description": "Configurez les rappels automatiques pour les rendez-vous, vaccinations et suivis."
+    "notifications_description": "Configurez les rappels automatiques pour les rendez-vous, vaccinations et suivis.",
+    "working_hours_title": "Horaires d'ouverture",
+    "working_hours_description": "Definissez les horaires d'ouverture et de fermeture de votre clinique pour chaque jour de la semaine."
   },
   "soap_notes": {
     "title": "Notes SOAP IA",
@@ -2313,5 +2315,38 @@
     "acceptAll": "Tout accepter",
     "necessaryOnly": "Necessaires uniquement",
     "ariaLabel": "Consentement aux cookies"
+  },
+  "working_hours": {
+    "title": "Horaires d'ouverture",
+    "subtitle": "Configurez les horaires d'ouverture et de fermeture de votre clinique pour chaque jour de la semaine.",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "save_success": "Horaires enregistres avec succes.",
+    "table": {
+      "day": "Jour",
+      "open": "Ouvert",
+      "open_time": "Heure d'ouverture",
+      "close_time": "Heure de fermeture",
+      "break_start": "Debut de pause",
+      "break_end": "Fin de pause",
+      "optional": "Facultatif"
+    },
+    "days": {
+      "sunday": "Dimanche",
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi"
+    },
+    "status": {
+      "open": "Ouvert",
+      "closed": "Ferme"
+    },
+    "errors": {
+      "load_failed": "Echec du chargement des horaires.",
+      "save_failed": "Echec de l'enregistrement des horaires."
+    }
   }
 }
