@@ -2403,4 +2403,382 @@ public class HealthAlertRulesTests
         nameof(CamelRacingFitnessRule) => new CamelRacingFitnessRule(),
         _ => throw new ArgumentException($"Unknown rule: {name}")
     };
+
+    private static IHealthAlertRule CreateHorseRule(string name) => name switch
+    {
+        nameof(HorseColicRiskRule) => new HorseColicRiskRule(),
+        nameof(HorseLaminitisRule) => new HorseLaminitisRule(),
+        nameof(HorseEquineInfluenzaRule) => new HorseEquineInfluenzaRule(),
+        nameof(HorseDentalCheckRule) => new HorseDentalCheckRule(),
+        nameof(HorseDewormerRotationRule) => new HorseDewormerRotationRule(),
+        _ => throw new ArgumentException($"Unknown rule: {name}")
+    };
+
+    // ── HorseColicRiskRule ──────────────────────────────────────────────────
+
+    [Fact]
+    public void HorseColic_ColicSigns_GeneratesAlert()
+    {
+        var rule = new HorseColicRiskRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8, weightKg: 480m,
+            records: [Record("abdominal pain, rolling, pawing")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("HORSE_COLIC_RISK");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+    }
+
+    [Fact]
+    public void HorseColic_ColicSignsAndWeightLoss_HighSeverity()
+    {
+        var rule = new HorseColicRiskRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8, weightKg: 450m,
+            records: [Record("decreased appetite, lethargy")],
+            weightHistory: [W(450m, DateTime.UtcNow), W(500m, DateTime.UtcNow.AddMonths(-1))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void HorseColic_NoSigns_NoAlert()
+    {
+        var rule = new HorseColicRiskRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8, weightKg: 500m,
+            records: [Record("routine checkup")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseColic_AlreadyTreated_NoAlert()
+    {
+        var rule = new HorseColicRiskRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8,
+            records: [Record("colic treatment administered")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseColic_Dedup_NoAlert()
+    {
+        var rule = new HorseColicRiskRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8,
+            records: [Record("abdominal pain")]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("HORSE_COLIC_RISK"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── HorseLaminitisRule ──────────────────────────────────────────────────
+
+    [Fact]
+    public void HorseLaminitis_OverweightArabian_GeneratesAlert()
+    {
+        var rule = new HorseLaminitisRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 10, weightKg: 600m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        // Always triggers for overweight high-risk breed regardless of season
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("HORSE_LAMINITIS");
+    }
+
+    [Fact]
+    public void HorseLaminitis_NormalWeight_NoAlert()
+    {
+        var rule = new HorseLaminitisRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 10, weightKg: 450m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseLaminitis_AlreadyManaged_NoAlert()
+    {
+        var rule = new HorseLaminitisRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 10, weightKg: 600m,
+            records: [Record("laminitis management ongoing")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseLaminitis_OverweightNonRiskBreed_NoSpring_NoAlert()
+    {
+        // This test verifies that non-risk breed without spring doesn't trigger
+        // We can't control DateTime.UtcNow.Month, so we test the breed filtering
+        var rule = new HorseLaminitisRule();
+        var patient = CreatePatient(Species.Horse, "Thoroughbred", 10, weightKg: 600m);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        // May or may not alert depending on current month (spring vs not)
+        // If it's spring, even non-risk breeds trigger. If not spring, only risk breeds.
+        if (DateTime.UtcNow.Month is >= 3 and <= 5)
+            alerts.Should().HaveCount(1);
+        else
+            alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseLaminitis_Dedup_NoAlert()
+    {
+        var rule = new HorseLaminitisRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 10, weightKg: 600m);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("HORSE_LAMINITIS"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── HorseEquineInfluenzaRule ─────────────────────────────────────────────
+
+    [Fact]
+    public void HorseInfluenza_RespiratoryAndFever_GeneratesAlert()
+    {
+        var rule = new HorseEquineInfluenzaRule();
+        var patient = CreatePatient(Species.Horse, "Thoroughbred", 5,
+            records: [Record("cough, nasal discharge, fever")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("HORSE_EQUINE_INFLUENZA");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void HorseInfluenza_RespiratoryOnly_NoFever_NoAlert()
+    {
+        var rule = new HorseEquineInfluenzaRule();
+        var patient = CreatePatient(Species.Horse, "Thoroughbred", 5,
+            records: [Record("cough, nasal discharge")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseInfluenza_FeverOnly_NoRespiratory_NoAlert()
+    {
+        var rule = new HorseEquineInfluenzaRule();
+        var patient = CreatePatient(Species.Horse, "Thoroughbred", 5,
+            records: [Record("fever, lethargy")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseInfluenza_AlreadyDiagnosed_NoAlert()
+    {
+        var rule = new HorseEquineInfluenzaRule();
+        var patient = CreatePatient(Species.Horse, "Thoroughbred", 5,
+            records: [Record("cough, fever, influenza confirmed")]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseInfluenza_Dedup_NoAlert()
+    {
+        var rule = new HorseEquineInfluenzaRule();
+        var patient = CreatePatient(Species.Horse, "Thoroughbred", 5,
+            records: [Record("cough, fever")]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("HORSE_EQUINE_INFLUENZA"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── HorseDentalCheckRule ─────────────────────────────────────────────────
+
+    [Fact]
+    public void HorseDental_NoDentalRecords_GeneratesAlert()
+    {
+        var rule = new HorseDentalCheckRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 5);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("HORSE_DENTAL_CHECK");
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.Medium);
+    }
+
+    [Fact]
+    public void HorseDental_SeniorHorse_HighSeverity()
+    {
+        var rule = new HorseDentalCheckRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 18);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].Severity.Should().Be(HealthAlertSeverity.High);
+    }
+
+    [Fact]
+    public void HorseDental_RecentDental_NoAlert()
+    {
+        var rule = new HorseDentalCheckRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 5,
+            records: [Record("dental float performed", DateTime.UtcNow.AddMonths(-6))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseDental_OldDental_GeneratesAlert()
+    {
+        var rule = new HorseDentalCheckRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 5,
+            records: [Record("dental float performed", DateTime.UtcNow.AddMonths(-14))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void HorseDental_Foal_NoAlert()
+    {
+        var rule = new HorseDentalCheckRule();
+        var birthDate = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(-6));
+        var patient = new PatientAlertContext(
+            ClinicId, PatientId, "Foal", Species.Horse, "Arabian", birthDate,
+            150m, [], []);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseDental_Dedup_NoAlert()
+    {
+        var rule = new HorseDentalCheckRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 5);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("HORSE_DENTAL_CHECK"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── HorseDewormerRotationRule ────────────────────────────────────────────
+
+    [Fact]
+    public void HorseDewormer_SameDewormer3Times_GeneratesAlert()
+    {
+        var rule = new HorseDewormerRotationRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8,
+            records:
+            [
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-1)),
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-4)),
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-7))
+            ]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().HaveCount(1);
+        alerts[0].RuleId.Should().Be("HORSE_DEWORMER_ROTATION");
+    }
+
+    [Fact]
+    public void HorseDewormer_DifferentDewormers_NoAlert()
+    {
+        var rule = new HorseDewormerRotationRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8,
+            records:
+            [
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-1)),
+                Record("fenbendazole administered", DateTime.UtcNow.AddMonths(-4)),
+                Record("pyrantel administered", DateTime.UtcNow.AddMonths(-7))
+            ]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseDewormer_TooFewRecords_NoAlert()
+    {
+        var rule = new HorseDewormerRotationRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8,
+            records:
+            [
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-1)),
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-4))
+            ]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void HorseDewormer_Dedup_NoAlert()
+    {
+        var rule = new HorseDewormerRotationRule();
+        var patient = CreatePatient(Species.Horse, "Arabian", 8,
+            records:
+            [
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-1)),
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-4)),
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-7))
+            ]);
+
+        var alerts = rule.Evaluate(patient, ExistingAlertForRule("HORSE_DEWORMER_ROTATION"));
+
+        alerts.Should().BeEmpty();
+    }
+
+    // ── All horse rules skip non-horse species ──────────────────────────────
+
+    [Theory]
+    [InlineData(nameof(HorseColicRiskRule))]
+    [InlineData(nameof(HorseLaminitisRule))]
+    [InlineData(nameof(HorseEquineInfluenzaRule))]
+    [InlineData(nameof(HorseDentalCheckRule))]
+    [InlineData(nameof(HorseDewormerRotationRule))]
+    public void AllHorseRules_DogPatient_NoAlert(string ruleTypeName)
+    {
+        var rule = CreateHorseRule(ruleTypeName);
+        var patient = CreatePatient(Species.Dog, "Labrador", 5, weightKg: 600m,
+            records:
+            [
+                Record("cough, fever, abdominal pain, decreased appetite, ivermectin administered", DateTime.UtcNow.AddMonths(-1)),
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-4)),
+                Record("ivermectin administered", DateTime.UtcNow.AddMonths(-7))
+            ],
+            weightHistory: [W(25m, DateTime.UtcNow), W(30m, DateTime.UtcNow.AddMonths(-1))]);
+
+        var alerts = rule.Evaluate(patient, NoExistingAlerts);
+
+        alerts.Should().BeEmpty();
+    }
 }

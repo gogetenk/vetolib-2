@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { useMessagingSseContext } from "@/components/features/messaging/MessagingSseProvider";
 import { ClinicSwitcher } from "./ClinicSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { NotificationCenter } from "@/components/features/notifications/NotificationCenter";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -98,6 +99,9 @@ export function Header() {
         >
           <Menu className="h-5 w-5" />
         </Button>
+
+        {/* Notification center */}
+        <NotificationCenter />
 
         {/* Theme toggle */}
         <ThemeToggle />

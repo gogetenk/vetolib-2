@@ -110,7 +110,7 @@ public static class ModuleServiceRegistrar
             services.AddScoped<ISoapNotesGenerator, TemplateSoapNotesGenerator>();
         }
 
-        // Health Alert Rules — 32 rule-based alert generators
+        // Health Alert Rules — 37 rule-based alert generators
         services.AddTransient<IHealthAlertRule, CatRenalScreeningRule>();
         services.AddTransient<IHealthAlertRule, CardiacBreedRule>();
         services.AddTransient<IHealthAlertRule, HipDysplasiaRule>();
@@ -136,6 +136,7 @@ public static class ModuleServiceRegistrar
         services.AddTransient<IHealthAlertRule, CamelFootRotRule>();
         services.AddTransient<IHealthAlertRule, CamelMERSScreeningRule>();
         services.AddTransient<IHealthAlertRule, CamelRacingFitnessRule>();
+<<<<<<< HEAD
         // Dog-specific rules
         services.AddTransient<IHealthAlertRule, DogHeartwormScreeningRule>();
         services.AddTransient<IHealthAlertRule, DogObesityRiskRule>();
@@ -148,6 +149,12 @@ public static class ModuleServiceRegistrar
         services.AddTransient<IHealthAlertRule, CatFelvRetestRule>();
         services.AddTransient<IHealthAlertRule, CatDentalResorptionRule>();
         services.AddTransient<IHealthAlertRule, CatObesityRule>();
+        // Horse-specific rules
+        services.AddTransient<IHealthAlertRule, HorseColicRiskRule>();
+        services.AddTransient<IHealthAlertRule, HorseLaminitisRule>();
+        services.AddTransient<IHealthAlertRule, HorseEquineInfluenzaRule>();
+        services.AddTransient<IHealthAlertRule, HorseDentalCheckRule>();
+        services.AddTransient<IHealthAlertRule, HorseDewormerRotationRule>();
 
         // Health Alert Background Job
         services.Configure<HealthAlertJobOptions>(configuration.GetSection(HealthAlertJobOptions.SectionName));
