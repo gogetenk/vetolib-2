@@ -17,5 +17,10 @@ public enum HealthAlertType
     FalconMoltAnomaly,
     FalconHealthCertificate,
     FalconPostHuntRecovery,
-    VaccinationDue
+    VaccinationDue,
+    CamelTrypanosoma,
+    CamelHeatStress,
+    CamelFootRot,
+    CamelMERSScreening,
+    CamelRacingFitness
 }

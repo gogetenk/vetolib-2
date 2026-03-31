@@ -110,7 +110,7 @@ public static class ModuleServiceRegistrar
             services.AddScoped<ISoapNotesGenerator, TemplateSoapNotesGenerator>();
         }
 
-        // Health Alert Rules — 17 rule-based alert generators
+        // Health Alert Rules — 22 rule-based alert generators
         services.AddTransient<IHealthAlertRule, CatRenalScreeningRule>();
         services.AddTransient<IHealthAlertRule, CardiacBreedRule>();
         services.AddTransient<IHealthAlertRule, HipDysplasiaRule>();
@@ -130,6 +130,12 @@ public static class ModuleServiceRegistrar
         services.AddTransient<IHealthAlertRule, FalconMoltAnomalyRule>();
         services.AddTransient<IHealthAlertRule, FalconHealthCertificateRule>();
         services.AddTransient<IHealthAlertRule, FalconPostHuntRecoveryRule>();
+        // Camel-specific rules
+        services.AddTransient<IHealthAlertRule, CamelTrypanosomaRule>();
+        services.AddTransient<IHealthAlertRule, CamelHeatStressRule>();
+        services.AddTransient<IHealthAlertRule, CamelFootRotRule>();
+        services.AddTransient<IHealthAlertRule, CamelMERSScreeningRule>();
+        services.AddTransient<IHealthAlertRule, CamelRacingFitnessRule>();
 
         // Health Alert Background Job
         services.Configure<HealthAlertJobOptions>(configuration.GetSection(HealthAlertJobOptions.SectionName));
