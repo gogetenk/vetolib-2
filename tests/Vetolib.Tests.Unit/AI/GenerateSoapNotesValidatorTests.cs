@@ -1,6 +1,7 @@
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Vetolib.AI.Application.Commands.GenerateSoapNotes;
+using Vetolib.AI.Contracts;
 using Xunit;
 
 namespace Vetolib.Tests.Unit.AI;
@@ -104,5 +105,47 @@ public class GenerateSoapNotesValidatorTests
 
         result.ShouldHaveValidationErrorFor(x => x.PatientName)
             .WithErrorMessage("Patient name is required.");
+    }
+
+    [Theory]
+    [InlineData(SoapLanguage.En)]
+    [InlineData(SoapLanguage.Ar)]
+    [InlineData(SoapLanguage.Both)]
+    public void Validate_WithValidLanguage_ShouldHaveNoLanguageError(SoapLanguage language)
+    {
+        var cmd = new GenerateSoapNotesCommand(
+            Species: "Dog",
+            Breed: "Labrador",
+            PatientName: "Buddy",
+            Symptoms: "Limping",
+            Vitals: "",
+            Diagnosis: "",
+            TreatmentPlan: "",
+            Prescriptions: new List<string>(),
+            Language: language);
+
+        var result = _sut.TestValidate(cmd);
+
+        result.ShouldNotHaveValidationErrorFor(x => x.Language);
+    }
+
+    [Fact]
+    public void Validate_WithInvalidLanguage_ShouldHaveLanguageError()
+    {
+        var cmd = new GenerateSoapNotesCommand(
+            Species: "Dog",
+            Breed: "Labrador",
+            PatientName: "Buddy",
+            Symptoms: "Limping",
+            Vitals: "",
+            Diagnosis: "",
+            TreatmentPlan: "",
+            Prescriptions: new List<string>(),
+            Language: (SoapLanguage)99);
+
+        var result = _sut.TestValidate(cmd);
+
+        result.ShouldHaveValidationErrorFor(x => x.Language)
+            .WithErrorMessage("Language must be 'En', 'Ar', or 'Both'.");
     }
 }

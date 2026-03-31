@@ -7,6 +7,19 @@ public interface ISoapNotesGenerator
     Task<Result<SoapNoteDto>> GenerateAsync(SoapNoteRequest request, CancellationToken ct = default);
 }
 
+/// <summary>
+/// Supported languages for SOAP note generation.
+/// </summary>
+public enum SoapLanguage
+{
+    /// <summary>English (clinical, default).</summary>
+    En,
+    /// <summary>Arabic (owner-facing).</summary>
+    Ar,
+    /// <summary>Both English and Arabic.</summary>
+    Both
+}
+
 public record SoapNoteRequest(
     string Species,
     string Breed,
@@ -15,7 +28,8 @@ public record SoapNoteRequest(
     string Vitals,
     string Diagnosis,
     string TreatmentPlan,
-    List<string> Prescriptions);
+    List<string> Prescriptions,
+    SoapLanguage Language = SoapLanguage.En);
 
 public record SoapNoteDto(
     string Subjective,
@@ -23,4 +37,9 @@ public record SoapNoteDto(
     string Assessment,
     string Plan,
     string Summary,
-    DateTime GeneratedAt);
+    DateTime GeneratedAt,
+    string? SubjectiveAr = null,
+    string? ObjectiveAr = null,
+    string? AssessmentAr = null,
+    string? PlanAr = null,
+    string? SummaryAr = null);
