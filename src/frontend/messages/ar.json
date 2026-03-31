@@ -2787,6 +2787,18 @@
       "save_failed": "فشل في حفظ ساعات العمل."
     }
   },
+  "notification_center": {
+    "aria_label": "الإشعارات",
+    "panel_title": "الإشعارات",
+    "mark_all_read": "تعيين الكل كمقروء",
+    "mark_read": "تعيين كمقروء",
+    "loading": "جارٍ تحميل الإشعارات...",
+    "empty": "لا توجد إشعارات بعد",
+    "just_now": "الآن",
+    "minutes_ago": "منذ {count} دقيقة",
+    "hours_ago": "منذ {count} ساعة",
+    "days_ago": "منذ {count} يوم"
+  },
   "developers": {
     "meta": {
       "title": "Developers — Vetara Open Veterinary Health API",

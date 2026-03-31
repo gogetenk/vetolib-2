@@ -2927,6 +2927,18 @@
       "save_failed": "Failed to save working hours."
     }
   },
+  "notification_center": {
+    "aria_label": "Notifications",
+    "panel_title": "Notifications",
+    "mark_all_read": "Mark all as read",
+    "mark_read": "Mark as read",
+    "loading": "Loading notifications...",
+    "empty": "No notifications yet",
+    "just_now": "Just now",
+    "minutes_ago": "{count} min ago",
+    "hours_ago": "{count}h ago",
+    "days_ago": "{count}d ago"
+  },
   "developers": {
     "meta": {
       "title": "Developers — Vetara Open Veterinary Health API",
