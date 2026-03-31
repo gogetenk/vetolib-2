@@ -32,7 +32,7 @@ internal class UpdateConsultationTypeHandler : IRequestHandler<UpdateConsultatio
                 return Result<ConsultationTypeDto>.Conflict($"An active consultation type named '{cmd.Name}' already exists.");
         }
 
-        var updateResult = consultationType.Update(cmd.Name, cmd.DurationMinutes, cmd.SortOrder, cmd.RequiresVetSelection);
+        var updateResult = consultationType.Update(cmd.Name!, cmd.DurationMinutes, cmd.SortOrder, cmd.RequiresVetSelection);
         if (!updateResult.IsSuccess)
             return updateResult.Map(_ => (ConsultationTypeDto)null!);
 
