@@ -28,7 +28,7 @@ internal static class WaitlistEndpoints
             .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
             .WithName("ListWaitlistEntries")
             .WithSummary("List waitlist entries for the clinic")
-            .WithDescription("Returns all waitlist entries for the current clinic, ordered by creation date.");
+            .WithDescription("Returns paginated waitlist entries for the current clinic, ordered by creation date. Supports page and pageSize query parameters.");
 
         group.MapDelete("/{id:guid}", RemoveFromWaitlist)
             .WithName("RemoveFromWaitlist")
@@ -57,9 +57,12 @@ internal static class WaitlistEndpoints
         return (await sender.Send(cmd)).ToMinimalApiResult();
     }
 
-    private static async Task<IResult> ListWaitlistEntries(ISender sender)
+    private static async Task<IResult> ListWaitlistEntries(
+        ISender sender,
+        int page = 1,
+        int pageSize = 20)
     {
-        return (await sender.Send(new ListWaitlistEntriesQuery())).ToMinimalApiResult();
+        return (await sender.Send(new ListWaitlistEntriesQuery(page, pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> RemoveFromWaitlist(Guid id, ISender sender)
