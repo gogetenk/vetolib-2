@@ -35,8 +35,13 @@
         "password_number": "Le mot de passe doit contenir au moins un chiffre",
         "passwords_no_match": "Les mots de passe ne correspondent pas",
         "email_taken": "Un compte avec cette adresse e-mail existe déjà",
-        "connection_error": "Erreur de connexion. Veuillez réessayer."
-      }
+        "connection_error": "Erreur de connexion. Veuillez réessayer.",
+        "terms_required": "Vous devez accepter les Conditions d’utilisation et la Politique de confidentialité"
+      },
+      "privacy_link": "Politique de confidentialité",
+      "agree_terms_prefix": "J’accepte les ",
+      "terms_link": "Conditions d’utilisation",
+      "and": " et la "
     },
     "login": {
       "title": "Connexion",
@@ -1420,19 +1425,25 @@
         "text": "Nous sommes passés des tableurs à Vetara en une journée. L'interface multilingue a été un vrai plus pour notre secrétariat.",
         "name": "Dr. Sophie Martin",
         "role": "Gérante",
-        "clinic": "Clinique Vétérinaire des Lilas, Paris"
+        "clinic": "Clinique Vétérinaire des Lilas, Paris",
+        "emirate": "Paris",
+        "rating": "5"
       },
       "quote2": {
         "text": "Enfin des factures conformes à la TVA sans bidouillage manuel. Notre comptable est ravi.",
         "name": "Dr. Pierre Durand",
         "role": "Directeur de clinique",
-        "clinic": "Centre Vétérinaire du Parc, Lyon"
+        "clinic": "Centre Vétérinaire du Parc, Lyon",
+        "emirate": "Lyon",
+        "rating": "5"
       },
       "quote3": {
         "text": "La gestion des accès par rôle est exactement ce qu'il nous fallait. Les secrétaires gèrent les rendez-vous et la facturation pendant que les vétérinaires se concentrent sur la médecine.",
         "name": "Dr. Marie Lefebvre",
         "role": "Vétérinaire responsable",
-        "clinic": "Clinique des Animaux de Compagnie, Bordeaux"
+        "clinic": "Clinique des Animaux de Compagnie, Bordeaux",
+        "emirate": "Bordeaux",
+        "rating": "5"
       },
       "scroll_hint": "← Faites défiler pour en voir plus →"
     },
@@ -2627,8 +2638,6 @@
       "vets_enterprise": "Illimites"
     },
     "faq": {
-      "title": "FAQ Tarifs",
-      "subtitle": "Questions frequentes sur la facturation, les plans et les fonctionnalites.",
       "0": {
         "question": "Y a-t-il vraiment un plan gratuit ?",
         "answer": "Oui. Le plan Starter est gratuit pour toujours sans carte bancaire. Il inclut les fonctionnalites essentielles comme la planification, les dossiers medicaux et les rappels email pour jusqu'a 50 patients et 1 veterinaire."
@@ -2660,7 +2669,9 @@
       "7": {
         "question": "Comment contacter les ventes pour l'Entreprise ?",
         "answer": "Cliquez sur 'Contacter les Ventes' sur le plan Entreprise ou envoyez un email a hello@vetara.ae. Notre equipe planifiera une demo et creera une proposition personnalisee pour votre configuration multi-cliniques."
-      }
+      },
+      "title": "FAQ Tarifs",
+      "subtitle": "Questions frequentes sur la facturation, les plans et les fonctionnalites."
     },
     "final_cta": {
       "headline": "Pret a Commencer ?",
@@ -2875,6 +2886,142 @@
     "footer": {
       "terms": "Terms",
       "privacy": "Privacy"
+    }
+  },
+  "terms": {
+    "meta_title": "Conditions d’utilisation",
+    "meta_description": "Conditions d’utilisation de la plateforme de gestion de clinique vétérinaire Vetara. Couvre les conditions d’utilisation, le traitement des données et la responsabilité pour les utilisateurs des EAU et de l’UE.",
+    "title": "Conditions d’utilisation",
+    "last_updated": "Dernière mise à jour : 30 mars 2026",
+    "nav_home": "Accueil",
+    "nav_terms": "Conditions d’utilisation",
+    "sections": {
+      "acceptance": {
+        "title": "1. Acceptation des conditions",
+        "content": "En accédant ou en utilisant la plateforme Vetara (« Service »), vous acceptez d’être lié par les présentes Conditions d’utilisation (« Conditions »). Si vous n’acceptez pas ces Conditions, vous ne pouvez pas utiliser le Service. Vetara est exploité par Vetara Technologies LLC, société enregistrée aux Émirats arabes unis. Les présentes Conditions constituent un accord juridiquement contraignant entre vous et Vetara Technologies LLC."
+      },
+      "description": {
+        "title": "2. Description du Service",
+        "content": "Vetara est une plateforme cloud de gestion de clinique vétérinaire qui fournit des outils de prise de rendez-vous, de gestion des dossiers médicaux, de facturation et de communication client. Le Service est conçu pour les professionnels vétérinaires agréés et les administrateurs de cliniques opérant aux EAU et à l’international."
+      },
+      "accounts": {
+        "title": "3. Comptes utilisateurs",
+        "content": "Vous devez fournir des informations exactes, complètes et à jour lors de la création d’un compte. Vous êtes responsable du maintien de la confidentialité de vos identifiants de compte et de toutes les activités réalisées sous votre compte. Vous devez nous notifier immédiatement toute utilisation non autorisée de votre compte. Chaque compte de clinique est un locataire distinct avec des données isolées. Vous ne pouvez pas partager vos identifiants entre cliniques ou avec du personnel non autorisé."
+      },
+      "veterinary_records": {
+        "title": "4. Confidentialité des dossiers vétérinaires",
+        "content": "Tous les dossiers médicaux vétérinaires stockés sur la plateforme sont traités comme des informations confidentielles. L’accès aux dossiers médicaux est restreint au personnel autorisé de la clinique au sein du même locataire. Vetara n’accède pas, ne consulte pas et ne partage pas les dossiers médicaux vétérinaires, sauf si la loi l’exige ou avec un consentement écrit explicite. Les administrateurs de clinique sont responsables de la configuration appropriée des permissions d’accès au sein de leur clinique. Les dossiers vétérinaires sont conservés conformément à la loi fédérale émirienne n° 16 de 2007 relative au bien-être animal et aux réglementations applicables en matière de pratique vétérinaire."
+      },
+      "data_handling": {
+        "title": "5. Collecte et utilisation des données",
+        "content": "Nous collectons et traitons des données personnelles comme décrit dans notre Politique de confidentialité. Les données collectées comprennent les informations de la clinique, les coordonnées du personnel, les dossiers des patients (animaux), les données de rendez-vous et les informations de facturation. Nous utilisons ces données uniquement pour fournir et améliorer le Service. Nous ne vendons pas de données personnelles à des tiers. Tout traitement de données est conforme au décret-loi fédéral émiri n° 45 de 2021 sur la protection des données personnelles (PDPL) et, pour les utilisateurs de l’UE, au Règlement général sur la protection des données (RGPD)."
+      },
+      "data_residency": {
+        "title": "6. Résidence des données aux EAU",
+        "content": "Toutes les données principales sont stockées dans des centres de données situés aux Émirats arabes unis, conformément aux exigences de résidence des données des EAU. Les données de sauvegarde peuvent être répliquées dans des emplacements géographiquement distribués à des fins de reprise après sinistre, mais toutes les répliques restent dans des juridictions offrant une protection adéquate des données. Pour les utilisateurs basés dans l’UE, les transferts de données sont conformes aux exigences du Chapitre V du RGPD, y compris les garanties appropriées telles que les Clauses Contractuelles Types (CCT)."
+      },
+      "gdpr": {
+        "title": "7. Conformité RGPD pour les utilisateurs de l’UE",
+        "content": "Si vous êtes situé dans l’Union européenne ou l’Espace économique européen, vous disposez de droits supplémentaires en vertu du RGPD, notamment : le droit d’accès à vos données personnelles ; le droit de rectification des données inexactes ; le droit à l’effacement (« droit à l’oubli ») ; le droit à la limitation du traitement ; le droit à la portabilité des données ; et le droit d’opposition au traitement. Pour exercer ces droits, contactez notre Délégué à la protection des données à dpo@vetara.ae. Nous répondrons à toute demande RGPD dans un délai de 30 jours."
+      },
+      "payment": {
+        "title": "8. Paiement et facturation",
+        "content": "Les frais d’abonnement sont facturés à l’avance sur une base mensuelle ou annuelle en AED (Dirham des EAU). Tous les frais sont hors TVA, qui sera appliquée au taux en vigueur aux EAU (actuellement 5 %). Le non-paiement peut entraîner la suspension ou la résiliation de votre compte. Les remboursements sont traités conformément à la loi émirienne sur la protection des consommateurs."
+      },
+      "prohibited": {
+        "title": "9. Utilisations interdites",
+        "content": "Vous ne pouvez pas utiliser le Service pour : stocker des données sans rapport avec la pratique vétérinaire ; tenter d’accéder aux données d’autres locataires ; procéder à l’ingénierie inverse ou décompiler toute partie du Service ; transmettre des logiciels malveillants ou du code malicieux ; violer toute loi ou réglementation applicable ; ou utiliser le Service d’une manière susceptible d’altérer ses performances ou sa fonctionnalité pour d’autres utilisateurs."
+      },
+      "ip": {
+        "title": "10. Propriété intellectuelle",
+        "content": "Le Service, y compris son logiciel, son design, ses logos et sa documentation, est la propriété intellectuelle de Vetara Technologies LLC. Vous conservez la propriété de toutes les données que vous saisissez dans le Service. En utilisant le Service, vous nous accordez une licence limitée pour traiter vos données uniquement aux fins de fourniture du Service."
+      },
+      "termination": {
+        "title": "11. Résiliation du compte",
+        "content": "Chaque partie peut résilier l’accord à tout moment avec un préavis écrit de 30 jours. Nous pouvons suspendre ou résilier votre compte immédiatement si vous violez les présentes Conditions. À la résiliation, vous pouvez demander l’export de vos données dans un délai de 30 jours. Passé ce délai, vos données seront définitivement supprimées conformément à notre politique de conservation des données. La résiliation ne vous libère d’aucune obligation de payer les frais impayés."
+      },
+      "liability": {
+        "title": "12. Limitation de responsabilité",
+        "content": "Dans la mesure maximale autorisée par le droit émiri : le Service est fourni « en l’état » et « tel que disponible » sans garantie d’aucune sorte ; Vetara ne saurait être tenu responsable de tout dommage indirect, accessoire, spécial, consécutif ou punitif ; notre responsabilité totale ne saurait excéder le montant que vous avez payé au cours des douze (12) mois précédant la réclamation ; nous ne sommes pas responsables de toute perte ou corruption de données vétérinaires causée par des facteurs échappant à notre contrôle raisonnable. Rien dans les présentes Conditions n’exclut la responsabilité en cas de fraude, de négligence grave ou de toute responsabilité ne pouvant être exclue en vertu du droit applicable."
+      },
+      "changes": {
+        "title": "13. Modifications des Conditions",
+        "content": "Nous pouvons mettre à jour les présentes Conditions de temps à autre. Nous vous notifierons tout changement substantiel au moins 30 jours avant leur entrée en vigueur par e-mail ou notification dans l’application. L’utilisation continue du Service après l’entrée en vigueur des modifications vaut acceptation des Conditions mises à jour."
+      },
+      "governing_law": {
+        "title": "14. Droit applicable et résolution des litiges",
+        "content": "Les présentes Conditions sont régies par les lois des Émirats arabes unis. Tout litige découlant des présentes Conditions ou de l’utilisation du Service sera résolu par les tribunaux de Dubaï, EAU, sauf accord des parties sur un mode alternatif de résolution des litiges. Pour les utilisateurs de l’UE, cette clause n’affecte pas vos droits en vertu des lois impératives de protection des consommateurs de votre pays de résidence."
+      },
+      "contact": {
+        "title": "15. Coordonnées",
+        "content": "Pour toute question relative aux présentes Conditions, contactez-nous à : Vetara Technologies LLC, Dubaï, Émirats arabes unis. E-mail : legal@vetara.ae. Pour les demandes relatives à la protection des données : dpo@vetara.ae."
+      }
+    }
+  },
+  "privacy": {
+    "meta_title": "Politique de confidentialité",
+    "meta_description": "Politique de confidentialité de la plateforme de gestion de clinique vétérinaire Vetara. Découvrez comment nous collectons, utilisons et protégeons vos données conformément au PDPL des EAU et au RGPD de l’UE.",
+    "title": "Politique de confidentialité",
+    "last_updated": "Dernière mise à jour : 30 mars 2026",
+    "nav_home": "Accueil",
+    "nav_privacy": "Politique de confidentialité",
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "Vetara Technologies LLC (« Vetara », « nous », « notre ») s’engage à protéger votre vie privée et vos données personnelles. La présente Politique de confidentialité explique comment nous collectons, utilisons, stockons et partageons les informations lorsque vous utilisez notre plateforme de gestion de clinique vétérinaire (« Service »). Cette politique s’applique à tous les utilisateurs du Service, y compris les administrateurs de clinique, le personnel vétérinaire et les propriétaires d’animaux accédant au portail client."
+      },
+      "data_controller": {
+        "title": "2. Responsable du traitement",
+        "content": "Vetara Technologies LLC agit en tant que responsable du traitement des données personnelles traitées via le Service. Pour les données spécifiques à la clinique, la clinique enregistrée agit en tant que responsable du traitement et Vetara agit en tant que sous-traitant. Contact : Vetara Technologies LLC, Dubaï, Émirats arabes unis. Délégué à la protection des données : dpo@vetara.ae."
+      },
+      "data_collected": {
+        "title": "3. Données que nous collectons",
+        "content": "Nous collectons les catégories de données suivantes : Informations de compte (nom, e-mail, numéro de téléphone, nom de la clinique, numéro de licence) ; Dossiers vétérinaires (données des patients animaux, antécédents médicaux, diagnostics, traitements, prescriptions) ; Données de rendez-vous (planification, annulations, absences) ; Données de facturation (factures, relevés de paiement, calculs de TVA) ; Données d’utilisation (heures de connexion, utilisation des fonctionnalités, type de navigateur, adresse IP) ; Données de communication (messages dans l’application, préférences de notification). Nous ne collectons pas de données personnelles sensibles telles que des données biométriques ou des informations génétiques des utilisateurs."
+      },
+      "legal_basis": {
+        "title": "4. Base juridique du traitement",
+        "content": "Nous traitons vos données sur les bases juridiques suivantes : Exécution du contrat (pour fournir le Service auquel vous avez souscrit) ; Intérêts légitimes (pour améliorer notre Service, prévenir la fraude, assurer la sécurité) ; Obligations légales (pour se conformer aux lois fiscales, vétérinaires et de protection des données des EAU) ; Consentement (pour les communications marketing et les analyses optionnelles). Pour les utilisateurs de l’UE soumis au RGPD, nous nous appuyons sur l’article 6(1)(b) pour l’exécution du contrat, l’article 6(1)(c) pour les obligations légales, l’article 6(1)(f) pour les intérêts légitimes et l’article 6(1)(a) pour le traitement fondé sur le consentement."
+      },
+      "data_use": {
+        "title": "5. Comment nous utilisons vos données",
+        "content": "Nous utilisons vos données pour : fournir et maintenir le Service ; traiter les rendez-vous et gérer les plannings ; stocker et organiser les dossiers médicaux vétérinaires ; générer des factures et traiter la facturation ; envoyer des rappels de rendez-vous et des notifications ; fournir un support client ; améliorer et optimiser le Service ; respecter les exigences légales et réglementaires ; détecter et prévenir les menaces de sécurité."
+      },
+      "data_sharing": {
+        "title": "6. Partage des données",
+        "content": "Nous ne vendons pas vos données personnelles. Nous pouvons partager des données avec : des fournisseurs d’infrastructure (hébergement cloud, services de base de données) sous des accords stricts de traitement des données ; des processeurs de paiement à des fins de facturation ; des autorités légales lorsque la loi ou une ordonnance judiciaire l’exige ; des conseillers professionnels (auditeurs, avocats) sous obligations de confidentialité. Tous les fournisseurs tiers sont contractuellement tenus de protéger vos données et de ne les traiter que selon nos instructions."
+      },
+      "data_residency": {
+        "title": "7. Stockage et résidence des données",
+        "content": "Toutes les données principales sont stockées dans des centres de données situés aux Émirats arabes unis, conformément aux exigences de localisation des données du PDPL émiri. Les sauvegardes chiffrées peuvent être stockées dans des emplacements supplémentaires à des fins de reprise après sinistre. Pour les utilisateurs de l’UE, tout transfert de données hors de l’EEE est protégé par les Clauses Contractuelles Types (CCT) approuvées par la Commission européenne, ou d’autres garanties appropriées au titre du Chapitre V du RGPD."
+      },
+      "data_security": {
+        "title": "8. Sécurité des données",
+        "content": "Nous mettons en œuvre des mesures de sécurité conformes aux normes de l’industrie, notamment : chiffrement en transit (TLS 1.3) et au repos (AES-256) ; isolation des données multi-locataires (les données de chaque clinique sont logiquement séparées) ; contrôle d’accès basé sur les rôles ; audits de sécurité réguliers et tests de pénétration ; procédures automatisées de sauvegarde et de reprise après sinistre ; contrôles d’accès des employés et formation à la sécurité. Bien que nous nous efforcions de protéger vos données, aucune méthode de transmission ou de stockage électronique n’est sécurisée à 100 %."
+      },
+      "data_retention": {
+        "title": "9. Conservation des données",
+        "content": "Nous conservons vos données aussi longtemps que votre compte est actif ou selon les besoins pour fournir le Service. Les dossiers médicaux vétérinaires sont conservés conformément aux réglementations de pratique vétérinaire des EAU (minimum 5 ans). Les données de facturation sont conservées pendant 7 ans conformément à la législation fiscale des EAU. Après la résiliation du compte, vous disposez de 30 jours pour demander un export de vos données. Passé ce délai, les données sont définitivement supprimées dans les 90 jours, sauf lorsque la conservation est requise par la loi."
+      },
+      "your_rights": {
+        "title": "10. Vos droits",
+        "content": "En vertu du PDPL des EAU, vous avez le droit de : accéder à vos données personnelles ; corriger les données inexactes ; demander la suppression de vos données (sous réserve des obligations légales de conservation) ; retirer votre consentement pour le traitement optionnel. Pour les utilisateurs de l’UE soumis au RGPD, vous disposez en outre de : le droit à la portabilité des données ; le droit à la limitation du traitement ; le droit d’opposition au traitement ; le droit de déposer une plainte auprès d’une autorité de contrôle. Pour exercer l’un de ces droits, contactez-nous à dpo@vetara.ae. Nous répondrons dans un délai de 30 jours."
+      },
+      "cookies": {
+        "title": "11. Cookies et suivi",
+        "content": "Nous utilisons des cookies essentiels nécessaires au fonctionnement du Service (authentification, gestion de session, préférences linguistiques). Nous utilisons des cookies analytiques pour comprendre comment le Service est utilisé, mais uniquement avec votre consentement. Nous n’utilisons pas de cookies publicitaires ou de suivi. Vous pouvez gérer vos préférences de cookies via les paramètres de votre navigateur."
+      },
+      "children": {
+        "title": "12. Vie privée des enfants",
+        "content": "Le Service est destiné aux professionnels vétérinaires agréés et aux administrateurs de cliniques. Nous ne collectons pas sciemment de données personnelles auprès d’enfants de moins de 18 ans. Si nous apprenons que nous avons collecté des données d’un enfant, nous les supprimerons rapidement."
+      },
+      "changes": {
+        "title": "13. Modifications de cette politique",
+        "content": "Nous pouvons mettre à jour la présente Politique de confidentialité de temps à autre. Nous vous notifierons tout changement substantiel au moins 30 jours avant son entrée en vigueur par e-mail ou notification dans l’application. La date de « Dernière mise à jour » en haut de cette page indique la date de la dernière révision de la politique."
+      },
+      "contact": {
+        "title": "14. Nous contacter",
+        "content": "Pour toute question relative à la présente Politique de confidentialité ou à nos pratiques en matière de données, contactez-nous à : Vetara Technologies LLC, Dubaï, Émirats arabes unis. Demandes générales : legal@vetara.ae. Délégué à la protection des données : dpo@vetara.ae. Pour les utilisateurs de l’UE, vous pouvez également contacter votre autorité locale de protection des données."
+      }
     }
   }
 }
