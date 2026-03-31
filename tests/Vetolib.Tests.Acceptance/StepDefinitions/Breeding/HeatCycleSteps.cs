@@ -104,7 +104,10 @@ internal class HeatCycleSteps
         _ctx.Set(_response, "LastResponse");
 
         if (_response.IsSuccessStatusCode)
-            _heatCycleList = await _response.Content.ReadFromJsonAsync<List<HeatCycleDto>>(JsonOptions);
+        {
+            var pagedResult = await _response.Content.ReadFromJsonAsync<HeatCyclePagedResultDto>(JsonOptions);
+            _heatCycleList = pagedResult?.Items.ToList();
+        }
     }
 
     [When(@"I request the predicted next heat for ""(.*)""")]

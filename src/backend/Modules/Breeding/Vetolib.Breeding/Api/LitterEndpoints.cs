@@ -18,6 +18,7 @@ internal static class LitterEndpoints
     {
         var group = app.MapGroup("/api/v1/litters")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Litters");
 
         group.MapPost("/", Create).WithName("CreateLitter")

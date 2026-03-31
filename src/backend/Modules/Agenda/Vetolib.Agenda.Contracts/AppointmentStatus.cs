@@ -6,6 +6,7 @@ namespace Vetolib.Agenda.Contracts;
 public enum AppointmentStatus
 {
     Scheduled,
+    WaitingRoom,
     CheckedIn,
     InProgress,
     Completed,

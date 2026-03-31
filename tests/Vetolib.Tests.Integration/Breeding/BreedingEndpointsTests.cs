@@ -583,8 +583,10 @@ public sealed class BreedingEndpointsTests : IntegrationTestBase
         var response = await client.GetAsync($"/api/v1/patients/{patientId}/heat-cycles");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var body = await response.Content.ReadFromJsonAsync<IReadOnlyList<HeatCycleDto>>(JsonOptions);
-        body.Should().HaveCountGreaterThanOrEqualTo(1);
+        var body = await response.Content.ReadFromJsonAsync<HeatCyclePagedResultDto>(JsonOptions);
+        body.Should().NotBeNull();
+        body!.Items.Should().HaveCountGreaterThanOrEqualTo(1);
+        body.TotalCount.Should().BeGreaterThanOrEqualTo(1);
     }
 
     [Fact]

@@ -1,17 +1,11 @@
 using FluentValidation;
+using Vetolib.MedicalRecords.Application.Services;
 
 namespace Vetolib.MedicalRecords.Application.Commands.UploadPatientPhoto;
 
 internal class UploadPatientPhotoValidator : AbstractValidator<UploadPatientPhotoCommand>
 {
     private const int MaxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
-
-    private static readonly string[] AllowedContentTypes =
-    [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-    ];
 
     public UploadPatientPhotoValidator()
     {
@@ -25,7 +19,13 @@ internal class UploadPatientPhotoValidator : AbstractValidator<UploadPatientPhot
 
         RuleFor(x => x.ContentType)
             .NotEmpty().WithMessage("Content type is required.")
-            .Must(ct => AllowedContentTypes.Contains(ct))
+            .Must(ct => PhotoFileValidator.AllowedContentTypes.Contains(ct))
             .WithMessage("Content type must be image/jpeg, image/png, or image/webp.");
+
+        // Magic-byte validation: file content must match declared content type
+        RuleFor(x => x)
+            .Must(cmd => cmd.PhotoData is null || cmd.PhotoData.Length == 0 || PhotoFileValidator.IsValid(cmd.ContentType, cmd.PhotoData))
+            .WithMessage("File content does not match declared content type. The file may be corrupted or disguised.")
+            .WithName("PhotoData");
     }
 }

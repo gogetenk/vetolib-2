@@ -20,7 +20,8 @@ internal static class AuthEndpoints
     internal static IEndpointRouteBuilder MapAuthApiEndpoints(this IEndpointRouteBuilder app)
     {
         var publicGroup = app.MapGroup("/api/v1/auth")
-            .WithTags("Auth");
+            .WithTags("Auth")
+            .RequireRateLimiting("api");
 
         publicGroup.MapPost("/login", Login)
             .WithName("Login")
@@ -45,7 +46,8 @@ internal static class AuthEndpoints
 
         var authGroup = app.MapGroup("/api/v1/auth")
             .WithTags("Auth")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .RequireRateLimiting("api");
 
         authGroup.MapPost("/logout", Logout)
             .WithName("Logout")

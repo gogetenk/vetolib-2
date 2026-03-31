@@ -18,6 +18,7 @@ internal static class ConsultationTypeEndpoints
     {
         var group = app.MapGroup("/api/v1/consultation-types")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("ConsultationTypes");
 
         group.MapPost("/", Create)

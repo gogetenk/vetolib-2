@@ -20,6 +20,7 @@ internal static class StaffScheduleEndpoints
     {
         var group = app.MapGroup("/api/v1/schedule")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("StaffSchedule");
 
         group.MapGet("/", ListSchedules)

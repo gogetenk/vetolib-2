@@ -20,6 +20,7 @@ internal static class UserEndpoints
     {
         var group = app.MapGroup("/api/v1/users")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Users");
 
         group.MapPost("/", CreateUser)
@@ -76,6 +77,7 @@ internal static class UserEndpoints
         int page = 1,
         int pageSize = 20)
     {
+        if (pageSize is < 1 or > 200) pageSize = 20;
         var role = user.FindFirst(ClaimTypes.Role)?.Value;
         if (role != "Admin")
             return (Ardalis.Result.Result<UserPagedResultDto>.Forbidden()).ToMinimalApiResult();

@@ -128,4 +128,52 @@ public class SwitchClinicHandlerTests
         result.IsSuccess.Should().BeFalse();
         result.Status.Should().Be(ResultStatus.NotFound);
     }
+
+    [Fact]
+    public async Task Handle_UserIsStaffAtTargetClinic_ReturnsNewToken()
+    {
+        // Arrange — user has a staff account at OtherClinicId (same email, different ClinicId)
+        using var context = BuildContext();
+        var user = User.Create(FixedClinicId, "staff@desertpaws.ae", "Admin1234!", UserRole.Admin).Value;
+        context.Users.Add(user);
+
+        // Create a second user record at the target clinic with same email (staff account)
+        var staffUser = User.Create(OtherClinicId, "staff@desertpaws.ae", "Admin1234!", UserRole.Vet, "VET-001").Value;
+        context.Users.Add(staffUser);
+        await context.SaveChangesAsync();
+
+        _jwtTokenService.GenerateAccessTokenForClinic(Arg.Any<User>(), OtherClinicId)
+            .Returns("staff-jwt-token");
+        _jwtTokenService.GenerateRefreshToken().Returns("staff-refresh-token");
+
+        var handler = new SwitchClinicHandler(context, _jwtTokenService);
+        var command = new SwitchClinicCommand(user.Id, OtherClinicId);
+
+        // Act
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Value.AccessToken.Should().Be("staff-jwt-token");
+    }
+
+    [Fact]
+    public async Task Handle_UserHasNoRelationshipToTargetClinic_ReturnsForbidden()
+    {
+        // Arrange — user has no group, no staff account, target is not home clinic
+        using var context = BuildContext();
+        var user = User.Create(FixedClinicId, "admin@desertpaws.ae", "Admin1234!", UserRole.Admin).Value;
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+
+        var handler = new SwitchClinicHandler(context, _jwtTokenService);
+        var command = new SwitchClinicCommand(user.Id, Guid.NewGuid()); // random target
+
+        // Act
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.IsSuccess.Should().BeFalse();
+        result.Status.Should().Be(ResultStatus.Forbidden);
+    }
 }

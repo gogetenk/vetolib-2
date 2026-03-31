@@ -18,6 +18,7 @@ internal static class StockEndpoints
     {
         var group = app.MapGroup("/api/v1/stock")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Stock");
 
         group.MapGet("/", List).WithName("ListStockItems")
@@ -46,8 +47,12 @@ internal static class StockEndpoints
         int? pageNumber,
         int? pageSize,
         ISender sender)
-        => (await sender.Send(new ListStockItemsQuery(category, lowStock ?? false, expiringSoon ?? false, pageNumber ?? 1, pageSize ?? 50)))
+    {
+        var size = pageSize ?? 50;
+        if (size is < 1 or > 200) size = 50;
+        return (await sender.Send(new ListStockItemsQuery(category, lowStock ?? false, expiringSoon ?? false, pageNumber ?? 1, size)))
             .ToMinimalApiResult();
+    }
 
     private static async Task<IResult> Create(
         CreateStockItemRequest req,

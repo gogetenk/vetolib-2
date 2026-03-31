@@ -18,6 +18,7 @@ internal static class WeightEndpoints
     {
         var group = app.MapGroup("/api/v1/patients/{patientId:guid}/weights")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Weights");
 
         group.MapPost("/", AddWeightEntry)
@@ -66,7 +67,8 @@ internal static class WeightEndpoints
         int page = 1,
         int pageSize = 20)
     {
-        return (await sender.Send(new GetWeightHistoryQuery(patientId, page < 1 ? 1 : page, pageSize < 1 ? 20 : pageSize))).ToMinimalApiResult();
+        if (pageSize is < 1 or > 200) pageSize = 20;
+        return (await sender.Send(new GetWeightHistoryQuery(patientId, page < 1 ? 1 : page, pageSize))).ToMinimalApiResult();
     }
 
     private static async Task<IResult> GetWeightCurve(

@@ -17,6 +17,7 @@ internal static class FeedbackEndpoints
         // Submit feedback on a specific appointment
         var appointmentsGroup = app.MapGroup("/api/v1/appointments")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Feedback");
 
         appointmentsGroup.MapPost("/{id:guid}/feedback", SubmitFeedback)
@@ -27,6 +28,7 @@ internal static class FeedbackEndpoints
         // Admin feedback endpoints
         var feedbackGroup = app.MapGroup("/api/v1/feedback")
             .RequireAuthorization(policy => policy.RequireRole("Admin"))
+            .RequireRateLimiting("api")
             .WithTags("Feedback");
 
         feedbackGroup.MapGet("/", ListFeedback)
@@ -61,6 +63,7 @@ internal static class FeedbackEndpoints
         int pageNumber = 1,
         int pageSize = 50)
     {
+        if (pageSize is < 1 or > 200) pageSize = 50;
         return (await sender.Send(new ListVisitFeedbackQuery(pageNumber, pageSize))).ToMinimalApiResult();
     }
 

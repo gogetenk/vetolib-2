@@ -18,6 +18,7 @@ internal static class LineageEndpoints
     {
         var group = app.MapGroup("/api/v1/patients/{id:guid}")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Lineage");
 
         group.MapPut("/lineage", SetLineage).WithName("SetLineage")

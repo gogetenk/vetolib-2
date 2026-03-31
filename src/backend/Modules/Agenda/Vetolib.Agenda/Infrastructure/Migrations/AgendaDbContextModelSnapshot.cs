@@ -271,6 +271,9 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<DateTime?>("WaitingRoomAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SeriesId")
@@ -328,6 +331,48 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .HasFilter("\"IsActive\" = true");
 
                     b.ToTable("consultation_types", "agenda");
+                });
+
+            modelBuilder.Entity("Vetolib.Agenda.Application.Domain.FollowUpRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClinicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConsultationType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FollowUpDays")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FollowUpReason")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId", "ConsultationType")
+                        .IsUnique()
+                        .HasFilter("\"IsActive\" = true");
+
+                    b.ToTable("follow_up_rules", "agenda");
                 });
 
             modelBuilder.Entity("Vetolib.Agenda.Application.Domain.StaffSchedule", b =>

@@ -23,6 +23,10 @@ internal class RemoveClinicFromGroupHandler : IRequestHandler<RemoveClinicFromGr
         if (group is null)
             return Result.NotFound("Clinic group not found");
 
+        // Verify ownership — prevent IDOR
+        if (group.OwnerUserId != cmd.RequestingUserId)
+            return Result.Forbidden();
+
         var removeResult = group.RemoveClinic(cmd.ClinicId);
         if (!removeResult.IsSuccess)
             return removeResult;

@@ -17,7 +17,7 @@ namespace Vetolib.Stock.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.3")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -68,6 +68,10 @@ namespace Vetolib.Stock.Infrastructure.Migrations
 
                     b.HasIndex("DrugCatalogEntryId")
                         .HasDatabaseName("ix_stock_items_drug_catalog_entry_id");
+
+                    b.HasIndex("ClinicId", "ExpiryDate");
+
+                    b.HasIndex("ClinicId", "Quantity");
 
                     b.ToTable("stock_items", "stock");
                 });
