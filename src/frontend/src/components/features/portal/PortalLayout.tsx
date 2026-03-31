@@ -5,6 +5,8 @@ import { usePathname, useRouter, useParams } from 'next/navigation'
 import { Globe, MessageCircle, CalendarDays, PawPrint, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { PwaInstallBanner } from '@/components/features/portal/PwaInstallBanner'
+import { useServiceWorker } from '@/hooks/useServiceWorker'
 
 interface PortalLayoutProps {
   children: React.ReactNode
@@ -18,6 +20,7 @@ interface NavItem {
 }
 
 export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: PortalLayoutProps) {
+  useServiceWorker()
   const t = useTranslations('portal.header')
   const tNav = useTranslations('portal.nav')
   const pathname = usePathname()
@@ -148,6 +151,9 @@ export function PortalLayout({ children, clinicName = 'Desert Paws Clinic' }: Po
           </button>
         ))}
       </nav>
+
+      {/* PWA install prompt */}
+      <PwaInstallBanner />
     </div>
   )
 }
