@@ -63,5 +63,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         // Token index for fast lookup during verification
         builder.HasIndex(u => u.EmailVerificationToken)
             .HasFilter("\"EmailVerificationToken\" IS NOT NULL");
+
+        builder.Property(u => u.ReferredByUserId);
     }
 }

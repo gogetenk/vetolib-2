@@ -21,6 +21,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
     public bool EmailVerified { get; private set; }
     public string? EmailVerificationToken { get; private set; }
     public DateTime? EmailVerificationExpiry { get; private set; }
+    public Guid? ReferredByUserId { get; private set; }
 
     private User() { } // EF Core constructor
 
@@ -97,6 +98,22 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         user.AddDomainEvent(new UserInvitedDomainEvent(user.Id, user.Email, user.FullName, temporaryPassword, clinicName));
 
         return Result<User>.Success(user);
+    }
+
+    public Result SetReferrer(Guid referrerUserId)
+    {
+        if (referrerUserId == Guid.Empty)
+            return Result.Error("INVALID_REFERRER:Referrer user ID cannot be empty");
+
+        if (referrerUserId == Id)
+            return Result.Error("SELF_REFERRAL:Cannot refer yourself");
+
+        if (ReferredByUserId.HasValue)
+            return Result.Error("ALREADY_REFERRED:This account already has a referrer");
+
+        ReferredByUserId = referrerUserId;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
     }
 
     public Result ChangeRole(UserRole newRole)

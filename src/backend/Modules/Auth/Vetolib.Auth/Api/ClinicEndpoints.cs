@@ -47,7 +47,8 @@ internal static class ClinicEndpoints
             request.Email,
             request.Password,
             request.Phone,
-            request.Country));
+            request.Country,
+            request.ReferralCode));
 
         if (!result.IsSuccess)
             return result.ToMinimalApiResult();
