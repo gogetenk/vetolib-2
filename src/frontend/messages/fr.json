@@ -1098,6 +1098,7 @@
       "pricing": "Tarifs",
       "faq": "FAQ",
       "demo": "Réserver une démo",
+      "pet_owners": "Propriétaires d'animaux",
       "sign_in": "Connexion"
     },
     "hero": {
@@ -2313,5 +2314,97 @@
     "acceptAll": "Tout accepter",
     "necessaryOnly": "Necessaires uniquement",
     "ariaLabel": "Consentement aux cookies"
+  },
+  "pet_owners": {
+    "meta": {
+      "title": "Proprietaires d'animaux — La sante de votre animal, toujours dans votre poche | Vetara",
+      "description": "Accedez aux dossiers medicaux de votre animal, reservez des rendez-vous veterinaires, recevez des rappels de vaccination et partagez les dossiers avec n'importe quelle clinique — tout depuis Vetara."
+    },
+    "nav": {
+      "features": "Fonctionnalites",
+      "how_it_works": "Comment ca marche",
+      "for_clinics": "Pour les cliniques",
+      "sign_in": "Se connecter"
+    },
+    "hero": {
+      "headline": "La sante de votre animal, toujours dans votre poche",
+      "subtitle": "Accedez aux dossiers medicaux, reservez des rendez-vous, recevez des rappels de vaccination et partagez l'historique de votre animal avec n'importe quel veterinaire — le tout depuis une seule application.",
+      "search_placeholder": "Rechercher des cliniques pres de chez vous...",
+      "search_button": "Rechercher",
+      "trust_badge": "Approuve par les proprietaires d'animaux aux EAU"
+    },
+    "value_props": {
+      "title": "Tout ce dont votre animal a besoin, au meme endroit",
+      "subtitle": "Plus de dossiers perdus ni de rendez-vous manques. Vetara organise la sante de votre animal.",
+      "medical_records": {
+        "title": "Dossiers medicaux numeriques",
+        "description": "Accedez a l'historique medical complet de votre animal a tout moment. Resultats de laboratoire, ordonnances et notes de visite — toujours a portee de main."
+      },
+      "booking": {
+        "title": "Reservation facile de rendez-vous",
+        "description": "Reservez, replanifiez ou annulez vos rendez-vous veterinaires en quelques secondes. Consultez la disponibilite en temps reel."
+      },
+      "vaccination_reminders": {
+        "title": "Rappels de vaccination",
+        "description": "Ne manquez plus jamais un vaccin ou un rappel. Recevez des notifications au bon moment quand votre animal doit recevoir son prochain vaccin."
+      },
+      "record_sharing": {
+        "title": "Partage de dossiers",
+        "description": "Vous demenagez ou consultez un nouveau veterinaire ? Partagez le profil sante complet de votre animal en toute securite avec n'importe quelle clinique connectee a Vetara."
+      }
+    },
+    "clinic_search": {
+      "title": "Trouvez une clinique Vetara pres de chez vous",
+      "subtitle": "Recherchez les cliniques veterinaires de votre region qui utilisent Vetara.",
+      "placeholder": "Entrez votre quartier ou le nom de la clinique...",
+      "button": "Rechercher",
+      "no_results": "Aucune clinique trouvee. Essayez un autre terme de recherche.",
+      "loading": "Recherche de cliniques..."
+    },
+    "ask_vet": {
+      "title": "Votre veterinaire n'est pas encore sur Vetara ?",
+      "subtitle": "Faites-le savoir ! Nous enverrons une invitation amicale en votre nom.",
+      "vet_email_label": "Adresse email du veterinaire",
+      "vet_email_placeholder": "vet@clinique.ae",
+      "your_name_label": "Votre nom",
+      "your_name_placeholder": "ex. Ahmed Al-Maktoum",
+      "pet_name_label": "Nom de votre animal",
+      "pet_name_placeholder": "ex. Zayed",
+      "message_label": "Message (optionnel)",
+      "message_placeholder": "Dites a votre vet pourquoi vous aimeriez utiliser Vetara avec lui...",
+      "submit": "Envoyer l'invitation",
+      "submitting": "Envoi en cours...",
+      "success_title": "Invitation envoyee !",
+      "success_description": "Nous informerons votre veterinaire que vous aimeriez utiliser Vetara avec lui."
+    },
+    "how_it_works": {
+      "title": "Comment ca marche",
+      "subtitle": "Commencer est facile.",
+      "step1": {
+        "number": "1",
+        "title": "Trouvez votre clinique",
+        "description": "Recherchez votre clinique veterinaire sur Vetara, ou demandez-leur de rejoindre."
+      },
+      "step2": {
+        "number": "2",
+        "title": "Connectez votre animal",
+        "description": "Votre veterinaire lie les dossiers de votre animal a votre compte."
+      },
+      "step3": {
+        "number": "3",
+        "title": "Gardez le controle",
+        "description": "Reservez des rendez-vous, consultez les dossiers et recevez des rappels — tout depuis votre telephone."
+      }
+    },
+    "cta": {
+      "headline": "Offrez a votre animal les soins qu'il merite",
+      "subtitle": "Rejoignez des milliers de proprietaires d'animaux qui utilisent Vetara pour veiller sur la sante de leurs compagnons.",
+      "button": "Trouver une clinique",
+      "reassurance": "Gratuit pour les proprietaires d'animaux. Toujours."
+    },
+    "footer": {
+      "for_clinics": "Vous etes une clinique veterinaire ?",
+      "for_clinics_cta": "Decouvrez Vetara pour les cliniques"
+    }
   }
 }
