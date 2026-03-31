@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Massive QA operation overnight covering security, performance, dead code, i18n, frontend pages, and build health. **13 PRs merged**, 2 CRITICAL vulnerabilities fixed, 9 HIGH findings resolved, CI stabilized.
+Massive QA operation overnight covering security, performance, dead code, i18n, frontend pages, and build health. **14 PRs merged**, 2 CRITICAL vulnerabilities fixed, 16 HIGH findings resolved, CI stabilized with migration fix.
 
 ---
 
@@ -24,7 +24,9 @@ Massive QA operation overnight covering security, performance, dead code, i18n, 
 | #304 | SECURITY | Add content-type + magic-byte validation to photo upload |
 | #305 | SECURITY | Replace manual role checks with RequireAuthorization policies |
 
-Plus: 2 direct commits for missing EF Core migrations (Agenda + Auth) that fixed CI.
+| #306 | I18N | Add missing FR/AR translations (terms, privacy, auth) |
+
+Plus: 3 direct commits for EF Core migration fixes (duplicate follow_up_rules, Auth webhooks) that stabilized CI.
 
 ---
 
@@ -120,7 +122,7 @@ Plus: 2 direct commits for missing EF Core migrations (Agenda + Auth) that fixed
 
 | Metric | Value |
 |---|---|
-| PRs merged this night | 13 |
+| PRs merged this night | 14 |
 | Files changed | ~200 |
 | New tests added | ~400 (validators, domain, handlers) |
 | Total TU count | 2157 |
