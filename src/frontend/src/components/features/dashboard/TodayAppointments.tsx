@@ -14,6 +14,7 @@ import {
   type ConsultationType,
 } from '@/lib/api/dashboard'
 import { apiPatch } from '@/lib/api/client'
+import { markAsArrived } from '@/lib/api/appointments'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import { ErrorState } from '@/components/ui/error-state'
@@ -65,6 +66,7 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [checkingIn, setCheckingIn] = useState<string | null>(null)
+  const [markingArrived, setMarkingArrived] = useState<string | null>(null)
 
   const canCheckIn = role === 'ADMIN' || role === 'RECEPTIONIST'
 
@@ -94,6 +96,24 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
       toast.error(t('checked_in_failed'))
     } finally {
       setCheckingIn(null)
+    }
+  }
+
+  async function handleMarkArrived(id: string, patientName: string) {
+    setMarkingArrived(id)
+    try {
+      await markAsArrived(id)
+      setAppointments((prev) =>
+        prev.map((a) => (a.id === id ? { ...a, status: 'CHECKED_IN' } : a))
+      )
+      toast.success(t('arrived_toast', { name: patientName }), {
+        icon: '\uD83D\uDC3E',
+      })
+      router.refresh()
+    } catch {
+      toast.error(t('arrived_failed'))
+    } finally {
+      setMarkingArrived(null)
     }
   }
 
@@ -206,17 +226,30 @@ export function TodayAppointments({ role = 'ADMIN' }: TodayAppointmentsProps) {
                       {tStatus(appt.status)}
                     </Badge>
                     {canCheckIn && appt.status === 'SCHEDULED' && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        disabled={checkingIn === appt.id}
-                        aria-busy={checkingIn === appt.id}
-                        onClick={() => handleCheckIn(appt.id)}
-                        data-testid={`checkin-btn-${appt.id}`}
-                        className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted"
-                      >
-                        {checkingIn === appt.id ? t('checking_in') : t('check_in')}
-                      </Button>
+                      <>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={markingArrived === appt.id}
+                          aria-busy={markingArrived === appt.id}
+                          onClick={() => handleMarkArrived(appt.id, appt.patientName)}
+                          data-testid={`mark-arrived-btn-${appt.id}`}
+                          className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted"
+                        >
+                          {markingArrived === appt.id ? t('marking_arrived') : t('mark_arrived')}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={checkingIn === appt.id}
+                          aria-busy={checkingIn === appt.id}
+                          onClick={() => handleCheckIn(appt.id)}
+                          data-testid={`checkin-btn-${appt.id}`}
+                          className="rounded-xl text-[12px] font-semibold border-border/80 hover:bg-muted"
+                        >
+                          {checkingIn === appt.id ? t('checking_in') : t('check_in')}
+                        </Button>
+                      </>
                     )}
                   </div>
                 </li>

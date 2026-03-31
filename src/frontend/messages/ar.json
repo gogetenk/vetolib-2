@@ -533,7 +533,11 @@
       "checked_in_success": "تم تسجيل وصول المريض",
       "checked_in_failed": "فشل تسجيل وصول المريض",
       "checking_in": "جارٍ تسجيل الوصول...",
-      "check_in": "تسجيل الوصول"
+      "check_in": "تسجيل الوصول",
+      "mark_arrived": "تسجيل الوصول",
+      "marking_arrived": "جارٍ التسجيل...",
+      "arrived_toast": "{name} وصل",
+      "arrived_failed": "فشل تسجيل وصول المريض"
     },
     "recent_activity": {
       "title": "النشاط الأخير",
@@ -570,6 +574,17 @@
         "08": "أغسطس",
         "09": "سبتمبر"
       }
+    },
+    "waiting_room": {
+      "title": "غرفة الانتظار",
+      "empty": "لا يوجد مرضى في الانتظار حالياً",
+      "error_load": "فشل تحميل غرفة الانتظار",
+      "call_next": "استدعاء التالي",
+      "calling": "جارٍ الاستدعاء...",
+      "called_success": "تم استدعاء {name}",
+      "called_failed": "فشل استدعاء المريض",
+      "wait_minutes": "{count} دقيقة",
+      "scheduled_at": "الموعد {time}"
     },
     "errors": {
       "load_clinic_data": "Failed to load clinic data",

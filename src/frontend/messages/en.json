@@ -536,7 +536,11 @@
       "checked_in_success": "Patient checked in",
       "checked_in_failed": "Failed to check in patient",
       "checking_in": "Checking in...",
-      "check_in": "Check In"
+      "check_in": "Check In",
+      "mark_arrived": "Mark Arrived",
+      "marking_arrived": "Marking...",
+      "arrived_toast": "{name} has arrived",
+      "arrived_failed": "Failed to mark patient as arrived"
     },
     "recent_activity": {
       "title": "Recent Activity",
@@ -573,6 +577,17 @@
         "08": "Aug",
         "09": "Sep"
       }
+    },
+    "waiting_room": {
+      "title": "Waiting Room",
+      "empty": "No patients currently waiting",
+      "error_load": "Failed to load waiting room",
+      "call_next": "Call Next",
+      "calling": "Calling...",
+      "called_success": "{name} has been called in",
+      "called_failed": "Failed to call patient",
+      "wait_minutes": "{count} min",
+      "scheduled_at": "Appt. {time}"
     },
     "errors": {
       "load_clinic_data": "Failed to load clinic data",

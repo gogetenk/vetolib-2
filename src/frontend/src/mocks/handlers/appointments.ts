@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import type { AppointmentDto, VetDto, PagedResult } from '@/lib/api/appointments'
+import type { AppointmentDto, VetDto, PagedResult, WaitingRoomPatientDto } from '@/lib/api/appointments'
 
 const MOCK_VETS: VetDto[] = [
   { id: 'vet-0000-0000-0000-000000000001', name: 'Dr. Sarah Johnson' },
@@ -196,6 +196,31 @@ export const appointmentHandlers = [
 
     MOCK_APPOINTMENTS.push(newAppointment)
     return HttpResponse.json(newAppointment, { status: 201 })
+  }),
+
+  // PUT /api/v1/appointments/:id/waiting-room — mark as arrived
+  http.put('/api/v1/appointments/:id/waiting-room', async ({ params }) => {
+    const appointment = MOCK_APPOINTMENTS.find((apt) => apt.id === params.id)
+    if (!appointment) return new HttpResponse(null, { status: 404 })
+
+    appointment.status = 'CHECKED_IN'
+    return HttpResponse.json(appointment)
+  }),
+
+  // GET /api/v1/appointments/waiting-room — list waiting patients
+  http.get('/api/v1/appointments/waiting-room', () => {
+    const waiting = MOCK_APPOINTMENTS
+      .filter((apt) => apt.status === 'CHECKED_IN')
+      .map((apt): WaitingRoomPatientDto => ({
+        id: apt.id,
+        patientName: apt.patientName,
+        species: apt.species,
+        ownerName: apt.ownerName,
+        vetName: apt.vetName,
+        scheduledAt: apt.scheduledAt,
+        arrivedAt: new Date(new Date(apt.scheduledAt).getTime() - Math.floor(Math.random() * 15) * 60_000).toISOString(),
+      }))
+    return HttpResponse.json<WaitingRoomPatientDto[]>(waiting)
   }),
 
   // PATCH /api/appointments/:id/transition

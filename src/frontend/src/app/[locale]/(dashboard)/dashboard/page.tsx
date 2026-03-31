@@ -7,6 +7,7 @@ import { RecentActivity } from '@/components/features/dashboard/RecentActivity'
 import { AnalyticsSection } from '@/components/features/dashboard/AnalyticsSection'
 import { AccumulatedValueCard } from '@/components/features/dashboard/AccumulatedValueCard'
 import { HealthAlertPanel } from '@/components/features/dashboard/HealthAlertPanel'
+import { WaitingRoom } from '@/components/features/dashboard/WaitingRoom'
 import { WelcomeBanner } from '@/components/features/onboarding/WelcomeBanner'
 import { SetupChecklist } from '@/components/features/onboarding/SetupChecklist'
 import { OnboardingWizard } from '@/components/features/onboarding/OnboardingWizard'
@@ -95,6 +96,8 @@ export default function DashboardHomePage() {
       </div>
 
       <TodayAppointments role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
+
+      <WaitingRoom role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
       <StatsCards role={role as 'ADMIN' | 'VET' | 'RECEPTIONIST' | 'ASSISTANT'} />
 
