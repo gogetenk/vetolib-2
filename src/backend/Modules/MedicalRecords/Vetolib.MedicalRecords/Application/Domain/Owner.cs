@@ -49,6 +49,15 @@ internal class Owner : BaseEntity, IMultiTenant
         return Result<Owner>.Success(owner);
     }
 
+    public Result LinkOwnerAccount(Guid ownerAccountId)
+    {
+        if (ownerAccountId == Guid.Empty)
+            return Result.Invalid(new ValidationError(nameof(ownerAccountId), "OwnerAccountId is required"));
+
+        OwnerAccountId = ownerAccountId;
+        return Result.Success();
+    }
+
     public Result LinkToOwnerAccount(Guid ownerAccountId)
     {
         if (ownerAccountId == Guid.Empty)

@@ -12,6 +12,7 @@ internal class MedicalRecord : BaseEntity, IMultiTenant, IAggregateRoot
     public string Treatment { get; private set; } = string.Empty;
     public string VetName { get; private set; } = string.Empty;
     public DateTime ExaminedAt { get; private set; }
+    public bool IsVisibleToOwner { get; private set; } = true;
 
     private readonly List<Prescription> _prescriptions = [];
     public IReadOnlyList<Prescription> Prescriptions => _prescriptions.AsReadOnly();
@@ -68,6 +69,12 @@ internal class MedicalRecord : BaseEntity, IMultiTenant, IAggregateRoot
             return Result.Error("Prescription cannot be null");
 
         _prescriptions.Add(prescription);
+        return Result.Success();
+    }
+
+    public Result SetVisibilityToOwner(bool isVisible)
+    {
+        IsVisibleToOwner = isVisible;
         return Result.Success();
     }
 
