@@ -1098,6 +1098,7 @@
       "pricing": "Pricing",
       "faq": "FAQ",
       "demo": "Book a Demo",
+      "pet_owners": "Pet Owners",
       "sign_in": "Sign In"
     },
     "hero": {
@@ -2615,6 +2616,98 @@
     "acceptAll": "Accept All",
     "necessaryOnly": "Necessary Only",
     "ariaLabel": "Cookie consent"
+  },
+  "pet_owners": {
+    "meta": {
+      "title": "Pet Owners — Your Pet's Health, Always in Your Pocket | Vetara",
+      "description": "Access your pet's medical records, book vet appointments, get vaccination reminders, and share records with any clinic — all from Vetara."
+    },
+    "nav": {
+      "features": "Features",
+      "how_it_works": "How It Works",
+      "for_clinics": "For Clinics",
+      "sign_in": "Sign In"
+    },
+    "hero": {
+      "headline": "Your pet's health, always in your pocket",
+      "subtitle": "Access medical records, book appointments, get vaccination reminders, and share your pet's history with any veterinarian — all from one app.",
+      "search_placeholder": "Search clinics near you...",
+      "search_button": "Search",
+      "trust_badge": "Trusted by pet owners across the UAE"
+    },
+    "value_props": {
+      "title": "Everything your pet needs, in one place",
+      "subtitle": "No more lost records or missed appointments. Vetara keeps your pet's health organized.",
+      "medical_records": {
+        "title": "Digital Medical Records",
+        "description": "Access your pet's full medical history anytime, anywhere. Lab results, prescriptions, and visit notes — always at your fingertips."
+      },
+      "booking": {
+        "title": "Easy Appointment Booking",
+        "description": "Book, reschedule, or cancel vet appointments in seconds. See real-time availability and choose the best slot for you."
+      },
+      "vaccination_reminders": {
+        "title": "Vaccination Reminders",
+        "description": "Never miss a vaccine or booster again. Get timely notifications when your pet is due for their next shot."
+      },
+      "record_sharing": {
+        "title": "Record Sharing",
+        "description": "Moving or visiting a new vet? Share your pet's complete health profile securely with any Vetara-connected clinic."
+      }
+    },
+    "clinic_search": {
+      "title": "Find a Vetara clinic near you",
+      "subtitle": "Search for veterinary clinics in your area that use Vetara.",
+      "placeholder": "Enter your area or clinic name...",
+      "button": "Search",
+      "no_results": "No clinics found. Try a different search term.",
+      "loading": "Searching clinics..."
+    },
+    "ask_vet": {
+      "title": "Your vet isn't on Vetara yet?",
+      "subtitle": "Let them know! We'll send a friendly invitation on your behalf.",
+      "vet_email_label": "Vet's email address",
+      "vet_email_placeholder": "vet@clinic.ae",
+      "your_name_label": "Your name",
+      "your_name_placeholder": "e.g. Ahmed Al-Maktoum",
+      "pet_name_label": "Your pet's name",
+      "pet_name_placeholder": "e.g. Zayed",
+      "message_label": "Message (optional)",
+      "message_placeholder": "Tell your vet why you'd love them on Vetara...",
+      "submit": "Send Invitation",
+      "submitting": "Sending...",
+      "success_title": "Invitation Sent!",
+      "success_description": "We'll let your vet know you'd love to use Vetara with them."
+    },
+    "how_it_works": {
+      "title": "How it works",
+      "subtitle": "Getting started is easy.",
+      "step1": {
+        "number": "1",
+        "title": "Find your clinic",
+        "description": "Search for your vet clinic on Vetara, or ask them to join."
+      },
+      "step2": {
+        "number": "2",
+        "title": "Connect your pet",
+        "description": "Your vet links your pet's records to your account."
+      },
+      "step3": {
+        "number": "3",
+        "title": "Stay in control",
+        "description": "Book appointments, view records, and get reminders — all from your phone."
+      }
+    },
+    "cta": {
+      "headline": "Give your pet the care they deserve",
+      "subtitle": "Join thousands of pet owners using Vetara to stay on top of their pet's health.",
+      "button": "Find a Clinic",
+      "reassurance": "Free for pet owners. Always."
+    },
+    "footer": {
+      "for_clinics": "Are you a veterinary clinic?",
+      "for_clinics_cta": "Learn about Vetara for Clinics"
+    }
   },
   "working_hours": {
     "title": "Working Hours",
