@@ -125,6 +125,24 @@ internal class PatientReader : IPatientReader
         return Result<PatientContextDto>.Success(context);
     }
 
+    public async Task<Result<IReadOnlyList<PatientDto>>> GetPatientsByIdsAsync(
+        IReadOnlyCollection<Guid> patientIds,
+        CancellationToken cancellationToken = default)
+    {
+        if (patientIds.Count == 0)
+            return Result<IReadOnlyList<PatientDto>>.Success(Array.Empty<PatientDto>());
+
+        var patients = await _context.Patients
+            .Include(p => p.PatientOwners)
+                .ThenInclude(po => po.Owner)
+            .Where(p => patientIds.Contains(p.Id))
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        var dtos = patients.Select(p => p.ToDto()).ToList();
+        return Result<IReadOnlyList<PatientDto>>.Success(dtos);
+    }
+
     public async Task<Result<PatientBasicInfoDto>> GetPatientBasicInfoAsync(
         Guid patientId,
         CancellationToken cancellationToken = default)
