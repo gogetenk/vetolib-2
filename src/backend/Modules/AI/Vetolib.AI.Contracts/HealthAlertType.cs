@@ -22,5 +22,15 @@ public enum HealthAlertType
     CamelHeatStress,
     CamelFootRot,
     CamelMERSScreening,
-    CamelRacingFitness
+    CamelRacingFitness,
+    DogHeartwormScreening,
+    DogObesityRisk,
+    DogDentalDisease,
+    DogParvovirusRisk,
+    DogSeniorScreening,
+    CatKidneyDiseaseScreening,
+    CatHyperthyroidism,
+    CatFelvRetest,
+    CatDentalResorption,
+    CatObesity
 }
