@@ -2046,6 +2046,13 @@
       "status_failed": "Failed",
       "status_pending": "Pending"
     },
+    "channel": {
+      "title": "Preferred Reminder Channel",
+      "description": "Choose how reminders are delivered to pet owners.",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "both": "Both"
+    },
     "errors": {
       "load_failed": "Failed to load reminder settings.",
       "save_failed": "Failed to save reminder settings."

@@ -2,19 +2,15 @@ import { apiGet, apiPut } from './client'
 
 export type ReminderType = 'appointment' | 'vaccination' | 'follow_up'
 export type ReminderLogStatus = 'sent' | 'failed' | 'pending'
+export type ReminderChannel = 'Email' | 'WhatsApp' | 'Both'
 
 export interface ReminderConfigDto {
-  appointmentReminders: {
-    enabled: boolean
-    timingHours: number
-  }
-  vaccinationReminders: {
-    enabled: boolean
-  }
-  followUpReminders: {
-    enabled: boolean
-    daysAfter: number
-  }
+  appointment24hEnabled: boolean
+  vaccinationDueEnabled: boolean
+  followUpEnabled: boolean
+  appointment24hLeadTimeHours: number
+  vaccinationDueLeadTimeDays: number
+  preferredReminderChannel: ReminderChannel
 }
 
 export interface ReminderLogDto {
