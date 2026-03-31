@@ -23,9 +23,13 @@ internal class ExportOwnerConversationsHandler
     {
         // ClinicId is handled by the global query filter via PortalAwareClinicContext.
         var conversations = await _context.Conversations
-            .Include(c => c.Messages.Where(m => !m.IsInternalNote))
+            .Include(c => c.Messages
+                .Where(m => !m.IsInternalNote)
+                .OrderBy(m => m.SentAt)
+                .Take(100))
             .Where(c => c.OwnerId == request.OwnerId)
             .OrderBy(c => c.CreatedAt)
+            .Take(500)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
