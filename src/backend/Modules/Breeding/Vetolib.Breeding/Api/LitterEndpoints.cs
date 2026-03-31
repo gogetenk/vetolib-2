@@ -34,6 +34,7 @@ internal static class LitterEndpoints
         // Patient-scoped litter listing
         app.MapGet("/api/v1/patients/{id:guid}/litters", GetByMother)
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Litters")
             .WithName("GetLittersByMother")
             .WithSummary("Get litters by mother")
