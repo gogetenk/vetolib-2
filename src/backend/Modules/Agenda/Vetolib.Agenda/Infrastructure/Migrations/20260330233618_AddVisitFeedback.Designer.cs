@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetolib.Agenda.Infrastructure;
@@ -11,9 +12,11 @@ using Vetolib.Agenda.Infrastructure;
 namespace Vetolib.Agenda.Infrastructure.Migrations
 {
     [DbContext(typeof(AgendaDbContext))]
-    partial class AgendaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260330233618_AddVisitFeedback")]
+    partial class AddVisitFeedback
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,9 +245,6 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(0);
 
-                    b.Property<Guid?>("SeriesId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Source")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -272,9 +272,6 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SeriesId")
-                        .HasFilter("\"SeriesId\" IS NOT NULL");
 
                     b.HasIndex("ClinicId", "Date", "StartTime");
 
@@ -368,71 +365,6 @@ namespace Vetolib.Agenda.Infrastructure.Migrations
                     b.HasIndex("ClinicId", "CreatedAt");
 
                     b.ToTable("visit_feedbacks", "agenda");
-                });
-
-            modelBuilder.Entity("Vetolib.Agenda.Application.Domain.WaitlistEntry", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ClinicId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("NotifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("OwnerEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("OwnerName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("OwnerPhone")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<Guid>("PatientId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateOnly>("PreferredDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("PreferredTimeSlot")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("Reason")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("VetPreference")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClinicId", "Status", "PreferredDate");
-
-                    b.ToTable("waitlist_entries", "agenda");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>

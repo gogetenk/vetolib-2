@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Agenda.Api;
@@ -40,6 +41,12 @@ public static class ModuleServiceRegistrar
         services.AddScoped<SlotScoringService>();
         services.AddScoped<DurationEstimator>();
 
+        // CheckInHmacService — HMAC signing/verification for QR code-based check-in
+        services.AddScoped<CheckInHmacService>();
+
+        // TimeProvider — used by CheckInFromQrHandler; TryAdd avoids overwriting test fakes
+        services.TryAddSingleton(TimeProvider.System);
+
         // Background service — scans for upcoming appointments (23–25h window) and publishes reminder events
         services.AddHostedService<AppointmentReminderService>();
 
@@ -61,6 +68,7 @@ public static class ModuleServiceRegistrar
     {
         app.MapAppointmentApiEndpoints();
         app.MapConsultationTypeEndpoints();
+        app.MapFeedbackApiEndpoints();
         app.MapWaitlistEndpoints();
         return app;
     }
