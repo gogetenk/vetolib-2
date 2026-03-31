@@ -2,7 +2,9 @@ using Ardalis.Result.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Agenda.Application.Commands.CreateConsultationType;
 using Vetolib.Agenda.Application.Commands.DeactivateConsultationType;
 using Vetolib.Agenda.Application.Commands.UpdateConsultationType;
@@ -43,7 +45,8 @@ internal static class ConsultationTypeEndpoints
             .RequireAuthorization(policy => policy.RequireRole("Admin", "Vet", "Receptionist"))
             .WithName("ListConsultationTypes")
             .WithSummary("List consultation types")
-            .WithDescription("Returns all active consultation types for the current clinic, ordered by sort order.");
+            .WithDescription("Returns all active consultation types for the current clinic, ordered by sort order.")
+            .CacheOutput("Moderate2min");
 
         return app;
     }

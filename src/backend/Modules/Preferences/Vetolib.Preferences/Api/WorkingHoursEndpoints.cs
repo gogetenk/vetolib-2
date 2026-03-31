@@ -2,7 +2,9 @@ using Ardalis.Result.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Preferences.Application.Commands.UpsertWorkingHours;
 using Vetolib.Preferences.Application.Queries.GetWorkingHours;
 using Vetolib.Preferences.Contracts;
@@ -20,6 +22,7 @@ internal static class WorkingHoursEndpoints
             .WithTags("WorkingHours");
 
         group.MapGet("/", GetWorkingHours)
+            .CacheOutput("Moderate2min")
             .WithName("GetWorkingHours")
             .WithSummary("Get clinic working hours")
             .WithDescription("Returns the working hours for all 7 days of the week for the current clinic. If none are configured, UAE defaults are returned (Sun-Thu 8-18, Fri 8-12, Sat closed).");
