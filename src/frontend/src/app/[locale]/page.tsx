@@ -202,6 +202,13 @@ export default async function LandingPage({ params }: Props) {
             >
               {t("nav.pet_owners")}
             </Link>
+            <Link
+              href={`/${locale}/developers`}
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-developers"
+            >
+              {t("nav.developers")}
+            </Link>
             <NavLanguageSwitcher locale={locale} />
             <Link href={loginHref} data-testid="nav-signin-link">
               <Button variant="outline" size="sm" className="transition-all duration-200 hover:scale-[1.02]" data-testid="btn-nav-signin">
@@ -229,6 +236,7 @@ export default async function LandingPage({ params }: Props) {
                 { label: t("nav.faq"), href: "#faq", testId: "nav-link-faq" },
                 { label: "Blog", href: `/${locale}/blog`, testId: "nav-link-blog" },
                 { label: t("nav.pet_owners"), href: `/${locale}/pet-owners`, testId: "nav-link-pet-owners" },
+                { label: t("nav.developers"), href: `/${locale}/developers`, testId: "nav-link-developers" },
               ]}
               signInLabel={t("nav.sign_in")}
               ctaLabel={t("hero.cta_primary")}

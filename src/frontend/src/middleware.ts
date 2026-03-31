@@ -100,6 +100,12 @@ function isPublicPath(pathname: string): boolean {
     if (pathname === pricingPath || pathname.startsWith(`${pricingPath}/`)) {
       return true;
     }
+
+    // Developers: /en/developers or /ar/developers
+    const developersPath = `/${locale}/developers`;
+    if (pathname === developersPath || pathname.startsWith(`${developersPath}/`)) {
+      return true;
+    }
   }
 
   return false;
@@ -162,7 +168,8 @@ export function middleware(request: NextRequest) {
   const isLegalPath = /\/(terms|privacy)(\/|$)/.test(pathname);
   const isPetOwnersPath = /\/pet-owners(\/|$)/.test(pathname);
   const isPricingPath = /\/pricing(\/|$)/.test(pathname);
-  if (isPublicPath(pathname) && token && !isPortalPath && !isSharedPath && !isLandingPage && !isBlogPath && !isLegalPath && !isPetOwnersPath && !isPricingPath) {
+  const isDevelopersPath = /\/developers(\/|$)/.test(pathname);
+  if (isPublicPath(pathname) && token && !isPortalPath && !isSharedPath && !isLandingPage && !isBlogPath && !isLegalPath && !isPetOwnersPath && !isPricingPath && !isDevelopersPath) {
     return NextResponse.redirect(new URL(`/${locale}/appointments`, request.url));
   }
 

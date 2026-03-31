@@ -1099,6 +1099,7 @@
       "faq": "FAQ",
       "demo": "Book a Demo",
       "pet_owners": "Pet Owners",
+      "developers": "Developers",
       "sign_in": "Sign In"
     },
     "hero": {
@@ -2871,6 +2872,71 @@
     "errors": {
       "load_failed": "Failed to load working hours.",
       "save_failed": "Failed to save working hours."
+    }
+  },
+  "developers": {
+    "meta": {
+      "title": "Developers — Vetara Open Veterinary Health API",
+      "description": "Build on Vetara's FHIR R4-compatible API. Export patient data, integrate medical records, and connect veterinary systems with our open health API."
+    },
+    "nav": {
+      "home": "Home",
+      "developers": "Developers"
+    },
+    "hero": {
+      "badge": "Developer Preview",
+      "title": "Build on Vetara — Open Veterinary Health API",
+      "subtitle": "Access veterinary health data through a FHIR R4-compatible API. Export patient records, integrate with lab systems, and build the next generation of veterinary tools.",
+      "cta_docs": "View API Docs",
+      "cta_access": "Get API Access"
+    },
+    "fhir": {
+      "title": "Built on FHIR R4 — The Healthcare Interoperability Standard",
+      "description": "FHIR (Fast Healthcare Interoperability Resources) is the global standard for exchanging healthcare data. Vetara extends FHIR R4 for veterinary use, so your integrations work with the same patterns used by human healthcare systems worldwide.",
+      "benefits": {
+        "0": "Standard FHIR R4 Patient resources adapted for veterinary patients (species, breed, owner)",
+        "1": "JSON-based payloads — no XML required, easy to parse in any language",
+        "2": "Compatible with existing FHIR tooling, libraries, and validators"
+      },
+      "learn_more": "Learn more about FHIR at hl7.org",
+      "example_title": "Example: FHIR Patient Resource"
+    },
+    "endpoints": {
+      "title": "API Endpoints",
+      "subtitle": "Our API is growing. Here are the endpoints currently available and what's coming next.",
+      "export_desc": "Export all patient records for your clinic as a FHIR R4 Bundle. Includes patient demographics, species, breed, and owner information.",
+      "import_desc": "Import patient records from external systems using FHIR R4 Bundles. Validate and merge with existing clinic data.",
+      "shared_records_desc": "Access shared pet records via the client portal. Pet owners can share medical history with any veterinarian.",
+      "coming_soon": "Coming Soon"
+    },
+    "auth": {
+      "badge": "Authentication",
+      "title": "Secure API Access",
+      "description": "All API requests require authentication. Currently, we support JWT tokens issued to clinic accounts. OAuth2 support for third-party integrations is on our roadmap.",
+      "jwt_title": "JWT Bearer Tokens (Available Now)",
+      "jwt_desc": "Authenticate with your clinic credentials and use the JWT token in the Authorization header for all API calls. Tokens are scoped to your clinic's data.",
+      "oauth_title": "OAuth2 for Third Parties",
+      "oauth_desc": "Coming soon: OAuth2 authorization code flow for third-party applications. Request access on behalf of clinics with granular scopes.",
+      "example_title": "Authentication Flow"
+    },
+    "code": {
+      "title": "Quick Start",
+      "subtitle": "Get up and running in minutes. Here's how to export your clinic's patient data as FHIR resources."
+    },
+    "scalar": {
+      "title": "Interactive API Documentation",
+      "description": "Explore all available endpoints, request/response schemas, and try requests directly from the browser using our Scalar-powered API docs.",
+      "cta": "Open API Docs"
+    },
+    "access": {
+      "title": "Get API Access",
+      "description": "API access is currently available to clinics on the Enterprise plan. Contact us to enable API access for your clinic or to discuss integration partnerships.",
+      "cta": "Request API Access",
+      "note": "We typically respond within 24 hours. Include your clinic name and use case in the email."
+    },
+    "footer": {
+      "terms": "Terms",
+      "privacy": "Privacy"
     }
   }
 }
