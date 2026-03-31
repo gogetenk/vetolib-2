@@ -16,6 +16,7 @@ internal static class WorkingHoursEndpoints
     {
         var group = app.MapGroup("/api/v1/preferences/working-hours")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("WorkingHours");
 
         group.MapGet("/", GetWorkingHours)

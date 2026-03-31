@@ -17,6 +17,7 @@ internal static class ReminderEndpoints
     {
         var group = app.MapGroup("/api/v1/notifications/reminders")
             .RequireAuthorization("VetOrAdmin")
+            .RequireRateLimiting("api")
             .WithTags("Reminders");
 
         group.MapGet("/config", GetConfig).WithName("GetReminderConfig")

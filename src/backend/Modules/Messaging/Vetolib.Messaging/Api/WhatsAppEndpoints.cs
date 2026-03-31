@@ -18,6 +18,7 @@ internal static class WhatsAppEndpoints
     {
         var group = app.MapGroup("/api/v1/messaging/whatsapp")
             .RequireAuthorization(policy => policy.RequireRole(AdminRole))
+            .RequireRateLimiting("api")
             .WithTags("WhatsApp");
 
         // GET /api/v1/messaging/whatsapp/config

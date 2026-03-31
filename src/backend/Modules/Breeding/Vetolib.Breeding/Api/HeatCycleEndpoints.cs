@@ -17,6 +17,7 @@ internal static class HeatCycleEndpoints
     {
         var group = app.MapGroup("/api/v1/patients/{patientId:guid}/heat-cycles")
             .RequireAuthorization("VetOrAdmin")
+            .RequireRateLimiting("api")
             .WithTags("HeatCycles");
 
         group.MapPost("/", RecordHeatCycle)

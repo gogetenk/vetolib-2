@@ -14,7 +14,8 @@ internal static class ClinicEndpoints
     internal static IEndpointRouteBuilder MapClinicApiEndpoints(this IEndpointRouteBuilder app)
     {
         var publicGroup = app.MapGroup("/api/v1/clinics")
-            .WithTags("Clinics");
+            .WithTags("Clinics")
+            .RequireRateLimiting("api");
 
         publicGroup.MapPost("/register", RegisterClinic)
             .WithName("RegisterClinic")

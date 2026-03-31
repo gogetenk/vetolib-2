@@ -18,6 +18,7 @@ internal static class FollowUpRuleEndpoints
     {
         var group = app.MapGroup("/api/v1/follow-up-rules")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("FollowUpRules");
 
         group.MapGet("/", List)

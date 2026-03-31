@@ -19,6 +19,7 @@ internal static class MedicalRecordTemplateEndpoints
     {
         var group = app.MapGroup("/api/v1/medical-records/templates")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("MedicalRecordTemplates");
 
         group.MapGet("/", ListTemplates)

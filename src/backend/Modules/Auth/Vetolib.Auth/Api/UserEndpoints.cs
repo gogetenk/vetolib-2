@@ -20,6 +20,7 @@ internal static class UserEndpoints
     {
         var group = app.MapGroup("/api/v1/users")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Users");
 
         group.MapPost("/", CreateUser)

@@ -20,6 +20,7 @@ internal static class OnboardingEndpoints
     {
         var group = app.MapGroup("/api/v1/onboarding")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Onboarding");
 
         group.MapGet("/", GetState).WithName("GetOnboardingState")

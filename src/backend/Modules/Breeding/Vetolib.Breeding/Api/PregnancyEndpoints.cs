@@ -21,6 +21,7 @@ internal static class PregnancyEndpoints
     {
         var group = app.MapGroup("/api/v1/breeding/pregnancies")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Breeding - Pregnancies");
 
         group.MapPost("/", Create).WithName("CreatePregnancy")

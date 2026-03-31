@@ -62,6 +62,7 @@ internal static class PortalEndpoints
 
         var group = app.MapGroup("/api/v1/portal")
             .AddEndpointFilter<MagicLinkEndpointFilter>()
+            .RequireRateLimiting("api")
             .WithTags("OwnerPortal");
 
         // GET /categories — returns categories available based on whether owner has pets.

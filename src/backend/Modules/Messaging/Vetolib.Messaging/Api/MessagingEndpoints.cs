@@ -39,6 +39,7 @@ internal static class MessagingEndpoints
     {
         var group = app.MapGroup("/api/v1/messaging")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Messaging");
 
         // -----------------------------------------------------------------------

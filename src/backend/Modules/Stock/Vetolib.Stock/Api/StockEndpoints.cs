@@ -18,6 +18,7 @@ internal static class StockEndpoints
     {
         var group = app.MapGroup("/api/v1/stock")
             .RequireAuthorization()
+            .RequireRateLimiting("api")
             .WithTags("Stock");
 
         group.MapGet("/", List).WithName("ListStockItems")
