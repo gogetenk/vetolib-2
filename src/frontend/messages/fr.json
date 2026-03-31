@@ -1773,6 +1773,56 @@
         "grooming": "Toilettage",
         "labTests": "Analyses de laboratoire"
       }
+    },
+    "my_pets": {
+      "title": "Mes animaux",
+      "loading": "Chargement de vos animaux...",
+      "link_expired": "Ce lien a expire. Veuillez contacter votre clinique pour en recevoir un nouveau.",
+      "error_generic": "Une erreur est survenue. Veuillez reessayer plus tard.",
+      "no_animals": "Aucun animal enregistre sur votre compte.",
+      "last_visit": "Derniere visite",
+      "no_visits": "Aucune visite"
+    },
+    "animal_detail": {
+      "loading": "Chargement...",
+      "not_found": "Animal introuvable.",
+      "error_generic": "Une erreur est survenue. Veuillez reessayer plus tard.",
+      "back": "Retour a mes animaux",
+      "born": "Ne(e) le",
+      "tab_loading": "Chargement...",
+      "tabs": {
+        "overview": "Apercu",
+        "records": "Dossiers medicaux",
+        "vaccinations": "Vaccinations",
+        "prescriptions": "Ordonnances",
+        "weight": "Poids"
+      },
+      "overview": {
+        "name": "Nom",
+        "species": "Espece",
+        "breed": "Race",
+        "date_of_birth": "Date de naissance",
+        "last_visit": "Derniere visite"
+      },
+      "records": {
+        "empty": "Aucun dossier medical.",
+        "diagnosis": "Diagnostic",
+        "treatment": "Traitement"
+      },
+      "vaccinations": {
+        "empty": "Aucune vaccination.",
+        "administered": "Administre le",
+        "next_due": "Prochaine dose"
+      },
+      "prescriptions": {
+        "empty": "Aucune ordonnance.",
+        "dosage": "Posologie",
+        "frequency": "Frequence"
+      },
+      "weight": {
+        "empty": "Aucun enregistrement de poids.",
+        "latest": "Poids actuel"
+      }
     }
   },
   "onboarding": {
