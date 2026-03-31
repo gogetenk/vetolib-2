@@ -21,6 +21,7 @@ internal class GetClassificationAccuracyHandler : IRequestHandler<GetClassificat
     {
         // Get all classified messages (those that have AI classification)
         var classifiedMessages = await _context.Messages
+            .AsNoTracking()
             .Where(m => m.ClassifiedUrgency != null)
             .Select(m => new
             {
