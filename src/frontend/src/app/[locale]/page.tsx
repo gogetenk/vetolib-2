@@ -31,6 +31,8 @@ import { ExitIntentPopup } from "@/components/features/landing/ExitIntentPopup";
 import { TrackedCtaLink } from "@/components/features/landing/TrackedCtaLink";
 import { LatestBlogSection } from "@/components/features/blog/LatestBlogSection";
 import { WhatsAppBookingButton } from "@/components/features/landing/WhatsAppBookingButton";
+import { AiFeaturesSection } from "@/components/features/landing/AiFeaturesSection";
+import { AiImpactSection } from "@/components/features/landing/AiImpactSection";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -157,6 +159,13 @@ export default async function LandingPage({ params }: Props) {
           </div>
           <div className="hidden items-center gap-6 md:flex">
             <a
+              href="#ai-features"
+              className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+              data-testid="nav-link-ai"
+            >
+              {t("nav.ai")}
+            </a>
+            <a
               href="#features"
               className="text-sm font-medium text-stone-600 transition-all duration-200 hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               data-testid="nav-link-features"
@@ -212,6 +221,7 @@ export default async function LandingPage({ params }: Props) {
             <NavLanguageSwitcher locale={locale} />
             <MobileLandingNav
               links={[
+                { label: t("nav.ai"), href: "#ai-features", testId: "nav-link-ai" },
                 { label: t("nav.features"), href: "#features", testId: "nav-link-features" },
                 { label: t("nav.pricing"), href: "#pricing", testId: "nav-link-pricing" },
                 { label: t("nav.demo"), href: "#demo", testId: "nav-link-demo" },
@@ -325,6 +335,61 @@ export default async function LandingPage({ params }: Props) {
             </dl>
           </div>
         </section>
+
+        {/* ── AI Features ─────────────────────────────────────────── */}
+        <AiFeaturesSection
+          title={t("ai_features.title")}
+          subtitle={t("ai_features.subtitle")}
+          badge={t("ai_features.badge")}
+          cards={{
+            drug_interaction: {
+              title: t("ai_features.drug_interaction.title"),
+              description: t("ai_features.drug_interaction.description"),
+            },
+            predictive_alerts: {
+              title: t("ai_features.predictive_alerts.title"),
+              description: t("ai_features.predictive_alerts.description"),
+            },
+            message_triage: {
+              title: t("ai_features.message_triage.title"),
+              description: t("ai_features.message_triage.description"),
+            },
+            symptom_triage: {
+              title: t("ai_features.symptom_triage.title"),
+              description: t("ai_features.symptom_triage.description"),
+            },
+            soap_notes: {
+              title: t("ai_features.soap_notes.title"),
+              description: t("ai_features.soap_notes.description"),
+            },
+            no_show: {
+              title: t("ai_features.no_show.title"),
+              description: t("ai_features.no_show.description"),
+            },
+          }}
+        />
+
+        {/* ── AI Impact Stats ──────────────────────────────────────── */}
+        <AiImpactSection
+          title={t("ai_impact.title")}
+          stats={[
+            {
+              value: t("ai_impact.alerts_stat"),
+              label: t("ai_impact.alerts_label"),
+              testId: "ai-impact-alerts",
+            },
+            {
+              value: t("ai_impact.interactions_stat"),
+              label: t("ai_impact.interactions_label"),
+              testId: "ai-impact-interactions",
+            },
+            {
+              value: t("ai_impact.hours_stat"),
+              label: t("ai_impact.hours_label"),
+              testId: "ai-impact-hours",
+            },
+          ]}
+        />
 
         {/* ── Features (consolidated) ─────── */}
         <FeaturesSection
@@ -495,6 +560,7 @@ export default async function LandingPage({ params }: Props) {
               { feature: t("competitive.rows.price.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
               { feature: t("competitive.rows.multi_clinic.feature"), vetolib: "yes", ezyvet: "yes", digitail: "yes" },
               { feature: t("competitive.rows.file_attachments.feature"), vetolib: "yes", ezyvet: "yes", digitail: "partial" },
+              { feature: t("competitive.rows.ai_features_full.feature"), vetolib: "yes", ezyvet: "no", digitail: "no" },
             ],
           }}
         />

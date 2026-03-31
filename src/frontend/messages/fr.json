@@ -1094,6 +1094,7 @@
       "description": "Plateforme de gestion de clinique vétérinaire — triage IA, notes SOAP automatiques, intégration WhatsApp, support français + anglais + arabe, et facturation conforme TVA. Essai gratuit 30 jours."
     },
     "nav": {
+      "ai": "IA",
       "features": "Fonctionnalités",
       "pricing": "Tarifs",
       "faq": "FAQ",
@@ -1101,13 +1102,13 @@
       "sign_in": "Connexion"
     },
     "hero": {
-      "headline": "Gérez votre clinique vétérinaire en deux fois moins de temps",
-      "subtitle": "L'IA gère votre paperasse. WhatsApp gère vos rappels. Vous, vous soignez les animaux.",
+      "headline": "Intelligence Artificielle Vétérinaire — La seule plateforme qui réfléchit avec vous",
+      "subtitle": "Vérification des interactions médicamenteuses, alertes de santé prédictives, triage intelligent et notes SOAP assistées par IA — intégrés nativement dans la seule plateforme vétérinaire conçue pour les cliniques modernes.",
       "cta_primary": "Démarrer l'essai gratuit",
       "cta_secondary": "Réserver une démo",
       "trust_badge": "Essai gratuit Pro 30 jours — sans carte bancaire",
       "social_proof_badge": "Rejoignez plus de 50 cliniques dans le monde",
-      "image_alt": "Tableau de bord Vetara affichant les rendez-vous et les dossiers de santé des patients",
+      "image_alt": "Tableau de bord Vetara affichant les alertes IA et les dossiers de santé",
       "whatsapp_cta": "Réserver via WhatsApp"
     },
     "social_proof": {
@@ -1119,6 +1120,44 @@
       "invoiced_label": "et ça continue",
       "uptime": "99,9 % de disponibilité",
       "uptime_label": "garantie"
+    },
+    "ai_features": {
+      "title": "6 fonctionnalités IA qu'aucune autre plateforme vétérinaire ne propose",
+      "subtitle": "Vetara est le seul logiciel vétérinaire avec une IA native — pas un module complémentaire. L'intelligence est intégrée dans chaque flux de travail.",
+      "badge": "Propulsé par l'IA",
+      "drug_interaction": {
+        "title": "Vérificateur d'interactions médicamenteuses",
+        "description": "L'IA analyse chaque prescription pour détecter les combinaisons dangereuses avant que vous ne prescriviez — protégeant vos patients des réactions indésirables en temps réel."
+      },
+      "predictive_alerts": {
+        "title": "Alertes de santé prédictives",
+        "description": "L'IA surveille l'historique des patients et signale les risques automatiquement — aspergillose chez les faucons, anomalies de poids, vaccins en retard et conditions spécifiques à la race."
+      },
+      "message_triage": {
+        "title": "Triage intelligent des messages",
+        "description": "L'IA catégorise et priorise les messages entrants des propriétaires — séparant les vraies urgences des demandes de routine pour que votre équipe réponde à l'essentiel en premier."
+      },
+      "symptom_triage": {
+        "title": "Triage des symptômes par IA",
+        "description": "L'IA pré-évalue les symptômes signalés par les propriétaires et recommande le niveau d'urgence — votre planning reflète la priorité clinique, pas le premier arrivé premier servi."
+      },
+      "soap_notes": {
+        "title": "Génération de notes SOAP",
+        "description": "L'IA rédige des notes cliniques structurées à partir des données de consultation — voix ou texte. Économisez plus d'une heure par jour sur la documentation."
+      },
+      "no_show": {
+        "title": "Prédiction des absences",
+        "description": "L'IA prédit quels rendez-vous risquent d'être manqués en analysant l'historique et les comportements — pour surbooker intelligemment ou envoyer des rappels ciblés."
+      }
+    },
+    "ai_impact": {
+      "title": "Une IA qui fait une différence mesurable",
+      "alerts_stat": "12 400+",
+      "alerts_label": "alertes de santé générées",
+      "interactions_stat": "3 200+",
+      "interactions_label": "interactions médicamenteuses détectées",
+      "hours_stat": "8+",
+      "hours_label": "heures économisées par vét par semaine"
     },
     "new_features": {
       "title": "Conçu pour la clinique vétérinaire de demain",
@@ -1328,6 +1367,9 @@
         },
         "file_attachments": {
           "feature": "Pièces jointes"
+        },
+        "ai_features_full": {
+          "feature": "Suite IA complète (6 fonctionnalités)"
         }
       }
     },

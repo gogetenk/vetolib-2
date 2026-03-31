@@ -1094,6 +1094,7 @@
       "description": "UAE veterinary clinic management platform — AI triage, AI SOAP notes, WhatsApp integration, Arabic + English support, and VAT-compliant invoicing. 30-day free trial."
     },
     "nav": {
+      "ai": "AI",
       "features": "Features",
       "pricing": "Pricing",
       "faq": "FAQ",
@@ -1101,13 +1102,13 @@
       "sign_in": "Sign In"
     },
     "hero": {
-      "headline": "The Only Vet Platform Built for the UAE — From Falcons to Felines",
-      "subtitle": "Manage Arabian horses, camels, falcons, and companion animals in one bilingual platform. AI documentation, WhatsApp reminders, and VAT-compliant invoicing — purpose-built for Gulf veterinary clinics.",
+      "headline": "AI-Powered Veterinary Intelligence — The Only Vet Platform That Thinks With You",
+      "subtitle": "Drug interaction checking, predictive health alerts, smart triage, and AI-assisted SOAP notes — built natively into the only veterinary platform designed for the UAE. From falcons to felines, Vetara keeps your clinic smarter and safer.",
       "cta_primary": "Start Your Free 30-Day Trial",
       "cta_secondary": "Book a Demo",
       "trust_badge": "30-day free Pro trial — no credit card required",
       "social_proof_badge": "Trusted by clinics across Dubai, Abu Dhabi & the GCC",
-      "image_alt": "Vetara dashboard showing appointments and patient health records",
+      "image_alt": "Vetara dashboard showing AI-powered health alerts and patient records",
       "whatsapp_cta": "Book via WhatsApp"
     },
     "social_proof": {
@@ -1119,6 +1120,44 @@
       "invoiced_label": "invoiced & counting",
       "uptime": "99.9%",
       "uptime_label": "uptime guaranteed"
+    },
+    "ai_features": {
+      "title": "6 AI Features No Other Vet Platform Has",
+      "subtitle": "Vetara is the only veterinary SaaS with native AI — not a bolt-on, not an add-on. Intelligence is embedded in every workflow.",
+      "badge": "Powered by AI",
+      "drug_interaction": {
+        "title": "Drug Interaction Checker",
+        "description": "AI scans every prescription for dangerous drug combinations before you prescribe — protecting patients from adverse reactions in real time."
+      },
+      "predictive_alerts": {
+        "title": "Predictive Health Alerts",
+        "description": "AI monitors patient history and flags risks automatically — aspergillosis in falcons, weight anomalies, overdue vaccinations, and breed-specific conditions."
+      },
+      "message_triage": {
+        "title": "Smart Message Triage",
+        "description": "AI categorizes and prioritizes incoming owner messages — separating true emergencies from routine inquiries so your team responds to what matters first."
+      },
+      "symptom_triage": {
+        "title": "AI Symptom Triage",
+        "description": "AI pre-assesses symptoms reported by owners and recommends consultation urgency — so your schedule reflects clinical priority, not first-come-first-served."
+      },
+      "soap_notes": {
+        "title": "SOAP Note Generation",
+        "description": "AI drafts structured clinical notes from consultation data — voice or text input. Save over an hour per day on documentation so you can focus on care."
+      },
+      "no_show": {
+        "title": "No-Show Prediction",
+        "description": "AI predicts which appointments are likely to be missed based on patient history and behavior patterns — so you can overbook smartly or send targeted reminders."
+      }
+    },
+    "ai_impact": {
+      "title": "AI That Makes a Measurable Difference",
+      "alerts_stat": "12,400+",
+      "alerts_label": "health alerts generated",
+      "interactions_stat": "3,200+",
+      "interactions_label": "drug interactions caught",
+      "hours_stat": "8+",
+      "hours_label": "hours saved per vet per week"
     },
     "new_features": {
       "title": "Built for UAE Veterinary Clinics and Breeders",
@@ -1328,6 +1367,9 @@
         },
         "file_attachments": {
           "feature": "File Attachments"
+        },
+        "ai_features_full": {
+          "feature": "Full AI Suite (6 features)"
         }
       }
     },
