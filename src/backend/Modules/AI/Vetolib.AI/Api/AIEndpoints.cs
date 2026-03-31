@@ -155,8 +155,11 @@ internal static class AIEndpoints
 
     private static async Task<IResult> GenerateSoapNotes(
         SoapNotesRequest request,
-        ISender sender)
+        ISender sender,
+        string? language = null)
     {
+        var soapLanguage = ParseSoapLanguage(language);
+
         var cmd = new GenerateSoapNotesCommand(
             Species: request.Species,
             Breed: request.Breed,
@@ -165,9 +168,23 @@ internal static class AIEndpoints
             Vitals: request.Vitals,
             Diagnosis: request.Diagnosis,
             TreatmentPlan: request.TreatmentPlan,
-            Prescriptions: request.Prescriptions);
+            Prescriptions: request.Prescriptions,
+            Language: soapLanguage);
 
         return (await sender.Send(cmd)).ToMinimalApiResult();
+    }
+
+    private static SoapLanguage ParseSoapLanguage(string? language)
+    {
+        if (string.IsNullOrWhiteSpace(language))
+            return SoapLanguage.En;
+
+        return language.Trim().ToLowerInvariant() switch
+        {
+            "ar" => SoapLanguage.Ar,
+            "both" => SoapLanguage.Both,
+            _ => SoapLanguage.En
+        };
     }
 }
 
