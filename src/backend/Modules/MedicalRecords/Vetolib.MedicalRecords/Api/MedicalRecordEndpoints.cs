@@ -22,6 +22,7 @@ internal static class MedicalRecordEndpoints
             .WithTags("MedicalRecords");
 
         group.MapPost("/", AddMedicalRecord)
+            .RequireAuthorization(policy => policy.RequireRole("Vet", "Admin"))
             .WithName("AddMedicalRecord")
             .WithSummary("Add a medical record")
             .WithDescription("Creates a new medical record entry for a patient with diagnosis and treatment details. Requires Vet or Admin role.");
@@ -37,6 +38,7 @@ internal static class MedicalRecordEndpoints
             .WithDescription("Medical records are immutable and cannot be deleted. This endpoint always returns an error.");
 
         group.MapPost("/{recordId:guid}/prescriptions", AddPrescription)
+            .RequireAuthorization(policy => policy.RequireRole("Vet"))
             .WithName("AddPrescription")
             .WithSummary("Add a prescription to a medical record")
             .WithDescription("Adds a prescription with medication, dosage, and optional drug catalog reference. Requires Vet role and a valid veterinary license.");
@@ -51,10 +53,6 @@ internal static class MedicalRecordEndpoints
         IClinicContext clinicContext,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role is not ("Vet" or "Admin"))
-            return Ardalis.Result.Result<MedicalRecordDto>.Forbidden().ToMinimalApiResult();
-
         var vetName = user.FindFirst(ClaimTypes.Name)?.Value
             ?? user.FindFirst(ClaimTypes.Email)?.Value
             ?? "Unknown";
@@ -97,9 +95,6 @@ internal static class MedicalRecordEndpoints
         ISender sender)
     {
         var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role is not "Vet")
-            return Ardalis.Result.Result<PrescriptionDto>.Forbidden().ToMinimalApiResult();
-
         var vetLicense = user.FindFirst("vetLicense")?.Value ?? string.Empty;
         if (string.IsNullOrWhiteSpace(vetLicense))
             return Ardalis.Result.Result<PrescriptionDto>.Error("VET_LICENSE_REQUIRED:Veterinary license number is required").ToMinimalApiResult();

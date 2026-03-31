@@ -19,7 +19,7 @@ internal static class UserEndpoints
     internal static IEndpointRouteBuilder MapUserApiEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/v1/users")
-            .RequireAuthorization()
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
             .RequireRateLimiting("api")
             .WithTags("Users");
 
@@ -57,10 +57,6 @@ internal static class UserEndpoints
         IClinicContext clinicContext,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return (Ardalis.Result.Result<UserDto>.Forbidden()).ToMinimalApiResult();
-
         var cmd = new CreateUserCommand(
             clinicContext.ClinicId,
             request.Email,
@@ -72,16 +68,11 @@ internal static class UserEndpoints
     }
 
     private static async Task<IResult> GetUsers(
-        ClaimsPrincipal user,
         ISender sender,
         int page = 1,
         int pageSize = 20)
     {
         if (pageSize is < 1 or > 200) pageSize = 20;
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return (Ardalis.Result.Result<UserPagedResultDto>.Forbidden()).ToMinimalApiResult();
-
         return (await sender.Send(new ListUsersQuery(page, pageSize))).ToMinimalApiResult();
     }
 
@@ -91,10 +82,6 @@ internal static class UserEndpoints
         IClinicContext clinicContext,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return (Ardalis.Result.Result<InviteUserResponse>.Forbidden()).ToMinimalApiResult();
-
         var requestingUserId = GetCurrentUserId(user);
         var cmd = new InviteUserCommand(
             clinicContext.ClinicId,
@@ -112,10 +99,6 @@ internal static class UserEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return (Ardalis.Result.Result.Forbidden()).ToMinimalApiResult();
-
         var requestingUserId = GetCurrentUserId(user);
         var cmd = new ChangeUserRoleCommand(requestingUserId, id, request.NewRole);
 
@@ -127,10 +110,6 @@ internal static class UserEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return (Ardalis.Result.Result.Forbidden()).ToMinimalApiResult();
-
         var requestingUserId = GetCurrentUserId(user);
         var cmd = new DeactivateUserCommand(requestingUserId, id);
 

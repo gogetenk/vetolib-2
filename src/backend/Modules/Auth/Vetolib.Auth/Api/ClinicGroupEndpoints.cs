@@ -27,11 +27,13 @@ internal static class ClinicGroupEndpoints
             .WithTags("ClinicGroups");
 
         group.MapPost("/", CreateClinicGroup)
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
             .WithName("CreateClinicGroup")
             .WithSummary("Create a clinic group")
             .WithDescription("Creates a new clinic group for multi-clinic management. Requires Admin role.");
 
         group.MapPost("/{id:guid}/clinics", AddClinicToGroup)
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
             .WithName("AddClinicToGroup")
             .WithSummary("Add a clinic to a group")
             .WithDescription("Associates an existing clinic with a clinic group. Requires Admin role.");
@@ -42,22 +44,26 @@ internal static class ClinicGroupEndpoints
             .WithDescription("Returns all clinics that belong to the specified clinic group.");
 
         group.MapDelete("/{id:guid}/clinics/{clinicId:guid}", RemoveClinicFromGroup)
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
             .WithName("RemoveClinicFromGroup")
             .WithSummary("Remove a clinic from a group")
             .WithDescription("Removes a clinic from a clinic group. Requires Admin role.");
 
         // Dashboard endpoints
         group.MapGet("/{id:guid}/dashboard/stats", GetGroupDashboardStats)
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
             .WithName("GetGroupDashboardStats")
             .WithSummary("Get aggregated dashboard stats for a clinic group")
             .WithDescription("Returns total patients, appointments, and revenue across all clinics in the group. Requires Admin role and group ownership.");
 
         group.MapGet("/{id:guid}/dashboard/clinics", GetGroupClinicStats)
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
             .WithName("GetGroupClinicStats")
             .WithSummary("List clinics in a group with individual stats")
             .WithDescription("Returns per-clinic stats (patients, appointments, revenue) for all clinics in the group. Requires Admin role and group ownership.");
 
         group.MapGet("/{id:guid}/dashboard/revenue-comparison", GetGroupRevenueComparison)
+            .RequireAuthorization(policy => policy.RequireRole("Admin"))
             .WithName("GetGroupRevenueComparison")
             .WithSummary("Compare revenue across clinics in a group")
             .WithDescription("Returns revenue per clinic for comparison within the group. Requires Admin role and group ownership.");
@@ -81,10 +87,6 @@ internal static class ClinicGroupEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return Result<ClinicGroupDto>.Forbidden().ToMinimalApiResult();
-
         var userId = GetCurrentUserId(user);
         if (userId == Guid.Empty)
             return Result<ClinicGroupDto>.Unauthorized().ToMinimalApiResult();
@@ -99,10 +101,6 @@ internal static class ClinicGroupEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return Result.Forbidden().ToMinimalApiResult();
-
         var userId = GetCurrentUserId(user);
         if (userId == Guid.Empty)
             return Result.Unauthorized().ToMinimalApiResult();
@@ -129,10 +127,6 @@ internal static class ClinicGroupEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return Result.Forbidden().ToMinimalApiResult();
-
         var userId = GetCurrentUserId(user);
         if (userId == Guid.Empty)
             return Result.Unauthorized().ToMinimalApiResult();
@@ -159,10 +153,6 @@ internal static class ClinicGroupEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return Result<ClinicGroupDashboardStatsDto>.Forbidden().ToMinimalApiResult();
-
         var userId = GetCurrentUserId(user);
         if (userId == Guid.Empty)
             return Result<ClinicGroupDashboardStatsDto>.Unauthorized().ToMinimalApiResult();
@@ -176,10 +166,6 @@ internal static class ClinicGroupEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return Result<IReadOnlyList<ClinicGroupClinicStatsDto>>.Forbidden().ToMinimalApiResult();
-
         var userId = GetCurrentUserId(user);
         if (userId == Guid.Empty)
             return Result<IReadOnlyList<ClinicGroupClinicStatsDto>>.Unauthorized().ToMinimalApiResult();
@@ -193,10 +179,6 @@ internal static class ClinicGroupEndpoints
         ClaimsPrincipal user,
         ISender sender)
     {
-        var role = user.FindFirst(ClaimTypes.Role)?.Value;
-        if (role != "Admin")
-            return Result<ClinicGroupRevenueComparisonDto>.Forbidden().ToMinimalApiResult();
-
         var userId = GetCurrentUserId(user);
         if (userId == Guid.Empty)
             return Result<ClinicGroupRevenueComparisonDto>.Unauthorized().ToMinimalApiResult();
