@@ -4,6 +4,13 @@ import {
   MOCK_PORTAL_MESSAGES,
   MOCK_PORTAL_PETS,
 } from '@/mocks/data/messaging'
+import {
+  MOCK_PORTAL_ANIMALS,
+  MOCK_PORTAL_MEDICAL_RECORDS,
+  MOCK_PORTAL_VACCINATIONS,
+  MOCK_PORTAL_PRESCRIPTIONS,
+  MOCK_PORTAL_WEIGHT_HISTORY,
+} from '@/mocks/data/portal-medical'
 import type {
   PortalConversationDto,
   PortalMessageDto,
@@ -254,5 +261,54 @@ export const portalHandlers = [
     if (!token) return new HttpResponse(null, { status: 401 })
 
     return HttpResponse.json(MOCK_PORTAL_PETS)
+  }),
+
+  // GET /api/v1/portal/my-animals
+  http.get(`${BASE}/my-animals`, async ({ request }) => {
+    await delay(150)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    return HttpResponse.json(MOCK_PORTAL_ANIMALS)
+  }),
+
+  // GET /api/v1/portal/animals/:id/records
+  http.get(`${BASE}/animals/:id/records`, async ({ params, request }) => {
+    await delay(120)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const records = MOCK_PORTAL_MEDICAL_RECORDS[params.id as string] ?? []
+    return HttpResponse.json(records)
+  }),
+
+  // GET /api/v1/portal/animals/:id/vaccinations
+  http.get(`${BASE}/animals/:id/vaccinations`, async ({ params, request }) => {
+    await delay(120)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const vaccinations = MOCK_PORTAL_VACCINATIONS[params.id as string] ?? []
+    return HttpResponse.json(vaccinations)
+  }),
+
+  // GET /api/v1/portal/animals/:id/prescriptions
+  http.get(`${BASE}/animals/:id/prescriptions`, async ({ params, request }) => {
+    await delay(120)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const prescriptions = MOCK_PORTAL_PRESCRIPTIONS[params.id as string] ?? []
+    return HttpResponse.json(prescriptions)
+  }),
+
+  // GET /api/v1/portal/animals/:id/weight
+  http.get(`${BASE}/animals/:id/weight`, async ({ params, request }) => {
+    await delay(120)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const weights = MOCK_PORTAL_WEIGHT_HISTORY[params.id as string] ?? []
+    return HttpResponse.json(weights)
   }),
 ]
