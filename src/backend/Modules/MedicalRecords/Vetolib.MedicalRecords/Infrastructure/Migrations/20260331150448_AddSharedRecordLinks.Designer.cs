@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetolib.MedicalRecords.Infrastructure;
@@ -11,9 +12,11 @@ using Vetolib.MedicalRecords.Infrastructure;
 namespace Vetolib.MedicalRecords.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicalRecordsDbContext))]
-    partial class MedicalRecordsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260331150448_AddSharedRecordLinks")]
+    partial class AddSharedRecordLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,11 +174,6 @@ namespace Vetolib.MedicalRecords.Infrastructure.Migrations
 
                     b.Property<DateTime>("ExaminedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsVisibleToOwner")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
 
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
