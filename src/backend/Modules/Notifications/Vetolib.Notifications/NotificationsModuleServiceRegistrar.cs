@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Notifications.Api;
+using Vetolib.Notifications.Contracts;
 using Vetolib.Notifications.Infrastructure;
 using Vetolib.Shared.Infrastructure.Behaviors;
 
@@ -29,6 +30,9 @@ public static class NotificationsModuleServiceRegistrar
         services.AddValidatorsFromAssembly(typeof(NotificationsModuleServiceRegistrar).Assembly, includeInternalTypes: true);
 
         services.AddHostedService<ReminderSchedulerService>();
+
+        // SMS provider — swap StubSmsProvider for TwilioSmsProvider when ready
+        services.AddSingleton<ISmsProvider, StubSmsProvider>();
 
         return services;
     }

@@ -17,6 +17,6 @@ internal class UpdateReminderConfigValidator : AbstractValidator<UpdateReminderC
 
         RuleFor(x => x.PreferredReminderChannel)
             .IsInEnum()
-            .WithMessage("Invalid reminder channel. Must be Email, WhatsApp, or Both.");
+            .WithMessage("Invalid reminder channel. Must be Email, WhatsApp, Sms, Both, or All.");
     }
 }
