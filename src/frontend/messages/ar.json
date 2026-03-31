@@ -1812,6 +1812,18 @@
       "weight": {
         "empty": "لا توجد سجلات وزن.",
         "latest": "الوزن الحالي"
+      },
+      "reminders": {
+        "title": "تذكيرات التطعيم",
+        "empty": "لا توجد تذكيرات تطعيم قادمة.",
+        "due": "الموعد المحدد",
+        "status_upcoming": "قادم",
+        "status_overdue": "متأخر",
+        "status_completed": "مكتمل",
+        "book_appointment": "حجز",
+        "notification_prefs": "إعدادات الإشعارات",
+        "whatsapp": "تذكيرات واتساب",
+        "email": "تذكيرات البريد الإلكتروني"
       }
     }
   },

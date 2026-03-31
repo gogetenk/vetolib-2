@@ -10,7 +10,10 @@ import {
   MOCK_PORTAL_VACCINATIONS,
   MOCK_PORTAL_PRESCRIPTIONS,
   MOCK_PORTAL_WEIGHT_HISTORY,
+  MOCK_PORTAL_VACCINATION_REMINDERS,
+  MOCK_NOTIFICATION_PREFERENCES,
 } from '@/mocks/data/portal-medical'
+import type { NotificationPreferencesDto } from '@/lib/api/portal'
 import type {
   PortalConversationDto,
   PortalMessageDto,
@@ -25,6 +28,9 @@ const portalMessages: Record<string, PortalMessageDto[]> = Object.fromEntries(
 
 // Track consent per magic link token (simulated)
 const consentGiven = new Set<string>(['valid-magic-token-001'])
+
+// Mutable notification preferences
+const notifPrefs: NotificationPreferencesDto = { ...MOCK_NOTIFICATION_PREFERENCES }
 
 // Track daily message counts per owner token
 const dailyMessageCount: Record<string, number> = {}
@@ -310,5 +316,37 @@ export const portalHandlers = [
 
     const weights = MOCK_PORTAL_WEIGHT_HISTORY[params.id as string] ?? []
     return HttpResponse.json(weights)
+  }),
+
+  // GET /api/v1/portal/animals/:id/vaccination-reminders
+  http.get(`${BASE}/animals/:id/vaccination-reminders`, async ({ params, request }) => {
+    await delay(120)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const reminders = MOCK_PORTAL_VACCINATION_REMINDERS[params.id as string] ?? []
+    return HttpResponse.json(reminders)
+  }),
+
+  // GET /api/v1/portal/notification-preferences
+  http.get(`${BASE}/notification-preferences`, async ({ request }) => {
+    await delay(100)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    return HttpResponse.json(notifPrefs)
+  }),
+
+  // PUT /api/v1/portal/notification-preferences
+  http.put(`${BASE}/notification-preferences`, async ({ request }) => {
+    await delay(150)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const body = await request.json() as NotificationPreferencesDto
+    notifPrefs.whatsappEnabled = body.whatsappEnabled
+    notifPrefs.emailEnabled = body.emailEnabled
+
+    return HttpResponse.json(notifPrefs)
   }),
 ]

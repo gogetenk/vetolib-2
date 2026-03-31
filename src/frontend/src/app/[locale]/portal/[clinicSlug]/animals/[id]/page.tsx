@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter, useParams } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Bell, BellOff, CalendarPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   listMyAnimals,
@@ -11,6 +11,9 @@ import {
   getAnimalVaccinations,
   getAnimalPrescriptions,
   getAnimalWeightHistory,
+  getAnimalVaccinationReminders,
+  getNotificationPreferences,
+  updateNotificationPreferences,
 } from '@/lib/api/portal'
 import type {
   PortalAnimalDto,
@@ -18,6 +21,8 @@ import type {
   PortalVaccinationDto,
   PortalPrescriptionDto,
   PortalWeightEntryDto,
+  VaccinationReminderDto,
+  NotificationPreferencesDto,
 } from '@/lib/api/portal'
 import { ApiError } from '@/lib/api/client'
 import { cn } from '@/lib/utils'
@@ -51,19 +56,28 @@ export default function AnimalDetailPage() {
   const [vaccinations, setVaccinations] = useState<PortalVaccinationDto[]>([])
   const [prescriptions, setPrescriptions] = useState<PortalPrescriptionDto[]>([])
   const [weightHistory, setWeightHistory] = useState<PortalWeightEntryDto[]>([])
+  const [vaccinationReminders, setVaccinationReminders] = useState<VaccinationReminderDto[]>([])
+  const [notifPrefs, setNotifPrefs] = useState<NotificationPreferencesDto | null>(null)
+  const [notifSaving, setNotifSaving] = useState(false)
   const [tabLoading, setTabLoading] = useState(false)
   const [loadedTabs, setLoadedTabs] = useState<Set<TabKey>>(new Set())
 
-  // Load animal info
+  // Load animal info + vaccination reminders + notification prefs
   useEffect(() => {
     let cancelled = false
     async function load() {
       try {
-        const animals = await listMyAnimals()
+        const [animals, reminders, prefs] = await Promise.all([
+          listMyAnimals(),
+          getAnimalVaccinationReminders(animalId),
+          getNotificationPreferences(),
+        ])
         if (cancelled) return
         const found = animals.find((a) => a.id === animalId)
         if (found) {
           setAnimal(found)
+          setVaccinationReminders(reminders)
+          setNotifPrefs(prefs)
         } else {
           setError('not_found')
         }
@@ -122,6 +136,27 @@ export default function AnimalDetailPage() {
       loadTabData(activeTab)
     }
   }, [activeTab, animal, loadTabData])
+
+  const handleToggleNotification = useCallback(
+    async (channel: 'whatsapp' | 'email') => {
+      if (!notifPrefs || notifSaving) return
+      setNotifSaving(true)
+      try {
+        const updated = await updateNotificationPreferences({
+          whatsappEnabled:
+            channel === 'whatsapp' ? !notifPrefs.whatsappEnabled : notifPrefs.whatsappEnabled,
+          emailEnabled:
+            channel === 'email' ? !notifPrefs.emailEnabled : notifPrefs.emailEnabled,
+        })
+        setNotifPrefs(updated)
+      } catch {
+        // silently fail
+      } finally {
+        setNotifSaving(false)
+      }
+    },
+    [notifPrefs, notifSaving]
+  )
 
   if (isLoading) {
     return (
@@ -217,7 +252,18 @@ export default function AnimalDetailPage() {
           </div>
         ) : (
           <>
-            {activeTab === 'overview' && <OverviewTab animal={animal} t={t} />}
+            {activeTab === 'overview' && (
+              <OverviewTab
+                animal={animal}
+                t={t}
+                vaccinationReminders={vaccinationReminders}
+                notifPrefs={notifPrefs}
+                notifSaving={notifSaving}
+                onToggleNotification={handleToggleNotification}
+                locale={params.locale}
+                clinicSlug={params.clinicSlug}
+              />
+            )}
             {activeTab === 'records' && <RecordsTab records={records} t={t} />}
             {activeTab === 'vaccinations' && <VaccinationsTab vaccinations={vaccinations} t={t} />}
             {activeTab === 'prescriptions' && <PrescriptionsTab prescriptions={prescriptions} t={t} />}
@@ -235,14 +281,138 @@ interface TranslationFn {
   (key: string, values?: Record<string, string | number>): string
 }
 
-function OverviewTab({ animal, t }: { animal: PortalAnimalDto; t: TranslationFn }) {
+function OverviewTab({
+  animal,
+  t,
+  vaccinationReminders,
+  notifPrefs,
+  notifSaving,
+  onToggleNotification,
+  locale,
+  clinicSlug,
+}: {
+  animal: PortalAnimalDto
+  t: TranslationFn
+  vaccinationReminders: VaccinationReminderDto[]
+  notifPrefs: NotificationPreferencesDto | null
+  notifSaving: boolean
+  onToggleNotification: (channel: 'whatsapp' | 'email') => void
+  locale: string
+  clinicSlug: string
+}) {
   return (
-    <div className="space-y-3" data-testid="tab-overview">
-      <InfoRow label={t('overview.name')} value={animal.name} />
-      <InfoRow label={t('overview.species')} value={animal.species} />
-      <InfoRow label={t('overview.breed')} value={animal.breed} />
-      <InfoRow label={t('overview.date_of_birth')} value={formatDate(animal.dateOfBirth)} />
-      <InfoRow label={t('overview.last_visit')} value={formatDate(animal.lastVisitDate)} />
+    <div className="space-y-6" data-testid="tab-overview">
+      {/* Basic info */}
+      <div className="space-y-3">
+        <InfoRow label={t('overview.name')} value={animal.name} />
+        <InfoRow label={t('overview.species')} value={animal.species} />
+        <InfoRow label={t('overview.breed')} value={animal.breed} />
+        <InfoRow label={t('overview.date_of_birth')} value={formatDate(animal.dateOfBirth)} />
+        <InfoRow label={t('overview.last_visit')} value={formatDate(animal.lastVisitDate)} />
+      </div>
+
+      {/* Vaccination Reminders Card */}
+      <div
+        className="rounded-xl border border-border/80 bg-white p-4"
+        data-testid="vaccination-reminders-card"
+      >
+        <h3 className="text-sm font-semibold text-foreground mb-3" data-testid="vaccination-reminders-title">
+          {t('reminders.title')}
+        </h3>
+
+        {vaccinationReminders.length === 0 ? (
+          <p
+            className="text-sm text-muted-foreground"
+            data-testid="vaccination-reminders-empty"
+          >
+            {t('reminders.empty')}
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {vaccinationReminders.map((reminder) => (
+              <div
+                key={reminder.id}
+                className="flex items-start justify-between gap-2"
+                data-testid={`vaccination-reminder-${reminder.id}`}
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-foreground truncate">
+                    {reminder.vaccineName}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {t('reminders.due')}: {formatDate(reminder.dueDate)}
+                  </p>
+                  <span
+                    className={cn(
+                      'inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full',
+                      reminder.status === 'Overdue'
+                        ? 'bg-destructive/10 text-destructive'
+                        : reminder.status === 'Completed'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-amber-100 text-amber-700'
+                    )}
+                    data-testid={`vaccination-reminder-status-${reminder.id}`}
+                  >
+                    {t(`reminders.status_${reminder.status.toLowerCase()}`)}
+                  </span>
+                </div>
+                <a
+                  href={`/${locale}/portal/${clinicSlug}/book/new?animalId=${animal.id}&reason=${encodeURIComponent(reminder.vaccineName)}`}
+                  className="flex-shrink-0"
+                  data-testid={`vaccination-reminder-book-${reminder.id}`}
+                >
+                  <Button variant="outline" size="sm">
+                    <CalendarPlus className="h-3.5 w-3.5 me-1" />
+                    {t('reminders.book_appointment')}
+                  </Button>
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Notification Preferences */}
+        {notifPrefs && (
+          <div
+            className="mt-4 pt-4 border-t border-border/40"
+            data-testid="notification-preferences"
+          >
+            <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+              {t('reminders.notification_prefs')}
+            </h4>
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={() => onToggleNotification('whatsapp')}
+                disabled={notifSaving}
+                className="flex items-center justify-between w-full text-sm py-1"
+                data-testid="notification-toggle-whatsapp"
+              >
+                <span className="text-foreground">{t('reminders.whatsapp')}</span>
+                {notifPrefs.whatsappEnabled ? (
+                  <Bell className="h-4 w-4 text-primary" />
+                ) : (
+                  <BellOff className="h-4 w-4 text-muted-foreground" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => onToggleNotification('email')}
+                disabled={notifSaving}
+                className="flex items-center justify-between w-full text-sm py-1"
+                data-testid="notification-toggle-email"
+              >
+                <span className="text-foreground">{t('reminders.email')}</span>
+                {notifPrefs.emailEnabled ? (
+                  <Bell className="h-4 w-4 text-primary" />
+                ) : (
+                  <BellOff className="h-4 w-4 text-muted-foreground" />
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

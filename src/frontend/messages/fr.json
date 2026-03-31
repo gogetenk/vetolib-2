@@ -1822,6 +1822,18 @@
       "weight": {
         "empty": "Aucun enregistrement de poids.",
         "latest": "Poids actuel"
+      },
+      "reminders": {
+        "title": "Rappels de vaccination",
+        "empty": "Aucun rappel de vaccination a venir.",
+        "due": "Echeance",
+        "status_upcoming": "A venir",
+        "status_overdue": "En retard",
+        "status_completed": "Termine",
+        "book_appointment": "Reserver",
+        "notification_prefs": "Preferences de notification",
+        "whatsapp": "Rappels WhatsApp",
+        "email": "Rappels par e-mail"
       }
     }
   },
