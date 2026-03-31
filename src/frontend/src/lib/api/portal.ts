@@ -236,3 +236,14 @@ export function updateNotificationPreferences(
     body: JSON.stringify(body),
   })
 }
+
+// ─── Referral Code ─────────────────────────────────────────────────────────────
+
+export interface ReferralCodeDto {
+  code: string
+  usageCount: number
+}
+
+export function getReferralCode(): Promise<ReferralCodeDto> {
+  return portalFetch<ReferralCodeDto>(`${BASE}/referral-code`)
+}

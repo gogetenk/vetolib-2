@@ -1884,6 +1884,15 @@
         "whatsapp": "WhatsApp reminders",
         "email": "Email reminders"
       }
+    },
+    "referral": {
+      "title": "Share Vetara",
+      "description": "Love Vetara? Share your referral code with friends and help them discover better pet care.",
+      "copy_code": "Copy code",
+      "copied": "Copied!",
+      "share_whatsapp": "Share via WhatsApp",
+      "friends_joined": "{count} friends joined",
+      "whatsapp_message": "Hey! I use Vetara for my pet's healthcare. Join with my referral code: {code}"
     }
   },
   "onboarding": {

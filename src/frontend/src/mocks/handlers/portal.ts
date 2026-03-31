@@ -337,6 +337,18 @@ export const portalHandlers = [
     return HttpResponse.json(notifPrefs)
   }),
 
+  // GET /api/v1/portal/referral-code
+  http.get(`${BASE}/referral-code`, async ({ request }) => {
+    await delay(100)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    return HttpResponse.json({
+      code: 'VETARA-JOHN',
+      usageCount: 3,
+    })
+  }),
+
   // PUT /api/v1/portal/notification-preferences
   http.put(`${BASE}/notification-preferences`, async ({ request }) => {
     await delay(150)
