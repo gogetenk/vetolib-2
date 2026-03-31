@@ -30,9 +30,9 @@ public interface IPatientReader
     Task<Result<PatientBasicInfoDto>> GetPatientBasicInfoAsync(Guid patientId, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns patients matching the given IDs within the current tenant scope.
-    /// Used by Breeding module to resolve patient details in batch (avoids N+1).
-    /// Patients not found are silently excluded from the result.
+    /// Returns patients by a batch of IDs within the current tenant scope.
+    /// Used by Breeding module to batch-load pedigree nodes without N+1.
+    /// Patients not found are silently omitted from the result dictionary.
     /// </summary>
-    Task<Result<IReadOnlyList<PatientDto>>> GetPatientsByIdsAsync(IReadOnlyCollection<Guid> patientIds, CancellationToken ct = default);
+    Task<Result<IReadOnlyDictionary<Guid, PatientDto>>> GetPatientsByIdsAsync(IReadOnlyCollection<Guid> patientIds, CancellationToken ct = default);
 }

@@ -64,7 +64,7 @@ internal class GetDescendantsHandler : IRequestHandler<GetDescendantsQuery, Resu
         if (!patientsResult.IsSuccess)
             return Result<IReadOnlyList<PedigreeNodeDto>>.Success(Array.Empty<PedigreeNodeDto>());
 
-        var patientsById = patientsResult.Value.ToDictionary(p => p.Id);
+        var patientsById = patientsResult.Value;
 
         // Build the lineage lookup by PatientId for registry numbers
         var lineageByPatientId = allLineages.ToDictionary(l => l.PatientId);
@@ -97,7 +97,7 @@ internal class GetDescendantsHandler : IRequestHandler<GetDescendantsQuery, Resu
     private static void BuildDescendantList(
         Guid parentId,
         Dictionary<Guid, List<PatientLineage>> childrenByParent,
-        Dictionary<Guid, PatientDto> patientsById,
+        IReadOnlyDictionary<Guid, PatientDto> patientsById,
         Dictionary<Guid, PatientLineage> lineageByPatientId,
         List<PedigreeNodeDto> result,
         int remainingDepth)
