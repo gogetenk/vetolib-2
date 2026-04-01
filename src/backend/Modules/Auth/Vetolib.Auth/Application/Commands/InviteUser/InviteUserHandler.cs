@@ -3,6 +3,7 @@ using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
@@ -13,11 +14,19 @@ internal class InviteUserHandler : IRequestHandler<InviteUserCommand, Result<Inv
 {
     private readonly AuthDbContext _context;
     private readonly IConfiguration _configuration;
+    private readonly IKeycloakAdminService? _keycloakAdminService;
+    private readonly ILogger<InviteUserHandler> _logger;
 
-    public InviteUserHandler(AuthDbContext context, IConfiguration configuration)
+    public InviteUserHandler(
+        AuthDbContext context,
+        IConfiguration configuration,
+        ILogger<InviteUserHandler> logger,
+        IKeycloakAdminService? keycloakAdminService = null)
     {
         _context = context;
         _configuration = configuration;
+        _keycloakAdminService = keycloakAdminService;
+        _logger = logger;
     }
 
     public async Task<Result<InviteUserResponse>> Handle(InviteUserCommand cmd, CancellationToken ct)
@@ -41,6 +50,9 @@ internal class InviteUserHandler : IRequestHandler<InviteUserCommand, Result<Inv
         if (!userResult.IsSuccess)
             return Result<InviteUserResponse>.Invalid(userResult.ValidationErrors.ToList());
 
+        // Best-effort Keycloak sync: create user and add to organization
+        await SyncWithKeycloakAsync(userResult.Value, cmd.ClinicId, cmd.Role, temporaryPassword, ct);
+
         _context.Users.Add(userResult.Value);
 
         // SaveChangesAsync will dispatch the UserInvitedDomainEvent → publishes UserInvitedIntegrationEvent
@@ -51,6 +63,44 @@ internal class InviteUserHandler : IRequestHandler<InviteUserCommand, Result<Inv
             userResult.Value.Email,
             userResult.Value.FullName,
             userResult.Value.Role));
+    }
+
+    private async Task SyncWithKeycloakAsync(User user, Guid clinicId, UserRole role, string temporaryPassword, CancellationToken ct)
+    {
+        if (_keycloakAdminService is null)
+            return;
+
+        try
+        {
+            // Split FullName into firstName (Keycloak lastName left empty for invited users)
+            var createResult = await _keycloakAdminService.CreateUserAsync(
+                user.Email, temporaryPassword, user.FullName, "", ct);
+
+            if (!createResult.IsSuccess)
+            {
+                _logger.LogWarning("Keycloak user creation failed for {Email}: {Errors}",
+                    user.Email, string.Join(", ", createResult.Errors));
+                return;
+            }
+
+            var keycloakUserId = createResult.Value;
+            user.SetKeycloakUserId(keycloakUserId);
+
+            // Add user to the clinic organization with the assigned role
+            var orgResult = await _keycloakAdminService.AddUserToOrganizationAsync(
+                keycloakUserId, clinicId, new[] { role.ToString() }, ct);
+
+            if (!orgResult.IsSuccess)
+            {
+                _logger.LogWarning(
+                    "Keycloak AddUserToOrganization failed for user {KeycloakUserId} in clinic {ClinicId}: {Errors}",
+                    keycloakUserId, clinicId, string.Join(", ", orgResult.Errors));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Keycloak sync failed for invited user {Email}. User was created in DB only.", user.Email);
+        }
     }
 
     private static string GenerateTemporaryPassword()
