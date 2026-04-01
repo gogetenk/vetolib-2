@@ -3,7 +3,7 @@
     "signup": {
       "title": "Créez votre clinique",
       "heading": "Créer un compte",
-      "meta_title": "Créez votre clinique — Vetara",
+      "meta_title": "Créez votre clinique",
       "meta_description": "Commencez votre essai gratuit de 30 jours. Gérez les rendez-vous, dossiers médicaux et la facturation de votre clinique vétérinaire.",
       "subtitle": "Essai gratuit de 30 jours. Aucune carte bancaire requise.",
       "clinic_name": "Nom de la clinique",
@@ -81,6 +81,7 @@
     "sign_out": "Déconnexion",
     "stock": "Stock",
     "breeding": "Reproduction",
+    "waitlist": "Liste d'attente",
     "read_only": "Lecture seule",
     "messaging_settings": "Paramètres de messagerie",
     "clinic_group": "Groupe de cliniques",
@@ -2642,7 +2643,7 @@
     }
   },
   "pricing_page": {
-    "meta_title": "Tarifs — Vetara",
+    "meta_title": "Tarifs",
     "meta_description": "Comparez les plans Vetara : Starter (Gratuit), Professionnel (149 AED/mois), et Entreprise. Trouvez le plan ideal pour votre clinique veterinaire aux EAU.",
     "nav_home": "Accueil",
     "nav_pricing": "Tarifs",
@@ -2807,7 +2808,7 @@
   },
   "pet_owners": {
     "meta": {
-      "title": "Proprietaires d'animaux — La sante de votre animal, toujours dans votre poche | Vetara",
+      "title": "Proprietaires d'animaux — La sante de votre animal, toujours dans votre poche",
       "description": "Accedez aux dossiers medicaux de votre animal, reservez des rendez-vous veterinaires, recevez des rappels de vaccination et partagez les dossiers avec n'importe quelle clinique — tout depuis Vetara."
     },
     "nav": {
@@ -2944,7 +2945,7 @@
   },
   "developers": {
     "meta": {
-      "title": "Developers — Vetara Open Veterinary Health API",
+      "title": "Developers — Open Veterinary Health API",
       "description": "Build on Vetara's FHIR R4-compatible API. Export patient data, integrate medical records, and connect veterinary systems with our open health API."
     },
     "nav": {
