@@ -79,7 +79,7 @@ export default function ClinicGroupPage() {
   const [clinicToRemove, setClinicToRemove] = useState<ClinicGroupClinicDto | null>(null)
   const [isRemoving, setIsRemoving] = useState(false)
 
-  const groupId = parseJwtClaim("clinicGroupId")
+  const groupId = parseJwtClaim("clinic_group_id")
 
   const loadData = useCallback(async () => {
     if (!groupId) return

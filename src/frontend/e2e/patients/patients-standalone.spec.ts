@@ -6,8 +6,8 @@ function makeToken(role: string, name: string, email: string): string {
     sub: email,
     name,
     role,
-    clinicId: 'clinic-001',
-    clinicName: 'Desert Paws Clinic',
+    clinic_id: 'clinic-001',
+    clinic_name: 'Desert Paws Clinic',
     exp: Math.floor(Date.now() / 1000) + 3600,
   }
   const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).replace(/=/g, '')
