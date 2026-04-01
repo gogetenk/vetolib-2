@@ -3,7 +3,7 @@
     "signup": {
       "title": "إنشاء عيادتك",
       "heading": "إنشاء حساب",
-      "meta_title": "إنشاء عيادتك — فيتارا",
+      "meta_title": "إنشاء عيادتك",
       "meta_description": "ابدأ تجربتك المجانية لمدة 30 يوماً. أدر مواعيدك وسجلاتك الطبية وفواتيرك في عيادتك البيطرية بالإمارات.",
       "subtitle": "ابدأ تجربتك المجانية لمدة 30 يوماً. لا حاجة لبطاقة ائتمان.",
       "clinic_name": "اسم العيادة",
@@ -2638,7 +2638,7 @@
     }
   },
   "pricing_page": {
-    "meta_title": "الأسعار — فيتارا",
+    "meta_title": "الأسعار",
     "meta_description": "قارن خطط فيتارا: المبتدئ (مجاني)، المحترف (149 درهم/شهر)، والمؤسسات. اعثر على الخطة المناسبة لعيادتك البيطرية في الإمارات.",
     "nav_home": "الرئيسية",
     "nav_pricing": "الأسعار",
@@ -2803,7 +2803,7 @@
   },
   "pet_owners": {
     "meta": {
-      "title": "أصحاب الحيوانات الأليفة — صحة حيوانك دائماً في جيبك | فيتارا",
+      "title": "أصحاب الحيوانات الأليفة — صحة حيوانك دائماً في جيبك",
       "description": "الوصول إلى السجلات الطبية لحيوانك، حجز المواعيد البيطرية، تلقي تذكيرات التطعيم، ومشاركة السجلات مع أي عيادة — كل ذلك من فيتارا."
     },
     "nav": {
@@ -2940,7 +2940,7 @@
   },
   "developers": {
     "meta": {
-      "title": "Developers — Vetara Open Veterinary Health API",
+      "title": "Developers — Open Veterinary Health API",
       "description": "Build on Vetara's FHIR R4-compatible API. Export patient data, integrate medical records, and connect veterinary systems with our open health API."
     },
     "nav": {

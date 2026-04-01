@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Insights, guides, and best practices for veterinary clinic management in the UAE. Covering AI triage, WhatsApp integration, Arabic software, and more.",
   openGraph: {
-    title: "Blog -- Vetara",
+    title: "Blog — Vetara",
     description:
       "Insights, guides, and best practices for veterinary clinic management in the UAE.",
     type: "website",
