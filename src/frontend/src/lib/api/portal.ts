@@ -247,3 +247,40 @@ export interface ReferralCodeDto {
 export function getReferralCode(): Promise<ReferralCodeDto> {
   return portalFetch<ReferralCodeDto>(`${BASE}/referral-code`)
 }
+
+// ─── Owner Profile ────────────────────────────────────────────────────────────
+
+export interface PortalOwnerProfileDto {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  pets: PortalProfilePetDto[]
+}
+
+export interface PortalProfilePetDto {
+  id: string
+  name: string
+  species: string
+  breed: string
+}
+
+export interface UpdatePortalProfileRequest {
+  firstName: string
+  lastName: string
+  phone: string
+}
+
+export function getPortalProfile(): Promise<PortalOwnerProfileDto> {
+  return portalFetch<PortalOwnerProfileDto>(`${BASE}/profile`)
+}
+
+export function updatePortalProfile(
+  body: UpdatePortalProfileRequest
+): Promise<PortalOwnerProfileDto> {
+  return portalFetch<PortalOwnerProfileDto>(`${BASE}/profile`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+}
