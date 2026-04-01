@@ -1,7 +1,9 @@
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Application.Services;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
@@ -13,12 +15,21 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
     private readonly AuthDbContext _context;
     private readonly IJwtTokenService _jwtTokenService;
     private readonly AuthSecurityOptions _securityOptions;
+    private readonly IKeycloakAdminService _keycloakAdminService;
+    private readonly ILogger<LoginHandler> _logger;
 
-    public LoginHandler(AuthDbContext context, IJwtTokenService jwtTokenService, IOptions<AuthSecurityOptions> securityOptions)
+    public LoginHandler(
+        AuthDbContext context,
+        IJwtTokenService jwtTokenService,
+        IOptions<AuthSecurityOptions> securityOptions,
+        IKeycloakAdminService keycloakAdminService,
+        ILogger<LoginHandler> logger)
     {
         _context = context;
         _jwtTokenService = jwtTokenService;
         _securityOptions = securityOptions.Value;
+        _keycloakAdminService = keycloakAdminService;
+        _logger = logger;
     }
 
     public async Task<Result<AuthTokenDto>> Handle(LoginCommand cmd, CancellationToken ct)
@@ -72,6 +83,9 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
         // Success: reset failed attempts
         user.ResetFailedAttempts();
 
+        // Lazy migration: if Legacy user without Keycloak, create them in Keycloak
+        await TryMigrateToKeycloakAsync(user, cmd.Password, ct);
+
         // Check if user must change their password before accessing the app
         if (user.MustChangePassword)
         {
@@ -102,5 +116,82 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
         }
 
         return Result<AuthTokenDto>.Success(tokenDto);
+    }
+
+    /// <summary>
+    /// Best-effort lazy migration: creates the user in Keycloak and adds them to their clinic's organization.
+    /// If anything fails, the login proceeds normally — migration will be retried on next login.
+    /// </summary>
+    private async Task TryMigrateToKeycloakAsync(User user, string plaintextPassword, CancellationToken ct)
+    {
+        if (user.AuthProvider != AuthProvider.Legacy || user.KeycloakUserId is not null)
+            return;
+
+        try
+        {
+            // Split FullName into first/last for Keycloak — use email prefix as fallback
+            var (firstName, lastName) = SplitName(user.FullName, user.Email);
+
+            var createResult = await _keycloakAdminService.CreateUserAsync(
+                user.Email, plaintextPassword, firstName, lastName, ct);
+
+            if (!createResult.IsSuccess)
+            {
+                _logger.LogWarning("Lazy Keycloak migration failed for user {UserId}: CreateUser returned {Errors}",
+                    user.Id, string.Join(", ", createResult.Errors));
+                return;
+            }
+
+            var keycloakUserId = createResult.Value;
+
+            // Try to add the user to their clinic's Keycloak organization
+            var clinic = await _context.Clinics
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(c => c.Id == user.ClinicId, ct);
+
+            if (clinic?.KeycloakOrganizationId is not null)
+            {
+                var roleStr = user.Role.ToString();
+                var addOrgResult = await _keycloakAdminService.AddUserToOrganizationAsync(
+                    keycloakUserId, clinic.KeycloakOrganizationId.Value, new[] { roleStr }, ct);
+
+                if (!addOrgResult.IsSuccess)
+                {
+                    _logger.LogWarning(
+                        "Lazy Keycloak migration: user {UserId} created in Keycloak ({KeycloakUserId}) but failed to add to organization {OrgId}: {Errors}",
+                        user.Id, keycloakUserId, clinic.KeycloakOrganizationId.Value,
+                        string.Join(", ", addOrgResult.Errors));
+                }
+            }
+
+            // Mark user as migrated
+            var migrateResult = user.MigrateToKeycloak(keycloakUserId);
+            if (!migrateResult.IsSuccess)
+            {
+                _logger.LogWarning("Lazy Keycloak migration: domain MigrateToKeycloak failed for user {UserId}: {Errors}",
+                    user.Id, string.Join(", ", migrateResult.Errors));
+                return;
+            }
+
+            _logger.LogInformation("Lazy Keycloak migration completed for user {UserId} → Keycloak {KeycloakUserId}",
+                user.Id, keycloakUserId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Lazy Keycloak migration failed with exception for user {UserId}", user.Id);
+        }
+    }
+
+    private static (string FirstName, string LastName) SplitName(string fullName, string email)
+    {
+        if (!string.IsNullOrWhiteSpace(fullName))
+        {
+            var parts = fullName.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length >= 2 ? (parts[0], parts[1]) : (parts[0], parts[0]);
+        }
+
+        // Fallback: use email local part
+        var localPart = email.Split('@')[0];
+        return (localPart, localPart);
     }
 }

@@ -149,6 +149,27 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         UpdatedAt = DateTime.UtcNow;
     }
 
+    /// <summary>
+    /// Marks a Legacy user as migrated to Keycloak (AuthProvider becomes Both).
+    /// Called after successful Keycloak user creation during lazy migration.
+    /// </summary>
+    public Result MigrateToKeycloak(Guid keycloakUserId)
+    {
+        if (keycloakUserId == Guid.Empty)
+            return Result.Error("INVALID_KEYCLOAK_ID:KeycloakUserId cannot be empty");
+
+        if (AuthProvider == AuthProvider.Keycloak)
+            return Result.Error("ALREADY_KEYCLOAK:User is already a Keycloak-only user");
+
+        if (AuthProvider == AuthProvider.Both)
+            return Result.Error("ALREADY_MIGRATED:User has already been migrated to Keycloak");
+
+        KeycloakUserId = keycloakUserId;
+        AuthProvider = AuthProvider.Both;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
+    }
+
     public Result SetReferrer(Guid referrerUserId)
     {
         if (referrerUserId == Guid.Empty)
