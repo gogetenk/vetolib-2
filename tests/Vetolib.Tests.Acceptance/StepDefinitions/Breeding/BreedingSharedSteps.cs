@@ -104,6 +104,14 @@ internal class BreedingSharedSteps
         response.IsSuccessStatusCode.Should().BeFalse(
             $"Expected an error response but got {(int)response.StatusCode}");
 
+        // Authorization failures (403) from ASP.NET return an empty body — match by status code
+        if (expectedReason == "Insufficient permissions")
+        {
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.Forbidden,
+                $"Expected 403 Forbidden for '{expectedReason}' but got {(int)response.StatusCode}");
+            return;
+        }
+
         var body = await response.Content.ReadAsStringAsync();
         body.Should().Contain(expectedReason,
             $"Expected error body to contain '{expectedReason}' but got: {body}");

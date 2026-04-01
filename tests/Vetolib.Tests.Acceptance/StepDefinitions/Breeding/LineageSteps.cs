@@ -223,7 +223,7 @@ internal class LineageSteps
         var patientId = patientIds[patientName];
         var fatherId = patientIds[fatherName];
 
-        var request = new { FatherId = fatherId };
+        var request = new { FatherPatientId = fatherId };
         _response = await _client.PutAsJsonAsync(
             $"/api/v1/patients/{patientId}/lineage", request);
         _ctx.Set(_response, "LastResponse");
