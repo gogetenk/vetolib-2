@@ -52,14 +52,18 @@ public static class AuthModuleServiceRegistrar
         // Subscription enforcement
         services.AddScoped<ISubscriptionChecker, SubscriptionChecker>();
 
+        // Keycloak Admin API
+        services.Configure<KeycloakAdminOptions>(config.GetSection(KeycloakAdminOptions.SectionName));
+        var keycloakBaseUrl = config["Keycloak:BaseUrl"] ?? "http://localhost:8080";
+        services.AddHttpClient<IKeycloakAdminService, KeycloakAdminService>(client =>
+        {
+            client.BaseAddress = new Uri(keycloakBaseUrl);
+        });
+
         // Claims transformation: maps Keycloak organization.id → clinic_id
         services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformation>();
 
         // --- Dual-stack JWT Authentication ---
-        // Legacy: existing HMAC-SHA256 tokens issued by the built-in JwtTokenService.
-        // Keycloak: RS256 tokens issued by Keycloak (OIDC discovery via Authority).
-        // A policy scheme selects the handler based on the token's "alg" header.
-
         var jwtKey = config["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key configuration is required. Set it in appsettings.json or environment variables.");
         var jwtIssuer = config["Jwt:Issuer"] ?? "Vetolib";
         var jwtAudience = config["Jwt:Audience"] ?? "Vetolib";
