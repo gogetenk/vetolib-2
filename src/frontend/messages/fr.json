@@ -1974,6 +1974,24 @@
       "share_whatsapp": "Partager via WhatsApp",
       "friends_joined": "{count} amis inscrits",
       "whatsapp_message": "Salut ! J'utilise Vetara pour la sante de mon animal. Rejoins avec mon code de parrainage : {code}"
+    },
+    "profile_page": {
+      "title": "Mon profil",
+      "account_info": "Informations du compte",
+      "name": "Nom",
+      "first_name": "Prenom",
+      "last_name": "Nom de famille",
+      "email": "Email",
+      "phone": "Telephone",
+      "my_pets": "Mes animaux",
+      "no_pets": "Aucun animal lie a votre compte.",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "cancel": "Annuler",
+      "load_error": "Impossible de charger votre profil. Veuillez reessayer plus tard.",
+      "save_error": "Echec de la sauvegarde du profil. Veuillez reessayer.",
+      "validation_name_required": "Le prenom et le nom de famille sont requis."
     }
   },
   "onboarding": {

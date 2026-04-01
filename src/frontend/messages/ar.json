@@ -81,6 +81,7 @@
     "sign_out": "تسجيل الخروج",
     "stock": "المخزون",
     "breeding": "التربية",
+    "waitlist": "قائمة الانتظار",
     "read_only": "للقراءة فقط",
     "messaging_settings": "إعدادات الرسائل",
     "switch_clinic": "تبديل العيادة",
@@ -657,6 +658,45 @@
       "load_stats": "Failed to load dashboard stats",
       "load_stats_desc": "Could not retrieve clinic statistics.",
       "load_activity": "Failed to load activity"
+    }
+  },
+  "waitlist": {
+    "title": "قائمة الانتظار",
+    "add": "إضافة إلى قائمة الانتظار",
+    "remove": "إزالة من قائمة الانتظار",
+    "col_patient": "الحيوان",
+    "col_reason": "السبب",
+    "col_preferred_time": "الوقت المفضل",
+    "col_priority": "الأولوية",
+    "col_date_added": "تاريخ الإضافة",
+    "failed_to_load": "فشل تحميل قائمة الانتظار.",
+    "failed_to_delete": "فشل إزالة العنصر من قائمة الانتظار.",
+    "error_title": "خطأ",
+    "priority": {
+      "LOW": "منخفضة",
+      "NORMAL": "عادية",
+      "HIGH": "عالية",
+      "URGENT": "عاجلة"
+    },
+    "empty": {
+      "title": "لا أحد في قائمة الانتظار",
+      "description": "عندما يحتاج المرضى إلى موعد ولا تتوفر فترة زمنية، أضفهم هنا لتتبع الطلب.",
+      "cta": "إضافة إلى قائمة الانتظار"
+    },
+    "dialog": {
+      "title": "إضافة إلى قائمة الانتظار",
+      "description": "إضافة مريض إلى قائمة الانتظار للفترة المتاحة التالية.",
+      "patient": "الحيوان",
+      "patient_placeholder": "اختر حيوانًا",
+      "reason": "السبب",
+      "reason_placeholder": "مثال: تنظيف أسنان، زيارة متابعة",
+      "preferred_day": "اليوم المفضل",
+      "preferred_time": "الوقت المفضل",
+      "priority_label": "الأولوية",
+      "cancel": "إلغاء",
+      "submit": "إضافة إلى قائمة الانتظار",
+      "submitting": "جارٍ الإضافة...",
+      "submit_error": "فشل إضافة المريض إلى قائمة الانتظار. يرجى المحاولة مرة أخرى."
     }
   },
   "stock": {
@@ -1959,6 +1999,24 @@
       "share_whatsapp": "مشاركة عبر واتساب",
       "friends_joined": "{count} أصدقاء انضموا",
       "whatsapp_message": "مرحباً! أستخدم فيتارا لرعاية حيواني الأليف. انضم باستخدام رمز الإحالة الخاص بي: {code}"
+    },
+    "profile_page": {
+      "title": "ملفي الشخصي",
+      "account_info": "معلومات الحساب",
+      "name": "الاسم",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "my_pets": "حيواناتي الأليفة",
+      "no_pets": "لا توجد حيوانات أليفة مرتبطة بحسابك.",
+      "edit": "تعديل",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء",
+      "load_error": "تعذر تحميل ملفك الشخصي. يرجى المحاولة مرة أخرى لاحقاً.",
+      "save_error": "فشل حفظ ملفك الشخصي. يرجى المحاولة مرة أخرى.",
+      "validation_name_required": "الاسم الأول واسم العائلة مطلوبان."
     }
   },
   "onboarding": {

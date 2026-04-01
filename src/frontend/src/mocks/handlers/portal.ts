@@ -13,7 +13,7 @@ import {
   MOCK_PORTAL_VACCINATION_REMINDERS,
   MOCK_NOTIFICATION_PREFERENCES,
 } from '@/mocks/data/portal-medical'
-import type { NotificationPreferencesDto } from '@/lib/api/portal'
+import type { NotificationPreferencesDto, PortalOwnerProfileDto, UpdatePortalProfileRequest } from '@/lib/api/portal'
 import type {
   PortalConversationDto,
   PortalMessageDto,
@@ -31,6 +31,20 @@ const consentGiven = new Set<string>(['valid-magic-token-001'])
 
 // Mutable notification preferences
 const notifPrefs: NotificationPreferencesDto = { ...MOCK_NOTIFICATION_PREFERENCES }
+
+// Mutable owner profile
+const ownerProfile: PortalOwnerProfileDto = {
+  id: 'owner-0001',
+  firstName: 'Khalid',
+  lastName: 'Al-Mansoori',
+  email: 'khalid.mansoori@gmail.com',
+  phone: '+971 50 123 4567',
+  pets: [
+    { id: 'pet-0001', name: 'Zayed', species: 'Dog', breed: 'Labrador Retriever' },
+    { id: 'pet-0002', name: 'Lulu', species: 'Cat', breed: 'Persian' },
+    { id: 'pet-0003', name: 'Falcon', species: 'Bird', breed: 'Falcon — Saker' },
+  ],
+}
 
 // Track daily message counts per owner token
 const dailyMessageCount: Record<string, number> = {}
@@ -360,5 +374,36 @@ export const portalHandlers = [
     notifPrefs.emailEnabled = body.emailEnabled
 
     return HttpResponse.json(notifPrefs)
+  }),
+
+  // GET /api/v1/portal/profile
+  http.get(`${BASE}/profile`, async ({ request }) => {
+    await delay(150)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    return HttpResponse.json(ownerProfile)
+  }),
+
+  // PUT /api/v1/portal/profile
+  http.put(`${BASE}/profile`, async ({ request }) => {
+    await delay(200)
+    const token = getOwnerToken(request)
+    if (!token) return new HttpResponse(null, { status: 401 })
+
+    const body = await request.json() as UpdatePortalProfileRequest
+
+    if (!body.firstName?.trim() || !body.lastName?.trim()) {
+      return HttpResponse.json(
+        { title: 'First name and last name are required.' },
+        { status: 422 }
+      )
+    }
+
+    ownerProfile.firstName = body.firstName.trim()
+    ownerProfile.lastName = body.lastName.trim()
+    ownerProfile.phone = body.phone?.trim() ?? ownerProfile.phone
+
+    return HttpResponse.json(ownerProfile)
   }),
 ]

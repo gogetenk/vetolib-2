@@ -14,6 +14,7 @@ import {
   Package,
   MessageSquare,
   Heart,
+  ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -58,6 +59,12 @@ function getMainNavItems(t: (key: string) => string): NavItem[] {
       label: t("billing"),
       icon: <CreditCard className="h-5 w-5" />,
       testId: "nav-billing",
+    },
+    {
+      href: "/waitlist",
+      label: t("waitlist"),
+      icon: <ClipboardList className="h-5 w-5" />,
+      testId: "nav-waitlist",
     },
     {
       href: "/messages",
