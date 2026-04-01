@@ -17,8 +17,8 @@ function makeToken(
     sub: email,
     name,
     role,
-    clinicId: 'clinic-001',
-    clinicName,
+    clinic_id: 'clinic-001',
+    clinic_name: clinicName,
     exp: Math.floor(Date.now() / 1000) + 3600,
     iat: Math.floor(Date.now() / 1000),
   }

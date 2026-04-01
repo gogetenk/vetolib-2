@@ -31,14 +31,14 @@ export function ClinicSwitcher() {
   const [loading, setLoading] = useState(false);
   const [switching, setSwitching] = useState(false);
   const [currentClinicId, setCurrentClinicId] = useState(() =>
-    parseJwtClaim("clinicId")
+    parseJwtClaim("clinic_id")
   );
   const [currentClinicName, setCurrentClinicName] = useState(() =>
-    parseJwtClaim("clinicName")
+    parseJwtClaim("clinic_name")
   );
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const clinicGroupId = parseJwtClaim("clinicGroupId");
+  const clinicGroupId = parseJwtClaim("clinic_group_id");
 
   // Fetch clinics on first open
   const fetchClinics = useCallback(async () => {
@@ -86,8 +86,8 @@ export function ClinicSwitcher() {
     try {
       await switchClinic(clinicId);
       // Update local state from the new token
-      setCurrentClinicId(parseJwtClaim("clinicId"));
-      setCurrentClinicName(parseJwtClaim("clinicName"));
+      setCurrentClinicId(parseJwtClaim("clinic_id"));
+      setCurrentClinicName(parseJwtClaim("clinic_name"));
       setOpen(false);
       // Reload the page to refresh all data with new clinic context
       window.location.reload();

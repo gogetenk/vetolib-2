@@ -57,12 +57,12 @@ export function getStoredUser(): UserInfo | null {
   try {
     const parts = token.split('.')
     const payload = JSON.parse(atob(parts[1]))
-    if (payload.clinicId && payload.clinicName && payload.name && payload.sub) {
+    if (payload.clinic_id && payload.clinic_name && payload.name && payload.sub) {
       return {
         email: payload.sub as string,
         name: payload.name as string,
-        clinicId: payload.clinicId as string,
-        clinicName: payload.clinicName as string,
+        clinicId: payload.clinic_id as string,
+        clinicName: payload.clinic_name as string,
       }
     }
     return null

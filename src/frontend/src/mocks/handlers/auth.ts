@@ -132,7 +132,7 @@ export const authHandlers = [
     // Reset failed attempts on success
     failedAttempts[email] = 0
 
-    const accessToken = generateToken({ sub: email, clinicId: user.clinicId, clinicName: user.clinicName, clinicGroupId: user.clinicGroupId, name: user.name, role: user.role })
+    const accessToken = generateToken({ sub: email, clinic_id: user.clinicId, clinic_name: user.clinicName, clinic_group_id: user.clinicGroupId, name: user.name, role: user.role })
     const refreshToken = generateToken({ sub: email, type: 'refresh' })
 
     return HttpResponse.json({
@@ -177,7 +177,7 @@ export const authHandlers = [
         )
       }
 
-      const newAccessToken = generateToken({ sub: email, clinicId: user.clinicId, clinicName: user.clinicName, clinicGroupId: user.clinicGroupId, name: user.name, role: user.role })
+      const newAccessToken = generateToken({ sub: email, clinic_id: user.clinicId, clinic_name: user.clinicName, clinic_group_id: user.clinicGroupId, name: user.name, role: user.role })
       const newRefreshToken = generateToken({ sub: email, type: 'refresh' })
 
       return HttpResponse.json({
