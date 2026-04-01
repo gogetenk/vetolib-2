@@ -246,6 +246,92 @@ public class UserDomainTests
         dto2.EmailVerified.Should().BeTrue();
     }
 
+    // ─── AuthProvider ─────────────────────────────────────────────
+
+    [Fact]
+    public void Create_LegacyUser_HasAuthProviderLegacy()
+    {
+        var result = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.AuthProvider.Should().Be(AuthProvider.Legacy);
+    }
+
+    [Fact]
+    public void CreateKeycloakUser_WithValidData_ReturnsSuccess()
+    {
+        var keycloakId = Guid.NewGuid();
+        var result = User.CreateKeycloakUser(ValidClinicId, "kc@clinic.ae", UserRole.Admin, keycloakId);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.AuthProvider.Should().Be(AuthProvider.Keycloak);
+        result.Value.PasswordHash.Should().BeNull();
+        result.Value.KeycloakUserId.Should().Be(keycloakId);
+        result.Value.EmailVerified.Should().BeTrue();
+    }
+
+    [Fact]
+    public void CreateKeycloakUser_WithEmptyKeycloakId_ReturnsInvalid()
+    {
+        var result = User.CreateKeycloakUser(ValidClinicId, "kc@clinic.ae", UserRole.Admin, Guid.Empty);
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "keycloakUserId");
+    }
+
+    [Fact]
+    public void CreateKeycloakUser_VetWithoutLicense_ReturnsInvalid()
+    {
+        var result = User.CreateKeycloakUser(ValidClinicId, "vet@clinic.ae", UserRole.Vet, Guid.NewGuid());
+
+        result.IsSuccess.Should().BeFalse();
+        result.ValidationErrors.Should().Contain(e => e.Identifier == "vetLicenseNumber");
+    }
+
+    [Fact]
+    public void VerifyPassword_LegacyUser_ReturnsTrue()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+
+        var result = user.VerifyPassword("Admin1234!");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeTrue();
+    }
+
+    [Fact]
+    public void VerifyPassword_LegacyUser_WrongPassword_ReturnsFalse()
+    {
+        var user = User.Create(ValidClinicId, "admin@clinic.ae", "Admin1234!", UserRole.Admin).Value;
+
+        var result = user.VerifyPassword("WrongPass1!");
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeFalse();
+    }
+
+    [Fact]
+    public void VerifyPassword_KeycloakUser_ReturnsError()
+    {
+        var user = User.CreateKeycloakUser(ValidClinicId, "kc@clinic.ae", UserRole.Admin, Guid.NewGuid()).Value;
+
+        var result = user.VerifyPassword("AnyPass1!");
+
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.Contains("KEYCLOAK_AUTH_REQUIRED"));
+    }
+
+    [Fact]
+    public void ChangePassword_KeycloakUser_ReturnsError()
+    {
+        var user = User.CreateKeycloakUser(ValidClinicId, "kc@clinic.ae", UserRole.Admin, Guid.NewGuid()).Value;
+
+        var result = user.ChangePassword("Old1234!", "New1234!");
+
+        result.IsSuccess.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.Contains("KEYCLOAK_AUTH_REQUIRED"));
+    }
+
     // ─── ToListItemDto ───────────────────────────────────────────
 
     [Fact]

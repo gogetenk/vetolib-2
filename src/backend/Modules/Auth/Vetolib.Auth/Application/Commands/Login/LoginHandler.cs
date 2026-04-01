@@ -49,7 +49,14 @@ internal class LoginHandler : IRequestHandler<LoginCommand, Result<AuthTokenDto>
         }
 
         // Verify password
-        if (!user.VerifyPassword(cmd.Password))
+        var verifyResult = user.VerifyPassword(cmd.Password);
+        if (!verifyResult.IsSuccess)
+        {
+            // Keycloak-only users cannot login via local password
+            return Result<AuthTokenDto>.Error(verifyResult.Errors.First());
+        }
+
+        if (!verifyResult.Value)
         {
             user.RecordFailedLogin(_securityOptions.MaxFailedLoginAttempts, _securityOptions.LockoutMinutes);
             await _context.SaveChangesAsync(ct);
