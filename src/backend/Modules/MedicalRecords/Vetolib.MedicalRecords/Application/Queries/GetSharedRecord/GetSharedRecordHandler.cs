@@ -1,6 +1,9 @@
+using System.Security.Cryptography;
+using System.Text;
 using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.MedicalRecords.Infrastructure;
 
@@ -10,11 +13,13 @@ internal class GetSharedRecordHandler : IRequestHandler<GetSharedRecordQuery, Re
 {
     private readonly MedicalRecordsDbContext _context;
     private readonly ISender _sender;
+    private readonly ILogger<GetSharedRecordHandler> _logger;
 
-    public GetSharedRecordHandler(MedicalRecordsDbContext context, ISender sender)
+    public GetSharedRecordHandler(MedicalRecordsDbContext context, ISender sender, ILogger<GetSharedRecordHandler> logger)
     {
         _context = context;
         _sender = sender;
+        _logger = logger;
     }
 
     public async Task<Result<PatientSummaryDto>> Handle(GetSharedRecordQuery query, CancellationToken ct)
@@ -26,10 +31,26 @@ internal class GetSharedRecordHandler : IRequestHandler<GetSharedRecordQuery, Re
             .FirstOrDefaultAsync(l => l.Token == query.Token, ct);
 
         if (link is null)
+        {
+            _logger.LogWarning("Failed share link lookup — token not found (possible brute-force attempt)");
             return Result<PatientSummaryDto>.NotFound("Share link not found.");
+        }
+
+        // Defense-in-depth: constant-time comparison to prevent timing attacks on the public endpoint
+        var storedTokenBytes = Encoding.UTF8.GetBytes(link.Token);
+        var providedTokenBytes = Encoding.UTF8.GetBytes(query.Token);
+        if (!CryptographicOperations.FixedTimeEquals(storedTokenBytes, providedTokenBytes))
+        {
+            _logger.LogWarning("Share link token mismatch after DB lookup — possible timing attack attempt");
+            return Result<PatientSummaryDto>.NotFound("Share link not found.");
+        }
 
         if (!link.IsActive())
+        {
+            _logger.LogWarning("Access attempt on inactive share link {LinkId} (expired={IsExpired}, revoked={IsRevoked})",
+                link.Id, link.IsExpired(), link.IsRevoked());
             return Result<PatientSummaryDto>.Error("This share link has expired or been revoked.");
+        }
 
         // Increment access count
         link.IncrementAccessCount();
