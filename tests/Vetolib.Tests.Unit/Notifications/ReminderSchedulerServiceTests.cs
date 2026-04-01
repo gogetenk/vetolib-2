@@ -82,7 +82,7 @@ public class ReminderSchedulerServiceTests : IDisposable
 
         await _service.ProcessRemindersAsync(CancellationToken.None);
 
-        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        var logs = await _dbContext.ReminderLogs.IgnoreQueryFilters().ToListAsync();
         logs.Should().BeEmpty();
     }
 
