@@ -39,7 +39,10 @@
       "Bash(mv tasks/todo-test-validators-014.md tasks/done-test-validators-014.md)",
       "Bash(mv tasks/todo-perf-critical-fixes-015.md tasks/wip-perf-critical-fixes-015.md)",
       "Bash(mv tasks/todo-security-critical-016.md tasks/done-security-critical-016.md)",
-      "Bash(mv tasks/todo-seo-critical-018.md tasks/done-seo-critical-018.md)"
+      "Bash(mv tasks/todo-seo-critical-018.md tasks/done-seo-critical-018.md)",
+      "mcp__playwright__browser_navigate",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Read(//c/Program Files \\(x86\\)/Microsoft/Edge/Application/**)"
     ],
     "deny": [
       "Bash(curl:*)",
