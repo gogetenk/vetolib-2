@@ -2,9 +2,9 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
+using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Tests.Acceptance.Support;
@@ -40,42 +40,34 @@ internal class ClinicSearchSteps
         _client = _ctx.Get<HttpClient>();
     }
 
-    // ─── GIVEN Steps ─────────────────────────────────────────────
+    // --- GIVEN Steps ---
 
     [Given(@"the following clinics exist in the directory")]
     public async Task GivenTheFollowingClinicsExistInTheDirectory(DataTable table)
     {
         using var scope = _factory.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
 
         foreach (var row in table.Rows)
         {
             var name = row["Name"];
             var city = row["City"];
-            var species = row["Supported Species"]
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .ToList();
+            var speciesCsv = row["Supported Species"];
+            var speciesList = speciesCsv.Split(',', StringSplitOptions.TrimEntries);
 
-            // Check if clinic already exists (avoid duplicates on re-runs)
-            var existing = await db.Clinics.IgnoreQueryFilters()
-                .FirstOrDefaultAsync(c => c.Name == name);
-            if (existing is not null)
-            {
-                existing.UpdateDirectory(city, null, species);
-            }
-            else
-            {
-                var clinicResult = Vetolib.Auth.Application.Domain.Clinic.Create(name);
-                clinicResult.IsSuccess.Should().BeTrue($"Clinic creation should succeed for {name}");
-                clinicResult.Value.UpdateDirectory(city, null, species);
-                db.Clinics.Add(clinicResult.Value);
-            }
+            var clinicResult = Clinic.Create(name);
+            clinicResult.IsSuccess.Should().BeTrue($"Clinic creation should succeed for {name}");
+
+            var clinic = clinicResult.Value;
+            clinic.UpdateDirectory(city, null, speciesList);
+
+            authDb.Clinics.Add(clinic);
         }
 
-        await db.SaveChangesAsync();
+        await authDb.SaveChangesAsync();
     }
 
-    // ─── WHEN Steps ──────────────────────────────────────────────
+    // --- WHEN Steps ---
 
     [When(@"I search for clinics with name ""(.*)""")]
     public async Task WhenISearchForClinicsWithName(string name)
@@ -122,7 +114,7 @@ internal class ClinicSearchSteps
         await ParseSearchResult();
     }
 
-    // ─── THEN Steps ──────────────────────────────────────────────
+    // --- THEN Steps ---
 
     [Then(@"I should see (\d+) clinics? in the results")]
     public void ThenIShouldSeeNClinicsInTheResults(int count)
@@ -152,7 +144,7 @@ internal class ClinicSearchSteps
         _response!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────
+    // --- Helpers ---
 
     private async Task ParseSearchResult()
     {
