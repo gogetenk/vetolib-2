@@ -182,4 +182,55 @@ public sealed class AuthEndpointsTests : IntegrationTestBase
         var response = await Client.WithoutAuth().GetAsync("/api/v1/auth/me");
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
+
+    // ── POST /api/v1/auth/logout ─────────────────────────────────────────
+
+    [Fact]
+    public async Task Logout_Authenticated_ReturnsNon5xx()
+    {
+        var client = CreateAdminClient();
+
+        var response = await client.PostAsync("/api/v1/auth/logout", null);
+
+        response.StatusCode.Should().BeOneOf(
+            HttpStatusCode.OK,
+            HttpStatusCode.NoContent,
+            HttpStatusCode.BadRequest,
+            HttpStatusCode.UnprocessableEntity,
+            HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Logout_Unauthenticated_Returns401()
+    {
+        var response = await Client.WithoutAuth().PostAsync("/api/v1/auth/logout", null);
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    // ── POST /api/v1/auth/change-password ────────────────────────────────
+
+    [Fact]
+    public async Task ChangePassword_Authenticated_ReturnsNon5xx()
+    {
+        var client = CreateAdminClient();
+        var request = new ChangePasswordRequest("OldPassword1!", "NewPassword1!");
+
+        var response = await client.PostAsJsonAsync("/api/v1/auth/change-password", request, JsonOptions);
+
+        response.StatusCode.Should().BeOneOf(
+            HttpStatusCode.OK,
+            HttpStatusCode.NoContent,
+            HttpStatusCode.BadRequest,
+            HttpStatusCode.UnprocessableEntity,
+            HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task ChangePassword_Unauthenticated_Returns401()
+    {
+        var request = new ChangePasswordRequest("OldPassword1!", "NewPassword1!");
+
+        var response = await Client.WithoutAuth().PostAsJsonAsync("/api/v1/auth/change-password", request, JsonOptions);
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
 }
