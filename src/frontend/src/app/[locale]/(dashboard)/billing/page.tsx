@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { InvoiceTable } from "@/components/features/billing/InvoiceTable";
 import { PageContainer } from "@/components/ui/page-container";
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 export const metadata: Metadata = {
   title: "Billing",
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
 
 export default async function BillingPage() {
   const t = await getTranslations('billing')
+  const tReporting = await getTranslations('billing.reporting')
+  const locale = await getLocale()
 
   return (
     <PageContainer data-testid="billing-page">
@@ -17,6 +20,11 @@ export default async function BillingPage() {
           <span className="w-1 h-5 bg-primary rounded-full"></span>
           {t('title')}
         </h1>
+        <Link href={`/${locale}/billing/reporting`} data-testid="ereporting-link">
+          <span className="text-sm font-medium text-primary hover:underline">
+            {tReporting('e_reporting')}
+          </span>
+        </Link>
       </div>
       <InvoiceTable />
     </PageContainer>
