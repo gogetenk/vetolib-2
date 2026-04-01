@@ -46,6 +46,14 @@ public static class AuthModuleServiceRegistrar
         // Subscription enforcement
         services.AddScoped<ISubscriptionChecker, SubscriptionChecker>();
 
+        // Keycloak Admin API
+        services.Configure<KeycloakAdminOptions>(config.GetSection(KeycloakAdminOptions.SectionName));
+        var keycloakBaseUrl = config["Keycloak:BaseUrl"] ?? "http://localhost:8080";
+        services.AddHttpClient<IKeycloakAdminService, KeycloakAdminService>(client =>
+        {
+            client.BaseAddress = new Uri(keycloakBaseUrl);
+        });
+
         // JWT Authentication
         var jwtKey = config["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key configuration is required. Set it in appsettings.json or environment variables.");
         var jwtIssuer = config["Jwt:Issuer"] ?? "Vetolib";
