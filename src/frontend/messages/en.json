@@ -1909,6 +1909,24 @@
       "share_whatsapp": "Share via WhatsApp",
       "friends_joined": "{count} friends joined",
       "whatsapp_message": "Hey! I use Vetara for my pet's healthcare. Join with my referral code: {code}"
+    },
+    "profile_page": {
+      "title": "My Profile",
+      "account_info": "Account Information",
+      "name": "Name",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "my_pets": "My Pets",
+      "no_pets": "No pets linked to your account.",
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "load_error": "Unable to load your profile. Please try again later.",
+      "save_error": "Failed to save your profile. Please try again.",
+      "validation_name_required": "First name and last name are required."
     }
   },
   "onboarding": {
