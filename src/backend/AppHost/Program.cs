@@ -15,7 +15,12 @@ var keycloak = builder.AddKeycloak("keycloak")
     .WithRealmImport("../../infra/keycloak")
     .WithEnvironment("KC_FEATURES", "organization")
     .WithEnvironment("KC_HEALTH_ENABLED", "true")
-    .WithEnvironment("KC_METRICS_ENABLED", "true");
+    .WithEnvironment("KC_METRICS_ENABLED", "true")
+    .WithEnvironment("KC_TRACING_ENABLED", "true")
+    .WithEnvironment("OTEL_SERVICE_NAME", "keycloak")
+    .WithEnvironment("OTEL_TRACES_EXPORTER", "otlp")
+    .WithEnvironment("OTEL_EXPORTER_OTLP_ENDPOINT", "http://host.docker.internal:18889")
+    .WithEnvironment("OTEL_EXPORTER_OTLP_PROTOCOL", "http/protobuf");
 
 builder.AddProject<Projects.Vetolib_Api>("api")
     .WithReference(db)
