@@ -17,13 +17,19 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(256);
 
         builder.Property(u => u.PasswordHash)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(512);
 
         builder.Property(u => u.Role)
             .IsRequired()
             .HasConversion<string>()
             .HasMaxLength(50);
+
+        builder.Property(u => u.AuthProvider)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .HasDefaultValue(Vetolib.Auth.Contracts.AuthProvider.Legacy);
 
         builder.Property(u => u.FullName)
             .HasMaxLength(200)
