@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTranslations } from "next-intl"
-import { Settings, Users, MessageSquare, Bell, Clock, Shield, type LucideIcon } from "lucide-react"
+import { Settings, Users, MessageSquare, Bell, Clock, Shield, Building2, type LucideIcon } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { PageContainer } from "@/components/ui/page-container"
 
@@ -57,6 +57,13 @@ const settingsLinks: SettingsLink[] = [
     titleKey: "audit_title",
     descriptionKey: "audit_description",
     testId: "settings-link-audit",
+  },
+  {
+    href: "settings/clinic-group",
+    icon: Building2,
+    titleKey: "clinic_group_title",
+    descriptionKey: "clinic_group_description",
+    testId: "settings-link-clinic-group",
   },
 ]
 
