@@ -7,8 +7,8 @@ export interface JwtPayload {
   sub: string
   name: string
   role: string
-  clinicId: string
-  clinicName: string
+  clinic_id: string
+  clinic_name: string
   exp: number
   iat: number
   // Microsoft identity claim fallback for role

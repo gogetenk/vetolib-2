@@ -18,24 +18,24 @@ const ADMIN_TOKEN = makeToken({
   sub: "admin@desertpaws.ae",
   name: "Omar Al-Rashid",
   role: "ADMIN",
-  clinicId: "clinic-001",
-  clinicName: "Desert Paws Clinic",
+  clinic_id: "clinic-001",
+  clinic_name: "Desert Paws Clinic",
 })
 
 const VET_TOKEN = makeToken({
   sub: "dr.sarah@desertpaws.ae",
   name: "Dr. Sarah Johnson",
   role: "VET",
-  clinicId: "clinic-001",
-  clinicName: "Desert Paws Clinic",
+  clinic_id: "clinic-001",
+  clinic_name: "Desert Paws Clinic",
 })
 
 const RECEPTIONIST_TOKEN = makeToken({
   sub: "reception@desertpaws.ae",
   name: "Amira Hassan",
   role: "RECEPTIONIST",
-  clinicId: "clinic-001",
-  clinicName: "Desert Paws Clinic",
+  clinic_id: "clinic-001",
+  clinic_name: "Desert Paws Clinic",
 })
 
 async function loginAs(page: Page, token: string) {

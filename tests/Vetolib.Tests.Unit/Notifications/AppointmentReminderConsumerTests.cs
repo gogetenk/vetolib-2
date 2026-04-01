@@ -143,7 +143,7 @@ public class AppointmentReminderConsumerTests : IDisposable
 
         await _consumer.Consume(context);
 
-        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        var logs = await _dbContext.ReminderLogs.IgnoreQueryFilters().ToListAsync();
         logs.Should().HaveCount(1);
         logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Sent);
     }
@@ -187,7 +187,7 @@ public class AppointmentReminderConsumerTests : IDisposable
 
         try { await _consumer.Consume(context); } catch { /* expected */ }
 
-        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        var logs = await _dbContext.ReminderLogs.IgnoreQueryFilters().ToListAsync();
         logs.Should().HaveCount(1);
         logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Failed);
     }
@@ -328,7 +328,7 @@ public class AppointmentReminderConsumerTests : IDisposable
 
         await _consumer.Consume(context);
 
-        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        var logs = await _dbContext.ReminderLogs.IgnoreQueryFilters().ToListAsync();
         logs.Should().HaveCount(2);
         logs.Should().Contain(l => l.Channel == NotificationChannel.Email);
         logs.Should().Contain(l => l.Channel == NotificationChannel.Sms); // WhatsApp logged as Sms
@@ -416,7 +416,7 @@ public class AppointmentReminderConsumerTests : IDisposable
 
         await _consumer.Consume(context);
 
-        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        var logs = await _dbContext.ReminderLogs.IgnoreQueryFilters().ToListAsync();
         logs.Should().HaveCount(1);
         logs[0].Channel.Should().Be(NotificationChannel.Sms);
         logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Sent);
@@ -450,7 +450,7 @@ public class AppointmentReminderConsumerTests : IDisposable
 
         try { await _consumer.Consume(context); } catch { /* expected */ }
 
-        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        var logs = await _dbContext.ReminderLogs.IgnoreQueryFilters().ToListAsync();
         logs.Should().HaveCount(1);
         logs[0].DeliveryStatus.Should().Be(DeliveryStatus.Failed);
     }
@@ -497,7 +497,7 @@ public class AppointmentReminderConsumerTests : IDisposable
 
         await _consumer.Consume(context);
 
-        var logs = await _dbContext.ReminderLogs.ToListAsync();
+        var logs = await _dbContext.ReminderLogs.IgnoreQueryFilters().ToListAsync();
         logs.Should().HaveCount(3);
         logs.Should().Contain(l => l.Channel == NotificationChannel.Email);
         logs.Should().Contain(l => l.Channel == NotificationChannel.Sms);
