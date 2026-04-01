@@ -2,7 +2,9 @@ using Ardalis.Result.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Vetolib.Stock.Application.Commands.CreateStockItem;
 using Vetolib.Stock.Application.Commands.RecordStockMovement;
 using Vetolib.Stock.Application.Commands.UpdateStockItem;
@@ -33,7 +35,7 @@ internal static class StockEndpoints
         group.MapPost("/{id:guid}/movements", RecordMovement).RequireAuthorization("VetOrAdmin").WithName("RecordStockMovement")
             .WithSummary("Record a stock movement")
             .WithDescription("Records a stock movement (intake, consumption, adjustment, or disposal) with quantity and reason.");
-        group.MapGet("/alerts", GetAlerts).WithName("GetStockAlerts")
+        group.MapGet("/alerts", GetAlerts).CacheOutput("Moderate2min").WithName("GetStockAlerts")
             .WithSummary("Get stock alerts")
             .WithDescription("Returns items that are below minimum threshold or expiring soon.");
 
