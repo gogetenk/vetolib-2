@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using FluentAssertions;
@@ -9,6 +10,7 @@ using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.MedicalRecords.Application.Domain;
+using Vetolib.MedicalRecords.Contracts;
 using Vetolib.MedicalRecords.Infrastructure;
 using Vetolib.Tests.Acceptance.Support;
 
@@ -23,8 +25,10 @@ internal class OwnerRegistrationSteps
     private TestWebApplicationFactory _factory = null!;
     private HttpResponseMessage? _response;
     private OwnerAccountDto? _createdAccount;
-    private OwnerPortalTokenDto? _portalToken = null;
+    private OwnerPortalTokenDto? _portalToken;
     private string? _errorResponseBody;
+    private string? _currentOwnerPassword;
+    private string? _currentOwnerEmail;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -44,7 +48,7 @@ internal class OwnerRegistrationSteps
         _client = _ctx.Get<HttpClient>();
     }
 
-    // ─── GIVEN Steps ─────────────────────────────────────────────
+    // --- GIVEN Steps ---
 
     [Given(@"a clinic ""(.*)"" exists with animals registered")]
     public void GivenAClinicExistsWithAnimalsRegistered(string clinicName)
@@ -76,34 +80,99 @@ internal class OwnerRegistrationSteps
     }
 
     [Given(@"a portal account already exists with email ""(.*)""")]
-    public void GivenAPortalAccountAlreadyExistsWithEmail(string email)
+    public async Task GivenAPortalAccountAlreadyExistsWithEmail(string email)
     {
-        // Seed a portal account in the auth DB
-        throw new PendingStepException();
+        // Register a portal account so it occupies the email
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/portal/register", new
+        {
+            Email = email,
+            Phone = $"+97150{new Random().Next(1000000, 9999999)}",
+            FullName = "Existing User",
+            Password = "SecurePass1!"
+        });
+        registerResponse.IsSuccessStatusCode.Should().BeTrue("Seeding existing account should succeed");
     }
 
     [Given(@"""(.*)"" has a portal account with email ""(.*)""")]
-    public void GivenOwnerHasPortalAccountWithEmail(string ownerName, string email)
+    public async Task GivenOwnerHasPortalAccountWithEmail(string ownerName, string email)
     {
-        // Seed portal account for given owner
-        throw new PendingStepException();
+        _currentOwnerEmail = email;
+        _currentOwnerPassword = "SecurePass1!";
+
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/portal/register", new
+        {
+            Email = email,
+            Phone = $"+97150{new Random().Next(1000000, 9999999)}",
+            FullName = ownerName,
+            Password = _currentOwnerPassword
+        });
+        registerResponse.IsSuccessStatusCode.Should().BeTrue(
+            $"Creating portal account for {ownerName} should succeed");
+
+        _createdAccount = await registerResponse.Content.ReadFromJsonAsync<OwnerAccountDto>(JsonOptions);
     }
 
     [Given(@"her account is linked to clinics ""(.*)"" and ""(.*)""")]
-    public void GivenHerAccountIsLinkedToClinics(string clinic1, string clinic2)
+    public async Task GivenHerAccountIsLinkedToClinics(string clinic1, string clinic2)
     {
-        // Link account to multiple clinics
-        throw new PendingStepException();
+        _createdAccount.Should().NotBeNull("Portal account must exist before linking clinics");
+
+        // Seed owners at both clinics with the same email, then the auto-linker will link them
+        // The register endpoint already auto-links by email. We need to seed Owner records
+        // in MedicalRecords at the two clinics with matching email.
+        var clinicId1 = SharedSteps.GenerateGuidFromString(clinic1);
+        var clinicId2 = SharedSteps.GenerateGuidFromString(clinic2);
+
+        using var scope = _factory.Services.CreateScope();
+        var medicalDb = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        // Seed owner at clinic1 and link to account
+        var owner1Result = Owner.Create(clinicId1, "Fatima", "Al Rashid", _currentOwnerEmail!, null);
+        owner1Result.IsSuccess.Should().BeTrue();
+        owner1Result.Value.LinkOwnerAccount(_createdAccount!.Id);
+        medicalDb.Owners.Add(owner1Result.Value);
+
+        // Seed owner at clinic2 and link to account
+        var owner2Result = Owner.Create(clinicId2, "Fatima", "Al Rashid", _currentOwnerEmail!, null);
+        owner2Result.IsSuccess.Should().BeTrue();
+        owner2Result.Value.LinkOwnerAccount(_createdAccount!.Id);
+        medicalDb.Owners.Add(owner2Result.Value);
+
+        await medicalDb.SaveChangesAsync();
     }
 
     [Given(@"a patient with microchip ""(.*)"" exists at clinic ""(.*)"" owned by an unlinked owner")]
-    public void GivenAPatientWithMicrochipExistsAtClinic(string microchip, string clinicName)
+    public async Task GivenAPatientWithMicrochipExistsAtClinic(string microchip, string clinicName)
     {
-        // Seed a patient with microchip at the given clinic
-        throw new PendingStepException();
+        var clinicId = SharedSteps.GenerateGuidFromString(clinicName);
+
+        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
+        testClinicContext.ClinicId = clinicId;
+
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        var ownerResult = Owner.Create(clinicId, "Unlinked", "Owner", "unlinked@seed.com", null);
+        ownerResult.IsSuccess.Should().BeTrue();
+        db.Owners.Add(ownerResult.Value);
+
+        var patientResult = Patient.Create(clinicId, "MicrochipPet", Species.Dog, "Mixed",
+            DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-1)), microchipNumber: microchip);
+        patientResult.IsSuccess.Should().BeTrue();
+        var patient = patientResult.Value;
+        var po = PatientOwner.Create(clinicId, patient.Id, ownerResult.Value.Id);
+        patient.AddOwner(po);
+        db.Patients.Add(patient);
+
+        await db.SaveChangesAsync();
+
+        _ctx.Set(ownerResult.Value.Id, "UnlinkedOwnerId");
+
+        // Reset test clinic context
+        testClinicContext.ClinicId = TestClinicContext.TestClinicGuid;
     }
 
-    // ─── WHEN Steps ──────────────────────────────────────────────
+    // --- WHEN Steps ---
 
     [When(@"""(.*)"" registers on the portal with email ""(.*)"" and phone ""(.*)""")]
     public async Task WhenOwnerRegistersOnThePortal(string ownerName, string email, string phone)
@@ -146,18 +215,42 @@ internal class OwnerRegistrationSteps
     [When(@"she logs in with her credentials")]
     public async Task WhenSheLogsInWithHerCredentials()
     {
-        // Login via portal login endpoint
-        throw new PendingStepException();
+        _currentOwnerEmail.Should().NotBeNullOrEmpty("Owner email must be set before login");
+        _currentOwnerPassword.Should().NotBeNullOrEmpty("Owner password must be set before login");
+
+        _response = await _client.PostAsJsonAsync("/api/v1/portal/login", new
+        {
+            Email = _currentOwnerEmail,
+            Password = _currentOwnerPassword
+        });
+
+        if (_response.IsSuccessStatusCode)
+        {
+            _portalToken = await _response.Content.ReadFromJsonAsync<OwnerPortalTokenDto>(JsonOptions);
+            _client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _portalToken!.AccessToken);
+        }
+        else
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
     }
 
     [When(@"she provides microchip number ""(.*)""")]
     public async Task WhenSheProvidesChipNumber(string microchip)
     {
-        // Call the microchip-based linking endpoint
-        throw new PendingStepException();
+        _response = await _client.PostAsJsonAsync("/api/v1/portal/link-microchip", new
+        {
+            MicrochipNumber = microchip
+        });
+
+        if (!_response.IsSuccessStatusCode)
+        {
+            _errorResponseBody = await _response.Content.ReadAsStringAsync();
+        }
     }
 
-    // ─── THEN Steps ──────────────────────────────────────────────
+    // --- THEN Steps ---
 
     [Then(@"her account is created successfully")]
     public void ThenHerAccountIsCreatedSuccessfully()
@@ -176,17 +269,34 @@ internal class OwnerRegistrationSteps
     }
 
     [Then(@"her account is automatically linked to the owner record at ""(.*)""")]
-    public void ThenHerAccountIsLinkedToOwnerRecordAt(string clinicName)
+    public async Task ThenHerAccountIsLinkedToOwnerRecordAt(string clinicName)
     {
-        // Verify the account was linked to the clinic's existing owner record
-        throw new PendingStepException();
+        _createdAccount.Should().NotBeNull();
+
+        // Verify by checking the Owner record in MedicalRecords DB has OwnerAccountId set
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        var linkedOwner = await db.Owners
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(o => o.OwnerAccountId == _createdAccount!.Id);
+
+        linkedOwner.Should().NotBeNull($"Owner should be linked to account at {clinicName}");
     }
 
     [Then(@"his account is automatically linked to the owner record at ""(.*)""")]
-    public void ThenHisAccountIsLinkedToOwnerRecordAt(string clinicName)
+    public async Task ThenHisAccountIsLinkedToOwnerRecordAt(string clinicName)
     {
-        // Verify the account was linked to the clinic's existing owner record
-        throw new PendingStepException();
+        _createdAccount.Should().NotBeNull();
+
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        var linkedOwner = await db.Owners
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(o => o.OwnerAccountId == _createdAccount!.Id);
+
+        linkedOwner.Should().NotBeNull($"Owner should be linked to account at {clinicName}");
     }
 
     [Then(@"the registration is rejected because the email is already taken")]
@@ -205,13 +315,25 @@ internal class OwnerRegistrationSteps
     }
 
     [Then(@"the patient's owner is linked to her account")]
-    public void ThenThePatientOwnerIsLinkedToHerAccount()
+    public async Task ThenThePatientOwnerIsLinkedToHerAccount()
     {
-        // Verify the owner record was linked via microchip
-        throw new PendingStepException();
+        _response.Should().NotBeNull();
+        _response!.IsSuccessStatusCode.Should().BeTrue(
+            $"Link by microchip should succeed but got: {_errorResponseBody}");
+
+        // Verify the owner record was linked
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        var unlinkedOwnerId = _ctx.Get<Guid>("UnlinkedOwnerId");
+        var owner = await db.Owners.IgnoreQueryFilters()
+            .FirstOrDefaultAsync(o => o.Id == unlinkedOwnerId);
+
+        owner.Should().NotBeNull();
+        owner!.OwnerAccountId.Should().NotBeNull("Owner should now be linked to the portal account");
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────
+    // --- Helpers ---
 
     private async Task SeedOwnerWithAnimal(
         string ownerName, string? email, string? phone,

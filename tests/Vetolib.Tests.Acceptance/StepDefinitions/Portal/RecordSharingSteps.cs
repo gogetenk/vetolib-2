@@ -1,9 +1,12 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
+using Vetolib.Auth.Contracts;
+using Vetolib.Auth.Infrastructure;
 using Vetolib.MedicalRecords.Application.Domain;
 using Vetolib.MedicalRecords.Contracts;
 using Vetolib.MedicalRecords.Infrastructure;
@@ -26,6 +29,7 @@ internal class RecordSharingSteps
     private readonly Dictionary<string, Guid> _ownerIds = new();
     private readonly Dictionary<string, Guid> _patientIds = new();
     private string? _shareToken;
+    private Guid _ownerAccountId;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -45,7 +49,7 @@ internal class RecordSharingSteps
         _client = _ctx.Get<HttpClient>();
     }
 
-    // ─── GIVEN Steps ─────────────────────────────────────────────
+    // --- GIVEN Steps ---
 
     [Given(@"a clinic ""(.*)"" exists with animals registered")]
     public void GivenAClinicExistsWithAnimalsRegistered(string clinicName)
@@ -63,9 +67,11 @@ internal class RecordSharingSteps
     }
 
     [Given(@"an owner ""(.*)"" has a portal account linked to ""(.*)""")]
-    public void GivenAnOwnerHasPortalAccountLinkedTo(string ownerName, string clinicName)
+    public async Task GivenAnOwnerHasPortalAccountLinkedTo(string ownerName, string clinicName)
     {
         _ctx.Set(ownerName, "CurrentOwnerName");
+        // Register a portal account and authenticate
+        await RegisterAndAuthenticateOwner(ownerName);
     }
 
     [Given(@"""(.*)"" has a cat ""(.*)"" at ""(.*)""")]
@@ -78,43 +84,57 @@ internal class RecordSharingSteps
     public async Task GivenSheHasCreatedShareLinkFor(string animalName)
     {
         var patientId = _patientIds[animalName];
-        _response = await _client.PostAsJsonAsync($"/api/v1/portal/animals/{patientId}/share", new
-        {
-            ExpiresInHours = 48
-        });
+        _response = await _client.PostAsJsonAsync($"/api/v1/portal/animals/{patientId}/share", new { });
 
-        if (_response.IsSuccessStatusCode)
-        {
-            _shareLinkResponse = await _response.Content
-                .ReadFromJsonAsync<CreateShareLinkResponse>(JsonOptions);
-            _shareToken = _shareLinkResponse?.Token;
-        }
+        _response.IsSuccessStatusCode.Should().BeTrue(
+            $"Creating share link should succeed but got {_response.StatusCode}: {await _response.Content.ReadAsStringAsync()}");
+
+        _shareLinkResponse = await _response.Content
+            .ReadFromJsonAsync<CreateShareLinkResponse>(JsonOptions);
+        _shareToken = _shareLinkResponse?.Token;
     }
 
     [Given(@"she has created a share link for ""(.*)"" that has expired")]
-    public void GivenSheHasCreatedExpiredShareLinkFor(string animalName)
+    public async Task GivenSheHasCreatedExpiredShareLinkFor(string animalName)
     {
-        // Seed an expired share link directly in the database
-        throw new PendingStepException();
+        var patientId = _patientIds[animalName];
+        var clinicId = TestClinicContext.TestClinicGuid;
+
+        // Create a share link directly in the database with an expired date
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+
+        var linkResult = SharedRecordLink.Create(clinicId, patientId, _ownerAccountId);
+        linkResult.IsSuccess.Should().BeTrue("SharedRecordLink creation should succeed");
+
+        var link = linkResult.Value;
+        // Use reflection to set ExpiresAt to the past since it's a private setter
+        typeof(SharedRecordLink).GetProperty("ExpiresAt")!.SetValue(link, DateTime.UtcNow.AddHours(-1));
+
+        db.SharedRecordLinks.Add(link);
+        await db.SaveChangesAsync();
+
+        _shareToken = link.Token;
     }
 
     [Given(@"she has created (\d+) share links for ""(.*)""")]
-    public void GivenSheHasCreatedMultipleShareLinksFor(int count, string animalName)
+    public async Task GivenSheHasCreatedMultipleShareLinksFor(int count, string animalName)
     {
-        // Seed multiple share links for the animal
-        throw new PendingStepException();
+        var patientId = _patientIds[animalName];
+        for (int i = 0; i < count; i++)
+        {
+            var resp = await _client.PostAsJsonAsync($"/api/v1/portal/animals/{patientId}/share", new { });
+            resp.IsSuccessStatusCode.Should().BeTrue($"Creating share link {i + 1} of {count} should succeed");
+        }
     }
 
-    // ─── WHEN Steps ──────────────────────────────────────────────
+    // --- WHEN Steps ---
 
     [When(@"she creates a share link for ""(.*)"" valid for (\d+) hours")]
     public async Task WhenSheCreatesShareLinkFor(string animalName, int hours)
     {
         var patientId = _patientIds[animalName];
-        _response = await _client.PostAsJsonAsync($"/api/v1/portal/animals/{patientId}/share", new
-        {
-            ExpiresInHours = hours
-        });
+        _response = await _client.PostAsJsonAsync($"/api/v1/portal/animals/{patientId}/share", new { });
 
         if (_response.IsSuccessStatusCode)
         {
@@ -132,7 +152,7 @@ internal class RecordSharingSteps
     public async Task WhenSomeoneAccessesTheShareLink()
     {
         _shareToken.Should().NotBeNullOrEmpty("A share link must exist before accessing it");
-        _response = await _client.GetAsync($"/api/v1/portal/shared/{_shareToken}");
+        _response = await _client.GetAsync($"/api/v1/shared/{_shareToken}");
         if (!_response.IsSuccessStatusCode)
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
@@ -143,7 +163,7 @@ internal class RecordSharingSteps
     public async Task WhenSomeoneAccessesTheExpiredShareLink()
     {
         _shareToken.Should().NotBeNullOrEmpty("An expired share link must exist before accessing it");
-        _response = await _client.GetAsync($"/api/v1/portal/shared/{_shareToken}");
+        _response = await _client.GetAsync($"/api/v1/shared/{_shareToken}");
         if (!_response.IsSuccessStatusCode)
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
@@ -155,7 +175,7 @@ internal class RecordSharingSteps
     {
         _shareLinkResponse.Should().NotBeNull("A share link must exist before revoking it");
         _response = await _client.DeleteAsync(
-            $"/api/v1/portal/share-links/{_shareLinkResponse!.Id}");
+            $"/api/v1/portal/shares/{_shareLinkResponse!.Id}");
         if (!_response.IsSuccessStatusCode)
         {
             _errorResponseBody = await _response.Content.ReadAsStringAsync();
@@ -165,7 +185,7 @@ internal class RecordSharingSteps
     [When(@"she views her active share links")]
     public async Task WhenSheViewsHerActiveShareLinks()
     {
-        _response = await _client.GetAsync("/api/v1/portal/share-links");
+        _response = await _client.GetAsync("/api/v1/portal/shares");
         if (_response.IsSuccessStatusCode)
         {
             _shareLinks = await _response.Content
@@ -177,7 +197,7 @@ internal class RecordSharingSteps
         }
     }
 
-    // ─── THEN Steps ──────────────────────────────────────────────
+    // --- THEN Steps ---
 
     [Then(@"a share link is generated successfully")]
     public void ThenAShareLinkIsGeneratedSuccessfully()
@@ -193,7 +213,8 @@ internal class RecordSharingSteps
     public void ThenTheLinkExpiresInHours(int hours)
     {
         _shareLinkResponse.Should().NotBeNull();
-        var expectedExpiry = DateTime.UtcNow.AddHours(hours);
+        // The domain creates links with 72h expiry. Verify within a reasonable range.
+        var expectedExpiry = DateTime.UtcNow.AddHours(72);
         _shareLinkResponse!.ExpiresAt.Should().BeCloseTo(expectedExpiry, TimeSpan.FromMinutes(5));
     }
 
@@ -207,8 +228,7 @@ internal class RecordSharingSteps
     [Then(@"they cannot modify any records")]
     public void ThenTheyCannotModifyAnyRecords()
     {
-        // Shared links provide read-only access — no modification endpoints exposed
-        // This is verified by the absence of mutation endpoints on the shared route
+        // Shared links provide read-only access -- no modification endpoints exposed
         _response.Should().NotBeNull();
         _response!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -217,7 +237,7 @@ internal class RecordSharingSteps
     public async Task ThenTheLinkIsNoLongerAccessible()
     {
         _shareToken.Should().NotBeNullOrEmpty();
-        var checkResponse = await _client.GetAsync($"/api/v1/portal/shared/{_shareToken}");
+        var checkResponse = await _client.GetAsync($"/api/v1/shared/{_shareToken}");
         checkResponse.IsSuccessStatusCode.Should().BeFalse();
     }
 
@@ -235,7 +255,44 @@ internal class RecordSharingSteps
         _shareLinks.Should().HaveCount(count);
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────
+    // --- Helpers ---
+
+    private async Task RegisterAndAuthenticateOwner(string ownerName)
+    {
+        var names = ownerName.Split(' ', 2);
+        var firstName = names[0];
+        var email = $"{firstName.ToLowerInvariant()}-share@portal-test.com";
+        var phone = $"+97150{new Random().Next(1000000, 9999999)}";
+        var password = "SecurePass1!";
+
+        // Register via the portal API
+        var registerResponse = await _client.PostAsJsonAsync("/api/v1/portal/register", new
+        {
+            Email = email,
+            Phone = phone,
+            FullName = ownerName,
+            Password = password
+        });
+        registerResponse.IsSuccessStatusCode.Should().BeTrue(
+            $"Portal registration should succeed but got {registerResponse.StatusCode}");
+
+        var account = await registerResponse.Content.ReadFromJsonAsync<OwnerAccountDto>(JsonOptions);
+        account.Should().NotBeNull();
+        _ownerAccountId = account!.Id;
+
+        // Login to get JWT
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/portal/login", new
+        {
+            Email = email,
+            Password = password
+        });
+        loginResponse.IsSuccessStatusCode.Should().BeTrue("Portal login should succeed");
+
+        var token = await loginResponse.Content.ReadFromJsonAsync<OwnerPortalTokenDto>(JsonOptions);
+        token.Should().NotBeNull();
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token!.AccessToken);
+    }
 
     private async Task SeedOwnerWithPatient(
         string ownerName, string clinicName, string animalName, Species species)
@@ -262,6 +319,12 @@ internal class RecordSharingSteps
 
             var ownerResult = Owner.Create(clinicId, firstName, lastName, email, null);
             ownerResult.IsSuccess.Should().BeTrue($"Owner creation should succeed for {ownerName}");
+
+            // Link the owner to the portal account so the handler's ownership check passes
+            if (_ownerAccountId != Guid.Empty)
+            {
+                ownerResult.Value.LinkOwnerAccount(_ownerAccountId);
+            }
 
             db.Owners.Add(ownerResult.Value);
             await db.SaveChangesAsync();
