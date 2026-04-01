@@ -517,6 +517,66 @@
       "item_quantity_aria": "Quantité de l'article {index}",
       "item_unit_price_aria": "Prix unitaire de l'article {index} en EUR",
       "item_remove_aria": "Supprimer l'article {index}"
+    },
+    "reporting": {
+      "page_title": "E-Reporting — Conformité UAE",
+      "title": "Périodes de déclaration",
+      "all_statuses": "Tous les statuts",
+      "all_years": "Toutes les années",
+      "filter_by_year": "Filtrer par année",
+      "filter_by_status": "Filtrer par statut",
+      "failed_to_load": "Échec du chargement des rapports",
+      "submit_failed": "Échec de la soumission du rapport",
+      "no_reports": "Aucune période de déclaration trouvée",
+      "view_details": "Voir les détails",
+      "hide_details": "Masquer les détails",
+      "submit": "Soumettre le rapport",
+      "submitting": "Soumission...",
+      "invoice_count": "{count} factures",
+      "vat_label": "TVA",
+      "submitted_at": "Soumis",
+      "accepted_at": "Accepté",
+      "rejected_at": "Rejeté",
+      "rejection_reason": "Motif de rejet",
+      "line_items": "Lignes de détail",
+      "total_vat": "TVA totale",
+      "e_reporting": "E-Reporting",
+      "columns": {
+        "period": "Période",
+        "invoices": "Factures",
+        "revenue": "Revenus (AED)",
+        "vat": "TVA (5%)",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "item_columns": {
+        "description": "Description",
+        "category": "Catégorie",
+        "qty": "Qté",
+        "unit_price": "Prix unitaire",
+        "vat": "TVA",
+        "total": "Total"
+      },
+      "status": {
+        "DRAFT": "Brouillon",
+        "SUBMITTED": "Soumis",
+        "ACCEPTED": "Accepté",
+        "REJECTED": "Rejeté"
+      },
+      "months": {
+        "january": "Janvier",
+        "february": "Février",
+        "march": "Mars",
+        "april": "Avril",
+        "may": "Mai",
+        "june": "Juin",
+        "july": "Juillet",
+        "august": "Août",
+        "september": "Septembre",
+        "october": "Octobre",
+        "november": "Novembre",
+        "december": "Décembre"
+      }
     }
   },
   "dashboard": {

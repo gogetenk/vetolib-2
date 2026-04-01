@@ -515,6 +515,66 @@
       "item_quantity_aria": "Item {index} quantity",
       "item_unit_price_aria": "Item {index} unit price in AED",
       "item_remove_aria": "Remove item {index}"
+    },
+    "reporting": {
+      "page_title": "E-Reporting — UAE Compliance",
+      "title": "Reporting Periods",
+      "all_statuses": "All statuses",
+      "all_years": "All years",
+      "filter_by_year": "Filter by year",
+      "filter_by_status": "Filter by status",
+      "failed_to_load": "Failed to load reports",
+      "submit_failed": "Failed to submit report",
+      "no_reports": "No reporting periods found",
+      "view_details": "View Details",
+      "hide_details": "Hide Details",
+      "submit": "Submit Report",
+      "submitting": "Submitting...",
+      "invoice_count": "{count} invoices",
+      "vat_label": "VAT",
+      "submitted_at": "Submitted",
+      "accepted_at": "Accepted",
+      "rejected_at": "Rejected",
+      "rejection_reason": "Rejection Reason",
+      "line_items": "Line Items",
+      "total_vat": "Total VAT",
+      "e_reporting": "E-Reporting",
+      "columns": {
+        "period": "Period",
+        "invoices": "Invoices",
+        "revenue": "Revenue (AED)",
+        "vat": "VAT (5%)",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "item_columns": {
+        "description": "Description",
+        "category": "Category",
+        "qty": "Qty",
+        "unit_price": "Unit Price",
+        "vat": "VAT",
+        "total": "Total"
+      },
+      "status": {
+        "DRAFT": "Draft",
+        "SUBMITTED": "Submitted",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      },
+      "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      }
     }
   },
   "dashboard": {
