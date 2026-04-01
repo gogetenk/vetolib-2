@@ -22,6 +22,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
     public string? EmailVerificationToken { get; private set; }
     public DateTime? EmailVerificationExpiry { get; private set; }
     public Guid? ReferredByUserId { get; private set; }
+    public Guid? KeycloakUserId { get; private set; }
 
     private User() { } // EF Core constructor
 
@@ -98,6 +99,12 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         user.AddDomainEvent(new UserInvitedDomainEvent(user.Id, user.Email, user.FullName, temporaryPassword, clinicName));
 
         return Result<User>.Success(user);
+    }
+
+    public void SetKeycloakUserId(Guid keycloakUserId)
+    {
+        KeycloakUserId = keycloakUserId;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public Result SetReferrer(Guid referrerUserId)
