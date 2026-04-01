@@ -22,6 +22,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
     public string? EmailVerificationToken { get; private set; }
     public DateTime? EmailVerificationExpiry { get; private set; }
     public Guid? ReferredByUserId { get; private set; }
+    public Guid? KeycloakUserId { get; private set; }
 
     private User() { } // EF Core constructor
 
@@ -98,6 +99,16 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         user.AddDomainEvent(new UserInvitedDomainEvent(user.Id, user.Email, user.FullName, temporaryPassword, clinicName));
 
         return Result<User>.Success(user);
+    }
+
+    public Result SetKeycloakUserId(Guid keycloakUserId)
+    {
+        if (keycloakUserId == Guid.Empty)
+            return Result.Error("INVALID_KEYCLOAK_ID:Keycloak user ID cannot be empty");
+
+        KeycloakUserId = keycloakUserId;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
     }
 
     public Result SetReferrer(Guid referrerUserId)
