@@ -3,7 +3,7 @@
     "signup": {
       "title": "Create Your Clinic",
       "heading": "Create Account",
-      "meta_title": "Create Your Clinic — Vetara",
+      "meta_title": "Create Your Clinic",
       "meta_description": "Start your free 30-day trial. Manage appointments, medical records, and billing for your veterinary clinic in the UAE.",
       "subtitle": "Start your 30-day free trial. No credit card required.",
       "clinic_name": "Clinic Name",
@@ -2813,7 +2813,7 @@
     }
   },
   "pricing_page": {
-    "meta_title": "Pricing — Vetara",
+    "meta_title": "Pricing",
     "meta_description": "Compare Vetara plans: Starter (Free), Professional (149 AED/mo), and Enterprise. Find the right plan for your veterinary clinic in the UAE.",
     "nav_home": "Home",
     "nav_pricing": "Pricing",
@@ -2978,7 +2978,7 @@
   },
   "pet_owners": {
     "meta": {
-      "title": "Pet Owners — Your Pet's Health, Always in Your Pocket | Vetara",
+      "title": "Pet Owners — Your Pet's Health, Always in Your Pocket",
       "description": "Access your pet's medical records, book vet appointments, get vaccination reminders, and share records with any clinic — all from Vetara."
     },
     "nav": {
@@ -3115,7 +3115,7 @@
   },
   "developers": {
     "meta": {
-      "title": "Developers — Vetara Open Veterinary Health API",
+      "title": "Developers — Open Veterinary Health API",
       "description": "Build on Vetara's FHIR R4-compatible API. Export patient data, integrate medical records, and connect veterinary systems with our open health API."
     },
     "nav": {
