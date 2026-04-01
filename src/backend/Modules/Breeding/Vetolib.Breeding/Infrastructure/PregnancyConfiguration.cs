@@ -27,6 +27,9 @@ internal class PregnancyConfiguration : IEntityTypeConfiguration<Pregnancy>
             .HasForeignKey(c => c.PregnancyId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Navigation(x => x.ScheduledChecks)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
         builder.HasIndex(x => new { x.ClinicId, x.PatientId, x.Status })
             .HasDatabaseName("ix_pregnancies_clinic_patient_status");
     }
