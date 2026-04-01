@@ -74,7 +74,7 @@ internal class MedicalRecordViewerSteps
         _ctx.Set(ownerName, "CurrentOwnerName");
     }
 
-    [Given(@"""(.*)"" has a cat ""(.*)"" and a dog ""(.*)"" at ""(.*)""")]
+    [Given(@"""([^""]*)"" has a cat ""([^""]*)"" and a dog ""([^""]*)"" at ""([^""]*)""")]
     public async Task GivenOwnerHasCatAndDogAtClinic(
         string ownerName, string catName, string dogName, string clinicName)
     {
@@ -82,7 +82,7 @@ internal class MedicalRecordViewerSteps
         await SeedOwnerWithPatient(ownerName, clinicName, dogName, Species.Dog);
     }
 
-    [Given(@"""(.*)"" has a cat ""(.*)"" at ""(.*)""")]
+    [Given(@"""([^""]*)"" has a cat ""([^""]*)"" at ""([^""]*)""")]
     public async Task GivenOwnerHasCatAtClinic(string ownerName, string catName, string clinicName)
     {
         await SeedOwnerWithPatient(ownerName, clinicName, catName, Species.Cat);

@@ -96,6 +96,7 @@ internal class GlobalHooks
         // (e.g. admin@desertpaws.ae exists with a random password, causing login failures).
         await authDb.RefreshTokens.IgnoreQueryFilters().ExecuteDeleteAsync();
         await authDb.Users.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await authDb.OwnerAccounts.ExecuteDeleteAsync();
         await authDb.Clinics.ExecuteDeleteAsync();
     }
 
@@ -125,6 +126,7 @@ internal class GlobalHooks
         await authDb.OnboardingStates.IgnoreQueryFilters().ExecuteDeleteAsync();
         await authDb.RefreshTokens.IgnoreQueryFilters().ExecuteDeleteAsync();
         await authDb.Users.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await authDb.OwnerAccounts.ExecuteDeleteAsync();
         await authDb.Clinics.ExecuteDeleteAsync();
 
         var agendaDb = scope.ServiceProvider.GetRequiredService<AgendaDbContext>();
@@ -135,6 +137,7 @@ internal class GlobalHooks
         await billingDb.Invoices.IgnoreQueryFilters().ExecuteDeleteAsync();
 
         var medicalDb = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
+        await medicalDb.SharedRecordLinks.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.Prescriptions.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.MedicalRecords.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.PatientOwners.IgnoreQueryFilters().ExecuteDeleteAsync();
