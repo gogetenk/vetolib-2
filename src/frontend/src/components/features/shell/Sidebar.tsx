@@ -14,6 +14,7 @@ import {
   Package,
   MessageSquare,
   Heart,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -91,6 +92,13 @@ function getMainNavItems(t: (key: string) => string): NavItem[] {
       label: t("messaging_settings"),
       icon: <Settings className="h-5 w-5" />,
       testId: "nav-messaging-settings",
+      roles: ["ADMIN"],
+    },
+    {
+      href: "/settings/clinic-group",
+      label: t("clinic_group"),
+      icon: <Building2 className="h-5 w-5" />,
+      testId: "nav-clinic-group",
       roles: ["ADMIN"],
     },
   ];
