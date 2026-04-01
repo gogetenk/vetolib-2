@@ -67,5 +67,8 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.ReferredByUserId);
 
         builder.Property(u => u.KeycloakUserId);
+        builder.HasIndex(u => u.KeycloakUserId)
+            .IsUnique()
+            .HasFilter("\"KeycloakUserId\" IS NOT NULL");
     }
 }
