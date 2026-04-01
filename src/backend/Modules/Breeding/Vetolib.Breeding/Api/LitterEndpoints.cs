@@ -31,11 +31,14 @@ internal static class LitterEndpoints
             .WithSummary("Add offspring to a litter")
             .WithDescription("Links an existing patient record as an offspring of the litter with a birth order.");
 
-        // Patient-scoped litter listing
-        app.MapGet("/api/v1/patients/{id:guid}/litters", GetByMother)
+        // Patient-scoped litter listing — must be in a group so the request
+        // goes through the same middleware pipeline as the other endpoints.
+        var patientGroup = app.MapGroup("/api/v1/patients/{id:guid}/litters")
             .RequireAuthorization()
             .RequireRateLimiting("api")
-            .WithTags("Litters")
+            .WithTags("Litters");
+
+        patientGroup.MapGet("/", GetByMother)
             .WithName("GetLittersByMother")
             .WithSummary("Get litters by mother")
             .WithDescription("Returns all litters for a specific mother patient.");
