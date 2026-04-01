@@ -2,9 +2,9 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
-using Vetolib.Auth.Application.Domain;
 using Vetolib.Auth.Contracts;
 using Vetolib.Auth.Infrastructure;
 using Vetolib.Tests.Acceptance.Support;
@@ -46,25 +46,33 @@ internal class ClinicSearchSteps
     public async Task GivenTheFollowingClinicsExistInTheDirectory(DataTable table)
     {
         using var scope = _factory.Services.CreateScope();
-        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
 
         foreach (var row in table.Rows)
         {
             var name = row["Name"];
             var city = row["City"];
-            var speciesCsv = row["Supported Species"];
-            var species = speciesCsv.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            var species = row["Supported Species"]
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .ToList();
 
-            var clinicResult = Clinic.Create(name);
-            clinicResult.IsSuccess.Should().BeTrue($"Clinic creation should succeed for '{name}'");
-
-            var clinic = clinicResult.Value;
-            clinic.UpdateDirectory(city, null, species);
-
-            authDb.Clinics.Add(clinic);
+            // Check if clinic already exists (avoid duplicates on re-runs)
+            var existing = await db.Clinics.IgnoreQueryFilters()
+                .FirstOrDefaultAsync(c => c.Name == name);
+            if (existing is not null)
+            {
+                existing.UpdateDirectory(city, null, species);
+            }
+            else
+            {
+                var clinicResult = Vetolib.Auth.Application.Domain.Clinic.Create(name);
+                clinicResult.IsSuccess.Should().BeTrue($"Clinic creation should succeed for {name}");
+                clinicResult.Value.UpdateDirectory(city, null, species);
+                db.Clinics.Add(clinicResult.Value);
+            }
         }
 
-        await authDb.SaveChangesAsync();
+        await db.SaveChangesAsync();
     }
 
     // ─── WHEN Steps ──────────────────────────────────────────────

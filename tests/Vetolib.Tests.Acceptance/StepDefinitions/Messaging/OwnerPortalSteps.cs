@@ -414,8 +414,17 @@ internal class OwnerPortalSteps
         var responseContent = await listResponse.Content.ReadAsStringAsync();
         if (string.IsNullOrWhiteSpace(responseContent)) return;
         var body = JsonSerializer.Deserialize<JsonElement>(responseContent, JsonOptions);
-        body.EnumerateArray().Should().NotBeEmpty(
-            "Conversation should appear in owner's list");
+        // Response is a paged result object with an "items" array, not a bare array
+        if (body.TryGetProperty("items", out var items))
+        {
+            items.EnumerateArray().Should().NotBeEmpty(
+                "Conversation should appear in owner's list");
+        }
+        else
+        {
+            body.EnumerateArray().Should().NotBeEmpty(
+                "Conversation should appear in owner's list");
+        }
     }
 
     [Then(@"I should see all messages in chronological order")]
