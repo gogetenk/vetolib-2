@@ -81,6 +81,7 @@
     "sign_out": "Sign Out",
     "stock": "Stock",
     "breeding": "Breeding",
+    "waitlist": "Waitlist",
     "read_only": "Read only",
     "messaging_settings": "Messaging Settings",
     "switch_clinic": "Switch clinic",
@@ -649,6 +650,45 @@
     "deactivate_error": "Failed to deactivate user",
     "errors": {
       "load_failed": "Failed to load team members"
+    }
+  },
+  "waitlist": {
+    "title": "Waitlist",
+    "add": "Add to Waitlist",
+    "remove": "Remove from waitlist",
+    "col_patient": "Patient",
+    "col_reason": "Reason",
+    "col_preferred_time": "Preferred Time",
+    "col_priority": "Priority",
+    "col_date_added": "Date Added",
+    "failed_to_load": "Failed to load waitlist entries.",
+    "failed_to_delete": "Failed to remove entry from waitlist.",
+    "error_title": "Error",
+    "priority": {
+      "LOW": "Low",
+      "NORMAL": "Normal",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "empty": {
+      "title": "No one on the waitlist",
+      "description": "When patients need an appointment but no slot is available, add them here to track demand.",
+      "cta": "Add to Waitlist"
+    },
+    "dialog": {
+      "title": "Add to Waitlist",
+      "description": "Add a patient to the waitlist for the next available slot.",
+      "patient": "Patient",
+      "patient_placeholder": "Select a patient",
+      "reason": "Reason",
+      "reason_placeholder": "e.g. Dental cleaning, follow-up visit",
+      "preferred_day": "Preferred Day",
+      "preferred_time": "Preferred Time",
+      "priority_label": "Priority",
+      "cancel": "Cancel",
+      "submit": "Add to Waitlist",
+      "submitting": "Adding...",
+      "submit_error": "Failed to add patient to waitlist. Please try again."
     }
   },
   "stock": {
