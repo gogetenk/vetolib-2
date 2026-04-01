@@ -65,5 +65,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .HasFilter("\"EmailVerificationToken\" IS NOT NULL");
 
         builder.Property(u => u.ReferredByUserId);
+
+        builder.Property(u => u.KeycloakUserId);
     }
 }
