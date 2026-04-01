@@ -233,4 +233,60 @@ public sealed class AuthEndpointsTests : IntegrationTestBase
         var response = await Client.WithoutAuth().PostAsJsonAsync("/api/v1/auth/change-password", request, JsonOptions);
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
+
+    // ── GET /api/v1/auth/my-organizations ────────────────────────────────
+
+    [Fact]
+    public async Task ListMyOrganizations_Authenticated_ReturnsNon5xx()
+    {
+        var client = CreateAdminClient();
+
+        var response = await client.GetAsync("/api/v1/auth/my-organizations");
+
+        // Endpoint may return 200 with an empty list, or 204, etc.
+        // The important contract check: it must NOT return 5xx.
+        ((int)response.StatusCode).Should().BeLessThan(500);
+    }
+
+    [Fact]
+    public async Task ListMyOrganizations_Unauthenticated_Returns401()
+    {
+        var response = await Client.WithoutAuth().GetAsync("/api/v1/auth/my-organizations");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task ListMyOrganizations_AfterRegister_ReturnsOrganizationList()
+    {
+        var registerRequest = new RegisterClinicRequest(
+            ClinicName: "Org Test Clinic",
+            Email: "org-test@vet.ae",
+            Password: "SecureOrg1!",
+            Phone: "+971 4 999 0001",
+            Country: "UAE");
+        var registerResponse = await Client.PostAsJsonAsync("/api/v1/clinics/register", registerRequest, JsonOptions);
+        registerResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var registerBody = await registerResponse.Content.ReadFromJsonAsync<RegisterClinicResponse>(JsonOptions);
+
+        var authenticatedClient = Factory.CreateClient().WithToken(registerBody!.AccessToken);
+        var response = await authenticatedClient.GetAsync("/api/v1/auth/my-organizations");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var orgs = await response.Content.ReadFromJsonAsync<IReadOnlyList<MyOrganizationDto>>(JsonOptions);
+        orgs.Should().NotBeNull();
+        orgs!.Should().NotBeEmpty("the user should belong to at least the clinic they just created");
+    }
+
+    // ── POST /api/v1/auth/verify-email ───────────────────────────────────
+
+    [Fact]
+    public async Task VerifyEmail_InvalidToken_Returns4xx()
+    {
+        // verify-email is AllowAnonymous — should not return 5xx even with a bogus token
+        var response = await Client.PostAsync("/api/v1/auth/verify-email?token=invalid-token-abc", null);
+
+        // Expect a 4xx (Invalid, NotFound, or BadRequest) — NOT a 5xx
+        ((int)response.StatusCode).Should().BeInRange(400, 499);
+    }
 }
