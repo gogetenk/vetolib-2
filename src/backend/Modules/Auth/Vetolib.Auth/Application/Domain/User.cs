@@ -104,6 +104,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
     public void SetKeycloakUserId(Guid keycloakUserId)
     {
         KeycloakUserId = keycloakUserId;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public Result SetReferrer(Guid referrerUserId)
