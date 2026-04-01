@@ -22,6 +22,7 @@ import { petOwnerHandlers } from './pet-owners'
 import { workingHoursHandlers } from './working-hours'
 import { notificationHandlers } from './notifications'
 import { auditHandlers } from './audit'
+import { waitlistHandlers } from './waitlist'
 
 export const handlers = [
   ...authHandlers,
@@ -48,4 +49,5 @@ export const handlers = [
   ...workingHoursHandlers,
   ...notificationHandlers,
   ...auditHandlers,
+  ...waitlistHandlers,
 ]
