@@ -10,8 +10,9 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
     public Guid ClinicId { get; private set; }
     public string Email { get; private set; } = string.Empty;
     public string FullName { get; private set; } = string.Empty;
-    public string PasswordHash { get; private set; } = string.Empty;
+    public string? PasswordHash { get; private set; }
     public UserRole Role { get; private set; }
+    public AuthProvider AuthProvider { get; private set; } = AuthProvider.Legacy;
     public string? VetLicenseNumber { get; private set; }
     public bool IsLocked { get; private set; }
     public int FailedLoginAttempts { get; private set; }
@@ -52,6 +53,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
             FullName = string.Empty,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
             Role = role,
+            AuthProvider = AuthProvider.Legacy,
             VetLicenseNumber = vetLicenseNumber,
             IsLocked = false,
             FailedLoginAttempts = 0,
@@ -63,6 +65,45 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         };
 
         user.AddDomainEvent(new EmailVerificationRequestedDomainEvent(user.Id, user.Email, user.EmailVerificationToken!));
+
+        return Result<User>.Success(user);
+    }
+
+    public static Result<User> CreateKeycloakUser(Guid clinicId, string email, UserRole role, Guid keycloakUserId, string? vetLicenseNumber = null)
+    {
+        var errors = new List<ValidationError>();
+
+        if (clinicId == Guid.Empty)
+            errors.Add(new ValidationError(nameof(clinicId), "ClinicId is required"));
+
+        if (string.IsNullOrWhiteSpace(email))
+            errors.Add(new ValidationError(nameof(email), "Email is required"));
+
+        if (keycloakUserId == Guid.Empty)
+            errors.Add(new ValidationError(nameof(keycloakUserId), "KeycloakUserId is required"));
+
+        if (role == UserRole.Vet && string.IsNullOrWhiteSpace(vetLicenseNumber))
+            errors.Add(new ValidationError(nameof(vetLicenseNumber), "A veterinary license number is required for the Vet role"));
+
+        if (errors.Count > 0)
+            return Result<User>.Invalid(errors);
+
+        var user = new User
+        {
+            ClinicId = clinicId,
+            Email = email.ToLowerInvariant(),
+            FullName = string.Empty,
+            PasswordHash = null,
+            Role = role,
+            AuthProvider = AuthProvider.Keycloak,
+            KeycloakUserId = keycloakUserId,
+            VetLicenseNumber = vetLicenseNumber,
+            IsLocked = false,
+            FailedLoginAttempts = 0,
+            IsActive = true,
+            MustChangePassword = false,
+            EmailVerified = true // Keycloak handles email verification
+        };
 
         return Result<User>.Success(user);
     }
@@ -90,6 +131,7 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
             FullName = fullName.Trim(),
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(temporaryPassword),
             Role = role,
+            AuthProvider = AuthProvider.Legacy,
             IsLocked = false,
             FailedLoginAttempts = 0,
             IsActive = true,
@@ -135,9 +177,15 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
         return Result.Success();
     }
 
-    public bool VerifyPassword(string password)
+    public Result<bool> VerifyPassword(string password)
     {
-        return BCrypt.Net.BCrypt.Verify(password, PasswordHash);
+        if (AuthProvider == AuthProvider.Keycloak)
+            return Result<bool>.Error("KEYCLOAK_AUTH_REQUIRED:Password verification must go through Keycloak for this user");
+
+        if (PasswordHash is null)
+            return Result<bool>.Error("NO_LOCAL_PASSWORD:User has no local password set");
+
+        return Result<bool>.Success(BCrypt.Net.BCrypt.Verify(password, PasswordHash));
     }
 
     public Result RecordFailedLogin(int maxAttempts = 5, int lockoutMinutes = 15)
@@ -172,6 +220,12 @@ internal class User : BaseEntity, IMultiTenant, IAggregateRoot
 
     public Result ChangePassword(string currentPassword, string newPassword)
     {
+        if (AuthProvider == AuthProvider.Keycloak)
+            return Result.Error("KEYCLOAK_AUTH_REQUIRED:Password changes must go through Keycloak for this user");
+
+        if (PasswordHash is null)
+            return Result.Error("NO_LOCAL_PASSWORD:User has no local password set");
+
         if (!BCrypt.Net.BCrypt.Verify(currentPassword, PasswordHash))
             return Result.Error("INVALID_CURRENT_PASSWORD");
 
