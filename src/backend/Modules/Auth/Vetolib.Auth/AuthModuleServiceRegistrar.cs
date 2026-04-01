@@ -60,6 +60,9 @@ public static class AuthModuleServiceRegistrar
             client.BaseAddress = new Uri(keycloakBaseUrl);
         });
 
+        // Keycloak dev seed — creates demo orgs & users on startup (no-op outside Development)
+        services.AddHostedService<KeycloakSeedService>();
+
         // Claims transformation: maps Keycloak organization.id → clinic_id
         services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformation>();
 

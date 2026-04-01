@@ -11,6 +11,7 @@ using Vetolib.Auth.Application.Commands.Logout;
 using Vetolib.Auth.Application.Commands.RefreshToken;
 using Vetolib.Auth.Application.Commands.VerifyEmail;
 using Vetolib.Auth.Application.Queries.GetCurrentUser;
+using Vetolib.Auth.Application.Queries.ListMyOrganizations;
 using Vetolib.Auth.Contracts;
 
 namespace Vetolib.Auth.Api;
@@ -64,6 +65,11 @@ internal static class AuthEndpoints
             .RequireRateLimiting("auth")
             .WithSummary("Change user password")
             .WithDescription("Allows the authenticated user to change their password by providing the current and new passwords.");
+
+        authGroup.MapGet("/my-organizations", ListMyOrganizations)
+            .WithName("ListMyOrganizations")
+            .WithSummary("List organizations the current user belongs to")
+            .WithDescription("Returns all Keycloak organizations (clinics) the authenticated user is a member of. Falls back to ClinicGroup membership when Keycloak is not available.");
 
         return app;
     }
@@ -126,4 +132,17 @@ internal static class AuthEndpoints
         ISender sender)
         => (await sender.Send(new VerifyEmailCommand(token)))
             .ToMinimalApiResult();
+
+    private static async Task<Microsoft.AspNetCore.Http.IResult> ListMyOrganizations(
+        ClaimsPrincipal user,
+        ISender sender)
+    {
+        var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            ?? user.FindFirst("sub")?.Value;
+
+        if (userIdClaim is null || !Guid.TryParse(userIdClaim, out var userId))
+            return Result<IReadOnlyList<MyOrganizationDto>>.Unauthorized().ToMinimalApiResult();
+
+        return (await sender.Send(new ListMyOrganizationsQuery(userId))).ToMinimalApiResult();
+    }
 }
