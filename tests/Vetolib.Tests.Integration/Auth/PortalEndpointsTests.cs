@@ -126,10 +126,14 @@ public sealed class PortalEndpointsTests : IntegrationTestBase
 
         var response = await client.PostAsJsonAsync("/api/v1/portal/link-microchip", request, JsonOptions);
 
+        // The endpoint handler checks for owner_account_id claim first, then falls back to sub.
+        // Admin JWT lacks owner_account_id, and the handler returns Unauthorized when the
+        // claim cannot be resolved to a valid owner account. 401 is acceptable non-5xx behavior.
         response.StatusCode.Should().BeOneOf(
             HttpStatusCode.OK,
             HttpStatusCode.Created,
             HttpStatusCode.BadRequest,
+            HttpStatusCode.Unauthorized,
             HttpStatusCode.UnprocessableEntity,
             HttpStatusCode.NotFound);
     }
