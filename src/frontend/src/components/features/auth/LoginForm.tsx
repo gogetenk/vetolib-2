@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2, Shield } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -42,8 +42,11 @@ export function LoginForm() {
   const locale = useLocale()
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
+  const [keycloakLoading, setKeycloakLoading] = useState(false)
   const { shakeForm, triggerShake } = useFormShake()
   const formRef = useRef<HTMLFormElement>(null)
+
+  const keycloakEnabled = typeof window !== "undefined" && !!process.env.NEXT_PUBLIC_KEYCLOAK_URL
 
   const loginSchema = buildLoginSchema(t)
 
@@ -229,6 +232,47 @@ export function LoginForm() {
             </Button>
             {/* Removed old single displayError — now field-level + server error above */}
           </form>
+
+          {/* Keycloak SSO divider and button — shown when NEXT_PUBLIC_KEYCLOAK_URL is set */}
+          {keycloakEnabled && (
+            <>
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">{t("or_continue_with")}</span>
+                </div>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                data-testid="keycloak-signin-button"
+                disabled={keycloakLoading}
+                onClick={async () => {
+                  setKeycloakLoading(true)
+                  // Dynamic import to avoid loading next-auth on pages that don't need it
+                  const { signIn } = await import("next-auth/react")
+                  const callbackUrl = searchParams.get("callbackUrl") || `/${locale}/appointments`
+                  await signIn("keycloak", { callbackUrl })
+                }}
+              >
+                {keycloakLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span className="ms-2">{t("signing_in")}</span>
+                  </>
+                ) : (
+                  <>
+                    <Shield className="h-4 w-4" />
+                    <span className="ms-2">{t("sign_in_keycloak")}</span>
+                  </>
+                )}
+              </Button>
+            </>
+          )}
+
           <p className="mt-4 text-center text-sm text-stone-500">
             {t("no_account")}{" "}
             <Link

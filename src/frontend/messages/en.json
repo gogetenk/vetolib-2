@@ -58,6 +58,8 @@
       "sign_up_link": "Sign Up",
       "show_password": "Show password",
       "hide_password": "Hide password",
+      "sign_in_keycloak": "Sign in with Keycloak",
+      "or_continue_with": "Or continue with",
       "errors": {
         "invalid_credentials": "Invalid email or password",
         "account_locked": "Account locked. Try again in 15 minutes.",

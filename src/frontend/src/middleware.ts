@@ -42,6 +42,11 @@ function isPublicPath(pathname: string): boolean {
     return true;
   }
 
+  // NextAuth (Auth.js) API routes
+  if (pathname.startsWith("/api/auth")) {
+    return true;
+  }
+
   // Portal is public at any locale: /portal/... or /en/portal/... or /ar/portal/...
   if (/\/portal\//.test(pathname)) {
     return true;

@@ -24,6 +24,7 @@ import { notificationHandlers } from './notifications'
 import { auditHandlers } from './audit'
 import { eReportingHandlers } from './e-reporting'
 import { waitlistHandlers } from './waitlist'
+import { organizationHandlers } from './organizations'
 
 export const handlers = [
   ...authHandlers,
@@ -52,4 +53,5 @@ export const handlers = [
   ...auditHandlers,
   ...eReportingHandlers,
   ...waitlistHandlers,
+  ...organizationHandlers,
 ]
