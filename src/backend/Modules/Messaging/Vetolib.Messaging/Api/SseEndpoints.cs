@@ -24,8 +24,8 @@ internal static class SseEndpoints
             .WithName("MessagingSSE")
             .WithSummary("Messaging real-time event stream")
             .WithDescription("Server-Sent Events (SSE) endpoint for real-time messaging notifications. Streams new messages, status changes, and unread counts.")
-            // Disable buffering so events are streamed immediately
-            .DisableRateLimiting();
+            // Per-IP sliding window: max 5 SSE connection attempts per minute
+            .RequireRateLimiting("sse");
 
         return app;
     }

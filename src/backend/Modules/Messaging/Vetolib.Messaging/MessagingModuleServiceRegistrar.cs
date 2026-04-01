@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
@@ -114,6 +115,20 @@ public static class MessagingModuleServiceRegistrar
                 "WhatsApp:EncryptionKey is required in non-Development environments. " +
                 "Generate a 32-byte base64 key and set it in configuration.");
         }
+
+        // SSE rate limiting — 5 connection attempts per minute per IP.
+        // Registered via PostConfigure so it appends to the policies already defined in Program.cs
+        // without modifying the frozen host file.
+        services.PostConfigure<RateLimiterOptions>(options =>
+        {
+            options.AddSlidingWindowLimiter("sse", opt =>
+            {
+                opt.PermitLimit = 5;
+                opt.Window = TimeSpan.FromMinutes(1);
+                opt.SegmentsPerWindow = 6;
+                opt.QueueLimit = 0;
+            });
+        });
 
         // WhatsApp — channel dispatcher
         services.AddScoped<IChannelDispatcher, WhatsAppSender>();
