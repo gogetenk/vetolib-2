@@ -37,6 +37,11 @@ export function MSWProvider({ children }: { children: React.ReactNode }) {
     ).then(() => setMswReady(true))
   }, [])
 
+  // In development, don't render children until MSW is active so that
+  // useEffect API calls are guaranteed to be intercepted by MSW handlers.
+  const shouldRenderChildren =
+    mswReady || process.env.NODE_ENV !== 'development'
+
   return (
     <>
       {mswReady && (
@@ -46,7 +51,7 @@ export function MSWProvider({ children }: { children: React.ReactNode }) {
           aria-hidden="true"
         />
       )}
-      {children}
+      {shouldRenderChildren ? children : null}
     </>
   )
 }
