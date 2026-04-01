@@ -29,14 +29,20 @@ export function Header() {
   const { unreadCount } = useMessagingSseContext();
   const t = useTranslations("nav");
 
-  const navItems = [
-    { href: "/dashboard", label: t("dashboard") },
-    { href: "/appointments", label: t("appointments") },
-    { href: "/messages", label: t("messages"), badge: unreadCount > 0 ? unreadCount : undefined },
-{ href: "/patients", label: t("patients") },
-    { href: "/billing", label: t("billing") },
-    { href: "/stock", label: t("stock") },
+  const allNavItems = [
+    { href: "/dashboard", label: t("dashboard"), testId: "header-nav-dashboard" },
+    { href: "/appointments", label: t("appointments"), testId: "header-nav-appointments" },
+    { href: "/messages", label: t("messages"), badge: unreadCount > 0 ? unreadCount : undefined, testId: "header-nav-messages" },
+    { href: "/patients", label: t("patients"), testId: "header-nav-patients" },
+    { href: "/billing", label: t("billing"), testId: "header-nav-billing" },
+    { href: "/waitlist", label: t("waitlist"), testId: "header-nav-waitlist" },
+    { href: "/breeding", label: t("breeding"), roles: ["VET", "ADMIN"] as string[], testId: "header-nav-breeding" },
+    { href: "/stock", label: t("stock"), roles: ["VET", "ADMIN"] as string[], testId: "header-nav-stock" },
   ];
+
+  const navItems = allNavItems.filter(
+    (item) => !item.roles || item.roles.includes(role)
+  );
 
   return (
     <header
@@ -65,6 +71,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={`/${locale}${item.href}`}
+                data-testid={item.testId}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "relative flex items-center h-full px-4 text-[13px] font-semibold transition-colors hover:text-primary",
