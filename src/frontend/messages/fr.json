@@ -58,6 +58,8 @@
       "sign_up_link": "S'inscrire",
       "show_password": "Afficher le mot de passe",
       "hide_password": "Masquer le mot de passe",
+      "sign_in_keycloak": "Se connecter avec Keycloak",
+      "or_continue_with": "Ou continuer avec",
       "errors": {
         "invalid_credentials": "E-mail ou mot de passe invalide",
         "account_locked": "Compte verrouillé. Réessayez dans 15 minutes.",

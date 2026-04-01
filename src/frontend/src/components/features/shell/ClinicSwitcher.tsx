@@ -9,6 +9,7 @@ import {
   switchClinic,
   type ClinicSummary,
 } from "@/lib/api/clinic-group";
+import { getMyOrganizations } from "@/lib/api/organizations";
 
 function parseJwtClaim(key: string): string {
   if (typeof window === "undefined") return "";
@@ -40,13 +41,32 @@ export function ClinicSwitcher() {
 
   const clinicGroupId = parseJwtClaim("clinic_group_id");
 
-  // Fetch clinics on first open
+  // Fetch clinics on first open.
+  // Tries the Keycloak organizations endpoint first, falls back to legacy clinic-group endpoint.
   const fetchClinics = useCallback(async () => {
-    if (!clinicGroupId || clinics.length > 0) return;
+    if (clinics.length > 0) return;
     setLoading(true);
     try {
-      const response = await getClinicGroupClinics(clinicGroupId);
-      setClinics(response.clinics);
+      // Try Keycloak organizations endpoint first
+      const orgResponse = await getMyOrganizations();
+      if (orgResponse.organizations.length > 0) {
+        setClinics(
+          orgResponse.organizations.map((org) => ({
+            id: org.id,
+            name: org.name,
+            address: org.address,
+          }))
+        );
+        return;
+      }
+    } catch {
+      // Keycloak endpoint not available — fall back to legacy
+    }
+    try {
+      if (clinicGroupId) {
+        const response = await getClinicGroupClinics(clinicGroupId);
+        setClinics(response.clinics);
+      }
     } catch {
       // Silently fail — user just won't see the switcher
     } finally {
@@ -60,12 +80,11 @@ export function ClinicSwitcher() {
     }
   }, [open, clinics.length, fetchClinics]);
 
-  // Also fetch on mount to determine if we should show the switcher
+  // Fetch on mount to determine if we should show the switcher.
+  // Always attempt — Keycloak users may not have clinicGroupId in their JWT.
   useEffect(() => {
-    if (clinicGroupId) {
-      fetchClinics();
-    }
-  }, [clinicGroupId, fetchClinics]);
+    fetchClinics();
+  }, [fetchClinics]);
 
   // Close on outside click
   useEffect(() => {
@@ -96,8 +115,8 @@ export function ClinicSwitcher() {
     }
   }
 
-  // Don't render if user has no clinic group or only one clinic
-  if (!clinicGroupId || (clinics.length > 0 && clinics.length < 2)) {
+  // Don't render if user has only one clinic or none
+  if (clinics.length > 0 && clinics.length < 2) {
     return null;
   }
 
