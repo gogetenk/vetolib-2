@@ -37,6 +37,8 @@ internal class ClinicConfiguration : IEntityTypeConfiguration<Clinic>
         builder.Property(c => c.TrialEndsAt)
             .IsRequired();
 
+        builder.Property(c => c.KeycloakOrganizationId);
+
         // Index for public clinic search (case-insensitive partial match on name + city filter)
         builder.HasIndex(c => c.City);
         builder.HasIndex(c => c.Slug).IsUnique();

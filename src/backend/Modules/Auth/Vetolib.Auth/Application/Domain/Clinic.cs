@@ -16,6 +16,7 @@ internal class Clinic : BaseEntity, IAggregateRoot
     public string? Slug { get; private set; }
     public Contracts.SubscriptionPlan SubscriptionPlan { get; private set; }
     public DateTime TrialEndsAt { get; private set; }
+    public Guid? KeycloakOrganizationId { get; private set; }
 
     private readonly List<string> _supportedSpecies = [];
     public IReadOnlyList<string> SupportedSpecies => _supportedSpecies.AsReadOnly();
@@ -45,6 +46,12 @@ internal class Clinic : BaseEntity, IAggregateRoot
         };
 
         return Result<Clinic>.Success(clinic);
+    }
+
+    public void SetKeycloakOrganizationId(Guid keycloakOrganizationId)
+    {
+        KeycloakOrganizationId = keycloakOrganizationId;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public Result UpdateDirectory(string? city, string? logoUrl, IEnumerable<string>? supportedSpecies)
