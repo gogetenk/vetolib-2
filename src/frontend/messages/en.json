@@ -81,6 +81,7 @@
     "sign_out": "Sign Out",
     "stock": "Stock",
     "breeding": "Breeding",
+    "waitlist": "Waitlist",
     "read_only": "Read only",
     "messaging_settings": "Messaging Settings",
     "clinic_group": "Clinic Group",
@@ -516,6 +517,66 @@
       "item_quantity_aria": "Item {index} quantity",
       "item_unit_price_aria": "Item {index} unit price in AED",
       "item_remove_aria": "Remove item {index}"
+    },
+    "reporting": {
+      "page_title": "E-Reporting — UAE Compliance",
+      "title": "Reporting Periods",
+      "all_statuses": "All statuses",
+      "all_years": "All years",
+      "filter_by_year": "Filter by year",
+      "filter_by_status": "Filter by status",
+      "failed_to_load": "Failed to load reports",
+      "submit_failed": "Failed to submit report",
+      "no_reports": "No reporting periods found",
+      "view_details": "View Details",
+      "hide_details": "Hide Details",
+      "submit": "Submit Report",
+      "submitting": "Submitting...",
+      "invoice_count": "{count} invoices",
+      "vat_label": "VAT",
+      "submitted_at": "Submitted",
+      "accepted_at": "Accepted",
+      "rejected_at": "Rejected",
+      "rejection_reason": "Rejection Reason",
+      "line_items": "Line Items",
+      "total_vat": "Total VAT",
+      "e_reporting": "E-Reporting",
+      "columns": {
+        "period": "Period",
+        "invoices": "Invoices",
+        "revenue": "Revenue (AED)",
+        "vat": "VAT (5%)",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "item_columns": {
+        "description": "Description",
+        "category": "Category",
+        "qty": "Qty",
+        "unit_price": "Unit Price",
+        "vat": "VAT",
+        "total": "Total"
+      },
+      "status": {
+        "DRAFT": "Draft",
+        "SUBMITTED": "Submitted",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      },
+      "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      }
     }
   },
   "dashboard": {
@@ -650,6 +711,45 @@
     "deactivate_error": "Failed to deactivate user",
     "errors": {
       "load_failed": "Failed to load team members"
+    }
+  },
+  "waitlist": {
+    "title": "Waitlist",
+    "add": "Add to Waitlist",
+    "remove": "Remove from waitlist",
+    "col_patient": "Patient",
+    "col_reason": "Reason",
+    "col_preferred_time": "Preferred Time",
+    "col_priority": "Priority",
+    "col_date_added": "Date Added",
+    "failed_to_load": "Failed to load waitlist entries.",
+    "failed_to_delete": "Failed to remove entry from waitlist.",
+    "error_title": "Error",
+    "priority": {
+      "LOW": "Low",
+      "NORMAL": "Normal",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "empty": {
+      "title": "No one on the waitlist",
+      "description": "When patients need an appointment but no slot is available, add them here to track demand.",
+      "cta": "Add to Waitlist"
+    },
+    "dialog": {
+      "title": "Add to Waitlist",
+      "description": "Add a patient to the waitlist for the next available slot.",
+      "patient": "Patient",
+      "patient_placeholder": "Select a patient",
+      "reason": "Reason",
+      "reason_placeholder": "e.g. Dental cleaning, follow-up visit",
+      "preferred_day": "Preferred Day",
+      "preferred_time": "Preferred Time",
+      "priority_label": "Priority",
+      "cancel": "Cancel",
+      "submit": "Add to Waitlist",
+      "submitting": "Adding...",
+      "submit_error": "Failed to add patient to waitlist. Please try again."
     }
   },
   "stock": {
@@ -1910,6 +2010,24 @@
       "share_whatsapp": "Share via WhatsApp",
       "friends_joined": "{count} friends joined",
       "whatsapp_message": "Hey! I use Vetara for my pet's healthcare. Join with my referral code: {code}"
+    },
+    "profile_page": {
+      "title": "My Profile",
+      "account_info": "Account Information",
+      "name": "Name",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "my_pets": "My Pets",
+      "no_pets": "No pets linked to your account.",
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "load_error": "Unable to load your profile. Please try again later.",
+      "save_error": "Failed to save your profile. Please try again.",
+      "validation_name_required": "First name and last name are required."
     }
   },
   "onboarding": {

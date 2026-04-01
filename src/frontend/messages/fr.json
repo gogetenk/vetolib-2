@@ -518,6 +518,66 @@
       "item_quantity_aria": "Quantité de l'article {index}",
       "item_unit_price_aria": "Prix unitaire de l'article {index} en EUR",
       "item_remove_aria": "Supprimer l'article {index}"
+    },
+    "reporting": {
+      "page_title": "E-Reporting — Conformité UAE",
+      "title": "Périodes de déclaration",
+      "all_statuses": "Tous les statuts",
+      "all_years": "Toutes les années",
+      "filter_by_year": "Filtrer par année",
+      "filter_by_status": "Filtrer par statut",
+      "failed_to_load": "Échec du chargement des rapports",
+      "submit_failed": "Échec de la soumission du rapport",
+      "no_reports": "Aucune période de déclaration trouvée",
+      "view_details": "Voir les détails",
+      "hide_details": "Masquer les détails",
+      "submit": "Soumettre le rapport",
+      "submitting": "Soumission...",
+      "invoice_count": "{count} factures",
+      "vat_label": "TVA",
+      "submitted_at": "Soumis",
+      "accepted_at": "Accepté",
+      "rejected_at": "Rejeté",
+      "rejection_reason": "Motif de rejet",
+      "line_items": "Lignes de détail",
+      "total_vat": "TVA totale",
+      "e_reporting": "E-Reporting",
+      "columns": {
+        "period": "Période",
+        "invoices": "Factures",
+        "revenue": "Revenus (AED)",
+        "vat": "TVA (5%)",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "item_columns": {
+        "description": "Description",
+        "category": "Catégorie",
+        "qty": "Qté",
+        "unit_price": "Prix unitaire",
+        "vat": "TVA",
+        "total": "Total"
+      },
+      "status": {
+        "DRAFT": "Brouillon",
+        "SUBMITTED": "Soumis",
+        "ACCEPTED": "Accepté",
+        "REJECTED": "Rejeté"
+      },
+      "months": {
+        "january": "Janvier",
+        "february": "Février",
+        "march": "Mars",
+        "april": "Avril",
+        "may": "Mai",
+        "june": "Juin",
+        "july": "Juillet",
+        "august": "Août",
+        "september": "Septembre",
+        "october": "Octobre",
+        "november": "Novembre",
+        "december": "Décembre"
+      }
     }
   },
   "dashboard": {
@@ -1915,6 +1975,24 @@
       "share_whatsapp": "Partager via WhatsApp",
       "friends_joined": "{count} amis inscrits",
       "whatsapp_message": "Salut ! J'utilise Vetara pour la sante de mon animal. Rejoins avec mon code de parrainage : {code}"
+    },
+    "profile_page": {
+      "title": "Mon profil",
+      "account_info": "Informations du compte",
+      "name": "Nom",
+      "first_name": "Prenom",
+      "last_name": "Nom de famille",
+      "email": "Email",
+      "phone": "Telephone",
+      "my_pets": "Mes animaux",
+      "no_pets": "Aucun animal lie a votre compte.",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "cancel": "Annuler",
+      "load_error": "Impossible de charger votre profil. Veuillez reessayer plus tard.",
+      "save_error": "Echec de la sauvegarde du profil. Veuillez reessayer.",
+      "validation_name_required": "Le prenom et le nom de famille sont requis."
     }
   },
   "onboarding": {

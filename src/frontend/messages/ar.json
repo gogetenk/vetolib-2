@@ -81,6 +81,7 @@
     "sign_out": "تسجيل الخروج",
     "stock": "المخزون",
     "breeding": "التربية",
+    "waitlist": "قائمة الانتظار",
     "read_only": "للقراءة فقط",
     "messaging_settings": "إعدادات الرسائل",
     "clinic_group": "مجموعة العيادات",
@@ -518,6 +519,66 @@
       "item_quantity_aria": "كمية البند {index}",
       "item_unit_price_aria": "سعر الوحدة للبند {index} بالدرهم",
       "item_remove_aria": "حذف البند {index}"
+    },
+    "reporting": {
+      "page_title": "التقارير الإلكترونية — الامتثال الإماراتي",
+      "title": "فترات التقارير",
+      "all_statuses": "جميع الحالات",
+      "all_years": "جميع السنوات",
+      "filter_by_year": "تصفية حسب السنة",
+      "filter_by_status": "تصفية حسب الحالة",
+      "failed_to_load": "فشل في تحميل التقارير",
+      "submit_failed": "فشل في تقديم التقرير",
+      "no_reports": "لم يتم العثور على فترات تقارير",
+      "view_details": "عرض التفاصيل",
+      "hide_details": "إخفاء التفاصيل",
+      "submit": "تقديم التقرير",
+      "submitting": "جارٍ التقديم...",
+      "invoice_count": "{count} فواتير",
+      "vat_label": "ضريبة القيمة المضافة",
+      "submitted_at": "تم التقديم",
+      "accepted_at": "تم القبول",
+      "rejected_at": "تم الرفض",
+      "rejection_reason": "سبب الرفض",
+      "line_items": "بنود التفاصيل",
+      "total_vat": "إجمالي ضريبة القيمة المضافة",
+      "e_reporting": "التقارير الإلكترونية",
+      "columns": {
+        "period": "الفترة",
+        "invoices": "الفواتير",
+        "revenue": "الإيرادات (درهم)",
+        "vat": "ض.ق.م (5%)",
+        "status": "الحالة",
+        "actions": "الإجراءات"
+      },
+      "item_columns": {
+        "description": "الوصف",
+        "category": "الفئة",
+        "qty": "الكمية",
+        "unit_price": "سعر الوحدة",
+        "vat": "ض.ق.م",
+        "total": "الإجمالي"
+      },
+      "status": {
+        "DRAFT": "مسودة",
+        "SUBMITTED": "مُقدَّم",
+        "ACCEPTED": "مقبول",
+        "REJECTED": "مرفوض"
+      },
+      "months": {
+        "january": "يناير",
+        "february": "فبراير",
+        "march": "مارس",
+        "april": "أبريل",
+        "may": "مايو",
+        "june": "يونيو",
+        "july": "يوليو",
+        "august": "أغسطس",
+        "september": "سبتمبر",
+        "october": "أكتوبر",
+        "november": "نوفمبر",
+        "december": "ديسمبر"
+      }
     }
   },
   "dashboard": {
@@ -598,6 +659,45 @@
       "load_stats": "Failed to load dashboard stats",
       "load_stats_desc": "Could not retrieve clinic statistics.",
       "load_activity": "Failed to load activity"
+    }
+  },
+  "waitlist": {
+    "title": "قائمة الانتظار",
+    "add": "إضافة إلى قائمة الانتظار",
+    "remove": "إزالة من قائمة الانتظار",
+    "col_patient": "الحيوان",
+    "col_reason": "السبب",
+    "col_preferred_time": "الوقت المفضل",
+    "col_priority": "الأولوية",
+    "col_date_added": "تاريخ الإضافة",
+    "failed_to_load": "فشل تحميل قائمة الانتظار.",
+    "failed_to_delete": "فشل إزالة العنصر من قائمة الانتظار.",
+    "error_title": "خطأ",
+    "priority": {
+      "LOW": "منخفضة",
+      "NORMAL": "عادية",
+      "HIGH": "عالية",
+      "URGENT": "عاجلة"
+    },
+    "empty": {
+      "title": "لا أحد في قائمة الانتظار",
+      "description": "عندما يحتاج المرضى إلى موعد ولا تتوفر فترة زمنية، أضفهم هنا لتتبع الطلب.",
+      "cta": "إضافة إلى قائمة الانتظار"
+    },
+    "dialog": {
+      "title": "إضافة إلى قائمة الانتظار",
+      "description": "إضافة مريض إلى قائمة الانتظار للفترة المتاحة التالية.",
+      "patient": "الحيوان",
+      "patient_placeholder": "اختر حيوانًا",
+      "reason": "السبب",
+      "reason_placeholder": "مثال: تنظيف أسنان، زيارة متابعة",
+      "preferred_day": "اليوم المفضل",
+      "preferred_time": "الوقت المفضل",
+      "priority_label": "الأولوية",
+      "cancel": "إلغاء",
+      "submit": "إضافة إلى قائمة الانتظار",
+      "submitting": "جارٍ الإضافة...",
+      "submit_error": "فشل إضافة المريض إلى قائمة الانتظار. يرجى المحاولة مرة أخرى."
     }
   },
   "stock": {
@@ -1900,6 +2000,24 @@
       "share_whatsapp": "مشاركة عبر واتساب",
       "friends_joined": "{count} أصدقاء انضموا",
       "whatsapp_message": "مرحباً! أستخدم فيتارا لرعاية حيواني الأليف. انضم باستخدام رمز الإحالة الخاص بي: {code}"
+    },
+    "profile_page": {
+      "title": "ملفي الشخصي",
+      "account_info": "معلومات الحساب",
+      "name": "الاسم",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "my_pets": "حيواناتي الأليفة",
+      "no_pets": "لا توجد حيوانات أليفة مرتبطة بحسابك.",
+      "edit": "تعديل",
+      "save": "حفظ",
+      "saving": "جاري الحفظ...",
+      "cancel": "إلغاء",
+      "load_error": "تعذر تحميل ملفك الشخصي. يرجى المحاولة مرة أخرى لاحقاً.",
+      "save_error": "فشل حفظ ملفك الشخصي. يرجى المحاولة مرة أخرى.",
+      "validation_name_required": "الاسم الأول واسم العائلة مطلوبان."
     }
   },
   "onboarding": {
