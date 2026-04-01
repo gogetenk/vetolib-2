@@ -162,12 +162,12 @@ public sealed class StockEndpointsTests : IntegrationTestBase
         var response = await adminClient.PostAsJsonAsync(
             $"/api/v1/stock/{created.Id}/movements", movementRequest, JsonOptions);
 
-        // Assert
+        // Assert — handler returns the updated StockItemDto (with new total quantity)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var movement = await response.Content.ReadFromJsonAsync<StockMovementDto>(JsonOptions);
-        movement.Should().NotBeNull();
-        movement!.Quantity.Should().Be(50);
-        movement.MovementType.Should().Be("In");
+        var updatedItem = await response.Content.ReadFromJsonAsync<StockItemDto>(JsonOptions);
+        updatedItem.Should().NotBeNull();
+        updatedItem!.Id.Should().Be(created.Id);
+        updatedItem.Quantity.Should().Be(150); // initial 100 + 50 intake
     }
 
     [Fact]
