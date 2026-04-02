@@ -110,6 +110,19 @@ internal class OwnerRegistrationSteps
             $"Creating portal account for {ownerName} should succeed");
 
         _createdAccount = await registerResponse.Content.ReadFromJsonAsync<OwnerAccountDto>(JsonOptions);
+
+        // Log in so subsequent steps have a valid portal token
+        var loginResponse = await _client.PostAsJsonAsync("/api/v1/portal/login", new
+        {
+            Email = email,
+            Password = _currentOwnerPassword
+        });
+        loginResponse.IsSuccessStatusCode.Should().BeTrue(
+            $"Portal login for {ownerName} should succeed after registration");
+
+        _portalToken = await loginResponse.Content.ReadFromJsonAsync<OwnerPortalTokenDto>(JsonOptions);
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _portalToken!.AccessToken);
     }
 
     [Given(@"her account is linked to clinics ""(.*)"" and ""(.*)""")]
