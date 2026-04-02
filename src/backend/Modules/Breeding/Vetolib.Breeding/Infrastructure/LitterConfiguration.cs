@@ -24,6 +24,9 @@ internal class LitterConfiguration : IEntityTypeConfiguration<Litter>
             .HasForeignKey(o => o.LitterId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Navigation(x => x.Offspring)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
         builder.HasIndex(x => new { x.ClinicId, x.MotherPatientId })
             .HasDatabaseName("ix_litters_clinic_mother");
     }

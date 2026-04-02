@@ -23,8 +23,15 @@ internal class ScheduleCheckHandler : IRequestHandler<ScheduleCheckCommand, Resu
 
         var checkResult = pregnancy.ScheduleCheck(cmd.ScheduledDate, cmd.CheckType, cmd.Note);
         if (!checkResult.IsSuccess)
-            return checkResult.Map(_ => (PregnancyCheckDto)null!);
+        {
+            var errors = checkResult.Errors.ToList();
+            var validationErrors = checkResult.ValidationErrors.ToList();
+            return Result<PregnancyCheckDto>.Error(
+                errors.Count > 0 ? string.Join("; ", errors) : string.Join("; ", validationErrors.Select(v => v.ErrorMessage)));
+        }
 
+        // Explicitly track the new check entity
+        _context.PregnancyChecks.Add(checkResult.Value);
         await _context.SaveChangesAsync(ct);
 
         return Result<PregnancyCheckDto>.Success(checkResult.Value.ToDto());

@@ -69,28 +69,28 @@ internal class ClinicSearchSteps
 
     // --- WHEN Steps ---
 
-    [When(@"I search for clinics with name ""(.*)""")]
+    [When(@"I search for clinics with name ""([^""]*)""")]
     public async Task WhenISearchForClinicsWithName(string name)
     {
         _response = await _client.GetAsync($"/api/v1/clinics/search?name={Uri.EscapeDataString(name)}");
         await ParseSearchResult();
     }
 
-    [When(@"I search for clinics in city ""(.*)""")]
+    [When(@"I search for clinics in city ""([^""]*)""")]
     public async Task WhenISearchForClinicsInCity(string city)
     {
         _response = await _client.GetAsync($"/api/v1/clinics/search?city={Uri.EscapeDataString(city)}");
         await ParseSearchResult();
     }
 
-    [When(@"I search for clinics that treat ""(.*)""")]
+    [When(@"I search for clinics that treat ""([^""]*)""")]
     public async Task WhenISearchForClinicsThatTreat(string species)
     {
         _response = await _client.GetAsync($"/api/v1/clinics/search?species={Uri.EscapeDataString(species)}");
         await ParseSearchResult();
     }
 
-    [When(@"I search for clinics in city ""(.*)"" that treat ""(.*)""")]
+    [When(@"I search for clinics in city ""([^""]*)"" that treat ""([^""]*)""")]
     public async Task WhenISearchForClinicsInCityThatTreat(string city, string species)
     {
         _response = await _client.GetAsync(
@@ -123,7 +123,7 @@ internal class ClinicSearchSteps
         _searchResult!.Items.Should().HaveCount(count);
     }
 
-    [Then(@"the results should include ""(.*)""")]
+    [Then(@"the results should include ""([^""]*)""")]
     public void ThenTheResultsShouldInclude(string clinicName)
     {
         _searchResult.Should().NotBeNull();

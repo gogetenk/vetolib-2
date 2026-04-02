@@ -37,7 +37,7 @@ internal class PregnancySteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
-    [Given(@"a pregnancy recorded for ""(.*)""")]
+    [Given(@"a pregnancy recorded for ""([^""]*)""")]
     public async Task GivenAPregnancyRecordedFor(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -103,7 +103,7 @@ internal class PregnancySteps
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"I record a pregnancy for ""(.*)"" with method ""(.*)"" mated on (.*)")]
+    [When(@"I record a pregnancy for ""([^""]*)"" with method ""([^""]*)"" mated on (.*)")]
     public async Task WhenIRecordAPregnancyWithMethod(string patientName, string method, string matingDate)
     {
         var patientIds = GetPatientIds();
@@ -124,7 +124,7 @@ internal class PregnancySteps
         }
     }
 
-    [When(@"I schedule an ultrasound for ""(.*)"" on (.*) with note ""(.*)""")]
+    [When(@"I schedule an ultrasound for ""([^""]*)"" on (.*) with note ""([^""]*)""")]
     public async Task WhenIScheduleAnUltrasound(string patientName, string scheduledDate, string note)
     {
         var pregnancy = _pregnanciesByPatient.ContainsKey(patientName)
@@ -141,7 +141,7 @@ internal class PregnancySteps
         _ctx.Set(_response, "LastResponse");
     }
 
-    [When(@"I record the delivery on (.*) with outcome ""(.*)"" and (\d+) offspring")]
+    [When(@"I record the delivery on (.*) with outcome ""([^""]*)"" and (\d+) offspring")]
     public async Task WhenIRecordTheDeliveryWithOutcomeAndOffspring(
         string deliveryDate, string outcome, int offspringCount)
     {
@@ -158,7 +158,7 @@ internal class PregnancySteps
             _lastPregnancy = await _response.Content.ReadFromJsonAsync<PregnancyDto>(JsonOptions);
     }
 
-    [When(@"I record the delivery on (.*) with outcome ""(.*)"" and (\d+) live offspring")]
+    [When(@"I record the delivery on (.*) with outcome ""([^""]*)"" and (\d+) live offspring")]
     public async Task WhenIRecordTheDeliveryWithOutcomeAndLiveOffspring(
         string deliveryDate, string outcome, int offspringCount)
     {
@@ -175,7 +175,7 @@ internal class PregnancySteps
             _lastPregnancy = await _response.Content.ReadFromJsonAsync<PregnancyDto>(JsonOptions);
     }
 
-    [When(@"I record the pregnancy ended with outcome ""(.*)"" on (.*)")]
+    [When(@"I record the pregnancy ended with outcome ""([^""]*)"" on (.*)")]
     public async Task WhenIRecordThePregnancyEndedWithOutcome(string outcome, string date)
     {
         _lastPregnancy.Should().NotBeNull();
@@ -192,7 +192,7 @@ internal class PregnancySteps
             _lastPregnancy = await _response.Content.ReadFromJsonAsync<PregnancyDto>(JsonOptions);
     }
 
-    [When(@"I attempt to record a pregnancy for ""(.*)""")]
+    [When(@"I attempt to record a pregnancy for ""([^""]*)""")]
     public async Task WhenIAttemptToRecordAPregnancyFor(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -218,7 +218,7 @@ internal class PregnancySteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"the pregnancy is created for ""(.*)""")]
+    [Then(@"the pregnancy is created for ""([^""]*)""")]
     public void ThenThePregnancyIsCreatedFor(string patientName)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
@@ -234,7 +234,7 @@ internal class PregnancySteps
         _lastPregnancy!.ExpectedDueDate.Should().BeAfter(_lastPregnancy.MatingDate);
     }
 
-    [Then(@"the pregnancy is created with method ""(.*)""")]
+    [Then(@"the pregnancy is created with method ""([^""]*)""")]
     public void ThenThePregnancyIsCreatedWithMethod(string method)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
@@ -242,7 +242,7 @@ internal class PregnancySteps
         _lastPregnancy!.MatingMethod.Should().Be(Enum.Parse<MatingMethod>(method));
     }
 
-    [Then(@"the expected due date for ""(.*)"" is approximately (\d+) days after mating")]
+    [Then(@"the expected due date for ""([^""]*)"" is approximately (\d+) days after mating")]
     public void ThenTheExpectedDueDateIsApproximatelyNDaysAfterMating(string patientName, int days)
     {
         var pregnancy = _pregnanciesByPatient.ContainsKey(patientName)
@@ -278,7 +278,7 @@ internal class PregnancySteps
         _lastPregnancy!.ActualDeliveryDate.Should().Be(DateOnly.Parse(expectedDate));
     }
 
-    [Then(@"the pregnancy is marked as completed with outcome ""(.*)""")]
+    [Then(@"the pregnancy is marked as completed with outcome ""([^""]*)""")]
     public void ThenThePregnancyIsMarkedAsCompletedWithOutcome(string outcome)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);

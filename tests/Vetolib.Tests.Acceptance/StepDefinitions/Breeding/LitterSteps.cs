@@ -36,7 +36,7 @@ internal class LitterSteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
-    [Given(@"a litter for mother ""(.*)"" born on (.*)")]
+    [Given(@"a litter for mother ""([^""]*)"" born on (.*)")]
     public async Task GivenALitterForMotherBornOn(string motherName, string birthDate)
     {
         var patientIds = GetPatientIds();
@@ -57,7 +57,7 @@ internal class LitterSteps
         litterIds[motherName] = _lastLitter!.Id;
     }
 
-    [Given(@"a litter for mother ""(.*)"" with (\d+) offspring registered")]
+    [Given(@"a litter for mother ""([^""]*)"" with (\d+) offspring registered")]
     public async Task GivenALitterWithOffspringRegistered(string motherName, int offspringCount)
     {
         var patientIds = GetPatientIds();
@@ -77,7 +77,7 @@ internal class LitterSteps
         litterIds[motherName] = _lastLitter!.Id;
     }
 
-    [Given(@"(\d+) litters registered for mother ""(.*)""")]
+    [Given(@"(\d+) litters registered for mother ""([^""]*)""")]
     public async Task GivenNLittersRegisteredForMother(int count, string motherName)
     {
         var patientIds = GetPatientIds();
@@ -90,11 +90,14 @@ internal class LitterSteps
                 DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(-(count - i) * 6)),
                 1, 1, $"Litter {i + 1}");
             var response = await _client.PostAsJsonAsync("/api/v1/litters", request);
-            response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
+            var body = await response.Content.ReadAsStringAsync();
+            response.StatusCode.Should().BeOneOf(
+                new[] { HttpStatusCode.OK, HttpStatusCode.Created },
+                $"Creating litter {i + 1} of {count} should succeed but got {response.StatusCode}: {body}");
         }
     }
 
-    [Given(@"a litter for mother ""(.*)"" in clinic ""(.*)""")]
+    [Given(@"a litter for mother ""([^""]*)"" in clinic ""([^""]*)""")]
     public async Task GivenALitterForMotherInClinic(string motherName, string clinicName)
     {
         // The litter should already be created via the normal litter creation step
@@ -116,7 +119,7 @@ internal class LitterSteps
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"I register a litter for mother ""(.*)"" with father ""(.*)"" on (.*) with (\d+) born and (\d+) alive")]
+    [When(@"I register a litter for mother ""([^""]*)"" with father ""([^""]*)"" on (.*) with (\d+) born and (\d+) alive")]
     public async Task WhenIRegisterALitterWithFather(
         string motherName, string fatherName, string birthDate, int bornCount, int aliveCount)
     {
@@ -134,7 +137,7 @@ internal class LitterSteps
             _lastLitter = await _response.Content.ReadFromJsonAsync<LitterDto>(JsonOptions);
     }
 
-    [When(@"I register a litter for mother ""(.*)"" with external father ""(.*)"" on (.*) with (\d+) born and (\d+) alive")]
+    [When(@"I register a litter for mother ""([^""]*)"" with external father ""([^""]*)"" on (.*) with (\d+) born and (\d+) alive")]
     public async Task WhenIRegisterALitterWithExternalFather(
         string motherName, string externalFatherName, string birthDate, int bornCount, int aliveCount)
     {
@@ -151,7 +154,7 @@ internal class LitterSteps
             _lastLitter = await _response.Content.ReadFromJsonAsync<LitterDto>(JsonOptions);
     }
 
-    [When(@"I add offspring ""(.*)"" sex ""(.*)"" breed ""(.*)"" to the litter")]
+    [When(@"I add offspring ""([^""]*)"" sex ""([^""]*)"" breed ""([^""]*)"" to the litter")]
     public async Task WhenIAddOffspringToTheLitter(string offspringName, string sex, string breed)
     {
         _lastLitter.Should().NotBeNull("A litter must exist before adding offspring");
@@ -212,7 +215,7 @@ internal class LitterSteps
             _lastLitter = await _response.Content.ReadFromJsonAsync<LitterDto>(JsonOptions);
     }
 
-    [When(@"I attempt to register a litter for mother ""(.*)""")]
+    [When(@"I attempt to register a litter for mother ""([^""]*)""")]
     public async Task WhenIAttemptToRegisterALitterForMother(string motherName)
     {
         var patientIds = GetPatientIds();
@@ -225,7 +228,7 @@ internal class LitterSteps
         _ctx.Set(_response, "LastResponse");
     }
 
-    [When(@"I attempt to register a litter for mother ""(.*)"" with father ""(.*)""")]
+    [When(@"I attempt to register a litter for mother ""([^""]*)"" with father ""([^""]*)""")]
     public async Task WhenIAttemptToRegisterALitterForMotherWithFather(string motherName, string fatherName)
     {
         var patientIds = GetPatientIds();
@@ -239,7 +242,7 @@ internal class LitterSteps
         _ctx.Set(_response, "LastResponse");
     }
 
-    [When(@"I view the breeding history of ""(.*)""")]
+    [When(@"I view the breeding history of ""([^""]*)""")]
     public async Task WhenIViewTheBreedingHistoryOf(string motherName)
     {
         var patientIds = GetPatientIds();
@@ -276,7 +279,7 @@ internal class LitterSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"the litter is created and linked to ""(.*)""")]
+    [Then(@"the litter is created and linked to ""([^""]*)""")]
     public void ThenTheLitterIsCreatedAndLinkedTo(string motherName)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
@@ -285,7 +288,7 @@ internal class LitterSteps
         _lastLitter!.MotherPatientId.Should().Be(patientIds[motherName]);
     }
 
-    [Then(@"the litter shows ""(.*)"" as the father")]
+    [Then(@"the litter shows ""([^""]*)"" as the father")]
     public void ThenTheLitterShowsAsFather(string fatherName)
     {
         _lastLitter.Should().NotBeNull();
@@ -293,7 +296,7 @@ internal class LitterSteps
         _lastLitter!.FatherPatientId.Should().Be(patientIds[fatherName]);
     }
 
-    [Then(@"the litter is created with external father name ""(.*)""")]
+    [Then(@"the litter is created with external father name ""([^""]*)""")]
     public void ThenTheLitterIsCreatedWithExternalFatherName(string externalFatherName)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
@@ -301,20 +304,20 @@ internal class LitterSteps
         _lastLitter!.ExternalFatherName.Should().Be(externalFatherName);
     }
 
-    [Then(@"""(.*)"" appears as a patient in the clinic")]
+    [Then(@"""([^""]*)"" appears as a patient in the clinic")]
     public void ThenAppearsAsAPatientInTheClinic(string patientName)
     {
         var patientIds = GetPatientIds();
         patientIds.Should().ContainKey(patientName);
     }
 
-    [Then(@"""(.*)"" is linked to the litter as offspring")]
+    [Then(@"""([^""]*)"" is linked to the litter as offspring")]
     public void ThenIsLinkedToTheLitterAsOffspring(string patientName)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
     }
 
-    [Then(@"I see the mother ""(.*)"", the father, birth date, and all (\d+) offspring")]
+    [Then(@"I see the mother ""([^""]*)"", the father, birth date, and all (\d+) offspring")]
     public void ThenISeeTheMotherFatherBirthDateAndAllOffspring(string motherName, int offspringCount)
     {
         _lastLitter.Should().NotBeNull();
@@ -324,10 +327,12 @@ internal class LitterSteps
     }
 
     [Then(@"I see (\d+) litters in reverse chronological order")]
-    public void ThenISeeLittersInReverseChronologicalOrder(int expectedCount)
+    public async Task ThenISeeLittersInReverseChronologicalOrder(int expectedCount)
     {
-        _response.StatusCode.Should().Be(HttpStatusCode.OK);
-        _litterList.Should().NotBeNull();
+        var body = await _response.Content.ReadAsStringAsync();
+        _response.StatusCode.Should().Be(HttpStatusCode.OK,
+            $"Expected 200 OK but got {_response.StatusCode}. Body: {body}");
+        _litterList.Should().NotBeNull($"Litter list was null. Response body: {body}");
         _litterList!.Count.Should().Be(expectedCount);
 
         // Verify reverse chronological order
@@ -337,7 +342,7 @@ internal class LitterSteps
         }
     }
 
-    [Then(@"I do not see litters from ""(.*)""")]
+    [Then(@"I do not see litters from ""([^""]*)""")]
     public void ThenIDoNotSeeLittersFromClinic(string clinicName)
     {
         // If we got a successful response, the list should be empty or not contain
