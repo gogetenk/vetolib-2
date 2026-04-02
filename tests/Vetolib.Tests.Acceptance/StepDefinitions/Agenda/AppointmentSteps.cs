@@ -29,7 +29,7 @@ internal class AppointmentSteps
     private string _vetName = string.Empty;
     private readonly Dictionary<string, Guid> _animalIds = new();
     private readonly Dictionary<string, string> _animalOwners = new();
-    private readonly DateOnly _defaultDate = new(2026, 4, 1);
+    private readonly DateOnly _defaultDate = new(2030, 6, 1);
     private List<AvailabilitySlotDto>? _availabilitySlots;
 
     // Used by the GetById/Edit scenarios

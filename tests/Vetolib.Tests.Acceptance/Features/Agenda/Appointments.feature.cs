@@ -177,7 +177,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 15
-    await testRunner.WhenAsync("I create an appointment for \"Max\" with \"Dr. Ahmed\" on \"2026-04-01\" at \"10:00\" for" +
+    await testRunner.WhenAsync("I create an appointment for \"Max\" with \"Dr. Ahmed\" on \"2030-06-01\" at \"10:00\" for" +
                         " 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 16
@@ -221,7 +221,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.AndAsync("an existing appointment for \"Luna\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 22
-    await testRunner.WhenAsync("I view the agenda for \"2026-04-01\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I view the agenda for \"2030-06-01\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 23
     await testRunner.ThenAsync("I see 2 appointments in the list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -603,7 +603,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
     await testRunner.GivenAsync("an existing appointment for \"Max\" with \"Dr. Ahmed\" at \"10:00\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 76
-    await testRunner.WhenAsync("I check availability for \"Dr. Ahmed\" on \"2026-04-01\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I check availability for \"Dr. Ahmed\" on \"2030-06-01\" for 30 minutes", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 77
     await testRunner.ThenAsync("I see available and unavailable slots", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -640,7 +640,7 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 81
-    await testRunner.GivenAsync("an existing appointment for patient \"Max\" on \"2026-04-01\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for patient \"Max\" on \"2030-06-01\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 82
     await testRunner.WhenAsync("I request the appointment by its ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -714,16 +714,16 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 91
-    await testRunner.GivenAsync("an existing appointment for patient \"Max\" on \"2026-04-01\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment for patient \"Max\" on \"2030-06-01\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 92
-    await testRunner.WhenAsync("I update the appointment to \"2026-04-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I update the appointment to \"2030-06-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 93
     await testRunner.ThenAsync("the operation succeeds", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 94
-    await testRunner.AndAsync("the appointment is now scheduled for \"2026-04-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the appointment is now scheduled for \"2030-06-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -754,13 +754,13 @@ namespace Vetolib.Tests.Acceptance.Features.Agenda
   await this.FeatureBackgroundAsync();
 #line hidden
 #line 97
-    await testRunner.GivenAsync("an existing appointment on \"2026-04-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("an existing appointment on \"2030-06-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 98
-    await testRunner.AndAsync("another appointment for \"Max\" on \"2026-04-01\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("another appointment for \"Max\" on \"2030-06-01\" at \"10:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 99
-    await testRunner.WhenAsync("I update the second appointment to \"2026-04-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I update the second appointment to \"2030-06-02\" at \"14:00\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 100
     await testRunner.ThenAsync("a conflict is detected", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
