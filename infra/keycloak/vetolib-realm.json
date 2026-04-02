@@ -38,7 +38,7 @@
       "name": "Vetolib API",
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "vetolib-api-dev-secret",
       "serviceAccountsEnabled": true,
       "standardFlowEnabled": false,
       "directAccessGrantsEnabled": false,
@@ -71,7 +71,7 @@
       "enabled": true,
       "publicClient": true,
       "standardFlowEnabled": true,
-      "directAccessGrantsEnabled": false,
+      "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
       "protocol": "openid-connect",
       "redirectUris": [
@@ -97,5 +97,22 @@
   ],
   "attributes": {
     "organizationsEnabled": "true"
-  }
+  },
+  "users": [
+    {
+      "username": "service-account-vetolib-api",
+      "enabled": true,
+      "serviceAccountClientId": "vetolib-api",
+      "clientRoles": {
+        "realm-management": [
+          "manage-users",
+          "manage-realm",
+          "manage-clients",
+          "view-users",
+          "view-realm",
+          "view-clients"
+        ]
+      }
+    }
+  ]
 }
