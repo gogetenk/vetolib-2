@@ -12,7 +12,7 @@ var mailhog = builder.AddContainer("mailhog", "mailhog/mailhog")
 
 var keycloak = builder.AddKeycloak("keycloak")
     .WithDataVolume("keycloak-data")
-    .WithRealmImport("../../infra/keycloak")
+    .WithRealmImport("../../../infra/keycloak")
     .WithEnvironment("KC_FEATURES", "organization")
     .WithEnvironment("KC_HEALTH_ENABLED", "true")
     .WithEnvironment("KC_METRICS_ENABLED", "true")

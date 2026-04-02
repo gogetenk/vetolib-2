@@ -53,8 +53,10 @@ public static class AuthModuleServiceRegistrar
         services.AddScoped<ISubscriptionChecker, SubscriptionChecker>();
 
         // Keycloak Admin API
+        // Aspire injects Keycloak URL via ConnectionStrings:keycloak; fall back to Keycloak:BaseUrl config.
         services.Configure<KeycloakAdminOptions>(config.GetSection(KeycloakAdminOptions.SectionName));
-        var keycloakBaseUrl = config["Keycloak:BaseUrl"] ?? "http://localhost:8080";
+        var aspireKeycloakUrl = config.GetConnectionString("keycloak");
+        var keycloakBaseUrl = aspireKeycloakUrl ?? config["Keycloak:BaseUrl"] ?? "http://localhost:8080";
         services.AddHttpClient<IKeycloakAdminService, KeycloakAdminService>(client =>
         {
             client.BaseAddress = new Uri(keycloakBaseUrl);
@@ -71,7 +73,10 @@ public static class AuthModuleServiceRegistrar
         var jwtIssuer = config["Jwt:Issuer"] ?? "Vetolib";
         var jwtAudience = config["Jwt:Audience"] ?? "Vetolib";
 
-        var keycloakAuthority = config["Keycloak:Authority"];
+        // Derive Keycloak OIDC authority: prefer Aspire-injected URL, fall back to config.
+        var keycloakAuthority = !string.IsNullOrWhiteSpace(aspireKeycloakUrl)
+            ? $"{aspireKeycloakUrl.TrimEnd('/')}/realms/vetolib"
+            : config["Keycloak:Authority"];
         var keycloakAudience = config["Keycloak:Audience"] ?? "vetolib-api";
         var keycloakEnabled = !string.IsNullOrWhiteSpace(keycloakAuthority);
 
