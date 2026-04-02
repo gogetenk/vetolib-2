@@ -88,6 +88,7 @@ internal class GlobalHooks
         try { await preferencesCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
 
         var breedingDb = scope.ServiceProvider.GetRequiredService<BreedingDbContext>();
+        try { await breedingDb.Database.ExecuteSqlRawAsync("CREATE SCHEMA IF NOT EXISTS breeding"); } catch { }
         var breedingCreator = breedingDb.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>()!;
         try { await breedingCreator.CreateTablesAsync(); } catch { /* tables may already exist */ }
 
@@ -138,6 +139,7 @@ internal class GlobalHooks
 
         var medicalDb = scope.ServiceProvider.GetRequiredService<MedicalRecordsDbContext>();
         await medicalDb.SharedRecordLinks.IgnoreQueryFilters().ExecuteDeleteAsync();
+        await medicalDb.WeightEntries.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.Prescriptions.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.MedicalRecords.IgnoreQueryFilters().ExecuteDeleteAsync();
         await medicalDb.PatientOwners.IgnoreQueryFilters().ExecuteDeleteAsync();
@@ -176,6 +178,10 @@ internal class GlobalHooks
         await breedingDb.Pregnancies.IgnoreQueryFilters().ExecuteDeleteAsync();
         await breedingDb.HeatCycles.IgnoreQueryFilters().ExecuteDeleteAsync();
         await breedingDb.PatientLineages.IgnoreQueryFilters().ExecuteDeleteAsync();
+
+        // Reset tenant context to prevent inter-scenario leaks
+        var testClinicContext = _factory.Services.GetRequiredService<TestClinicContext>();
+        testClinicContext.ClinicId = TestClinicContext.TestClinicGuid;
 
         // Reset FakeChatClient state
         _factory.FakeChatClient.SetShouldThrow(false);

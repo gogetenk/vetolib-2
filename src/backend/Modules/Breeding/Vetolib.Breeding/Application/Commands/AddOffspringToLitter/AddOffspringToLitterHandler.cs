@@ -29,6 +29,14 @@ internal class AddOffspringToLitterHandler : IRequestHandler<AddOffspringToLitte
         if (!addResult.IsSuccess)
             return Result<LitterDto>.Error(string.Join("; ", addResult.Errors));
 
+        // Explicitly track any new offspring entities added by the domain method
+        foreach (var offspring in litter.Offspring)
+        {
+            var entry = _context.Entry(offspring);
+            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+                _context.LitterOffspring.Add(offspring);
+        }
+
         // Auto-link lineage: create or update PatientLineage for the offspring
         await AutoLinkLineage(litter.ClinicId, cmd.PatientId, litter.MotherPatientId, litter.FatherPatientId, ct);
 

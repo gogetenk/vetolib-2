@@ -38,7 +38,7 @@ internal class BreedingSharedSteps
 
     // ─── Owner setup ─────────────────────────────────────────────
 
-    [Given(@"an owner ""(.*)"" with email ""(.*)""")]
+    [Given(@"an owner ""([^""]*)"" with email ""([^""]*)""")]
     public async Task GivenAnOwnerWithEmail(string ownerName, string email)
     {
         var factory = _ctx.Get<TestWebApplicationFactory>();
@@ -64,7 +64,7 @@ internal class BreedingSharedSteps
 
     // ─── Patient setup with species, breed, sex ──────────────────
 
-    [Given(@"a patient ""(.*)"" species ""(.*)"" breed ""(.*)"" sex ""(.*)"" belonging to ""(.*)""")]
+    [Given(@"a patient ""([^""]*)"" species ""([^""]*)"" breed ""([^""]*)"" sex ""([^""]*)"" belonging to ""([^""]*)""")]
     public async Task GivenAPatientWithSpeciesBreedSexBelongingTo(
         string patientName, string species, string breed, string sex, string ownerName)
     {
@@ -97,7 +97,7 @@ internal class BreedingSharedSteps
 
     // ─── Shared error assertion ──────────────────────────────────
 
-    [Then(@"the system rejects with reason ""(.*)""")]
+    [Then(@"the system rejects with reason ""([^""]*)""")]
     public async Task ThenTheSystemRejectsWithReason(string expectedReason)
     {
         var response = _ctx.Get<HttpResponseMessage>("LastResponse");
@@ -119,7 +119,7 @@ internal class BreedingSharedSteps
 
     // ─── Auth with clinic context ────────────────────────────────
 
-    [Given(@"I am authenticated as VET in ""(.*)""")]
+    [Given(@"I am authenticated as VET in ""([^""]*)""")]
     public async Task GivenIAmAuthenticatedAsVetInClinic(string clinicName)
     {
         var clinicIds = GetClinicIds();

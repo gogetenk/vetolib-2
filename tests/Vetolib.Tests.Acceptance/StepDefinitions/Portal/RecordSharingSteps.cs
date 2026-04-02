@@ -51,7 +51,7 @@ internal class RecordSharingSteps
 
     // --- GIVEN Steps ---
 
-    [Given(@"a clinic ""(.*)"" exists with animals registered")]
+    [Given(@"a clinic ""([^""]*)"" exists with animals registered")]
     public void GivenAClinicExistsWithAnimalsRegistered(string clinicName)
     {
         var clinicIds = GetOrCreateClinicIds();
@@ -66,7 +66,7 @@ internal class RecordSharingSteps
         _ctx.Set(clinicIds, "ClinicIds");
     }
 
-    [Given(@"an owner ""(.*)"" has a portal account linked to ""(.*)""")]
+    [Given(@"an owner ""([^""]*)"" has a portal account linked to ""([^""]*)""")]
     public async Task GivenAnOwnerHasPortalAccountLinkedTo(string ownerName, string clinicName)
     {
         _ctx.Set(ownerName, "CurrentOwnerName");
@@ -74,13 +74,13 @@ internal class RecordSharingSteps
         await RegisterAndAuthenticateOwner(ownerName);
     }
 
-    [Given(@"""(.*)"" has a cat ""(.*)"" at ""(.*)""")]
+    [Given(@"""([^""]*)"" has a cat ""([^""]*)"" at ""([^""]*)""")]
     public async Task GivenOwnerHasCatAtClinic(string ownerName, string catName, string clinicName)
     {
         await SeedOwnerWithPatient(ownerName, clinicName, catName, Species.Cat);
     }
 
-    [Given(@"she has created a share link for ""(.*)""")]
+    [Given(@"she has created a share link for ""([^""]*)""")]
     public async Task GivenSheHasCreatedShareLinkFor(string animalName)
     {
         var patientId = _patientIds[animalName];
@@ -94,7 +94,7 @@ internal class RecordSharingSteps
         _shareToken = _shareLinkResponse?.Token;
     }
 
-    [Given(@"she has created a share link for ""(.*)"" that has expired")]
+    [Given(@"she has created a share link for ""([^""]*)"" that has expired")]
     public async Task GivenSheHasCreatedExpiredShareLinkFor(string animalName)
     {
         var patientId = _patientIds[animalName];
@@ -117,7 +117,7 @@ internal class RecordSharingSteps
         _shareToken = link.Token;
     }
 
-    [Given(@"she has created (\d+) share links for ""(.*)""")]
+    [Given(@"she has created (\d+) share links for ""([^""]*)""")]
     public async Task GivenSheHasCreatedMultipleShareLinksFor(int count, string animalName)
     {
         var patientId = _patientIds[animalName];
@@ -130,7 +130,7 @@ internal class RecordSharingSteps
 
     // --- WHEN Steps ---
 
-    [When(@"she creates a share link for ""(.*)"" valid for (\d+) hours")]
+    [When(@"she creates a share link for ""([^""]*)"" valid for (\d+) hours")]
     public async Task WhenSheCreatesShareLinkFor(string animalName, int hours)
     {
         var patientId = _patientIds[animalName];
@@ -218,7 +218,7 @@ internal class RecordSharingSteps
         _shareLinkResponse!.ExpiresAt.Should().BeCloseTo(expectedExpiry, TimeSpan.FromMinutes(5));
     }
 
-    [Then(@"they can see ""(.*)""'s medical records")]
+    [Then(@"they can see ""([^""]*)""'s medical records")]
     public void ThenTheyCanSeeMedicalRecords(string animalName)
     {
         _response.Should().NotBeNull();

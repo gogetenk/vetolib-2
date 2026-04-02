@@ -36,7 +36,7 @@ internal class HeatCycleSteps
 
     // ─── GIVEN Steps ─────────────────────────────────────────────
 
-    [Given(@"the following heat cycles for ""(.*)"":")]
+    [Given(@"the following heat cycles for ""([^""]*)"":")]
     public async Task GivenTheFollowingHeatCyclesFor(string patientName, DataTable table)
     {
         var patientIds = GetPatientIds();
@@ -57,7 +57,7 @@ internal class HeatCycleSteps
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"I record a heat cycle for ""(.*)"" starting on (\S+) ending on (\S+)")]
+    [When(@"I record a heat cycle for ""([^""]*)"" starting on (\S+) ending on (\S+)")]
     public async Task WhenIRecordAHeatCycleStartingOnEndingOn(
         string patientName, string startDate, string endDate)
     {
@@ -75,7 +75,7 @@ internal class HeatCycleSteps
             _lastHeatCycle = await _response.Content.ReadFromJsonAsync<HeatCycleDto>(JsonOptions);
     }
 
-    [When(@"I record a heat cycle for ""(.*)"" starting on (\S+) ending on (\S+) with note ""(.*)""")]
+    [When(@"I record a heat cycle for ""([^""]*)"" starting on (\S+) ending on (\S+) with note ""([^""]*)""")]
     public async Task WhenIRecordAHeatCycleWithNote(
         string patientName, string startDate, string endDate, string note)
     {
@@ -94,7 +94,7 @@ internal class HeatCycleSteps
             _lastHeatCycle = await _response.Content.ReadFromJsonAsync<HeatCycleDto>(JsonOptions);
     }
 
-    [When(@"I view the heat cycle history of ""(.*)""")]
+    [When(@"I view the heat cycle history of ""([^""]*)""")]
     public async Task WhenIViewTheHeatCycleHistoryOf(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -110,7 +110,7 @@ internal class HeatCycleSteps
         }
     }
 
-    [When(@"I request the predicted next heat for ""(.*)""")]
+    [When(@"I request the predicted next heat for ""([^""]*)""")]
     public async Task WhenIRequestThePredictedNextHeatFor(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -123,7 +123,7 @@ internal class HeatCycleSteps
             _prediction = await _response.Content.ReadFromJsonAsync<HeatPredictionDto>(JsonOptions);
     }
 
-    [When(@"I attempt to record a heat cycle for ""(.*)"" starting on (\S+) ending on (\S+)")]
+    [When(@"I attempt to record a heat cycle for ""([^""]*)"" starting on (\S+) ending on (\S+)")]
     public async Task WhenIAttemptToRecordAHeatCycle(string patientName, string startDate, string endDate)
     {
         var patientIds = GetPatientIds();
@@ -137,7 +137,7 @@ internal class HeatCycleSteps
         _ctx.Set(_response, "LastResponse");
     }
 
-    [When(@"I attempt to record a heat cycle for ""(.*)""")]
+    [When(@"I attempt to record a heat cycle for ""([^""]*)""")]
     public async Task WhenIAttemptToRecordAHeatCycleFor(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -151,7 +151,7 @@ internal class HeatCycleSteps
         _ctx.Set(_response, "LastResponse");
     }
 
-    [When(@"I attempt to view the heat cycle history of ""(.*)""")]
+    [When(@"I attempt to view the heat cycle history of ""([^""]*)""")]
     public async Task WhenIAttemptToViewTheHeatCycleHistoryOf(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -163,7 +163,7 @@ internal class HeatCycleSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"the heat cycle is recorded for ""(.*)""")]
+    [Then(@"the heat cycle is recorded for ""([^""]*)""")]
     public void ThenTheHeatCycleIsRecordedFor(string patientName)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);

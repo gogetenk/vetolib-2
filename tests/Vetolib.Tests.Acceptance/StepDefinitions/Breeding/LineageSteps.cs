@@ -103,7 +103,7 @@ internal class LineageSteps
         }
     }
 
-    [Given(@"""(.*)"" is the mother of ""(.*)"" and ""(.*)""")]
+    [Given(@"""([^""]*)"" is the mother of ""([^""]*)"" and ""([^""]*)""")]
     public async Task GivenIsTheMotherOfAnd(string motherName, string child1, string child2)
     {
         var patientIds = GetPatientIds();
@@ -156,7 +156,7 @@ internal class LineageSteps
         }
     }
 
-    [Given(@"""(.*)"" has LOF number ""(.*)""")]
+    [Given(@"""([^""]*)"" has LOF number ""([^""]*)""")]
     public async Task GivenPatientHasLofNumber(string patientName, string lofNumber)
     {
         var patientIds = GetPatientIds();
@@ -170,7 +170,7 @@ internal class LineageSteps
 
     // ─── WHEN Steps ──────────────────────────────────────────────
 
-    [When(@"I set the mother of ""(.*)"" to ""(.*)"" and the father to ""(.*)""")]
+    [When(@"I set the mother of ""([^""]*)"" to ""([^""]*)"" and the father to ""([^""]*)""")]
     public async Task WhenISetTheMotherAndFather(string patientName, string motherName, string fatherName)
     {
         var patientIds = GetPatientIds();
@@ -184,7 +184,7 @@ internal class LineageSteps
         _ctx.Set(_response, "LastResponse");
     }
 
-    [When(@"I view the pedigree of ""(.*)""")]
+    [When(@"I view the pedigree of ""([^""]*)""")]
     public async Task WhenIViewThePedigreeOf(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -200,7 +200,7 @@ internal class LineageSteps
         }
     }
 
-    [When(@"I view the descendants of ""(.*)""")]
+    [When(@"I view the descendants of ""([^""]*)""")]
     public async Task WhenIViewTheDescendantsOf(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -216,7 +216,7 @@ internal class LineageSteps
         }
     }
 
-    [When(@"I attempt to set the father of ""(.*)"" to ""(.*)""")]
+    [When(@"I attempt to set the father of ""([^""]*)"" to ""([^""]*)""")]
     public async Task WhenIAttemptToSetTheFatherOf(string patientName, string fatherName)
     {
         var patientIds = GetPatientIds();
@@ -229,7 +229,7 @@ internal class LineageSteps
         _ctx.Set(_response, "LastResponse");
     }
 
-    [When(@"I view the profile of ""(.*)""")]
+    [When(@"I view the profile of ""([^""]*)""")]
     public async Task WhenIViewTheProfileOf(string patientName)
     {
         var patientIds = GetPatientIds();
@@ -245,7 +245,7 @@ internal class LineageSteps
         }
     }
 
-    [When(@"I set the mother of ""(.*)"" to ""([^""]+)""$")]
+    [When(@"I set the mother of ""([^""]*)"" to ""([^""]+)""$")]
     public async Task WhenISetTheMotherOf(string patientName, string motherName)
     {
         var patientIds = GetPatientIds();
@@ -260,7 +260,7 @@ internal class LineageSteps
 
     // ─── THEN Steps ──────────────────────────────────────────────
 
-    [Then(@"the lineage of ""(.*)"" shows ""(.*)"" as mother and ""(.*)"" as father")]
+    [Then(@"the lineage of ""([^""]*)"" shows ""([^""]*)"" as mother and ""([^""]*)"" as father")]
     public void ThenTheLineageShowsMotherAndFather(string patientName, string motherName, string fatherName)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
@@ -274,35 +274,35 @@ internal class LineageSteps
         _pedigreeResponse.Should().NotBeNull();
     }
 
-    [Then(@"the maternal grandmother is ""(.*)""")]
+    [Then(@"the maternal grandmother is ""([^""]*)""")]
     public void ThenTheMaternalGrandmotherIs(string grandmotherName)
     {
         _pedigreeResponse.Should().NotBeNull();
         // Validate within the pedigree JSON structure
     }
 
-    [Then(@"the paternal grandfather is ""(.*)""")]
+    [Then(@"the paternal grandfather is ""([^""]*)""")]
     public void ThenThePaternalGrandfatherIs(string grandfatherName)
     {
         _pedigreeResponse.Should().NotBeNull();
         // Validate within the pedigree JSON structure
     }
 
-    [Then(@"I see ""(.*)"" and ""(.*)"" as offspring")]
+    [Then(@"I see ""([^""]*)"" and ""([^""]*)"" as offspring")]
     public void ThenISeeAsOffspring(string child1, string child2)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         _descendantsResponse.Should().NotBeNull();
     }
 
-    [Then(@"I see the LOF registration number ""(.*)""")]
+    [Then(@"I see the LOF registration number ""([^""]*)""")]
     public void ThenISeeTheLofRegistrationNumber(string lofNumber)
     {
         _response.StatusCode.Should().Be(HttpStatusCode.OK);
         _profileResponse.Should().NotBeNull();
     }
 
-    [Then(@"the lineage of ""(.*)"" shows ""(.*)"" as mother")]
+    [Then(@"the lineage of ""([^""]*)"" shows ""([^""]*)"" as mother")]
     public void ThenTheLineageShowsMother(string patientName, string motherName)
     {
         _response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.Created);
