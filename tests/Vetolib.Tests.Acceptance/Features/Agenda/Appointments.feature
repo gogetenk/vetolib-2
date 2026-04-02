@@ -12,14 +12,14 @@ Feature: Veterinary appointment management
     And I am authenticated as RECEPTIONIST
 
   Scenario: Create an appointment in a free slot
-    When I create an appointment for "Max" with "Dr. Ahmed" on "2026-04-01" at "10:00" for 30 minutes
+    When I create an appointment for "Max" with "Dr. Ahmed" on "2030-06-01" at "10:00" for 30 minutes
     Then the appointment is created with status "SCHEDULED"
     And the appointment appears in "Dr. Ahmed" agenda at "10:00"
 
   Scenario: List appointments for the day
     Given an existing appointment for "Max" at "10:00"
     And an existing appointment for "Luna" at "14:00"
-    When I view the agenda for "2026-04-01"
+    When I view the agenda for "2030-06-01"
     Then I see 2 appointments in the list
 
   Scenario: Reject if slot already taken
@@ -73,12 +73,12 @@ Feature: Veterinary appointment management
 
   Scenario: View veterinarian availability
     Given an existing appointment for "Max" with "Dr. Ahmed" at "10:00" for 30 minutes
-    When I check availability for "Dr. Ahmed" on "2026-04-01" for 30 minutes
+    When I check availability for "Dr. Ahmed" on "2030-06-01" for 30 minutes
     Then I see available and unavailable slots
     And the slot "10:00" is marked unavailable
 
   Scenario: Get appointment by ID
-    Given an existing appointment for patient "Max" on "2026-04-01" at "10:00"
+    Given an existing appointment for patient "Max" on "2030-06-01" at "10:00"
     When I request the appointment by its ID
     Then the operation succeeds
     And the appointment details include patient "Max" and time "10:00"
@@ -88,15 +88,15 @@ Feature: Veterinary appointment management
     Then the record is not found
 
   Scenario: Edit appointment date and time
-    Given an existing appointment for patient "Max" on "2026-04-01" at "10:00"
-    When I update the appointment to "2026-04-02" at "14:00"
+    Given an existing appointment for patient "Max" on "2030-06-01" at "10:00"
+    When I update the appointment to "2030-06-02" at "14:00"
     Then the operation succeeds
-    And the appointment is now scheduled for "2026-04-02" at "14:00"
+    And the appointment is now scheduled for "2030-06-02" at "14:00"
 
   Scenario: Edit appointment refused if slot conflict
-    Given an existing appointment on "2026-04-02" at "14:00"
-    And another appointment for "Max" on "2026-04-01" at "10:00"
-    When I update the second appointment to "2026-04-02" at "14:00"
+    Given an existing appointment on "2030-06-02" at "14:00"
+    And another appointment for "Max" on "2030-06-01" at "10:00"
+    When I update the second appointment to "2030-06-02" at "14:00"
     Then a conflict is detected
 
   Scenario: Admin updates appointment status directly
